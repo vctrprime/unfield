@@ -5,55 +5,12 @@
     <projectFile profileName="StadiumEngine.WebUI">StadiumEngine.WebUI/StadiumEngine.WebUI.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="20371a2c-064f-484f-b751-17fc55c792b4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.StadiumEngine/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.StadiumEngine/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.DataAccess/Connection/Abstract/IConnectionCreator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.DataAccess/Connection/Concrete/PgConnectionCreator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.DataAccess/Repositories/Abstract/ITestRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.DataAccess/Repositories/Concrete/RepositoryBase.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.DataAccess/Repositories/Concrete/TestRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.DataAccess/StadiumEngine.DataAccess.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.Entities/Class1.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.Entities/StadiumEngine.Entities.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.Services.Core.Actives/Abstract/ICoreActivesService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.Services.Core.Actives/Concrete/CoreActivesService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.Services.Core.Actives/StadiumEngine.Services.Core.Actives.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.Services.Platform/Extensions/ServiceCollectionExtensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.Services.Platform/StadiumEngine.Services.Platform.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/public/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/public/manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/src/App.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/src/App.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/src/components/Counter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/src/components/FetchData.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/src/components/Home.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/src/components/Layout.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/src/components/NavMenu.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/src/components/NavMenu.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/src/custom.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/src/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/ClientApp/src/registerServiceWorker.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/Controllers/WeatherForecastController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/Infrastructure/Extensions/ServiceCollectionExtensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/Pages/Error.cshtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/Pages/Error.cshtml.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/Pages/_ViewImports.cshtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/Program.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/Properties/launchSettings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/StadiumEngine.WebUI.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/Startup.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/WeatherForecast.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/appsettings.Development.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/appsettings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StadiumEngine.sln" afterDir="false" />
+    <list default="true" id="20371a2c-064f-484f-b751-17fc55c792b4" name="Changes" comment="first commit">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.StadiumEngine/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StadiumEngine/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StadiumEngine.WebUI/Controllers/WeatherForecastController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/Controllers/WeatherForecastController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StadiumEngine.WebUI/Infrastructure/Extensions/ServiceCollectionExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/Infrastructure/Extensions/ServiceCollectionExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StadiumEngine.WebUI/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StadiumEngine.WebUI/Startup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StadiumEngine.sln" beforeDir="false" afterPath="$PROJECT_DIR$/StadiumEngine.sln" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +19,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/StadiumEngine.Services.Core.Actives/Concrete/CoreActivesService.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -124,8 +84,16 @@
       <option name="presentableId" value="Default" />
       <updated>1668168457682</updated>
       <workItem from="1668168470568" duration="677000" />
-      <workItem from="1668169175187" duration="5533000" />
+      <workItem from="1668169175187" duration="6502000" />
     </task>
+    <task id="LOCAL-00001" summary="first commit">
+      <created>1668174758486</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1668174758486</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -148,5 +116,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="first commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="first commit" />
   </component>
 </project>

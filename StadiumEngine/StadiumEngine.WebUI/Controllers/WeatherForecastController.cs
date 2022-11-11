@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StadiumEngine.DataAccess.Repositories.Abstract;
 using StadiumEngine.Entities;
-using StadiumEngine.Services.Core.Actives.Abstract;
 
 namespace StadiumEngine.WebUI.Controllers
 {
@@ -10,17 +10,17 @@ namespace StadiumEngine.WebUI.Controllers
     [Route("test")]
     public class WeatherForecastController : ControllerBase
     {
-        private readonly ICoreActivesService _coreActivesService;
+        private readonly ITestRepository _repository;
 
-        public WeatherForecastController(ICoreActivesService coreActivesService)
+        public WeatherForecastController(ITestRepository repository)
         {
-            _coreActivesService = coreActivesService;
+            _repository = repository;
         }
 
         [HttpGet]
         public async Task<List<Class1>> Get()
         {
-            return await _coreActivesService.Get();
+            return await _repository.Get();
         }
     }
 }
