@@ -32,7 +32,7 @@ namespace StadiumEngine.WebUI.Controllers
                 {
                     new Class1
                     {
-                        Name = e.Message
+                        Name = e.Message + ";" + Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")+ ";" + Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
                     }
                 };
             }
