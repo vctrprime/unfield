@@ -1,9 +1,11 @@
+using System.IO;
 using System.Net;
-using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using StadiumEngine.Entities.Exceptions;
 
 namespace StadiumEngine.WebUI.Infrastructure.Middleware;
 
@@ -23,18 +25,31 @@ public static class ExceptionHandlerMiddleware
         {
             appError.Run(async context =>
             {
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                context.Response.ContentType = "application/json";
-
                 var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
-                if(contextFeature != null)
-                { 
-                    logger.LogError($"Something went wrong: {contextFeature.Error}");
+                
+                //если исключение не предметно, а системное - запись в лог и возврат 500
+                if (contextFeature is { Error: not DomainException })
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    context.Response.ContentType = "application/json";
+                    logger.LogError(contextFeature.Error, "Ошибка сервера при обработке запроса");
 
                     await context.Response.WriteAsync(new ErrorDetails
                     {
                         StatusCode = context.Response.StatusCode,
                         Message = "Internal Server Error."
+                    }.ToString());
+                }
+                //иначе возврат 400 и возврат текста сообщения
+                else
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    context.Response.ContentType = "application/json";
+                    
+                    await context.Response.WriteAsync(new ErrorDetails
+                    {
+                        StatusCode = context.Response.StatusCode,
+                        Message = contextFeature?.Error.Message
                     }.ToString());
                 }
             });
@@ -48,7 +63,7 @@ public static class ExceptionHandlerMiddleware
 
         public override string ToString()
         {
-            return JsonSerializer.Serialize(this);
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

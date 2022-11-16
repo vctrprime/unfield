@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StadiumEngine.DataAccess.Repositories.Abstract;
 using StadiumEngine.Entities;
+using StadiumEngine.Entities.Exceptions;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace StadiumEngine.WebUI.Controllers
@@ -46,15 +47,25 @@ namespace StadiumEngine.WebUI.Controllers
         }
         
         /// <summary>
-        /// Тестовый метод с логом ошибки
+        /// Тестовый метод с логом ошибки (предметная ошибка)
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("error-domain")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        public async Task<List<Class1>> GetErrorDomain()
+        {
+            throw new DomainException("test domain exception");
+        }
+        
+        /// <summary>
+        /// Тестовый метод c логом ошибки
         /// </summary>
         /// <returns></returns>
         [HttpGet("error")]
-        [SwaggerResponse(StatusCodes.Status200OK,
-            Type = typeof(List<Class1>))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError)]
         public async Task<List<Class1>> GetError()
         {
-            throw new Exception("test middleware");
+            throw new Exception("test exception");
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
@@ -61,7 +62,11 @@ namespace StadiumEngine.WebUI
                 });
             }
             
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                })
+                .AddNewtonsoftJson();
             
             services.AddHttpContextAccessor();
             services.AddTransient(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
@@ -76,8 +81,7 @@ namespace StadiumEngine.WebUI
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             env.WriteReactEnvAppVersion();
-            app.ConfigureExceptionHandler(logger);
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -93,6 +97,8 @@ namespace StadiumEngine.WebUI
                 app.UseHsts();
                 app.UseHttpsRedirection();
             }
+            
+            app.ConfigureExceptionHandler(logger);
             
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
