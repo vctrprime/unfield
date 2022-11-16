@@ -34,8 +34,8 @@ namespace StadiumEngine.WebUI
             services.AddDataProtection()
                 .PersistKeysToFileSystem(new DirectoryInfo(folderPath))
                 .SetApplicationName($"StadiumEngine-{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}")
-                .SetDefaultKeyLifetime(TimeSpan.FromDays(10000));
-                //.DisableAutomaticKeyGeneration();
+                .SetDefaultKeyLifetime(TimeSpan.FromDays(10000))
+                .DisableAutomaticKeyGeneration();
             
             services.RegisterModules();
             
