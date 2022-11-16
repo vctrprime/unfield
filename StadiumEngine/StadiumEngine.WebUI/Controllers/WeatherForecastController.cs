@@ -40,22 +40,9 @@ namespace StadiumEngine.WebUI.Controllers
         [HttpGet]
         public async Task<List<Class1>> Get()
         {
-            try
-            {
-                _logger.LogInformation("terssdfs");
-                var result = await _repository.Get();
-                return result;
-            }
-            catch (Exception e)
-            {
-                return new List<Class1>
-                {
-                    new Class1
-                    {
-                        Name = e.Message + ";" + Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")+ ";" + Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
-                    }
-                };
-            }
+            _logger.LogInformation("terssdfs");
+            var result = await _repository.Get();
+            return result;
         }
         
         /// <summary>
@@ -67,22 +54,7 @@ namespace StadiumEngine.WebUI.Controllers
             Type = typeof(List<Class1>))]
         public async Task<List<Class1>> GetError()
         {
-            try
-            {
-                _logger.LogError(new Exception("test"), "Тест");
-                var result = await _repository.Get();
-                return result;
-            }
-            catch (Exception e)
-            {
-                return new List<Class1>
-                {
-                    new Class1
-                    {
-                        Name = e.Message + ";" + Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")+ ";" + Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
-                    }
-                };
-            }
+            throw new Exception("test middleware");
         }
     }
 }

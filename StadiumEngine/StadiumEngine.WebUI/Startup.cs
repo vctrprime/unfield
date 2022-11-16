@@ -11,8 +11,10 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using StadiumEngine.WebUI.Infrastructure.Extensions;
+using StadiumEngine.WebUI.Infrastructure.Middleware;
 
 namespace StadiumEngine.WebUI
 {
@@ -71,9 +73,10 @@ namespace StadiumEngine.WebUI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             env.WriteReactEnvAppVersion();
+            app.ConfigureExceptionHandler(logger);
             
             if (env.IsDevelopment())
             {
