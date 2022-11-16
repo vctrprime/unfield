@@ -1,4 +1,7 @@
+using System;
+using System.IO;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -22,6 +25,18 @@ namespace StadiumEngine.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var folderPath = 
+                Path.Combine(Path.GetDirectoryName(System
+                    .Reflection
+                    .Assembly
+                    .GetAssembly(typeof(Startup))?.Location) ?? string.Empty, "keys");
+
+            services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo(folderPath))
+                .SetApplicationName($"StadiumEngine-{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}")
+                .SetDefaultKeyLifetime(TimeSpan.FromDays(10000));
+                //.DisableAutomaticKeyGeneration();
+            
             services.RegisterModules();
             
             services.AddControllersWithViews();
