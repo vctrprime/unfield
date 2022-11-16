@@ -1,26 +1,33 @@
 using System;
 using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using StadiumEngine.WebUI.Infrastructure.Extensions;
 
 namespace StadiumEngine.WebUI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration,
+            IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            _environment = environment;
         }
 
         public IConfiguration Configuration { get; }
+        
+        private readonly IWebHostEnvironment _environment;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -39,7 +46,23 @@ namespace StadiumEngine.WebUI
             
             services.RegisterModules();
             
+            if (_environment.IsDevelopment())
+            {
+                services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Stadium Engine API", Version = "v1" });   
+                    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    c.IncludeXmlComments(xmlPath, true);
+                    var dtpXmlPath = Path.Combine(AppContext.BaseDirectory, "StadiumEngine.DTO.xml");
+                    c.IncludeXmlComments(dtpXmlPath);
+                });
+            }
+            
             services.AddControllersWithViews();
+            
+            services.AddHttpContextAccessor();
+            services.AddTransient(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
             
             services.Configure<KestrelServerOptions>(Configuration.GetSection("Kestrel"));
 
@@ -50,6 +73,8 @@ namespace StadiumEngine.WebUI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            env.WriteReactEnvAppVersion();
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -70,6 +95,18 @@ namespace StadiumEngine.WebUI
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+            
+            if (env.IsDevelopment())
+            {
+                app.UseSwagger();
+
+                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+                // specifying the Swagger JSON endpoint.
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Stadium Engine API");
+                });
+            }
 
             app.UseEndpoints(endpoints =>
             {
