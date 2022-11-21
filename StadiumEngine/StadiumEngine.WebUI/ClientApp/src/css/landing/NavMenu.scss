@@ -1,0 +1,45 @@
+@import "src/css/const.scss";
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+.navbar-brand-ext {
+  margin-right: 0 !important;
+
+  .logo {
+    height: 32px;
+  }
+}
+
+.version-title {
+  font-size: 6px;
+  margin-top: 14px;
+  align-self: center;
+}
+
+.lk-button {
+  font-size: 14px;
+  border: 1px solid $dark-color;
+  padding: 3px;
+  color: $dark-color;
+  
+  &:hover {
+    background-color: #eee;
+  }
+}
