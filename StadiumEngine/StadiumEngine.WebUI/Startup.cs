@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
@@ -61,6 +62,26 @@ namespace StadiumEngine.WebUI
                     c.IncludeXmlComments(dtpXmlPath);
                 });
             }
+            
+            services.AddAuthentication("Identity.Application")
+                .AddCookie("Identity.Application", options =>
+                {
+                    // Unauthorized return 401.
+                    options.Events.OnRedirectToLogin = context =>
+                    {
+                        context.Response.StatusCode = 401;
+                        return Task.CompletedTask;
+                    };
+                    // Access denied return 403.
+                    options.Events.OnRedirectToAccessDenied = context =>
+                    {
+                        context.Response.StatusCode = 403;
+                        return Task.CompletedTask;
+                    };
+                    options.ExpireTimeSpan = TimeSpan.FromHours(8);
+                    options.SlidingExpiration = true;
+                });
+            
             
             services.AddControllersWithViews().AddJsonOptions(options =>
                 {

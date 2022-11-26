@@ -1,9 +1,25 @@
 import React from 'react';
-import {NavItem} from "reactstrap";
+import {Button, NavItem} from "reactstrap";
 import {Link, NavLink} from "react-router-dom";
+import {useFetchWrapper} from "../../helpers/fetch-wrapper";
+import {useRecoilState} from "recoil";
+import {authAtom} from "../../state/auth";
 
-export const NavMenu = () => (
-    <ul className="navbar-nav flex-grow">
+export const NavMenu = () => {
+    const fetchWrapper = useFetchWrapper();
+    const [auth, setAuth] = useRecoilState(authAtom);
+    
+    const logout = () => {
+        fetchWrapper.delete(`api/account/logout`)
+            .finally(() => {
+                localStorage.removeItem('user');
+                setAuth(null);
+                window.location.pathname = "/";
+            });
+    }
+    
+    
+    return (<ul className="navbar-nav flex-grow">
         <NavItem>
             <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
         </NavItem>
@@ -16,5 +32,10 @@ export const NavMenu = () => (
         <NavItem>
             <NavLink tag={Link} className="text-dark" to="/lk/schedule">Schedule</NavLink>
         </NavItem>
-    </ul>
-);
+        <NavItem>
+            <Button onClick={logout}>Выйти</Button>
+        </NavItem>
+    </ul>)
+}
+    
+    

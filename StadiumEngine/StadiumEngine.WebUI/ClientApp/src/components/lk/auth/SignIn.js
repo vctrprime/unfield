@@ -3,10 +3,12 @@ import { useRecoilState } from 'recoil';
 import { authAtom } from '../../../state/auth';
 import {Link, NavLink} from "react-router-dom";
 import {NavItem} from "reactstrap";
+import {useFetchWrapper} from "../../../helpers/fetch-wrapper";
 
 export const SignIn = () => {
     const [errorMessage, setErrorMessage] = useState({ value: "" });
     const [auth, setAuth] = useRecoilState(authAtom);
+    const fetchWrapper = useFetchWrapper();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -18,19 +20,22 @@ export const SignIn = () => {
             setErrorMessage((prevState) => ({
                 value: "Empty username/password field",
             }));
-        } else if (username.value === "admin" && password.value === "123456") {
-            //Signin Success
-          
-            const user = {username: username.value}
-            localStorage.setItem('user', JSON.stringify(user));
-            setAuth(user);
+        }  else {
 
-            //const { from } = history.location.state || { from: { pathname: '/lk' } };
-            //history.push(from);
-            window.location.pathname = "/lk";
-        } else {
-            //If credentials entered is invalid
-            setErrorMessage((prevState) => ({ value: "Invalid username/password" }));
+            fetchWrapper.post(`api/account/login`, { username: username.value, password: password.value })
+                .then(user => {
+                    // store user details and jwt token in local storage to keep user logged in between page refreshes
+                    localStorage.setItem('user', JSON.stringify(user));
+                    setAuth(user);
+
+                    // get return url from location state or default to home page
+                    //const { from } = history.location.state || { from: { pathname: '/lk' } };
+                    //history.push(from);
+                    window.location.pathname = "/lk";
+                }).catch((error) => {
+                    setErrorMessage((prevState) => ({ value: error }));
+            });
+            
         }
     };
 

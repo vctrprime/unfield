@@ -19,7 +19,8 @@ function useFetchWrapper() {
     function request(method) {
         return (url, body) => {
             const requestOptions = {
-                method
+                method,
+                headers: {}
             };
             if (body) {
                 requestOptions.headers['Content-Type'] = 'application/json';
