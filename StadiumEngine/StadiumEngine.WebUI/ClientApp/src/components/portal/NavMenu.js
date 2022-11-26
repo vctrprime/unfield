@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import '../../css/landing/NavMenu.scss';
+import '../../css/portal/NavMenu.scss';
 import logo from '../../img/logo/logo_icon_with_title.png';
 
 export class NavMenu extends Component {
@@ -31,7 +31,7 @@ export class NavMenu extends Component {
               <NavbarBrand className={"navbar-brand-ext"} tag={Link} to="/">
                 <img className={"logo"} alt={"Stadium Engine"} src={logo}/>
               </NavbarBrand>
-              <div className={"version-title"}>{process.env.REACT_APP_VERSION}</div>
+              {/*<div className={"version-title"}>{process.env.REACT_APP_VERSION}</div>*/}
             </div>
             
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />

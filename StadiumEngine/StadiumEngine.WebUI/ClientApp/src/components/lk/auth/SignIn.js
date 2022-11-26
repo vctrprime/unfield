@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
+import { useRecoilState } from 'recoil';
+import { authAtom } from '../../../state/auth';
 import {Link, NavLink} from "react-router-dom";
 import {NavItem} from "reactstrap";
 
 export const SignIn = () => {
     const [errorMessage, setErrorMessage] = useState({ value: "" });
+    const [auth, setAuth] = useRecoilState(authAtom);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -17,7 +20,13 @@ export const SignIn = () => {
             }));
         } else if (username.value === "admin" && password.value === "123456") {
             //Signin Success
-            localStorage.setItem("isAuthenticated", "true");
+          
+            const user = {username: username.value}
+            localStorage.setItem('user', JSON.stringify(user));
+            setAuth(user);
+
+            //const { from } = history.location.state || { from: { pathname: '/lk' } };
+            //history.push(from);
             window.location.pathname = "/lk";
         } else {
             //If credentials entered is invalid

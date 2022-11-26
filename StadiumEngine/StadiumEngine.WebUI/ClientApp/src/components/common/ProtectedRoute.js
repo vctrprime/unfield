@@ -1,10 +1,14 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import {useRecoilValue} from "recoil";
+import {authAtom} from "../../state/auth";
 
 function ProtectedRoute({ component: Component, ...restOfProps }) {
-    const isAuthenticated = localStorage.getItem("isAuthenticated");
+    const auth = useRecoilValue(authAtom);
     
-    return isAuthenticated ? <Component {...restOfProps}/> : <Navigate to="/lk/sign-in" />
+    console.log(auth);
+    
+    return auth ? <Component {...restOfProps}/> : <Navigate to="/lk/sign-in" />
     
 }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Layout } from './components/Layout';
 import './custom.css'
 import {Routes, Route} from "react-router-dom";
-import {Home} from "./components/landing/Home";
+import {Home} from "./components/portal/Home";
 import {Layout as LkLayout} from "./components/lk/Layout";
 import {Actives} from "./components/lk/actives/Actives";
 import {Schedule} from "./components/lk/schedule/Schedule";
