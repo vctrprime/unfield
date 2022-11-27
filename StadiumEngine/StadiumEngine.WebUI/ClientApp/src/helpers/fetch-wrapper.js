@@ -2,6 +2,7 @@ import { useRecoilState } from 'recoil';
 
 import { authAtom } from '../state/auth';
 import {loadingAtom} from "../state/loading";
+import {useNavigate} from "react-router-dom";
 //import { useAlertActions } from '';
 
 export { useFetchWrapper };
@@ -9,7 +10,7 @@ export { useFetchWrapper };
 function useFetchWrapper() {
     const [auth, setAuth] = useRecoilState(authAtom);
     const [loading, setLoading] = useRecoilState(loadingAtom);
-    //const alertActions = useAlertActions();
+    const navigate = useNavigate();
 
     return {
         get: request('GET'),
@@ -43,8 +44,7 @@ function useFetchWrapper() {
                     // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
                     localStorage.removeItem('user');
                     setAuth(null);
-
-                    window.location.pathname = "/lk/sign-in";
+                    navigate("/lk/sign-in");
                 }
 
                 const error = (data && data.message) || response.statusText;

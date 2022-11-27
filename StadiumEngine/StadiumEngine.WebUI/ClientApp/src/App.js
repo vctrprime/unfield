@@ -9,6 +9,16 @@ import {Schedule} from "./components/lk/schedule/Schedule";
 import {Main} from "./components/lk/Main";
 import {SignIn} from "./components/lk/auth/SignIn";
 import ProtectedRoute from "./components/common/ProtectedRoute";
+import {NotificationContainer} from 'react-notifications';
+
+import 'react-notifications/lib/notifications.css';
+
+/*NotificationManager.info('Info message');
+NotificationManager.success('Success message', 'Title here');
+NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+NotificationManager.error('Error message', 'Click me!', 5000, () => {
+    alert('callback');
+});*/
 
 
 export default class App extends Component {
@@ -21,6 +31,7 @@ export default class App extends Component {
       
     return (
       <Layout>
+          <NotificationContainer/>
           <Routes>
               <Route path="/" element={<Home/>} />
               <Route path="/lk/sign-in" element={<SignIn />} />

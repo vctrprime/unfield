@@ -4,9 +4,9 @@ import { authAtom } from '../../../state/auth';
 import {Link, NavLink, useNavigate} from "react-router-dom";
 import {NavItem} from "reactstrap";
 import {useFetchWrapper} from "../../../helpers/fetch-wrapper";
+import { NotificationManager} from 'react-notifications';
 
 export const SignIn = () => {
-    const [errorMessage, setErrorMessage] = useState({ value: "" });
     const [auth, setAuth] = useRecoilState(authAtom);
     const fetchWrapper = useFetchWrapper();
     const navigate = useNavigate();
@@ -16,28 +16,19 @@ export const SignIn = () => {
 
         const { username, password } = document.forms[0];
         
-        //if username or password field is empty, return error message
-        if (username.value === "" || password.value === "") {
-            setErrorMessage((prevState) => ({
-                value: "Empty username/password field",
-            }));
-        }  else {
+        fetchWrapper.post(`api/account/login`, { username: username.value, password: password.value })
+            .then(user => {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('user', JSON.stringify(user));
+                setAuth(user);
 
-            fetchWrapper.post(`api/account/login`, { username: username.value, password: password.value })
-                .then(user => {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('user', JSON.stringify(user));
-                    setAuth(user);
-
-                    // get return url from location state or default to home page
-                    //const { from } = history.location.state || { from: { pathname: '/lk' } };
-                    //history.push(from);
-                    navigate("/lk");
-                }).catch((error) => {
-                    setErrorMessage((prevState) => ({ value: error }));
+                // get return url from location state or default to home page
+                //const { from } = history.location.state || { from: { pathname: '/lk' } };
+                //history.push(from);
+                navigate("/lk");
+            }).catch((error) => {
+                NotificationManager.error(error);
             });
-            
-        }
     };
 
     return (
@@ -78,10 +69,6 @@ export const SignIn = () => {
                 >
                     Submit
                 </button>
-
-                {errorMessage.value && (
-                    <p className="text-danger"> {errorMessage.value} </p>
-                )}
             </form>
         </div>
     );
