@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Layout } from './components/Layout';
-import './custom.css'
 import {Routes, Route} from "react-router-dom";
 import {Home} from "./components/portal/Home";
 import {Layout as LkLayout} from "./components/lk/Layout";
@@ -12,6 +11,9 @@ import ProtectedRoute from "./components/common/ProtectedRoute";
 import {NotificationContainer} from 'react-notifications';
 
 import 'react-notifications/lib/notifications.css';
+
+import './custom.css'
+import './css/lk/sign-in.scss'
 
 /*NotificationManager.info('Info message');
 NotificationManager.success('Success message', 'Title here');

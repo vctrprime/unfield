@@ -3,6 +3,7 @@ import { useRecoilState } from 'recoil';
 import { authAtom } from '../state/auth';
 import {loadingAtom} from "../state/loading";
 import {useNavigate} from "react-router-dom";
+import {NotificationManager} from "react-notifications";
 //import { useAlertActions } from '';
 
 export { useFetchWrapper };
@@ -20,7 +21,7 @@ function useFetchWrapper() {
     };
 
     function request(method) {
-        return (url, body = null, withSpinner = true) => {
+        return (url, body = null, successMessage = null, withSpinner = true) => {
             if (withSpinner) setLoading(true);
             const requestOptions = {
                 method,
@@ -30,11 +31,11 @@ function useFetchWrapper() {
                 requestOptions.headers['Content-Type'] = 'application/json';
                 requestOptions.body = JSON.stringify(body);
             }
-            return fetch(url, requestOptions).then(handleResponse);
+            return fetch(url, requestOptions).then((response) => handleResponse(response, successMessage));
         }
     }
     
-    function handleResponse(response) {
+    function handleResponse(response, successMessage) {
         setLoading(false);
         return response.text().then(text => {
             const data = text && JSON.parse(text);
@@ -49,8 +50,13 @@ function useFetchWrapper() {
 
                 const error = (data && data.message) || response.statusText;
                 //alertActions.error(error);
+                NotificationManager.error(error, "Ошибка", 2000);
+                
                 return Promise.reject(error);
             }
+            
+            if (successMessage) NotificationManager.success(successMessage, 'Успешно!', 2000);
+            
             return data;
         });
     }

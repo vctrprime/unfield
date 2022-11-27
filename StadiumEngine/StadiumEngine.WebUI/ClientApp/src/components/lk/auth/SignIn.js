@@ -2,10 +2,9 @@ import React, {useState} from 'react';
 import { useRecoilState } from 'recoil';
 import { authAtom } from '../../../state/auth';
 import {Link, NavLink, useNavigate} from "react-router-dom";
-import {NavItem} from "reactstrap";
+import {NavbarBrand, NavItem} from "reactstrap";
 import {useFetchWrapper} from "../../../helpers/fetch-wrapper";
-import { NotificationManager} from 'react-notifications';
-
+import logo from "../../../img/logo/logo_icon_with_title.png";
 export const SignIn = () => {
     const [auth, setAuth] = useRecoilState(authAtom);
     const fetchWrapper = useFetchWrapper();
@@ -18,24 +17,26 @@ export const SignIn = () => {
         
         fetchWrapper.post(`api/account/login`, { username: username.value, password: password.value })
             .then(user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
                 setAuth(user);
-
-                // get return url from location state or default to home page
-                //const { from } = history.location.state || { from: { pathname: '/lk' } };
-                //history.push(from);
                 navigate("/lk");
-            }).catch((error) => {
-                NotificationManager.error(error);
             });
     };
 
     return (
-        <div className="text-center">
-            <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
-            </NavItem>
+        <div className="sign-in-container">
+            <div className="color-block bottom-color-block" />
+            <div className="color-block top-color-block" />
+
+            <div className="logo-container">
+                <NavbarBrand className={"navbar-brand-ext"} tag={Link} to="/">
+                    <img className={"logo"} alt={"Stadium Engine"} src={logo}/>
+                </NavbarBrand>
+                <div className={"version-title"}>{process.env.REACT_APP_VERSION}</div>
+            </div>
+
+            
+            
             <h1>Signin User</h1>
             <form
                 style={{
@@ -69,7 +70,9 @@ export const SignIn = () => {
                 >
                     Submit
                 </button>
+                <NavLink className="btn btn-default portal-button" to="/">На портал</NavLink>
             </form>
+           
         </div>
     );
 }
