@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useRecoilState } from 'recoil';
 import { authAtom } from '../../../state/auth';
-import {Link, NavLink} from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
 import {NavItem} from "reactstrap";
 import {useFetchWrapper} from "../../../helpers/fetch-wrapper";
 
@@ -9,6 +9,7 @@ export const SignIn = () => {
     const [errorMessage, setErrorMessage] = useState({ value: "" });
     const [auth, setAuth] = useRecoilState(authAtom);
     const fetchWrapper = useFetchWrapper();
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -31,7 +32,7 @@ export const SignIn = () => {
                     // get return url from location state or default to home page
                     //const { from } = history.location.state || { from: { pathname: '/lk' } };
                     //history.push(from);
-                    window.location.pathname = "/lk";
+                    navigate("/lk");
                 }).catch((error) => {
                     setErrorMessage((prevState) => ({ value: error }));
             });

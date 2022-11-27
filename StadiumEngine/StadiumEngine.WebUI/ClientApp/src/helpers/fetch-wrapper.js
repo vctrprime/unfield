@@ -1,12 +1,14 @@
 import { useRecoilState } from 'recoil';
 
 import { authAtom } from '../state/auth';
+import {loadingAtom} from "../state/loading";
 //import { useAlertActions } from '';
 
 export { useFetchWrapper };
 
 function useFetchWrapper() {
     const [auth, setAuth] = useRecoilState(authAtom);
+    const [loading, setLoading] = useRecoilState(loadingAtom);
     //const alertActions = useAlertActions();
 
     return {
@@ -17,7 +19,8 @@ function useFetchWrapper() {
     };
 
     function request(method) {
-        return (url, body) => {
+        return (url, body = null, withSpinner = true) => {
+            if (withSpinner) setLoading(true);
             const requestOptions = {
                 method,
                 headers: {}
@@ -31,6 +34,7 @@ function useFetchWrapper() {
     }
     
     function handleResponse(response) {
+        setLoading(false);
         return response.text().then(text => {
             const data = text && JSON.parse(text);
 
@@ -47,7 +51,6 @@ function useFetchWrapper() {
                 //alertActions.error(error);
                 return Promise.reject(error);
             }
-
             return data;
         });
     }

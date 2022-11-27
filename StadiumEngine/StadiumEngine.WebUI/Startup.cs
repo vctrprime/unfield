@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -118,6 +119,16 @@ namespace StadiumEngine.WebUI
                 app.UseHsts();
                 app.UseHttpsRedirection();
             }
+            
+            //ставим небольшую задержку на обработку запросов, чтобы спиннер не мелькал
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path.Value != null && context.Request.Path.Value.Contains("api/"))
+                {
+                    Thread.Sleep(1000);
+                }
+                await next.Invoke();
+            });
             
             app.ConfigureExceptionHandler(logger);
             

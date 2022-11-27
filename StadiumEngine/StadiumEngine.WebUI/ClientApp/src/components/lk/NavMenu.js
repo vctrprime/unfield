@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, NavItem} from "reactstrap";
-import {Link, NavLink} from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
 import {useFetchWrapper} from "../../helpers/fetch-wrapper";
 import {useRecoilState} from "recoil";
 import {authAtom} from "../../state/auth";
@@ -8,13 +8,15 @@ import {authAtom} from "../../state/auth";
 export const NavMenu = () => {
     const fetchWrapper = useFetchWrapper();
     const [auth, setAuth] = useRecoilState(authAtom);
+    const navigate = useNavigate();
     
     const logout = () => {
         fetchWrapper.delete(`api/account/logout`)
             .finally(() => {
                 localStorage.removeItem('user');
                 setAuth(null);
-                window.location.pathname = "/";
+                navigate("/lk/sign-in");
+                //window.location.pathname = ;
             });
     }
     
