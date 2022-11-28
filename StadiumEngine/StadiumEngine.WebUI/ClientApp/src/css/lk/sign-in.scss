@@ -22,10 +22,11 @@
   
   
   .portal-button {
-    font-size: 18px;
-    border: 1px solid $dark-color;
-    padding: 3px;
-    color: $dark-color;
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    z-index: 123;
+    color: white;
   }
   
   
@@ -54,6 +55,50 @@
       -webkit-transform: rotate(30deg);
       -ms-transform: rotate(30deg);
       transform: rotate(30deg);
+    }
+  }
+  
+  form {
+    margin-top: 50px;
+    
+    .form-group {
+      text-align: center;
+    }
+
+    input[type=text], input[type=password] {
+      background-color: white;
+      border: none;
+      border-bottom: 2px solid $dark-color;
+      border-top: 0px;
+      border-radius: 0px;
+      font-weight: bold;
+      outline: 0;
+      margin-bottom: 20px;
+      padding-left: 0px;
+      color: $dark-color;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 0;
+    }
+    
+    label {
+      margin-bottom: 0px;
+      font-size: 16px;
+      color: #6C6C6C;
+      letter-spacing: 1px;
+    }
+    
+    button {
+      width: 100%;
+      background: -webkit-linear-gradient(-90deg, #00d2ff,#0c8bfe);
+      background: linear-gradient(-90deg, #00d2ff,#0c8bfe);
+      outline: none !important;
+      border: none;
+      color: white;
+      border-radius: 10px;
+      padding: 10px;
     }
   }
 }
