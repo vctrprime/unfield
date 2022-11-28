@@ -1,15 +1,22 @@
 import React from 'react';
-import {Container} from "reactstrap";
 import {Outlet} from "react-router-dom";
 import {NavMenu} from "./NavMenu";
+import {Header} from "./Header";
+import '../../css/lk/Main.scss';
 
 export const Layout = () => {
     return (
-        <div>
+        <div
+            style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' }}
+        >
             <NavMenu />
-            <Container>
-                <Outlet />
-            </Container>
+            <div className="right-container">
+                <Header />
+                <div className="content-container">
+                    <Outlet />
+                </div>
+            </div>
+           
         </div>
     );
 }

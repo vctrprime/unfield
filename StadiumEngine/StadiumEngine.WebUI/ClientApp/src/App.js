@@ -13,7 +13,7 @@ import {NotificationContainer} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
 import './custom.css'
-import './css/lk/sign-in.scss'
+import './css/lk/SignIn.scss'
 
 /*NotificationManager.info('Info message');
 NotificationManager.success('Success message', 'Title here');

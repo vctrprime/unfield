@@ -13,8 +13,9 @@
 
     .version-title {
       font-size: 10px;
-      margin-top: -14px;
+      margin-top: -10px;
       align-self: center;
+      letter-spacing: 0px;
     }
     
     
@@ -23,9 +24,9 @@
   
   .portal-button {
     position: absolute;
-    top: 8px;
-    right: 16px;
-    z-index: 123;
+    top: 16px;
+    right: 24px;
+    z-index: 1;
     color: white;
   }
   
