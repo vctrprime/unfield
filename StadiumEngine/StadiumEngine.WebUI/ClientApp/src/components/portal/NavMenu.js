@@ -27,12 +27,9 @@ export class NavMenu extends Component {
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
           <Container>
-            <div style={{display: "flex"}}>
               <NavbarBrand className={"navbar-brand-ext"} tag={Link} to="/">
                 <img className={"logo"} alt={"Stadium Engine"} src={logo}/>
               </NavbarBrand>
-              {/*<div className={"version-title"}>{process.env.REACT_APP_VERSION}</div>*/}
-            </div>
             
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>

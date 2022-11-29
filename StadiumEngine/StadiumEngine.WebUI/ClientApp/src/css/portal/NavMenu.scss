@@ -39,3 +39,9 @@ html {
     background-color: #eee !important;
   }
 }
+@media (max-width: 575.98px) {
+  .navbar-expand-sm > .container {
+    padding-right: 5px;
+    padding-left: 15px;
+  }
+}

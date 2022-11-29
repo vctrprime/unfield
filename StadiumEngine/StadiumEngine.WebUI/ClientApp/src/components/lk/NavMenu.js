@@ -1,6 +1,5 @@
 import React from 'react';
-import {Button, NavItem} from "reactstrap";
-import {Link, NavLink, useNavigate} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {useFetchWrapper} from "../../helpers/fetch-wrapper";
 import {useRecoilState} from "recoil";
 import {authAtom} from "../../state/auth";
@@ -43,17 +42,25 @@ export const NavMenu = () => {
 
                     <CDBSidebarContent className="sidebar-content">
                         <CDBSidebarMenu>
-                            <NavLink exact to="/lk" activeClassName="activeClicked">
-                                <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
+                            <NavLink exact="true" to="/lk" end className={({isActive}) => //(isActive) --> ({isActive})
+                                isActive ? "activeClicked" : undefined
+                            }>
+                                <CDBSidebarMenuItem title="Dashboard"  icon="columns">Dashboard</CDBSidebarMenuItem>
                             </NavLink>
-                            <NavLink exact to="/lk/schedule" activeClassName="activeClicked">
-                                <CDBSidebarMenuItem icon="table">Шахматка броней</CDBSidebarMenuItem>
+                            <NavLink exact="true" to="/lk/schedule" end className={({isActive}) => //(isActive) --> ({isActive})
+                                isActive ? "activeClicked" : undefined
+                            }>
+                                <CDBSidebarMenuItem title="Шахматка броней" icon="table">Шахматка броней</CDBSidebarMenuItem>
                             </NavLink>
-                            <NavLink exact to="/lk/actives" activeClassName="activeClicked">
-                                <CDBSidebarMenuItem icon="object-ungroup">Активы</CDBSidebarMenuItem>
+                            <NavLink exact="true" to="/lk/actives" end className={({isActive}) => //(isActive) --> ({isActive})
+                                isActive ? "activeClicked" : undefined
+                            }>
+                                <CDBSidebarMenuItem title="Активы" icon="object-ungroup">Активы</CDBSidebarMenuItem>
                             </NavLink>
-                            <NavLink exact to="/lk" activeClassName="activeClicked">
-                                <CDBSidebarMenuItem icon="users">Персонал</CDBSidebarMenuItem>
+                            <NavLink exact="true" to="/lk/employees" end className={({isActive}) => //(isActive) --> ({isActive})
+                                isActive ? "activeClicked" : undefined
+                            }>
+                                <CDBSidebarMenuItem title="Персонал" icon="users">Персонал</CDBSidebarMenuItem>
                             </NavLink>
                             
                             {/*<NavLink exact to="/analytics" activeClassName="activeClicked">

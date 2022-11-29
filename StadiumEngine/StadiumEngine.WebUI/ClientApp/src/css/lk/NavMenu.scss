@@ -1,3 +1,5 @@
+@import "src/css/const.scss";
+
 .lk-version-title {
   font-size: 6px;
   letter-spacing: 0px;
@@ -9,5 +11,20 @@
 .head-div {
   padding: 6px 30px !important;
 }
+
+
+.lk-header {
+  
+  
+  .header-icons {
+    float: right;
+    
+    .portal-button {
+      
+      color: $dark-color;
+    }
+  }
+}
+
 
 

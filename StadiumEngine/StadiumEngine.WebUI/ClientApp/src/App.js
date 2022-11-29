@@ -14,6 +14,7 @@ import 'react-notifications/lib/notifications.css';
 
 import './custom.css'
 import './css/lk/SignIn.scss'
+import {Employees} from "./components/lk/employees/Employees";
 
 /*NotificationManager.info('Info message');
 NotificationManager.success('Success message', 'Title here');
@@ -41,6 +42,7 @@ export default class App extends Component {
                   <Route path="" element={<Main />} />
                   <Route path="actives" element={<Actives />} />
                   <Route path="schedule" element={<Schedule />} />
+                  <Route path="employees" element={<Employees />} />
               </Route>
           </Routes>
       </Layout>
