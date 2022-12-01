@@ -5,26 +5,20 @@
   letter-spacing: 0px;
   position: absolute;
   left: 58px;
-  top: 28px;
+  top: 23px;
 }
 
 .head-div {
-  padding: 6px 30px !important;
-}
-
-
-.lk-header {
+  padding: 8px 30px !important;
+  align-items: center;
+  min-height: 42px;
   
-  
-  .header-icons {
-    float: right;
-    
-    .portal-button {
-      
-      color: $dark-color;
-    }
+  .icon-suffix {
+    height: 16px !important;
   }
 }
+
+
 
 
 

@@ -11,6 +11,11 @@ import {RecoilRoot} from "recoil";
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
 
+const styleLink = document.createElement("link");
+styleLink.rel = "stylesheet";
+styleLink.href = "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css";
+document.head.appendChild(styleLink);
+
 ReactDOM.render(
   <BrowserRouter basename={baseUrl}>
       <RecoilRoot>

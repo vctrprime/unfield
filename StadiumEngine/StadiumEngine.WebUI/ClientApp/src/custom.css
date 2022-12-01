@@ -1,7 +1,7 @@
 /* Provide sufficient contrast against white background */
 
 body {
-  font-family: "Stadium Engine Sans Pro";
+  font-family: "Stadium Engine Sans Pro" !important;
 }
 
 a {
