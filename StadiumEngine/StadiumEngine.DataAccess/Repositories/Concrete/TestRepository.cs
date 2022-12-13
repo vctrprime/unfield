@@ -1,24 +1,26 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Dapper;
-using StadiumEngine.DataAccess.Connection.Abstract;
+using Microsoft.EntityFrameworkCore;
+using StadiumEngine.DataAccess.Contexts;
 using StadiumEngine.DataAccess.Repositories.Abstract;
-using StadiumEngine.Entities;
+using StadiumEngine.Entities.Domain.Geo;
 
 namespace StadiumEngine.DataAccess.Repositories.Concrete
 {
-    public class TestRepository : RepositoryBase, ITestRepository
+    public class TestRepository : ITestRepository
     {
-        public TestRepository(IConnectionCreator connectionCreator) : base(connectionCreator)
+        private readonly GeoDbContext _context;
+
+        public TestRepository(GeoDbContext context)
         {
+            _context = context;
         }
 
-        public async Task<List<Class1>> Get()
+        public async Task<List<City>> Get()
         {
-            var data = await ConnectionCreator.Connection.QueryAsync<Class1>("SELECT name FROM public.test");
+            var data = await _context.Cities.ToListAsync();
             
-            return data.ToList();
+            return data;
         }
     }
 }

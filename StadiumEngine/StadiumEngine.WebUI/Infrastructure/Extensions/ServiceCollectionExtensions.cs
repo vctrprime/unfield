@@ -1,6 +1,7 @@
+using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using StadiumEngine.DataAccess.Connection.Abstract;
-using StadiumEngine.DataAccess.Connection.Concrete;
+using StadiumEngine.DataAccess.Contexts;
 using StadiumEngine.DataAccess.Repositories.Abstract;
 using StadiumEngine.DataAccess.Repositories.Concrete;
 
@@ -12,18 +13,33 @@ namespace StadiumEngine.WebUI.Infrastructure.Extensions
         {
             services
                 .RegisterServices()
+                .RegisterContexts()
                 .RegisterRepositories();
         }
 
         private static IServiceCollection RegisterServices(this IServiceCollection services)
         {
-            services.AddScoped<IConnectionCreator, PgConnectionCreator>();
             return services;
         }
         
         private static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
             services.AddScoped<ITestRepository, TestRepository>();
+            return services;
+        }
+
+        private static IServiceCollection RegisterContexts(this IServiceCollection services)
+        {
+            var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+            services.AddDbContext<GeoDbContext>(options =>
+            {
+                options.UseLazyLoadingProxies().UseNpgsql(connectionString);
+            });
+            services.AddDbContext<AccountsDbContext>(options =>
+            {
+                options.UseLazyLoadingProxies().UseNpgsql(connectionString);
+            });
+
             return services;
         }
 
