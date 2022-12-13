@@ -3,12 +3,16 @@ using StadiumEngine.Entities.Domain.Geo;
 
 namespace StadiumEngine.Entities.Domain.Accounts;
 
+[Table("legal", Schema = "accounts")]
 public class Legal : BaseEntity
 {
+    [Column("inn")]
     public string Inn { get; set; }
     
+    [Column("head_name")]
     public string HeadName { get; set; }
     
+    [Column("city_id")]
     public int CityId { get; set; }
     
     [ForeignKey("CityId")]

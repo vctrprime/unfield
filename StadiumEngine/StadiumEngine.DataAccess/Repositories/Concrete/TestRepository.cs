@@ -9,9 +9,9 @@ namespace StadiumEngine.DataAccess.Repositories.Concrete
 {
     public class TestRepository : ITestRepository
     {
-        private readonly GeoDbContext _context;
+        private readonly MainDbContext _context;
 
-        public TestRepository(GeoDbContext context)
+        public TestRepository(MainDbContext context)
         {
             _context = context;
         }

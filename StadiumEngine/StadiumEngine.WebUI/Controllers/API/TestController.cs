@@ -18,11 +18,15 @@ public class TestController
     public async Task<bool> Get()
     {
         var a = await _repository.Get();
+        
+        
 
         var region = a.First().Region;
         var regionName = region.Name;
         
         var country = region.Country.Name;
+
+        var leg = a.First().Legals.First().HeadName;
         
         return true;
     }

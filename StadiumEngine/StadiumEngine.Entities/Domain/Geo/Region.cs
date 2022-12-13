@@ -3,8 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StadiumEngine.Entities.Domain.Geo;
 
+[Table("region", Schema = "geo")]
 public class Region : BaseGeoEntity
 {
+    [Column("country_id")]
     public int CountryId { get; set; }
     
     [ForeignKey("CountryId")]

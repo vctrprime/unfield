@@ -31,11 +31,7 @@ namespace StadiumEngine.WebUI.Infrastructure.Extensions
         private static IServiceCollection RegisterContexts(this IServiceCollection services)
         {
             var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
-            services.AddDbContext<GeoDbContext>(options =>
-            {
-                options.UseLazyLoadingProxies().UseNpgsql(connectionString);
-            });
-            services.AddDbContext<AccountsDbContext>(options =>
+            services.AddDbContext<MainDbContext>(options =>
             {
                 options.UseLazyLoadingProxies().UseNpgsql(connectionString);
             });
