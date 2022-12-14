@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StadiumEngine.Entities.Domain;
 
-public class BaseEntity 
+public abstract class BaseEntity 
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Key, Column("id", Order = 0)]
@@ -12,5 +12,11 @@ public class BaseEntity
     
     [Column("name")]
     public string Name { get; set; }
+    
+    [Column("date_created")]
+    public DateTime DateCreated { get; set; }
+    
+    [Column("date_modified")]
+    public DateTime DateModified { get; set; }
     
 }

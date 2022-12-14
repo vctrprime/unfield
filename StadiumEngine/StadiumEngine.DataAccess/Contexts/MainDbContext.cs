@@ -1,4 +1,6 @@
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using StadiumEngine.Entities.Domain;
 using StadiumEngine.Entities.Domain.Accounts;
 using StadiumEngine.Entities.Domain.Geo;
 
@@ -24,6 +26,19 @@ public class MainDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Ignore<BaseEntity>();
         
+        foreach (var et in modelBuilder.Model.GetEntityTypes())
+        {
+            if (!et.ClrType.IsSubclassOf(typeof(BaseEntity))) continue;
+            
+            et.FindProperty("DateCreated")!.SetDefaultValueSql("now()");
+            et.FindProperty("DateCreated")!.ValueGenerated = Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.OnAdd;
+
+            et.FindProperty("DateModified")!.SetDefaultValueSql("now()");
+            et.FindProperty("DateModified")!.ValueGenerated = Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.OnAddOrUpdate;
+
+        }
+        base.OnModelCreating(modelBuilder);
     }
 }
