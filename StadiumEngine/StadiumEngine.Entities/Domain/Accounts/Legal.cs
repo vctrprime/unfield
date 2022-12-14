@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using StadiumEngine.Entities.Domain.Geo;
 
@@ -17,4 +18,9 @@ public class Legal : BaseEntity
     
     [ForeignKey("CityId")]
     public virtual City City { get; set; }
+    
+    
+    
+    public virtual ICollection<Role> Roles { get; set; }
+    public virtual ICollection<User> Users { get; set; }
 }

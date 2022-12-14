@@ -17,6 +17,8 @@ public class MainDbContext : DbContext
     #region accounts
     public DbSet<Legal> Legals { get; set; }
     public DbSet<PermissionGroup> PermissionGroups { get; set; }
+    public DbSet<Role> Roles { get; set; }
+    public DbSet<User> Users { get; set; }
     #endregion
     
         
@@ -28,6 +30,7 @@ public class MainDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Ignore<BaseEntity>();
+        modelBuilder.Ignore<BaseUserEntity>();
         
         foreach (var et in modelBuilder.Model.GetEntityTypes())
         {
