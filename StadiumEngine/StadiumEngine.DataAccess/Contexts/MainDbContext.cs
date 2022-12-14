@@ -16,6 +16,7 @@ public class MainDbContext : DbContext
 
     #region accounts
     public DbSet<Legal> Legals { get; set; }
+    public DbSet<PermissionGroup> PermissionGroups { get; set; }
     #endregion
     
         

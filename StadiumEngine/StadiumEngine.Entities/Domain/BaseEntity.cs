@@ -13,6 +13,9 @@ public abstract class BaseEntity
     [Column("name")]
     public string Name { get; set; }
     
+    [Column("description")]
+    public string Description { get; set; }
+    
     [Column("date_created")]
     public DateTime DateCreated { get; set; }
     
