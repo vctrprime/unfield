@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using StadiumEngine.Entities.Domain;
 using StadiumEngine.Entities.Domain.Accounts;
 using StadiumEngine.Entities.Domain.Geo;
+using StadiumEngine.Entities.Domain.Offers;
 
 namespace StadiumEngine.DataAccess.Contexts;
 
@@ -19,8 +20,14 @@ public class MainDbContext : DbContext
     public DbSet<PermissionGroup> PermissionGroups { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Permission> Permissions { get; set; }
+    public DbSet<RolePermission> RolePermissions { get; set; }
+    public DbSet<RoleStadium> RoleStadiums { get; set; }
     #endregion
-    
+
+    #region offers
+    public DbSet<Stadium> Stadiums { get; set; }
+    #endregion
         
     public MainDbContext(DbContextOptions<MainDbContext> options)
         : base(options)
@@ -41,8 +48,8 @@ public class MainDbContext : DbContext
 
             et.FindProperty("DateModified")!.SetDefaultValueSql("now()");
             et.FindProperty("DateModified")!.ValueGenerated = Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.OnAddOrUpdate;
-
         }
+
         base.OnModelCreating(modelBuilder);
     }
 }

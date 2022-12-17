@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using StadiumEngine.Entities.Domain.Geo;
+using StadiumEngine.Entities.Domain.Offers;
 
 namespace StadiumEngine.Entities.Domain.Accounts;
 
@@ -23,4 +24,5 @@ public class Legal : BaseEntity
     
     public virtual ICollection<Role> Roles { get; set; }
     public virtual ICollection<User> Users { get; set; }
+    public virtual ICollection<Stadium> Stadiums { get; set; }
 }

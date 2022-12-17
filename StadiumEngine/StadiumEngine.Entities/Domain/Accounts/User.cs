@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StadiumEngine.Entities.Domain.Accounts;
@@ -28,5 +29,25 @@ public class User : BaseUserEntity
     
     [Column("is_superuser")]
     public bool IsSuperuser { get; set; }
+    
+    [InverseProperty("UserCreated")]
+    public virtual ICollection<User> CreatedUsers { get; set; }
+    [InverseProperty("UserModified")]
+    public virtual ICollection<User> LastModifiedUsers { get; set; }
+    
+    [InverseProperty("UserCreated")]
+    public virtual ICollection<Role> CreatedRoles { get; set; }
+    [InverseProperty("UserModified")]
+    public virtual ICollection<Role> LastModifiedRoles { get; set; }
+    
+    [InverseProperty("UserCreated")]
+    public virtual ICollection<RolePermission> CreatedRolePermissions { get; set; }
+    [InverseProperty("UserModified")]
+    public virtual ICollection<RolePermission> LastModifiedRolePermissions { get; set; }
+    
+    [InverseProperty("UserCreated")]
+    public virtual ICollection<RoleStadium> CreatedRoleStadiums { get; set; }
+    [InverseProperty("UserModified")]
+    public virtual ICollection<RoleStadium> LastModifiedRoleStadiums { get; set; }
 
 }
