@@ -125,7 +125,7 @@ namespace StadiumEngine.WebUI
             {
                 if (context.Request.Path.Value != null && context.Request.Path.Value.Contains("api/"))
                 {
-                    Thread.Sleep(1000);
+                    //Thread.Sleep(200);
                 }
                 await next.Invoke();
             });
