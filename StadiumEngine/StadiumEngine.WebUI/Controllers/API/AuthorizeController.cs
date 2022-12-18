@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StadiumEngine.Common.Exceptions;
 using StadiumEngine.DTO.Auth;
-using StadiumEngine.Entities.Exceptions;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace StadiumEngine.WebUI.Controllers.API;

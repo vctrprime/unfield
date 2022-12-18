@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using StadiumEngine.Entities.Exceptions;
+using StadiumEngine.Common.Exceptions;
 
 namespace StadiumEngine.WebUI.Infrastructure.Middleware;
 

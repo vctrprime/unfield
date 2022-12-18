@@ -1,34 +1,26 @@
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using StadiumEngine.DataAccess.Repositories.Abstract;
+using StadiumEngine.DTO.Test;
+using StadiumEngine.Handlers.Commands.Test;
+using StadiumEngine.Handlers.Queries.Test;
 
 namespace StadiumEngine.WebUI.Controllers.API;
 
-[Route("api/test")]
-[ApiController]
-public class TestController
+[Route("api/[controller]")]
+public class TestController : BaseApiController
 {
-    private readonly ITestRepository _repository;
-
-    public TestController(ITestRepository repository)
+    [HttpGet]
+    public async Task<List<TestDto>> GetAll()
     {
-        _repository = repository;
-    }
-    public async Task<bool> Get()
-    {
-        var a = await _repository.Get();
-        
-        
-
-        var region = a.First().Region;
-        var regionName = region.Name;
-        
-        var country = region.Country.Name;
-
-        var leg = a.First().Legals.First().HeadName;
-        
-        return true;
+        var result = await Mediator.Send(new GetAllTestQuery());
+        return result;
     }
     
+    [HttpPost]
+    public async Task<TestDto> Create(CreateTestCommand command)
+    {
+        var result = await Mediator.Send(command);
+        return result;
+    }
 }

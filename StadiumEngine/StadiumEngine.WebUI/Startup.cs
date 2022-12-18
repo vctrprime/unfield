@@ -50,7 +50,7 @@ namespace StadiumEngine.WebUI
                 .DisableAutomaticKeyGeneration();
             
             services.RegisterModules();
-            
+
             if (_environment.IsDevelopment())
             {
                 services.AddSwaggerGen(c =>

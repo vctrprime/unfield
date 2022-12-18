@@ -1,6 +1,4 @@
-using System;
-
-namespace StadiumEngine.Entities.Exceptions;
+namespace StadiumEngine.Common.Exceptions;
 
 public class DomainException : Exception
 {

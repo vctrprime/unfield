@@ -1,13 +1,12 @@
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using StadiumEngine.Entities.Domain;
 using StadiumEngine.Entities.Domain.Accounts;
 using StadiumEngine.Entities.Domain.Geo;
 using StadiumEngine.Entities.Domain.Offers;
 
-namespace StadiumEngine.DataAccess.Contexts;
+namespace StadiumEngine.Data.Infrastructure.Contexts;
 
-public class MainDbContext : DbContext
+internal class MainDbContext : DbContext
 {
     #region geo
     public DbSet<Country> Countries { get; set; }

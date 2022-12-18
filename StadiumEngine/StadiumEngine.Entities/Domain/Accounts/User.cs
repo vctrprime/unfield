@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,6 +30,9 @@ public class User : BaseUserEntity
     
     [Column("is_superuser")]
     public bool IsSuperuser { get; set; }
+    
+    [Column("last_login_date")]
+    public DateTime? LastLoginDate { get; set; }
     
     [InverseProperty("UserCreated")]
     public virtual ICollection<User> CreatedUsers { get; set; }
