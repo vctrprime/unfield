@@ -2,7 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Data.Infrastructure.Contexts;
 using StadiumEngine.Repositories.Abstract;
+using StadiumEngine.Repositories.Abstract.Accounts;
 using StadiumEngine.Repositories.Concrete;
+using StadiumEngine.Repositories.Concrete.Accounts;
 
 namespace StadiumEngine.Repositories.Extensions;
 
@@ -28,7 +30,9 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection RegisterRepositories(this IServiceCollection services)
     {
-        services.AddScoped<ITestRepository, TestRepository>();
+        #region accounts
+        services.AddScoped<IUserRepository, UserRepository>();
+        #endregion
         
         return services;
     }

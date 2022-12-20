@@ -10,4 +10,8 @@
       <DocumentationFile>bin\Debug\net6.0\StadiumEngine.DTO.xml</DocumentationFile>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    </ItemGroup>
+
 </Project>

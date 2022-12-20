@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Exceptions;
-using StadiumEngine.DTO.Auth;
+using StadiumEngine.DTO.Accounts;
+using StadiumEngine.Handlers.Commands.Accounts;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace StadiumEngine.WebUI.Controllers.API;
@@ -14,42 +15,36 @@ namespace StadiumEngine.WebUI.Controllers.API;
 /// </summary>
 [Route("api/account")]
 [ApiController]
-public class AuthorizeController : ControllerBase
+public class AuthorizeController : BaseApiController
 {
     /// <summary>
     /// Авторизовать
     /// </summary>
-    /// <param name="dto"></param>
+    /// <param name="command"></param>
     /// <returns></returns>
     [HttpPost("login")]
-    [SwaggerResponse(StatusCodes.Status200OK,
-        Type = typeof(AuthUserDto))]
-    public async Task<AuthUserDto> Login([FromBody] LoginPostDto dto)
+    public async Task<AuthorizeUserDto> Login([FromBody] AuthorizeUserCommand command)
     {
-        if (User.Identity.IsAuthenticated)
+        if (User.Identity is { IsAuthenticated: true })
         {
             await HttpContext.SignOutAsync();
         }
-        
-        if (dto.Username == "admin" && dto.Password == "123456")
-        {
-            var claimsIdentity = new ClaimsIdentity(System.Array.Empty<Claim>(), "Identity.Application");
 
-            // Аутентификация.
-            await HttpContext.SignInAsync(
-                "Identity.Application",
-                new ClaimsPrincipal(claimsIdentity),
-                new AuthenticationProperties
-                {
-                    IsPersistent = true
-                });
-            
-            return new AuthUserDto
+        var user = await Mediator.Send(command);
+        
+        if (user == null) throw new DomainException("Invalid password or login");
+        
+        var claimsIdentity = new ClaimsIdentity(user.Claims, "Identity.Application");
+        
+        await HttpContext.SignInAsync(
+            "Identity.Application",
+            new ClaimsPrincipal(claimsIdentity),
+            new AuthenticationProperties
             {
-                Username = dto.Username
-            };
-        }
-        throw new DomainException("invalid password or username");
+                IsPersistent = true
+            });
+
+        return user;
     }
 
     /// <summary>
@@ -59,7 +54,7 @@ public class AuthorizeController : ControllerBase
     [SwaggerResponse(StatusCodes.Status200OK)]
     public async Task Logout()
     {
-        if (User.Identity.IsAuthenticated)
+        if (User.Identity is { IsAuthenticated: true })
         {
             await HttpContext.SignOutAsync();
         }

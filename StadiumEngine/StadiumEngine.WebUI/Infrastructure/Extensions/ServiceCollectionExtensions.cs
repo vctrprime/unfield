@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Handlers.Extensions;
+using StadiumEngine.Services.Extensions;
 
 namespace StadiumEngine.WebUI.Infrastructure.Extensions
 {

@@ -12,6 +12,7 @@
         <ProjectReference Include="..\StadiumEngine.Repositories\StadiumEngine.Repositories.csproj">
             <PrivateAssets>all</PrivateAssets>
         </ProjectReference>
+        <ProjectReference Include="..\StadiumEngine.Services\StadiumEngine.Services.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -23,6 +24,10 @@
       </PackageReference>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.1" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Queries" />
     </ItemGroup>
 
 </Project>

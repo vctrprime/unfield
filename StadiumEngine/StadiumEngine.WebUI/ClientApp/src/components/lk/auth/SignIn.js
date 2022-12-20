@@ -13,9 +13,9 @@ export const SignIn = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const { username, password } = document.forms[0];
+        const { login, password } = document.forms[0];
         
-        fetchWrapper.post(`api/account/login`, { username: username.value, password: password.value })
+        fetchWrapper.post(`api/account/login`, { login: login.value, password: password.value })
             .then(user => {
                 localStorage.setItem('user', JSON.stringify(user));
                 setAuth(user);
@@ -51,7 +51,7 @@ export const SignIn = () => {
                     <input
                         className="form-control"
                         type="text"
-                        name="username"
+                        name="login"
                     />
                 </div>
 
