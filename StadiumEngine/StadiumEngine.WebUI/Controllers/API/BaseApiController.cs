@@ -1,11 +1,12 @@
 using Mediator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using StadiumEngine.Services.Auth.Abstract;
 
 namespace StadiumEngine.WebUI.Controllers.API;
 
 [ApiController]
+[Authorize]
 public class BaseApiController : ControllerBase
 {
    private IMediator _mediator;

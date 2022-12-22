@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using StadiumEngine.DTO.Accounts;
 using StadiumEngine.Services.Auth.Abstract;
 
 namespace StadiumEngine.Services.Auth.Concrete;
@@ -36,6 +35,11 @@ internal class ClaimsIdentityService : IClaimsIdentityService
     public bool GetIsSuperuser()
     {
         return GetClaim<bool>("isSuperuser");
+    }
+
+    public int GetCurrentStadiumId()
+    {
+        return GetClaim<int>("stadiumId");
     }
 
     private T GetClaim<T>(string claimName)

@@ -14,4 +14,6 @@ public interface IClaimsIdentityService
     int GetLegalId();
     
     bool GetIsSuperuser();
+
+    int GetCurrentStadiumId();
 }

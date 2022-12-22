@@ -1,20 +1,19 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.Handlers.Commands.Accounts;
-using Swashbuckle.AspNetCore.Annotations;
 
-namespace StadiumEngine.WebUI.Controllers.API;
+namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 
 /// <summary>
 /// Авторизация
 /// </summary>
 [Route("api/account")]
-[ApiController]
+[AllowAnonymous]
 public class AuthorizeController : BaseApiController
 {
     /// <summary>
@@ -51,7 +50,6 @@ public class AuthorizeController : BaseApiController
     /// Выйти из системы
     /// </summary>
     [HttpDelete("logout")]
-    [SwaggerResponse(StatusCodes.Status200OK)]
     public async Task Logout()
     {
         if (User.Identity is { IsAuthenticated: true })

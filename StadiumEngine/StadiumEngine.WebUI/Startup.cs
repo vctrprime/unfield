@@ -134,8 +134,9 @@ namespace StadiumEngine.WebUI
             
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             
             if (env.IsDevelopment())
             {
