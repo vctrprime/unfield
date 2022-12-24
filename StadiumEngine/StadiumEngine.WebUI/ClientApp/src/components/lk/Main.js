@@ -1,3 +1,24 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {useRecoilValue} from "recoil";
+import {stadiumAtom} from "../../state/stadium";
+import {useFetchWrapper} from "../../helpers/fetch-wrapper";
 
-export const Main = () => (<span>Главная ЛК</span>);
+export const Main = () => {
+    const stadium = useRecoilValue(stadiumAtom);
+    const [data, setData] = useState(null);
+    
+    const fetchWrapper = useFetchWrapper();
+    
+    useEffect(() => {
+        loadData();
+    }, [stadium])
+    
+    const loadData = () => {
+        fetchWrapper.get('api/account/stadiums', null, null, false).then((result) => {
+            setData(JSON.stringify(result))
+        })
+    }
+    
+    
+    return (<span>Основные настройки {data}</span>);
+}

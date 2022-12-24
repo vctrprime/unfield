@@ -1,38 +1,65 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Bell, GearFill, PersonCircle} from 'react-bootstrap-icons';
 import {Dropdown} from "semantic-ui-react";
+import {useFetchWrapper} from "../../helpers/fetch-wrapper";
+import {useRecoilState} from "recoil";
+//import {authAtom} from "../../state/auth";
+import {stadiumAtom} from "../../state/stadium";
 
 
-export const Header = () => {
+export const Header = ({setIsAuthorized}) => {
+    //const auth = useRecoilValue(authAtom);
+    const [stadiums, setStadiums] = useState([])
+    const [stadium, setStadium] = useRecoilState(stadiumAtom);
+
+    const fetchWrapper = useFetchWrapper();
     
-    const data = [
-        {key: '1', text: 'Андреевская 2', value: '1'},
-        {key: '2', text: 'МонтКлер, 40', value: '2'}
-    ];
+    useEffect(() => {
+        
+        loadStadiums();
+    }, []);
+
+    const loadStadiums = () => {
+        fetchWrapper.get('api/account/stadiums').then((result) => {
+            setStadiums(result.map((s) => {
+                return { key: s.id, value: s.id, text: s.address }
+            }));
+            setStadium(result.find(s => s.isCurrent).id)
+            setIsAuthorized(true);
+        })
+    }
+
+
+    const changeStadium = (e, { value }) => {
+        fetchWrapper.put('api/account/change-stadium/' + value).then((result) => {
+            setStadium(value);
+        })
+    }
     
     return (
         <div className="border-bottom navbar navbar-light box-shadow lk-header">
-            <div className="stadium-list">
-                Текущий объект:  &nbsp;
-                <Dropdown
-                    inline
-                    options={data}
-                    defaultValue={data[0].value}
-                />
-            </div>
-            
-            <div className="header-icons">
-                <div className="settings-icon">
-                    <GearFill color="#354650" size={22}/>
-                </div>
-                <div className="bell-icon">
-                    <Bell color="#354650" size={22}/>
-                </div>
-                <div className="profile-icon">
-                    <PersonCircle color="#354650" size={22}/>
-                </div>
-                
-            </div>
-            
+            {stadium !== null && 
+                <div className="stadium-list">
+                    Текущий объект:  &nbsp;
+                    <Dropdown
+                        onChange={changeStadium}
+                        inline
+                        options={stadiums}
+                        defaultValue={stadium}
+                    />
+                </div>}
+
+            {stadium !== null && <div className="header-icons">
+                    <div className="settings-icon">
+                        <GearFill color="#354650" size={22}/>
+                    </div>
+                    <div className="bell-icon">
+                        <Bell color="#354650" size={22}/>
+                    </div>
+                    <div className="profile-icon">
+                        <PersonCircle color="#354650" size={22}/>
+                    </div>
+                    {/*<span>{auth.fullName}</span>*/}
+                </div>}
         </div>)
 };

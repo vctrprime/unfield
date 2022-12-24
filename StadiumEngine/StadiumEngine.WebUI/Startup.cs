@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using StadiumEngine.WebUI.Infrastructure.Extensions;
 using StadiumEngine.WebUI.Infrastructure.Middleware;
 
@@ -71,14 +73,18 @@ namespace StadiumEngine.WebUI
                     options.Events.OnRedirectToLogin = context =>
                     {
                         context.Response.StatusCode = 401;
+                        context.Response.WriteAsync(JsonConvert.SerializeObject(new
+                        {
+                            Message = "Вы не авторизованы!",
+                        }));
                         return Task.CompletedTask;
                     };
                     // Access denied return 403.
-                    options.Events.OnRedirectToAccessDenied = context =>
+                    /*options.Events.OnRedirectToAccessDenied = context =>
                     {
                         context.Response.StatusCode = 403;
                         return Task.CompletedTask;
-                    };
+                    };*/
                     options.ExpireTimeSpan = TimeSpan.FromHours(8);
                     options.SlidingExpiration = true;
                 });

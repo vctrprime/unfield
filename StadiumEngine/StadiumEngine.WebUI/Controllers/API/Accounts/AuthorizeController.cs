@@ -14,7 +14,6 @@ namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 /// Авторизация
 /// </summary>
 [Route("api/account")]
-[AllowAnonymous]
 public class AuthorizeController : BaseApiController
 {
     /// <summary>
@@ -24,11 +23,8 @@ public class AuthorizeController : BaseApiController
     [HttpGet]
     public async Task<AuthorizeUserDto> Get()
     {
-        if (User.Identity is not { IsAuthenticated: true }) throw new DomainException("Unauthorized");
-        
         var user = await Mediator.Send(new GetAuthorizedUserQuery());
         return user;
-
     }
     
     /// <summary>
@@ -37,6 +33,7 @@ public class AuthorizeController : BaseApiController
     /// <param name="command"></param>
     /// <returns></returns>
     [HttpPost("login")]
+    [AllowAnonymous]
     public async Task<AuthorizeUserDto> Login([FromBody] AuthorizeUserCommand command)
     {
         var user = await Mediator.Send(command);
@@ -64,6 +61,7 @@ public class AuthorizeController : BaseApiController
     /// Выйти из системы
     /// </summary>
     [HttpDelete("logout")]
+    [AllowAnonymous]
     public async Task Logout()
     {
         if (User.Identity is { IsAuthenticated: true })

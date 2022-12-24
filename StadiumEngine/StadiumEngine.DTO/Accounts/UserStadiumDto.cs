@@ -1,3 +1,6 @@
+using System.Data.Common;
+using Newtonsoft.Json;
+
 namespace StadiumEngine.DTO.Accounts;
 
 /// <summary>
@@ -24,4 +27,5 @@ public class UserStadiumDto
     /// Теущий выбранный стадион
     /// </summary>
     public bool IsCurrent { get; set; }
+
 }

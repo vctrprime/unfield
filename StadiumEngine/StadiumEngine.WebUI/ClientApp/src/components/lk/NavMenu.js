@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink, useNavigate} from "react-router-dom";
 import {useFetchWrapper} from "../../helpers/fetch-wrapper";
-import {useRecoilState} from "recoil";
+import {useSetRecoilState} from "recoil";
 import {authAtom} from "../../state/auth";
 import {
     CDBSidebar,
@@ -16,9 +16,9 @@ import '../../css/lk/NavMenu.scss';
 
 
 
-export const NavMenu = () => {
+export const NavMenu = ({isAuthorized}) => {
     const fetchWrapper = useFetchWrapper();
-    const [auth, setAuth] = useRecoilState(authAtom);
+    const setAuth = useSetRecoilState(authAtom);
     const navigate = useNavigate();
     
     const logout = () => {
@@ -45,7 +45,7 @@ export const NavMenu = () => {
                             <NavLink exact="true" to="/lk" end className={({isActive}) => //(isActive) --> ({isActive})
                                 isActive ? "activeClicked" : undefined
                             }>
-                                <CDBSidebarMenuItem title="Dashboard"  icon="columns">Dashboard</CDBSidebarMenuItem>
+                                <CDBSidebarMenuItem title="Основные настройки"  icon="columns">Основные настройки</CDBSidebarMenuItem>
                             </NavLink>
                             <NavLink exact="true" to="/lk/schedule" end className={({isActive}) => //(isActive) --> ({isActive})
                                 isActive ? "activeClicked" : undefined
@@ -82,7 +82,7 @@ export const NavMenu = () => {
                         </CDBSidebarMenu>
                     </CDBSidebarContent>
 
-                    <CDBSidebarFooter>
+                   <CDBSidebarFooter>
                         <div onClick={logout}>
                             <CDBSidebarMenuItem icon="power-off">Выйти</CDBSidebarMenuItem>
                         </div>

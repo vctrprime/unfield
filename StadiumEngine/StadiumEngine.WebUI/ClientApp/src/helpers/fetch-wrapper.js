@@ -1,4 +1,4 @@
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 import { authAtom } from '../state/auth';
 import {loadingAtom} from "../state/loading";
@@ -9,8 +9,8 @@ import {NotificationManager} from "react-notifications";
 export { useFetchWrapper };
 
 function useFetchWrapper() {
-    const [auth, setAuth] = useRecoilState(authAtom);
-    const [loading, setLoading] = useRecoilState(loadingAtom);
+    const setAuth = useSetRecoilState(authAtom);
+    const setLoading = useSetRecoilState(loadingAtom);
     const navigate = useNavigate();
 
     return {
@@ -39,9 +39,9 @@ function useFetchWrapper() {
         setLoading(false);
         return response.text().then(text => {
             const data = text && JSON.parse(text);
-
+            
             if (!response.ok) {
-                if ([401].includes(response.status) && auth?.token) {
+                if ([401].includes(response.status)) {
                     // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
                     localStorage.removeItem('user');
                     setAuth(null);

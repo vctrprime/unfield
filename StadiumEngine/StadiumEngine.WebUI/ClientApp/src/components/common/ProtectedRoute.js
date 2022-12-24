@@ -6,8 +6,6 @@ import {authAtom} from "../../state/auth";
 function ProtectedRoute({ component: Component, ...restOfProps }) {
     const auth = useRecoilValue(authAtom);
     
-    console.log(auth);
-    
     return auth ? <Component {...restOfProps}/> : <Navigate to="/lk/sign-in" />
     
 }

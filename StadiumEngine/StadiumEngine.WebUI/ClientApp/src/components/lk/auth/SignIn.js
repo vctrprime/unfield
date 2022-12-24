@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
-import { useRecoilState } from 'recoil';
+import React from 'react';
+import { useSetRecoilState } from 'recoil';
 import { authAtom } from '../../../state/auth';
 import {Link, NavLink, useNavigate} from "react-router-dom";
-import {NavbarBrand, NavItem} from "reactstrap";
+import {NavbarBrand} from "reactstrap";
 import {useFetchWrapper} from "../../../helpers/fetch-wrapper";
 import logo from "../../../img/logo/logo_icon_with_title.png";
 export const SignIn = () => {
-    const [auth, setAuth] = useRecoilState(authAtom);
+    const setAuth = useSetRecoilState(authAtom);
     const fetchWrapper = useFetchWrapper();
     const navigate = useNavigate();
 

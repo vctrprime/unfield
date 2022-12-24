@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link, NavLink, Outlet} from "react-router-dom";
 import {NavMenu} from "./NavMenu";
 import {Header} from "./Header";
@@ -8,6 +8,8 @@ import {NavbarBrand} from "reactstrap";
 import logo from "../../img/logo/logo_icon_with_title.png";
 
 export const Layout = () => {
+    const [isAuthorized, setIsAuthorized] = useState(false);
+    
     if(isMobile) {
         return (
             <div className="sign-in-container">
@@ -40,12 +42,12 @@ export const Layout = () => {
         <div
             style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' }}
         >
-            <NavMenu />
+            <NavMenu isAuthorized={isAuthorized}/>
             <div className="right-container">
-                <Header />
-                <div className="content-container">
+                <Header setIsAuthorized={setIsAuthorized} />
+                {isAuthorized && <div className="content-container">
                     <Outlet />
-                </div>
+                </div>}
             </div>
            
         </div>
