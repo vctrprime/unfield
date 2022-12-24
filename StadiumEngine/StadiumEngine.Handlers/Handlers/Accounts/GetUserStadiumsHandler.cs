@@ -1,5 +1,4 @@
 using AutoMapper;
-using Mediator;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.Handlers.Queries.Accounts;
 using StadiumEngine.Repositories.Abstract.Accounts;
@@ -7,7 +6,7 @@ using StadiumEngine.Services.Auth.Abstract;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts;
 
-internal class GetUserStadiumsHandler :  BaseRequestHandler, IRequestHandler<GetUserStadiumsQuery, List<UserStadiumDto>>
+internal sealed class GetUserStadiumsHandler :  BaseRequestHandler<GetUserStadiumsQuery, List<UserStadiumDto>>
 {
     private readonly IUserStadiumRepository _repository;
 
@@ -16,7 +15,7 @@ internal class GetUserStadiumsHandler :  BaseRequestHandler, IRequestHandler<Get
         _repository = repository;
     }
     
-    public async ValueTask<List<UserStadiumDto>> Handle(GetUserStadiumsQuery request, CancellationToken cancellationToken)
+    public override async ValueTask<List<UserStadiumDto>> Handle(GetUserStadiumsQuery request, CancellationToken cancellationToken)
     {
         var userId = ClaimsIdentityService.GetUserId();
         var stadiums = await _repository.Get(userId);

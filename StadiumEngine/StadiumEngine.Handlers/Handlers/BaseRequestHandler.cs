@@ -1,9 +1,10 @@
 using AutoMapper;
+using Mediator;
 using StadiumEngine.Services.Auth.Abstract;
 
 namespace StadiumEngine.Handlers.Handlers;
 
-internal abstract class BaseRequestHandler
+internal abstract class BaseRequestHandler<TRequest, TResponse> : IRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     protected readonly IMapper Mapper;
     protected readonly IClaimsIdentityService ClaimsIdentityService;
@@ -13,4 +14,5 @@ internal abstract class BaseRequestHandler
         Mapper = mapper;
         ClaimsIdentityService = claimsIdentityService;
     }
+    public abstract ValueTask<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
 }

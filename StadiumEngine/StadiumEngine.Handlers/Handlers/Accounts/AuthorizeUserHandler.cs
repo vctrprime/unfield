@@ -6,7 +6,7 @@ using StadiumEngine.Repositories.Abstract.Accounts;
 using StadiumEngine.Services.Auth.Abstract;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts;
-internal class AuthorizeUserHandler : BaseRequestHandler, IRequestHandler<AuthorizeUserCommand, AuthorizeUserDto?>
+internal sealed class AuthorizeUserHandler : BaseRequestHandler<AuthorizeUserCommand, AuthorizeUserDto?>
 {
     private readonly IUserRepository _repository;
 
@@ -16,7 +16,7 @@ internal class AuthorizeUserHandler : BaseRequestHandler, IRequestHandler<Author
         _repository = repository;
     }
 
-    public async ValueTask<AuthorizeUserDto?> Handle(AuthorizeUserCommand request, CancellationToken cancellationToken)
+    public override async ValueTask<AuthorizeUserDto?> Handle(AuthorizeUserCommand request, CancellationToken cancellationToken)
     {
         var user = await _repository.Get(request.Login, request.Password);
 

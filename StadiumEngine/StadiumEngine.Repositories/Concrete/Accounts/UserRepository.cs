@@ -19,6 +19,13 @@ internal class UserRepository : BaseRepository, IUserRepository
             .FirstOrDefaultAsync(u => u.PhoneNumber == login && u.Password == password);
     }
 
+    public async Task<User?> Get(int id)
+    {
+        return await Context
+            .Users
+            .FindAsync(id);
+    }
+
     public async Task<User> Update(User user)
     {
         var entity = await Context.Users.FindAsync(user.Id);
