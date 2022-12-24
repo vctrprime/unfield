@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink, useNavigate} from "react-router-dom";
 import {useFetchWrapper} from "../../helpers/fetch-wrapper";
-import {useSetRecoilState} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {authAtom} from "../../state/auth";
 import {
     CDBSidebar,
@@ -13,13 +13,16 @@ import {
 } from 'cdbreact';
 import logo from "../../img/logo/logo_icon_with_title_white.png";
 import '../../css/lk/NavMenu.scss';
+import {stadiumAtom} from "../../state/stadium";
 
 
 
-export const NavMenu = ({isAuthorized}) => {
+export const NavMenu = () => {
     const fetchWrapper = useFetchWrapper();
     const setAuth = useSetRecoilState(authAtom);
     const navigate = useNavigate();
+
+    const stadium = useRecoilValue(stadiumAtom);
     
     const logout = () => {
         fetchWrapper.delete(`api/account/logout`)
@@ -41,7 +44,7 @@ export const NavMenu = ({isAuthorized}) => {
                     </CDBSidebarHeader>
 
                     <CDBSidebarContent className="sidebar-content">
-                        <CDBSidebarMenu>
+                        {stadium !== null && <CDBSidebarMenu>
                             <NavLink exact="true" to="/lk" end className={({isActive}) => //(isActive) --> ({isActive})
                                 isActive ? "activeClicked" : undefined
                             }>
@@ -63,29 +66,13 @@ export const NavMenu = ({isAuthorized}) => {
                                 <CDBSidebarMenuItem title="Персонал" icon="users">Персонал</CDBSidebarMenuItem>
                             </NavLink>
                             
-                            {/*<NavLink exact to="/analytics" activeClassName="activeClicked">
-                                <CDBSidebarMenuItem icon="chart-line">
-                                    Analytics
-                                </CDBSidebarMenuItem>
-                            </NavLink>
-
-                            <NavLink
-                                exact
-                                to="/hero404"
-                                target="_blank"
-                                activeClassName="activeClicked"
-                            >
-                                <CDBSidebarMenuItem icon="exclamation-circle">
-                                    404 page
-                                </CDBSidebarMenuItem>
-                            </NavLink>*/}
-                        </CDBSidebarMenu>
+                        </CDBSidebarMenu>}
                     </CDBSidebarContent>
 
                    <CDBSidebarFooter>
-                        <div onClick={logout}>
+                       {stadium !== null && <div onClick={logout}>
                             <CDBSidebarMenuItem icon="power-off">Выйти</CDBSidebarMenuItem>
-                        </div>
+                        </div>}
                     </CDBSidebarFooter>
                 </CDBSidebar>)
 }

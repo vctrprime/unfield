@@ -6,9 +6,11 @@ import '../../css/lk/Main.scss';
 import {isMobile} from 'react-device-detect';
 import {NavbarBrand} from "reactstrap";
 import logo from "../../img/logo/logo_icon_with_title.png";
+import {useRecoilValue} from "recoil";
+import {stadiumAtom} from "../../state/stadium";
 
 export const Layout = () => {
-    const [isAuthorized, setIsAuthorized] = useState(false);
+    const stadium = useRecoilValue(stadiumAtom);
     
     if(isMobile) {
         return (
@@ -42,10 +44,10 @@ export const Layout = () => {
         <div
             style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' }}
         >
-            <NavMenu isAuthorized={isAuthorized}/>
+            <NavMenu />
             <div className="right-container">
-                <Header setIsAuthorized={setIsAuthorized} />
-                {isAuthorized && <div className="content-container">
+                <Header />
+                {stadium !== null && <div className="content-container">
                     <Outlet />
                 </div>}
             </div>

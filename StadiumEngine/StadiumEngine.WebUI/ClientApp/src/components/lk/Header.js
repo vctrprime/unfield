@@ -7,7 +7,7 @@ import {useRecoilState} from "recoil";
 import {stadiumAtom} from "../../state/stadium";
 
 
-export const Header = ({setIsAuthorized}) => {
+export const Header = () => {
     //const auth = useRecoilValue(authAtom);
     const [stadiums, setStadiums] = useState([])
     const [stadium, setStadium] = useRecoilState(stadiumAtom);
@@ -24,8 +24,7 @@ export const Header = ({setIsAuthorized}) => {
             setStadiums(result.map((s) => {
                 return { key: s.id, value: s.id, text: s.address }
             }));
-            setStadium(result.find(s => s.isCurrent).id)
-            setIsAuthorized(true);
+            setStadium(result.find(s => s.isCurrent).id);
         })
     }
 
