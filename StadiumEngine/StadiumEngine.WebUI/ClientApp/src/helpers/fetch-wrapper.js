@@ -21,7 +21,13 @@ function useFetchWrapper() {
     };
 
     function request(method) {
-        return (url, body = null, successMessage = null, withSpinner = true) => {
+        return ({
+                    url, 
+                    body = null, 
+                    successMessage = null, 
+                    withSpinner = true,
+                    hideSpinner = true
+                } = {}) => {
             if (withSpinner) setLoading(true);
             const requestOptions = {
                 method,
@@ -31,16 +37,18 @@ function useFetchWrapper() {
                 requestOptions.headers['Content-Type'] = 'application/json';
                 requestOptions.body = JSON.stringify(body);
             }
-            return fetch(url, requestOptions).then((response) => handleResponse(response, successMessage));
+            return fetch(url, requestOptions).then((response) => handleResponse(response, successMessage, hideSpinner, withSpinner));
         }
     }
     
-    function handleResponse(response, successMessage) {
-        setLoading(false);
+    function handleResponse(response, successMessage, hideSpinner, withSpinner) {
+        if (withSpinner && hideSpinner) setLoading(false);
+        
         return response.text().then(text => {
             const data = text && JSON.parse(text);
             
             if (!response.ok) {
+                setLoading(false);
                 if ([401].includes(response.status)) {
                     // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
                     localStorage.removeItem('user');

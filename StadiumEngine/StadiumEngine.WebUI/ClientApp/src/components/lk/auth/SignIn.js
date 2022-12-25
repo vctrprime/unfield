@@ -15,7 +15,11 @@ export const SignIn = () => {
 
         const { login, password } = document.forms[0];
         
-        fetchWrapper.post(`api/account/login`, { login: login.value, password: password.value })
+        fetchWrapper.post({
+            url: `api/account/login`,
+            body: { login: login.value, password: password.value },
+            hideSpinner: false
+        })
             .then(user => {
                 localStorage.setItem('user', JSON.stringify(user));
                 setAuth(user);

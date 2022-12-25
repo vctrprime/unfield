@@ -25,7 +25,7 @@ export const NavMenu = () => {
     const stadium = useRecoilValue(stadiumAtom);
     
     const logout = () => {
-        fetchWrapper.delete(`api/account/logout`)
+        fetchWrapper.delete({url: `api/account/logout`})
             .finally(() => {
                 localStorage.removeItem('user');
                 setAuth(null);

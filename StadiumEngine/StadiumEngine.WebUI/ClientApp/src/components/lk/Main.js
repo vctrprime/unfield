@@ -9,15 +9,15 @@ export const Main = () => {
     
     const fetchWrapper = useFetchWrapper();
     
-    useEffect(() => {
+    /*useEffect(() => {
         loadData();
     }, [stadium])
     
     const loadData = () => {
-        fetchWrapper.get('api/account/stadiums', null, null, false).then((result) => {
+        fetchWrapper.get({url: 'api/account/stadiums'}).then((result) => {
             setData(JSON.stringify(result))
         })
-    }
+    }*/
     
     
     return (<span>Основные настройки {data}</span>);
