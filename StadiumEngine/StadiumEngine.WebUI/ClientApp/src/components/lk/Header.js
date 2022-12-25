@@ -20,7 +20,7 @@ export const Header = () => {
     }, []);
 
     const loadStadiums = () => {
-        fetchWrapper.get({url: 'api/account/stadiums', withSpinner: false}).then((result) => {
+        fetchWrapper.get({url: 'api/account/stadiums', withSpinner: true, hideSpinner: false}).then((result) => {
             setStadiums(result.map((s) => {
                 return { key: s.id, value: s.id, text: s.address }
             }));

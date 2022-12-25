@@ -27,6 +27,12 @@ internal class ClaimsIdentityService : IClaimsIdentityService
         return GetClaim<int?>("roleId");
     }
 
+    public string? GetRoleName()
+    {
+        var result = GetClaim<string?>("roleName");
+        return string.IsNullOrEmpty(result) ? null : result;
+    }
+
     public int GetLegalId()
     {
         return GetClaim<int>("legalId");

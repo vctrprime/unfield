@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavLink, useNavigate} from "react-router-dom";
 import {useFetchWrapper} from "../../helpers/fetch-wrapper";
-import {useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {authAtom} from "../../state/auth";
 import {
     CDBSidebar,
@@ -14,6 +14,7 @@ import {
 import logo from "../../img/logo/logo_icon_with_title_white.png";
 import '../../css/lk/NavMenu.scss';
 import {stadiumAtom} from "../../state/stadium";
+import {permissionsAtom} from "../../state/permissions";
 
 
 
@@ -21,19 +22,33 @@ export const NavMenu = () => {
     const fetchWrapper = useFetchWrapper();
     const setAuth = useSetRecoilState(authAtom);
     const navigate = useNavigate();
-
-    const stadium = useRecoilValue(stadiumAtom);
+    
+    const [stadium, setStadium] = useRecoilState(stadiumAtom);
+    const [permissions, setPermissions] = useRecoilState(permissionsAtom);
     
     const logout = () => {
         fetchWrapper.delete({url: `api/account/logout`})
             .finally(() => {
                 localStorage.removeItem('user');
                 setAuth(null);
+                setStadium(null);
+                setPermissions([]);
                 navigate("/lk/sign-in");
                 //window.location.pathname = ;
             });
     }
     
+    useEffect(() => {
+        if (permissions.length === 0) {
+            fetchWrapper.get({url: `api/account/permissions`, withSpinner: true, hideSpinner: true}).then((result) => {
+                setPermissions(result);
+            })
+        }
+    }, [stadium])
+    
+    const viewNavLink = (key) => {
+        return permissions.filter(p => p.groupKey === key).length > 0;
+    }
     
     return (
             
@@ -44,29 +59,45 @@ export const NavMenu = () => {
                     </CDBSidebarHeader>
 
                     <CDBSidebarContent className="sidebar-content">
-                        {stadium !== null && <CDBSidebarMenu>
-                            <NavLink exact="true" to="/lk" end className={({isActive}) => //(isActive) --> ({isActive})
+                        <CDBSidebarMenu>
+
+                            {permissions.length > 0 ? <NavLink exact="true" to="/lk" end className={({isActive}) => //(isActive) --> ({isActive})
                                 isActive ? "activeClicked" : undefined
                             }>
                                 <CDBSidebarMenuItem title="Основные настройки"  icon="columns">Основные настройки</CDBSidebarMenuItem>
-                            </NavLink>
-                            <NavLink exact="true" to="/lk/schedule" end className={({isActive}) => //(isActive) --> ({isActive})
+                            </NavLink> : <span/>}
+
+                            {viewNavLink('schedule') ? <NavLink exact="true" to="/lk/schedule" end className={({isActive}) => //(isActive) --> ({isActive})
                                 isActive ? "activeClicked" : undefined
                             }>
                                 <CDBSidebarMenuItem title="Шахматка броней" icon="table">Шахматка броней</CDBSidebarMenuItem>
-                            </NavLink>
-                            <NavLink exact="true" to="/lk/actives" end className={({isActive}) => //(isActive) --> ({isActive})
+                            </NavLink> : <span/>}
+
+                            {viewNavLink('actives') ? <NavLink exact="true" to="/lk/actives" end className={({isActive}) => //(isActive) --> ({isActive})
                                 isActive ? "activeClicked" : undefined
                             }>
                                 <CDBSidebarMenuItem title="Активы" icon="object-ungroup">Активы</CDBSidebarMenuItem>
-                            </NavLink>
-                            <NavLink exact="true" to="/lk/employees" end className={({isActive}) => //(isActive) --> ({isActive})
+                            </NavLink> : <span/>}
+
+                            {viewNavLink('employees') ? <NavLink exact="true" to="/lk/employees" end className={({isActive}) => //(isActive) --> ({isActive})
                                 isActive ? "activeClicked" : undefined
                             }>
-                                <CDBSidebarMenuItem title="Персонал" icon="users">Персонал</CDBSidebarMenuItem>
-                            </NavLink>
+                                <CDBSidebarMenuItem title="Персонал" icon="user-tie">Персонал</CDBSidebarMenuItem>
+                            </NavLink> : <span/>}
+
+                            {viewNavLink('reports') ? <NavLink exact="true" to="/lk/reports" end className={({isActive}) => //(isActive) --> ({isActive})
+                                isActive ? "activeClicked" : undefined
+                            }>
+                                <CDBSidebarMenuItem title="Отчетность" icon="chart-line">Отчетность</CDBSidebarMenuItem>
+                            </NavLink> : <span/>}
+
+                            {viewNavLink('accounts') ? <NavLink exact="true" to="/lk/accounts" end className={({isActive}) => //(isActive) --> ({isActive})
+                                isActive ? "activeClicked" : undefined
+                            }>
+                                <CDBSidebarMenuItem title="Аккаунты и роли" icon="users">Аккаунты и роли</CDBSidebarMenuItem>
+                            </NavLink> : <span/>}
                             
-                        </CDBSidebarMenu>}
+                        </CDBSidebarMenu>
                     </CDBSidebarContent>
 
                    <CDBSidebarFooter>

@@ -15,7 +15,9 @@ internal sealed class GetAuthorizedUserHandler : BaseRequestHandler<GetAuthorize
     {
         var user = new AuthorizeUserDto
         {
-            FullName = ClaimsIdentityService.GetUserName()
+            FullName = ClaimsIdentityService.GetUserName(),
+            IsSuperuser = ClaimsIdentityService.GetIsSuperuser(),
+            RoleName = ClaimsIdentityService.GetRoleName()
         };
 
         return user;

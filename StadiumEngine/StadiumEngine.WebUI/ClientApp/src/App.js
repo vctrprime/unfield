@@ -43,6 +43,8 @@ export default class App extends Component {
                   <Route path="actives" element={<Actives />} />
                   <Route path="schedule" element={<Schedule />} />
                   <Route path="employees" element={<Employees />} />
+                  <Route path="reports" element={<Main />} />
+                  <Route path="accounts" element={<Main />} />
               </Route>
           </Routes>
       </Layout>

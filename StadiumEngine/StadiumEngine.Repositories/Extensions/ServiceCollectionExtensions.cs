@@ -33,6 +33,7 @@ public static class ServiceCollectionExtensions
         #region accounts
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserStadiumRepository, UserStadiumRepository>();
+        services.AddScoped<IUserPermissionRepository, UserPermissionRepository>();
         #endregion
         
         return services;

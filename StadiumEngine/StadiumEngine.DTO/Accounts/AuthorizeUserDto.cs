@@ -13,6 +13,16 @@ public class AuthorizeUserDto
     /// </summary>
     public string FullName { get; set; }
     
+    /// <summary>
+    /// Название роли
+    /// </summary>
+    public string? RoleName { get; set; }
+    
+    /// <summary>
+    /// Флаг суперюзера
+    /// </summary>
+    public bool IsSuperuser { get; set; }
+    
     [JsonIgnore]
     public List<Claim> Claims { get; set; }
 }
