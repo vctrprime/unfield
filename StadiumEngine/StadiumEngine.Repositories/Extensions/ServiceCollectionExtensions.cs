@@ -22,7 +22,7 @@ public static class ServiceCollectionExtensions
         var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
         services.AddDbContext<MainDbContext>(options =>
         {
-            options.UseLazyLoadingProxies().UseNpgsql(connectionString);
+            options.UseNpgsql(connectionString);
         });
 
         return services;

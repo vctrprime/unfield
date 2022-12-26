@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Data.Infrastructure.Contexts;
 using StadiumEngine.Entities.Domain.Offers;
@@ -17,8 +18,8 @@ internal class UserStadiumRepository : BaseRepository, IUserStadiumRepository
 
         if (user is null) throw new DomainException("User not found!");
 
-        return user.IsSuperuser ? 
-            user.Legal.Stadiums.ToList() : 
-            user.Role.RoleStadiums.Select(rs => rs.Stadium).ToList();
+        return user.IsSuperuser
+            ? await Context.Stadiums.Where(s => s.LegalId == user.LegalId).ToListAsync()
+            : await Context.RoleStadiums.Where(rs => rs.RoleId == user.RoleId).Select(rs => rs.Stadium).ToListAsync();
     }
 }

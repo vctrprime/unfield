@@ -16,6 +16,12 @@ internal class UserRepository : BaseRepository, IUserRepository
     {
         return await Context
             .Users
+            .Include(u => u.Role)
+            .ThenInclude(r => r.RolePermissions).ThenInclude(rp => rp.Permission)
+            .Include(u => u.Role)
+            .ThenInclude(r => r.RoleStadiums)
+            .Include(u => u.Legal)
+            .ThenInclude(l => l.Stadiums)
             .FirstOrDefaultAsync(u => u.PhoneNumber == login && u.Password == password);
     }
 
@@ -23,7 +29,13 @@ internal class UserRepository : BaseRepository, IUserRepository
     {
         return await Context
             .Users
-            .FindAsync(id);
+            .Include(u => u.Role)
+            .ThenInclude(r => r.RolePermissions).ThenInclude(rp => rp.Permission)
+            .Include(u => u.Role)
+            .ThenInclude(r => r.RoleStadiums)
+            .Include(u => u.Legal)
+            .ThenInclude(l => l.Stadiums)
+            .FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task<User> Update(User user)

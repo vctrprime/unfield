@@ -20,9 +20,14 @@ internal class UserPermissionRepository : BaseRepository, IUserPermissionReposit
 
         if (user.IsSuperuser)
         {
-            return await Context.Permissions.ToListAsync();
+            return await Context.Permissions.Include(p => p.PermissionGroup).ToListAsync();
         }
 
-        return user.Role.RolePermissions.Select(rp => rp.Permission).ToList();
+        return await Context.RolePermissions
+            .Include(rp => rp.Permission)
+            .ThenInclude(p => p.PermissionGroup)
+            .Where(rp => rp.RoleId == user.RoleId)
+            .Select(rp => rp.Permission)
+            .ToListAsync();
     }
 }

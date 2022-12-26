@@ -1,0 +1,39 @@
+using System.Linq;
+using System.Threading.Tasks;
+using Mediator;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using StadiumEngine.Handlers.Queries.Accounts;
+
+namespace StadiumEngine.WebUI.Infrastructure.Attributes;
+
+public class HasPermissionAttribute : ActionFilterAttribute
+{
+    private readonly string _permission;
+    
+    public HasPermissionAttribute(string permission)
+    {
+        _permission = permission;
+    }
+    
+    public override void OnActionExecuting(ActionExecutingContext context)
+    {
+        var mediator = (IMediator)context.HttpContext.RequestServices.GetService(typeof(IMediator));
+        if (mediator != null)
+        {
+            var permissions = mediator.Send(new GetUserPermissionsQuery()).GetAwaiter().GetResult();
+            
+            if (permissions.Select(p => p.Name.ToLower()).Contains(_permission.ToLower())) return;
+        }
+        
+        context.Result = new ObjectResult(new
+        {
+            Message = "Доступ запрещен!",
+        })
+        {
+            StatusCode = StatusCodes.Status403Forbidden
+        };
+       
+    }
+}

@@ -48,16 +48,16 @@ function useFetchWrapper() {
             const data = text && JSON.parse(text);
             
             if (!response.ok) {
+                const error = (data && data.message) || response.statusText;
+                
                 setLoading(false);
                 if ([401].includes(response.status)) {
-                    // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
                     localStorage.removeItem('user');
                     setAuth(null);
                     navigate("/lk/sign-in");
+                    return Promise.reject(error);
                 }
-
-                const error = (data && data.message) || response.statusText;
-                //alertActions.error(error);
+                
                 NotificationManager.error(error, "Ошибка", 2000);
                 
                 return Promise.reject(error);

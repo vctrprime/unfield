@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.Handlers.Queries.Accounts;
@@ -9,19 +8,20 @@ using StadiumEngine.WebUI.Infrastructure.Attributes;
 namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 
 /// <summary>
-/// Разрешения пользователя
+/// Пользователи
 /// </summary>
-[Route("api/account/permissions")]
-public class UserPermissionController : BaseApiController
+[Route("api/users")]
+public class UserController : BaseApiController
 {
     /// <summary>
-    /// Разрешения пользователя
+    /// Пользователи
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public async Task<List<UserPermissionDto>> Get()
+    [HasPermission("get-users")]
+    public async Task<List<UserStadiumDto>> Get()
     {
-        var permissions = await Mediator.Send(new GetUserPermissionsQuery());
-        return permissions;
+        var stadiums = await Mediator.Send(new GetUserStadiumsQuery());
+        return stadiums;
     }
 }
