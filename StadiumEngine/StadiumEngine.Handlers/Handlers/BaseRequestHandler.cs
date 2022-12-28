@@ -1,6 +1,6 @@
 using AutoMapper;
 using Mediator;
-using StadiumEngine.Services.Auth.Abstract;
+using StadiumEngine.Domain.Services.Identity;
 
 namespace StadiumEngine.Handlers.Handlers;
 

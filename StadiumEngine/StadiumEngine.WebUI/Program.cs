@@ -14,8 +14,14 @@ using Serilog.Filters;
 
 namespace StadiumEngine.WebUI
 {
+    /// <summary>
+    /// Точка входа
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Точка входа
+        /// </summary>
         public static void Main(string[] args)
         {
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
@@ -37,7 +43,12 @@ namespace StadiumEngine.WebUI
             
             CreateHostBuilder(args).Build().Run();
         }
-
+        
+        /// <summary>
+        /// Билд приложения
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args).UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });

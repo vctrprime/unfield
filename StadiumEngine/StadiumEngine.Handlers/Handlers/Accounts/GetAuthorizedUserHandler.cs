@@ -1,7 +1,7 @@
 using AutoMapper;
+using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.Handlers.Queries.Accounts;
-using StadiumEngine.Services.Auth.Abstract;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts;
 
@@ -13,13 +13,19 @@ internal sealed class GetAuthorizedUserHandler : BaseRequestHandler<GetAuthorize
 
     public override async ValueTask<AuthorizeUserDto> Handle(GetAuthorizedUserQuery request, CancellationToken cancellationToken)
     {
-        var user = new AuthorizeUserDto
+        var task = Task.Run(() =>
         {
-            FullName = ClaimsIdentityService.GetUserName(),
-            IsSuperuser = ClaimsIdentityService.GetIsSuperuser(),
-            RoleName = ClaimsIdentityService.GetRoleName()
-        };
+            var user = new AuthorizeUserDto
+            {
+                FullName = ClaimsIdentityService.GetUserName(),
+                IsSuperuser = ClaimsIdentityService.GetIsSuperuser(),
+                RoleName = ClaimsIdentityService.GetRoleName()
+            };
+            return user;
+        }, cancellationToken);
+        
+        var result = await task;
 
-        return user;
+        return result;
     }
 }

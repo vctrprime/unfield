@@ -1,8 +1,8 @@
 using AutoMapper;
+using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.Handlers.Queries.Accounts;
-using StadiumEngine.Repositories.Abstract.Accounts;
-using StadiumEngine.Services.Auth.Abstract;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts;
 

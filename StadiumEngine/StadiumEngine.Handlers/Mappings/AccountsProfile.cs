@@ -1,8 +1,8 @@
 using System.Security.Claims;
 using AutoMapper;
+using StadiumEngine.Domain.Entities.Accounts;
+using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.DTO.Accounts;
-using StadiumEngine.Entities.Domain.Accounts;
-using StadiumEngine.Entities.Domain.Offers;
 
 namespace StadiumEngine.Handlers.Mappings;
 

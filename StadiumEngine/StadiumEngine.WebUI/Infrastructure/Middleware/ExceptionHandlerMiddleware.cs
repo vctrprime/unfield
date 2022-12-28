@@ -56,11 +56,25 @@ public static class ExceptionHandlerMiddleware
         });
     }
     
+    /// <summary>
+    /// Объект ошибки
+    /// </summary>
     public class ErrorDetails
     {
+        /// <summary>
+        /// Код
+        /// </summary>
         public int StatusCode { get; set; }
+        
+        /// <summary>
+        /// Сообщение
+        /// </summary>
         public string Message { get; set; }
-
+        
+        /// <summary>
+        /// Строковое представление
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);

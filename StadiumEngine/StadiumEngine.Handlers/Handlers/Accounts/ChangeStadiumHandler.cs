@@ -1,10 +1,10 @@
 using System.Security.Claims;
 using AutoMapper;
 using StadiumEngine.Common.Exceptions;
+using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.Handlers.Commands.Accounts;
-using StadiumEngine.Repositories.Abstract.Accounts;
-using StadiumEngine.Services.Auth.Abstract;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts;
 

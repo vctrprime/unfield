@@ -23,20 +23,32 @@ using StadiumEngine.WebUI.Infrastructure.Middleware;
 
 namespace StadiumEngine.WebUI
 {
+    /// <summary>
+    /// Установочный класс
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Установочный класс
+        /// </summary>
         public Startup(IConfiguration configuration,
             IWebHostEnvironment environment)
         {
             Configuration = configuration;
             _environment = environment;
         }
-
+        
+        /// <summary>
+        /// Объект конфигурации
+        /// </summary>
         public IConfiguration Configuration { get; }
         
         private readonly IWebHostEnvironment _environment;
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// Конфигурация сервисов
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
             var folderPath = 
@@ -105,7 +117,12 @@ namespace StadiumEngine.WebUI
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// Конфигурация конвейера
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        /// <param name="logger"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             env.WriteReactEnvAppVersion();

@@ -12,8 +12,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\StadiumEngine.Common\StadiumEngine.Common.csproj" />
-      <ProjectReference Include="..\StadiumEngine.Entities\StadiumEngine.Entities.csproj" PrivateAssets="All" />
+      <ProjectReference Include="..\StadiumEngine.Common\StadiumEngine.Common.csproj" PrivateAssets="All" />
+      <ProjectReference Include="..\StadiumEngine.Domain\StadiumEngine.Domain.csproj" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Infrastructure" />
     </ItemGroup>
 
 </Project>

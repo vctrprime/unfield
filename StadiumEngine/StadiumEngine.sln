@@ -6,7 +6,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{5F72A127-EEB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{2E204052-5F0F-431E-A767-1C6E7B18AD52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StadiumEngine.Entities", "StadiumEngine.Entities\StadiumEngine.Entities.csproj", "{5584AC2C-2707-40A9-AD43-15CC2781003F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StadiumEngine.Domain", "StadiumEngine.Domain\StadiumEngine.Domain.csproj", "{5584AC2C-2707-40A9-AD43-15CC2781003F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StadiumEngine.DTO", "StadiumEngine.DTO\StadiumEngine.DTO.csproj", "{FE4BE2B7-5FB0-4A7A-844D-0A4BB0ABC9A7}"
 EndProject

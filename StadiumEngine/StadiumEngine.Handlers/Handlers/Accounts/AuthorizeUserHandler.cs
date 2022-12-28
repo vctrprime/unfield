@@ -1,9 +1,8 @@
 using AutoMapper;
-using Mediator;
+using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.Handlers.Commands.Accounts;
-using StadiumEngine.Repositories.Abstract.Accounts;
-using StadiumEngine.Services.Auth.Abstract;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts;
 internal sealed class AuthorizeUserHandler : BaseRequestHandler<AuthorizeUserCommand, AuthorizeUserDto?>
@@ -18,6 +17,8 @@ internal sealed class AuthorizeUserHandler : BaseRequestHandler<AuthorizeUserCom
 
     public override async ValueTask<AuthorizeUserDto?> Handle(AuthorizeUserCommand request, CancellationToken cancellationToken)
     {
+        if (request.Login == null || request.Password == null) return null;
+        
         var user = await _repository.Get(request.Login, request.Password);
 
         if (user == null) return null;

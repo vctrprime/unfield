@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using StadiumEngine.Services.Auth.Abstract;
-using StadiumEngine.Services.Auth.Concrete;
+using StadiumEngine.Domain.Services.Identity;
+using StadiumEngine.Services.Identity;
 
 namespace StadiumEngine.Services.Extensions;
 

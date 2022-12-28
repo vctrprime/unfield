@@ -2,7 +2,7 @@ using AutoMapper;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Handlers.Mappings;
-using StadiumEngine.Repositories.Extensions;
+using StadiumEngine.Repositories.Infrastructure.Extensions;
 using StadiumEngine.Services.Extensions;
 
 namespace StadiumEngine.Handlers.Extensions;
