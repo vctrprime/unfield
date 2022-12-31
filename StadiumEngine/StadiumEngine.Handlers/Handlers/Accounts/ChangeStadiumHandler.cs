@@ -2,6 +2,7 @@ using System.Security.Claims;
 using AutoMapper;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.Handlers.Commands.Accounts;
@@ -12,7 +13,7 @@ internal sealed class ChangeStadiumHandler : BaseRequestHandler<ChangeStadiumCom
 {
     private readonly IUserRepository _repository;
 
-    public ChangeStadiumHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUserRepository repository) : base(mapper, claimsIdentityService)
+    public ChangeStadiumHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, IUserRepository repository) : base(mapper, claimsIdentityService, unitOfWork)
     {
         _repository = repository;
     }

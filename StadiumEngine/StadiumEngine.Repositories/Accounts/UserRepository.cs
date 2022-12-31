@@ -6,7 +6,7 @@ using StadiumEngine.Repositories.Infrastructure.Contexts;
 
 namespace StadiumEngine.Repositories.Accounts;
 
-internal class UserRepository : BaseRepository, IUserRepository
+internal class UserRepository : BaseRepository<User>, IUserRepository
 {
     public UserRepository(MainDbContext context) : base(context)
     {
@@ -14,8 +14,7 @@ internal class UserRepository : BaseRepository, IUserRepository
 
     public async Task<User?> Get(string login, string password)
     {
-        return await Context
-            .Users
+        return await Entities
             .Include(u => u.Role)
             .ThenInclude(r => r.RolePermissions).ThenInclude(rp => rp.Permission)
             .Include(u => u.Role)
@@ -27,8 +26,7 @@ internal class UserRepository : BaseRepository, IUserRepository
 
     public async Task<User?> Get(int id)
     {
-        return await Context
-            .Users
+        return await Entities
             .Include(u => u.Role)
             .ThenInclude(r => r.RolePermissions).ThenInclude(rp => rp.Permission)
             .Include(u => u.Role)
@@ -38,12 +36,12 @@ internal class UserRepository : BaseRepository, IUserRepository
             .FirstOrDefaultAsync(u => u.Id == id);
     }
 
-    public async Task<User> Update(User user)
+    public new async Task Update(User user)
     {
-        var entity = await Context.Users.FindAsync(user.Id);
+        var entity = await Entities.FindAsync(user.Id);
         
         if (entity == null) throw new DomainException("Пользователь не найден!");
         
-        return await base.Update(entity, user);
+        base.Update(user);
     }
 }

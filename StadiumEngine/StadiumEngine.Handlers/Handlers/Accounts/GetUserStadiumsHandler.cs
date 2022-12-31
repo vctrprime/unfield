@@ -1,5 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.Handlers.Queries.Accounts;
@@ -10,11 +11,11 @@ internal sealed class GetUserStadiumsHandler :  BaseRequestHandler<GetUserStadiu
 {
     private readonly IUserStadiumRepository _repository;
 
-    public GetUserStadiumsHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUserStadiumRepository repository) : base(mapper, claimsIdentityService)
+    public GetUserStadiumsHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, IUserStadiumRepository repository) : base(mapper, claimsIdentityService, unitOfWork)
     {
         _repository = repository;
     }
-    
+
     public override async ValueTask<List<UserStadiumDto>> Handle(GetUserStadiumsQuery request, CancellationToken cancellationToken)
     {
         var userId = ClaimsIdentityService.GetUserId();

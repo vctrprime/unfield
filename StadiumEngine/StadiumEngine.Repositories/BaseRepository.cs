@@ -1,26 +1,46 @@
-using StadiumEngine.Common.Exceptions;
+using Microsoft.EntityFrameworkCore;
 using StadiumEngine.Domain.Entities;
-using StadiumEngine.Repositories.Infrastructure.Contexts;
+using StadiumEngine.Domain.Entities.Accounts;
 
 namespace StadiumEngine.Repositories;
 
-internal abstract class BaseRepository
+internal abstract class BaseRepository<TEntity> where TEntity : BaseEntity
 {
-    protected readonly MainDbContext Context;
+    protected readonly DbSet<TEntity> Entities;
+    protected readonly DbSet<User> Users;
 
-    protected BaseRepository(MainDbContext context)
+    protected BaseRepository(DbContext context)
     {
-        Context = context;
+        Entities = context.Set<TEntity>();
+        Users = context.Set<User>();
     }
 
-    protected async Task<T> Update<T>(T entity, T item) where T : BaseEntity
+    protected void Add(TEntity entity)
     {
-        item.DateModified = DateTime.Now.ToUniversalTime();
-        if (entity == null || item == null) throw new DomainException("Ошибка при обновлении!");
-        
-        Context.Entry(entity).CurrentValues.SetValues(item);
-        await Context.SaveChangesAsync();
-        
-        return entity;
+        Entities.AddAsync(entity);
     }
+    
+    protected void Add(IEnumerable<TEntity> entities)
+    {
+        Entities.AddRangeAsync(entities);
+    }
+    
+    protected void Remove(TEntity entity)
+    {
+        Entities.Remove(entity);
+    }
+    
+    protected void Remove(IEnumerable<TEntity> entities)
+    {
+        Entities.RemoveRange(entities);
+    }
+
+    protected void Update(TEntity entity)
+    {
+        entity.DateModified = DateTime.Now.ToUniversalTime();
+        
+        Entities.Attach(entity);
+        Entities.Entry(entity).State = EntityState.Modified;
+    }
+    
 }

@@ -20,6 +20,6 @@ public abstract class BaseEntity
     public DateTime DateCreated { get; set; }
     
     [Column("date_modified")]
-    public DateTime DateModified { get; set; }
+    public DateTime? DateModified { get; set; }
     
 }

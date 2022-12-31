@@ -1,5 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.Handlers.Commands.Accounts;
@@ -9,8 +10,8 @@ internal sealed class AuthorizeUserHandler : BaseRequestHandler<AuthorizeUserCom
 {
     private readonly IUserRepository _repository;
 
-    public AuthorizeUserHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUserRepository repository) 
-        : base(mapper, claimsIdentityService)
+    public AuthorizeUserHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, IUserRepository repository) 
+        : base(mapper, claimsIdentityService, unitOfWork)
     {
         _repository = repository;
     }
@@ -26,8 +27,9 @@ internal sealed class AuthorizeUserHandler : BaseRequestHandler<AuthorizeUserCom
         user.LastLoginDate = DateTime.Now.ToUniversalTime();
         user.UserModifiedId = user.Id;
         
-        user = await _repository.Update(user);
-        
+        await _repository.Update(user);
+        await UnitOfWork.Commit();
+
         var userDto = Mapper.Map<AuthorizeUserDto>(user);
         
         return userDto;

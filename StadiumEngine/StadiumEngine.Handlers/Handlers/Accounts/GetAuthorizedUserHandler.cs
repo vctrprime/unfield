@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.Handlers.Queries.Accounts;
@@ -7,7 +8,7 @@ namespace StadiumEngine.Handlers.Handlers.Accounts;
 
 internal sealed class GetAuthorizedUserHandler : BaseRequestHandler<GetAuthorizedUserQuery, AuthorizeUserDto>
 {
-    public GetAuthorizedUserHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
+    public GetAuthorizedUserHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
     {
     }
 

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain.Services;
 using StadiumEngine.Repositories.Accounts;
 using StadiumEngine.Repositories.Infrastructure.Contexts;
 
@@ -22,6 +23,7 @@ public static class ServiceCollectionExtensions
         {
             options.UseNpgsql(connectionString);
         });
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }
