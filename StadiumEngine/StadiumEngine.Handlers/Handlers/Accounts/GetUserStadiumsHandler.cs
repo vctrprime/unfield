@@ -18,8 +18,11 @@ internal sealed class GetUserStadiumsHandler :  BaseRequestHandler<GetUserStadiu
 
     public override async ValueTask<List<UserStadiumDto>> Handle(GetUserStadiumsQuery request, CancellationToken cancellationToken)
     {
-        var userId = ClaimsIdentityService.GetUserId();
-        var stadiums = await _repository.Get(userId);
+        var roleId = ClaimsIdentityService.GetUserId();
+        var legalId = ClaimsIdentityService.GetLegalId();
+        var isSuperuser = ClaimsIdentityService.GetIsSuperuser();
+        
+        var stadiums = await _repository.Get(roleId, legalId, isSuperuser);
 
         var stadiumsDto = Mapper.Map<List<UserStadiumDto>>(stadiums);
 

@@ -7,12 +7,10 @@ namespace StadiumEngine.Repositories;
 internal abstract class BaseRepository<TEntity> where TEntity : BaseEntity
 {
     protected readonly DbSet<TEntity> Entities;
-    protected readonly DbSet<User> Users;
 
     protected BaseRepository(DbContext context)
     {
         Entities = context.Set<TEntity>();
-        Users = context.Set<User>();
     }
 
     protected void Add(TEntity entity)

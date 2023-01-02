@@ -16,14 +16,10 @@ internal class UserStadiumRepository : BaseRepository<RoleStadium>, IUserStadium
         _stadiums = context.Set<Stadium>();
     }
 
-    public async Task<List<Stadium>> Get(int userId)
+    public async Task<List<Stadium>> Get(int roleId, int legalId, bool isSuperuser)
     {
-        var user = await Users.FindAsync(userId);
-
-        if (user is null) throw new DomainException("User not found!");
-
-        return user.IsSuperuser
-            ? await _stadiums.Where(s => s.LegalId == user.LegalId).ToListAsync()
-            : await Entities.Where(rs => rs.RoleId == user.RoleId).Select(rs => rs.Stadium).ToListAsync();
+        return isSuperuser
+            ? await _stadiums.Where(s => s.LegalId == legalId).ToListAsync()
+            : await Entities.Where(rs => rs.RoleId == roleId).Select(rs => rs.Stadium).ToListAsync();
     }
 }

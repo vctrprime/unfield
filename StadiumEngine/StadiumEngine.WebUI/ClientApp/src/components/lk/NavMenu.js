@@ -9,7 +9,7 @@ import {
     CDBSidebarFooter,
     CDBSidebarHeader,
     CDBSidebarMenu,
-    CDBSidebarMenuItem,
+    CDBSidebarMenuItem
 } from 'cdbreact';
 import logo from "../../img/logo/logo_icon_with_title_white.png";
 import '../../css/lk/NavMenu.scss';

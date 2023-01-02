@@ -18,8 +18,10 @@ internal sealed class GetUserPermissionsHandler :  BaseRequestHandler<GetUserPer
 
     public override async ValueTask<List<UserPermissionDto>> Handle(GetUserPermissionsQuery request, CancellationToken cancellationToken)
     {
-        var userId = ClaimsIdentityService.GetUserId();
-        var permissions = await _repository.Get(userId);
+        var roleId = ClaimsIdentityService.GetUserId();
+        var isSuperuser = ClaimsIdentityService.GetIsSuperuser();
+        
+        var permissions = await _repository.Get(roleId, isSuperuser);
 
         var permissionsDto = Mapper.Map<List<UserPermissionDto>>(permissions);
         

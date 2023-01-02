@@ -6,5 +6,5 @@ namespace StadiumEngine.Domain.Repositories.Accounts;
 
 public interface IUserPermissionRepository
 {
-    public Task<List<Permission>> Get(int userId);
+    public Task<List<Permission>> Get(int roleId, bool isSuperuser);
 }

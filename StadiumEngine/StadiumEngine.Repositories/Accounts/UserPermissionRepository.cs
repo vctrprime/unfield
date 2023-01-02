@@ -15,13 +15,9 @@ internal class UserPermissionRepository : BaseRepository<RolePermission>, IUserP
         _permissions = context.Set<Permission>();
     }
 
-    public async Task<List<Permission>> Get(int userId)
+    public async Task<List<Permission>> Get(int roleId, bool isSuperuser)
     {
-        var user = await Users.FindAsync(userId);
-        
-        if (user is null) throw new DomainException("User not found!");
-
-        if (user.IsSuperuser)
+        if (isSuperuser)
         {
             return await _permissions.Include(p => p.PermissionGroup).ToListAsync();
         }
@@ -29,7 +25,7 @@ internal class UserPermissionRepository : BaseRepository<RolePermission>, IUserP
         return await Entities
             .Include(rp => rp.Permission)
             .ThenInclude(p => p.PermissionGroup)
-            .Where(rp => rp.RoleId == user.RoleId)
+            .Where(rp => rp.RoleId == roleId)
             .Select(rp => rp.Permission)
             .ToListAsync();
     }
