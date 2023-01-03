@@ -24,7 +24,7 @@ internal class UnitOfWork : IUnitOfWork
     {
         try
         {
-            await Commit();
+            await SaveChanges();
             await _transaction?.CommitAsync()!;
         }
         catch
@@ -52,7 +52,7 @@ internal class UnitOfWork : IUnitOfWork
         }
     }
 
-    public async Task Commit()
+    public async Task SaveChanges()
     {
         await _context.SaveChangesAsync();
     }

@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Identity;
@@ -9,20 +10,28 @@ namespace StadiumEngine.Handlers.Handlers.Accounts;
 
 internal sealed class GetUserPermissionsHandler :  BaseRequestHandler<GetUserPermissionsQuery, List<UserPermissionDto>>
 {
-    private readonly IUserPermissionRepository _repository;
+    private readonly IPermissionRepository _repository;
 
-    public GetUserPermissionsHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, IUserPermissionRepository repository) : base(mapper, claimsIdentityService, unitOfWork)
+    public GetUserPermissionsHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, IPermissionRepository repository) : base(mapper, claimsIdentityService, unitOfWork)
     {
         _repository = repository;
     }
 
     public override async ValueTask<List<UserPermissionDto>> Handle(GetUserPermissionsQuery request, CancellationToken cancellationToken)
     {
-        var roleId = ClaimsIdentityService.GetUserId();
         var isSuperuser = ClaimsIdentityService.GetIsSuperuser();
-        
-        var permissions = await _repository.Get(roleId, isSuperuser);
 
+        List<Permission> permissions;
+        if (isSuperuser)
+        {
+            permissions = await _repository.GetAll();
+        }
+        else
+        {
+            var roleId = ClaimsIdentityService.GetRoleId();
+            permissions = await _repository.GetForRole(roleId);
+        }
+        
         var permissionsDto = Mapper.Map<List<UserPermissionDto>>(permissions);
         
         return permissionsDto;

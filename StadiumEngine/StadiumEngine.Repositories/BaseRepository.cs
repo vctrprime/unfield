@@ -15,12 +15,12 @@ internal abstract class BaseRepository<TEntity> where TEntity : BaseEntity
 
     protected void Add(TEntity entity)
     {
-        Entities.AddAsync(entity);
+        Entities.Add(entity);
     }
     
     protected void Add(IEnumerable<TEntity> entities)
     {
-        Entities.AddRangeAsync(entities);
+        Entities.AddRange(entities);
     }
     
     protected void Remove(TEntity entity)

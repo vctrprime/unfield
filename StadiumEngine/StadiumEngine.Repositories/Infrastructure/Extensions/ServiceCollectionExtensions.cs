@@ -32,8 +32,12 @@ public static class ServiceCollectionExtensions
     {
         #region accounts
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IUserStadiumRepository, UserStadiumRepository>();
-        services.AddScoped<IUserPermissionRepository, UserPermissionRepository>();
+        services.AddScoped<IStadiumRepository, StadiumRepository>();
+        services.AddScoped<ILegalRepository, LegalRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IPermissionRepository, PermissionRepository>();
+        services.AddScoped<IRoleStadiumRepository, RoleStadiumRepository>();
+        services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
         #endregion
         
         return services;

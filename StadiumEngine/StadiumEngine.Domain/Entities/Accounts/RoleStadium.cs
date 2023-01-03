@@ -1,10 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using StadiumEngine.Domain.Entities.Offers;
 
 namespace StadiumEngine.Domain.Entities.Accounts;
 
 [Table("role_stadium", Schema = "accounts")]
-public class RoleStadium : BaseUserEntity
+public class RoleStadium : BaseRefEntity
 {
     [Column("role_id")]
     public int RoleId { get; set; }

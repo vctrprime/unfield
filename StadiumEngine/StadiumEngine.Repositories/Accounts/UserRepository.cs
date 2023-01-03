@@ -1,5 +1,5 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Repositories.Infrastructure.Contexts;
@@ -14,34 +14,31 @@ internal class UserRepository : BaseRepository<User>, IUserRepository
 
     public async Task<User?> Get(string login, string password)
     {
-        return await Entities
-            .Include(u => u.Role)
-            .ThenInclude(r => r.RolePermissions).ThenInclude(rp => rp.Permission)
-            .Include(u => u.Role)
-            .ThenInclude(r => r.RoleStadiums)
-            .Include(u => u.Legal)
-            .ThenInclude(l => l.Stadiums)
-            .FirstOrDefaultAsync(u => u.PhoneNumber == login && u.Password == password);
+        return await Get(u => u.PhoneNumber == login && u.Password == password);
     }
 
     public async Task<User?> Get(int id)
     {
+        return await Get(u => u.Id == id);
+    }
+
+    public new void Add(User user)
+    {
+        base.Add(user);
+    }
+
+    public new void Update(User user)
+    {
+        base.Update(user);
+    }
+
+    private async Task<User?> Get(Expression<Func<User, bool>> predicate)
+    {
         return await Entities
-            .Include(u => u.Role)
-            .ThenInclude(r => r.RolePermissions).ThenInclude(rp => rp.Permission)
             .Include(u => u.Role)
             .ThenInclude(r => r.RoleStadiums)
             .Include(u => u.Legal)
             .ThenInclude(l => l.Stadiums)
-            .FirstOrDefaultAsync(u => u.Id == id);
-    }
-
-    public new async Task Update(User user)
-    {
-        var entity = await Entities.FindAsync(user.Id);
-        
-        if (entity == null) throw new DomainException("Пользователь не найден!");
-        
-        base.Update(user);
+            .FirstOrDefaultAsync(predicate);
     }
 }

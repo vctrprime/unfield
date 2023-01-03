@@ -33,7 +33,7 @@ namespace StadiumEngine.WebUI
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
                 .Filter.ByExcluding(Matching.FromSource("Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware"))
-                .Filter.ByExcluding(Matching.FromSource("Microsoft.EntityFrameworkCore.Database.Command"))
+                //.Filter.ByExcluding(Matching.FromSource("Microsoft.EntityFrameworkCore.Database.Command"))
                 .WriteTo.Console()
                 .WriteTo.PostgreSQL(connectionString: Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"),
                     tableName: "PUBLIC.LOG_ERRORS",

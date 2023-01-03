@@ -16,6 +16,7 @@ public static class ServiceCollectionExtensions
         services.AddMediator(options => options.ServiceLifetime = ServiceLifetime.Scoped);
         services.AddSingleton(provider => new MapperConfiguration(cfg =>
         {
+            cfg.AddProfile(new UtilsProfile());
             cfg.AddProfile(new AccountsProfile());
         }).CreateMapper());
 

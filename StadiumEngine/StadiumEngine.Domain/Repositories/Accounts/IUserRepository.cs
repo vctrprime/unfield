@@ -5,8 +5,9 @@ using StadiumEngine.Domain.Entities.Accounts;
 namespace StadiumEngine.Domain.Repositories.Accounts;
 
 public interface IUserRepository
-{
-    public Task<User?> Get(string login, string password);
-    public Task<User?> Get(int id);
-    public Task Update(User user);
+{ 
+    Task<User?> Get(string login, string password);
+    Task<User?> Get(int id);
+    void Add(User user);
+    void Update(User user);
 }

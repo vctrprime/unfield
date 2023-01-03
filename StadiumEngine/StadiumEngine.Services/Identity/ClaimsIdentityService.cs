@@ -22,15 +22,15 @@ internal class ClaimsIdentityService : IClaimsIdentityService
         return GetClaim<string>(ClaimTypes.Name);
     }
 
-    public int? GetRoleId()
+    public int GetRoleId()
     {
-        return GetClaim<int?>("roleId");
+        return GetClaim<int>("roleId");
     }
 
-    public string? GetRoleName()
+    public string GetRoleName()
     {
-        var result = GetClaim<string?>("roleName");
-        return string.IsNullOrEmpty(result) ? null : result;
+        var result = GetClaim<string>("roleName");
+        return result;
     }
 
     public int GetLegalId()

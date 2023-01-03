@@ -6,9 +6,6 @@ namespace StadiumEngine.Domain.Entities.Accounts;
 [Table("permission", Schema = "accounts")]
 public class Permission : BaseEntity
 {
-    [Column("action")]
-    public string Action { get; set; }
-    
     [Column("display_name")]
     public string DisplayName { get; set; }
     

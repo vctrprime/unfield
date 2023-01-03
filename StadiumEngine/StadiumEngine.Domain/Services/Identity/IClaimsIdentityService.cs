@@ -7,9 +7,9 @@ public interface IClaimsIdentityService
     
     string GetUserName();
     
-    int? GetRoleId();
+    int GetRoleId();
 
-    string? GetRoleName();
+    string GetRoleName();
     
     int GetLegalId();
     

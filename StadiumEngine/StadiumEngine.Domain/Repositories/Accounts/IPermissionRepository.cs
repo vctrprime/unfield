@@ -4,7 +4,8 @@ using StadiumEngine.Domain.Entities.Accounts;
 
 namespace StadiumEngine.Domain.Repositories.Accounts;
 
-public interface IUserPermissionRepository
+public interface IPermissionRepository
 {
-    public Task<List<Permission>> Get(int roleId, bool isSuperuser);
+    Task<List<Permission>> GetAll();
+    Task<List<Permission>> GetForRole(int roleId);
 }

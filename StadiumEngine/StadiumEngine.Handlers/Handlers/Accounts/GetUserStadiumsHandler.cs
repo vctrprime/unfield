@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Identity;
@@ -9,21 +10,29 @@ namespace StadiumEngine.Handlers.Handlers.Accounts;
 
 internal sealed class GetUserStadiumsHandler :  BaseRequestHandler<GetUserStadiumsQuery, List<UserStadiumDto>>
 {
-    private readonly IUserStadiumRepository _repository;
+    private readonly IStadiumRepository _repository;
 
-    public GetUserStadiumsHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, IUserStadiumRepository repository) : base(mapper, claimsIdentityService, unitOfWork)
+    public GetUserStadiumsHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, IStadiumRepository repository) : base(mapper, claimsIdentityService, unitOfWork)
     {
         _repository = repository;
     }
 
     public override async ValueTask<List<UserStadiumDto>> Handle(GetUserStadiumsQuery request, CancellationToken cancellationToken)
     {
-        var roleId = ClaimsIdentityService.GetUserId();
-        var legalId = ClaimsIdentityService.GetLegalId();
         var isSuperuser = ClaimsIdentityService.GetIsSuperuser();
-        
-        var stadiums = await _repository.Get(roleId, legalId, isSuperuser);
 
+        List<Stadium> stadiums;
+        if (isSuperuser)
+        {
+            var legalId = ClaimsIdentityService.GetLegalId();
+            stadiums = await _repository.GetForLegal(legalId);
+        }
+        else
+        {
+            var roleId = ClaimsIdentityService.GetRoleId();
+            stadiums = await _repository.GetForRole(roleId);
+        }
+        
         var stadiumsDto = Mapper.Map<List<UserStadiumDto>>(stadiums);
 
         var stadiumId = ClaimsIdentityService.GetCurrentStadiumId();

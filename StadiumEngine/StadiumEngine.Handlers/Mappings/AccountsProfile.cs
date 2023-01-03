@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using AutoMapper;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.DTO.Accounts;
 
 namespace StadiumEngine.Handlers.Mappings;
@@ -34,19 +33,12 @@ internal class AccountsProfile : Profile
             new ("id", user.Id.ToString()),
             new ("legalId", user.LegalId.ToString()),
             new ("isSuperuser", user.IsSuperuser.ToString()),
+            new ("roleId", user.Role == null ? "0" : user.Role.Id.ToString()),
+            new ("roleName", user.Role == null ? "Суперпользователь" : user.Role.Name),
+            new ("stadiumId", user.Role == null ? 
+                user.Legal.Stadiums.First().Id.ToString() : 
+                user.Role.RoleStadiums.First().StadiumId.ToString())
         };
-
-        if (user.Role == null)
-        {
-            claims.Add(new Claim("stadiumId", user.Legal.Stadiums.First().Id.ToString()));
-            return claims;
-        }
-        
-        
-        claims.Add(new Claim("roleName", user.Role.Name));
-        claims.Add(new Claim("roleId", user.Role.Id.ToString()));
-        claims.Add(new Claim("stadiumId", user.Role.RoleStadiums.First().StadiumId.ToString()));
-        claims.AddRange(user.Role.RolePermissions.Select(rp => new Claim("permission", rp.Permission.Name.ToLower())));
         
         return claims;
     }

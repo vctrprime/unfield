@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace StadiumEngine.WebUI.Controllers.API;
+namespace StadiumEngine.WebUI.Controllers;
 
 /// <summary>
 /// Базовый api-контроллер

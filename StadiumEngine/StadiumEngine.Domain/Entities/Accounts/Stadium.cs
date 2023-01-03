@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Entities.Geo;
 
-namespace StadiumEngine.Domain.Entities.Offers;
+namespace StadiumEngine.Domain.Entities.Accounts;
 
-[Table("stadium", Schema = "offers")]
+[Table("stadium", Schema = "accounts")]
 public class Stadium : BaseEntity
 {
     [Column("city_id")]

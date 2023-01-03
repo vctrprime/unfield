@@ -27,8 +27,8 @@ internal sealed class AuthorizeUserHandler : BaseRequestHandler<AuthorizeUserCom
         user.LastLoginDate = DateTime.Now.ToUniversalTime();
         user.UserModifiedId = user.Id;
         
-        await _repository.Update(user);
-        await UnitOfWork.Commit();
+        _repository.Update(user);
+        await UnitOfWork.SaveChanges();
 
         var userDto = Mapper.Map<AuthorizeUserDto>(user);
         

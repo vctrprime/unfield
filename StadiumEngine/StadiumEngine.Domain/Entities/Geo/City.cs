@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Entities.Offers;
 
 namespace StadiumEngine.Domain.Entities.Geo;
 
