@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace StadiumEngine.Domain.Entities.Accounts;
 
 [Table("user", Schema = "accounts")]
+[Index(nameof(PhoneNumber), IsUnique = true)]
 public class User : BaseUserEntity
 {
     [Column("last_name")]

@@ -43,6 +43,7 @@ internal class MainDbContext : DbContext
             
             et.FindProperty("DateCreated")!.SetDefaultValueSql("now()");
             et.FindProperty("DateCreated")!.ValueGenerated = Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.OnAdd;
+            
         }
 
         base.OnModelCreating(modelBuilder);

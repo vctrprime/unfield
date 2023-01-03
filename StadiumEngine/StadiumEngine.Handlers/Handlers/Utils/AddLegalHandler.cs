@@ -1,40 +1,25 @@
 using AutoMapper;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Utils;
 using StadiumEngine.Handlers.Commands.Utils;
+using StadiumEngine.Handlers.Containers;
+using StadiumEngine.Handlers.Containers.Utils;
 
 namespace StadiumEngine.Handlers.Handlers.Utils;
 
 internal sealed class AddLegalHandler : BaseRequestHandler<AddLegalCommand, AddLegalDto>
 {
-    private readonly ILegalRepository _legalRepository;
-    private readonly IRoleRepository _roleRepository;
-    private readonly IPermissionRepository _permissionRepository;
-    private readonly IRolePermissionRepository _rolePermissionRepository;
-    private readonly IStadiumRepository _stadiumRepository;
-    private readonly IRoleStadiumRepository _roleStadiumRepository;
-    private readonly IUserRepository _userRepository;
+    private readonly AddLegalHandlerRepositoriesContainer _repositoriesContainer;
+    private readonly AddLegalHandlerServicesContainer _servicesContainer;
     
-
     public AddLegalHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, 
-        ILegalRepository legalRepository,
-        IRoleRepository roleRepository,
-        IPermissionRepository permissionRepository,
-        IRolePermissionRepository rolePermissionRepository,
-        IStadiumRepository stadiumRepository,
-        IRoleStadiumRepository roleStadiumRepository,
-        IUserRepository userRepository) : base(mapper, claimsIdentityService, unitOfWork)
+        AddLegalHandlerRepositoriesContainer repositoriesContainer,
+        AddLegalHandlerServicesContainer servicesContainer) : base(mapper, claimsIdentityService, unitOfWork)
     {
-        _legalRepository = legalRepository;
-        _roleRepository = roleRepository;
-        _permissionRepository = permissionRepository;
-        _rolePermissionRepository = rolePermissionRepository;
-        _stadiumRepository = stadiumRepository;
-        _roleStadiumRepository = roleStadiumRepository;
-        _userRepository = userRepository;
+        _repositoriesContainer = repositoriesContainer;
+        _servicesContainer = servicesContainer;
     }
 
     public override async ValueTask<AddLegalDto> Handle(AddLegalCommand request, CancellationToken cancellationToken)
@@ -71,7 +56,7 @@ internal sealed class AddLegalHandler : BaseRequestHandler<AddLegalCommand, AddL
     private async Task<Legal> AddLegal(AddLegalCommand request)
     {
         var legal = Mapper.Map<Legal>(request);
-        _legalRepository.Add(legal);
+        _repositoriesContainer.LegalRepository.Add(legal);
         await UnitOfWork.SaveChanges();
 
         return legal;
@@ -85,7 +70,7 @@ internal sealed class AddLegalHandler : BaseRequestHandler<AddLegalCommand, AddL
             Description = "Базовая роль для администратора (добавлена автоматически)",
             LegalId = legalId,
         };
-        _roleRepository.Add(role);
+        _repositoriesContainer.RoleRepository.Add(role);
         await UnitOfWork.SaveChanges();
 
         return role;
@@ -93,7 +78,7 @@ internal sealed class AddLegalHandler : BaseRequestHandler<AddLegalCommand, AddL
 
     private async Task AddRolePermissions(int roleId)
     {
-        var permissions = await _permissionRepository.GetAll();
+        var permissions = await _repositoriesContainer.PermissionRepository.GetAll();
         var permissionsKeys = new List<string>
         {
             "schedule", "actives"
@@ -104,7 +89,7 @@ internal sealed class AddLegalHandler : BaseRequestHandler<AddLegalCommand, AddL
             RoleId = roleId,
             PermissionId = p.Id
         });
-        _rolePermissionRepository.Add(rolePermissions);
+        _repositoriesContainer.RolePermissionRepository.Add(rolePermissions);
         await UnitOfWork.SaveChanges();
     }
 
@@ -116,7 +101,7 @@ internal sealed class AddLegalHandler : BaseRequestHandler<AddLegalCommand, AddL
             s.LegalId = legalId;
             s.CityId = cityId;
         });
-        _stadiumRepository.Add(stadiums);
+        _repositoriesContainer.StadiumRepository.Add(stadiums);
         await UnitOfWork.SaveChanges();
 
         return stadiums;
@@ -129,7 +114,7 @@ internal sealed class AddLegalHandler : BaseRequestHandler<AddLegalCommand, AddL
             StadiumId = s.Id,
             RoleId = roleId
         });
-        _roleStadiumRepository.Add(roleStadiums);
+        _repositoriesContainer.RoleStadiumRepository.Add(roleStadiums);
         await UnitOfWork.SaveChanges();
 
     }
@@ -137,12 +122,11 @@ internal sealed class AddLegalHandler : BaseRequestHandler<AddLegalCommand, AddL
     private async Task AddSuperuser(AddLegalCommand request, int legalId)
     {
         var user = Mapper.Map<User>(request.Superuser);
-            
-        //toDo генерация пароля
-        user.Password = "123456";
+        
+        user.Password = _servicesContainer.PasswordGenerator.Generate(8);
         user.LegalId = legalId;
             
-        _userRepository.Add(user);
+        _repositoriesContainer.UserRepository.Add(user);
         await UnitOfWork.SaveChanges();
     }
 }

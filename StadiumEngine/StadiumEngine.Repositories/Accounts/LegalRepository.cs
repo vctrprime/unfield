@@ -12,7 +12,6 @@ internal class LegalRepository : BaseRepository<Legal>, ILegalRepository
 
     public new void Add(Legal legal)
     {
-        //toDO проверка на существующий ИНН
         base.Add(legal);
     }
 }

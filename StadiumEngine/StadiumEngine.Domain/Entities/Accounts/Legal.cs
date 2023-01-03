@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using StadiumEngine.Domain.Entities.Geo;
 
 namespace StadiumEngine.Domain.Entities.Accounts;
 
 [Table("legal", Schema = "accounts")]
+[Index(nameof(Inn), IsUnique = true)]
 public class Legal : BaseEntity
 {
     [Column("inn")]
