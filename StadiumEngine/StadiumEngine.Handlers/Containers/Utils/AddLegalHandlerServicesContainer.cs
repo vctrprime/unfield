@@ -9,4 +9,6 @@ internal class AddLegalHandlerServicesContainer
     public IHasher Hasher { get; set; }
     public ISmsSender SmsSender { get; set; }
     
+    public IPhoneNumberChecker PhoneNumberChecker { get; set; }
+    
 }

@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Identity;
@@ -24,6 +25,10 @@ internal sealed class AddLegalHandler : BaseRequestHandler<AddLegalCommand, AddL
 
     public override async ValueTask<AddLegalDto> Handle(AddLegalCommand request, CancellationToken cancellationToken)
     {
+        if (!request.Stadiums.Any()) throw new DomainException("Передан пустой список объектов для добавления!");
+        
+        request.Superuser.PhoneNumber = _servicesContainer.PhoneNumberChecker.Check(request.Superuser.PhoneNumber);
+        
         Legal legal;
         string superuserPassword;
         

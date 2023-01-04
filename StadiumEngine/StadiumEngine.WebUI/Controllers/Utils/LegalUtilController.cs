@@ -7,7 +7,7 @@ using StadiumEngine.Handlers.Commands.Utils;
 namespace StadiumEngine.WebUI.Controllers.Utils;
 
 /// <summary>
-/// Util-запросы дял работы с юр. лицами
+/// Util-запросы для работы с юр. лицами
 /// </summary>
 [Route("utils/legal")]
 [AllowAnonymous]
