@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.DTO.Utils;
 using StadiumEngine.Handlers.Commands.Utils;
+using StadiumEngine.WebUI.Infrastructure.Attributes;
 
 namespace StadiumEngine.WebUI.Controllers.Utils;
 
@@ -13,13 +14,13 @@ namespace StadiumEngine.WebUI.Controllers.Utils;
 [AllowAnonymous]
 public class LegalUtilController : BaseApiController
 {
-    //toDo атрибут авторизации по ключу
     /// <summary>
     /// Добавление нового юр.лица (с суперюзером и стадионами)
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
     [HttpPost]
+    [SecuredUtil]
     public async Task<AddLegalDto> Post(AddLegalCommand command)
     {
         var legal = await Mediator.Send(command);
