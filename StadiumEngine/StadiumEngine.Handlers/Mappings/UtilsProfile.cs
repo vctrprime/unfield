@@ -9,8 +9,7 @@ internal class UtilsProfile : Profile
 {
     public UtilsProfile()
     {
-        CreateMap<AddLegalCommand, Legal>()
-            .ForMember(dest => dest.Stadiums, act => act.Ignore());
+        CreateMap<AddLegalCommand, Legal>();
         CreateMap<AddLegalCommandStadium, Stadium>();
         CreateMap<AddLegalCommandSuperuser, User>()
             .ForMember(dest => dest.IsSuperuser, act => act.MapFrom(s => true));
