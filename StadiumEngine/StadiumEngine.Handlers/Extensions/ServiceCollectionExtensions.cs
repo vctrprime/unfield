@@ -31,6 +31,7 @@ public static class ServiceCollectionExtensions
         
         services.RegisterType<AddLegalHandlerRepositoriesContainer>().AsScoped().PropertiesAutowired().Bind();
         services.RegisterType<AddLegalHandlerServicesContainer>().AsScoped().PropertiesAutowired().Bind();
+        services.RegisterType<SyncPermissionsHandlerRepositoriesContainer>().AsScoped().PropertiesAutowired().Bind();
     }
     
     

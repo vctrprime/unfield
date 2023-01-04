@@ -38,6 +38,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPermissionRepository, PermissionRepository>();
         services.AddScoped<IRoleStadiumRepository, RoleStadiumRepository>();
         services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
+        services.AddScoped<IPermissionGroupRepository, PermissionGroupRepository>();
         #endregion
         
         return services;

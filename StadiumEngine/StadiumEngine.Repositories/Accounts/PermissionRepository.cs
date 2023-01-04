@@ -24,4 +24,14 @@ internal class PermissionRepository : BaseRepository<Permission>, IPermissionRep
             .Where(p => p.RolePermissions.Select( rp => rp.RoleId).Contains(roleId))
             .ToListAsync();
     }
+    
+    public new void Add(Permission permission)
+    {
+        base.Add(permission);
+    }
+
+    public new void Update(Permission permission)
+    {
+        base.Update(permission);
+    }
 }
