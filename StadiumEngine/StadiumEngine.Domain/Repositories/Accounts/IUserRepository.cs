@@ -6,7 +6,7 @@ namespace StadiumEngine.Domain.Repositories.Accounts;
 
 public interface IUserRepository
 { 
-    Task<User?> Get(string login, string password);
+    Task<User?> Get(string login);
     Task<User?> Get(int id);
     void Add(User user);
     void Update(User user);

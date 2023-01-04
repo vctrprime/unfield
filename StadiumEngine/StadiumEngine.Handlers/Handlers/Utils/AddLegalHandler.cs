@@ -24,12 +24,15 @@ internal sealed class AddLegalHandler : BaseRequestHandler<AddLegalCommand, AddL
 
     public override async ValueTask<AddLegalDto> Handle(AddLegalCommand request, CancellationToken cancellationToken)
     {
+        Legal legal;
+        string superuserPassword;
+        
         try
         {
             await UnitOfWork.BeginTransaction();
             
             //добавляем легал
-            var legal = await AddLegal(request);
+            legal = await AddLegal(request);
             //добавляем роль Администратор
             var role = await AddBaseRole(legal.Id);
             //добавляем связь пермишеннов и ролей
@@ -39,18 +42,22 @@ internal sealed class AddLegalHandler : BaseRequestHandler<AddLegalCommand, AddL
             //добавляем связь стадинов и роли
             await AddRoleStadiums(stadiums, role.Id);
             //добавляем суперюзера
-            await AddSuperuser(request, legal.Id);
+            superuserPassword = await AddSuperuser(request, legal.Id);
             
             await UnitOfWork.CommitTransaction();
-
-            var legalDto = Mapper.Map<AddLegalDto>(legal);
-            return legalDto;
+            
         }
         catch
         {
             await UnitOfWork.RollbackTransaction();
             throw;
         }
+
+        await _servicesContainer.SmsSender.Send(request.Superuser.PhoneNumber,
+            $"Ваш пароль для входа: {superuserPassword}");
+        var legalDto = Mapper.Map<AddLegalDto>(legal);
+        return legalDto;
+        
     }
 
     private async Task<Legal> AddLegal(AddLegalCommand request)
@@ -119,14 +126,17 @@ internal sealed class AddLegalHandler : BaseRequestHandler<AddLegalCommand, AddL
 
     }
 
-    private async Task AddSuperuser(AddLegalCommand request, int legalId)
+    private async Task<string> AddSuperuser(AddLegalCommand request, int legalId)
     {
         var user = Mapper.Map<User>(request.Superuser);
         
-        user.Password = _servicesContainer.PasswordGenerator.Generate(8);
+        var password = _servicesContainer.PasswordGenerator.Generate(8);
+        user.Password = _servicesContainer.Hasher.Crypt(password);
         user.LegalId = legalId;
             
         _repositoriesContainer.UserRepository.Add(user);
         await UnitOfWork.SaveChanges();
+
+        return password;
     }
 }

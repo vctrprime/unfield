@@ -1,9 +1,11 @@
+using System.Security.Cryptography;
 using StadiumEngine.Domain.Services.Identity;
 
 namespace StadiumEngine.Services.Identity;
 
 internal class PasswordGenerator : IPasswordGenerator
 {
+    
     public string Generate(int length)
     {
         string[] randomChars = new [] {
@@ -33,4 +35,6 @@ internal class PasswordGenerator : IPasswordGenerator
  
         return new string(chars.ToArray());
     }
+
+    
 }

@@ -12,9 +12,9 @@ internal class UserRepository : BaseRepository<User>, IUserRepository
     {
     }
 
-    public async Task<User?> Get(string login, string password)
+    public async Task<User?> Get(string login)
     {
-        return await Get(u => u.PhoneNumber == login && u.Password == password);
+        return await Get(u => u.PhoneNumber == login);
     }
 
     public async Task<User?> Get(int id)
