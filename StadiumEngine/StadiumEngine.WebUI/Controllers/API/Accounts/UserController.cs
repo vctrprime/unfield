@@ -40,6 +40,19 @@ public class UserController : BaseApiController
     }
     
     /// <summary>
+    /// Изменить пользователя
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    [HttpPut]
+    [HasPermission("update-user")]
+    public async Task<UpdateUserDto> Put(UpdateUserCommand command)
+    {
+        var dto = await Mediator.Send(command);
+        return dto;
+    }
+    
+    /// <summary>
     /// Удалить пользователя
     /// </summary>
     /// <param name="userId"></param>

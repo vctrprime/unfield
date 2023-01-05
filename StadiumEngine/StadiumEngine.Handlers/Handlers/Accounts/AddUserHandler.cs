@@ -30,6 +30,9 @@ internal sealed class AddUserHandler : BaseRequestHandler<AddUserCommand, AddUse
         var role = await _roleRepository.Get(request.RoleId);
         CheckRoleAccess(role);
 
+        if (!role.RoleStadiums.Any())
+            throw new DomainException("Нельзя указать для пользователя роль, не имеющую связи с объектами!");
+
         var builder = new NewUserBuilder(Mapper, _servicesContainer.PasswordGenerator, _servicesContainer.Hasher);
         var (user, password) = builder.Build(request, _legalId, _userId);
         
