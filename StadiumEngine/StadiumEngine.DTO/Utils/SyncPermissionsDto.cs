@@ -3,10 +3,7 @@ namespace StadiumEngine.DTO.Utils;
 /// <summary>
 /// ДТо после синхронизации разрешений
 /// </summary>
-public class SyncPermissionsDto
+public class SyncPermissionsDto : BaseEmptySuccessDto
 {
-    /// <summary>
-    /// Сообщение
-    /// </summary>
-    public string Message { get; set; } = "Успешно обновлено!";
+    
 }

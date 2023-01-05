@@ -1,14 +1,9 @@
-using StadiumEngine.Domain.Services.Identity;
-using StadiumEngine.Domain.Services.Infrastructure;
+using StadiumEngine.Handlers.Containers.Accounts;
 
 namespace StadiumEngine.Handlers.Containers.Utils;
 
-internal class AddLegalHandlerServicesContainer
+internal class AddLegalHandlerServicesContainer : AddUserHandlerServicesContainer
 {
-    public IPasswordGenerator PasswordGenerator { get; set; }
-    public IHasher Hasher { get; set; }
-    public ISmsSender SmsSender { get; set; }
     
-    public IPhoneNumberChecker PhoneNumberChecker { get; set; }
     
 }

@@ -1,5 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain.Entities.Accounts;
+using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Utils;
@@ -11,14 +12,15 @@ namespace StadiumEngine.Handlers.Handlers.Utils;
 
 internal sealed class SyncPermissionsHandler : BaseRequestHandler<SyncPermissionsCommand, SyncPermissionsDto>
 {
-    private readonly SyncPermissionsHandlerRepositoriesContainer _repositoriesContainer;
-
-    
+    private readonly IPermissionRepository _permissionRepository;
+    private readonly IPermissionGroupRepository _permissionGroupRepository;
     
     public SyncPermissionsHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork, SyncPermissionsHandlerRepositoriesContainer repositoriesContainer) : base(mapper, claimsIdentityService, unitOfWork)
+        IUnitOfWork unitOfWork, IPermissionRepository permissionRepository,
+        IPermissionGroupRepository permissionGroupRepository) : base(mapper, claimsIdentityService, unitOfWork)
     {
-        _repositoriesContainer = repositoriesContainer;
+        _permissionRepository = permissionRepository;
+        _permissionGroupRepository = permissionGroupRepository;
     }
 
     public override async ValueTask<SyncPermissionsDto> Handle(SyncPermissionsCommand request, CancellationToken cancellationToken)
@@ -42,7 +44,7 @@ internal sealed class SyncPermissionsHandler : BaseRequestHandler<SyncPermission
 
     private async Task SyncPermissionsAndGroups()
     {
-        var storedPermissions = await _repositoriesContainer.PermissionRepository.GetAll();
+        var storedPermissions = await _permissionRepository.GetAll();
         var storedPermissionsGroups = storedPermissions
             .Select(p => p.PermissionGroup)
             .GroupBy(pg => pg.Id)
@@ -68,11 +70,11 @@ internal sealed class SyncPermissionsHandler : BaseRequestHandler<SyncPermission
                 storedPermissionsGroup.Description = permissionGroup.Description;
                 storedPermissionsGroup.Sort = permissionGroup.Sort;
                 
-                _repositoriesContainer.PermissionGroupRepository.Update(storedPermissionsGroup);
+                _permissionGroupRepository.Update(storedPermissionsGroup);
             }
             else
             {
-                _repositoriesContainer.PermissionGroupRepository.Add(copyPermissionGroup);
+                _permissionGroupRepository.Add(copyPermissionGroup);
             }
 
             await UnitOfWork.SaveChanges();
@@ -106,11 +108,11 @@ internal sealed class SyncPermissionsHandler : BaseRequestHandler<SyncPermission
                 storedPermission.Description = permission.Description;
                 storedPermission.Sort = permission.Sort;
                 
-                _repositoriesContainer.PermissionRepository.Update(storedPermission);
+                _permissionRepository.Update(storedPermission);
             }
             else
             {
-                _repositoriesContainer.PermissionRepository.Add(copyPermission);
+                _permissionRepository.Add(copyPermission);
             }
                     
             await UnitOfWork.SaveChanges();

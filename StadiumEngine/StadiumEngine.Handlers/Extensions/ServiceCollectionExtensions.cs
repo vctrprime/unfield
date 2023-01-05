@@ -3,6 +3,7 @@ using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Q101.ServiceCollectionExtensions.ServiceCollectionExtensions;
 using StadiumEngine.Handlers.Containers;
+using StadiumEngine.Handlers.Containers.Accounts;
 using StadiumEngine.Handlers.Containers.Utils;
 using StadiumEngine.Handlers.Mappings;
 using StadiumEngine.Repositories.Infrastructure.Extensions;
@@ -30,9 +31,8 @@ public static class ServiceCollectionExtensions
             cfg.AddProfile(new AccountsProfile());
         }).CreateMapper());
         
-        services.RegisterType<AddLegalHandlerRepositoriesContainer>().AsScoped().PropertiesAutowired().Bind();
+        services.RegisterType<AddUserHandlerServicesContainer>().AsScoped().PropertiesAutowired().Bind();
         services.RegisterType<AddLegalHandlerServicesContainer>().AsScoped().PropertiesAutowired().Bind();
-        services.RegisterType<SyncPermissionsHandlerRepositoriesContainer>().AsScoped().PropertiesAutowired().Bind();
     }
     
     

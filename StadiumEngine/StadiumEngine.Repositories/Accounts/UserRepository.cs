@@ -42,6 +42,12 @@ internal class UserRepository : BaseRepository<User>, IUserRepository
         base.Update(user);
     }
 
+    public new void Remove(User user)
+    {
+        user.IsDeleted = true;
+        base.Update(user);
+    }
+
     private async Task<User?> Get(Expression<Func<User, bool>> predicate)
     {
         return await Entities

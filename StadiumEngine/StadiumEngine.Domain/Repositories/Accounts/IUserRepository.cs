@@ -12,5 +12,5 @@ public interface IUserRepository
     Task<User?> Get(int id);
     void Add(User user);
     void Update(User user);
-    //void Remove(User user);
+    void Remove(User user);
 }

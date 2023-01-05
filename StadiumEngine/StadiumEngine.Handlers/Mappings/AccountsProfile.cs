@@ -4,6 +4,7 @@ using StadiumEngine.Domain.Entities;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.DTO;
 using StadiumEngine.DTO.Accounts;
+using StadiumEngine.Handlers.Commands.Accounts;
 
 namespace StadiumEngine.Handlers.Mappings;
 
@@ -39,6 +40,9 @@ internal class AccountsProfile : Profile
             .ForMember(dest => dest.RoleId, act => act.MapFrom(s => s.RoleId))
             .ForMember(dest => dest.RoleName,
                 act => act.MapFrom(s => s.Role.Name));
+        CreateMap<AddUserCommand, User>()
+            .ForMember(dest => dest.IsSuperuser, act => act.MapFrom(s => false));
+        
         CreateMap<Role, RoleDto>()
             .IncludeBase<BaseUserEntity, BaseEntityDto>()
             .ForMember(dest => dest.UsersCount, act => act.MapFrom(s => s.Users.Count));
