@@ -13,7 +13,10 @@ internal class PermissionRepository : BaseRepository<Permission>, IPermissionRep
 
     public async Task<List<Permission>> GetAll()
     {
-        return await Entities.Include(p => p.PermissionGroup).ToListAsync();
+        return await Entities.Include(p => p.PermissionGroup)
+            .OrderBy( p => p.PermissionGroup.Sort)
+            .ThenBy( p => p.Sort)
+            .ToListAsync();
     }
 
     public async Task<List<Permission>> GetForRole(int roleId)
@@ -22,6 +25,8 @@ internal class PermissionRepository : BaseRepository<Permission>, IPermissionRep
             .Include(p => p.PermissionGroup)
             .Include(rp => rp.RolePermissions)
             .Where(p => p.RolePermissions.Select( rp => rp.RoleId).Contains(roleId))
+            .OrderBy( p => p.PermissionGroup.Sort)
+            .ThenBy( p => p.Sort)
             .ToListAsync();
     }
 

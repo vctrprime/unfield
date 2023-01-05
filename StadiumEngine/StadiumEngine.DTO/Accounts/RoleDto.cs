@@ -19,4 +19,9 @@ public class RoleDto : BaseEntityDto
     /// Описание
     /// </summary>
     public string Description { get; set; }
+    
+    /// <summary>
+    /// Количество пользователей
+    /// </summary>
+    public int UsersCount { get; set; }
 }

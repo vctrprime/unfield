@@ -40,7 +40,14 @@ internal class AccountsProfile : Profile
             .ForMember(dest => dest.RoleName,
                 act => act.MapFrom(s => s.Role == null ? "Суперпользователь" : s.Role.Name));
         CreateMap<Role, RoleDto>()
-            .IncludeBase<BaseUserEntity, BaseEntityDto>();
+            .IncludeBase<BaseUserEntity, BaseEntityDto>()
+            .ForMember(dest => dest.UsersCount, act => act.MapFrom(s => s.Users.Count));
+        CreateMap<Permission, PermissionDto>()
+            .ForMember(dest => dest.Name, act => act.MapFrom(s => s.DisplayName))
+            .ForMember(dest => dest.SortValue, act => act.MapFrom(s => s.Sort))
+            .ForMember(dest => dest.GroupName, act => act.MapFrom(s => s.PermissionGroup.Name))
+            .ForMember(dest => dest.GroupSortValue, act => act.MapFrom(s => s.PermissionGroup.Sort));
+
 
     }
     

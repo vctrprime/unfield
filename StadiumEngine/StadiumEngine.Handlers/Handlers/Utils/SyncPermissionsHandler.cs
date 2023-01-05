@@ -17,64 +17,70 @@ internal sealed class SyncPermissionsHandler : BaseRequestHandler<SyncPermission
         new PermissionGroup
         {
             Key = "schedule",
+            Sort = 2,
             Name = "Шахматка броней",
             Permissions = new List<Permission>
             {
-                new() { Name = "get-bookings", DisplayName = "Просмотр броней"}
+                new() { Name = "get-bookings", DisplayName = "Просмотр броней", Sort = 1}
             }
         },
         new PermissionGroup
         {
             Key = "actives",
+            Sort = 3,
             Name = "Активы",
             Permissions = new List<Permission>
             {
-                new() { Name = "get-fields", DisplayName = "Просмотр площадок"}
+                new() { Name = "get-fields", DisplayName = "Просмотр площадок", Sort = 1}
             }
         },
         new PermissionGroup
         {
             Key = "employees",
+            Sort = 4,
             Name = "Персонал",
             Permissions = new List<Permission>
             {
-                new() { Name = "get-employees", DisplayName = "Просмотр сотрудников"}
+                new() { Name = "get-employees", DisplayName = "Просмотр сотрудников", Sort = 1}
             }
         },
         new PermissionGroup
         {
             Key = "reports",
+            Sort = 5,
             Name = "Отчетность",
             Permissions = new List<Permission>
             {
-                new() { Name = "get-reports", DisplayName = "Просмотр отчетов"}
+                new() { Name = "get-reports", DisplayName = "Просмотр отчетов", Sort = 1}
             }
         },
         new PermissionGroup
         {
             Key = "accounts",
+            Sort = 6,
             Name = "Аккаунты и роли",
             Description = "Управление доступом к приложению",
             Permissions = new List<Permission>
             {
-                new() { Name = "get-users", DisplayName = "Просмотр пользователей"},
-                new() { Name = "get-roles", DisplayName = "Просмотр ролей"},
-                new() { Name = "insert-user", DisplayName = "Добавление пользователя"},
-                new() { Name = "insert-role", DisplayName = "Добавление роли"},
-                new() { Name = "update-user", DisplayName = "Обновление пользователя"},
-                new() { Name = "update-role", DisplayName = "Обновление роли"},
-                new() { Name = "delete-user", DisplayName = "Удаление пользователя"},
-                new() { Name = "delete-role", DisplayName = "Удаление роли"},
+                new() { Name = "get-users", DisplayName = "Просмотр пользователей", Sort = 1},
+                new() { Name = "get-roles", DisplayName = "Просмотр ролей", Sort = 5},
+                new() { Name = "insert-user", DisplayName = "Добавление пользователя", Sort = 2},
+                new() { Name = "insert-role", DisplayName = "Добавление роли", Sort = 6},
+                new() { Name = "update-user", DisplayName = "Обновление пользователя", Sort = 3},
+                new() { Name = "update-role", DisplayName = "Обновление роли", Sort = 7},
+                new() { Name = "delete-user", DisplayName = "Удаление пользователя", Sort = 4},
+                new() { Name = "delete-role", DisplayName = "Удаление роли", Sort = 8},
             }
         },
         new PermissionGroup
         {
             Key = "main-settings",
+            Sort = 1,
             Name = "Основные настройки",
             Description = "Управление основными настройками объекта",
             Permissions = new List<Permission>
             {
-                new() { Name = "update-main-settings", DisplayName = "Обновление основных настроек"},
+                new() { Name = "update-main-settings", DisplayName = "Обновление основных настроек", Sort = 1},
             }
         },
     };
@@ -126,8 +132,11 @@ internal sealed class SyncPermissionsHandler : BaseRequestHandler<SyncPermission
             if (storedPermissionsGroup != null)
             {
                 copyPermissionGroup.Id = storedPermissionsGroup.Id;
+                
                 storedPermissionsGroup.Name = permissionGroup.Name;
                 storedPermissionsGroup.Description = permissionGroup.Description;
+                storedPermissionsGroup.Sort = permissionGroup.Sort;
+                
                 _repositoriesContainer.PermissionGroupRepository.Update(storedPermissionsGroup);
             }
             else
@@ -158,9 +167,11 @@ internal sealed class SyncPermissionsHandler : BaseRequestHandler<SyncPermission
             if (storedPermission != null)
             {
                 storedPermission.PermissionGroupId = permissionGroupId;
+                
                 storedPermission.DisplayName = permission.DisplayName;
                 storedPermission.Name = permission.Name;
                 storedPermission.Description = permission.Description;
+                storedPermission.Sort = permission.Sort;
                 
                 _repositoriesContainer.PermissionRepository.Update(storedPermission);
             }

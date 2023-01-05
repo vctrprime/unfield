@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +36,10 @@ public class User : BaseUserEntity
     
     [Column("last_login_date")]
     public DateTime? LastLoginDate { get; set; }
+    
+    [Column("is_deleted")]
+    [DefaultValue(false)]
+    public bool IsDeleted { get; set; }
     
     [InverseProperty("UserCreated")]
     public virtual ICollection<User> CreatedUsers { get; set; }

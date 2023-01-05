@@ -15,11 +15,17 @@ internal class RoleRepository : BaseRepository<Role>, IRoleRepository
     {
         return await Entities
             .Where(u => u.LegalId == legalId)
-            .Include(u => u.UserCreated)
-            .Include(u => u.UserModified)
+            .Include(r => r.Users.Where(u => !u.IsDeleted))
+            .Include(r => r.UserCreated)
+            .Include(r => r.UserModified)
             .ToListAsync();
     }
-    
+
+    public async Task<Role?> Get(int roleId)
+    {
+        return await Entities.FindAsync(roleId);
+    }
+
     public new void Add(Role role)
     {
         base.Add(role);
