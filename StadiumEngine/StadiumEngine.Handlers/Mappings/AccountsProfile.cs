@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using AutoMapper;
+using StadiumEngine.Domain.Entities;
 using StadiumEngine.Domain.Entities.Accounts;
+using StadiumEngine.DTO;
 using StadiumEngine.DTO.Accounts;
 
 namespace StadiumEngine.Handlers.Mappings;
@@ -29,6 +31,17 @@ internal class AccountsProfile : Profile
         CreateMap<Permission, UserPermissionDto>()
             .ForMember(dest => dest.GroupKey, 
                 act => act.MapFrom(s => s.PermissionGroup.Key));
+
+
+
+        CreateMap<User, UserDto>()
+            .IncludeBase<BaseUserEntity, BaseEntityDto>()
+            .ForMember(dest => dest.RoleId, act => act.MapFrom(s => s.RoleId))
+            .ForMember(dest => dest.RoleName,
+                act => act.MapFrom(s => s.Role == null ? "Суперпользователь" : s.Role.Name));
+        CreateMap<Role, RoleDto>()
+            .IncludeBase<BaseUserEntity, BaseEntityDto>();
+
     }
     
     private List<Claim> CreateClaimsList(User user)

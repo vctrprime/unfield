@@ -6,5 +6,5 @@ namespace StadiumEngine.Domain.Repositories.Accounts;
 public interface IRolePermissionRepository
 {
     void Add(RolePermission rolePermission);
-    void Add(IEnumerable<RolePermission> rolePermissions);
+    //void Remove(int roleId, int permissionId);
 }

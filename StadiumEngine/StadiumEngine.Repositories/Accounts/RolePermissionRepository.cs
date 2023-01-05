@@ -16,8 +16,4 @@ internal class RolePermissionRepository : BaseRepository<RolePermission>, IRoleP
         base.Add(rolePermission);
     }
 
-    public new void Add(IEnumerable<RolePermission> rolePermissions)
-    {
-        base.Add(rolePermissions);
-    }
 }

@@ -25,9 +25,5 @@ internal class StadiumRepository : BaseRepository<Stadium>, IStadiumRepository
             .Where(s => s.RoleStadiums.Select( rs => rs.RoleId).Contains(roleId))
             .ToListAsync();
     }
-
-    public new void Add(IEnumerable<Stadium> stadiums)
-    {
-        base.Add(stadiums);
-    }
+    
 }

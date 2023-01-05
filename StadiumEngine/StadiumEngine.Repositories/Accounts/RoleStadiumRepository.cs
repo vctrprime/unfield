@@ -15,9 +15,5 @@ internal class RoleStadiumRepository : BaseRepository<RoleStadium>, IRoleStadium
     {
         base.Add(roleStadium);
     }
-
-    public new void Add(IEnumerable<RoleStadium> roleStadiums)
-    {
-        base.Add(roleStadiums);
-    }
+    
 }

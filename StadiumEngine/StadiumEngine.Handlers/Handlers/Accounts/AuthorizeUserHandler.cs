@@ -33,7 +33,6 @@ internal sealed class AuthorizeUserHandler : BaseRequestHandler<AuthorizeUserCom
         if (!_hasher.Check(user.Password, request.Password)) throw new DomainException("Invalid password");
         
         user.LastLoginDate = DateTime.Now.ToUniversalTime();
-        user.UserModifiedId = user.Id;
         
         _repository.Update(user);
         await UnitOfWork.SaveChanges();

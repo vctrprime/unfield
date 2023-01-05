@@ -1,0 +1,22 @@
+namespace StadiumEngine.DTO.Accounts;
+
+/// <summary>
+/// ДТО роли
+/// </summary>
+public class RoleDto : BaseEntityDto
+{
+    /// <summary>
+    /// Id
+    /// </summary>
+    public int Id { get; set; }
+    
+    /// <summary>
+    /// Название
+    /// </summary>
+    public string Name { get; set; }
+    
+    /// <summary>
+    /// Описание
+    /// </summary>
+    public string Description { get; set; }
+}

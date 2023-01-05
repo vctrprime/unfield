@@ -12,6 +12,16 @@ internal class UserRepository : BaseRepository<User>, IUserRepository
     {
     }
 
+    public async Task<List<User>> GetAll(int legalId)
+    {
+        return await Entities
+            .Where(u => u.LegalId == legalId)
+            .Include(u => u.Role)
+            .Include(u => u.UserCreated)
+            .Include(u => u.UserModified)
+            .ToListAsync();
+    }
+
     public async Task<User?> Get(string login)
     {
         return await Get(u => u.PhoneNumber == login);

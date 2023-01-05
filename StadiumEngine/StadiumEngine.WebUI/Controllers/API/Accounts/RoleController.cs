@@ -8,20 +8,20 @@ using StadiumEngine.WebUI.Infrastructure.Attributes;
 namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 
 /// <summary>
-/// Пользователи
+/// Роли
 /// </summary>
-[Route("api/users")]
-public class UserController : BaseApiController
+[Route("api/roles")]
+public class RoleController : BaseApiController
 {
     /// <summary>
-    /// Получить пользователей
+    /// Получить роли
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [HasPermission("get-users")]
-    public async Task<List<UserDto>> Get()
+    [HasPermission("get-roles")]
+    public async Task<List<RoleDto>> Get()
     {
-        var users = await Mediator.Send(new GetUsersQuery());
-        return users;
+        var roles = await Mediator.Send(new GetRolesQuery());
+        return roles;
     }
 }

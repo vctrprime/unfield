@@ -6,5 +6,5 @@ namespace StadiumEngine.Domain.Repositories.Accounts;
 public interface IRoleStadiumRepository
 {
     void Add(RoleStadium roleStadium);
-    void Add(IEnumerable<RoleStadium> roleStadiums);
+    //void Remove(int roleId, int stadiumId);
 }
