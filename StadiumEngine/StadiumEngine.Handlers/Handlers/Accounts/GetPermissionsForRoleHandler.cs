@@ -21,10 +21,8 @@ internal sealed class GetPermissionsForRoleHandler : BaseRequestHandler<GetPermi
     }
     public override async ValueTask<List<PermissionDto>> Handle(GetPermissionsForRoleQuery request, CancellationToken cancellationToken)
     {
-        var legalId = ClaimsIdentityService.GetLegalId();
         var role = await _roleRepository.Get(request.RoleId);
-
-        if (role == null || legalId != role.LegalId) throw new DomainException("Указанная роль не найдена!");
+        CheckRoleAccess(role);
 
         var permissions = await _permissionRepository.GetAll();
         var rolePermissions = await _permissionRepository.GetForRole(request.RoleId);

@@ -24,4 +24,9 @@ public class RoleDto : BaseEntityDto
     /// Количество пользователей
     /// </summary>
     public int UsersCount { get; set; }
+    
+    /// <summary>
+    /// Количество стадионов
+    /// </summary>
+    public int StadiumsCount { get; set; }
 }

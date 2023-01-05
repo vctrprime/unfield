@@ -27,15 +27,11 @@ internal sealed class AddUserHandler : BaseRequestHandler<AddUserCommand, AddUse
     {
         request.PhoneNumber = _servicesContainer.PhoneNumberChecker.Check(request.PhoneNumber);
         
-        var legalId = ClaimsIdentityService.GetLegalId();
-        var userId = ClaimsIdentityService.GetUserId();
-        
         var role = await _roleRepository.Get(request.RoleId);
-        
-        if (role == null || legalId != role.LegalId) throw new DomainException("Указанная роль не найдена!");
+        CheckRoleAccess(role);
 
         var builder = new NewUserBuilder(Mapper, _servicesContainer.PasswordGenerator, _servicesContainer.Hasher);
-        var (user, password) = builder.Build(request, legalId, userId);
+        var (user, password) = builder.Build(request, _legalId, _userId);
         
         _userRepository.Add(user);
         await UnitOfWork.SaveChanges();

@@ -45,7 +45,10 @@ internal class AccountsProfile : Profile
         
         CreateMap<Role, RoleDto>()
             .IncludeBase<BaseUserEntity, BaseEntityDto>()
-            .ForMember(dest => dest.UsersCount, act => act.MapFrom(s => s.Users.Count));
+            .ForMember(dest => dest.UsersCount, act => act.MapFrom(s => s.Users.Count))
+            .ForMember(dest => dest.StadiumsCount, act => act.MapFrom(s => s.RoleStadiums.Count));
+        CreateMap<AddRoleCommand, Role>();
+        
         CreateMap<Permission, PermissionDto>()
             .ForMember(dest => dest.Name, act => act.MapFrom(s => s.DisplayName))
             .ForMember(dest => dest.SortValue, act => act.MapFrom(s => s.Sort))

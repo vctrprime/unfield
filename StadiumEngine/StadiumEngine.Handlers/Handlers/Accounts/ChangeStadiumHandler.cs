@@ -20,8 +20,7 @@ internal sealed class ChangeStadiumHandler : BaseRequestHandler<ChangeStadiumCom
 
     public override async ValueTask<AuthorizeUserDto?> Handle(ChangeStadiumCommand request, CancellationToken cancellationToken)
     {
-        var userId = ClaimsIdentityService.GetUserId();
-        var user = await _repository.Get(userId);
+        var user = await _repository.Get(_userId);
 
         if (user == null) return null;
         

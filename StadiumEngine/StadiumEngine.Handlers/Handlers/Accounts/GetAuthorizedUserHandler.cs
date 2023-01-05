@@ -18,8 +18,7 @@ internal sealed class GetAuthorizedUserHandler : BaseRequestHandler<GetAuthorize
 
     public override async ValueTask<AuthorizedUserDto> Handle(GetAuthorizedUserQuery request, CancellationToken cancellationToken)
     {
-        var userId = ClaimsIdentityService.GetUserId();
-        var user = await _repository.Get(userId);
+        var user = await _repository.Get(_userId);
 
         var userDto = Mapper.Map<AuthorizedUserDto>(user);
 

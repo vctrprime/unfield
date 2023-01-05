@@ -16,6 +16,7 @@ internal class RoleRepository : BaseRepository<Role>, IRoleRepository
         return await Entities
             .Where(u => u.LegalId == legalId)
             .Include(r => r.Users.Where(u => !u.IsDeleted))
+            .Include(r => r.RoleStadiums.Where(rs => !rs.Stadium.IsDeleted))
             .Include(r => r.UserCreated)
             .Include(r => r.UserModified)
             .ToListAsync();
@@ -23,11 +24,24 @@ internal class RoleRepository : BaseRepository<Role>, IRoleRepository
 
     public async Task<Role?> Get(int roleId)
     {
-        return await Entities.FindAsync(roleId);
+        return await Entities
+            .Include(r => r.Users.Where(u => !u.IsDeleted))
+            .Include(r => r.RoleStadiums.Where(rs => !rs.Stadium.IsDeleted))
+            .FirstOrDefaultAsync(r => r.Id == roleId);
     }
 
     public new void Add(Role role)
     {
         base.Add(role);
+    }
+    
+    public new void Update(Role role)
+    {
+        base.Update(role);
+    }
+
+    public new void Remove(Role role)
+    {
+        base.Remove(role);
     }
 }

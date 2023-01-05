@@ -10,6 +10,6 @@ public interface IRoleRepository
     Task<List<Role>> GetAll(int legalId);
     Task<Role?> Get(int roleId);
     void Add(Role role);
-    //void Update(Role user);
-    //void Remove(Role user);
+    void Update(Role role);
+    void Remove(Role role);
 }

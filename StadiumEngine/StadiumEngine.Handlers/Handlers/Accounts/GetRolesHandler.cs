@@ -18,8 +18,7 @@ internal sealed class GetRolesHandler : BaseRequestHandler<GetRolesQuery, List<R
     
     public override async ValueTask<List<RoleDto>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
     {
-        var legalId = ClaimsIdentityService.GetLegalId();
-        var roles = await _repository.GetAll(legalId);
+        var roles = await _repository.GetAll(_legalId);
 
         var rolesDto = Mapper.Map<List<RoleDto>>(roles);
 

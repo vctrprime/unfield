@@ -19,17 +19,14 @@ internal sealed class DeleteUserHandler : BaseRequestHandler<DeleteUserCommand, 
     
     public override async ValueTask<DeleteUserDto> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
-        var legalId = ClaimsIdentityService.GetLegalId();
-        var userId = ClaimsIdentityService.GetUserId();
-        
         var user = await _repository.Get(request.UserId);
         
-        if (user == null || legalId != user.LegalId) throw new DomainException("Указанный пользователь не найден!");
+        if (user == null || _legalId != user.LegalId) throw new DomainException("Указанный пользователь не найден!");
         
         if (user.IsSuperuser) throw new DomainException("Нельзя удалить суперпользователя!");
 
-        user.UserModifiedId = userId;
-        user.PhoneNumber = $"{user.PhoneNumber}.deleted-by-{userId}.{DateTime.Now.Ticks}";
+        user.UserModifiedId = _userId;
+        user.PhoneNumber = $"{user.PhoneNumber}.deleted-by-{_userId}.{DateTime.Now.Ticks}";
         
         _repository.Remove(user);
         await UnitOfWork.SaveChanges();

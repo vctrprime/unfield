@@ -18,8 +18,7 @@ internal sealed class GetStadiumsHandler : BaseRequestHandler<GetStadiumsQuery, 
     
     public override async ValueTask<List<StadiumDto>> Handle(GetStadiumsQuery request, CancellationToken cancellationToken)
     {
-        var legalId = ClaimsIdentityService.GetLegalId();
-        var stadiums = await _repository.GetForLegal(legalId);
+        var stadiums = await _repository.GetForLegal(_legalId);
 
         var stadiumsDto = Mapper.Map<List<StadiumDto>>(stadiums);
 
