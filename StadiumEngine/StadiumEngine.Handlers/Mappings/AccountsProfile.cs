@@ -54,6 +54,7 @@ internal class AccountsProfile : Profile
             .ForMember(dest => dest.SortValue, act => act.MapFrom(s => s.Sort))
             .ForMember(dest => dest.GroupName, act => act.MapFrom(s => s.PermissionGroup.Name))
             .ForMember(dest => dest.GroupSortValue, act => act.MapFrom(s => s.PermissionGroup.Sort));
+        
         CreateMap<Stadium, StadiumDto>()
             .ForMember(dest => dest.Country, 
                 act => act.MapFrom(s => s.City.Region.Country.ShortName))
@@ -62,6 +63,8 @@ internal class AccountsProfile : Profile
             .ForMember(dest => dest.City, 
             act => act.MapFrom(s => s.City.ShortName));
 
+        CreateMap<ToggleRolePermissionCommand, RolePermission>();
+        CreateMap<ToggleRoleStadiumCommand, RoleStadium>();
 
     }
     

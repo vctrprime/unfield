@@ -11,9 +11,18 @@ internal class RoleStadiumRepository : BaseRepository<RoleStadium>, IRoleStadium
     {
     }
 
+    public async Task<RoleStadium?> Get(int roleId, int stadiumId)
+    {
+        return await Entities.FirstOrDefaultAsync(rs => rs.RoleId == roleId && rs.StadiumId == stadiumId);
+    }
+
     public new void Add(RoleStadium roleStadium)
     {
         base.Add(roleStadium);
     }
-    
+
+    public new void Remove(RoleStadium roleStadium)
+    {
+        base.Remove(roleStadium);
+    }
 }

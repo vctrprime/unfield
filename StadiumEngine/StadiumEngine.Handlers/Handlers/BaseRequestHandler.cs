@@ -17,13 +17,17 @@ internal abstract class BaseRequestHandler<TRequest, TResponse> : IRequestHandle
     
     protected readonly IUnitOfWork UnitOfWork;
 
-    protected BaseRequestHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork)
+    protected BaseRequestHandler(IMapper mapper, IClaimsIdentityService? claimsIdentityService, IUnitOfWork unitOfWork)
     {
         Mapper = mapper;
 
-        _userId = claimsIdentityService.GetUserId();
-        _legalId = claimsIdentityService.GetLegalId();
-        _currentStadiumId = claimsIdentityService.GetCurrentStadiumId();
+        if (claimsIdentityService != null)
+        {
+            _userId = claimsIdentityService.GetUserId();
+            _legalId = claimsIdentityService.GetLegalId();
+            _currentStadiumId = claimsIdentityService.GetCurrentStadiumId();
+        }
+        
         
         UnitOfWork = unitOfWork;
     }

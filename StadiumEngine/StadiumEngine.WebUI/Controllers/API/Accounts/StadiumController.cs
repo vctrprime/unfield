@@ -17,11 +17,11 @@ public class StadiumController : BaseApiController
     /// Получить стадионы
     /// </summary>
     /// <returns></returns>
-    [HttpGet]
+    [HttpGet("{roleId}")]
     [HasPermission("get-stadiums")]
-    public async Task<List<StadiumDto>> Get()
+    public async Task<List<StadiumDto>> Get(int roleId)
     {
-        var stadiums = await Mediator.Send(new GetStadiumsQuery());
+        var stadiums = await Mediator.Send(new GetStadiumsForRoleQuery(roleId));
         return stadiums;
     }
 }

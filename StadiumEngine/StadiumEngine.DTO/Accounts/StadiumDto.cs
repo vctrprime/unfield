@@ -44,4 +44,9 @@ public class StadiumDto
     /// Дата добавления
     /// </summary>
     public DateTime DateCreated { get; set; }
+    
+    /// <summary>
+    /// Связан с ролью, для которой был запрос
+    /// </summary>
+    public bool IsRoleBound { get; set; }
 }

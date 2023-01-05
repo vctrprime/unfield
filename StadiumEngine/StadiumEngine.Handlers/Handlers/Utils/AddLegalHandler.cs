@@ -17,10 +17,10 @@ internal sealed class AddLegalHandler : BaseRequestHandler<AddLegalCommand, AddL
     private readonly ILegalRepository _legalRepository;
     private readonly AddLegalHandlerServicesContainer _servicesContainer;
     
-    public AddLegalHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, 
+    public AddLegalHandler(IMapper mapper, IUnitOfWork unitOfWork, 
         IPermissionRepository permissionRepository,
         ILegalRepository legalRepository,
-        AddLegalHandlerServicesContainer servicesContainer) : base(mapper, claimsIdentityService, unitOfWork)
+        AddLegalHandlerServicesContainer servicesContainer) : base(mapper, null, unitOfWork)
     {
         _permissionRepository = permissionRepository;
         _legalRepository = legalRepository;

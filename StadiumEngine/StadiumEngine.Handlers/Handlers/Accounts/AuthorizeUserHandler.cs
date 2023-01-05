@@ -13,10 +13,9 @@ internal sealed class AuthorizeUserHandler : BaseRequestHandler<AuthorizeUserCom
     private readonly IUserRepository _repository;
     private readonly IHasher _hasher;
 
-    public AuthorizeUserHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork, IUserRepository repository,
+    public AuthorizeUserHandler(IMapper mapper, IUnitOfWork unitOfWork, IUserRepository repository,
         IHasher hasher) 
-        : base(mapper, claimsIdentityService, unitOfWork)
+        : base(mapper, null, unitOfWork)
     {
         _repository = repository;
         _hasher = hasher;

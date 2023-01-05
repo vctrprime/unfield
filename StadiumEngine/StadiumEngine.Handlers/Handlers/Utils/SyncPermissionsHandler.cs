@@ -15,9 +15,9 @@ internal sealed class SyncPermissionsHandler : BaseRequestHandler<SyncPermission
     private readonly IPermissionRepository _permissionRepository;
     private readonly IPermissionGroupRepository _permissionGroupRepository;
     
-    public SyncPermissionsHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, 
+    public SyncPermissionsHandler(IMapper mapper, 
         IUnitOfWork unitOfWork, IPermissionRepository permissionRepository,
-        IPermissionGroupRepository permissionGroupRepository) : base(mapper, claimsIdentityService, unitOfWork)
+        IPermissionGroupRepository permissionGroupRepository) : base(mapper, null, unitOfWork)
     {
         _permissionRepository = permissionRepository;
         _permissionGroupRepository = permissionGroupRepository;

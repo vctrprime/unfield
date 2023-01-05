@@ -64,6 +64,8 @@ public static class PermissionSet
                 new() { Name = "delete-role", DisplayName = "Удаление роли", Sort = 8},
                 new() { Name = "get-permissions", DisplayName = "Просмотр разрешений", Sort = 9},
                 new() { Name = "get-stadiums", DisplayName = "Просмотр объектов", Sort = 10},
+                new() { Name = "toggle-role-permission", DisplayName = "Изменение связей ролей и разрешений", Sort = 11},
+                new() { Name = "toggle-role-stadium", DisplayName = "Изменение связей ролей и объектов", Sort = 12},
             }
         },
         new PermissionGroup
