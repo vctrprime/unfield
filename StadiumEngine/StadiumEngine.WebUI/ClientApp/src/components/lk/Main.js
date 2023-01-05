@@ -14,7 +14,7 @@ export const Main = () => {
     }, [stadium])
     
     const loadData = () => {
-        fetchWrapper.get({url: 'api/account/stadiums'}).then((result) => {
+        fetchWrapper.get({url: 'api/accounts/user-stadiums'}).then((result) => {
             setData(JSON.stringify(result))
         })
     }*/

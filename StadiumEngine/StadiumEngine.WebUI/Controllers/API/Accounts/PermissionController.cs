@@ -10,7 +10,7 @@ namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 /// <summary>
 /// Разрешения
 /// </summary>
-[Route("api/permissions")]
+[Route("api/accounts/permissions")]
 public class PermissionController : BaseApiController
 {
     /// <summary>
@@ -18,7 +18,7 @@ public class PermissionController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet("{roleId}")]
-    [HasPermission("get-roles")]
+    [HasPermission("get-permissions")]
     public async Task<List<PermissionDto>> Get(int roleId)
     {
         var permissions = await Mediator.Send(new GetPermissionsForRoleQuery(roleId));

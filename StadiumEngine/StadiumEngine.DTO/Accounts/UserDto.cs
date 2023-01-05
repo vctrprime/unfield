@@ -36,11 +36,6 @@ public class UserDto : BaseEntityDto
     public string RoleName { get; set; }
     
     /// <summary>
-    /// Флаг суперюзера
-    /// </summary>
-    public bool IsSuperuser { get; set; }
-    
-    /// <summary>
     /// Дата последнего входа
     /// </summary>
     public DateTime? LastLoginDate { get; set; }

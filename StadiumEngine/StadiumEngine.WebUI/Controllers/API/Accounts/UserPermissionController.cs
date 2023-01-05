@@ -11,7 +11,7 @@ namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 /// <summary>
 /// Разрешения пользователя
 /// </summary>
-[Route("api/account/permissions")]
+[Route("api/accounts/user-permissions")]
 public class UserPermissionController : BaseApiController
 {
     /// <summary>

@@ -1,26 +1,27 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.Handlers.Queries.Accounts;
+using StadiumEngine.WebUI.Infrastructure.Attributes;
 
 namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 
 /// <summary>
-/// Стадионы пользователя
+/// Стадионы
 /// </summary>
-[Route("api/accounts/user-stadiums")]
-public class UserStadiumController : BaseApiController
+[Route("api/accounts/stadiums")]
+public class StadiumController : BaseApiController
 {
     /// <summary>
-    /// Стадионы пользователя
+    /// Получить стадионы
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public async Task<List<UserStadiumDto>> Get()
+    [HasPermission("get-stadiums")]
+    public async Task<List<StadiumDto>> Get()
     {
-        var stadiums = await Mediator.Send(new GetUserStadiumsQuery());
+        var stadiums = await Mediator.Send(new GetStadiumsQuery());
         return stadiums;
     }
 }

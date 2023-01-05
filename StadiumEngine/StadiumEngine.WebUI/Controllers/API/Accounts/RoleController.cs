@@ -10,7 +10,7 @@ namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 /// <summary>
 /// Роли
 /// </summary>
-[Route("api/roles")]
+[Route("api/accounts/roles")]
 public class RoleController : BaseApiController
 {
     /// <summary>

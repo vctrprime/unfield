@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using StadiumEngine.Domain.Entities.Geo;
 
@@ -15,6 +16,10 @@ public class Stadium : BaseEntity
     
     [Column("legal_id")]
     public int LegalId { get; set; }
+    
+    [Column("is_deleted")]
+    [DefaultValue(false)]
+    public bool IsDeleted { get; set; }
     
     [ForeignKey("LegalId")]
     public virtual Legal Legal { get; set; }

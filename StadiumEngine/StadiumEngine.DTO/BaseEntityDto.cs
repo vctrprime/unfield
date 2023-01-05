@@ -18,10 +18,10 @@ public class BaseEntityDto
     /// <summary>
     /// Пользователь создал
     /// </summary>
-    public string UserCreatedName { get; set; }
+    public string UserCreated { get; set; }
     
     /// <summary>
     /// Пользователь обновил
     /// </summary>
-    public string UserModifiedName { get; set; } 
+    public string UserModified { get; set; } 
 }

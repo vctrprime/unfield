@@ -10,7 +10,7 @@ namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 /// <summary>
 /// Пользователи
 /// </summary>
-[Route("api/users")]
+[Route("api/accounts/users")]
 public class UserController : BaseApiController
 {
     /// <summary>

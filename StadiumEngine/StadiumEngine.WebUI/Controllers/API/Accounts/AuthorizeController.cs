@@ -13,7 +13,7 @@ namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 /// <summary>
 /// Авторизация
 /// </summary>
-[Route("api/account")]
+[Route("api/accounts")]
 public class AuthorizeController : BaseApiController
 {
     /// <summary>

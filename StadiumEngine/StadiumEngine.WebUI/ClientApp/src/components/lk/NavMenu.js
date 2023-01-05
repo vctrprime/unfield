@@ -27,7 +27,7 @@ export const NavMenu = () => {
     const [permissions, setPermissions] = useRecoilState(permissionsAtom);
     
     const logout = () => {
-        fetchWrapper.delete({url: `api/account/logout`})
+        fetchWrapper.delete({url: `api/accounts/logout`})
             .finally(() => {
                 localStorage.removeItem('user');
                 setAuth(null);
@@ -40,7 +40,7 @@ export const NavMenu = () => {
     
     useEffect(() => {
         if (permissions.length === 0) {
-            fetchWrapper.get({url: `api/account/permissions`, withSpinner: true, hideSpinner: true}).then((result) => {
+            fetchWrapper.get({url: `api/accounts/user-permissions`, withSpinner: true, hideSpinner: true}).then((result) => {
                 setPermissions(result);
             })
         }

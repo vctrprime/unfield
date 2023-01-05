@@ -15,14 +15,21 @@ internal class StadiumRepository : BaseRepository<Stadium>, IStadiumRepository
     
     public async Task<List<Stadium>> GetForLegal(int legalId)
     {
-        return await Entities.Where(s => s.LegalId == legalId).ToListAsync();
+        return await Entities
+            .Where(s => s.LegalId == legalId && !s.IsDeleted)
+            .Include(s => s.City)
+            .ThenInclude(c => c.Region)
+            .ThenInclude(r => r.Country)
+            .ToListAsync();
     }
 
     public async Task<List<Stadium>> GetForRole(int roleId)
     {
         return await Entities
-            .Include(s => s.RoleStadiums)
-            .Where(s => s.RoleStadiums.Select( rs => rs.RoleId).Contains(roleId))
+            .Where(s => s.RoleStadiums.Select( rs => rs.RoleId).Contains(roleId) && !s.IsDeleted)
+            .Include(s => s.City)
+            .ThenInclude(c => c.Region)
+            .ThenInclude(r => r.Country)
             .ToListAsync();
     }
     

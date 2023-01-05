@@ -38,7 +38,7 @@ internal class AccountsProfile : Profile
             .IncludeBase<BaseUserEntity, BaseEntityDto>()
             .ForMember(dest => dest.RoleId, act => act.MapFrom(s => s.RoleId))
             .ForMember(dest => dest.RoleName,
-                act => act.MapFrom(s => s.Role == null ? "Суперпользователь" : s.Role.Name));
+                act => act.MapFrom(s => s.Role.Name));
         CreateMap<Role, RoleDto>()
             .IncludeBase<BaseUserEntity, BaseEntityDto>()
             .ForMember(dest => dest.UsersCount, act => act.MapFrom(s => s.Users.Count));
@@ -47,6 +47,13 @@ internal class AccountsProfile : Profile
             .ForMember(dest => dest.SortValue, act => act.MapFrom(s => s.Sort))
             .ForMember(dest => dest.GroupName, act => act.MapFrom(s => s.PermissionGroup.Name))
             .ForMember(dest => dest.GroupSortValue, act => act.MapFrom(s => s.PermissionGroup.Sort));
+        CreateMap<Stadium, StadiumDto>()
+            .ForMember(dest => dest.Country, 
+                act => act.MapFrom(s => s.City.Region.Country.ShortName))
+            .ForMember(dest => dest.Region, 
+                act => act.MapFrom(s => s.City.Region.ShortName))
+            .ForMember(dest => dest.City, 
+            act => act.MapFrom(s => s.City.ShortName));
 
 
     }

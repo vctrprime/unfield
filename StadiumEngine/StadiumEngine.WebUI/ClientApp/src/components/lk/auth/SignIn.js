@@ -16,7 +16,7 @@ export const SignIn = () => {
         const { login, password } = document.forms[0];
         
         fetchWrapper.post({
-            url: `api/account/login`,
+            url: `api/accounts/login`,
             body: { login: login.value, password: password.value },
             hideSpinner: false
         })
