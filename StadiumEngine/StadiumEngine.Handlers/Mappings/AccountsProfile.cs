@@ -16,6 +16,12 @@ internal class AccountsProfile : Profile
             .ForMember(dest => dest.Claims,
                 act => act.MapFrom(s => CreateClaimsList(s)));
 
+        CreateMap<User, AuthorizedUserDto>()
+            .ForMember(dest => dest.FullName,
+                act => act.MapFrom(s => $"{s.Name} {s.LastName}"))
+            .ForMember(dest => dest.RoleName,
+                act => act.MapFrom(s => s.Role == null ? "Суперпользователь" : s.Role.Name));
+        
         CreateMap<Stadium, UserStadiumDto>()
             .ForMember(dest => dest.IsCurrent, 
                 act => act.MapFrom(s => false));
@@ -29,12 +35,8 @@ internal class AccountsProfile : Profile
     {
         var claims = new List<Claim>
         {
-            new (ClaimTypes.Name, $"{user.Name} {user.LastName}"),
             new ("id", user.Id.ToString()),
             new ("legalId", user.LegalId.ToString()),
-            new ("isSuperuser", user.IsSuperuser.ToString()),
-            new ("roleId", user.Role == null ? "0" : user.Role.Id.ToString()),
-            new ("roleName", user.Role == null ? "Суперпользователь" : user.Role.Name),
             new ("stadiumId", user.Role == null ? 
                 user.Legal.Stadiums.First().Id.ToString() : 
                 user.Role.RoleStadiums.First().StadiumId.ToString())

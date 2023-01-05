@@ -16,33 +16,12 @@ internal class ClaimsIdentityService : IClaimsIdentityService
     {
         return GetClaim<int>("id");
     }
-
-    public string GetUserName()
-    {
-        return GetClaim<string>(ClaimTypes.Name);
-    }
-
-    public int GetRoleId()
-    {
-        return GetClaim<int>("roleId");
-    }
-
-    public string GetRoleName()
-    {
-        var result = GetClaim<string>("roleName");
-        return result;
-    }
-
+    
     public int GetLegalId()
     {
         return GetClaim<int>("legalId");
     }
-
-    public bool GetIsSuperuser()
-    {
-        return GetClaim<bool>("isSuperuser");
-    }
-
+    
     public int GetCurrentStadiumId()
     {
         return GetClaim<int>("stadiumId");

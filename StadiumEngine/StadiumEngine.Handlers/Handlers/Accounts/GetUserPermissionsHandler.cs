@@ -10,26 +10,32 @@ namespace StadiumEngine.Handlers.Handlers.Accounts;
 
 internal sealed class GetUserPermissionsHandler :  BaseRequestHandler<GetUserPermissionsQuery, List<UserPermissionDto>>
 {
-    private readonly IPermissionRepository _repository;
+    private readonly IPermissionRepository _permissionRepository;
+    private readonly IUserRepository _userRepository;
 
-    public GetUserPermissionsHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, IPermissionRepository repository) : base(mapper, claimsIdentityService, unitOfWork)
+    public GetUserPermissionsHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork, IPermissionRepository permissionRepository,
+        IUserRepository userRepository) : base(mapper, claimsIdentityService, unitOfWork)
     {
-        _repository = repository;
+        _permissionRepository = permissionRepository;
+        _userRepository = userRepository;
     }
 
     public override async ValueTask<List<UserPermissionDto>> Handle(GetUserPermissionsQuery request, CancellationToken cancellationToken)
     {
-        var isSuperuser = ClaimsIdentityService.GetIsSuperuser();
+        var userId = ClaimsIdentityService.GetUserId();
+        var user = await _userRepository.Get(userId);
 
-        List<Permission> permissions;
-        if (isSuperuser)
+        List<Permission> permissions = new List<Permission>();
+        
+        switch (user)
         {
-            permissions = await _repository.GetAll();
-        }
-        else
-        {
-            var roleId = ClaimsIdentityService.GetRoleId();
-            permissions = await _repository.GetForRole(roleId);
+            case { IsSuperuser: true, Role: null }:
+                permissions = await _permissionRepository.GetAll();
+                break;
+            case { Role: { } }:
+                permissions = await _permissionRepository.GetForRole(user.Role.Id);
+                break;
         }
         
         var permissionsDto = Mapper.Map<List<UserPermissionDto>>(permissions);

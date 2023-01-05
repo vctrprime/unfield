@@ -10,27 +10,31 @@ namespace StadiumEngine.Handlers.Handlers.Accounts;
 
 internal sealed class GetUserStadiumsHandler :  BaseRequestHandler<GetUserStadiumsQuery, List<UserStadiumDto>>
 {
-    private readonly IStadiumRepository _repository;
+    private readonly IStadiumRepository _stadiumRepository;
+    private readonly IUserRepository _userRepository;
 
-    public GetUserStadiumsHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, IStadiumRepository repository) : base(mapper, claimsIdentityService, unitOfWork)
+    public GetUserStadiumsHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, 
+        IStadiumRepository stadiumRepository, IUserRepository userRepository) : base(mapper, claimsIdentityService, unitOfWork)
     {
-        _repository = repository;
+        _stadiumRepository = stadiumRepository;
+        _userRepository = userRepository;
     }
 
     public override async ValueTask<List<UserStadiumDto>> Handle(GetUserStadiumsQuery request, CancellationToken cancellationToken)
     {
-        var isSuperuser = ClaimsIdentityService.GetIsSuperuser();
+        var userId = ClaimsIdentityService.GetUserId();
+        var user = await _userRepository.Get(userId);
 
-        List<Stadium> stadiums;
-        if (isSuperuser)
+        List<Stadium> stadiums = new List<Stadium>();
+        
+        switch (user)
         {
-            var legalId = ClaimsIdentityService.GetLegalId();
-            stadiums = await _repository.GetForLegal(legalId);
-        }
-        else
-        {
-            var roleId = ClaimsIdentityService.GetRoleId();
-            stadiums = await _repository.GetForRole(roleId);
+            case { IsSuperuser: true, Role: null }:
+                stadiums = await _stadiumRepository.GetForLegal(user.LegalId);
+                break;
+            case { Role: { } }:
+                stadiums = await _stadiumRepository.GetForRole(user.Role.Id);
+                break;
         }
         
         var stadiumsDto = Mapper.Map<List<UserStadiumDto>>(stadiums);

@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts;
@@ -6,27 +7,22 @@ using StadiumEngine.Handlers.Queries.Accounts;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts;
 
-internal sealed class GetAuthorizedUserHandler : BaseRequestHandler<GetAuthorizedUserQuery, AuthorizeUserDto>
+internal sealed class GetAuthorizedUserHandler : BaseRequestHandler<GetAuthorizedUserQuery, AuthorizedUserDto>
 {
-    public GetAuthorizedUserHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+    private readonly IUserRepository _repository;
+    public GetAuthorizedUserHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork,
+        IUserRepository repository) : base(mapper, claimsIdentityService, unitOfWork)
     {
+        _repository = repository;
     }
 
-    public override async ValueTask<AuthorizeUserDto> Handle(GetAuthorizedUserQuery request, CancellationToken cancellationToken)
+    public override async ValueTask<AuthorizedUserDto> Handle(GetAuthorizedUserQuery request, CancellationToken cancellationToken)
     {
-        var task = Task.Run(() =>
-        {
-            var user = new AuthorizeUserDto
-            {
-                FullName = ClaimsIdentityService.GetUserName(),
-                IsSuperuser = ClaimsIdentityService.GetIsSuperuser(),
-                RoleName = ClaimsIdentityService.GetRoleName()
-            };
-            return user;
-        }, cancellationToken);
-        
-        var result = await task;
+        var userId = ClaimsIdentityService.GetUserId();
+        var user = await _repository.Get(userId);
 
-        return result;
+        var userDto = Mapper.Map<AuthorizedUserDto>(user);
+
+        return userDto;
     }
 }
