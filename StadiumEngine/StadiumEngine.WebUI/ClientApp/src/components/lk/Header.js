@@ -39,13 +39,15 @@ export const Header = () => {
         <div className="border-bottom navbar navbar-light box-shadow lk-header">
             {stadium !== null && 
                 <div className="stadium-list">
-                    Текущий объект:  &nbsp;
-                    <Dropdown
-                        onChange={changeStadium}
-                        inline
-                        options={stadiums}
-                        defaultValue={stadium}
-                    />
+                    <div style={window.location.pathname.startsWith("/lk/accounts") ? {display: "none"} : {}}>
+                        Текущий объект:  &nbsp;
+                        <Dropdown
+                            onChange={changeStadium}
+                            inline
+                            options={stadiums}
+                            defaultValue={stadium}
+                        />
+                    </div>
                 </div>}
 
             {stadium !== null && <div className="header-icons">

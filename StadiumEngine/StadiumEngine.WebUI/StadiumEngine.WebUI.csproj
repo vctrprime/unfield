@@ -44,7 +44,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ClientApp\src\components\lk\accounts" />
       <Folder Include="ClientApp\src\components\lk\reports" />
     </ItemGroup>
 

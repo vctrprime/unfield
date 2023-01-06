@@ -50,6 +50,10 @@ export const NavMenu = () => {
         return permissions.filter(p => p.groupKey === key).length > 0;
     }
     
+    const getNavLinkClassName = ({ isActive }) => {
+        return isActive ? "activeClicked" : undefined;
+    }
+    
     return (
             
                 <CDBSidebar textColor="#fff" backgroundColor="#354650">
@@ -61,39 +65,27 @@ export const NavMenu = () => {
                     <CDBSidebarContent className="sidebar-content">
                         <CDBSidebarMenu>
 
-                            {permissions.length > 0 ? <NavLink exact="true" to="/lk" end className={({isActive}) => //(isActive) --> ({isActive})
-                                isActive ? "activeClicked" : undefined
-                            }>
+                            {permissions.length > 0 ? <NavLink exact="true" to="/lk" end className={getNavLinkClassName}>
                                 <CDBSidebarMenuItem title="Основные настройки"  icon="columns">Основные настройки</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
-                            {viewNavLink('schedule') ? <NavLink exact="true" to="/lk/schedule" end className={({isActive}) => //(isActive) --> ({isActive})
-                                isActive ? "activeClicked" : undefined
-                            }>
+                            {viewNavLink('schedule') ? <NavLink to="/lk/schedule" className={getNavLinkClassName}>
                                 <CDBSidebarMenuItem title="Шахматка броней" icon="table">Шахматка броней</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
-                            {viewNavLink('actives') ? <NavLink exact="true" to="/lk/actives" end className={({isActive}) => //(isActive) --> ({isActive})
-                                isActive ? "activeClicked" : undefined
-                            }>
+                            {viewNavLink('actives') ? <NavLink to="/lk/actives"  className={getNavLinkClassName}>
                                 <CDBSidebarMenuItem title="Активы" icon="object-ungroup">Активы</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
-                            {viewNavLink('employees') ? <NavLink exact="true" to="/lk/employees" end className={({isActive}) => //(isActive) --> ({isActive})
-                                isActive ? "activeClicked" : undefined
-                            }>
+                            {viewNavLink('employees') ? <NavLink to="/lk/employees"  className={getNavLinkClassName}>
                                 <CDBSidebarMenuItem title="Персонал" icon="user-tie">Персонал</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
-                            {viewNavLink('reports') ? <NavLink exact="true" to="/lk/reports" end className={({isActive}) => //(isActive) --> ({isActive})
-                                isActive ? "activeClicked" : undefined
-                            }>
+                            {viewNavLink('reports') ? <NavLink to="/lk/reports"  className={getNavLinkClassName}>
                                 <CDBSidebarMenuItem title="Отчетность" icon="chart-line">Отчетность</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
-                            {viewNavLink('accounts') ? <NavLink exact="true" to="/lk/accounts" end className={({isActive}) => //(isActive) --> ({isActive})
-                                isActive ? "activeClicked" : undefined
-                            }>
+                            {viewNavLink('accounts') ? <NavLink  to="/lk/accounts" className={getNavLinkClassName}>
                                 <CDBSidebarMenuItem title="Аккаунты и роли" icon="users">Аккаунты и роли</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
                             

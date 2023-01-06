@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, NavLink, Outlet} from "react-router-dom";
 import {NavMenu} from "./NavMenu";
 import {Header} from "./Header";
@@ -11,6 +11,7 @@ import {stadiumAtom} from "../../state/stadium";
 
 export const Layout = () => {
     const stadium = useRecoilValue(stadiumAtom);
+    
     
     if(isMobile) {
         return (
@@ -39,6 +40,7 @@ export const Layout = () => {
             
         )
     }
+    
     
     return (
         <div
