@@ -1,13 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Link, NavLink, Outlet} from "react-router-dom";
 import {NavMenu} from "./NavMenu";
 import {Header} from "./Header";
 import '../../css/lk/Main.scss';
+import '../../css/lk/Accounts.scss';
 import {isMobile} from 'react-device-detect';
 import {NavbarBrand} from "reactstrap";
 import logo from "../../img/logo/logo_icon_with_title.png";
 import {useRecoilValue} from "recoil";
 import {stadiumAtom} from "../../state/stadium";
+
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 export const Layout = () => {
     const stadium = useRecoilValue(stadiumAtom);

@@ -1,0 +1,22 @@
+.accounts-container {
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  display: flex;
+
+  .roles-container {
+    flex: 1;
+    width: 100%;
+  }
+  
+  .users-container {
+    flex: 1;
+    width: 100%;
+  }
+  
+  .stadiums-container {
+    flex: 1;
+    width: 100%;
+  }
+}
+

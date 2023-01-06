@@ -17,7 +17,8 @@ import './css/lk/SignIn.scss'
 import {Employees} from "./components/lk/employees/Employees";
 import {Accounts} from "./components/lk/accounts/Accounts";
 import {Permissions} from "./components/lk/accounts/Permissions";
-import {UsersAndRoles} from "./components/lk/accounts/UsersAndRoles";
+import {Users} from "./components/lk/accounts/Users";
+import {Roles} from "./components/lk/accounts/Roles";
 
 /*NotificationManager.info('Info message');
 NotificationManager.success('Success message', 'Title here');
@@ -48,7 +49,8 @@ export default class App extends Component {
                   <Route path="employees" element={<Employees />} />
                   <Route path="reports" element={<Main />} />
                   <Route path="accounts" element={<Accounts />} >
-                      <Route path="" element={<UsersAndRoles />} />
+                      <Route path="" element={<Users />} />
+                      <Route path="roles" element={<Roles />} />
                       <Route path="permissions" element={<Permissions />} />
                   </Route>
               </Route>

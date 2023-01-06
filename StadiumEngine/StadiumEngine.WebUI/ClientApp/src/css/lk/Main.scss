@@ -1,7 +1,7 @@
 @import "src/css/const.scss";
 
 #root {
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 .forbidden-message {
@@ -85,9 +85,39 @@
       
       .tabs-content {
         width: 100%;
-        height: calc(100% - 36px);
+        height: calc(100% - 42px);
       }
     }
   }
   
+}
+
+
+.grid-container {
+  height: calc(100% - 24px);
+  padding: 1px;
+  width: 100%;
+
+  .ag-header-cell-label {
+    justify-content: center !important;
+  }
+
+  .grid-loading-header {
+    height: 48px;
+    background-color: #f8f8f8;
+
+    th {
+      padding: 0;
+      border-bottom: none !important;
+      text-align: center !important;
+      vertical-align: middle !important;
+      overflow:auto;
+    }
+  }
+}
+
+.grid-title {
+  height: 24px;
+  text-align: center;
+  font-size: 15px;
 }

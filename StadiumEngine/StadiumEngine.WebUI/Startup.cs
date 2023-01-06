@@ -143,12 +143,12 @@ namespace StadiumEngine.WebUI
                 app.UseHttpsRedirection();
             }
             
-            //ставим небольшую задержку на обработку запросов, чтобы спиннер не мелькал
+            //ставим небольшую задержку на обработку запросов, для тестов скелетона и спиннера
             app.Use(async (context, next) =>
             {
                 if (context.Request.Path.Value != null && context.Request.Path.Value.Contains("api/"))
                 {
-                    //Thread.Sleep(200);
+                    //Thread.Sleep(3000);
                 }
                 await next.Invoke();
             });

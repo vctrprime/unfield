@@ -1,11 +1,13 @@
 import React, {useEffect} from 'react';
 import {NavLink, Outlet, useNavigate} from "react-router-dom";
 
-export const Tabs = ({ tabsData, mainRoute = '' }) => {
+export const Tabs = ({ tabsData, leftNavRoute }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        navigate(tabsData[0].route);
+        if (tabsData.filter(t => `${leftNavRoute}/${t.route}` === window.location.pathname).length === 0) {
+            navigate(tabsData[0].route);
+        }
     }, [])
     
     
