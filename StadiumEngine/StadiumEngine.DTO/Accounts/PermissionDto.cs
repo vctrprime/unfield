@@ -16,6 +16,11 @@ public class PermissionDto
     public string Name { get; set; }
     
     /// <summary>
+    /// Описание
+    /// </summary>
+    public string Description { get; set; }
+    
+    /// <summary>
     /// Порядок сортировки
     /// </summary>
     public int SortValue { get; set; }
@@ -24,6 +29,11 @@ public class PermissionDto
     /// Название группы
     /// </summary>
     public string GroupName { get; set; }
+    
+    /// <summary>
+    /// Ключ группы
+    /// </summary>
+    public string GroupKey { get; set; }
     
     /// <summary>
     /// Порядок сортировки группы

@@ -15,7 +15,6 @@ export const Header = () => {
     const fetchWrapper = useFetchWrapper();
     
     useEffect(() => {
-        
         loadStadiums();
     }, []);
 

@@ -53,6 +53,7 @@ internal class AccountsProfile : Profile
             .ForMember(dest => dest.Name, act => act.MapFrom(s => s.DisplayName))
             .ForMember(dest => dest.SortValue, act => act.MapFrom(s => s.Sort))
             .ForMember(dest => dest.GroupName, act => act.MapFrom(s => s.PermissionGroup.Name))
+            .ForMember(dest => dest.GroupKey, act => act.MapFrom(s => s.PermissionGroup.Key))
             .ForMember(dest => dest.GroupSortValue, act => act.MapFrom(s => s.PermissionGroup.Sort));
         
         CreateMap<Stadium, StadiumDto>()

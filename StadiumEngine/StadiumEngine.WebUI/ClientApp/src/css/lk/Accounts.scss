@@ -20,3 +20,60 @@
   }
 }
 
+.permissions-container {
+  padding: 5px 8px;
+  
+  .outer-container {
+    padding: 5px;
+    float: left;
+    width: 25%;
+    
+    .inner-container {
+      border: 1px solid #ccc;
+      padding: 8px;
+      background-color: white;
+      -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+      -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+      box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+      
+      
+      .permission {
+        width: 100%;
+        margin-top: 8px;
+        
+        .permission-inner {
+         
+          .permission-inner-descr {
+            font-size: 11px;
+            color: #666;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+            overflow: hidden;
+            line-height: 12px;
+          }
+        }
+      }
+    }
+    
+    .permission-group-title {
+      width: 100%;
+      font-size: 15px;
+      font-weight: bold;
+    }
+    
+
+    .accounts-permissions-container, .actives-permissions-container {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      width: 100%;
+      
+      .accounts-permission, .actives-permission  {
+        flex: 1 0 25%;
+      }
+    }
+  }
+  
+  
+}
+

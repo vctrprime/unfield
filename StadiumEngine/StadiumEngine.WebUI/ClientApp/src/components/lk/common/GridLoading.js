@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 export const GridLoading = ({ columns }) => {
@@ -29,13 +29,10 @@ export const GridLoading = ({ columns }) => {
         
         <div style={{ height: '100%', width: '100%', display: 'table'}} ref={ref}>
 
-            {height !== 0 ? <SkeletonTheme
-                baseColor="#ccc"
-                highlightColor="#eee"
-                borderRadius="0.5rem"
-                duration={2}
-            >
-                <table className="table" style={{ position: "absolute", tableLayout: "fixed"}}>
+            {height !== 0 ? 
+                <table className="table" style={{ position: "absolute", 
+                    tableLayout: "fixed",
+                backgroundColor: "white"}}>
                     <thead>
                     <tr className="grid-loading-header">
                         {columns.map((c, i) => {
@@ -50,8 +47,7 @@ export const GridLoading = ({ columns }) => {
                         <TableRow key={i}/>
                     ))}
                     </tbody>
-                </table>
-            </SkeletonTheme> : <span />}
+                </table> : <span />}
             
         </div>);
 } ;

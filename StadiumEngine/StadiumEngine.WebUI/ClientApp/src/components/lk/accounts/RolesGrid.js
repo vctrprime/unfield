@@ -2,9 +2,13 @@ import React, {useEffect, useRef, useState, useCallback} from 'react';
 import {useFetchWrapper} from "../../../helpers/fetch-wrapper";
 import { AgGridReact } from 'ag-grid-react';
 import {GridLoading} from "../common/GridLoading";
+import {useSetRecoilState} from "recoil";
+import {rolesAtom} from "../../../state/roles";
 
 export const RolesGrid = ({setSelectedRole}) => {
     const [data, setData] = useState(null);
+    const setRecoilRoles = useSetRecoilState(rolesAtom);
+    
     const gridRef = useRef();
 
     const [columnDefs, setColumnDefs] = useState([
@@ -26,6 +30,9 @@ export const RolesGrid = ({setSelectedRole}) => {
         fetchWrapper.get({url: 'api/accounts/roles', withSpinner: false, hideSpinner: false}).then((result) => {
             setTimeout(() => {
                 setData(result);
+                setRecoilRoles(result.map((r) => {
+                    return { key: r.id, value: r.id, text: r.name }
+                }));
             }, 500);
         })
     }
