@@ -13,14 +13,15 @@ namespace StadiumEngine.WebUI.Infrastructure.Attributes;
 /// </summary>
 public class HasPermissionAttribute : ActionFilterAttribute
 {
-    private readonly string _permission;
+    private readonly string _needAlternativePermissions;
     
     /// <summary>
     /// Атрибут проверки разрешений на метод
     /// </summary>
-    public HasPermissionAttribute(string permission)
+    /// <param name="needAlternativePermissions">Список разрешений через "," (разрешает выполнение метода, если есть хотя бы одно разрешение из поданного списка)</param>
+    public HasPermissionAttribute(string needAlternativePermissions)
     {
-        _permission = permission;
+        _needAlternativePermissions = needAlternativePermissions.ToLower();
     }
     
     /// <summary>
@@ -33,8 +34,11 @@ public class HasPermissionAttribute : ActionFilterAttribute
         if (mediator != null)
         {
             var permissions = mediator.Send(new GetUserPermissionsQuery()).GetAwaiter().GetResult();
+
+            var needAlternativePermissions = _needAlternativePermissions.Split(",");
             
-            if (permissions.Select(p => p.Name.ToLower()).Contains(_permission.ToLower())) return;
+            if (permissions.Any(permission => needAlternativePermissions.Contains(permission.Name.ToLower()))) return;
+            
         }
         
         context.Result = new ObjectResult(new

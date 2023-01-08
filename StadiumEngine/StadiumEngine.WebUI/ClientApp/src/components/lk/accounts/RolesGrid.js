@@ -4,6 +4,7 @@ import { AgGridReact } from 'ag-grid-react';
 import {GridLoading} from "../common/GridLoading";
 import {useSetRecoilState} from "recoil";
 import {rolesAtom} from "../../../state/roles";
+import {dateFormatter} from "../../../helpers/date-formatter";
 
 export const RolesGrid = ({setSelectedRole}) => {
     const [data, setData] = useState(null);
@@ -17,7 +18,8 @@ export const RolesGrid = ({setSelectedRole}) => {
         {field: 'usersCount', headerName: "Кол-во пользователей", width: 300},
         {field: 'stadiumsCount', headerName: "Кол-во объектов", width: 300},
         {field: 'userCreated', headerName: "Добавил", width: 300},
-        {field: 'dateCreated', headerName: "Дата добавления", width: 300}
+        {field: 'dateCreated', headerName: "Дата добавления", width: 300, valueFormatter: dateFormatter},
+        {field: 'dateModified', headerName: "Дата изменения", width: 300, valueFormatter: dateFormatter},
     ]);
 
     const fetchWrapper = useFetchWrapper();

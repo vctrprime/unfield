@@ -2,6 +2,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import {useFetchWrapper} from "../../../helpers/fetch-wrapper";
 import {AgGridReact} from "ag-grid-react";
 import {GridLoading} from "../common/GridLoading";
+import {dateFormatter} from "../../../helpers/date-formatter";
 
 export const StadiumsGrid = ({selectedRole}) => {
     const [data, setData] = useState(null);
@@ -9,10 +10,13 @@ export const StadiumsGrid = ({selectedRole}) => {
 
     const [columnDefs, setColumnDefs] = useState([
         {field: 'name', headerName: "Название", width: 300},
+        {field: 'isRoleBound', headerName: "Связан", width: 300},
+        {field: 'country', headerName: "Страна", width: 300},
         {field: 'region', headerName: "Регион", width: 300},
         {field: 'city', headerName: "Город", width: 300},
         {field: 'address', headerName: "Адрес", width: 300},
-        {field: 'isRoleBound', headerName: "Связан", width: 300}
+        {field: 'description', headerName: "Описание", width: 300},
+        {field: 'dateCreated', headerName: "Дата добавления", width: 300, valueFormatter: dateFormatter}
     ]);
 
     const fetchWrapper = useFetchWrapper();

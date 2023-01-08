@@ -47,6 +47,13 @@ export const Header = () => {
                             defaultValue={stadium}
                         />
                     </div>
+                    <div className="header-warning" style={window.location.pathname.startsWith("/lk/accounts") ? {} : {display: "none"}}>
+                        <i className="fa fa-exclamation-circle" aria-hidden="true" />
+                        <div className="header-warning-text">
+                            <span>Просим внимательно относиться к изменениям настроек в этом модуле.</span>
+                            <span>Некорректная конфигурация может вызвать проблемы с доступом к возможностям системы у сотрудников Вашей организации.</span>
+                        </div>
+                    </div>
                 </div>}
 
             {stadium !== null && <div className="header-icons">

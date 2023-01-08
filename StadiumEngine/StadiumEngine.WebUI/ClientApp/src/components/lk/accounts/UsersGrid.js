@@ -2,6 +2,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import {useFetchWrapper} from "../../../helpers/fetch-wrapper";
 import {AgGridReact} from "ag-grid-react";
 import {GridLoading} from "../common/GridLoading";
+import {dateFormatter} from "../../../helpers/date-formatter";
 
 export const UsersGrid = () => {
     const [data, setData] = useState(null);
@@ -13,7 +14,9 @@ export const UsersGrid = () => {
         {field: 'phoneNumber', headerName: "Логин", width: 300},
         {field: 'roleName', headerName: "Роль", width: 300},
         {field: 'userCreated', headerName: "Добавил", width: 300},
-        {field: 'dateCreated', headerName: "Дата добавления", width: 300}
+        {field: 'dateCreated', headerName: "Дата добавления", width: 300, valueFormatter: dateFormatter},
+        {field: 'dateModified', headerName: "Дата изменения", width: 300, valueFormatter: dateFormatter},
+        {field: 'lastLoginDate', headerName: "Дата последнего входа", width: 300, valueFormatter: dateFormatter}
     ]);
 
     const fetchWrapper = useFetchWrapper();

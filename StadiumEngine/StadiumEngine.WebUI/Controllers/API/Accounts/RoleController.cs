@@ -19,7 +19,7 @@ public class RoleController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [HasPermission("get-roles")]
+    [HasPermission("get-roles,get-permissions,get-users")]
     public async Task<List<RoleDto>> Get()
     {
         var roles = await Mediator.Send(new GetRolesQuery());
