@@ -8,9 +8,10 @@ import {Schedule} from "./components/lk/schedule/Schedule";
 import {Main} from "./components/lk/Main";
 import {SignIn} from "./components/lk/auth/SignIn";
 import ProtectedRoute from "./components/common/ProtectedRoute";
-import {NotificationContainer} from 'react-notifications';
+import {ReactNotifications} from 'react-notifications-component'
 
-import 'react-notifications/lib/notifications.css';
+import 'react-notifications-component/dist/theme.css'
+import 'animate.css/animate.min.css';
 
 import './custom.css'
 import './css/lk/SignIn.scss'
@@ -38,7 +39,7 @@ export default class App extends Component {
       
     return (
       <Layout>
-          <NotificationContainer/>
+          <ReactNotifications />
           <Routes>
               <Route path="/" element={<Home/>} />
               <Route path="/lk/sign-in" element={<SignIn />} />

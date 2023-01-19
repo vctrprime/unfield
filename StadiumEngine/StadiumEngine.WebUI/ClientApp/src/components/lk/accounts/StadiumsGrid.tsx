@@ -1,11 +1,19 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {useFetchWrapper} from "../../../helpers/fetch-wrapper";
-import {AgGridReact} from "ag-grid-react";
 import {GridLoading} from "../common/GridLoading";
 import {dateFormatter} from "../../../helpers/date-formatter";
+import {RoleDto} from "../../../models/dto/accounts/RoleDto";
+import {StadiumDto} from "../../../models/dto/accounts/StadiumDto";
 
-export const StadiumsGrid = ({selectedRole}) => {
-    const [data, setData] = useState(null);
+const AgGrid = require('ag-grid-react');
+const { AgGridReact } = AgGrid;
+
+interface StadiumsGridProps {
+    selectedRole: RoleDto | null
+}
+
+export const StadiumsGrid = ({selectedRole} : StadiumsGridProps) => {
+    const [data, setData] = useState<StadiumDto[] | null>(null);
     const gridRef = useRef();
 
     const [columnDefs, setColumnDefs] = useState([
@@ -34,9 +42,12 @@ export const StadiumsGrid = ({selectedRole}) => {
     }, [selectedRole])
 
     const fetchStadiums = () => {
-        fetchWrapper.get({url: `api/accounts/stadiums/${selectedRole.id}`}).then((result) => {
-            setData(result);
-        })
+        if (selectedRole !== null) {
+            fetchWrapper.get({url: `api/accounts/stadiums/${selectedRole.id}`})
+                .then((result: StadiumDto[]) => {
+                setData(result);
+            })
+        }
     }
 
     return (

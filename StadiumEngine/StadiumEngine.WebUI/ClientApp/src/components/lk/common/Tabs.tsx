@@ -1,7 +1,16 @@
 import React, {useEffect} from 'react';
 import {NavLink, Outlet, useNavigate} from "react-router-dom";
 
-export const Tabs = ({ tabsData, leftNavRoute }) => {
+export interface TabData {
+    route: string,
+    name: string
+}
+interface TabsProps {
+    tabsData: TabData[]
+    leftNavRoute: string
+}
+
+export const Tabs = ({ tabsData, leftNavRoute } : TabsProps) => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -17,7 +26,7 @@ export const Tabs = ({ tabsData, leftNavRoute }) => {
             <div className="tabs-links">
                 {tabsData.map((tab, i) => {
                     return (
-                        <NavLink key={i} exact="true" to={tab.route} end>
+                        <NavLink key={i} to={tab.route} end>
                             <div className="tabs-link">{tab.name}</div>
                         </NavLink>
                     )

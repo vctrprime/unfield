@@ -3,18 +3,21 @@ import {NavLink, useNavigate} from "react-router-dom";
 import {useFetchWrapper} from "../../helpers/fetch-wrapper";
 import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {authAtom} from "../../state/auth";
-import {
+import logo from "../../img/logo/logo_icon_with_title_white.png";
+import '../../css/lk/NavMenu.scss';
+import {stadiumAtom} from "../../state/stadium";
+import {permissionsAtom} from "../../state/permissions";
+import {UserPermissionDto} from "../../models/dto/accounts/UserPermissionDto";
+
+const cdbreact = require('cdbreact');
+const {
     CDBSidebar,
     CDBSidebarContent,
     CDBSidebarFooter,
     CDBSidebarHeader,
     CDBSidebarMenu,
     CDBSidebarMenuItem
-} from 'cdbreact';
-import logo from "../../img/logo/logo_icon_with_title_white.png";
-import '../../css/lk/NavMenu.scss';
-import {stadiumAtom} from "../../state/stadium";
-import {permissionsAtom} from "../../state/permissions";
+} = cdbreact;
 
 
 
@@ -24,7 +27,7 @@ export const NavMenu = () => {
     const navigate = useNavigate();
     
     const [stadium, setStadium] = useRecoilState(stadiumAtom);
-    const [permissions, setPermissions] = useRecoilState(permissionsAtom);
+    const [permissions, setPermissions] = useRecoilState<UserPermissionDto[]>(permissionsAtom);
     
     const logout = () => {
         fetchWrapper.delete({url: `api/accounts/logout`})
@@ -40,17 +43,18 @@ export const NavMenu = () => {
     
     useEffect(() => {
         if (permissions.length === 0) {
-            fetchWrapper.get({url: `api/accounts/user-permissions`, withSpinner: true, hideSpinner: true}).then((result) => {
+            fetchWrapper.get({url: `api/accounts/user-permissions`, withSpinner: true, hideSpinner: true})
+                .then((result: UserPermissionDto[] ) => {
                 setPermissions(result);
             })
         }
     }, [stadium])
     
-    const viewNavLink = (key) => {
+    const viewNavLink = (key: string) => {
         return permissions.filter(p => p.groupKey === key).length > 0;
     }
     
-    const getNavLinkClassName = ({ isActive }) => {
+    const getNavLinkClassName = ({ isActive }: any) => {
         return isActive ? "activeClicked" : undefined;
     }
     
@@ -65,7 +69,7 @@ export const NavMenu = () => {
                     <CDBSidebarContent className="sidebar-content">
                         <CDBSidebarMenu>
 
-                            {permissions.length > 0 ? <NavLink exact="true" to="/lk" end className={getNavLinkClassName}>
+                            {permissions.length > 0 ? <NavLink to="/lk" end className={getNavLinkClassName}>
                                 <CDBSidebarMenuItem title="Основные настройки"  icon="columns">Основные настройки</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 

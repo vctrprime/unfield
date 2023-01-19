@@ -3,7 +3,12 @@ import {useRecoilValue} from "recoil";
 import {loadingAtom} from "../state/loading";
 import {HashLoader} from "react-spinners";
 
-export const Layout = (props) => {
+
+interface LayoutProps {
+  children: React.ReactNode
+}
+
+export const Layout = (props: LayoutProps) => {
   const loading = useRecoilValue(loadingAtom)
   
   

@@ -2,19 +2,21 @@ import React, {useEffect, useRef, useState} from 'react';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-export const GridLoading = ({ columns }) => {
-    const [height, setHeight] = useState(0);
+export const GridLoading = ({ columns } : any) => {
+    const [height, setHeight] = useState<number>(0);
 
-    const ref = useRef(null);
+    const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        setHeight(ref.current.parentElement.offsetHeight);
+        if (ref.current !== null) {
+            setHeight(ref.current.parentElement?.offsetHeight || 0);
+        }
     }, []);
     
     function TableRow() {
         return (
             <tr style={{height: '42px'}}>
-                {columns.map((c, i) => {
+                {columns.map((c: any, i: number) => {
                     return <td key={i} style={{verticalAlign: 'middle'}}>
                         <Skeleton height={20}/>
                     </td>
@@ -35,8 +37,8 @@ export const GridLoading = ({ columns }) => {
                 backgroundColor: "white"}}>
                     <thead>
                     <tr className="grid-loading-header">
-                        {columns.map((c, i) => {
-                            return <th  key={i} width={c.width}>
+                        {columns.map((c: any, i:number) => {
+                            return <th key={i} style={{ width: c.width}}>
                                 {c.headerName}
                             </th>
                         })}

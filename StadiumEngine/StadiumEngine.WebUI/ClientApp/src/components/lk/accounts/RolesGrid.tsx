@@ -1,16 +1,19 @@
 import React, {useEffect, useRef, useState, useCallback} from 'react';
 import {useFetchWrapper} from "../../../helpers/fetch-wrapper";
-import { AgGridReact } from 'ag-grid-react';
 import {GridLoading} from "../common/GridLoading";
 import {useSetRecoilState} from "recoil";
 import {rolesAtom} from "../../../state/roles";
 import {dateFormatter} from "../../../helpers/date-formatter";
+import {RoleDto} from "../../../models/dto/accounts/RoleDto";
 
-export const RolesGrid = ({setSelectedRole}) => {
-    const [data, setData] = useState(null);
+const AgGrid = require('ag-grid-react');
+const { AgGridReact } = AgGrid;
+
+export const RolesGrid = ({setSelectedRole} : any) => {
+    const [data, setData] = useState<RoleDto[] | null>(null);
     const setRecoilRoles = useSetRecoilState(rolesAtom);
     
-    const gridRef = useRef();
+    const gridRef = useRef<any>();
 
     const [columnDefs, setColumnDefs] = useState([
         {field: 'name', headerName: "Название", width: 300 },
@@ -29,7 +32,7 @@ export const RolesGrid = ({setSelectedRole}) => {
     }, [])
     
     const fetchRoles = () => {
-        fetchWrapper.get({url: 'api/accounts/roles', withSpinner: false, hideSpinner: false}).then((result) => {
+        fetchWrapper.get({url: 'api/accounts/roles', withSpinner: false, hideSpinner: false}).then((result: RoleDto[]) => {
             setTimeout(() => {
                 setData(result);
                 setRecoilRoles(result.map((r) => {
@@ -40,13 +43,16 @@ export const RolesGrid = ({setSelectedRole}) => {
     }
 
     const onSelectionChanged = useCallback(() => {
-        const selectedRows = gridRef.current.api.getSelectedRows();
-        if (selectedRows.length > 0) {
-            setSelectedRole(selectedRows[0]);
+        if (gridRef.current !== undefined) {
+            const selectedRows = gridRef.current.api.getSelectedRows();
+            if (selectedRows.length > 0) {
+                setSelectedRole(selectedRows[0]);
+            }
+            else {
+                setSelectedRole(selectedRows[0]);
+            }
         }
-        else {
-            setSelectedRole(selectedRows[0]);
-        }
+        
     }, []);
     
     return (

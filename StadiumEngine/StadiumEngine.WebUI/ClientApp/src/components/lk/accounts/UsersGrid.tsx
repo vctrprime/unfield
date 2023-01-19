@@ -1,12 +1,15 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {useFetchWrapper} from "../../../helpers/fetch-wrapper";
-import {AgGridReact} from "ag-grid-react";
 import {GridLoading} from "../common/GridLoading";
 import {dateFormatter} from "../../../helpers/date-formatter";
+import {UserDto} from "../../../models/dto/accounts/UserDto";
+
+const AgGrid = require('ag-grid-react');
+const { AgGridReact } = AgGrid;
 
 export const UsersGrid = () => {
-    const [data, setData] = useState(null);
-    const gridRef = useRef();
+    const [data, setData] = useState<UserDto[] | null>(null);
+    const gridRef = useRef<any>();
 
     const [columnDefs, setColumnDefs] = useState([
         {field: 'name', headerName: "Имя", width: 300},
@@ -26,7 +29,7 @@ export const UsersGrid = () => {
     }, [])
 
     const fetchUsers = () => {
-        fetchWrapper.get({url: 'api/accounts/users', withSpinner: false, hideSpinner: false}).then((result) => {
+        fetchWrapper.get({url: 'api/accounts/users', withSpinner: false, hideSpinner: false}).then((result: UserDto[]) => {
             setTimeout(() => {
                 setData(result);
             }, 500);

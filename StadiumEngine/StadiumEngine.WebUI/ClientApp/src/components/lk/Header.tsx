@@ -5,12 +5,18 @@ import {useFetchWrapper} from "../../helpers/fetch-wrapper";
 import {useRecoilState} from "recoil";
 //import {authAtom} from "../../state/auth";
 import {stadiumAtom} from "../../state/stadium";
+import {UserStadiumDto} from "../../models/dto/accounts/UserStadiumDto";
 
+interface StadiumDropDownData {
+    key: number,
+    value: number,
+    text: string
+}
 
 export const Header = () => {
     //const auth = useRecoilValue(authAtom);
-    const [stadiums, setStadiums] = useState([])
-    const [stadium, setStadium] = useRecoilState(stadiumAtom);
+    const [stadiums, setStadiums] = useState<StadiumDropDownData[]>([])
+    const [stadium, setStadium] = useRecoilState<number | null>(stadiumAtom);
 
     const fetchWrapper = useFetchWrapper();
     
@@ -19,17 +25,23 @@ export const Header = () => {
     }, []);
 
     const loadStadiums = () => {
-        fetchWrapper.get({url: 'api/accounts/user-stadiums', withSpinner: true, hideSpinner: false}).then((result) => {
-            setStadiums(result.map((s) => {
-                return { key: s.id, value: s.id, text: s.address }
-            }));
-            setStadium(result.find(s => s.isCurrent).id);
+        fetchWrapper.get({url: 'api/accounts/user-stadiums', withSpinner: true, hideSpinner: false})
+            .then((result: UserStadiumDto[]) => {
+                setStadiums(result.map((s) => {
+                    return { key: s.id, value: s.id, text: s.address }
+                }));
+                const currentStadium: UserStadiumDto|undefined = result.find(s => s.isCurrent);
+                if (currentStadium !== undefined) {
+                    setStadium(currentStadium.id);
+                }
+                
         })
     }
 
 
-    const changeStadium = (e, { value }) => {
-        fetchWrapper.put({url: 'api/accounts/change-stadium/' + value}).then((result) => {
+    const changeStadium = (e : any, { value }: any) => {
+        fetchWrapper.put({url: 'api/accounts/change-stadium/' + value})
+            .then(() => {
             setStadium(value);
         })
     }
