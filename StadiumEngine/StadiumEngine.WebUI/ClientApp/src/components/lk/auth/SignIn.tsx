@@ -6,7 +6,7 @@ import {NavbarBrand} from "reactstrap";
 import logo from "../../../img/logo/logo_icon_with_title.png";
 import {AuthorizeUserCommand} from "../../../models/command/accounts/AuthorizeUserCommand";
 import {AuthorizeUserDto} from "../../../models/dto/accounts/AuthorizeUserDto";
-import { useInject, cid } from 'inversify-hooks';
+import { useInject } from 'inversify-hooks';
 import {IAccountsService} from "../../../services/AccountsService";
 
 export const SignIn = () => {

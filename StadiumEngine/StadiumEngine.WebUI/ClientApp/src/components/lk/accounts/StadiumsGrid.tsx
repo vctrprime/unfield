@@ -1,9 +1,10 @@
 import React, {useRef, useState, useEffect} from 'react';
-import {useFetchWrapper} from "../../../helpers/fetch-wrapper";
 import {GridLoading} from "../common/GridLoading";
 import {dateFormatter} from "../../../helpers/date-formatter";
 import {RoleDto} from "../../../models/dto/accounts/RoleDto";
 import {StadiumDto} from "../../../models/dto/accounts/StadiumDto";
+import {useInject} from "inversify-hooks";
+import {IAccountsService} from "../../../services/AccountsService";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -27,7 +28,7 @@ export const StadiumsGrid = ({selectedRole} : StadiumsGridProps) => {
         {field: 'dateCreated', headerName: "Дата добавления", width: 300, valueFormatter: dateFormatter}
     ]);
 
-    const fetchWrapper = useFetchWrapper();
+    const [accountsService] = useInject<IAccountsService>('AccountsService');
     
     useEffect(() => {
         if (selectedRole === null) 
@@ -43,7 +44,7 @@ export const StadiumsGrid = ({selectedRole} : StadiumsGridProps) => {
 
     const fetchStadiums = () => {
         if (selectedRole !== null) {
-            fetchWrapper.get({url: `api/accounts/stadiums/${selectedRole.id}`})
+            accountsService.getStadiums(selectedRole.id)
                 .then((result: StadiumDto[]) => {
                 setData(result);
             })

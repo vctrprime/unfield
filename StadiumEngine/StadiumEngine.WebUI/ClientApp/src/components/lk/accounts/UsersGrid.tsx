@@ -1,8 +1,9 @@
 import React, {useRef, useState, useEffect} from 'react';
-import {useFetchWrapper} from "../../../helpers/fetch-wrapper";
 import {GridLoading} from "../common/GridLoading";
 import {dateFormatter} from "../../../helpers/date-formatter";
 import {UserDto} from "../../../models/dto/accounts/UserDto";
+import {useInject} from "inversify-hooks";
+import {IAccountsService} from "../../../services/AccountsService";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -22,14 +23,14 @@ export const UsersGrid = () => {
         {field: 'lastLoginDate', headerName: "Дата последнего входа", width: 300, valueFormatter: dateFormatter}
     ]);
 
-    const fetchWrapper = useFetchWrapper();
+    const [accountsService] = useInject<IAccountsService>('AccountsService');
 
     useEffect(() => {
         fetchUsers();
     }, [])
 
     const fetchUsers = () => {
-        fetchWrapper.get({url: 'api/accounts/users', withSpinner: false, hideSpinner: false}).then((result: UserDto[]) => {
+        accountsService.getUsers().then((result: UserDto[]) => {
             setTimeout(() => {
                 setData(result);
             }, 500);

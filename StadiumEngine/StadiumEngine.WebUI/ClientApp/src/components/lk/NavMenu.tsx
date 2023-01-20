@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect } from 'react';
 import {NavLink, useNavigate} from "react-router-dom";
-import {useFetchWrapper} from "../../helpers/fetch-wrapper";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilState, useSetRecoilState} from "recoil";
 import {authAtom} from "../../state/auth";
 import logo from "../../img/logo/logo_icon_with_title_white.png";
 import '../../css/lk/NavMenu.scss';
 import {stadiumAtom} from "../../state/stadium";
 import {permissionsAtom} from "../../state/permissions";
 import {UserPermissionDto} from "../../models/dto/accounts/UserPermissionDto";
+import {useInject} from "inversify-hooks";
+import {IAccountsService} from "../../services/AccountsService";
 
 const cdbreact = require('cdbreact');
 const {
@@ -22,15 +23,25 @@ const {
 
 
 export const NavMenu = () => {
-    const fetchWrapper = useFetchWrapper();
+    const [stadium, setStadium] = useRecoilState<number | null>(stadiumAtom);
+    const [permissions, setPermissions] = useRecoilState<UserPermissionDto[]>(permissionsAtom);
     const setAuth = useSetRecoilState(authAtom);
+    
+    const [accountsService] = useInject<IAccountsService>('AccountsService');
+    
     const navigate = useNavigate();
     
-    const [stadium, setStadium] = useRecoilState(stadiumAtom);
-    const [permissions, setPermissions] = useRecoilState<UserPermissionDto[]>(permissionsAtom);
     
+    useEffect(() => {
+        if (permissions.length === 0) {
+                accountsService.getCurrentUserPermissions().then((result: UserPermissionDto[] ) => {
+                    setPermissions(result);
+            })
+        }
+    }, [stadium])
+
     const logout = () => {
-        fetchWrapper.delete({url: `api/accounts/logout`})
+       accountsService.logout()
             .finally(() => {
                 localStorage.removeItem('user');
                 setAuth(null);
@@ -40,15 +51,6 @@ export const NavMenu = () => {
                 //window.location.pathname = ;
             });
     }
-    
-    useEffect(() => {
-        if (permissions.length === 0) {
-            fetchWrapper.get({url: `api/accounts/user-permissions`, withSpinner: true, hideSpinner: true})
-                .then((result: UserPermissionDto[] ) => {
-                setPermissions(result);
-            })
-        }
-    }, [stadium])
     
     const viewNavLink = (key: string) => {
         return permissions.filter(p => p.groupKey === key).length > 0;

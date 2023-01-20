@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {Bell, GearFill, PersonCircle} from 'react-bootstrap-icons';
 import {Dropdown} from "semantic-ui-react";
-import {useFetchWrapper} from "../../helpers/fetch-wrapper";
 import {useRecoilState} from "recoil";
-//import {authAtom} from "../../state/auth";
 import {stadiumAtom} from "../../state/stadium";
 import {UserStadiumDto} from "../../models/dto/accounts/UserStadiumDto";
+import {useInject} from "inversify-hooks";
+import {IAccountsService} from "../../services/AccountsService";
 
 interface StadiumDropDownData {
     key: number,
@@ -14,18 +14,17 @@ interface StadiumDropDownData {
 }
 
 export const Header = () => {
-    //const auth = useRecoilValue(authAtom);
     const [stadiums, setStadiums] = useState<StadiumDropDownData[]>([])
     const [stadium, setStadium] = useRecoilState<number | null>(stadiumAtom);
 
-    const fetchWrapper = useFetchWrapper();
+    const [accountsService] = useInject<IAccountsService>('AccountsService');
     
     useEffect(() => {
         loadStadiums();
     }, []);
 
     const loadStadiums = () => {
-        fetchWrapper.get({url: 'api/accounts/user-stadiums', withSpinner: true, hideSpinner: false})
+        accountsService.getCurrentUserStadiums()
             .then((result: UserStadiumDto[]) => {
                 setStadiums(result.map((s) => {
                     return { key: s.id, value: s.id, text: s.address }
@@ -40,7 +39,7 @@ export const Header = () => {
 
 
     const changeStadium = (e : any, { value }: any) => {
-        fetchWrapper.put({url: 'api/accounts/change-stadium/' + value})
+        accountsService.changeCurrentStadium(value)
             .then(() => {
             setStadium(value);
         })

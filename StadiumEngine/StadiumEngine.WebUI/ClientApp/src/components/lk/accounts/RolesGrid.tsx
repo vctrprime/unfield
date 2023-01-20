@@ -1,10 +1,11 @@
 import React, {useEffect, useRef, useState, useCallback} from 'react';
-import {useFetchWrapper} from "../../../helpers/fetch-wrapper";
 import {GridLoading} from "../common/GridLoading";
 import {useSetRecoilState} from "recoil";
 import {rolesAtom} from "../../../state/roles";
 import {dateFormatter} from "../../../helpers/date-formatter";
 import {RoleDto} from "../../../models/dto/accounts/RoleDto";
+import {useInject} from "inversify-hooks";
+import {IAccountsService} from "../../../services/AccountsService";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -25,14 +26,14 @@ export const RolesGrid = ({setSelectedRole} : any) => {
         {field: 'dateModified', headerName: "Дата изменения", width: 300, valueFormatter: dateFormatter},
     ]);
 
-    const fetchWrapper = useFetchWrapper();
+    const [accountsService] = useInject<IAccountsService>('AccountsService');
     
     useEffect(() => {
         fetchRoles();
     }, [])
     
     const fetchRoles = () => {
-        fetchWrapper.get({url: 'api/accounts/roles', withSpinner: false, hideSpinner: false}).then((result: RoleDto[]) => {
+        accountsService.getRoles().then((result: RoleDto[]) => {
             setTimeout(() => {
                 setData(result);
                 setRecoilRoles(result.map((r) => {

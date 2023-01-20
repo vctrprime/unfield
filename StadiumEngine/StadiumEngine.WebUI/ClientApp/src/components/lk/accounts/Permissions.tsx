@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from "recoil";
 import {rolesAtom} from "../../../state/roles";
-import {useFetchWrapper} from "../../../helpers/fetch-wrapper";
 import {Checkbox, Dropdown} from "semantic-ui-react";
 import Skeleton from 'react-loading-skeleton'
 import {permissionsAtom} from "../../../state/permissions";
 import {UserPermissionDto} from "../../../models/dto/accounts/UserPermissionDto";
 import {RoleDto} from "../../../models/dto/accounts/RoleDto";
 import {PermissionDto} from "../../../models/dto/accounts/PermissionDto";
+import {useInject} from "inversify-hooks";
+import {IAccountsService} from "../../../services/AccountsService";
+import {ToggleRolePermissionCommand} from "../../../models/command/accounts/ToggleRolePermissionCommand";
 
 export interface PermissionsRoleDropDownData {
     key: number,
@@ -29,11 +31,11 @@ interface PermissionCheckBoxProps {
 export const Permissions = () => {
     const [roles, setRoles] = useRecoilState<PermissionsRoleDropDownData[]>(rolesAtom);
     const permissions = useRecoilValue<UserPermissionDto[]>(permissionsAtom);
-    
-    const fetchWrapper = useFetchWrapper();
+
+    const [accountsService] = useInject<IAccountsService>('AccountsService');
     
     const [data, setData] = useState<PermissionDto[]>([]);
-    const [selectedRoleId, setSelectedRoleId] = useState(roles.length > 0 ? roles[0].value : 0);
+    const [selectedRoleId, setSelectedRoleId] = useState<number>(roles.length > 0 ? roles[0].value : 0);
     
     useEffect(() => {
         if (roles.length === 0) {
@@ -48,20 +50,40 @@ export const Permissions = () => {
     }, [selectedRoleId])
     
     const togglePermission = (permission: PermissionDto) => {
-        fetchWrapper.post({url: 'api/accounts/role-permission', 
-            body: {
-                roleId: selectedRoleId,
-                permissionId: permission.id
-            },
-            successMessage: "Запрос успешно выполнен!"
-        }).then(() => {
+        const command: ToggleRolePermissionCommand = {
+            roleId: selectedRoleId,
+            permissionId: permission.id
+        };
+        accountsService.toggleRolePermission(command).then(() => {
             permission.isRoleBound = !permission.isRoleBound;
             const newData = [...data];
             setData(newData);
         })
        
     }
+    const fetchRoles = () => {
+        accountsService.getRoles().then((result: RoleDto[]) => {
+            setRoles(result.map((r) => {
+                return { key: r.id, value: r.id, text: r.name }
+            }));
+            setSelectedRoleId(result[0].id);
+        })
+    }
 
+    const fetchPermissions = () => {
+        setData([]);
+        accountsService.getPermissions(selectedRoleId).then((result: PermissionDto[]) => {
+            setTimeout(() => {
+                setData(result);
+            }, 500);
+        })
+    }
+
+    const changeRole = (e: any, { value }: any) => {
+        setSelectedRoleId(value);
+    }
+    
+    
     const PermissionGroupTitle = ({groupKey} : PermissionGroupTitleProps) => {
         return <div className="permission-group-title">
             {data.length === 0 ?  <Skeleton width={150} height={20} /> : <span>{data.filter(p => p.groupKey === groupKey)[0].groupName}</span>}
@@ -96,29 +118,6 @@ export const Permissions = () => {
                     <span/>}
             </div>
     }
-    
-    const fetchRoles = () => {
-        fetchWrapper.get({url: 'api/accounts/roles', withSpinner: false, hideSpinner: false}).then((result: RoleDto[]) => {
-            setRoles(result.map((r) => {
-                return { key: r.id, value: r.id, text: r.name }
-            }));
-            setSelectedRoleId(result[0].id);
-        })
-    }
-    
-    const fetchPermissions = () => {
-        setData([]);
-        fetchWrapper.get({url: `api/accounts/permissions/${selectedRoleId}`, withSpinner: false, hideSpinner: false}).then((result: PermissionDto[]) => {
-            setTimeout(() => {
-                setData(result);
-            }, 500);
-        })
-    }
-
-    const changeRole = (e: any, { value }: any) => {
-        setSelectedRoleId(value);
-    }
-    
     
     return (<div className="permissions-container">
         {selectedRoleId !== 0 ?
