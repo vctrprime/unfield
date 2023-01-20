@@ -9,6 +9,8 @@ import {RecoilRoot} from "recoil";
 import 'reflect-metadata';
 import {registerServices} from "./helpers/di-container-service";
 
+import './i18n/i18n';
+
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');

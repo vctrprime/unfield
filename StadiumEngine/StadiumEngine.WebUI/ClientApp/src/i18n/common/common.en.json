@@ -1,0 +1,14 @@
+{
+  "lk_navbar": {
+    "main_settings": "Main Settings",
+    "schedule": "Schedule",
+    "actives": "Actives",
+    "employees": "Employees",
+    "reports": "Reports",
+    "accounts": "Accounts",
+    "logout": "Logout"
+  },
+  "lk_header": {
+    "current_stadium_title": "Current stadium"
+  }
+}

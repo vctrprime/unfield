@@ -3,6 +3,7 @@ import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLi
 import { Link } from 'react-router-dom';
 import '../../css/portal/NavMenu.scss';
 import logo from '../../img/logo/logo_icon_with_title.png';
+import {t} from "i18next";
 
 
 export class NavMenu extends Component<{}, { collapsed: boolean }> {
@@ -36,7 +37,7 @@ export class NavMenu extends Component<{}, { collapsed: boolean }> {
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
               <ul className="navbar-nav flex-grow">
                 <NavItem>
-                  <NavLink tag={Link} className="btn btn-default lk-button" to="/lk">Личный кабинет</NavLink>
+                  <NavLink tag={Link} className="btn btn-default lk-button" to="/lk">{t("portal:header:lk_button")}</NavLink>
                 </NavItem>
               </ul>
             </Collapse>

@@ -4,6 +4,7 @@ import {dateFormatter} from "../../../helpers/date-formatter";
 import {UserDto} from "../../../models/dto/accounts/UserDto";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../../services/AccountsService";
+import {t} from "i18next";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -13,14 +14,13 @@ export const UsersGrid = () => {
     const gridRef = useRef<any>();
 
     const [columnDefs, setColumnDefs] = useState([
-        {field: 'name', headerName: "Имя", width: 300},
-        {field: 'lastName', headerName: "Фамилия", width: 300},
-        {field: 'phoneNumber', headerName: "Логин", width: 300},
-        {field: 'roleName', headerName: "Роль", width: 300},
-        {field: 'userCreated', headerName: "Добавил", width: 300},
-        {field: 'dateCreated', headerName: "Дата добавления", width: 300, valueFormatter: dateFormatter},
-        {field: 'dateModified', headerName: "Дата изменения", width: 300, valueFormatter: dateFormatter},
-        {field: 'lastLoginDate', headerName: "Дата последнего входа", width: 300, valueFormatter: dateFormatter}
+        {field: 'name', headerName: t("accounts:users_grid:name"), width: 300},
+        {field: 'lastName', headerName: t("accounts:users_grid:last_name"), width: 300},
+        {field: 'phoneNumber', headerName: t("accounts:users_grid:phone_number"), width: 300},
+        {field: 'roleName', headerName: t("accounts:users_grid:role_name"), width: 300},
+        {field: 'userCreated', headerName: t("accounts:users_grid:user_created"), width: 300},
+        {field: 'dateCreated', headerName: t("accounts:users_grid:date_created"), width: 300, valueFormatter: dateFormatter},
+        {field: 'lastLoginDate', headerName: t("accounts:users_grid:last_login_date"), width: 300, valueFormatter: dateFormatter}
     ]);
 
     const [accountsService] = useInject<IAccountsService>('AccountsService');

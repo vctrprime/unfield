@@ -10,6 +10,7 @@ import {PermissionDto} from "../../../models/dto/accounts/PermissionDto";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../../services/AccountsService";
 import {ToggleRolePermissionCommand} from "../../../models/command/accounts/ToggleRolePermissionCommand";
+import {t} from "i18next";
 
 export interface PermissionsRoleDropDownData {
     key: number,
@@ -86,7 +87,7 @@ export const Permissions = () => {
     
     const PermissionGroupTitle = ({groupKey} : PermissionGroupTitleProps) => {
         return <div className="permission-group-title">
-            {data.length === 0 ?  <Skeleton width={150} height={20} /> : <span>{data.filter(p => p.groupKey === groupKey)[0].groupName}</span>}
+            {data.length === 0 ?  <Skeleton width={150} height={20} /> : <span>{t(`accounts:permissions_group:${groupKey.replaceAll('-', '_')}`)}</span>}
         </div>
     }
     
@@ -95,13 +96,20 @@ export const Permissions = () => {
              <Checkbox
                     checked={permission.isRoleBound}
                     onChange={(e, data) => togglePermission(permission)}
-                    label={permission.name} /> :
-                <Checkbox label={permission.name} 
+                    label={t(`accounts:permissions:${permission.name.replaceAll('-', '_')}`)} /> :
+                <Checkbox label={t(`accounts:permissions:${permission.name.replaceAll('-', '_')}`)} 
                           disabled
                           checked={permission.isRoleBound} />
     }
     
     const Permission = ({permission, className} : PermissionProps) => {
+        
+        const getDescription = () : string  => {
+            if (permission === undefined) return '';
+            
+            return t(`accounts:permissions:${permission.name.replaceAll('-', '_')}_description`);
+        }
+        
         return <div className={className}>
             {data.length === 0 ? 
                 <div>
@@ -111,7 +119,8 @@ export const Permissions = () => {
                 permission !== undefined ?
                     <div className="permission-inner">
                         <PermissionCheckBox permission={permission} />
-                        <div title={permission.description} className="permission-inner-descr">{permission.description}</div>
+                        
+                        <div title={getDescription()} className="permission-inner-descr">{getDescription()}</div>
                     </div>
                      : 
                     
@@ -122,7 +131,7 @@ export const Permissions = () => {
     return (<div className="permissions-container">
         {selectedRoleId !== 0 ?
             <div>
-                Показаны разрешения для роли:  &nbsp;
+                {t("accounts:role_permissions_dropdown_title")}:  &nbsp;
                 <Dropdown
                     onChange={changeRole}
                     inline

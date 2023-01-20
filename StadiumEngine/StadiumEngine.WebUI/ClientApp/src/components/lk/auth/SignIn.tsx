@@ -8,6 +8,7 @@ import {AuthorizeUserCommand} from "../../../models/command/accounts/AuthorizeUs
 import {AuthorizeUserDto} from "../../../models/dto/accounts/AuthorizeUserDto";
 import { useInject } from 'inversify-hooks';
 import {IAccountsService} from "../../../services/AccountsService";
+import {t} from "i18next";
 
 export const SignIn = () => {
     const setAuth = useSetRecoilState(authAtom);
@@ -53,7 +54,7 @@ export const SignIn = () => {
                 }}
             >
                 <div className="form-group">
-                    <label className="form-control-label">Логин</label>
+                    <label className="form-control-label">{t("accounts:sign_in:login")}</label>
                     <input
                         className="form-control"
                         type="text"
@@ -62,7 +63,7 @@ export const SignIn = () => {
                 </div>
 
                 <div className="form-group">
-                    <label className="form-control-label">Пароль</label>
+                    <label className="form-control-label">{t("accounts:sign_in:password")}</label>
                     <input
                         className="form-control"
                         type="password"
@@ -74,7 +75,7 @@ export const SignIn = () => {
                         type="submit"
                         onClick={handleSubmit}
                     >
-                        Войти
+                        {t("accounts:sign_in:button")}
                     </button>
                 </div>
                 

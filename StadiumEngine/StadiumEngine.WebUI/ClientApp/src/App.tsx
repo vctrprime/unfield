@@ -9,6 +9,8 @@ import {Main} from "./components/lk/Main";
 import {SignIn} from "./components/lk/auth/SignIn";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 
+import { withNamespaces } from 'react-i18next';
+
 import './custom.css'
 import './css/lk/SignIn.scss'
 import {Employees} from "./components/lk/employees/Employees";
@@ -17,9 +19,12 @@ import {Permissions} from "./components/lk/accounts/Permissions";
 import {Users} from "./components/lk/accounts/Users";
 import {Roles} from "./components/lk/accounts/Roles";
 
+
+
 import 'react-notifications/lib/notifications.css';
 const ReactNotifications = require('react-notifications');
 const { NotificationContainer } = ReactNotifications;
+
 /*NotificationManager.info('Info message');
 NotificationManager.success('Success message', 'Title here');
 NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
@@ -28,11 +33,7 @@ NotificationManager.error('Error message', 'Click me!', 5000, () => {
 });*/
 
 
-export default class App extends Component {
-  static displayName = App.name;
-
-  render () {
-      
+const App = () => {
     return (
       <Layout>
           <NotificationContainer/>
@@ -54,5 +55,7 @@ export default class App extends Component {
           </Routes>
       </Layout>
     );
-  }
 }
+
+
+export default withNamespaces()(App);

@@ -12,7 +12,9 @@
       "esnext",
       "es6"
     ],
-    "types": ["reflect-metadata"],
+    "types": [
+      "reflect-metadata"
+    ],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
@@ -24,6 +26,11 @@
     "noImplicitAny": true,
     "jsx": "react"
   },
-  "include": ["src/**/*"],
-  "exclude": ["dist", "node_modules"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }

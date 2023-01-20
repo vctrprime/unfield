@@ -50,7 +50,7 @@ internal class AccountsProfile : Profile
         CreateMap<AddRoleCommand, Role>();
         
         CreateMap<Permission, PermissionDto>()
-            .ForMember(dest => dest.Name, act => act.MapFrom(s => s.DisplayName))
+            .ForMember(dest => dest.Name, act => act.MapFrom(s => s.Name))
             .ForMember(dest => dest.SortValue, act => act.MapFrom(s => s.Sort))
             .ForMember(dest => dest.GroupName, act => act.MapFrom(s => s.PermissionGroup.Name))
             .ForMember(dest => dest.GroupKey, act => act.MapFrom(s => s.PermissionGroup.Key))

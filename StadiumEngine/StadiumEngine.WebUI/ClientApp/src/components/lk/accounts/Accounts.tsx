@@ -9,15 +9,17 @@ export const Accounts = () => {
     const permissions = useRecoilValue(permissionsAtom);
     
     const tabs: TabData[] = []
+
+   
     
     if (permissions.filter(p => p.name === 'get-users').length > 0) {
-        tabs.push({ route: '', name: 'Пользователи'});
+        tabs.push({ route: '', resourcePath: 'accounts:users_tab'});
     }
     if (permissions.filter(p => p.name === 'get-roles').length > 0) {
-        tabs.push({ route: 'roles', name: 'Роли'});
+        tabs.push({ route: 'roles', resourcePath: 'accounts:roles_tab'});
     }
     if (permissions.filter(p => p.name === 'get-permissions').length > 0) {
-        tabs.push({ route: 'permissions', name: 'Разрешения'});
+        tabs.push({ route: 'permissions', resourcePath: 'accounts:permissions_tab'});
     }
     
     return ( tabs.length > 0 ?

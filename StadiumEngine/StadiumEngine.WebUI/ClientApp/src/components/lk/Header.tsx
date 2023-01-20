@@ -6,6 +6,7 @@ import {stadiumAtom} from "../../state/stadium";
 import {UserStadiumDto} from "../../models/dto/accounts/UserStadiumDto";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../services/AccountsService";
+import {t} from "i18next";
 
 interface StadiumDropDownData {
     key: number,
@@ -50,7 +51,7 @@ export const Header = () => {
             {stadium !== null && 
                 <div className="stadium-list">
                     <div style={window.location.pathname.startsWith("/lk/accounts") ? {display: "none"} : {}}>
-                        Текущий объект:  &nbsp;
+                        {t("common:lk_header:current_stadium_title")}:  &nbsp;
                         <Dropdown
                             onChange={changeStadium}
                             inline
@@ -61,8 +62,8 @@ export const Header = () => {
                     <div className="header-warning" style={window.location.pathname.startsWith("/lk/accounts") ? {} : {display: "none"}}>
                         <i className="fa fa-exclamation-circle" aria-hidden="true" />
                         <div className="header-warning-text">
-                            <span>Просим внимательно относиться к изменениям настроек в этом модуле.</span>
-                            <span>Некорректная конфигурация может вызвать проблемы с доступом к возможностям системы у сотрудников Вашей организации.</span>
+                            <span>{t("accounts:header_notification_line1")}</span>
+                            <span>{t("accounts:header_notification_line2")}</span>
                         </div>
                     </div>
                 </div>}

@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
 import {NavLink, Outlet, useNavigate} from "react-router-dom";
+import {t} from "i18next";
 
 export interface TabData {
     route: string,
-    name: string
+    resourcePath: string
 }
 interface TabsProps {
     tabsData: TabData[]
@@ -27,7 +28,9 @@ export const Tabs = ({ tabsData, leftNavRoute } : TabsProps) => {
                 {tabsData.map((tab, i) => {
                     return (
                         <NavLink key={i} to={tab.route} end>
-                            <div className="tabs-link">{tab.name}</div>
+                            <div className="tabs-link">
+                                {t(tab.resourcePath)}
+                            </div>
                         </NavLink>
                     )
                 })}

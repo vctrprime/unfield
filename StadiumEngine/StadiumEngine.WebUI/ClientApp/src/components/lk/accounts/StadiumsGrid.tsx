@@ -5,6 +5,7 @@ import {RoleDto} from "../../../models/dto/accounts/RoleDto";
 import {StadiumDto} from "../../../models/dto/accounts/StadiumDto";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../../services/AccountsService";
+import {t} from "i18next";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -18,14 +19,14 @@ export const StadiumsGrid = ({selectedRole} : StadiumsGridProps) => {
     const gridRef = useRef();
 
     const [columnDefs, setColumnDefs] = useState([
-        {field: 'name', headerName: "Название", width: 300},
-        {field: 'isRoleBound', headerName: "Связан", width: 300},
-        {field: 'country', headerName: "Страна", width: 300},
-        {field: 'region', headerName: "Регион", width: 300},
-        {field: 'city', headerName: "Город", width: 300},
-        {field: 'address', headerName: "Адрес", width: 300},
-        {field: 'description', headerName: "Описание", width: 300},
-        {field: 'dateCreated', headerName: "Дата добавления", width: 300, valueFormatter: dateFormatter}
+        {field: 'name', headerName: t("accounts:stadiums_grid:name"), width: 300},
+        {field: 'isRoleBound', headerName: t("accounts:stadiums_grid:is_role_bound"), width: 300},
+        {field: 'country', headerName: t("accounts:stadiums_grid:country"), width: 300},
+        {field: 'region', headerName: t("accounts:stadiums_grid:region"), width: 300},
+        {field: 'city', headerName: t("accounts:stadiums_grid:city"), width: 300},
+        {field: 'address', headerName: t("accounts:stadiums_grid:address"), width: 300},
+        {field: 'description', headerName: t("accounts:stadiums_grid:description"), width: 300},
+        {field: 'dateCreated', headerName: t("accounts:stadiums_grid:date_created"), width: 300, valueFormatter: dateFormatter}
     ]);
 
     const [accountsService] = useInject<IAccountsService>('AccountsService');
@@ -50,17 +51,25 @@ export const StadiumsGrid = ({selectedRole} : StadiumsGridProps) => {
             })
         }
     }
+    
+    const getOverlayNoRowsTemplate = () => {
+        if (selectedRole === null) {
+            return `<span>${t('accounts:stadiums_grid:select_role_notification')}</span>`;
+        }
+        
+        return `<span>${t('accounts:stadiums_grid:no_rows')}</span>`;
+    }
 
     return (
         <div className="stadiums-container">
-            <div className="grid-title">Объекты</div>
+            <div className="grid-title">{t("accounts:stadiums_grid_title")}</div>
 
             <div className="grid-container ag-theme-alpine">
                 {data === null ? <GridLoading columns={columnDefs}/> : <AgGridReact
                     ref={gridRef}
                     rowData={data}
                     columnDefs={columnDefs}
-                    overlayNoRowsTemplate={selectedRole === null ? "<span>Выберите роль в верхней таблице, чтобы получить информацию по связям объектов</span>" : "<span>Объектов не найдено</span>"}
+                    overlayNoRowsTemplate={getOverlayNoRowsTemplate()}
                 />}
             </div>
         </div>)

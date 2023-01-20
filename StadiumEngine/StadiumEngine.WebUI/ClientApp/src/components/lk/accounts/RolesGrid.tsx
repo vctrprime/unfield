@@ -6,6 +6,7 @@ import {dateFormatter} from "../../../helpers/date-formatter";
 import {RoleDto} from "../../../models/dto/accounts/RoleDto";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../../services/AccountsService";
+import {t} from "i18next";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -17,13 +18,12 @@ export const RolesGrid = ({setSelectedRole} : any) => {
     const gridRef = useRef<any>();
 
     const [columnDefs, setColumnDefs] = useState([
-        {field: 'name', headerName: "Название", width: 300 },
-        {field: 'description', headerName: "Описание", width: 300 },
-        {field: 'usersCount', headerName: "Кол-во пользователей", width: 300},
-        {field: 'stadiumsCount', headerName: "Кол-во объектов", width: 300},
-        {field: 'userCreated', headerName: "Добавил", width: 300},
-        {field: 'dateCreated', headerName: "Дата добавления", width: 300, valueFormatter: dateFormatter},
-        {field: 'dateModified', headerName: "Дата изменения", width: 300, valueFormatter: dateFormatter},
+        {field: 'name', headerName: t("accounts:roles_grid:name"), width: 300 },
+        {field: 'description', headerName: t("accounts:roles_grid:description"), width: 300 },
+        {field: 'usersCount', headerName: t("accounts:roles_grid:users_count"), width: 300},
+        {field: 'stadiumsCount', headerName: t("accounts:roles_grid:stadiums_count"), width: 300},
+        {field: 'userCreated', headerName: t("accounts:roles_grid:user_created"), width: 300},
+        {field: 'dateCreated', headerName: t("accounts:roles_grid:date_created"), width: 300, valueFormatter: dateFormatter},
     ]);
 
     const [accountsService] = useInject<IAccountsService>('AccountsService');

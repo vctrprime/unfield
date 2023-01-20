@@ -9,6 +9,8 @@ import {permissionsAtom} from "../../state/permissions";
 import {UserPermissionDto} from "../../models/dto/accounts/UserPermissionDto";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../services/AccountsService";
+import {t} from "i18next";
+
 
 const cdbreact = require('cdbreact');
 const {
@@ -72,27 +74,27 @@ export const NavMenu = () => {
                         <CDBSidebarMenu>
 
                             {permissions.length > 0 ? <NavLink to="/lk" end className={getNavLinkClassName}>
-                                <CDBSidebarMenuItem title="Основные настройки"  icon="columns">Основные настройки</CDBSidebarMenuItem>
+                                <CDBSidebarMenuItem title="Основные настройки"  icon="columns">{t('common:lk_navbar:main_settings')}</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
                             {viewNavLink('schedule') ? <NavLink to="/lk/schedule" className={getNavLinkClassName}>
-                                <CDBSidebarMenuItem title="Шахматка броней" icon="table">Шахматка броней</CDBSidebarMenuItem>
+                                <CDBSidebarMenuItem title="Шахматка броней" icon="table">{t('common:lk_navbar:schedule')}</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
                             {viewNavLink('actives') ? <NavLink to="/lk/actives"  className={getNavLinkClassName}>
-                                <CDBSidebarMenuItem title="Активы" icon="object-ungroup">Активы</CDBSidebarMenuItem>
+                                <CDBSidebarMenuItem title="Активы" icon="object-ungroup">{t('common:lk_navbar:actives')}</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
                             {viewNavLink('employees') ? <NavLink to="/lk/employees"  className={getNavLinkClassName}>
-                                <CDBSidebarMenuItem title="Персонал" icon="user-tie">Персонал</CDBSidebarMenuItem>
+                                <CDBSidebarMenuItem title="Персонал" icon="user-tie">{t('common:lk_navbar:employees')}</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
                             {viewNavLink('reports') ? <NavLink to="/lk/reports"  className={getNavLinkClassName}>
-                                <CDBSidebarMenuItem title="Отчетность" icon="chart-line">Отчетность</CDBSidebarMenuItem>
+                                <CDBSidebarMenuItem title="Отчетность" icon="chart-line">{t('common:lk_navbar:reports')}</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
                             {viewNavLink('accounts') ? <NavLink  to="/lk/accounts" className={getNavLinkClassName}>
-                                <CDBSidebarMenuItem title="Аккаунты и роли" icon="users">Аккаунты и роли</CDBSidebarMenuItem>
+                                <CDBSidebarMenuItem title="Аккаунты и роли" icon="users">{t('common:lk_navbar:accounts')}</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
                             
                         </CDBSidebarMenu>
@@ -100,7 +102,7 @@ export const NavMenu = () => {
 
                    <CDBSidebarFooter>
                        {stadium !== null && <div onClick={logout}>
-                            <CDBSidebarMenuItem icon="power-off">Выйти</CDBSidebarMenuItem>
+                            <CDBSidebarMenuItem icon="power-off">{t('common:lk_navbar:logout')}</CDBSidebarMenuItem>
                         </div>}
                     </CDBSidebarFooter>
                 </CDBSidebar>)
