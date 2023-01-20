@@ -3,27 +3,25 @@ import { useSetRecoilState } from 'recoil';
 import { authAtom } from '../../../state/auth';
 import {Link, NavLink, useNavigate} from "react-router-dom";
 import {NavbarBrand} from "reactstrap";
-import {useFetchWrapper} from "../../../helpers/fetch-wrapper";
 import logo from "../../../img/logo/logo_icon_with_title.png";
 import {AuthorizeUserCommand} from "../../../models/command/accounts/AuthorizeUserCommand";
 import {AuthorizeUserDto} from "../../../models/dto/accounts/AuthorizeUserDto";
+import { useInject, cid } from 'inversify-hooks';
+import {IAccountsService} from "../../../services/AccountsService";
 
 export const SignIn = () => {
     const setAuth = useSetRecoilState(authAtom);
-    const fetchWrapper = useFetchWrapper();
+    const [accountsService] = useInject<IAccountsService>('AccountsService');
+    
     const navigate = useNavigate();
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
         const { login, password } = document.forms[0];
-        const data : AuthorizeUserCommand = { login: login.value, password: password.value };
+        const command : AuthorizeUserCommand = { login: login.value, password: password.value };
         
-        fetchWrapper.post({
-            url: `api/accounts/login`,
-            body: data,
-            hideSpinner: false
-        })
+        accountsService.authorize(command)
             .then((user: AuthorizeUserDto) => {
                 localStorage.setItem('user', JSON.stringify(user));
                 setAuth(user);

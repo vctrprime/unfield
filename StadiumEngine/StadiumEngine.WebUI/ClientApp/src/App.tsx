@@ -8,10 +8,6 @@ import {Schedule} from "./components/lk/schedule/Schedule";
 import {Main} from "./components/lk/Main";
 import {SignIn} from "./components/lk/auth/SignIn";
 import ProtectedRoute from "./components/common/ProtectedRoute";
-import {ReactNotifications} from 'react-notifications-component'
-
-import 'react-notifications-component/dist/theme.css'
-import 'animate.css/animate.min.css';
 
 import './custom.css'
 import './css/lk/SignIn.scss'
@@ -21,6 +17,9 @@ import {Permissions} from "./components/lk/accounts/Permissions";
 import {Users} from "./components/lk/accounts/Users";
 import {Roles} from "./components/lk/accounts/Roles";
 
+import 'react-notifications/lib/notifications.css';
+const ReactNotifications = require('react-notifications');
+const { NotificationContainer } = ReactNotifications;
 /*NotificationManager.info('Info message');
 NotificationManager.success('Success message', 'Title here');
 NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
@@ -31,15 +30,12 @@ NotificationManager.error('Error message', 'Click me!', 5000, () => {
 
 export default class App extends Component {
   static displayName = App.name;
-  
-  
-  
 
   render () {
       
     return (
       <Layout>
-          <ReactNotifications />
+          <NotificationContainer/>
           <Routes>
               <Route path="/" element={<Home/>} />
               <Route path="/lk/sign-in" element={<SignIn />} />

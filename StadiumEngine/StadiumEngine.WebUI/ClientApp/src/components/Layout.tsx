@@ -11,7 +11,6 @@ interface LayoutProps {
 export const Layout = (props: LayoutProps) => {
   const loading = useRecoilValue(loadingAtom)
   
-  
   return (
     <div>
         {props.children}

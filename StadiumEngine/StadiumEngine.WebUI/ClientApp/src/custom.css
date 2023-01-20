@@ -17,12 +17,3 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
-
-.rnc__notification-item--success {
-  background-color: rgba(60, 179, 113, 0.85) !important;
-  border-left: 8px solid rgba(60, 179, 113, 1) !important
-}
-.rnc__notification-item--danger {
-  background-color: rgba(205, 92, 92, 0.85) !important;
-  border-left: 8px solid rgba(205, 92, 92, 1) !important
-}

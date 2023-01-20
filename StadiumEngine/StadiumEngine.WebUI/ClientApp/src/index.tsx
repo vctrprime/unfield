@@ -6,6 +6,8 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import {RecoilRoot} from "recoil";
+import 'reflect-metadata';
+import {registerServices} from "./helpers/di-container-service";
 
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
@@ -15,6 +17,7 @@ const styleLink = document.createElement("link");
 styleLink.rel = "stylesheet";
 styleLink.href = "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css";
 document.head.appendChild(styleLink);
+registerServices();
 
 ReactDOM.render(
   <BrowserRouter basename={baseUrl || ''}>

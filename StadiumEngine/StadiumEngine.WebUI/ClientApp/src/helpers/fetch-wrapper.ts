@@ -1,10 +1,10 @@
 import { useSetRecoilState } from 'recoil';
-
 import { authAtom } from '../state/auth';
 import {loadingAtom} from "../state/loading";
 import {useNavigate} from "react-router-dom";
-import { Store } from 'react-notifications-component';
-//import { useAlertActions } from '';
+
+const ReactNotifications = require('react-notifications');
+const { NotificationManager } = ReactNotifications;
 
 export { useFetchWrapper };
 
@@ -61,38 +61,12 @@ function useFetchWrapper() {
                     navigate("/lk/sign-in");
                     return Promise.reject(error);
                 }
-                Store.addNotification({
-                    title:  "Ошибка",
-                    message: error,
-                    type: "danger",
-                    insert: "top",
-                    container: "top-right",
-                    animationIn: ["animate__animated", "animate__fadeIn"],
-                    animationOut: ["animate__animated", "animate__fadeOut"],
-                    dismiss: {
-                        duration: 1500,
-                        onScreen: true
-                    }
-                })
+                NotificationManager.error(error, "Ошибка", 2000);
                 
                 return Promise.reject(error);
             }
-            
-            if (successMessage) {
-                Store.addNotification({
-                    title: "Успешно!",
-                    message: successMessage,
-                    type: "success",
-                    insert: "bottom",
-                    container: "top-right",
-                    animationIn: ["animate__animated", "animate__fadeIn"],
-                    animationOut: ["animate__animated", "animate__fadeOut"],
-                    dismiss: {
-                        duration: 1000,
-                        onScreen: true
-                    }
-                })
-            }
+
+            if (successMessage) NotificationManager.success(successMessage, 'Успешно!', 2000);
             
             return data;
         });
