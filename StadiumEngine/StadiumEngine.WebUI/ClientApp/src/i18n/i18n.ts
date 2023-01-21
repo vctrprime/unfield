@@ -29,7 +29,7 @@ const resources = {
 };
 
 const user = JSON.parse(localStorage.getItem('user'));
-const startLanguage = user === undefined ? "en" : 
+const startLanguage = user === undefined || user === null ? "en" : 
     user.language === undefined ||  user.language === null ? "en" :
         user.language;
 

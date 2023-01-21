@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useSetRecoilState } from 'recoil';
 import { authAtom } from '../../../state/auth';
 import {Link, NavLink, useNavigate} from "react-router-dom";
@@ -10,26 +10,35 @@ import { useInject } from 'inversify-hooks';
 import {IAccountsService} from "../../../services/AccountsService";
 import {t} from "i18next";
 import i18n from "../../../i18n/i18n";
+import PhoneInput from 'react-phone-input-2'
+import ru from 'react-phone-input-2/lang/ru.json'
+import 'react-phone-input-2/lib/style.css'
+
 
 export const SignIn = () => {
     const setAuth = useSetRecoilState(authAtom);
     const [accountsService] = useInject<IAccountsService>('AccountsService');
+    
+    const [login, setLogin] = useState<string | undefined>();
     
     const navigate = useNavigate();
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
-        const { login, password } = document.forms[0];
-        const command : AuthorizeUserCommand = { login: login.value, password: password.value };
+        const { password } = document.forms[0];
+        if (login !== undefined) {
+            const command : AuthorizeUserCommand = { login, password: password.value };
+
+            accountsService.authorize(command)
+                .then((user: AuthorizeUserDto) => {
+                    localStorage.setItem('user', JSON.stringify(user));
+                    setAuth(user);
+                    i18n.changeLanguage(user.language);
+                    navigate("/lk");
+                });
+        }
         
-        accountsService.authorize(command)
-            .then((user: AuthorizeUserDto) => {
-                localStorage.setItem('user', JSON.stringify(user));
-                setAuth(user);
-                i18n.changeLanguage(user.language);
-                navigate("/lk");
-            });
     };
 
     return (
@@ -57,17 +66,27 @@ export const SignIn = () => {
             >
                 <div className="form-group">
                     <label className="form-control-label">{t("accounts:sign_in:login")}</label>
-                    <input
-                        className="form-control"
-                        type="text"
-                        name="login"
+                    <PhoneInput
+                        onlyCountries={['ru']} // Перчень стран в поиске 
+                        country='ru'
+                        containerStyle={{marginTop: '10px'}}
+                        inputStyle={{width: '100%', height: 40}}
+                        searchClass='search-class'
+                        searchStyle={{margin: 0, width: '90%', height: '30px'}}
+                        enableSearch={false}
+                        placeholder={'+7 (123) 456-78-90'}
+                        disableSearchIcon
+                        value={login}
+                        localization={i18n.language == 'ru' ? ru : undefined}
+                        countryCodeEditable={false}
+                        onChange={(phone) => setLogin(phone)}
                     />
                 </div>
 
                 <div className="form-group">
                     <label className="form-control-label">{t("accounts:sign_in:password")}</label>
                     <input
-                        className="form-control"
+                        className="form-control password-input"
                         type="password"
                         name="password"
                     />
