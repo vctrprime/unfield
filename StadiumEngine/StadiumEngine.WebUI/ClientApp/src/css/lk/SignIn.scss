@@ -1,6 +1,8 @@
 @import "src/css/const.scss";
 
 .sign-in-container {
+
+  height: 100%;
   
   .logo-container {
     text-align: center;
@@ -39,10 +41,11 @@
     background: linear-gradient(90deg, #00d2ff,#0c8bfe);
     border-radius: 120px;
     z-index: 1;
+    opacity: 0.85;
     
     &.bottom-color-block {
       right: 85vw;
-      bottom: 0;
+      bottom: 14vh;
       -webkit-transform: rotate(-30deg);
       -ms-transform: rotate(-30deg);
       transform: rotate(-30deg);
@@ -61,6 +64,10 @@
   
   form {
     margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     
     .form-group {
       text-align: center;
@@ -83,8 +90,9 @@
     label {
       margin-bottom: 0px;
       font-size: 16px;
-      color: #6C6C6C;
+      color: $dark-color;
       letter-spacing: 1px;
+      font-weight: bold;
     }
     
     button {
@@ -115,5 +123,13 @@
       outline: none;
       margin-top: 10px;
     }
+  }
+  
+  .balls {
+    height: 300px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.75;
   }
 }

@@ -14,6 +14,8 @@ import PhoneInput from 'react-phone-input-2'
 import ru from 'react-phone-input-2/lang/ru.json'
 import 'react-phone-input-2/lib/style.css'
 
+import back_balls from "../../../img/back-balls.png";
+import cells from "../../../img/cells.jpeg";
 
 export const SignIn = () => {
     const setAuth = useSetRecoilState(authAtom);
@@ -42,7 +44,9 @@ export const SignIn = () => {
     };
 
     return (
-        <div className="sign-in-container">
+        <div className="sign-in-container" style={{
+            background: `linear-gradient( rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75) ), no-repeat center / cover url(${cells})`
+        }}>
             <div className="color-block bottom-color-block" />
             <div className="color-block top-color-block" />
 
@@ -57,12 +61,7 @@ export const SignIn = () => {
             
             
             <form
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
+               
             >
                 <div className="form-group">
                     <label className="form-control-label">{t("accounts:sign_in:login")}</label>
@@ -102,7 +101,9 @@ export const SignIn = () => {
                 
                
             </form>
-
+            <div className="balls"  style={{
+                backgroundImage: `url(${back_balls})`
+            }}/>
             <NavLink className="portal-button" to="/">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                      className="bi bi-house" viewBox="0 0 16 16">

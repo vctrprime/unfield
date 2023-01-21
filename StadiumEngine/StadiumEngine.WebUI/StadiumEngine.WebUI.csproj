@@ -37,6 +37,7 @@
         <Content Include="ClientApp\src\i18n\common\common.json" />
         <Content Include="ClientApp\src\i18n\portal\portal.en.json" />
         <Content Include="ClientApp\src\i18n\portal\portal.json" />
+        <Content Include="ClientApp\src\img\back-balls.png" />
         <Content Include="ClientApp\src\img\logo\logo_icon_with_title.png" />
         <Content Include="ClientApp\src\img\logo\logo_icon_with_title_white.png" />
         <None Remove="$(SpaRoot)**" />
