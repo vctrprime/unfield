@@ -27,6 +27,9 @@
     .stadium-list {
       margin-left: 16px;
       color: $dark-color !important;
+      max-width: calc(100% - 200px);
+      overflow: hidden;
+      text-overflow: ellipsis;
       
       .item {
         color: $dark-color !important;
@@ -175,6 +178,9 @@
     
     span {
       font-size: 12px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
   }
   

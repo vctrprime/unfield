@@ -18,7 +18,7 @@ export const StadiumsGrid = ({selectedRole} : StadiumsGridProps) => {
     const [data, setData] = useState<StadiumDto[] | null>(null);
     const gridRef = useRef();
 
-    const [columnDefs, setColumnDefs] = useState([
+    const columnDefs = [
         {field: 'name', headerName: t("accounts:stadiums_grid:name"), width: 300},
         {field: 'isRoleBound', headerName: t("accounts:stadiums_grid:is_role_bound"), width: 300},
         {field: 'country', headerName: t("accounts:stadiums_grid:country"), width: 300},
@@ -27,7 +27,7 @@ export const StadiumsGrid = ({selectedRole} : StadiumsGridProps) => {
         {field: 'address', headerName: t("accounts:stadiums_grid:address"), width: 300},
         {field: 'description', headerName: t("accounts:stadiums_grid:description"), width: 300},
         {field: 'dateCreated', headerName: t("accounts:stadiums_grid:date_created"), width: 300, valueFormatter: dateFormatter}
-    ]);
+    ]
 
     const [accountsService] = useInject<IAccountsService>('AccountsService');
     

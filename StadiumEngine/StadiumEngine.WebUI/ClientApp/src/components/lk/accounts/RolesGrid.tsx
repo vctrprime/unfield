@@ -17,14 +17,14 @@ export const RolesGrid = ({setSelectedRole} : any) => {
     
     const gridRef = useRef<any>();
 
-    const [columnDefs, setColumnDefs] = useState([
+    const columnDefs = [
         {field: 'name', headerName: t("accounts:roles_grid:name"), width: 300 },
         {field: 'description', headerName: t("accounts:roles_grid:description"), width: 300 },
         {field: 'usersCount', headerName: t("accounts:roles_grid:users_count"), width: 300},
         {field: 'stadiumsCount', headerName: t("accounts:roles_grid:stadiums_count"), width: 300},
         {field: 'userCreated', headerName: t("accounts:roles_grid:user_created"), width: 300},
         {field: 'dateCreated', headerName: t("accounts:roles_grid:date_created"), width: 300, valueFormatter: dateFormatter},
-    ]);
+    ];
 
     const [accountsService] = useInject<IAccountsService>('AccountsService');
     

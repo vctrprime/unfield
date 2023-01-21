@@ -12,8 +12,9 @@ const { AgGridReact } = AgGrid;
 export const UsersGrid = () => {
     const [data, setData] = useState<UserDto[] | null>(null);
     const gridRef = useRef<any>();
-
-    const [columnDefs, setColumnDefs] = useState([
+    
+    
+    const columnDefs = [
         {field: 'name', headerName: t("accounts:users_grid:name"), width: 300},
         {field: 'lastName', headerName: t("accounts:users_grid:last_name"), width: 300},
         {field: 'phoneNumber', headerName: t("accounts:users_grid:phone_number"), width: 300},
@@ -21,7 +22,7 @@ export const UsersGrid = () => {
         {field: 'userCreated', headerName: t("accounts:users_grid:user_created"), width: 300},
         {field: 'dateCreated', headerName: t("accounts:users_grid:date_created"), width: 300, valueFormatter: dateFormatter},
         {field: 'lastLoginDate', headerName: t("accounts:users_grid:last_login_date"), width: 300, valueFormatter: dateFormatter}
-    ]);
+    ]
 
     const [accountsService] = useInject<IAccountsService>('AccountsService');
 

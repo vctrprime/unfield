@@ -65,14 +65,19 @@ export const Header = () => {
         return language.toUpperCase();
     }
     const changeLanguage = (code: string) => {
+        const currentLanguage = auth?.language || 'en';
         code = code === 'US' ? 'en' : code.toLowerCase();
-        accountsService.changeLanguage(code).then(() => {
-            const user = Object.assign({}, auth);
-            user.language = code;
-            localStorage.setItem('user', JSON.stringify(user));
-            setAuth(user);
-            i18n.changeLanguage(user.language).then(() => setLoading(false));
-        });
+        
+        if (currentLanguage !== code) {
+            accountsService.changeLanguage(code).then(() => {
+                const user = Object.assign({}, auth);
+                user.language = code;
+                localStorage.setItem('user', JSON.stringify(user));
+                setAuth(user);
+                i18n.changeLanguage(user.language).then(() => setLoading(false));
+            });
+        }
+        
     }
     
     return (
@@ -91,8 +96,8 @@ export const Header = () => {
                     <div className="header-warning" style={window.location.pathname.startsWith("/lk/accounts") ? {} : {display: "none"}}>
                         <i className="fa fa-exclamation-circle" aria-hidden="true" />
                         <div className="header-warning-text">
-                            <span>{t("accounts:header_notification_line1")}</span>
-                            <span>{t("accounts:header_notification_line2")}</span>
+                            <span title={t("accounts:header_notification_line1")|| ''}>{t("accounts:header_notification_line1")}</span>
+                            <span title={t("accounts:header_notification_line2")|| ''}>{t("accounts:header_notification_line2")}</span>
                         </div>
                     </div>
                 </div>}
