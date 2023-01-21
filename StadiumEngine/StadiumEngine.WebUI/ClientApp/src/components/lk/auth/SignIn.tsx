@@ -45,7 +45,7 @@ export const SignIn = () => {
 
     return (
         <div className="sign-in-container" style={{
-            background: `linear-gradient( rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75) ), no-repeat center / cover url(${cells})`
+            background: `linear-gradient( rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8) ), no-repeat center / cover url(${cells})`
         }}>
             <div className="color-block bottom-color-block" />
             <div className="color-block top-color-block" />
@@ -58,8 +58,16 @@ export const SignIn = () => {
             </div>
 
             
-            
-            
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                justifyContent: 'center',
+                alignItems: 'center'}} >
+
+            <div className="balls balls-top"  style={{
+                backgroundImage: `url(${back_balls})`
+            }}/>
             <form
                
             >
@@ -101,9 +109,11 @@ export const SignIn = () => {
                 
                
             </form>
-            <div className="balls"  style={{
+            <div className="balls balls-bottom"  style={{
                 backgroundImage: `url(${back_balls})`
             }}/>
+
+            </div>
             <NavLink className="portal-button" to="/">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                      className="bi bi-house" viewBox="0 0 16 16">

@@ -41,7 +41,7 @@
     background: linear-gradient(90deg, #00d2ff,#0c8bfe);
     border-radius: 120px;
     z-index: 1;
-    opacity: 0.85;
+    opacity: 0.7;
     
     &.bottom-color-block {
       right: 85vw;
@@ -63,7 +63,7 @@
   }
   
   form {
-    margin-top: 50px;
+    margin-top: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -126,10 +126,20 @@
   }
   
   .balls {
-    height: 300px;
-    background-size: contain;
-    background-position: center;
+    height: 140px;
+    width: 600px;
     background-repeat: no-repeat;
-    opacity: 0.75;
+    opacity: 0.7;
+    
+    &.balls-top {
+      margin-top: -30px;
+      background-position: top;
+      
+    }
+
+    &.balls-bottom {
+      background-position: bottom;
+      display: none;
+    }
   }
 }
