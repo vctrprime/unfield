@@ -10,5 +10,9 @@
   },
   "lk_header": {
     "current_stadium_title": "Текущий объект"
-  }
+  },
+  "success_request_title": "Успешно",
+  "success_request": "Запрос успешно выполнен!",
+  "error_request_title": "Ошибка",
+  "error_request": "Ошибка при выполнении запроса!"
 }

@@ -8,6 +8,7 @@ import {PermissionDto} from "../models/dto/accounts/PermissionDto";
 import {UserStadiumDto} from "../models/dto/accounts/UserStadiumDto";
 import {StadiumDto} from "../models/dto/accounts/StadiumDto";
 import {UserDto} from "../models/dto/accounts/UserDto";
+import {t} from "i18next";
 
 export interface IAccountsService {
     authorize(command: AuthorizeUserCommand): Promise<AuthorizeUserDto>;
@@ -91,7 +92,7 @@ export class AccountsService extends BaseService implements IAccountsService  {
         return this.fetchWrapper.post({
             url: `${this.baseUrl}/role-permission`,
             body: command,
-            successMessage: "Запрос успешно выполнен!"
+            successMessage: t('common:success_request')
         })
     }
 

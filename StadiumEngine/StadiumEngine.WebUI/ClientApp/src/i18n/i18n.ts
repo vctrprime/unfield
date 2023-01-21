@@ -3,25 +3,28 @@
 import i18next from "i18next";
 import { reactI18nextModule }  from "react-i18next";
 
+import portalRU from '../i18n/portal/portal.json';
 import portalEN from '../i18n/portal/portal.en.json';
-import portalRU from '../i18n/portal/portal.ru.json';
 
+
+import commonRU from '../i18n/common/common.json';
 import commonEN from '../i18n/common/common.en.json';
-import commonRU from '../i18n/common/common.ru.json';
 
+
+import accountsRU from '../i18n/accounts/accounts.json';
 import accountsEN from '../i18n/accounts/accounts.en.json';
-import accountsRU from '../i18n/accounts/accounts.ru.json';
+
 
 const resources = {
-    en: {
-        accounts: accountsEN,
-        common: commonEN,
-        portal: portalEN
-    },
     ru: {
         accounts: accountsRU,
         common: commonRU,
         portal: portalRU
+    },
+    en: {
+        accounts: accountsEN,
+        common: commonEN,
+        portal: portalEN
     }
 };
 

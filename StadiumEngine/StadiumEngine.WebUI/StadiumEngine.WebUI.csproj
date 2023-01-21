@@ -32,11 +32,11 @@
         <!-- Don't publish the SPA source files, but do show them in the project files list -->
         <Content Remove="$(SpaRoot)**" />
         <Content Include="ClientApp\src\i18n\accounts\accounts.en.json" />
-        <Content Include="ClientApp\src\i18n\accounts\accounts.ru.json" />
+        <Content Include="ClientApp\src\i18n\accounts\accounts.json" />
         <Content Include="ClientApp\src\i18n\common\common.en.json" />
-        <Content Include="ClientApp\src\i18n\common\common.ru.json" />
+        <Content Include="ClientApp\src\i18n\common\common.json" />
         <Content Include="ClientApp\src\i18n\portal\portal.en.json" />
-        <Content Include="ClientApp\src\i18n\portal\portal.ru.json" />
+        <Content Include="ClientApp\src\i18n\portal\portal.json" />
         <Content Include="ClientApp\src\img\logo\logo_icon_with_title.png" />
         <Content Include="ClientApp\src\img\logo\logo_icon_with_title_white.png" />
         <None Remove="$(SpaRoot)**" />

@@ -2,6 +2,7 @@ import { useSetRecoilState } from 'recoil';
 import { authAtom } from '../state/auth';
 import {loadingAtom} from "../state/loading";
 import {useNavigate} from "react-router-dom";
+import {t} from "i18next";
 
 const ReactNotifications = require('react-notifications');
 const { NotificationManager } = ReactNotifications;
@@ -61,12 +62,12 @@ function useFetchWrapper() {
                     navigate("/lk/sign-in");
                     return Promise.reject(error);
                 }
-                NotificationManager.error(error, "Ошибка", 2000);
+                NotificationManager.error(error, t('common:error_request_title'), 2000);
                 
                 return Promise.reject(error);
             }
 
-            if (successMessage) NotificationManager.success(successMessage, 'Успешно!', 2000);
+            if (successMessage) NotificationManager.success(successMessage, t('common:success_request_title'), 2000);
             
             return data;
         });

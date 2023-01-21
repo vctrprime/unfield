@@ -10,5 +10,9 @@
   },
   "lk_header": {
     "current_stadium_title": "Current stadium"
-  }
+  },
+  "success_request_title": "Success!",
+  "success_request": "Request completed successfully!",
+  "error_request_title": "Error!",
+  "error_request": "Error while executing request!"
 }
