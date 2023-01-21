@@ -24,6 +24,7 @@
     "react-bootstrap-icons": "^1.10.2",
     "react-device-detect": "^2.2.2",
     "react-dom": "^16.0.0",
+    "react-flags-select": "^2.2.3",
     "react-i18next": "^9.0.10",
     "react-loading-skeleton": "^3.1.0",
     "react-notifications": "^1.7.4",

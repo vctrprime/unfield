@@ -25,6 +25,11 @@ const resources = {
     }
 };
 
+const user = JSON.parse(localStorage.getItem('user'));
+const startLanguage = user === undefined ? "en" : 
+    user.language === undefined ||  user.language === null ? "en" :
+        user.language;
+
 
 i18next
     .use(reactI18nextModule) // passes i18n down to react-i18next
@@ -32,7 +37,7 @@ i18next
         fallbackLng: "ru",
         ns: ['portal', 'common','accounts'],
         resources,
-        lng: "en",
+        lng: startLanguage,
         keySeparator: false, // we do not use keys in form messages.welcome
         interpolation: {
             escapeValue: false // react already safes from xss

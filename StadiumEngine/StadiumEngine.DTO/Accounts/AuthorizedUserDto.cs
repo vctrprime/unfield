@@ -14,4 +14,9 @@ public class AuthorizedUserDto
     /// Название роли
     /// </summary>
     public string RoleName { get; set; }
+    
+    /// <summary>
+    /// Язык
+    /// </summary>
+    public string Language { get; set; }
 }

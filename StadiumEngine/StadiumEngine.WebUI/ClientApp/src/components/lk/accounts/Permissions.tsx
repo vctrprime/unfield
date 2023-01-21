@@ -87,7 +87,7 @@ export const Permissions = () => {
     
     const PermissionGroupTitle = ({groupKey} : PermissionGroupTitleProps) => {
         return <div className="permission-group-title">
-            {data.length === 0 ?  <Skeleton width={150} height={20} /> : <span>{t(`accounts:permissions_group:${groupKey.replaceAll('-', '_')}`)}</span>}
+            {data.length === 0 ?  <Skeleton width={150} height={20} /> : <span>{t(`accounts:permissions_groups:${groupKey.replaceAll('-', '_')}`)}</span>}
         </div>
     }
     

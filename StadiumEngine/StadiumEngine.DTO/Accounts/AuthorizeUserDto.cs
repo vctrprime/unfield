@@ -23,6 +23,11 @@ public class AuthorizeUserDto
     /// </summary>
     public bool IsSuperuser { get; set; }
     
+    /// <summary>
+    /// Язык
+    /// </summary>
+    public string Language { get; set; }
+    
     [JsonIgnore]
     public List<Claim> Claims { get; set; }
 }

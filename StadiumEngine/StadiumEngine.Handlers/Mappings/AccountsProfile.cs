@@ -16,12 +16,14 @@ internal class AccountsProfile : Profile
             .ForMember(dest => dest.FullName, 
                 act => act.MapFrom(s => $"{s.Name} {s.LastName}"))
             .ForMember(dest => dest.RoleName, act => act.MapFrom(s => s.Role == null ? null : s.Role.Name))
+            .ForMember(dest => dest.Language, act => act.MapFrom(s => s.Language ?? "en"))
             .ForMember(dest => dest.Claims,
                 act => act.MapFrom(s => CreateClaimsList(s)));
 
         CreateMap<User, AuthorizedUserDto>()
             .ForMember(dest => dest.FullName,
                 act => act.MapFrom(s => $"{s.Name} {s.LastName}"))
+            .ForMember(dest => dest.Language, act => act.MapFrom(s => s.Language ?? "en"))
             .ForMember(dest => dest.RoleName,
                 act => act.MapFrom(s => s.Role == null ? "Суперпользователь" : s.Role.Name));
         

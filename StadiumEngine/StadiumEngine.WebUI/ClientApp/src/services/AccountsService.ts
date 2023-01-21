@@ -20,6 +20,7 @@ export interface IAccountsService {
     getStadiums(roleId: number): Promise<StadiumDto[]>;
     getPermissions(roleId: number): Promise<PermissionDto[]>;
     toggleRolePermission(command: ToggleRolePermissionCommand): Promise<void>;
+    changeLanguage(language: string): Promise<void>;
     
 }
 
@@ -98,6 +99,13 @@ export class AccountsService extends BaseService implements IAccountsService  {
         return this.fetchWrapper.get({
             url: `${this.baseUrl}/users`, 
             withSpinner: false, 
+            hideSpinner: false
+        })
+    }
+
+    changeLanguage(language: string): Promise<void> {
+        return this.fetchWrapper.put({
+            url: `${this.baseUrl}/user-language/${language}`,
             hideSpinner: false
         })
     }

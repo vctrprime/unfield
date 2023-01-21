@@ -1,5 +1,6 @@
 export interface AuthorizeUserDto {
     fullName: string,
     roleName: string | null,
-    isSuperuser: boolean
+    isSuperuser: boolean,
+    language: string
 }

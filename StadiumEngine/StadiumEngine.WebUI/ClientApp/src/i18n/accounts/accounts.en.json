@@ -40,7 +40,7 @@
     "select_role_notification": "Select a role in the top table to get information on stadium relationships",
     "no_rows": "Stadiums not found"
   },
-  "permissions_group": {
+  "permissions_groups": {
     "main_settings": "Main Settings",
     "schedule": "Schedule",
     "actives": "Actives",

@@ -1,12 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {Bell, GearFill, PersonCircle} from 'react-bootstrap-icons';
 import {Dropdown} from "semantic-ui-react";
-import {useRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {stadiumAtom} from "../../state/stadium";
 import {UserStadiumDto} from "../../models/dto/accounts/UserStadiumDto";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../services/AccountsService";
 import {t} from "i18next";
+import ReactFlagsSelect from "react-flags-select";
+import {authAtom} from "../../state/auth";
+import i18n from "../../i18n/i18n";
+import {AuthorizeUserDto} from "../../models/dto/accounts/AuthorizeUserDto";
+import {loadingAtom} from "../../state/loading";
 
 interface StadiumDropDownData {
     key: number,
@@ -17,6 +22,9 @@ interface StadiumDropDownData {
 export const Header = () => {
     const [stadiums, setStadiums] = useState<StadiumDropDownData[]>([])
     const [stadium, setStadium] = useRecoilState<number | null>(stadiumAtom);
+
+    const [auth, setAuth] = useRecoilState<AuthorizeUserDto | null>(authAtom);
+    const setLoading = useSetRecoilState(loadingAtom);
 
     const [accountsService] = useInject<IAccountsService>('AccountsService');
     
@@ -44,6 +52,27 @@ export const Header = () => {
             .then(() => {
             setStadium(value);
         })
+    }
+
+    const customLabelsLanguages = {
+        RU: "RU",
+        US: "EN",
+    };
+    const getSelectedLanguage = ():string => {
+        const language = auth?.language || 'en';
+        if (language === 'en') return 'US';
+        
+        return language.toUpperCase();
+    }
+    const changeLanguage = (code: string) => {
+        code = code === 'US' ? 'en' : code.toLowerCase();
+        accountsService.changeLanguage(code).then(() => {
+            const user = Object.assign({}, auth);
+            user.language = code;
+            localStorage.setItem('user', JSON.stringify(user));
+            setAuth(user);
+            i18n.changeLanguage(user.language).then(() => setLoading(false));
+        });
     }
     
     return (
@@ -77,6 +106,18 @@ export const Header = () => {
                     </div>
                     <div className="profile-icon">
                         <PersonCircle color="#354650" size={22}/>
+                    </div>
+                    <div className="language-container">
+                        <ReactFlagsSelect
+                            selected={getSelectedLanguage()}
+                            onSelect={changeLanguage}
+                            showSelectedLabel={true}
+                            //showSecondarySelectedLabel={true}
+                            //showOptionLabel={true}
+                            //showSecondaryOptionLabel={true}
+                            customLabels={customLabelsLanguages}
+                            countries={["US", "RU"]}
+                        />
                     </div>
                     {/*<span>{auth.fullName}</span>*/}
                 </div>}

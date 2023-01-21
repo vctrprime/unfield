@@ -40,6 +40,9 @@ public class User : BaseUserEntity
     [Column("is_deleted")]
     [DefaultValue(false)]
     public bool IsDeleted { get; set; }
+
+    [Column("language")] 
+    public string Language { get; set; }
     
     [InverseProperty("UserCreated")]
     public virtual ICollection<User> CreatedUsers { get; set; }

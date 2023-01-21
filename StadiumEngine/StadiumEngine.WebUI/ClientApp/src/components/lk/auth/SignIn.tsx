@@ -9,6 +9,7 @@ import {AuthorizeUserDto} from "../../../models/dto/accounts/AuthorizeUserDto";
 import { useInject } from 'inversify-hooks';
 import {IAccountsService} from "../../../services/AccountsService";
 import {t} from "i18next";
+import i18n from "../../../i18n/i18n";
 
 export const SignIn = () => {
     const setAuth = useSetRecoilState(authAtom);
@@ -26,6 +27,7 @@ export const SignIn = () => {
             .then((user: AuthorizeUserDto) => {
                 localStorage.setItem('user', JSON.stringify(user));
                 setAuth(user);
+                i18n.changeLanguage(user.language);
                 navigate("/lk");
             });
     };
