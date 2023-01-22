@@ -1,3 +1,4 @@
+
 namespace StadiumEngine.DTO.Accounts;
 
 /// <summary>
@@ -19,4 +20,9 @@ public class AuthorizedUserDto
     /// Язык
     /// </summary>
     public string Language { get; set; }
+    
+    /// <summary>
+    /// Флаг админа
+    /// </summary>
+    public bool IsAdmin { get; set; }
 }

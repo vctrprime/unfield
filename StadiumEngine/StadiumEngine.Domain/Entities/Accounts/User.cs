@@ -44,6 +44,10 @@ public class User : BaseUserEntity
     [Column("language")] 
     public string Language { get; set; }
     
+    [Column("is_admin")]
+    [DefaultValue(false)]
+    public bool IsAdmin { get; set; }
+    
     [InverseProperty("UserCreated")]
     public virtual ICollection<User> CreatedUsers { get; set; }
     [InverseProperty("UserModified")]

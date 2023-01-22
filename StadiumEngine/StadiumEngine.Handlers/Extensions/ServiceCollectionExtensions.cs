@@ -29,6 +29,7 @@ public static class ServiceCollectionExtensions
             cfg.AddProfile(new CommonProfile());
             cfg.AddProfile(new UtilsProfile());
             cfg.AddProfile(new AccountsProfile());
+            cfg.AddProfile(new AdminProfile());
         }).CreateMapper());
         
         services.RegisterType<AddUserHandlerServicesContainer>().AsScoped().PropertiesAutowired().Bind();

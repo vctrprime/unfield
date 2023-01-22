@@ -43,7 +43,8 @@ internal class AccountsProfile : Profile
             .ForMember(dest => dest.RoleName,
                 act => act.MapFrom(s => s.Role.Name));
         CreateMap<AddUserCommand, User>()
-            .ForMember(dest => dest.IsSuperuser, act => act.MapFrom(s => false));
+            .ForMember(dest => dest.IsSuperuser, act => act.MapFrom(s => false))
+            .ForMember(dest => dest.IsAdmin, act => act.MapFrom(s => false));
         
         CreateMap<Role, RoleDto>()
             .IncludeBase<BaseUserEntity, BaseEntityDto>()

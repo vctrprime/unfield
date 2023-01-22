@@ -24,6 +24,11 @@ public class AuthorizeUserDto
     public bool IsSuperuser { get; set; }
     
     /// <summary>
+    /// Флаг админа
+    /// </summary>
+    public bool IsAdmin { get; set; }
+    
+    /// <summary>
     /// Язык
     /// </summary>
     public string Language { get; set; }

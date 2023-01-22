@@ -5,5 +5,10 @@ namespace StadiumEngine.Handlers.Commands.Accounts;
 
 public sealed class ChangeStadiumCommand : IRequest<AuthorizeUserDto?>
 {
-    public int StadiumId { get; set; }
+    public int StadiumId { get; }
+
+    public ChangeStadiumCommand(int stadiumId)
+    {
+        StadiumId = stadiumId;
+    }
 }

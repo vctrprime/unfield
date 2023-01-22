@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.Handlers.Commands.Accounts;
+using StadiumEngine.Handlers.Commands.Admin;
 using StadiumEngine.Handlers.Queries.Accounts;
+using StadiumEngine.WebUI.Infrastructure.Attributes;
 
 namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 
@@ -49,10 +51,21 @@ public class AuthorizeController : BaseApiController
     [HttpPut("change-stadium/{stadiumId}")]
     public async Task<AuthorizeUserDto> ChangeStadium(int stadiumId)
     {
-        var user = await Mediator.Send(new ChangeStadiumCommand
-        {
-            StadiumId = stadiumId
-        });
+        var user = await Mediator.Send(new ChangeStadiumCommand(stadiumId));
+
+        return await Authorize(user, "Forbidden");
+    }
+    
+    /// <summary>
+    /// Сменить орагнизацию (админ)
+    /// </summary>
+    /// <param name="legalId"></param>
+    /// <returns></returns>
+    [AdminFeature]
+    [HttpPut("/admin/change-legal/{legalId}")]
+    public async Task<AuthorizeUserDto> ChangeLegal(int legalId)
+    {
+        var user = await Mediator.Send(new ChangeLegalCommand(legalId));
 
         return await Authorize(user, "Forbidden");
     }

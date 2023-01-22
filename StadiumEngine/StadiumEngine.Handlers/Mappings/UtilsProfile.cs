@@ -12,7 +12,8 @@ internal class UtilsProfile : Profile
         CreateMap<AddLegalCommand, Legal>();
         CreateMap<AddLegalCommandStadium, Stadium>();
         CreateMap<AddLegalCommandSuperuser, User>()
-            .ForMember(dest => dest.IsSuperuser, act => act.MapFrom(s => true));
+            .ForMember(dest => dest.IsSuperuser, act => act.MapFrom(s => true))
+            .ForMember(dest => dest.IsAdmin, act => act.MapFrom(s => false));
         CreateMap<Legal, AddLegalDto>();
     }
 }
