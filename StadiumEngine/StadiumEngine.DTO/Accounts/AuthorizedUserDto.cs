@@ -22,7 +22,17 @@ public class AuthorizedUserDto
     public string Language { get; set; }
     
     /// <summary>
+    /// Флаг суперюзера
+    /// </summary>
+    public bool IsSuperuser { get; set; }
+    
+    /// <summary>
     /// Флаг админа
     /// </summary>
     public bool IsAdmin { get; set; }
+    
+    /// <summary>
+    /// Организация
+    /// </summary>
+    public string LegalName { get; set; }
 }

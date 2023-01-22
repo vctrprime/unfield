@@ -1,5 +1,5 @@
 import React from 'react';
-import {TabData, Tabs} from "../common/Tabs";
+import {TabData, Tabs} from "../../common/Tabs";
 import {useRecoilValue} from "recoil";
 import {permissionsAtom} from "../../../state/permissions";
 import {ForbiddenMessage} from "../common/ForbiddenMessage";

@@ -12,20 +12,18 @@ internal class AccountsProfile : Profile
 {
     public AccountsProfile()
     {
-        CreateMap<User, AuthorizeUserDto>()
-            .ForMember(dest => dest.FullName, 
-                act => act.MapFrom(s => $"{s.Name} {s.LastName}"))
-            .ForMember(dest => dest.RoleName, act => act.MapFrom(s => s.Role == null ? null : s.Role.Name))
-            .ForMember(dest => dest.Language, act => act.MapFrom(s => s.Language ?? "en"))
-            .ForMember(dest => dest.Claims,
-                act => act.MapFrom(s => CreateClaimsList(s)));
-
         CreateMap<User, AuthorizedUserDto>()
             .ForMember(dest => dest.FullName,
                 act => act.MapFrom(s => $"{s.Name} {s.LastName}"))
             .ForMember(dest => dest.Language, act => act.MapFrom(s => s.Language ?? "en"))
             .ForMember(dest => dest.RoleName,
                 act => act.MapFrom(s => s.Role == null ? "Суперпользователь" : s.Role.Name));
+        
+        CreateMap<User, AuthorizeUserDto>()
+            .IncludeBase<User, AuthorizedUserDto>()
+            .ForMember(dest => dest.Claims,
+                act => act.MapFrom(s => CreateClaimsList(s)));
+
         
         CreateMap<Stadium, UserStadiumDto>()
             .ForMember(dest => dest.IsCurrent, 
@@ -34,9 +32,7 @@ internal class AccountsProfile : Profile
         CreateMap<Permission, UserPermissionDto>()
             .ForMember(dest => dest.GroupKey, 
                 act => act.MapFrom(s => s.PermissionGroup.Key));
-
-
-
+        
         CreateMap<User, UserDto>()
             .IncludeBase<BaseUserEntity, BaseEntityDto>()
             .ForMember(dest => dest.RoleId, act => act.MapFrom(s => s.RoleId))

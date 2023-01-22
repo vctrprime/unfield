@@ -15,7 +15,7 @@ export interface IAccountsService {
     logout(): Promise<void>;
     getCurrentUserPermissions(): Promise<UserPermissionDto[]>;
     getCurrentUserStadiums(): Promise<UserStadiumDto[]>;
-    changeCurrentStadium(stadiumId: number): Promise<void>;
+    changeCurrentStadium(stadiumId: number): Promise<AuthorizeUserDto>;
     getUsers(): Promise<UserDto[]>;
     getRoles(): Promise<RoleDto[]>;
     getStadiums(roleId: number): Promise<StadiumDto[]>;
@@ -62,8 +62,10 @@ export class AccountsService extends BaseService implements IAccountsService  {
         })
     }
 
-    changeCurrentStadium(stadiumId: number): Promise<void> {
-        return this.fetchWrapper.put({url: `${this.baseUrl}/change-stadium/` + stadiumId})
+    changeCurrentStadium(stadiumId: number): Promise<AuthorizeUserDto> {
+        return this.fetchWrapper.put({
+            url: `${this.baseUrl}/change-stadium/` + stadiumId
+        })
     }
 
     getRoles(): Promise<RoleDto[]> {

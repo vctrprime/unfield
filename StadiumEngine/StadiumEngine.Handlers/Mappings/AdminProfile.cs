@@ -14,10 +14,7 @@ internal class AdminProfile : Profile
             .ForMember(dest => dest.Region,
                 act => act.MapFrom(s => s.City.Region.ShortName))
             .ForMember(dest => dest.Country,
-            act => act.MapFrom(s => s.City.Region.Country.ShortName))
-            .ForMember(dest => dest.UsersCount,
-                act => act.MapFrom(s => s.Users.Count))
-            .ForMember(dest => dest.StadiumsCount,
-                act => act.MapFrom(s => s.Stadiums.Count));
+                act => act.MapFrom(s => s.City.Region.Country.ShortName));
+
     }
 }

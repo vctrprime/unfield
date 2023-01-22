@@ -50,7 +50,7 @@ export const RolesGrid = ({setSelectedRole} : any) => {
                 setSelectedRole(selectedRows[0]);
             }
             else {
-                setSelectedRole(selectedRows[0]);
+                setSelectedRole(null);
             }
         }
         

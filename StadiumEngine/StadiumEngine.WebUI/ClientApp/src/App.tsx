@@ -3,6 +3,7 @@ import { Layout } from './components/Layout';
 import {Routes, Route} from "react-router-dom";
 import {Home} from "./components/portal/Home";
 import {Layout as LkLayout} from "./components/lk/Layout";
+import {Layout as AdminLayout} from "./components/admin/Layout";
 import {Actives} from "./components/lk/actives/Actives";
 import {Schedule} from "./components/lk/schedule/Schedule";
 import {Main} from "./components/lk/Main";
@@ -13,15 +14,19 @@ import { withNamespaces } from 'react-i18next';
 
 import './custom.css'
 import './css/lk/SignIn.scss'
+import './css/common.scss'
+
 import {Employees} from "./components/lk/employees/Employees";
 import {Accounts} from "./components/lk/accounts/Accounts";
 import {Permissions} from "./components/lk/accounts/Permissions";
 import {Users} from "./components/lk/accounts/Users";
 import {Roles} from "./components/lk/accounts/Roles";
-
+import {Admin} from "./components/admin/Admin";
 
 
 import 'react-notifications/lib/notifications.css';
+import {Legals} from "./components/admin/legals/Legals";
+
 const ReactNotifications = require('react-notifications');
 const { NotificationContainer } = ReactNotifications;
 
@@ -50,6 +55,11 @@ const App = () => {
                       <Route path="" element={<Users />} />
                       <Route path="roles" element={<Roles />} />
                       <Route path="permissions" element={<Permissions />} />
+                  </Route>
+              </Route>
+              <Route path="/admin" element={<ProtectedRoute component={AdminLayout}  />}>
+                  <Route path="" element={<Admin />} >
+                      <Route path="" element={<Legals />} />
                   </Route>
               </Route>
           </Routes>

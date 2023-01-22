@@ -9,10 +9,12 @@
     "logout": "Logout"
   },
   "lk_header": {
-    "current_stadium_title": "Current stadium"
+    "current_stadium_title": "Current stadium",
+    "to_admin_title": "To admin panel"
   },
   "success_request_title": "Success!",
   "success_request": "Request completed successfully!",
   "error_request_title": "Error!",
-  "error_request": "Error while executing request!"
+  "error_request": "Error while executing request!",
+  "mobile_notification": "Unfortunately, we do not work on mobile devices yet :("
 }

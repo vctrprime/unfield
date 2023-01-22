@@ -33,6 +33,8 @@
         <Content Remove="$(SpaRoot)**" />
         <Content Include="ClientApp\src\i18n\accounts\accounts.en.json" />
         <Content Include="ClientApp\src\i18n\accounts\accounts.json" />
+        <Content Include="ClientApp\src\i18n\admin\admin.en.json" />
+        <Content Include="ClientApp\src\i18n\admin\admin.json" />
         <Content Include="ClientApp\src\i18n\common\common.en.json" />
         <Content Include="ClientApp\src\i18n\common\common.json" />
         <Content Include="ClientApp\src\i18n\portal\portal.en.json" />

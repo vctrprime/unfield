@@ -50,7 +50,6 @@ export const NavMenu = () => {
                 setStadium(null);
                 setPermissions([]);
                 navigate("/lk/sign-in");
-                //window.location.pathname = ;
             });
     }
     
@@ -65,7 +64,7 @@ export const NavMenu = () => {
     return (
             
                 <CDBSidebar textColor="#fff" backgroundColor="#354650">
-                    <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
+                    <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large" />}>
                             <img style={{height: '26px'}} className={"logo"} alt={"Stadium Engine"} src={logo}/>
                             <div className={"lk-version-title"}>{process.env.REACT_APP_VERSION}</div>
                     </CDBSidebarHeader>

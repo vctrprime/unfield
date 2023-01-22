@@ -1,0 +1,34 @@
+.header-right-container {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 15px;
+
+  .authorized-user-info {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    
+    &-name {
+      font-weight: bold;
+    }
+    
+    &-legal {
+      font-size: 11px;
+      margin-top: -8px;
+      text-align: right;
+    }
+  }
+}
+
+.header-left-container {
+  padding-left: 15px;
+  
+  .panel-admin-title {
+    font-size: 12px;
+    letter-spacing: 0px;
+    position: absolute;
+    left: 44px;
+    top: 25px;
+  }
+}

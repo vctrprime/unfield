@@ -16,9 +16,13 @@ import 'react-phone-input-2/lib/style.css'
 
 import back_balls from "../../../img/back-balls.png";
 import cells from "../../../img/cells.jpeg";
+import {loadingAtom} from "../../../state/loading";
+
 
 export const SignIn = () => {
     const setAuth = useSetRecoilState(authAtom);
+    const setLoading = useSetRecoilState(loadingAtom);
+    
     const [accountsService] = useInject<IAccountsService>('AccountsService');
     
     const [login, setLogin] = useState<string | undefined>();
@@ -37,7 +41,15 @@ export const SignIn = () => {
                     localStorage.setItem('user', JSON.stringify(user));
                     setAuth(user);
                     i18n.changeLanguage(user.language);
-                    navigate("/lk");
+                    
+                    if (user.isAdmin) {
+                        setLoading(false);
+                        navigate("/admin");
+                    }
+                    else {
+                        navigate("/lk");
+                    }
+                    
                 });
         }
         

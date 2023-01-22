@@ -62,7 +62,7 @@ public class AuthorizeController : BaseApiController
     /// <param name="legalId"></param>
     /// <returns></returns>
     [AdminFeature]
-    [HttpPut("/admin/change-legal/{legalId}")]
+    [HttpPut("/api/admin/change-legal/{legalId}")]
     public async Task<AuthorizeUserDto> ChangeLegal(int legalId)
     {
         var user = await Mediator.Send(new ChangeLegalCommand(legalId));

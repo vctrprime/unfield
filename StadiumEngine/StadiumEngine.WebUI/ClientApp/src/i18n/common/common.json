@@ -9,10 +9,12 @@
     "logout": "Выйти"
   },
   "lk_header": {
-    "current_stadium_title": "Текущий объект"
+    "current_stadium_title": "Текущий объект",
+    "to_admin_title": "К панели администратора"
   },
   "success_request_title": "Успешно",
   "success_request": "Запрос успешно выполнен!",
   "error_request_title": "Ошибка",
-  "error_request": "Ошибка при выполнении запроса!"
+  "error_request": "Ошибка при выполнении запроса!",
+  "mobile_notification": "К сожалению, на мобильных устройствах мы пока не работаем :("
 }

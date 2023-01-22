@@ -1,0 +1,21 @@
+{
+  "header": {
+    "panel_admin_title": "Admin panel"
+  },
+  "legals_tab": "Organizations",
+  "legals_grid": {
+    "name": "Name",
+    "inn": "Tax ID",
+    "country": "Country",
+    "region": "Region",
+    "city": "City",
+    "description": "Description",
+    "head_name": "Leader",
+    "date_created": "Date Of Creation",
+    "users_count": "Number Of Users",
+    "stadiums_count": "Number Of Stadiums",
+    "search_input_notification": "Enter a search term to get data",
+    "no_rows": "Organizations not found",
+    "search_placeholder": "Name or TIN (minimum 3 characters)"
+  }
+}
