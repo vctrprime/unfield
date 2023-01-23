@@ -26,6 +26,8 @@ import {Admin} from "./components/admin/Admin";
 
 import 'react-notifications/lib/notifications.css';
 import {Legals} from "./components/admin/legals/Legals";
+import {t} from "i18next";
+import {Reports} from "./components/lk/reports/Reports";
 
 const ReactNotifications = require('react-notifications');
 const { NotificationContainer } = ReactNotifications;
@@ -39,6 +41,8 @@ NotificationManager.error('Error message', 'Click me!', 5000, () => {
 
 
 const App = () => {
+    document.title = t("portal:title")
+    
     return (
       <Layout>
           <NotificationContainer/>
@@ -50,7 +54,7 @@ const App = () => {
                   <Route path="actives" element={<Actives />} />
                   <Route path="schedule" element={<Schedule />} />
                   <Route path="employees" element={<Employees />} />
-                  <Route path="reports" element={<Main />} />
+                  <Route path="reports" element={<Reports />} />
                   <Route path="accounts" element={<Accounts />} >
                       <Route path="" element={<Users />} />
                       <Route path="roles" element={<Roles />} />

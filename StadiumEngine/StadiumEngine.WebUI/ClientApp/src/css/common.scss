@@ -25,10 +25,40 @@
   padding-left: 15px;
   
   .panel-admin-title {
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 0px;
-    position: absolute;
-    left: 44px;
-    top: 25px;
+    margin-top: -4px;
+  }
+}
+
+.language-container {
+  
+  ul {
+    font-size: 13px !important;
+  }
+
+  div {
+    padding-bottom: 0 !important;
+    margin-right: 0 !important;
+
+    button {
+      font-size: 13px !important;
+      padding: 0.5px 0 !important;
+      padding-right: 8px !important;
+
+      span:first-child {
+        padding-left: 3px !important;
+        padding-right: 3px !important;
+
+        .ReactFlagsSelect-module_label__27pw9 {
+          padding-left: 1px !important;
+        }
+
+      }
+    }
+
+    .ReactFlagsSelect-module_selectBtn__19wW7:after {
+      margin-left: 0 !important;
+    }
   }
 }

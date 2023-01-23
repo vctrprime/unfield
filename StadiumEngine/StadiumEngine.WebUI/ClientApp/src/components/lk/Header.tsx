@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Dropdown} from "semantic-ui-react";
-import {useRecoilState, useRecoilValue} from "recoil";
+import {useRecoilState} from "recoil";
 import {stadiumAtom} from "../../state/stadium";
 import {UserStadiumDto} from "../../models/dto/accounts/UserStadiumDto";
 import {useInject} from "inversify-hooks";
@@ -51,6 +51,8 @@ export const Header = () => {
             .then((result: AuthorizeUserDto) => {
                 setAuth(result);
                 setStadium(value);
+                localStorage.setItem('user', JSON.stringify(result));
+                localStorage.setItem('language', result.language);
         })
     }
     

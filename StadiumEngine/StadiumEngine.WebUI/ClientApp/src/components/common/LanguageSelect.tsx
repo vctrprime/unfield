@@ -8,46 +8,52 @@ import {loadingAtom} from "../../state/loading";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../services/AccountsService";
 
-export const LanguageSelect = () => {
+export const LanguageSelect = ({ withRequest = true, style} : any) => {
     const [auth, setAuth] = useRecoilState<AuthorizeUserDto | null>(authAtom);
     const setLoading = useSetRecoilState(loadingAtom);
 
     const [accountsService] = useInject<IAccountsService>('AccountsService');
     
     const customLabelsLanguages = {
-        RU: "RU",
-        US: "EN",
+        RU: "Русский",
+        US: "English",
     };
     const getSelectedLanguage = ():string => {
-        const language = auth?.language || 'en';
+        const language = localStorage.getItem('language') || 'en';
         if (language === 'en') return 'US';
 
         return language.toUpperCase();
     }
+    
     const changeLanguage = (code: string) => {
-        const currentLanguage = auth?.language || 'en';
+        const currentLanguage = localStorage.getItem('language') || 'en';
         code = code === 'US' ? 'en' : code.toLowerCase();
 
         if (currentLanguage !== code) {
-            accountsService.changeLanguage(code).then(() => {
-                const user = Object.assign({}, auth);
-                user.language = code;
-                localStorage.setItem('user', JSON.stringify(user));
-                setAuth(user);
-                i18n.changeLanguage(user.language).then(() => setLoading(false));
-            });
+            localStorage.setItem('language', code);
+            if (withRequest) {
+                accountsService.changeLanguage(code).then(() => {
+                    i18n.changeLanguage(code).then(() => {
+                        setLoading(false);
+                    });
+                });
+            }
+            else {
+                i18n.changeLanguage(code).then(() => {});
+            }
         }
 
     }
     
     
     return (
-        <div className="language-container">
+        <div className="language-container" style={style === undefined ? { marginRight: '0'} : style}>
         <ReactFlagsSelect
             selected={getSelectedLanguage()}
             onSelect={changeLanguage}
-            showSelectedLabel={true}
+            showSelectedLabel={false}
             customLabels={customLabelsLanguages}
+            fullWidth={false}
             countries={["US", "RU"]}
         />
     </div>)

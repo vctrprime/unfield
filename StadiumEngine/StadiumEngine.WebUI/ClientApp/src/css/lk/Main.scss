@@ -51,39 +51,6 @@
 
         color: $dark-color;
       }
-
-      .language-container {
-        margin-right: 0;
-        
-        ul {
-          font-size: 13px !important;
-        }
-        
-        div {
-          padding-bottom: 0 !important;
-          margin-right: 0 !important;
-          
-          button {
-            font-size: 13px !important;
-            padding: 0.5px 0 !important;
-            padding-right: 8px !important;
-            
-            span:first-child {
-              padding-left: 3px !important;
-              padding-right: 3px !important;
-              
-              .ReactFlagsSelect-module_label__27pw9 {
-                padding-left: 1px !important;
-              }
-              
-            }
-          }
-
-          .ReactFlagsSelect-module_selectBtn__19wW7:after {
-            margin-left: 0 !important;
-          }
-        }
-      }
     }
   }
 

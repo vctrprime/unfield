@@ -37,7 +37,7 @@ export const Header = () => {
         <div className="border-bottom navbar navbar-light box-shadow lk-header">
             <div className="header-left-container">
                 <img style={{height: '26px'}} className={"logo"} alt={"Stadium Engine"} src={logo}/>
-                <div className="panel-admin-title">{t("admin:header:panel_admin_title")}</div>
+                {/*<div className="panel-admin-title">{t("admin:header:panel_admin_title")}</div>*/}
             </div>
             <div className="header-right-container">
                 <div className="header-icons">

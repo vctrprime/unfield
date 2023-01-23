@@ -11,6 +11,7 @@ import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../../services/AccountsService";
 import {ToggleRolePermissionCommand} from "../../../models/command/accounts/ToggleRolePermissionCommand";
 import {t} from "i18next";
+import {getTitle} from "../../../helpers/utils";
 
 export interface PermissionsRoleDropDownData {
     key: number,
@@ -30,6 +31,8 @@ interface PermissionCheckBoxProps {
 }
 
 export const Permissions = () => {
+    document.title = getTitle("accounts:permissions_tab")
+    
     const [roles, setRoles] = useRecoilState<PermissionsRoleDropDownData[]>(rolesAtom);
     const permissions = useRecoilValue<UserPermissionDto[]>(permissionsAtom);
 
