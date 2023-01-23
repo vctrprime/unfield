@@ -33,8 +33,8 @@ export const NavMenu = () => {
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
               <ul className="navbar-nav flex-grow">
                 <NavItem>
-                  <NavLink tag={Link} className="btn btn-default lk-button" to={auth?.isAdmin ? "/admin" : "/lk"}>
-                    {auth?.isAdmin ? t("portal:header:admin_button") : t("portal:header:lk_button")}
+                  <NavLink tag={Link} className="btn btn-default lk-button" to={auth?.fullName === undefined ? "/lk/sign-in" : auth.isAdmin ? "/admin" : "/lk"}>
+                    {auth?.fullName === undefined ? t("portal:header:lk_button") : auth.isAdmin ? t("portal:header:admin_button") : t("portal:header:lk_button")}
                   </NavLink>
                 </NavItem>
               </ul>

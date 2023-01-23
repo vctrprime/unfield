@@ -41,7 +41,6 @@ NotificationManager.error('Error message', 'Click me!', 5000, () => {
 
 
 const App = () => {
-    document.title = t("portal:title")
     
     return (
       <Layout>
