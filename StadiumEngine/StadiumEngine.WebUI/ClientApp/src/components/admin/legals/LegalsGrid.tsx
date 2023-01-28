@@ -14,11 +14,14 @@ import {stadiumAtom} from "../../../state/stadium";
 import {UserPermissionDto} from "../../../models/dto/accounts/UserPermissionDto";
 import {permissionsAtom} from "../../../state/permissions";
 import {legalsSearchValue} from "../../../state/admin/legalsSearchValue";
+import {useLocalStorage} from "usehooks-ts";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
 
 export const LegalsGrid = () => {
+    const [user, setUser] = useLocalStorage<AuthorizeUserDto | null>('user', null);
+    
     const [data, setData] = useState<LegalDto[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     
@@ -31,14 +34,13 @@ export const LegalsGrid = () => {
     const setAuth = useSetRecoilState(authAtom);
 
     const gridRef = useRef<any>();
-
-    const navigate = useNavigate();
-
+    
     const onNameClick = (id: number) => {
         adminService.changeLegal(id).then((result: AuthorizeUserDto) => {
             setStadium(null);
             setPermissions([]);
             setAuth(result);
+            setUser(result);
             window.open(`${window.location.origin}/lk`);
         })
     }
@@ -100,9 +102,9 @@ export const LegalsGrid = () => {
             {isLoading ? <GridLoading columns={columnDefs}/> : <AgGridReact
                 ref={gridRef}
                 rowData={data}
-                rowSelection={'single'}
+                //rowSelection={'single'}
                 columnDefs={columnDefs}
-                rowDeselection={true}
+                //rowDeselection={true}
                 overlayNoRowsTemplate={getOverlayNoRowsTemplate()}
             />}
         </div>

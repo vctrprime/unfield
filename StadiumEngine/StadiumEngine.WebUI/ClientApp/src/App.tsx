@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, useEffect, useRef} from 'react';
 import { Layout } from './components/Layout';
 import {Routes, Route} from "react-router-dom";
 import {Home} from "./components/portal/Home";
@@ -26,8 +26,9 @@ import {Admin} from "./components/admin/Admin";
 
 import 'react-notifications/lib/notifications.css';
 import {Legals} from "./components/admin/legals/Legals";
-import {t} from "i18next";
 import {Reports} from "./components/lk/reports/Reports";
+import {useLocalStorage} from "usehooks-ts";
+import {AuthorizeUserDto} from "./models/dto/accounts/AuthorizeUserDto";
 
 const ReactNotifications = require('react-notifications');
 const { NotificationContainer } = ReactNotifications;
@@ -41,6 +42,31 @@ NotificationManager.error('Error message', 'Click me!', 5000, () => {
 
 
 const App = () => {
+    const [user, setUser] = useLocalStorage<AuthorizeUserDto | null>('user', null);
+    const prevUserRef = useRef<AuthorizeUserDto | null>(user);
+    
+    useEffect(() => {
+        const prev = JSON.stringify(prevUserRef.current);
+        const current = JSON.stringify(user)
+        if (prev !== current) {
+            if (window.location.pathname.startsWith("/lk")) {
+                prevUserRef.current = user;
+                if (window.location.pathname === "/lk/sign-in") {
+                    if (user?.isAdmin) {
+                        window.location.href = `/admin`;
+                    }
+                    else {
+                        window.location.href = `/lk`;
+                    }
+                    
+                }
+                else {
+                    window.location.reload();
+                }
+            }
+        }
+    }, [user])
+    
     
     return (
       <Layout>

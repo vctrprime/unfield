@@ -32,6 +32,11 @@ public class AuthorizedUserDto
     public bool IsAdmin { get; set; }
     
     /// <summary>
+    /// Токен для отслеживания изменений
+    /// </summary>
+    public Guid UniqueToken { get; set; }
+    
+    /// <summary>
     /// Организация
     /// </summary>
     public string LegalName { get; set; }

@@ -1,4 +1,6 @@
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using AutoMapper;
 using StadiumEngine.Domain.Entities;
 using StadiumEngine.Domain.Entities.Accounts;
@@ -13,6 +15,8 @@ internal class AccountsProfile : Profile
     public AccountsProfile()
     {
         CreateMap<User, AuthorizedUserDto>()
+            .ForMember(dest => dest.UniqueToken, 
+                act => act.MapFrom(s => GetUserToken(s)))
             .ForMember(dest => dest.FullName,
                 act => act.MapFrom(s => $"{s.Name} {s.LastName}"))
             .ForMember(dest => dest.Language, act => act.MapFrom(s => s.Language ?? "en"))
@@ -80,6 +84,13 @@ internal class AccountsProfile : Profile
         };
         
         return claims;
+    }
+
+    private Guid GetUserToken(User user)
+    {
+        using MD5 md5 = MD5.Create();
+        byte[] hash = md5.ComputeHash(Encoding.Unicode.GetBytes($"{user.LegalId}{(user.RoleId.HasValue ? $"{user.RoleId}" : "")}{user.Name}-{user.LastName}{user.Id}"));
+        return new Guid(hash);
     }
     
 }
