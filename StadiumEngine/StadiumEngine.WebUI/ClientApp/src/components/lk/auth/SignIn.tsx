@@ -100,7 +100,7 @@ export const SignIn = () => {
                         containerStyle={{marginTop: '10px'}}
                         inputStyle={{width: '100%', height: 40}}
                         searchClass='search-class'
-                        searchStyle={{margin: 0, width: '90%', height: '30px'}}
+                        searchStyle={{margin: 0, width: '90%', height: '30px', fontFamily: 'inherit'}}
                         enableSearch={false}
                         placeholder={'+7 (123) 456-78-90'}
                         disableSearchIcon

@@ -31,6 +31,7 @@ export const RolesGrid = ({setSelectedRole} : any) => {
     const [deletingRole, setDeletingRole] = useState<RoleDto | null>(null);
     
     const gridRef = useRef<any>();
+    
 
     const NameRenderer = (obj : any) => {
         return <span className="link-cell">{obj.data.name}</span>;
@@ -96,27 +97,47 @@ export const RolesGrid = ({setSelectedRole} : any) => {
     const nameInput = useRef<any>();
     const descriptionInput = useRef<any>();
     
+    const validate = (): boolean => {
+        if (
+        nameInput.current?.value === undefined ||
+        nameInput.current?.value === null ||
+        nameInput.current?.value === '') {
+            nameInput.current.style.border = "1px solid red";
+            setTimeout(() => {
+                nameInput.current.style.border = "";
+            }, 2000);
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    
     const addRole = () => {
-        accountsService.addRole({
-            name: nameInput.current?.value,
-            description: descriptionInput.current?.value
-        }).then(() => {
-            fetchRoles();
-        }).finally(() => {
-            setRoleModal(false);
-        });
+        if (validate()) {
+            accountsService.addRole({
+                name: nameInput.current?.value,
+                description: descriptionInput.current?.value
+            }).then(() => {
+                fetchRoles();
+            }).finally(() => {
+                setRoleModal(false);
+            });
+        }
     }
 
     const updateRole = () => {
-        accountsService.updateRole({
-            id: editingRole?.id||0,
-            name: nameInput.current?.value,
-            description: descriptionInput.current?.value
-        }).then(() => {
-            fetchRoles();
-        }).finally(() => {
-            setRoleModal(false);
-        });
+        if (validate()) {
+            accountsService.updateRole({
+                id: editingRole?.id||0,
+                name: nameInput.current?.value,
+                description: descriptionInput.current?.value
+            }).then(() => {
+                fetchRoles();
+            }).finally(() => {
+                setRoleModal(false);
+            });
+        }
     }
     
     const deleteRole = () => {
@@ -139,11 +160,11 @@ export const RolesGrid = ({setSelectedRole} : any) => {
                     <Form style={{width: '500px'}}>
                         <Form.Field>
                             <label>{t("accounts:roles_grid:name")}</label>
-                            <input ref={nameInput} name="name" placeholder={t("accounts:roles_grid:name")||''} defaultValue={editingRole?.name || ''}/>
+                            <input ref={nameInput} placeholder={t("accounts:roles_grid:name")||''} defaultValue={editingRole?.name || ''}/>
                         </Form.Field>
                         <Form.Field>
                             <label>{t("accounts:roles_grid:description")}</label>
-                            <textarea ref={descriptionInput} name="description" rows={4} placeholder={t("accounts:roles_grid:description")||''} defaultValue={editingRole?.description || ''}/>
+                            <textarea ref={descriptionInput} rows={4} placeholder={t("accounts:roles_grid:description")||''} defaultValue={editingRole?.description || ''}/>
                         </Form.Field>
                     </Form>
                 </Modal.Content>

@@ -12,6 +12,8 @@ import {t} from "i18next";
 import {ToggleRoleStadiumCommand} from "../models/command/accounts/ToggleRoleStadiumCommand";
 import {AddRoleCommand} from "../models/command/accounts/AddRoleCommand";
 import {UpdateRoleCommand} from "../models/command/accounts/UpdateRoleCommand";
+import {AddUserCommand} from "../models/command/accounts/AddUserCommand";
+import {UpdateUserCommand} from "../models/command/accounts/UpdateUserCommand";
 
 export interface IAccountsService {
     authorize(command: AuthorizeUserCommand): Promise<AuthorizeUserDto>;
@@ -20,6 +22,9 @@ export interface IAccountsService {
     getCurrentUserStadiums(): Promise<UserStadiumDto[]>;
     changeCurrentStadium(stadiumId: number): Promise<AuthorizeUserDto>;
     getUsers(): Promise<UserDto[]>;
+    addUser(command: AddUserCommand): Promise<void>;
+    updateUser(command: UpdateUserCommand): Promise<void>;
+    deleteUser(userId: number): Promise<void>;
     getRoles(): Promise<RoleDto[]>;
     addRole(command: AddRoleCommand): Promise<void>;
     updateRole(command: UpdateRoleCommand): Promise<void>;
@@ -36,7 +41,6 @@ export class AccountsService extends BaseService implements IAccountsService  {
     constructor() {
         super("api/accounts");
     }
-    
     
     authorize(command: AuthorizeUserCommand): Promise<AuthorizeUserDto> {
         return this.fetchWrapper.post({
@@ -150,6 +154,28 @@ export class AccountsService extends BaseService implements IAccountsService  {
             successMessage: t('common:success_request')
         })
     }
-    
+
+    addUser(command: AddUserCommand): Promise<void> {
+        return this.fetchWrapper.post({
+            url: `${this.baseUrl}/users`,
+            body: command,
+            successMessage: t('common:success_request')
+        })
+    }
+    updateUser(command: UpdateUserCommand): Promise<void> {
+        return this.fetchWrapper.put({
+            url: `${this.baseUrl}/users`,
+            body: command,
+            successMessage: t('common:success_request')
+        })
+    }
+    deleteUser(userId: number): Promise<void> {
+        return this.fetchWrapper.delete({
+            url: `${this.baseUrl}/users/${userId}`,
+            successMessage: t('common:success_request')
+        })
+    }
+
+
 }
 
