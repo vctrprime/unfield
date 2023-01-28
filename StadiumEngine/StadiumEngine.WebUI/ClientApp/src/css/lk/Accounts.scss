@@ -7,16 +7,36 @@
   .roles-container {
     flex: 1;
     width: 100%;
+    
+    .add-role-button {
+      margin-left: 3px;
+    }
+    
+    .no-rows-message {
+      margin-left: 5px;
+    }
   }
   
   .users-container {
     flex: 1;
     width: 100%;
+
+    .add-user-button {
+      margin-left: 3px;
+    }
+
+    .no-rows-message {
+      margin-left: 5px;
+    }
   }
   
   .stadiums-container {
     flex: 1;
     width: 100%;
+    
+    .fa-link {
+      cursor: pointer;
+    }
   }
 }
 

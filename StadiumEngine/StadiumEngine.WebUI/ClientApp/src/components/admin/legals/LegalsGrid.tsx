@@ -15,6 +15,8 @@ import {UserPermissionDto} from "../../../models/dto/accounts/UserPermissionDto"
 import {permissionsAtom} from "../../../state/permissions";
 import {legalsSearchValue} from "../../../state/admin/legalsSearchValue";
 import {useLocalStorage} from "usehooks-ts";
+import {getOverlayNoRowsTemplate} from "../../../helpers/utils";
+import {GridCellWithTitleRenderer} from "../../common/GridCellWithTitleRenderer";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -23,7 +25,7 @@ export const LegalsGrid = () => {
     const [user, setUser] = useLocalStorage<AuthorizeUserDto | null>('user', null);
     
     const [data, setData] = useState<LegalDto[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     
     const [searchString, setSearchString] = useRecoilState<string|null>(legalsSearchValue);
     const setStadium = useSetRecoilState<number | null>(stadiumAtom);
@@ -60,12 +62,12 @@ export const LegalsGrid = () => {
         {field: 'city', cellClass: "grid-center-cell", headerName: t("admin:legals_grid:city"), width: 200 },
         {field: 'inn', cellClass: "grid-center-cell", headerName: t("admin:legals_grid:inn"), width: 170 },
         {field: 'headName', headerName: t("admin:legals_grid:head_name"), width: 300 },
-        {field: 'description', headerName: t("admin:legals_grid:description"), width: 300 },
+        {field: 'description', headerName: t("admin:legals_grid:description"), width: 300, cellRenderer: (obj: any) => <GridCellWithTitleRenderer value={obj.data.description}/> },
         //{field: 'country', headerName: t("admin:legals_grid:country"), width: 300 },
         //{field: 'region', headerName: t("admin:legals_grid:region"), width: 300 },
         {field: 'usersCount', cellClass: "grid-center-cell", headerName: t("admin:legals_grid:users_count"), width: 200},
         {field: 'stadiumsCount', cellClass: "grid-center-cell", headerName: t("admin:legals_grid:stadiums_count"), width: 200},
-        {field: 'dateCreated', cellClass: "grid-center-cell without-border", headerName: t("admin:legals_grid:date_created"), width: 180, valueFormatter: dateFormatter},
+        {field: 'dateCreated', cellClass: "grid-center-cell without-border", headerName: t("admin:legals_grid:date_created"), width: 170, valueFormatter: dateFormatter},
     ];
     
     const fetchLegals = () => {
@@ -82,10 +84,6 @@ export const LegalsGrid = () => {
         fetchLegals();
     }, [])
     
-    
-    const getOverlayNoRowsTemplate = () => {
-        return '<span />';
-    }
     
     return (<div className="legals-container">
         <div className="legals-container-filter">

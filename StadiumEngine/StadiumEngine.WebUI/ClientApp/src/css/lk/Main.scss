@@ -100,7 +100,7 @@
 
 
 .grid-container {
-  height: calc(100% - 24px);
+  height: calc(100% - 28px);
   padding: 1px;
   width: 100%;
 
@@ -123,9 +123,11 @@
 }
 
 .grid-title {
-  height: 24px;
+  height: 28px;
   text-align: center;
-  font-size: 15px;
+  line-height: 28px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .header-warning {

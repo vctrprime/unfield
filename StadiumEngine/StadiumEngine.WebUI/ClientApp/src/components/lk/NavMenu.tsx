@@ -1,6 +1,6 @@
-import React, {useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavLink, useNavigate} from "react-router-dom";
-import {useRecoilState, useSetRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {authAtom} from "../../state/auth";
 import logo from "../../img/logo/logo_icon_with_title_white.png";
 import '../../css/lk/NavMenu.scss';
@@ -10,6 +10,7 @@ import {UserPermissionDto} from "../../models/dto/accounts/UserPermissionDto";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../services/AccountsService";
 import {t} from "i18next";
+import {logoutModalAtom} from "../../state/logoutModal";
 
 
 const cdbreact = require('cdbreact');
@@ -25,14 +26,11 @@ const {
 
 
 export const NavMenu = () => {
-    const [stadium, setStadium] = useRecoilState<number | null>(stadiumAtom);
+    const stadium = useRecoilValue<number | null>(stadiumAtom);
     const [permissions, setPermissions] = useRecoilState<UserPermissionDto[]>(permissionsAtom);
-    const setAuth = useSetRecoilState(authAtom);
+    const setLogoutModal = useSetRecoilState<boolean>(logoutModalAtom);
     
     const [accountsService] = useInject<IAccountsService>('AccountsService');
-    
-    const navigate = useNavigate();
-    
     
     useEffect(() => {
         if (permissions.length === 0) {
@@ -42,16 +40,7 @@ export const NavMenu = () => {
         }
     }, [stadium])
 
-    const logout = () => {
-       accountsService.logout()
-            .finally(() => {
-                localStorage.removeItem('user');
-                setAuth(null);
-                setStadium(null);
-                setPermissions([]);
-                navigate("/lk/sign-in");
-            });
-    }
+    
     
     const viewNavLink = (key: string) => {
         return permissions.filter(p => p.groupKey === key).length > 0;
@@ -100,7 +89,7 @@ export const NavMenu = () => {
                     </CDBSidebarContent>
 
                    <CDBSidebarFooter>
-                       {stadium !== null && <div onClick={logout}>
+                       {stadium !== null && <div onClick={() => setLogoutModal(true)}>
                             <CDBSidebarMenuItem icon="power-off">{t('common:lk_navbar:logout')}</CDBSidebarMenuItem>
                         </div>}
                     </CDBSidebarFooter>

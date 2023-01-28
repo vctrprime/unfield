@@ -1,6 +1,6 @@
 import React, {Component, useEffect, useRef} from 'react';
 import { Layout } from './components/Layout';
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, useNavigate} from "react-router-dom";
 import {Home} from "./components/portal/Home";
 import {Layout as LkLayout} from "./components/lk/Layout";
 import {Layout as AdminLayout} from "./components/admin/Layout";
@@ -29,6 +29,16 @@ import {Legals} from "./components/admin/legals/Legals";
 import {Reports} from "./components/lk/reports/Reports";
 import {useLocalStorage} from "usehooks-ts";
 import {AuthorizeUserDto} from "./models/dto/accounts/AuthorizeUserDto";
+import {Button, Modal} from "semantic-ui-react";
+import {useRecoilState, useSetRecoilState} from "recoil";
+import {logoutModalAtom} from "./state/logoutModal";
+import {stadiumAtom} from "./state/stadium";
+import {UserPermissionDto} from "./models/dto/accounts/UserPermissionDto";
+import {permissionsAtom} from "./state/permissions";
+import {authAtom} from "./state/auth";
+import {useInject} from "inversify-hooks";
+import {IAccountsService} from "./services/AccountsService";
+import {t} from "i18next";
 
 const ReactNotifications = require('react-notifications');
 const { NotificationContainer } = ReactNotifications;
@@ -44,6 +54,16 @@ NotificationManager.error('Error message', 'Click me!', 5000, () => {
 const App = () => {
     const [user, setUser] = useLocalStorage<AuthorizeUserDto | null>('user', null);
     const prevUserRef = useRef<AuthorizeUserDto | null>(user);
+    
+    const [logoutModal, setLogoutModal] = useRecoilState<boolean>(logoutModalAtom);
+
+    const setStadium = useSetRecoilState<number | null>(stadiumAtom);
+    const setPermissions = useSetRecoilState<UserPermissionDto[]>(permissionsAtom);
+    const setAuth = useSetRecoilState(authAtom);
+
+    const [accountsService] = useInject<IAccountsService>('AccountsService');
+
+    const navigate = useNavigate();
     
     useEffect(() => {
         const prev = JSON.stringify(prevUserRef.current);
@@ -64,11 +84,31 @@ const App = () => {
                     window.location.reload();
                 }
             }
+            if (window.location.pathname.startsWith("/admin")) {
+                if (user === null) {
+                    prevUserRef.current = user;
+                    window.location.reload();
+                }
+            }
         }
     }, [user])
-    
+
+    const logout = () => {
+        setLogoutModal(false);
+        accountsService.logout()
+            .finally(() => {
+                setUser(null);
+                setAuth(null);
+                setStadium(null);
+                setPermissions([]);
+                navigate("/lk/sign-in");
+            });
+    }
     
     return (
+        <div>
+            
+        
       <Layout>
           <NotificationContainer/>
           <Routes>
@@ -93,6 +133,21 @@ const App = () => {
               </Route>
           </Routes>
       </Layout>
+            <Modal
+                dimmer='blurring'
+                size='small'
+                basic
+                open={logoutModal}>
+                <Modal.Header>{t('accounts:logout:header')}</Modal.Header>
+                <Modal.Content>
+                    <p>{t('accounts:logout:question')}</p>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => setLogoutModal(false)}>{t('common:no_button')}</Button>
+                    <Button style={{backgroundColor: '#3CB371', color: 'white'}} onClick={logout}>{t('common:yes_button')}</Button>
+                </Modal.Actions>
+            </Modal>
+        </div>
     );
 }
 

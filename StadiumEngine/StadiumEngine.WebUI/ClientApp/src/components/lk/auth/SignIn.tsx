@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { authAtom } from '../../../state/auth';
 import {Link, NavLink, useNavigate} from "react-router-dom";
@@ -24,7 +24,7 @@ import {getTitle} from "../../../helpers/utils";
 export const SignIn = () => {
     document.title = getTitle("accounts:sign_in:button")
     
-    const [auth, setAuth] = useRecoilState(authAtom);
+    const setAuth = useSetRecoilState(authAtom);
     const setLoading = useSetRecoilState(loadingAtom);
     
     const [accountsService] = useInject<IAccountsService>('AccountsService');
@@ -32,7 +32,7 @@ export const SignIn = () => {
     const [login, setLogin] = useState<string | undefined>();
     
     const navigate = useNavigate();
-
+    
     const handleSubmit = (e: any) => {
         e.preventDefault();
 

@@ -62,7 +62,7 @@ function useFetchWrapper() {
                     navigate("/lk/sign-in");
                     return Promise.reject(error);
                 }
-                NotificationManager.error(error, t('common:error_request_title'), 2000);
+                NotificationManager.error(error, t('common:error_request_title'), 5000);
                 
                 return Promise.reject(error);
             }

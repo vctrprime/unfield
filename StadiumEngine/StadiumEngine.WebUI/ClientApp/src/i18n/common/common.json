@@ -17,5 +17,11 @@
   "error_request_title": "Ошибка",
   "error_request": "Ошибка при выполнении запроса!",
   "mobile_notification": "К сожалению, на мобильных устройствах мы пока не работаем :(",
-  "search_button": "Поиск"
+  "search_button": "Поиск",
+  "edit_button": "Редактировать",
+  "delete_button": "Удалить",
+  "yes_button": "Да",
+  "no_button": "Нет",
+  "save_button": "Сохранить",
+  "close_button": "Закрыть"
 }

@@ -9,6 +9,9 @@ import {UserStadiumDto} from "../models/dto/accounts/UserStadiumDto";
 import {StadiumDto} from "../models/dto/accounts/StadiumDto";
 import {UserDto} from "../models/dto/accounts/UserDto";
 import {t} from "i18next";
+import {ToggleRoleStadiumCommand} from "../models/command/accounts/ToggleRoleStadiumCommand";
+import {AddRoleCommand} from "../models/command/accounts/AddRoleCommand";
+import {UpdateRoleCommand} from "../models/command/accounts/UpdateRoleCommand";
 
 export interface IAccountsService {
     authorize(command: AuthorizeUserCommand): Promise<AuthorizeUserDto>;
@@ -18,9 +21,13 @@ export interface IAccountsService {
     changeCurrentStadium(stadiumId: number): Promise<AuthorizeUserDto>;
     getUsers(): Promise<UserDto[]>;
     getRoles(): Promise<RoleDto[]>;
+    addRole(command: AddRoleCommand): Promise<void>;
+    updateRole(command: UpdateRoleCommand): Promise<void>;
+    deleteRole(roleId: number): Promise<void>;
     getStadiums(roleId: number): Promise<StadiumDto[]>;
     getPermissions(roleId: number): Promise<PermissionDto[]>;
     toggleRolePermission(command: ToggleRolePermissionCommand): Promise<void>;
+    toggleRoleStadium(command: ToggleRoleStadiumCommand): Promise<void>;
     changeLanguage(language: string): Promise<void>;
     
 }
@@ -110,6 +117,37 @@ export class AccountsService extends BaseService implements IAccountsService  {
         return this.fetchWrapper.put({
             url: `${this.baseUrl}/user-language/${language}`,
             hideSpinner: false
+        })
+    }
+
+    toggleRoleStadium(command: ToggleRoleStadiumCommand): Promise<void> {
+        return this.fetchWrapper.post({
+            url: `${this.baseUrl}/role-stadium`,
+            body: command,
+            successMessage: t('common:success_request')
+        })
+    }
+
+    addRole(command: AddRoleCommand): Promise<void> {
+        return this.fetchWrapper.post({
+            url: `${this.baseUrl}/roles`,
+            body: command,
+            successMessage: t('common:success_request')
+        })
+    }
+
+    deleteRole(roleId: number): Promise<void> {
+        return this.fetchWrapper.delete({
+            url: `${this.baseUrl}/roles/${roleId}`,
+            successMessage: t('common:success_request')
+        })
+    }
+
+    updateRole(command: UpdateRoleCommand): Promise<void> {
+        return this.fetchWrapper.put({
+            url: `${this.baseUrl}/roles`,
+            body: command,
+            successMessage: t('common:success_request')
         })
     }
     
