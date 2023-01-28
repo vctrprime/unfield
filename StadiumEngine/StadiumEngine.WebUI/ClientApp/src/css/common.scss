@@ -1,3 +1,5 @@
+@import "src/css/const.scss";
+
 .header-right-container {
   display:flex;
   justify-content: center;
@@ -60,5 +62,26 @@
     .ReactFlagsSelect-module_selectBtn__19wW7:after {
       margin-left: 0 !important;
     }
+  }
+}
+
+.grid-container {
+  .grid-center-cell {
+    text-align: center;
+  }
+  
+  .ag-cell {
+    border-right: 1px solid #eee;
+    
+    &.without-border {
+      border-right: none;
+    }
+    
+    .link-cell {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    
+    
   }
 }

@@ -7,98 +7,102 @@ import {IAdminService} from "../../../services/AdminService";
 import {GridLoading} from "../../lk/common/GridLoading";
 import {useNavigate} from "react-router-dom";
 import {AuthorizeUserDto} from "../../../models/dto/accounts/AuthorizeUserDto";
-import {useSetRecoilState} from "recoil";
+import {useSetRecoilState, useRecoilState} from "recoil";
 import {authAtom} from "../../../state/auth";
-import {Input} from "semantic-ui-react";
+import {Button, Input} from "semantic-ui-react";
 import {stadiumAtom} from "../../../state/stadium";
 import {UserPermissionDto} from "../../../models/dto/accounts/UserPermissionDto";
 import {permissionsAtom} from "../../../state/permissions";
+import {legalsSearchValue} from "../../../state/admin/legalsSearchValue";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
 
 export const LegalsGrid = () => {
     const [data, setData] = useState<LegalDto[]>([]);
-    const [searchString, setSearchString] = useState<string|null>(null);
-
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    
+    const [searchString, setSearchString] = useRecoilState<string|null>(legalsSearchValue);
     const setStadium = useSetRecoilState<number | null>(stadiumAtom);
     const setPermissions = useSetRecoilState<UserPermissionDto[]>(permissionsAtom);
+
+    const [adminService] = useInject<IAdminService>('AdminService');
     
     const setAuth = useSetRecoilState(authAtom);
 
     const gridRef = useRef<any>();
 
     const navigate = useNavigate();
+
+    const onNameClick = (id: number) => {
+        adminService.changeLegal(id).then((result: AuthorizeUserDto) => {
+            setStadium(null);
+            setPermissions([]);
+            setAuth(result);
+            window.open(`${window.location.origin}/lk`);
+        })
+    }
+    
+    const changeSearchString = (value: string) => {
+        setSearchString(value);
+        localStorage.setItem('legalsSearchValue', value);
+    }
+
+    const NameRenderer = (obj : any) => {
+        return <span className="link-cell" onClick={() => onNameClick(obj.data.id)}>{obj.data.name}</span>;
+    }
     
     const columnDefs = [
-        {field: 'id', headerName: "ID", width: 300 },
-        {field: 'name', headerName: t("admin:legals_grid:name"), width: 300 },
+        {field: 'id', cellClass: "grid-center-cell", headerName: "ID", width: 70 },
+        {field: 'name', headerName: t("admin:legals_grid:name"), width: 200, cellRenderer: NameRenderer },
+        {field: 'city', cellClass: "grid-center-cell", headerName: t("admin:legals_grid:city"), width: 200 },
+        {field: 'inn', cellClass: "grid-center-cell", headerName: t("admin:legals_grid:inn"), width: 170 },
         {field: 'headName', headerName: t("admin:legals_grid:head_name"), width: 300 },
-        {field: 'inn', headerName: t("admin:legals_grid:inn"), width: 300 },
         {field: 'description', headerName: t("admin:legals_grid:description"), width: 300 },
-        {field: 'country', headerName: t("admin:legals_grid:country"), width: 300 },
-        {field: 'region', headerName: t("admin:legals_grid:region"), width: 300 },
-        {field: 'city', headerName: t("admin:legals_grid:city"), width: 300 },
-        {field: 'usersCount', headerName: t("admin:legals_grid:users_count"), width: 300},
-        {field: 'stadiumsCount', headerName: t("admin:legals_grid:stadiums_count"), width: 300},
-        {field: 'dateCreated', headerName: t("admin:legals_grid:date_created"), width: 300, valueFormatter: dateFormatter},
+        //{field: 'country', headerName: t("admin:legals_grid:country"), width: 300 },
+        //{field: 'region', headerName: t("admin:legals_grid:region"), width: 300 },
+        {field: 'usersCount', cellClass: "grid-center-cell", headerName: t("admin:legals_grid:users_count"), width: 200},
+        {field: 'stadiumsCount', cellClass: "grid-center-cell", headerName: t("admin:legals_grid:stadiums_count"), width: 200},
+        {field: 'dateCreated', cellClass: "grid-center-cell without-border", headerName: t("admin:legals_grid:date_created"), width: 180, valueFormatter: dateFormatter},
     ];
-
-    const [adminService] = useInject<IAdminService>('AdminService');
-
+    
     const fetchLegals = () => {
+        setIsLoading(true);
         adminService.getLegals(searchString).then((result: LegalDto[]) => {
             setTimeout(() => {
                 setData(result);
+                setIsLoading(false);
             }, 500);
         })
     }
-
-    const onSelectionChanged = useCallback(() => {
-        if (gridRef.current !== undefined) {
-            const selectedRows = gridRef.current.api.getSelectedRows();
-            if (selectedRows.length > 0) {
-                adminService.changeLegal(selectedRows[0].id).then((result: AuthorizeUserDto) => {
-                   setStadium(null);
-                   setPermissions([]);
-                   setAuth(result);
-                   navigate("/lk");
-                })
-            }
-        }
-
-    }, []);
     
     useEffect(() => {
-        if (searchString !== null && searchString.length > 2) {
-            fetchLegals();
-        }
-        else {
-            setData([]);
-        }
-    }, [searchString])
-
+        fetchLegals();
+    }, [])
+    
+    
     const getOverlayNoRowsTemplate = () => {
-        if (searchString === null || searchString.length === 0) {
-            return `<span>${t('admin:legals_grid:search_input_notification')}</span>`;
-        }
-
-        return `<span>${t('admin:legals_grid:no_rows')}</span>`;
+        return '<span />';
     }
     
     return (<div className="legals-container">
-        <Input icon='search'
-               placeholder={t('admin:legals_grid:search_placeholder')}
-               onChange={(e) => setSearchString(e.target.value)}
-        />
+        <div className="legals-container-filter">
+            <Input icon='search'
+                   value={searchString}
+                   placeholder={t('admin:legals_grid:search_placeholder')}
+                   onChange={(e) => changeSearchString(e.target.value)}
+            />
+            <Button onClick={fetchLegals}>{t('common:search_button')}</Button>
+            {data.length === 0 && !isLoading && <span>{t('admin:legals_grid:no_rows')}</span>}
+        </div>
+        
         <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 40px'}}>
-            {data === null ? <GridLoading columns={columnDefs}/> : <AgGridReact
+            {isLoading ? <GridLoading columns={columnDefs}/> : <AgGridReact
                 ref={gridRef}
                 rowData={data}
                 rowSelection={'single'}
                 columnDefs={columnDefs}
                 rowDeselection={true}
-                onSelectionChanged={onSelectionChanged}
                 overlayNoRowsTemplate={getOverlayNoRowsTemplate()}
             />}
         </div>
