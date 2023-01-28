@@ -14,8 +14,7 @@
     "date_created": "Date Of Creation",
     "users_count": "Number Of Users",
     "stadiums_count": "Number Of Stadiums",
-    "search_input_notification": "Enter a search term to get data",
-    "no_rows": "Organizations not found",
-    "search_placeholder": "Name or TIN (minimum 3 characters)"
+    "no_rows": "No organizations found for the current search query",
+    "search_placeholder": "Name or TIN"
   }
 }

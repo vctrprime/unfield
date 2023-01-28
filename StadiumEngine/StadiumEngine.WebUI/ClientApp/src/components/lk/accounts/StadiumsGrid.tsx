@@ -7,6 +7,8 @@ import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../../services/AccountsService";
 import {t} from "i18next";
 import {GridCellWithTitleRenderer} from "../../common/GridCellWithTitleRenderer";
+import {useSetRecoilState} from "recoil";
+import {changeBindingStadiumAtom} from "../../../state/changeBindingStadium";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -19,7 +21,10 @@ export const StadiumsGrid = ({selectedRole} : StadiumsGridProps) => {
     const [data, setData] = useState<StadiumDto[] | null>(null);
     const gridRef = useRef<any>();
     
+    const setChangeBindingStadium = useSetRecoilState(changeBindingStadiumAtom);
+    
     const toggleBindStadium = (nodeId: string, id: number, value: boolean) => {
+        setChangeBindingStadium(null);
         if (selectedRole !== null) {
             accountsService.toggleRoleStadium({
                 roleId: selectedRole.id,
@@ -29,6 +34,7 @@ export const StadiumsGrid = ({selectedRole} : StadiumsGridProps) => {
                     if (gridRef.current !== undefined) {
                         const rowNode = gridRef.current.api.getRowNode(nodeId);
                         rowNode.setDataValue('isRoleBound', value);
+                        setChangeBindingStadium(value);
                     }
                 })
             

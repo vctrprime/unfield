@@ -16,5 +16,12 @@
   "success_request": "Request completed successfully!",
   "error_request_title": "Error!",
   "error_request": "Error while executing request!",
-  "mobile_notification": "Unfortunately, we do not work on mobile devices yet :("
+  "mobile_notification": "Unfortunately, we do not work on mobile devices yet :(",
+  "search_button": "Search",
+  "edit_button": "Edit",
+  "delete_button": "Delete",
+  "yes_button": "Yes",
+  "no_button": "No",
+  "save_button": "Save",
+  "close_button": "Close"
 }

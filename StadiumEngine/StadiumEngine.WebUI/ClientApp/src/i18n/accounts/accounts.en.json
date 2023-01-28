@@ -4,6 +4,10 @@
     "password": "Password",
     "button": "Sign In"
   },
+  "logout": {
+    "header": "Logout",
+    "question": "Are you sure you want to logout?"
+  },
   "users_tab": "Users",
   "roles_tab": "Roles",
   "permissions_tab": "Permissions",
@@ -18,7 +22,14 @@
     "role_name": "Role Name",
     "user_created": "Created By",
     "date_created": "Date Of Creation",
-    "last_login_date": "Last Login Date"
+    "last_login_date": "Last Login Date",
+    "no_rows": "No users found for organizations",
+    "add": "Add User",
+    "edit": "Edit User",
+    "delete": {
+      "header": "Delete User",
+      "question": "Are you sure you want to delete user \"{0}\"?"
+    }
   },
   "roles_grid": {
     "name": "Name",
@@ -26,11 +37,17 @@
     "users_count": "Number Of Users",
     "stadiums_count": "Number Of Stadiums",
     "user_created": "Created By",
-    "date_created": "Date Of Creation"
+    "date_created": "Date Of Creation",
+    "no_rows": "Organization roles not found",
+    "add": "Add Role",
+    "edit": "Edit Role",
+    "delete": {
+      "header": "Delete Role",
+      "question": "Are you sure you want to remove the role \"{0}\"?"
+    }
   },
   "stadiums_grid": {
     "name": "Name",
-    "is_role_bound": "Bound With Selected Role",
     "country": "Country",
     "region": "Region",
     "city": "City",
@@ -38,7 +55,9 @@
     "description": "Description",
     "date_created": "Date Of Creation",
     "select_role_notification": "Select a role in the top table to get information on stadium relationships",
-    "no_rows": "Stadiums not found"
+    "no_rows": "Stadiums not found",
+    "is_role_bound": "The stadium is associated with the selected role",
+    "is_role_unbound": "The stadium is not associated with the selected role"
   },
   "permissions_groups": {
     "main_settings": "Main Settings",
@@ -51,7 +70,7 @@
   "permissions": {
     "get_bookings": "View bookings",
     "get_bookings_description": "View schedule and booked slots",
-    "get_fields":  "View fields",
+    "get_fields": "View fields",
     "get_fields_description": "Viewing the list of fields",
     "get_employees": "View employees",
     "get_employees_description": "Viewing a list of employees",

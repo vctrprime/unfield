@@ -15,7 +15,7 @@ export const Roles = () => {
     const hasGetStadiumsPermission = permissions.filter(p => p.name === 'get-stadiums').length > 0;
     
     return <div className="accounts-container">
-        <RolesGrid setSelectedRole={setSelectedRole}/>
+        <RolesGrid selectedRole={selectedRole} setSelectedRole={setSelectedRole}/>
         {hasGetStadiumsPermission ? <StadiumsGrid selectedRole={selectedRole}/> : <span/>}
     </div>
 }
