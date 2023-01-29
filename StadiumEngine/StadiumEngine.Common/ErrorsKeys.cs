@@ -7,6 +7,7 @@ public static class ErrorsKeys
     public const string Forbidden = "accounts:forbidden";
     public const string InvalidLogin = "accounts:invalid_login";
     public const string InvalidPassword = "accounts:invalid_password";
+    public const string LoginAlreadyExist = "accounts:login_already_exist";
     
     public const string UserNotFound = "accounts:user_not_found";
     public const string StadiumNotFound = "accounts:stadium_not_found";

@@ -3,7 +3,7 @@ import {Button, Form} from "semantic-ui-react";
 import React, {useRef, useState} from "react";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../../services/AccountsService";
-import {HashLoader} from "react-spinners";
+import {ContainerLoading} from "../../common/ContainerLoading";
 
 export const ChangePasswordForm = ({setOpen}: any) => {
     const [accountsService] = useInject<IAccountsService>('AccountsService');
@@ -53,10 +53,8 @@ export const ChangePasswordForm = ({setOpen}: any) => {
     
     return (
         <div>
-            {changePasswordLoading && <div className="d-flex justify-content-center align-items-center"
-                             style={{ backgroundColor: 'rgba(53,70,80, 0.2)',height: "100%", width: "100%", zIndex: 10000, position: "absolute", top: 0, left: 0}}>
-                <HashLoader color="#00d2ff"/>
-            </div>}
+            <ContainerLoading show={changePasswordLoading} />
+            
             <p className="change-password-title">{t('accounts:change_password:title')}</p>
             <Form style={{textAlign: 'center'}}>
                 <Form.Field>

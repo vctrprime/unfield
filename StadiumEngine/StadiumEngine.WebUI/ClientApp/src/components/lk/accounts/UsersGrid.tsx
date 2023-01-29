@@ -17,6 +17,7 @@ import 'react-phone-input-2/lib/style.css'
 import {rolesAtom} from "../../../state/roles";
 import {PermissionsRoleDropDownData} from "./Permissions";
 import {RoleDto} from "../../../models/dto/accounts/RoleDto";
+import {ContainerLoading} from "../../common/ContainerLoading";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -115,9 +116,14 @@ export const UsersGrid = () => {
             return true;
         }
     }
+    
+    const [userAction, setUserAction] = useState<boolean>(false);
+    const [error, setError] = useState<string|null>(null);
 
     const addUser = () => {
+        setError(null);
         if (validate()) {
+            setUserAction(true);
             accountsService.addUser({
                 name: nameInput.current?.value,
                 roleId: parseInt(roleIdInput.current?.value), 
@@ -125,14 +131,20 @@ export const UsersGrid = () => {
                 lastName: lastNameInput.current?.value
             }).then(() => {
                 fetchUsers();
-            }).finally(() => {
                 setUserModal(false);
-            });
+            }) .catch((error) => {
+                setError(error);
+            })
+                .finally(() => {
+                    setUserAction(false);
+                });
         }
     }
 
     const updateUser = () => {
+        setError(null);
         if (validate()) {
+            setUserAction(true);
             accountsService.updateUser({
                 id: editingUser?.id||0,
                 name: nameInput.current?.value,
@@ -140,16 +152,23 @@ export const UsersGrid = () => {
                 lastName: lastNameInput.current?.value
             }).then(() => {
                 fetchUsers();
-            }).finally(() => {
                 setUserModal(false);
+            })
+                .catch((error) => {
+                    setError(error);
+                })
+                .finally(() => {
+                setUserAction(false);
             });
         }
     }
 
     const deleteUser = () => {
+        setUserAction(true);
         accountsService.deleteUser(deletingUser?.id||0).then(() => {
             fetchUsers();
         }).finally(() => {
+            setUserAction(false);
             setDeleteUserModal(false);
         });
     }
@@ -161,6 +180,7 @@ export const UsersGrid = () => {
                 dimmer='blurring'
                 size='small'
                 open={userModal}>
+                <ContainerLoading show={userAction} />
                 <Modal.Header>{editingUser === null ? t('accounts:users_grid:add') : t('accounts:users_grid:edit')}</Modal.Header>
                 <Modal.Content>
                     <Form style={{width: '500px'}}>
@@ -193,10 +213,14 @@ export const UsersGrid = () => {
                                 })}
                             </select>
                         </Form.Field>
+                        {error !== null && <div className="error-message">{error}</div>}
                     </Form>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => setUserModal(false)}>{t('common:close_button')}</Button>
+                    <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
+                        setError(null);
+                        setUserModal(false);
+                    }}>{t('common:close_button')}</Button>
                     <Button disabled={editingUser === null && (newUserLogin === undefined ||
                         newUserLogin === null ||
                         newUserLogin === '' ||
@@ -210,6 +234,7 @@ export const UsersGrid = () => {
                 dimmer='blurring'
                 size='small'
                 open={deleteUserModal}>
+                <ContainerLoading show={userAction} />
                 <Modal.Header>{t('accounts:users_grid:delete:header')}</Modal.Header>
                 <Modal.Content>
                     <p>{StringFormat(t('accounts:users_grid:delete:question'), `${deletingUser?.name} ${deletingUser?.lastName}`||'')}</p>

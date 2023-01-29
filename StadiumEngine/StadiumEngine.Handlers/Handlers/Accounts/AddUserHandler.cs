@@ -27,6 +27,9 @@ internal sealed class AddUserHandler : BaseRequestHandler<AddUserCommand, AddUse
     public override async ValueTask<AddUserDto> Handle(AddUserCommand request, CancellationToken cancellationToken)
     {
         request.PhoneNumber = _servicesContainer.PhoneNumberChecker.Check(request.PhoneNumber);
+
+        var userSameNumber = await _userRepository.Get(request.PhoneNumber);
+        if (userSameNumber != null) throw new DomainException(ErrorsKeys.LoginAlreadyExist);
         
         var role = await _roleRepository.Get(request.RoleId);
         CheckRoleAccess(role);

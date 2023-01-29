@@ -16,6 +16,7 @@
     "modify_current_user": "You cannot change the current user",
     "last_role_stadium_unbind": "You cannot unbind the last stadium from a role if the role has associated users",
     "delete_role_has_bindings": "Role has associated entities",
-    "incorrect_phone_number": "Phone number entered incorrectly"
+    "incorrect_phone_number": "Phone number entered incorrectly",
+    "login_already_exist": "User with this phone number already exists"
   }
 }

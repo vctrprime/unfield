@@ -13,6 +13,7 @@ import {Button, Form, Modal} from "semantic-ui-react";
 import {permissionsAtom} from "../../../state/permissions";
 import {PopupCellRenderer} from "../../common/PopupCellRenderer";
 import {changeBindingStadiumAtom} from "../../../state/changeBindingStadium";
+import {ContainerLoading} from "../../common/ContainerLoading";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -108,6 +109,9 @@ export const RolesGrid = ({selectedRole, setSelectedRole} : any) => {
 
     const nameInput = useRef<any>();
     const descriptionInput = useRef<any>();
+
+    const [roleAction, setRoleAction] = useState<boolean>(false);
+    const [error, setError] = useState<string|null>(null);
     
     const validate = (): boolean => {
         if (
@@ -126,37 +130,48 @@ export const RolesGrid = ({selectedRole, setSelectedRole} : any) => {
     }
     
     const addRole = () => {
+        setError(null);
         if (validate()) {
+            setRoleAction(true);
             accountsService.addRole({
                 name: nameInput.current?.value,
                 description: descriptionInput.current?.value
             }).then(() => {
                 fetchRoles();
-            }).finally(() => {
                 setRoleModal(false);
+            }).catch((error) => setError(error))
+                .finally(() => {
+                setRoleAction(false);
+                
             });
         }
     }
 
     const updateRole = () => {
+        setError(null);
         if (validate()) {
+            setRoleAction(true);
             accountsService.updateRole({
                 id: editingRole?.id||0,
                 name: nameInput.current?.value,
                 description: descriptionInput.current?.value
             }).then(() => {
                 fetchRoles();
-            }).finally(() => {
                 setRoleModal(false);
+            }).catch((error) => setError(error))
+                .finally(() => {
+                setRoleAction(false);
             });
         }
     }
     
     const deleteRole = () => {
+        setRoleAction(true);
         accountsService.deleteRole(deletingRole?.id||0).then(() => {
             fetchRoles();
             setSelectedRole(null);
         }).finally(() => {
+            setRoleAction(false);
             setDeleteRoleModal(false);
         });
     }
@@ -168,6 +183,7 @@ export const RolesGrid = ({selectedRole, setSelectedRole} : any) => {
                 dimmer='blurring'
                 size='small'
                 open={roleModal}>
+                <ContainerLoading show={roleAction} />
                 <Modal.Header>{editingRole === null ? t('accounts:roles_grid:add') : t('accounts:roles_grid:edit')}</Modal.Header>
                 <Modal.Content>
                     <Form style={{width: '500px'}}>
@@ -179,10 +195,14 @@ export const RolesGrid = ({selectedRole, setSelectedRole} : any) => {
                             <label>{t("accounts:roles_grid:description")}</label>
                             <textarea ref={descriptionInput} rows={4} placeholder={t("accounts:roles_grid:description")||''} defaultValue={editingRole?.description || ''}/>
                         </Form.Field>
+                        {error !== null && <div className="error-message">{error}</div>}
                     </Form>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => setRoleModal(false)}>{t('common:close_button')}</Button>
+                    <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
+                        setError(null);
+                        setRoleModal(false);
+                    }}>{t('common:close_button')}</Button>
                     <Button style={{backgroundColor: '#3CB371', color: 'white'}} onClick={() => {
                         editingRole === null ? addRole() : updateRole()
                     }}>{t('common:save_button')}</Button>
@@ -193,6 +213,7 @@ export const RolesGrid = ({selectedRole, setSelectedRole} : any) => {
                 dimmer='blurring'
                 size='small'
                 open={deleteRoleModal}>
+                <ContainerLoading show={roleAction} />
                 <Modal.Header>{t('accounts:roles_grid:delete:header')}</Modal.Header>
                 <Modal.Content>
                     <p>{StringFormat(t('accounts:roles_grid:delete:question'), deletingRole?.name||'')}</p>

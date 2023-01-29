@@ -139,14 +139,17 @@ export class AccountsService extends BaseService implements IAccountsService  {
         return this.fetchWrapper.post({
             url: `${this.baseUrl}/roles`,
             body: command,
-            successMessage: t('common:success_request')
+            successMessage: t('common:success_request'),
+            withSpinner: false,
+            showErrorAlert: false
         })
     }
 
     deleteRole(roleId: number): Promise<void> {
         return this.fetchWrapper.delete({
             url: `${this.baseUrl}/roles/${roleId}`,
-            successMessage: t('common:success_request')
+            successMessage: t('common:success_request'),
+            withSpinner: false
         })
     }
 
@@ -154,7 +157,9 @@ export class AccountsService extends BaseService implements IAccountsService  {
         return this.fetchWrapper.put({
             url: `${this.baseUrl}/roles`,
             body: command,
-            successMessage: t('common:success_request')
+            successMessage: t('common:success_request'),
+            withSpinner: false,
+            showErrorAlert: false
         })
     }
 
@@ -162,20 +167,25 @@ export class AccountsService extends BaseService implements IAccountsService  {
         return this.fetchWrapper.post({
             url: `${this.baseUrl}/users`,
             body: command,
-            successMessage: t('common:success_request')
+            successMessage: t('common:success_request'),
+            withSpinner: false,
+            showErrorAlert: false
         })
     }
     updateUser(command: UpdateUserCommand): Promise<void> {
         return this.fetchWrapper.put({
             url: `${this.baseUrl}/users`,
             body: command,
-            successMessage: t('common:success_request')
+            successMessage: t('common:success_request'),
+            withSpinner: false,
+            showErrorAlert: false
         })
     }
     deleteUser(userId: number): Promise<void> {
         return this.fetchWrapper.delete({
             url: `${this.baseUrl}/users/${userId}`,
-            successMessage: t('common:success_request')
+            successMessage: t('common:success_request'),
+            withSpinner: false
         })
     }
 

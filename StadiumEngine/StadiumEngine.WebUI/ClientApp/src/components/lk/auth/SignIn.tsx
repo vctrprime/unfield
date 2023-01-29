@@ -1,5 +1,5 @@
-import React, {useRef, useState} from 'react';
-import { useSetRecoilState, useRecoilState } from 'recoil';
+import React, {useState} from 'react';
+import { useSetRecoilState } from 'recoil';
 import { authAtom } from '../../../state/auth';
 import {Link, NavLink, useNavigate} from "react-router-dom";
 import {NavbarBrand} from "reactstrap";
@@ -20,7 +20,7 @@ import {loadingAtom} from "../../../state/loading";
 import {LanguageSelect} from "../../common/LanguageSelect";
 import {getTitle} from "../../../helpers/utils";
 import {Button, Form, Modal} from "semantic-ui-react";
-import {HashLoader} from "react-spinners";
+import {ContainerLoading} from "../../common/ContainerLoading";
 
 
 export const SignIn = () => {
@@ -96,10 +96,7 @@ export const SignIn = () => {
                 open={resetPasswordModal}>
                 <Modal.Header>{t('accounts:reset_password:title')}</Modal.Header>
                 <Modal.Content>
-                    {resetPasswordLoading && <div className="d-flex justify-content-center align-items-center"
-                                                   style={{ backgroundColor: 'rgba(53,70,80, 0.2)',height: "100%", width: "100%", zIndex: 10000, position: "absolute", top: 0, left: 0}}>
-                        <HashLoader color="#00d2ff"/>
-                    </div>}
+                    <ContainerLoading show={resetPasswordLoading} />
                     <p className="reset-password-description">{t('accounts:reset_password:description')}</p>
                     <Form style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                         <PhoneInput
