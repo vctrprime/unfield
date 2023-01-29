@@ -4,5 +4,5 @@ namespace StadiumEngine.Domain.Services.Infrastructure;
 
 public interface ISmsSender
 {
-    Task Send(string phoneNumber, string message);
+    Task SendPassword(string phoneNumber, string password, string language);
 }

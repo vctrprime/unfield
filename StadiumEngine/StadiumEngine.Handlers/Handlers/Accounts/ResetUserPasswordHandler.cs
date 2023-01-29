@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
@@ -33,7 +34,7 @@ internal sealed class ResetUserPasswordHandler : BaseRequestHandler<ResetUserPas
         request.PhoneNumber = _phoneNumberChecker.Check(request.PhoneNumber);
         
         var user = await _repository.Get(request.PhoneNumber);
-        if (user == null) throw new DomainException("User not found!");
+        if (user == null) throw new DomainException(ErrorsKeys.UserNotFound);
         
         var userPassword = _passwordGenerator.Generate(8);
         user.Password = _hasher.Crypt(userPassword);
@@ -42,8 +43,7 @@ internal sealed class ResetUserPasswordHandler : BaseRequestHandler<ResetUserPas
 
         await UnitOfWork.SaveChanges();
         
-        await _smsSender.Send(request.PhoneNumber,
-            $"Ваш пароль для входа: {userPassword}");
+        await _smsSender.SendPassword(request.PhoneNumber, userPassword, user.Language);
 
         return new ResetUserPasswordDto();
     }

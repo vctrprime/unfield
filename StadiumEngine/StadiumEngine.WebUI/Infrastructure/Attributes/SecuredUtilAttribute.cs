@@ -25,7 +25,7 @@ public class SecuredUtilAttribute : ActionFilterAttribute
         {
             context.Result = new ObjectResult(new
             {
-                Message = "Доступ запрещен!",
+                Message = "Forbidden",
             })
             {
                 StatusCode = StatusCodes.Status403Forbidden

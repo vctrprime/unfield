@@ -17,19 +17,23 @@ import adminEN from '../i18n/admin/admin.en.json';
 import accountsRU from '../i18n/accounts/accounts.json';
 import accountsEN from '../i18n/accounts/accounts.en.json';
 
+import errorsRU from '../i18n/errors/errors.json';
+import errorsEN from '../i18n/errors/errors.en.json';
 
 const resources = {
     ru: {
         accounts: accountsRU,
         common: commonRU,
         portal: portalRU,
-        admin: adminRU
+        admin: adminRU,
+        errors: errorsRU
     },
     en: {
         accounts: accountsEN,
         common: commonEN,
         portal: portalEN,
-        admin: adminEN
+        admin: adminEN,
+        errors: errorsEN
     }
 };
 
@@ -37,9 +41,9 @@ i18next
     .use(reactI18nextModule) // passes i18n down to react-i18next
     .init({
         fallbackLng: "ru",
-        ns: ['portal', 'common','accounts', 'admin'],
+        ns: ['portal', 'common','accounts', 'admin', 'errors'],
         resources,
-        lng: localStorage.getItem('language') || 'en',
+        lng: localStorage.getItem('language') || 'ru',
         keySeparator: false, // we do not use keys in form messages.welcome
         interpolation: {
             escapeValue: false // react already safes from xss

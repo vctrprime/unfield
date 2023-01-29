@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
@@ -21,9 +22,9 @@ internal sealed class DeleteUserHandler : BaseRequestHandler<DeleteUserCommand, 
     {
         var user = await _repository.Get(request.UserId);
         
-        if (user == null || _legalId != user.LegalId) throw new DomainException("Указанный пользователь не найден!");
+        if (user == null || _legalId != user.LegalId) throw new DomainException(ErrorsKeys.UserNotFound);
         
-        if (user.IsSuperuser) throw new DomainException("Нельзя удалить суперпользователя!");
+        if (user.IsSuperuser) throw new DomainException(ErrorsKeys.CantDeleteSuperuser);
 
         user.UserModifiedId = _userId;
         user.PhoneNumber = $"{user.PhoneNumber}.deleted-by-{_userId}.{DateTime.Now.Ticks}";

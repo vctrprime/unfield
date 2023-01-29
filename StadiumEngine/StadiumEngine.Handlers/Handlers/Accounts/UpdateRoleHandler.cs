@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
@@ -26,7 +27,7 @@ internal sealed class UpdateRoleHandler : BaseRequestHandler<UpdateRoleCommand, 
         var user = await _userRepository.Get(_userId);
         
         if (user?.RoleId == request.Id)
-            throw new DomainException("Нельзя править текущую роль пользователя!");
+            throw new DomainException(ErrorsKeys.ModifyCurrentRole);
         
         var role = await _roleRepository.Get(request.Id);
         CheckRoleAccess(role);

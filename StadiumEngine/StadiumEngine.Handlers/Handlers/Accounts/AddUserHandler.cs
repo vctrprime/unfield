@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
@@ -31,7 +32,7 @@ internal sealed class AddUserHandler : BaseRequestHandler<AddUserCommand, AddUse
         CheckRoleAccess(role);
 
         if (!role.RoleStadiums.Any())
-            throw new DomainException("Нельзя указать для пользователя роль, не имеющую связи с объектами!");
+            throw new DomainException(ErrorsKeys.UserRolesDoesntHaveStadiums);
 
         var builder = new NewUserBuilder(Mapper, _servicesContainer.PasswordGenerator, _servicesContainer.Hasher);
         var (user, password) = builder.Build(request, _legalId, _userId);
@@ -39,8 +40,7 @@ internal sealed class AddUserHandler : BaseRequestHandler<AddUserCommand, AddUse
         _userRepository.Add(user);
         await UnitOfWork.SaveChanges();
         
-        await _servicesContainer.SmsSender.Send(request.PhoneNumber,
-            $"Ваш пароль для входа: {password}");
+        await _servicesContainer.SmsSender.SendPassword(request.PhoneNumber, password, user.Language);
 
         return new AddUserDto();
     }

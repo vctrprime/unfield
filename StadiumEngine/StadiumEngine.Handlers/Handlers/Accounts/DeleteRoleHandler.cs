@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
@@ -26,7 +27,7 @@ internal sealed class DeleteRoleHandler : BaseRequestHandler<DeleteRoleCommand, 
 
         if (role.RoleStadiums.Any() || role.Users.Any())
             throw new DomainException(
-                $"Указанная роль имеет связанные сущности (пользователи: {role.Users.Count}, объекты: {role.RoleStadiums.Count})!");
+                ErrorsKeys.DeleteRoleHasBindings);
         
         _repository.Remove(role);
         await UnitOfWork.SaveChanges();

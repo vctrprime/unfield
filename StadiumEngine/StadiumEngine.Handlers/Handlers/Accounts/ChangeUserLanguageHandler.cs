@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
@@ -24,7 +25,7 @@ internal class ChangeUserLanguageHandler : BaseRequestHandler<ChangeUserLanguage
     {
         var user = await _repository.Get(_userId);
 
-        if (user == null) throw new DomainException("Указанный пользователь не найден!");
+        if (user == null) throw new DomainException(ErrorsKeys.UserNotFound);
         
         user.Language = request.Language;
         user.UserModifiedId = _userId;

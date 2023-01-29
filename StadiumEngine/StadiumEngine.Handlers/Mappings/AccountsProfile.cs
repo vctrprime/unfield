@@ -19,9 +19,9 @@ internal class AccountsProfile : Profile
                 act => act.MapFrom(s => GetUserToken(s)))
             .ForMember(dest => dest.FullName,
                 act => act.MapFrom(s => $"{s.Name} {s.LastName}"))
-            .ForMember(dest => dest.Language, act => act.MapFrom(s => s.Language ?? "en"))
+            .ForMember(dest => dest.Language, act => act.MapFrom(s => s.Language ?? "ru"))
             .ForMember(dest => dest.RoleName,
-                act => act.MapFrom(s => s.Role == null ? "Суперпользователь" : s.Role.Name));
+                act => act.MapFrom(s => s.Role == null ? string.Empty : s.Role.Name));
         
         CreateMap<User, AuthorizeUserDto>()
             .IncludeBase<User, AuthorizedUserDto>()
@@ -43,6 +43,7 @@ internal class AccountsProfile : Profile
             .ForMember(dest => dest.RoleName,
                 act => act.MapFrom(s => s.Role.Name));
         CreateMap<AddUserCommand, User>()
+            .ForMember(dest => dest.Language, act => act.MapFrom(s => "ru"))
             .ForMember(dest => dest.IsSuperuser, act => act.MapFrom(s => false))
             .ForMember(dest => dest.IsAdmin, act => act.MapFrom(s => false));
         

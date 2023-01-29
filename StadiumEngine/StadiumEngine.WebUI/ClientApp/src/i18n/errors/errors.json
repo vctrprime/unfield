@@ -1,0 +1,21 @@
+{
+  "accounts": {
+      "forbidden": "Доступ запрещен",
+      "invalid_login": "Неправильный логин",
+      "invalid_password": "Неправильный пароль",
+      "user_not_found": "Пользователь не найден",
+      "stadium_not_found": "Объект не найден",
+      "role_not_found": "Роль не найдена",
+      "user_role_doesnt_have_stadium": "Нельзя указать для пользователя роль, не имеющую связи с объектами",
+      "password_not_equal": "Пароли не совпадают",
+      "password_doesnt_match_conditions": "Новый пароль не соответствует условиям",
+      "modify_permissions_current_role": "Нельзя править разрешения для роли текущего пользователя",
+      "modify_stadiums_current_role": "Нельзя править объекты для роли текущего пользователя",
+      "cant_delete_superuser": "Нельзя удалить суперпользователя",
+      "modify_current_role": "Нельзя править текущую роль пользователя",
+      "modify_current_user": "Нельзя изменять текущего пользователя",
+      "last_role_stadium_unbind": "Нельзя отвязать от роли последний объект, если у роли имеются связанные пользователи",
+      "delete_role_has_bindings": "Роль имеет связанные сущности",
+      "incorrect_phone_number": "Номер телефона введен неправильно"
+    }
+}

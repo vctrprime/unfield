@@ -55,7 +55,8 @@ function useFetchWrapper() {
             const data = text && JSON.parse(text);
             
             if (!response.ok) {
-                const error = (data && data.message) || response.statusText;
+                const errorKey = (data && data.message) || response.statusText;
+                const error = t(`errors:${errorKey}`);
                 
                 setLoading(false);
                 if ([401].includes(response.status)) {

@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Services.Identity;
 
@@ -6,8 +7,6 @@ namespace StadiumEngine.Services.Identity;
 
 internal class PhoneNumberChecker : IPhoneNumberChecker
 {
-    private const string ErrorMessage = "Номер телефона введен неправильно!";
-    
     private readonly List<string> _startWithCheckList =
         new List<string>()
         {
@@ -26,7 +25,7 @@ internal class PhoneNumberChecker : IPhoneNumberChecker
         if (string.IsNullOrEmpty(phoneNumber)
             || string.IsNullOrWhiteSpace(phoneNumber))
         {
-            throw new DomainException(ErrorMessage);
+            throw new DomainException(ErrorsKeys.IncorrectPhoneNumber);
         }
         
         var digitsRegex = new Regex("[^0-9]");
@@ -36,7 +35,7 @@ internal class PhoneNumberChecker : IPhoneNumberChecker
         // Проверим количество оставшихся цифр
         if (phoneDigits.Length < 10 || phoneDigits.Length > 11)
         {
-            throw new DomainException(ErrorMessage);
+            throw new DomainException(ErrorsKeys.IncorrectPhoneNumber);
         }
             
         // Возьмём 10 цифр с конца
@@ -44,7 +43,7 @@ internal class PhoneNumberChecker : IPhoneNumberChecker
 
         if (_startWithCheckList.Any(checkValue => phone.StartsWith(checkValue)))
         {
-            throw new DomainException(ErrorMessage);
+            throw new DomainException(ErrorsKeys.IncorrectPhoneNumber);
         }
             
         phone = phone.StartsWith("7") ? phone : $"7{phone}";

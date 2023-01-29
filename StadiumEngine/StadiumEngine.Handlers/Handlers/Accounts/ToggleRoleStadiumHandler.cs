@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Repositories.Accounts;
@@ -33,7 +34,7 @@ internal sealed class ToggleRoleStadiumHandler : BaseRequestHandler<ToggleRoleSt
         var user = await _userRepository.Get(_userId);
         
         if (user?.RoleId == request.RoleId)
-            throw new DomainException("Нельзя править объекты для роли текущего пользователя!");
+            throw new DomainException(ErrorsKeys.ModifyStadiumsCurrentRole);
         
         var role = await _roleRepository.Get(request.RoleId);
         CheckRoleAccess(role);
@@ -41,7 +42,7 @@ internal sealed class ToggleRoleStadiumHandler : BaseRequestHandler<ToggleRoleSt
         var stadiums = await _stadiumRepository.GetForLegal(_legalId);
         var stadium = stadiums.FirstOrDefault(s => s.Id == request.StadiumId);
         
-        if (stadium == null) throw new DomainException("Указанный объект не найден!");
+        if (stadium == null) throw new DomainException(ErrorsKeys.StadiumNotFound);
         
         var roleStadium = await _roleStadiumRepository.Get(request.RoleId, request.StadiumId);
         if (roleStadium == null)
@@ -55,7 +56,7 @@ internal sealed class ToggleRoleStadiumHandler : BaseRequestHandler<ToggleRoleSt
             if (role.Users.Any() 
                 && !(role.RoleStadiums.Any(rs => rs.StadiumId != request.StadiumId)))
             {
-                throw new DomainException($"Нельзя отвязать от роли последний объект, если у роли имеются связанные пользователи ({role.Users.Count})!");
+                throw new DomainException(ErrorsKeys.LastRoleStadiumUnbind);
             }
             _roleStadiumRepository.Remove(roleStadium);
         }

@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
@@ -23,16 +24,16 @@ internal sealed class UpdateUserHandler : BaseRequestHandler<UpdateUserCommand, 
     
     public override async ValueTask<UpdateUserDto> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        if (request.Id == _userId) throw new DomainException("Нельзя изменять текущего пользователя!");
+        if (request.Id == _userId) throw new DomainException(ErrorsKeys.ModifyCurrentUser);
         
         var role = await _roleRepository.Get(request.RoleId);
         CheckRoleAccess(role);
         
         if (!role.RoleStadiums.Any())
-            throw new DomainException("Нельзя указать для пользователя роль, не имеющую связи с объектами!");
+            throw new DomainException(ErrorsKeys.UserRolesDoesntHaveStadiums);
 
         var user = await _userRepository.Get(request.Id);
-        if (user == null || _legalId != user.LegalId) throw new DomainException("Указанный пользователь не найден!");
+        if (user == null || _legalId != user.LegalId) throw new DomainException(ErrorsKeys.UserNotFound);
 
         user.Name = request.Name;
         user.Description = request.Description;

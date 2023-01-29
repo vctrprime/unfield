@@ -1,5 +1,6 @@
 using AutoMapper;
 using Mediator;
+using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Services;
@@ -35,6 +36,6 @@ internal abstract class BaseRequestHandler<TRequest, TResponse> : IRequestHandle
 
     protected void CheckRoleAccess(Role? role)
     {
-        if (role == null || _legalId != role.LegalId) throw new DomainException("Указанная роль не найдена!");
+        if (role == null || _legalId != role.LegalId) throw new DomainException(ErrorsKeys.RoleNotFound);
     }
 }

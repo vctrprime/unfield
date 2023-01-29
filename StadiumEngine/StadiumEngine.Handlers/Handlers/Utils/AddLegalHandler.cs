@@ -51,8 +51,9 @@ internal sealed class AddLegalHandler : BaseRequestHandler<AddLegalCommand, AddL
             throw;
         }
 
-        await _servicesContainer.SmsSender.Send(request.Superuser.PhoneNumber,
-            $"Ваш пароль для входа: {superuserPassword}");
+        await _servicesContainer.SmsSender.SendPassword(request.Superuser.PhoneNumber,
+            superuserPassword, request.Language);
+        
         var legalDto = Mapper.Map<AddLegalDto>(legal);
         return legalDto;
         

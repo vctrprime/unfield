@@ -43,7 +43,7 @@ public class HasPermissionAttribute : ActionFilterAttribute
         
         context.Result = new ObjectResult(new
         {
-            Message = "Доступ запрещен!",
+            Message = "Fordidden",
         })
         {
             StatusCode = StatusCodes.Status403Forbidden

@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Repositories.Accounts;
@@ -29,7 +30,7 @@ internal sealed class ToggleRolePermissionHandler : BaseRequestHandler<ToggleRol
         var user = await _userRepository.Get(_userId);
         
         if (user?.RoleId == request.RoleId)
-            throw new DomainException("Нельзя править разрешения для роли текущего пользователя!");
+            throw new DomainException(ErrorsKeys.ModifyPermissionsCurrentRole);
         
         var role = await _roleRepository.Get(request.RoleId);
         CheckRoleAccess(role);

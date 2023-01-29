@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
@@ -27,9 +28,9 @@ internal sealed class AuthorizeUserHandler : BaseRequestHandler<AuthorizeUserCom
         
         var user = await _repository.Get(request.Login);
 
-        if (user == null) throw new DomainException("Invalid phone number");
+        if (user == null) throw new DomainException(ErrorsKeys.InvalidLogin);
 
-        if (!_hasher.Check(user.Password, request.Password)) throw new DomainException("Invalid password");
+        if (!_hasher.Check(user.Password, request.Password)) throw new DomainException(ErrorsKeys.InvalidPassword);
         
         user.LastLoginDate = DateTime.Now.ToUniversalTime();
         

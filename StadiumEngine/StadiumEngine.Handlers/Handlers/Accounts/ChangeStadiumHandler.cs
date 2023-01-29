@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using AutoMapper;
+using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
@@ -28,7 +29,7 @@ internal sealed class ChangeStadiumHandler : BaseRequestHandler<ChangeStadiumCom
              && user.Legal.Stadiums.FirstOrDefault(s => s.Id == request.StadiumId) == null)
             ||
             (user.Role != null 
-             && user.Role.RoleStadiums.Select(s => s.Stadium).FirstOrDefault(s => s.Id == request.StadiumId) == null)) throw new DomainException("Forbidden");
+             && user.Role.RoleStadiums.Select(s => s.Stadium).FirstOrDefault(s => s.Id == request.StadiumId) == null)) throw new DomainException(ErrorsKeys.Forbidden);
         
         var userDto = Mapper.Map<AuthorizeUserDto>(user);
         var stadiumClaim = userDto.Claims.FirstOrDefault(s => s.Type == "stadiumId");

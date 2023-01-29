@@ -37,6 +37,8 @@
         <Content Include="ClientApp\src\i18n\admin\admin.json" />
         <Content Include="ClientApp\src\i18n\common\common.en.json" />
         <Content Include="ClientApp\src\i18n\common\common.json" />
+        <Content Include="ClientApp\src\i18n\errors\errors.en.json" />
+        <Content Include="ClientApp\src\i18n\errors\errors.json" />
         <Content Include="ClientApp\src\i18n\portal\portal.en.json" />
         <Content Include="ClientApp\src\i18n\portal\portal.json" />
         <Content Include="ClientApp\src\img\back-balls.png" />
