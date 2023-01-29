@@ -19,6 +19,7 @@ import cells from "../../../img/cells.jpeg";
 import {loadingAtom} from "../../../state/loading";
 import {LanguageSelect} from "../../common/LanguageSelect";
 import {getTitle} from "../../../helpers/utils";
+import {Button, Form, Modal} from "semantic-ui-react";
 
 
 export const SignIn = () => {
@@ -61,13 +62,52 @@ export const SignIn = () => {
                     
                 });
         }
-        
     };
+    
+    const [resetPasswordPhoneNumber, setResetPasswordPhoneNumber] = useState<string | undefined>();
+    const [resetPasswordModal, setResetPasswordModal] = useState<boolean>(false)
+    
+    const resetPassword = () => {
+        accountsService.resetPassword({
+            phoneNumber: resetPasswordPhoneNumber||''
+        }).then(() => {
+            setResetPasswordModal(false);
+        })
+    }
 
     return (
         <div className="sign-in-container" style={{
             background: `linear-gradient( rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9) ), no-repeat center / cover url(${cells})`
         }}>
+
+            <Modal
+                dimmer='blurring'
+                size='small'
+                open={resetPasswordModal}>
+                <Modal.Header>{t('accounts:reset_password:title')}</Modal.Header>
+                <Modal.Content>
+                    <p className="reset-password-description">{t('accounts:reset_password:description')}</p>
+                    <Form style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                        <PhoneInput
+                            onlyCountries={['ru']}
+                            country='ru'
+                            containerStyle={{width: '200px'}}
+                            inputStyle={{width: '100%', height: 38, paddingLeft: '42px', fontFamily: 'inherit'}}
+                            placeholder={'+7 (123) 456-78-90'}
+                            value={resetPasswordPhoneNumber}
+                            onChange={(phone) => setResetPasswordPhoneNumber(phone)}
+                            localization={i18n.language == 'ru' ? ru : undefined}
+                            countryCodeEditable={false}
+                        />
+                    </Form>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => setResetPasswordModal(false)}>{t('common:close_button')}</Button>
+                    <Button style={{backgroundColor: '#3CB371', color: 'white'}} onClick={resetPassword}>{t('accounts:reset_password:button')}</Button>
+                </Modal.Actions>
+            </Modal>
+            
+            
             <div className="color-block bottom-color-block" />
             <div className="color-block top-color-block" />
 
@@ -119,7 +159,7 @@ export const SignIn = () => {
                         name="password"
                     />
 
-
+                    <div className="reset-button-modal" onClick={() => setResetPasswordModal(true)}>{t('accounts:reset_password:title')}</div>
                     <button
                         type="submit"
                         onClick={handleSubmit}

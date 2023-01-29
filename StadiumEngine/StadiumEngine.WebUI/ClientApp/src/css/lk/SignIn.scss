@@ -142,4 +142,15 @@
       display: none;
     }
   }
+  
+  .reset-button-modal {
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 7px;
+  }
+  
+}
+
+.reset-password-description {
+  max-width: 400px;
 }

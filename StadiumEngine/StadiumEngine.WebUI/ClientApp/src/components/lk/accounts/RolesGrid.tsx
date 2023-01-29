@@ -74,10 +74,8 @@ export const RolesGrid = ({selectedRole, setSelectedRole} : any) => {
     }, [])
 
     useEffect(() => {
-        console.log(changeBindingStadium);
         if (changeBindingStadium !== null) {
             const rowNode = gridRef.current.api.getRowNode(selectedNodeId);
-            console.log(rowNode);
             rowNode.setDataValue('stadiumsCount', rowNode.data.stadiumsCount + (changeBindingStadium ? 1 : -1));
         }
     }, [changeBindingStadium])
