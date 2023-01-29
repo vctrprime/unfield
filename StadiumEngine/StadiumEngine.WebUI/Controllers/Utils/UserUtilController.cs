@@ -8,23 +8,23 @@ using StadiumEngine.WebUI.Infrastructure.Attributes;
 namespace StadiumEngine.WebUI.Controllers.Utils;
 
 /// <summary>
-/// Util-запросы для работы с юр. лицами
+/// Util-запросы для работы с пользователями
 /// </summary>
-[Route("utils/legals")]
+[Route("utils/users")]
 [AllowAnonymous]
-public class LegalUtilController : BaseApiController
+public class UserUtilController : BaseApiController
 {
     /// <summary>
-    /// Добавление нового юр.лица (с суперюзером и стадионами)
+    /// Добавление нового админа
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    [HttpPost]
+    [HttpPost("new-admin")]
     [SecuredUtil]
-    public async Task<AddLegalDto> Post(AddLegalCommand command)
+    public async Task<AddAdminUserDto> Post(AddAdminUserCommand command)
     {
-        var legal = await Mediator.Send(command);
+        var dto = await Mediator.Send(command);
 
-        return legal;
+        return dto;
     }
 }
