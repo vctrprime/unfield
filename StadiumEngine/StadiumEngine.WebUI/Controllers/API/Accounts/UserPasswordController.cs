@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.Handlers.Commands.Accounts;
@@ -15,8 +16,20 @@ public class UserPasswordController : BaseApiController
     /// Сменить пароль пользователя
     /// </summary>
     /// <returns></returns>
-    [HttpPut]
-    public async Task<ChangeUserPasswordDto> Put(ChangeUserPasswordCommand command)
+    [HttpPut("change")]
+    public async Task<ChangeUserPasswordDto> Change(ChangeUserPasswordCommand command)
+    {
+        var dto = await Mediator.Send(command);
+        return dto;
+    }
+    
+    /// <summary>
+    /// Сбросить пароль пользователя
+    /// </summary>
+    /// <returns></returns>
+    [AllowAnonymous]
+    [HttpPut("reset")]
+    public async Task<ResetUserPasswordDto> Reset(ResetUserPasswordCommand command)
     {
         var dto = await Mediator.Send(command);
         return dto;

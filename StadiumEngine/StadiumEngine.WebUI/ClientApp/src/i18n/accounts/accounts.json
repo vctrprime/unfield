@@ -8,6 +8,8 @@
     "header": "Выход из системы",
     "question": "Вы уверены, что хотите выйти?"
   },
+  "success_change_password": "Пароль был успешно изменен!",
+  "success_reset_password": "Новый пароль отправлен на указанный номер",
   "users_tab": "Пользователи",
   "roles_tab": "Роли",
   "permissions_tab": "Разрешения",

@@ -15,6 +15,7 @@ import {UpdateRoleCommand} from "../models/command/accounts/UpdateRoleCommand";
 import {AddUserCommand} from "../models/command/accounts/AddUserCommand";
 import {UpdateUserCommand} from "../models/command/accounts/UpdateUserCommand";
 import {ChangeUserPasswordCommand} from "../models/command/accounts/ChangeUserPasswordCommand";
+import {ResetUserPasswordCommand} from "../models/command/accounts/ResetUserPasswordCommand";
 
 export interface IAccountsService {
     authorize(command: AuthorizeUserCommand): Promise<AuthorizeUserDto>;
@@ -36,7 +37,7 @@ export interface IAccountsService {
     toggleRoleStadium(command: ToggleRoleStadiumCommand): Promise<void>;
     changeLanguage(language: string): Promise<void>;
     changePassword(command: ChangeUserPasswordCommand): Promise<void>;
-    
+    resetPassword(command: ResetUserPasswordCommand): Promise<void>;
 }
 
 export class AccountsService extends BaseService implements IAccountsService  {
@@ -180,9 +181,17 @@ export class AccountsService extends BaseService implements IAccountsService  {
 
     changePassword(command: ChangeUserPasswordCommand): Promise<void> {
         return this.fetchWrapper.put({
-            url: `${this.baseUrl}/user-password`,
+            url: `${this.baseUrl}/user-password/change`,
             body: command,
-            hideSpinner: false
+            successMessage: t('accounts:success_change_password')
+        })
+    }
+
+    resetPassword(command: ResetUserPasswordCommand): Promise<void> {
+        return this.fetchWrapper.put({
+            url: `${this.baseUrl}/user-password/reset`,
+            body: command,
+            successMessage: t('accounts:success_reset_password')
         })
     }
 
