@@ -8,6 +8,28 @@
     "header": "Logout",
     "question": "Are you sure you want to logout?"
   },
+  "reset_password": {
+    "title": "Reset Password",
+    "button": "Send",
+    "description": "If you have forgotten your password, please use the phone number associated with your registered account and we will send you a new password via SMS. If necessary, you can change it in your personal area.",
+    "success": "A new password has been sent to the specified number"
+  },
+  "change_password": {
+    "title": "Change password",
+    "old_password": "Current password",
+    "new_password": "New password",
+    "new_password_again": "New password (again)",
+    "description": "The new password must contain uppercase and lowercase Latin letters, as well as at least one number",
+    "success": "Password changed successfully!"
+  },
+  "profile": {
+    "title": "Profile",
+    "full_name": "Username",
+    "admin_title": "Service Administrator",
+    "legal_name": "Organization",
+    "superuser_title": "Superuser for organization",
+    "role_name": "User Role"
+  },
   "users_tab": "Users",
   "roles_tab": "Roles",
   "permissions_tab": "Permissions",

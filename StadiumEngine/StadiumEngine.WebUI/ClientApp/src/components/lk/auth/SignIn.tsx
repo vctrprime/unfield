@@ -20,6 +20,7 @@ import {loadingAtom} from "../../../state/loading";
 import {LanguageSelect} from "../../common/LanguageSelect";
 import {getTitle} from "../../../helpers/utils";
 import {Button, Form, Modal} from "semantic-ui-react";
+import {HashLoader} from "react-spinners";
 
 
 export const SignIn = () => {
@@ -66,13 +67,22 @@ export const SignIn = () => {
     
     const [resetPasswordPhoneNumber, setResetPasswordPhoneNumber] = useState<string | undefined>();
     const [resetPasswordModal, setResetPasswordModal] = useState<boolean>(false)
+    const [resetPasswordLoading, setResetPasswordLoading] = useState<boolean>(false)
+
+    const [resetPasswordError, setResetPasswordError] = useState<string|null>(null);
     
     const resetPassword = () => {
+        setResetPasswordLoading(true);
+        setResetPasswordError(null);
         accountsService.resetPassword({
             phoneNumber: resetPasswordPhoneNumber||''
         }).then(() => {
             setResetPasswordModal(false);
         })
+            .catch((error) => {
+                setResetPasswordError(error);
+            })
+            .finally(() => setResetPasswordLoading(false))
     }
 
     return (
@@ -86,6 +96,10 @@ export const SignIn = () => {
                 open={resetPasswordModal}>
                 <Modal.Header>{t('accounts:reset_password:title')}</Modal.Header>
                 <Modal.Content>
+                    {resetPasswordLoading && <div className="d-flex justify-content-center align-items-center"
+                                                   style={{ backgroundColor: 'rgba(53,70,80, 0.2)',height: "100%", width: "100%", zIndex: 10000, position: "absolute", top: 0, left: 0}}>
+                        <HashLoader color="#00d2ff"/>
+                    </div>}
                     <p className="reset-password-description">{t('accounts:reset_password:description')}</p>
                     <Form style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                         <PhoneInput
@@ -100,9 +114,10 @@ export const SignIn = () => {
                             countryCodeEditable={false}
                         />
                     </Form>
+                    {resetPasswordError !== null && <div className="error-message">{resetPasswordError}</div>}
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => setResetPasswordModal(false)}>{t('common:close_button')}</Button>
+                    <Button onClick={() => setResetPasswordModal(false)}>{t('common:close_button')}</Button>
                     <Button style={{backgroundColor: '#3CB371', color: 'white'}} onClick={resetPassword}>{t('accounts:reset_password:button')}</Button>
                 </Modal.Actions>
             </Modal>
@@ -159,7 +174,11 @@ export const SignIn = () => {
                         name="password"
                     />
 
-                    <div className="reset-button-modal" onClick={() => setResetPasswordModal(true)}>{t('accounts:reset_password:title')}</div>
+                    <div className="reset-button-modal" onClick={() => {
+                        setResetPasswordModal(true);
+                        setResetPasswordError(null);
+                        setResetPasswordPhoneNumber(undefined);
+                    }}>{t('accounts:reset_password:title')}</div>
                     <button
                         type="submit"
                         onClick={handleSubmit}

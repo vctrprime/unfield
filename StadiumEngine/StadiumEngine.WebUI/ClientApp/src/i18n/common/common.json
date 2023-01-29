@@ -23,5 +23,6 @@
   "yes_button": "Да",
   "no_button": "Нет",
   "save_button": "Сохранить",
-  "close_button": "Закрыть"
+  "close_button": "Закрыть",
+  "apply_button": "Применить"
 }

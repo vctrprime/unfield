@@ -23,5 +23,6 @@
   "yes_button": "Yes",
   "no_button": "No",
   "save_button": "Save",
-  "close_button": "Close"
+  "close_button": "Close",
+  "apply_button": "Apply"
 }

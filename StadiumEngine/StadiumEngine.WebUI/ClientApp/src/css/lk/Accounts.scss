@@ -1,3 +1,5 @@
+@import "src/css/const.scss";
+
 .accounts-container {
   height: 100%;
   width: 100%;
@@ -95,7 +97,39 @@
       }
     }
   }
+}
+.profile-container {
+  min-width: 350px;
   
+  .profile-row {
+    span {
+      font-weight: bold;
+    }
+  }
+  i {
+    margin-left: 2px;
+  }
   
+  .change-password-title {
+    padding-top: 4px;
+    margin-top: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    border-top: 1px solid #eee;
+  }
+  .error-message {
+    color: #CD5C5C;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .change-password-description {
+    max-width: 350px;
+    font-size: 11px;
+    color: #999;
+  }
+  
+  .field {
+    text-align: left;
+  }
 }
 

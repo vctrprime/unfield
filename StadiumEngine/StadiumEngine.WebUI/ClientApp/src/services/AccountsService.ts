@@ -183,6 +183,8 @@ export class AccountsService extends BaseService implements IAccountsService  {
         return this.fetchWrapper.put({
             url: `${this.baseUrl}/user-password/change`,
             body: command,
+            showErrorAlert: false,
+            withSpinner: false,
             successMessage: t('accounts:change_password:success')
         })
     }
@@ -191,6 +193,8 @@ export class AccountsService extends BaseService implements IAccountsService  {
         return this.fetchWrapper.put({
             url: `${this.baseUrl}/user-password/reset`,
             body: command,
+            showErrorAlert: false,
+            withSpinner: false,
             successMessage: t('accounts:reset_password:success')
         })
     }

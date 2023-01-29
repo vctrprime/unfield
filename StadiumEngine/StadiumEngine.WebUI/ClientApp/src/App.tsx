@@ -101,7 +101,7 @@ const App = () => {
                 setAuth(null);
                 setStadium(null);
                 setPermissions([]);
-                navigate("/lk/sign-in");
+                window.location.href = "/lk/sign-in";
             });
     }
     

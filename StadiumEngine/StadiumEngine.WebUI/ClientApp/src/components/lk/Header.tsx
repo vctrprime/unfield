@@ -11,6 +11,7 @@ import {AuthorizedUserInfo} from "../common/AuthorizedUserInfo";
 import {LanguageSelect} from "../common/LanguageSelect";
 import {useNavigate} from "react-router-dom";
 import {AuthorizeUserDto} from "../../models/dto/accounts/AuthorizeUserDto";
+import {ProfileModal} from "./accounts/ProfileModal";
 
 interface StadiumDropDownData {
     key: number,
@@ -21,6 +22,8 @@ interface StadiumDropDownData {
 export const Header = () => {
     const [stadiums, setStadiums] = useState<StadiumDropDownData[]>([])
     const [stadium, setStadium] = useRecoilState<number | null>(stadiumAtom);
+    
+    const [profileModal, setProfileModal] = useState(false)
 
     const [auth, setAuth] = useRecoilState(authAtom);
     
@@ -62,7 +65,7 @@ export const Header = () => {
     
     return (
         <div className="border-bottom navbar navbar-light box-shadow lk-header">
-            
+            <ProfileModal open={profileModal} setOpen={setProfileModal}/>
             {stadium !== null && 
                 <div className="stadium-list">
                     <div style={window.location.pathname.startsWith("/lk/accounts") ? {display: "none"} : {}}>
@@ -96,7 +99,7 @@ export const Header = () => {
                         </div>*/}
                         <LanguageSelect />
                     </div>}
-                <AuthorizedUserInfo />
+                <AuthorizedUserInfo setProfileModal={setProfileModal}/>
                 {auth !== null && auth.isAdmin &&
                     <i onClick={toAdmin} title={t('common:lk_header:to_admin_title')||""} style={{marginLeft: "10px", cursor: "pointer"}} className="fa fa-font" />}
             </div>

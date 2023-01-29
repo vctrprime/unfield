@@ -27,7 +27,8 @@ function useFetchWrapper() {
                     body = null as any, 
                     successMessage = null as unknown as string, 
                     withSpinner = true,
-                    hideSpinner = true
+                    hideSpinner = true,
+                    showErrorAlert = true
                 } = {}) => {
             if (withSpinner) setLoading(true);
             const requestOptions: RequestInit = {
@@ -39,14 +40,15 @@ function useFetchWrapper() {
             if (body) {
                 requestOptions.body = JSON.stringify(body);
             }
-            return fetch(url, requestOptions).then((response) => handleResponse(response, successMessage, hideSpinner, withSpinner));
+            return fetch(url, requestOptions).then((response) => handleResponse(response, successMessage, hideSpinner, withSpinner, showErrorAlert));
         }
     }
     
     function handleResponse(response : Response, 
                                   successMessage?: string, 
                                   hideSpinner?: boolean, 
-                                  withSpinner?: boolean) {
+                                  withSpinner?: boolean,
+                                  showErrorAlert? :boolean) {
         if (withSpinner && hideSpinner) setLoading(false);
         
         return response.text().then(text => {
@@ -62,7 +64,10 @@ function useFetchWrapper() {
                     navigate("/lk/sign-in");
                     return Promise.reject(error);
                 }
-                NotificationManager.error(error, t('common:error_request_title'), 5000);
+                if (showErrorAlert) {
+                    NotificationManager.error(error, t('common:error_request_title'), 5000);
+                }
+                
                 
                 return Promise.reject(error);
             }
