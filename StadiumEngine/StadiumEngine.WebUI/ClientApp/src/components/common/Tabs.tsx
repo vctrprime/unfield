@@ -20,8 +20,6 @@ export const Tabs = ({ tabsData, leftNavRoute } : TabsProps) => {
         }
     }, [])
     
-    
-    
     return (
         <div className="tabs-container">
             <div className="tabs-links">

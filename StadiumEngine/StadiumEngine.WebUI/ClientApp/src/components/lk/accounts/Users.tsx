@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {UsersGrid} from "./UsersGrid";
 import {getTitle} from "../../../helpers/utils";
 

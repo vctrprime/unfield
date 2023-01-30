@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {NavLink, useNavigate} from "react-router-dom";
+import React, {useEffect} from 'react';
+import {NavLink} from "react-router-dom";
 import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
-import {authAtom} from "../../state/auth";
 import logo from "../../img/logo/logo_icon_with_title_white.png";
 import '../../css/lk/NavMenu.scss';
 import {stadiumAtom} from "../../state/stadium";

@@ -1,4 +1,4 @@
-import React, {MouseEventHandler, MutableRefObject, useRef, useState} from 'react';
+import React, {MouseEventHandler, useRef, useState} from 'react';
 import {t} from "i18next";
 import Tippy from "@tippyjs/react";
 

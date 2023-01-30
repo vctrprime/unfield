@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState, useCallback} from 'react';
 import {GridLoading} from "../common/GridLoading";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {rolesAtom} from "../../../state/roles";
 import {dateFormatter} from "../../../helpers/date-formatter";
 import {RoleDto} from "../../../models/dto/accounts/RoleDto";
@@ -18,7 +18,7 @@ import {ContainerLoading} from "../../common/ContainerLoading";
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
 
-export const RolesGrid = ({selectedRole, setSelectedRole} : any) => {
+export const RolesGrid = ({setSelectedRole} : any) => {
     const [data, setData] = useState<RoleDto[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     
@@ -26,7 +26,7 @@ export const RolesGrid = ({selectedRole, setSelectedRole} : any) => {
 
     const permissions = useRecoilValue(permissionsAtom);
 
-    const  [changeBindingStadium, setChangeBindingStadium]= useRecoilState(changeBindingStadiumAtom);
+    const  changeBindingStadium = useRecoilValue(changeBindingStadiumAtom);
     
     const [roleModal, setRoleModal] = useState<boolean>(false)
     const [deleteRoleModal, setDeleteRoleModal] = useState<boolean>(false)

@@ -42,12 +42,30 @@ export const Permissions = () => {
     const [selectedRoleId, setSelectedRoleId] = useState<number>(roles.length > 0 ? roles[0].value : 0);
     
     useEffect(() => {
+        const fetchRoles = () => {
+            accountsService.getRoles().then((result: RoleDto[]) => {
+                setRoles(result.map((r) => {
+                    return { key: r.id, value: r.id, text: r.name }
+                }));
+                setSelectedRoleId(result[0].id);
+            })
+        }
+        
         if (roles.length === 0) {
             fetchRoles();
         }
     }, [])
     
     useEffect(() => {
+        const fetchPermissions = () => {
+            setData([]);
+            accountsService.getPermissions(selectedRoleId).then((result: PermissionDto[]) => {
+                setTimeout(() => {
+                    setData(result);
+                }, 500);
+            })
+        }
+        
         if (selectedRoleId !== 0) {
             fetchPermissions();
         }
@@ -65,23 +83,9 @@ export const Permissions = () => {
         })
        
     }
-    const fetchRoles = () => {
-        accountsService.getRoles().then((result: RoleDto[]) => {
-            setRoles(result.map((r) => {
-                return { key: r.id, value: r.id, text: r.name }
-            }));
-            setSelectedRoleId(result[0].id);
-        })
-    }
+   
 
-    const fetchPermissions = () => {
-        setData([]);
-        accountsService.getPermissions(selectedRoleId).then((result: PermissionDto[]) => {
-            setTimeout(() => {
-                setData(result);
-            }, 500);
-        })
-    }
+    
 
     const changeRole = (e: any, { value }: any) => {
         setSelectedRoleId(value);

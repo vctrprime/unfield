@@ -47,7 +47,7 @@ export const SignIn = () => {
                     localStorage.setItem('user', JSON.stringify(user));
                     setAuth(user);
                     
-                    const localStorageLanguage = localStorage.getItem('language') || 'en';
+                    const localStorageLanguage = localStorage.getItem('language') || 'ru';
                     
                     if (localStorageLanguage !== user.language) {
                         accountsService.changeLanguage(localStorageLanguage).then(() => {});
@@ -107,7 +107,7 @@ export const SignIn = () => {
                             placeholder={'+7 (123) 456-78-90'}
                             value={resetPasswordPhoneNumber}
                             onChange={(phone) => setResetPasswordPhoneNumber(phone)}
-                            localization={i18n.language == 'ru' ? ru : undefined}
+                            localization={i18n.language === 'ru' ? ru : undefined}
                             countryCodeEditable={false}
                         />
                     </Form>
@@ -157,7 +157,7 @@ export const SignIn = () => {
                         placeholder={'+7 (123) 456-78-90'}
                         disableSearchIcon
                         value={login}
-                        localization={i18n.language == 'ru' ? ru : undefined}
+                        localization={i18n.language === 'ru' ? ru : undefined}
                         countryCodeEditable={false}
                         onChange={(phone) => setLogin(phone)}
                     />

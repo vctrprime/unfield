@@ -1,7 +1,6 @@
 import React from 'react';
 import {useRecoilValue} from "recoil";
 import {stadiumAtom} from "../../state/stadium";
-import {t} from "i18next";
 import {getTitle} from "../../helpers/utils";
 
 export const Main = () => {

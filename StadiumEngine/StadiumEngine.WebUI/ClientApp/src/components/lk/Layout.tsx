@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, NavLink, Outlet} from "react-router-dom";
+import { Outlet} from "react-router-dom";
 import {NavMenu} from "./NavMenu";
 import {Header} from "./Header";
 import '../../css/lk/Main.scss';

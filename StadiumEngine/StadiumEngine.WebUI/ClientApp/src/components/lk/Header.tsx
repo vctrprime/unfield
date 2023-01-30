@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Dropdown, Modal} from "semantic-ui-react";
+import {Dropdown} from "semantic-ui-react";
 import {useRecoilState} from "recoil";
 import {stadiumAtom} from "../../state/stadium";
 import {UserStadiumDto} from "../../models/dto/accounts/UserStadiumDto";

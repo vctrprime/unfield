@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import {getOverlayNoRowsTemplate} from "../../../helpers/utils";
 import {AgGridReact} from "ag-grid-react";
 
 export const GridLoading = ({ columns } : any) => {
@@ -27,7 +26,7 @@ export const GridLoading = ({ columns } : any) => {
     }
     
     const data = () => {
-        return new Array(Math.floor((height - 48)/42)).fill({
+        return new Array(Math.floor((height - 59)/42)).fill({
             
         });
     }

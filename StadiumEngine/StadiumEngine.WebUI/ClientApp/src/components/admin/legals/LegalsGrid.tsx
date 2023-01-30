@@ -1,11 +1,10 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {LegalDto} from "../../../models/dto/admin/LegalDto";
 import {t} from "i18next";
 import {dateFormatter} from "../../../helpers/date-formatter";
 import {useInject} from "inversify-hooks";
 import {IAdminService} from "../../../services/AdminService";
 import {GridLoading} from "../../lk/common/GridLoading";
-import {useNavigate} from "react-router-dom";
 import {AuthorizeUserDto} from "../../../models/dto/accounts/AuthorizeUserDto";
 import {useSetRecoilState, useRecoilState} from "recoil";
 import {authAtom} from "../../../state/auth";
@@ -27,7 +26,7 @@ export const LegalsGrid = () => {
     const [data, setData] = useState<LegalDto[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     
-    const [searchString, setSearchString] = useRecoilState<string|null>(legalsSearchValue);
+    const [searchString, setSearchString] = useRecoilState<string>(legalsSearchValue);
     const setStadium = useSetRecoilState<number | null>(stadiumAtom);
     const setPermissions = useSetRecoilState<UserPermissionDto[]>(permissionsAtom);
 

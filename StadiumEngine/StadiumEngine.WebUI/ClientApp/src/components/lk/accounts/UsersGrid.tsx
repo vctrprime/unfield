@@ -41,19 +41,23 @@ export const UsersGrid = () => {
     
     const gridRef = useRef<any>();
 
+    const [accountsService] = useInject<IAccountsService>('AccountsService');
+
     useEffect(() => {
+        const fetchRoles = () => {
+            accountsService.getRoles().then((result: RoleDto[]) => {
+                setRoles(result.map((r) => {
+                    return { key: r.id, value: r.id, text: r.name }
+                }));
+            })
+        }
+        
         if (roles.length === 0) {
             fetchRoles();
         }
     }, [])
 
-    const fetchRoles = () => {
-        accountsService.getRoles().then((result: RoleDto[]) => {
-            setRoles(result.map((r) => {
-                return { key: r.id, value: r.id, text: r.name }
-            }));
-        })
-    }
+    
     
     const columnDefs = [
         {
@@ -81,7 +85,7 @@ export const UsersGrid = () => {
         {field: 'lastLoginDate', cellClass: "grid-center-cell", headerName: t("accounts:users_grid:last_login_date"), width: 200, valueFormatter: dateFormatter}
     ]
 
-    const [accountsService] = useInject<IAccountsService>('AccountsService');
+    
 
     useEffect(() => {
         fetchUsers();
@@ -132,10 +136,9 @@ export const UsersGrid = () => {
             }).then(() => {
                 fetchUsers();
                 setUserModal(false);
-            }) .catch((error) => {
+            }).catch((error) => {
                 setError(error);
-            })
-                .finally(() => {
+            }).finally(() => {
                     setUserAction(false);
                 });
         }
@@ -193,7 +196,7 @@ export const UsersGrid = () => {
                                 placeholder={'+7 (123) 456-78-90'}
                                 value={newUserLogin}
                                 onChange={(phone) => setNewUserLogin(phone)}
-                                localization={i18n.language == 'ru' ? ru : undefined}
+                                localization={i18n.language === 'ru' ? ru : undefined}
                                 countryCodeEditable={false}
                             />
                         </Form.Field>}
@@ -209,7 +212,7 @@ export const UsersGrid = () => {
                             <label>{t("accounts:users_grid:role_name")}</label>
                             <select ref={roleIdInput} defaultValue={editingUser?.roleId||roles[0]?.value}>
                                 {roles.map((r, i) => {
-                                    return <option value={r.value}>{r.text}</option>
+                                    return <option key={i} value={r.value}>{r.text}</option>
                                 })}
                             </select>
                         </Form.Field>

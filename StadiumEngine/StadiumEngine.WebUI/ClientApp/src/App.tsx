@@ -1,6 +1,6 @@
-import React, {Component, useEffect, useRef} from 'react';
+import React, { useEffect, useRef} from 'react';
 import { Layout } from './components/Layout';
-import {Routes, Route, useNavigate} from "react-router-dom";
+import {Routes, Route } from "react-router-dom";
 import {Home} from "./components/portal/Home";
 import {Layout as LkLayout} from "./components/lk/Layout";
 import {Layout as AdminLayout} from "./components/admin/Layout";
@@ -62,8 +62,7 @@ const App = () => {
     const setAuth = useSetRecoilState(authAtom);
 
     const [accountsService] = useInject<IAccountsService>('AccountsService');
-
-    const navigate = useNavigate();
+    
     
     useEffect(() => {
         const prev = JSON.stringify(prevUserRef.current);
