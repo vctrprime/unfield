@@ -2,6 +2,7 @@ using System.Security.Claims;
 using AutoMapper;
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
+using StadiumEngine.Domain.Extensions;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Identity;
@@ -38,6 +39,7 @@ internal sealed class ChangeStadiumHandler : BaseRequestHandler<ChangeStadiumCom
         
         userDto.Claims.Remove(stadiumClaim);
         userDto.Claims.Add(new Claim("stadiumId", request.StadiumId.ToString()));
+        userDto.UniqueToken = user.GetUserToken(request.StadiumId);
         
         return userDto;
     }
