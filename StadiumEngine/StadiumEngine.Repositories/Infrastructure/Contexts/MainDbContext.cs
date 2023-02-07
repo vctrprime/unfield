@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using StadiumEngine.Domain.Entities;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Entities.Geo;
+using StadiumEngine.Domain.Entities.Offers;
 
 namespace StadiumEngine.Repositories.Infrastructure.Contexts;
 
@@ -21,10 +22,11 @@ internal class MainDbContext : DbContext
     public DbSet<Permission> Permissions { get; set; }
     public DbSet<RolePermission> RolePermissions { get; set; }
     public DbSet<RoleStadium> RoleStadiums { get; set; }
+    public DbSet<Stadium> Stadiums { get; set; }
     #endregion
 
     #region offers
-    public DbSet<Stadium> Stadiums { get; set; }
+    public DbSet<LockerRoom> LockerRooms { get; set; }
     #endregion
         
     public MainDbContext(DbContextOptions<MainDbContext> options)

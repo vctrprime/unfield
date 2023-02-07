@@ -28,4 +28,10 @@ public static class ErrorsKeys
 
     #endregion
 
+    #region offers
+    public const string LockerRoomNotFound = "offers:locker_room_not_found";
+    
+
+    #endregion
+
 }

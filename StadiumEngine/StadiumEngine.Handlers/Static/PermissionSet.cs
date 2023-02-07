@@ -23,7 +23,14 @@ public static class PermissionSet
             Name = "Активы",
             Permissions = new List<Permission>
             {
-                new() { Name = "get-fields", DisplayName = "Просмотр площадок", Description = "Просмотр списка площадок", Sort = 1}
+                new() { Name = "get-fields", DisplayName = "Просмотр площадок", Description = "Просмотр списка площадок", Sort = 1},
+                new() { Name = "insert-field", DisplayName = "Добавление площадки", Description = "Возможность добавить площадку", Sort = 2},
+                new() { Name = "update-field", DisplayName = "Обновление площадки", Description = "Возможность изменить данные плошадки", Sort = 3},
+                new() { Name = "delete-field", DisplayName = "Удаление площадки", Description = "Возможность удалить площадку", Sort = 4},
+                new() { Name = "get-locker-rooms", DisplayName = "Просмотр раздевалок", Description = "Просмотр списка раздевалок", Sort = 5},
+                new() { Name = "insert-locker-room", DisplayName = "Добавление раздевалки", Description = "Возможность добавить раздевалку", Sort = 6},
+                new() { Name = "update-locker-room", DisplayName = "Обновление раздевалки", Description = "Возможность изменить данные раздевалки", Sort = 7},
+                new() { Name = "delete-locker-room", DisplayName = "Удаление раздевалки", Description = "Возможность удалить раздевалку", Sort = 8}
             }
         },
         new PermissionGroup

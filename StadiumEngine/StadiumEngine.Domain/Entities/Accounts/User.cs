@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using StadiumEngine.Domain.Entities.Offers;
 
 namespace StadiumEngine.Domain.Entities.Accounts;
 
@@ -67,5 +68,10 @@ public class User : BaseUserEntity
     public virtual ICollection<RoleStadium> CreatedRoleStadiums { get; set; }
     [InverseProperty("UserModified")]
     public virtual ICollection<RoleStadium> LastModifiedRoleStadiums { get; set; }
+    
+    [InverseProperty("UserCreated")]
+    public virtual ICollection<LockerRoom> CreatedLockerRooms { get; set; }
+    [InverseProperty("UserModified")]
+    public virtual ICollection<LockerRoom> LastModifiedLockerRooms { get; set; }
 
 }

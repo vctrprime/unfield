@@ -18,5 +18,8 @@
       "delete_role_has_bindings": "Роль имеет связанные сущности",
       "incorrect_phone_number": "Номер телефона введен неправильно",
       "login_already_exist": "Пользователь с таким номером телефона уже существует"
+    },
+    "offers": {
+        "locker_room_not_found": "Раздевалка не найдена"
     }
 }

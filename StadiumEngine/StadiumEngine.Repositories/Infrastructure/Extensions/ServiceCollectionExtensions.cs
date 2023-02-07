@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain.Repositories.Offers;
 using StadiumEngine.Domain.Services;
 using StadiumEngine.Repositories.Accounts;
 using StadiumEngine.Repositories.Infrastructure.Contexts;
+using StadiumEngine.Repositories.Offers;
 
 namespace StadiumEngine.Repositories.Infrastructure.Extensions;
 
@@ -39,6 +41,10 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRoleStadiumRepository, RoleStadiumRepository>();
         services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
         services.AddScoped<IPermissionGroupRepository, PermissionGroupRepository>();
+        #endregion
+
+        #region offers
+        services.AddScoped<ILockerRoomRepository, LockerRoomRepository>();
         #endregion
         
         return services;

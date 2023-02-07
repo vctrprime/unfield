@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using StadiumEngine.Domain.Entities.Geo;
+using StadiumEngine.Domain.Entities.Offers;
 
 namespace StadiumEngine.Domain.Entities.Accounts;
 
@@ -27,4 +28,5 @@ public class Stadium : BaseEntity
     public string Address { get; set; }
     
     public virtual ICollection<RoleStadium> RoleStadiums { get; set; }
+    public virtual ICollection<LockerRoom> LockerRooms { get; set; }
 }

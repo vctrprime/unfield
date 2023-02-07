@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.DTO.Accounts;
+using StadiumEngine.DTO.Accounts.Users;
 using StadiumEngine.Handlers.Queries.Accounts;
+using StadiumEngine.Handlers.Queries.Accounts.Users;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 
 namespace StadiumEngine.WebUI.Controllers.API.Accounts;
