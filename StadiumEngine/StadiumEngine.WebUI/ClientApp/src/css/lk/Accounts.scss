@@ -86,13 +86,13 @@
     }
     
 
-    .accounts-permissions-container, .actives-permissions-container {
+    .accounts-permissions-container, .offers-permissions-container {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
       width: 100%;
       
-      .accounts-permission, .actives-permission  {
+      .accounts-permission, .offers-permission  {
         flex: 1 0 25%;
       }
     }

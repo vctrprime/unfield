@@ -18,7 +18,7 @@ public static class PermissionSet
         },
         new PermissionGroup
         {
-            Key = "actives",
+            Key = "offers",
             Sort = 3,
             Name = "Активы",
             Permissions = new List<Permission>

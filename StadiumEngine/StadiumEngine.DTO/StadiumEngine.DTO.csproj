@@ -15,10 +15,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Offers\Enums" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\StadiumEngine.Common\StadiumEngine.Common.csproj" />
     </ItemGroup>
 

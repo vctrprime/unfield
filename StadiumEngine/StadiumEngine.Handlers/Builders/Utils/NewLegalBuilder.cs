@@ -62,7 +62,7 @@ internal class NewLegalBuilder
         var permissions = await _permissionRepository.GetAll();
         var permissionsKeys = new List<string>
         {
-            "schedule", "actives"
+            "schedule", "offers"
         };
             
         var rolePermissions = permissions.Where(p => permissionsKeys.Contains(p.PermissionGroup.Key)).Select(p => new RolePermission()

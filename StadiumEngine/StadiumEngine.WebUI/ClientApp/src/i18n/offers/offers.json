@@ -1,0 +1,14 @@
+{
+  "locker_rooms_tab": "Раздевалки",
+  "fields_tab": "Площадки",
+  "back_buttons": {
+    "locker_rooms": "К списку раздевалок"
+  },
+  "locker_rooms_grid": {
+    "name": "Название",
+    "description": "Описание",
+    "date_created": "Дата добавления",
+    "no_rows": "Раздевалок не найдено",
+    "add": "Добавить раздевалку"
+  }
+}

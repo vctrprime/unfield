@@ -62,13 +62,30 @@ export const Header = () => {
     const toAdmin = () => {
         navigate("/admin")
     }
+
+    const routesWithBackButton = ["locker-rooms"];
+    
+    const routeWithoutStadiumList = ():boolean => {
+        return routesWithBackButton.filter(r => window.location.pathname.indexOf(r + "/") !== -1).length > 0 
+            || window.location.pathname.startsWith("/lk/accounts");
+    }
+    
+    
+    const BackButton = () => {
+        const parts = window.location.pathname.split("/");
+        const route = parts[parts.length-2];
+        
+        return routesWithBackButton.find(r => r == route) !== undefined ?
+            <div className="back-button" onClick={() => navigate(`/lk/${parts[parts.length-3]}/${route}`)}>{t(`offers:back_buttons:${route.replace('-', '_')}`)}</div> :
+            <span/>
+    }
     
     return (
         <div className="border-bottom navbar navbar-light box-shadow lk-header">
             <ProfileModal open={profileModal} setOpen={setProfileModal}/>
             {stadium !== null && 
                 <div className="stadium-list">
-                    <div style={window.location.pathname.startsWith("/lk/accounts") ? {display: "none"} : {}}>
+                    <div style={routeWithoutStadiumList() ? {display: "none"} : {}}>
                         {t("common:lk_header:current_stadium_title")}:  &nbsp;
                         <Dropdown
                             onChange={changeStadium}
@@ -84,6 +101,7 @@ export const Header = () => {
                             <span title={t("accounts:header_notification_line2")|| ''}>{t("accounts:header_notification_line2")}</span>
                         </div>
                     </div>
+                    <BackButton />
                 </div>}
             
             <div className="header-right-container">

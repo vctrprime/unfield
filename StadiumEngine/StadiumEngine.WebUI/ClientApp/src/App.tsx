@@ -4,7 +4,7 @@ import {Routes, Route } from "react-router-dom";
 import {Home} from "./components/portal/Home";
 import {Layout as LkLayout} from "./components/lk/Layout";
 import {Layout as AdminLayout} from "./components/admin/Layout";
-import {Actives} from "./components/lk/actives/Actives";
+import {Offers} from "./components/lk/offers/Offers";
 import {Schedule} from "./components/lk/schedule/Schedule";
 import {Main} from "./components/lk/Main";
 import {SignIn} from "./components/lk/auth/SignIn";
@@ -39,6 +39,9 @@ import {authAtom} from "./state/auth";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "./services/AccountsService";
 import {t} from "i18next";
+import {LockerRooms} from "./components/lk/offers/LockerRooms";
+import {LockerRoom} from "./components/lk/offers/LockerRoom";
+import {Fields} from "./components/lk/offers/Fields";
 
 const ReactNotifications = require('react-notifications');
 const { NotificationContainer } = ReactNotifications;
@@ -70,17 +73,11 @@ const App = () => {
         if (prev !== current) {
             if (window.location.pathname.startsWith("/lk")) {
                 prevUserRef.current = user;
-                if (window.location.pathname === "/lk/sign-in") {
-                    if (user?.isAdmin) {
-                        window.location.href = `/admin`;
-                    }
-                    else {
-                        window.location.href = `/lk`;
-                    }
-                    
+                if (window.location.pathname === "/lk/sign-in" && user?.isAdmin) {
+                    window.location.href = `/admin`;
                 }
                 else {
-                    window.location.reload();
+                    window.location.href = `/lk`;
                 }
             }
             if (window.location.pathname.startsWith("/admin")) {
@@ -115,7 +112,12 @@ const App = () => {
               <Route path="/lk/sign-in" element={<SignIn />} />
               <Route path="/lk" element={<ProtectedRoute component={LkLayout}  />}>
                   <Route path="" element={<Main />} />
-                  <Route path="actives" element={<Actives />} />
+                  <Route path="offers" element={<Offers />}>
+                      <Route path="fields" element={<Fields />}/>
+                      <Route path="locker-rooms" element={<LockerRooms />}/>
+                  </Route>
+                  <Route path="offers/locker-rooms/:id" element={<LockerRoom />} />
+                  
                   <Route path="schedule" element={<Schedule />} />
                   <Route path="employees" element={<Employees />} />
                   <Route path="reports" element={<Reports />} />

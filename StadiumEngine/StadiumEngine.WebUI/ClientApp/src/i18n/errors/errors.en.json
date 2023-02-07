@@ -18,5 +18,8 @@
     "delete_role_has_bindings": "Role has associated entities",
     "incorrect_phone_number": "Phone number entered incorrectly",
     "login_already_exist": "User with this phone number already exists"
+  },
+  "offers": {
+    "locker_room_not_found": "Locker room not found"
   }
 }

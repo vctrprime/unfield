@@ -4,6 +4,10 @@ export function getTitle(path: string) : string {
     return t(path) + " - Stadium Engine";
 }
 
+export function getDataTitle(name: string) : string {
+    return name + " - Stadium Engine";
+}
+
 export const getOverlayNoRowsTemplate = () => {
     return '<span />';
 }

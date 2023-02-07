@@ -99,9 +99,7 @@ export const LegalsGrid = () => {
             {isLoading ? <GridLoading columns={columnDefs}/> : <AgGridReact
                 ref={gridRef}
                 rowData={data}
-                //rowSelection={'single'}
                 columnDefs={columnDefs}
-                //rowDeselection={true}
                 overlayNoRowsTemplate={getOverlayNoRowsTemplate()}
             />}
         </div>
