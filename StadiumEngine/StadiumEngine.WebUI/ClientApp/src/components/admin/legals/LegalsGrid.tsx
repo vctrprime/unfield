@@ -66,7 +66,7 @@ export const LegalsGrid = () => {
         //{field: 'region', headerName: t("admin:legals_grid:region"), width: 300 },
         {field: 'usersCount', cellClass: "grid-center-cell", headerName: t("admin:legals_grid:users_count"), width: 200},
         {field: 'stadiumsCount', cellClass: "grid-center-cell", headerName: t("admin:legals_grid:stadiums_count"), width: 200},
-        {field: 'dateCreated', cellClass: "grid-center-cell without-border", headerName: t("admin:legals_grid:date_created"), width: 170, valueFormatter: dateFormatter},
+        {field: 'dateCreated', cellClass: "grid-center-cell", headerName: t("admin:legals_grid:date_created"), width: 170, valueFormatter: dateFormatter},
     ];
     
     const fetchLegals = () => {

@@ -74,8 +74,22 @@
 }
 
 .grid-container {
+  .fa {
+    font-size: 20px;
+    color: $dark-color;
+  }
+  .toggle {
+    label {
+      margin-bottom: 0;
+    }
+  }
+  
   .grid-center-cell {
     text-align: center;
+  }
+  .grid-vcenter-cell {
+    display: flex;
+    align-items: center;
   }
   .ag-header-cell {
     background-color: #eee;
@@ -147,5 +161,36 @@
     border: 0;
   }
 }
+
+.action-buttons-container {
+  display: flex;
+  width: 100%;
+  
+  .action-buttons-title {
+    display: flex;
+    width: 50%;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    color: $dark-color;
+  }
+  .action-buttons {
+    display: flex;
+    width: 50%;
+    align-items: center;
+    justify-content: flex-end;
+    height: 30px;
+    padding-right: 10px;
+
+    .action-button {
+      font-size: 20px;
+      cursor: pointer;
+      color: $dark-color;
+    }
+  }
+}
+
 
 

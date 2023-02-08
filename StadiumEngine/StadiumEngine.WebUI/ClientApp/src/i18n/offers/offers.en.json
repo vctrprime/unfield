@@ -6,9 +6,18 @@
   },
   "locker_rooms_grid": {
     "name": "Name",
+    "is_active": "Activity",
     "description": "Description",
+    "gender": "Gender",
     "date_created": "Date Of Creation",
+    "user_created": "Created By",
     "no_rows": "Locker rooms not found",
-    "add": "Add locker room"
+    "add": "Add locker room",
+    "adding": "Adding a locker room",
+    "editing": "Editing locker room",
+    "delete": {
+      "header": "Delete locker room",
+      "question": "Are you sure you want to remove the locker room \"{0}\"?"
+    }
   }
 }

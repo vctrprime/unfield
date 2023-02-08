@@ -1,3 +1,33 @@
+@import "src/css/const.scss";
+
 .locker-rooms-container {
   height: 100%;
+}
+
+.locker-room-form {
+  padding: 15px;
+  
+  #name-input {
+    width: 400px;
+  }
+  
+  .gender-radio-container {
+    display: flex;
+    align-items: center;
+    
+    .gender-radio {
+      margin-left: 10px;
+      
+      label {
+        padding: 0 !important;
+      }
+      
+      i {
+        font-size: 20px;
+        color: $dark-color;
+        margin-left: 5px;
+      }
+      
+    }
+  }
 }
