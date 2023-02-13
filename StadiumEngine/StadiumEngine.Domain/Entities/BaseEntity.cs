@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StadiumEngine.Domain.Entities;
 
-public abstract class BaseEntity 
+public abstract class BaseEntity
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Key, Column("id", Order = 0)]

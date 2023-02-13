@@ -27,6 +27,9 @@ internal class MainDbContext : DbContext
 
     #region offers
     public DbSet<LockerRoom> LockerRooms { get; set; }
+    public DbSet<Field> Fields { get; set; }
+    public DbSet<OffersImage> OffersImages { get; set; }
+    public DbSet<FieldSportKind> FieldSportKinds { get; set; }
     #endregion
         
     public MainDbContext(DbContextOptions<MainDbContext> options)
@@ -47,7 +50,7 @@ internal class MainDbContext : DbContext
             et.FindProperty("DateCreated")!.ValueGenerated = Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.OnAdd;
             
         }
-
+        
         base.OnModelCreating(modelBuilder);
     }
 }

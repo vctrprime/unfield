@@ -45,6 +45,9 @@ public static class ServiceCollectionExtensions
 
         #region offers
         services.AddScoped<ILockerRoomRepository, LockerRoomRepository>();
+        services.AddScoped<IOffersImageRepository, OffersImageRepository>();
+        services.AddScoped<IFieldRepository, FieldRepository>();
+        services.AddScoped<IFieldSportKindRepository, FieldSportKindRepository>();
         #endregion
         
         return services;

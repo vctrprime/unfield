@@ -73,5 +73,13 @@ public class User : BaseUserEntity
     public virtual ICollection<LockerRoom> CreatedLockerRooms { get; set; }
     [InverseProperty("UserModified")]
     public virtual ICollection<LockerRoom> LastModifiedLockerRooms { get; set; }
+    
+    [InverseProperty("UserCreated")]
+    public virtual ICollection<Field> CreatedFields { get; set; }
+    [InverseProperty("UserModified")]
+    public virtual ICollection<Field> LastModifiedFields { get; set; }
+    
+    [InverseProperty("UserCreated")]
+    public virtual ICollection<OffersImage> CreatedOffersImages { get; set; }
 
 }

@@ -29,4 +29,5 @@ public class Stadium : BaseEntity
     
     public virtual ICollection<RoleStadium> RoleStadiums { get; set; }
     public virtual ICollection<LockerRoom> LockerRooms { get; set; }
+    public virtual ICollection<Field> Fields { get; set; }
 }

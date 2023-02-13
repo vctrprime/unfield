@@ -16,6 +16,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISmsSender, SmsSender>();
         services.AddScoped<IPhoneNumberChecker, PhoneNumberChecker>();
         services.AddScoped<IPasswordValidator, PasswordValidator>();
+        services.AddScoped<IImageService, ImageService>();
     }
     
     

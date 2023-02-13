@@ -20,6 +20,7 @@
       "login_already_exist": "Пользователь с таким номером телефона уже существует"
     },
     "offers": {
-        "locker_room_not_found": "Раздевалка не найдена"
+        "locker_room_not_found": "Раздевалка не найдена",
+        "field_not_found": "Площадка не найдена"
     }
 }
