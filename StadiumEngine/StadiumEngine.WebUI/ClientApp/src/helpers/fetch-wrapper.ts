@@ -28,13 +28,14 @@ function useFetchWrapper() {
                     successMessage = null as unknown as string, 
                     withSpinner = true,
                     hideSpinner = true,
-                    showErrorAlert = true
+                    showErrorAlert = true,
+                    contentType = 'application/json'
                 } = {}) => {
             if (withSpinner) setLoading(true);
             const requestOptions: RequestInit = {
                 method,
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': contentType
                 }
             };
             if (body) {

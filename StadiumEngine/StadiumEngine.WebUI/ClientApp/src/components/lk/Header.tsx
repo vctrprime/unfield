@@ -63,7 +63,7 @@ export const Header = () => {
         navigate("/admin")
     }
 
-    const routesWithBackButton = ["locker-rooms"];
+    const routesWithBackButton = ["locker-rooms", "fields"];
     
     const routeWithoutStadiumList = ():boolean => {
         return routesWithBackButton.filter(r => window.location.pathname.indexOf(r + "/") !== -1).length > 0 

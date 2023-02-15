@@ -42,6 +42,7 @@ import {t} from "i18next";
 import {LockerRooms} from "./components/lk/offers/LockerRooms";
 import {LockerRoom} from "./components/lk/offers/LockerRoom";
 import {Fields} from "./components/lk/offers/Fields";
+import {Field} from "./components/lk/offers/Field";
 
 const ReactNotifications = require('react-notifications');
 const { NotificationContainer } = ReactNotifications;
@@ -117,6 +118,7 @@ const App = () => {
                       <Route path="locker-rooms" element={<LockerRooms />}/>
                   </Route>
                   <Route path="offers/locker-rooms/:id" element={<LockerRoom />} />
+                  <Route path="offers/fields/:id" element={<Field />} />
                   
                   <Route path="schedule" element={<Schedule />} />
                   <Route path="employees" element={<Employees />} />

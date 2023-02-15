@@ -13,7 +13,9 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
 
     public async Task<List<Field>> GetAll(int stadiumId)
     {
-        return await Entities.Where(f => f.StadiumId == stadiumId && !f.IsDeleted).ToListAsync();
+        return await Entities
+            .Where(f => f.StadiumId == stadiumId && !f.IsDeleted)
+            .ToListAsync();
     }
 
     public async Task<Field?> Get(int fieldId,int stadiumId)

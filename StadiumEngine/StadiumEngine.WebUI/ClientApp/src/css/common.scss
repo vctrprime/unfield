@@ -90,6 +90,11 @@
   .grid-vcenter-cell {
     display: flex;
     align-items: center;
+    justify-content: center;
+  }
+  .no-vborder {
+    border-bottom: 0 !important;
+    border-top: 0 !important;
   }
   .ag-header-cell {
     background-color: #eee;
@@ -188,6 +193,96 @@
       font-size: 20px;
       cursor: pointer;
       color: $dark-color;
+    }
+  }
+}
+
+.tree-parent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  
+  .square {
+    width: 20px;
+    height: 20px;
+    background-color: $dark-color;
+    opacity: 0.8;
+    border-radius: 3px;
+  }
+  .line {
+    width: 2px;
+    height: 10px;
+    background-color: #ddd;
+  }
+}
+
+.tree-child {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  
+  .empty {
+    width: 5px;
+    height: 20px;
+  }
+  
+  .line {
+    width: 2px;
+    height: 100%;
+    background-color: #ddd;
+  }
+
+  .round-line {
+    width: 5px;
+    height: 2px;
+    background-color: #ddd;
+    
+    .round {
+      width: 15px;
+      height: 15px;
+      background-color: $blue-color;
+      border: 1px solid #ddd;
+      border-radius: 50%;
+      position: absolute;
+      top: 13px;
+      right: 3px;
+    }
+  }
+}
+
+.tree-last-child {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100%;
+  width: 100%;
+  
+  .empty {
+    width: 23px;
+    height: 20px;
+  }
+  .line {
+    width: 25px;
+    height: 21px;
+    border: 2px solid #ddd;
+    border-top: none;
+    border-right: none;
+    border-bottom-left-radius: 5px;
+    
+    .round {
+      width: 15px;
+      height: 15px;
+      background-color: $blue-color;
+      border: 1px solid #ddd;
+      border-radius: 50%;
+      position: absolute;
+      top: 12px;
+      right: 3px;
     }
   }
 }

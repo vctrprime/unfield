@@ -18,6 +18,7 @@ internal class OffersProfile : Profile
         CreateMap<AddLockerRoomCommand, LockerRoom>();
 
         CreateMap<Field, FieldDto>()
+            .IncludeBase<BaseUserEntity, BaseEntityDto>()
             .ForMember(dest => dest.SportKinds, act => act.MapFrom(s => s.FieldSportKinds.Select(k => k.SportKind).ToList()))
             .ForMember(dest => dest.Images, act => act.MapFrom(s => s.Images.OrderBy(i => i.Order).Select(i => i.Path).ToList()));
         CreateMap<AddFieldCommand, Field>()

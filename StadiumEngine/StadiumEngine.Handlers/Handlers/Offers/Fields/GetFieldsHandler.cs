@@ -22,6 +22,22 @@ internal sealed class GetFieldsHandler : BaseRequestHandler<GetFieldsQuery, List
 
         var fieldsDto = Mapper.Map<List<FieldDto>>(fields);
 
-        return fieldsDto;
+        var sortedFieldsDto = new List<FieldDto>();
+
+        foreach (var fieldDto in fieldsDto.Where(x => !x.ParentFieldId.HasValue).OrderBy(x => x.Id))
+        {
+            sortedFieldsDto.Add(fieldDto);
+            var sortedChildren = fieldsDto.Where(x => x.ParentFieldId == fieldDto.Id).OrderBy(x => x.Id).ToList();
+            
+            if (!sortedChildren.Any()) continue;
+            
+            var lastChild = sortedChildren.Last();
+            lastChild.IsLastChild = true;
+                
+            sortedFieldsDto.AddRange(sortedChildren);
+
+        }
+        
+        return sortedFieldsDto;
     }
 }

@@ -78,7 +78,7 @@ export const LockerRoom = () => {
                 isActive: isActive,
                 gender: editingGender
             }
-            offersService.saveLockerRoom(command).then(() => {
+            offersService.addLockerRoom(command).then(() => {
                 navigate("/lk/offers/locker-rooms");
             })
         }

@@ -5,7 +5,7 @@ namespace StadiumEngine.DTO.Offers.Fields;
 /// <summary>
 /// ДТО площадки
 /// </summary>
-public class FieldDto
+public class FieldDto : BaseEntityDto
 {
     /// <summary>
     /// Id
@@ -56,4 +56,10 @@ public class FieldDto
     ///  Активность
     /// </summary>
     public bool IsActive { get; set; }
+    
+    /// <summary>
+    /// Последний потомок в группе
+    /// </summary>
+    public bool IsLastChild { get; set; }
+    
 }
