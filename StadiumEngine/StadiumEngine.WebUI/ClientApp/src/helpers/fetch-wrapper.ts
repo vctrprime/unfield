@@ -34,12 +34,18 @@ function useFetchWrapper() {
             if (withSpinner) setLoading(true);
             const requestOptions: RequestInit = {
                 method,
-                headers: {
+                headers: contentType === null ? {} : {
                     'Content-Type': contentType
                 }
             };
             if (body) {
-                requestOptions.body = JSON.stringify(body);
+                if (contentType === null) {
+                    requestOptions.body = body;
+                }
+                else {
+                    requestOptions.body = JSON.stringify(body);
+                }
+                
             }
             return fetch(url, requestOptions).then((response) => handleResponse(response, successMessage, hideSpinner, withSpinner, showErrorAlert));
         }

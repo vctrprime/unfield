@@ -79,7 +79,7 @@ export class OffersService extends BaseService implements IOffersService {
         return this.fetchWrapper.put({
             url: `${this.baseUrl}/fields`,
             body: command,
-            contentType: 'multipart/form-data',
+            contentType: null,
             successMessage: t('common:success_request')
         })
     }
@@ -88,7 +88,7 @@ export class OffersService extends BaseService implements IOffersService {
         return this.fetchWrapper.post({
             url: `${this.baseUrl}/locker-rooms`,
             body: command,
-            contentType: 'multipart/form-data',
+            contentType: null,
             successMessage: t('common:success_request')
         })
     }

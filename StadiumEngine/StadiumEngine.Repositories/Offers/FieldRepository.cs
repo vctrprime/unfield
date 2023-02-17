@@ -15,6 +15,8 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
     {
         return await Entities
             .Where(f => f.StadiumId == stadiumId && !f.IsDeleted)
+            .Include(f => f.FieldSportKinds)
+            .Include(f => f.Images)
             .ToListAsync();
     }
 

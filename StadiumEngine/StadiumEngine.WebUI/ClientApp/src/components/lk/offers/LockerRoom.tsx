@@ -26,7 +26,7 @@ export const LockerRoom = () => {
 
     const fetchLockerRoom = () => {
         if (lockerRoomId > 0) {
-            offersService.getLockerRoom(parseInt(id||"0")).then((result: LockerRoomDto) => {
+            offersService.getLockerRoom(lockerRoomId).then((result: LockerRoomDto) => {
                 setData(result);
                 setEditingGender(result.gender);
                 setIsActive(result.isActive);

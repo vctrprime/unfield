@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {getOverlayNoRowsTemplate, getTitle} from "../../../helpers/utils";
+import {getFieldBasicFormData, getOverlayNoRowsTemplate, getTitle} from "../../../helpers/utils";
 import {Button, Checkbox} from "semantic-ui-react";
 import {t} from "i18next";
 import {GridLoading} from "../common/GridLoading";
@@ -17,6 +17,7 @@ import {FieldDto} from "../../../models/dto/offers/FieldDto";
 import {Parent} from "../../common/tree/Parent";
 import {Child} from "../../common/tree/Child";
 import {FieldCoveringType} from "../../../models/dto/offers/enums/FieldCoveringType";
+import {FieldSportKind} from "../../../models/dto/offers/enums/FieldSportKind";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -61,18 +62,29 @@ export const Fields = () => {
         return obj.data.parentFieldId ?  <Child isLastChild={obj.data.isLastChild} /> : <Parent/>
     }
     
-    const toggleIsActive = (nodeId: number, data: LockerRoomDto) => {
-        /*const command: UpdateLockerRoomCommand = {
-            id: data.id,
-            name: data.name,
-            description: data.description,
-            gender: data.gender,
-            isActive: !data.isActive
+    const toggleIsActive = (nodeId: number, data: FieldDto) => {
+        const isActive = !data.isActive;
+        
+        const form = getFieldBasicFormData(data);
+        
+        form.append("isActive", isActive.toString());
+        for (let i = 0; i < data.sportKinds.length; i++) {
+            form.append('sportKinds['+i+']', data.sportKinds[i].toString());
         }
-        offersService.updateLockerRoom(command).then(() => {
+        for (let i = 0; i < data.images.length; i++) {
+            form.append('images['+i+'].path', data.images[i]);
+            form.append('images['+i+'].formFile', '');
+        }
+        
+        form.forEach((value, key) => {
+            console.log(key, value);
+        })
+
+
+        offersService.updateField(form).then(() => {
             const rowNode = gridRef.current.api.getRowNode(nodeId);
-            rowNode.setDataValue('isActive', command.isActive);
-        });*/
+            rowNode.setDataValue('isActive', isActive);
+        });
     }
 
     const columnDefs = [
