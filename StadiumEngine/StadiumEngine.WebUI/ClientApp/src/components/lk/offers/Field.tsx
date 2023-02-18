@@ -6,7 +6,9 @@ import {FieldDto} from "../../../models/dto/offers/FieldDto";
 import {getDataTitle, getTitle, StringFormat} from "../../../helpers/utils";
 import {ActionButtons} from "../../common/actions/ActionButtons";
 import {t} from "i18next";
-import {Checkbox, Form} from "semantic-ui-react";
+import {Button, Checkbox, Dropdown, Form} from "semantic-ui-react";
+import {FieldCoveringType} from "../../../models/dto/offers/enums/FieldCoveringType";
+import {FieldSportKind} from "../../../models/dto/offers/enums/FieldSportKind";
 
 export const Field = () => {
     let { id } = useParams();
@@ -15,6 +17,8 @@ export const Field = () => {
     const [isError, setIsError] = useState<boolean>(false);
     const [isActive, setIsActive] = useState<boolean>(false)
     const [fieldId, setFieldId] = useState(parseInt(id||"0"))
+    
+    const [parentFields, setParentFields] = useState<FieldDto[]>([]);
 
     const [offersService] = useInject<IOffersService>('OffersService');
 
@@ -31,9 +35,16 @@ export const Field = () => {
             setIsActive(true);
         }
     }
+    
+    const fetchParentFields = () => {
+        offersService.getFields().then((result: FieldDto[]) => {
+            setParentFields(result.filter(f => f.parentFieldId === null && f.id !== fieldId));
+        })
+    }
 
     useEffect(() => {
         fetchField();
+        fetchParentFields();
     }, [])
 
     useEffect(() => {
@@ -44,15 +55,49 @@ export const Field = () => {
             document.title = getTitle("offers:fields_tab")
         }
     }, [data])
+    
+    const coveringTypes = () => {
+        const result = [];
+        for (let item in FieldCoveringType) {
+            if (!isNaN(Number(item))) {
+                const value = FieldCoveringType[item];
+                const text = t("offers:coverings:" + value.toLowerCase());
+
+                result.push({
+                    key: item,
+                    value: Number(item),
+                    text: text
+                })
+            }
+        }
+        return result;
+    }
+
+    const sportKinds = () => {
+        const result = [];
+        for (let item in FieldSportKind) {
+            if (!isNaN(Number(item))) {
+                const value = FieldSportKind[item];
+                const text = t("offers:sports:" + value.toLowerCase());
+
+                result.push({
+                    key: item,
+                    value: Number(item),
+                    text: text
+                })
+            }
+        }
+        
+        return result;
+    }
 
     const nameInput = useRef<any>();
     const descriptionInput = useRef<any>();
+    const widthInput = useRef<any>();
+    const lengthInput = useRef<any>();
 
     const validate = (): boolean => {
-        if (
-            nameInput.current?.value === undefined ||
-            nameInput.current?.value === null ||
-            nameInput.current?.value === '') {
+        if (!nameInput.current?.value) {
             nameInput.current.style.border = "1px solid red";
             setTimeout(() => {
                 nameInput.current.style.border = "";
@@ -116,10 +161,74 @@ export const Field = () => {
                 <label>{t("offers:fields_grid:name")}</label>
                 <input id="name-input" ref={nameInput} placeholder={t("offers:fields_grid:name")||''} defaultValue={data?.name || ''}/>
             </Form.Field>
+            <Form.Field >
+                <label>{t("offers:fields_grid:size")}</label>
+                <div className="field-size-cont">
+                    <input className="field-size-input" type="number" id="length-input" ref={lengthInput} placeholder={t("offers:fields_grid:length")||''} defaultValue={data?.length || ''}/>
+                    X
+                    <input className="field-size-input" type="number" id="width-input" ref={widthInput} placeholder={t("offers:fields_grid:width")||''} defaultValue={data?.width || ''}/>
+                </div>
+            </Form.Field>
             <Form.Field>
                 <label>{t("offers:fields_grid:description")}</label>
                 <textarea id="description-input" ref={descriptionInput} rows={4} placeholder={t("offers:fields_grid:description")||''} defaultValue={data?.description || ''}/>
             </Form.Field>
+            <Form.Field >
+                <label>{t("offers:fields_grid:covering")}</label>
+                <Dropdown
+                    placeholder={t("offers:fields_grid:covering")||''}
+                    fluid
+                    search
+                    style={{width: "300px"}}
+                    selection
+                    value={data?.coveringType||1}
+                    options={coveringTypes()}
+                />
+            </Form.Field>
+            <Form.Field >
+                <label>{t("offers:fields_grid:available_sport_kinds")}</label>
+                <Dropdown
+                    placeholder={t("offers:fields_grid:available_sport_kinds")||''}
+                    fluid
+                    search
+                    multiple
+                    style={{width: "500px"}}
+                    selection
+                    value={data?.sportKinds||[]}
+                    options={sportKinds()}
+                />
+            </Form.Field>
+            {parentFields.length > 0 && <Form.Field >
+                <label>{t("offers:fields_grid:parent_field")}</label>
+                <div style={{fontSize: '12px', lineHeight: '12px'}}>{t("offers:fields_grid:parent_field_hint")}</div>
+                <Dropdown
+                    placeholder={t("offers:fields_grid:parent_field")||''}
+                    clearable
+                    style={{width: "300px", marginTop: '10px'}}
+                    selection
+                    value={data?.parentFieldId||''}
+                    options={parentFields.map((f) => {
+                        return {
+                            key: f.id.toString(),
+                            value: f.id,
+                            text: f.name
+                        }
+                    })}
+                />
+            </Form.Field>}
+            <Form.Field>
+                <label>{t("offers:fields_grid:images")}</label>
+                <Button>{t('offers:fields_grid:upload_images')}</Button>
+                <div className="field-images">
+                    {data?.images.map((img, index) => {
+                        return <div key={index} className="field-image">
+                            <div className="tools"></div>
+                            <img alt="" src={"/legal-images/" + img}/>
+                        </div>
+                    })}
+                </div>
+            </Form.Field>
+            
         </Form>
     </div>);
 }

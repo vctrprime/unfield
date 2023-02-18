@@ -31,3 +31,43 @@
     }
   }
 }
+
+.field-form {
+  .field-size-cont {
+    display: flex;
+    align-items: center;
+    
+    .field-size-input {
+      width: 100px !important;
+      
+      &#width-input {
+        margin-left: 5px;
+      }
+      &#length-input {
+        margin-right: 5px;
+      }
+    }
+  }
+  
+  .field-images {
+    
+    .field-image {
+      height: 300px;
+      float: left;
+      padding: 5px;
+      
+      .tools {
+        height: 32px;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+      
+      img {
+        height: calc(100% - 32px);
+        max-width: 400px;
+      }
+    }
+  }
+}

@@ -170,6 +170,10 @@
 .action-buttons-container {
   display: flex;
   width: 100%;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 100;
   
   .action-buttons-title {
     display: flex;
@@ -186,7 +190,7 @@
     width: 50%;
     align-items: center;
     justify-content: flex-end;
-    height: 30px;
+    height: 40px;
     padding-right: 10px;
 
     .action-button {

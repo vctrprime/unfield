@@ -7,7 +7,7 @@ export const ActionButtons = ({title,
                                   deleteAction = null,
                                   deleteHeader = null,
                                   deleteQuestion = null }: any) => {
-    return <div className="action-buttons-container">
+    return <div className="action-buttons-container box-shadow">
         <div className="action-buttons-title">
             {title}
         </div>

@@ -19,10 +19,7 @@ export const ChangePasswordForm = ({setOpen}: any) => {
         let hasErrors = false;
         const inputs = [oldPasswordInput, newPasswordInput, newPasswordAgainInput];
         inputs.forEach((input) => {
-            if (
-                input.current?.value === undefined ||
-                input.current?.value === null ||
-                input.current?.value === '') {
+            if (!input.current?.value) {
                 input.current.style.border = "1px solid red";
                 setTimeout(() => {
                     input.current.style.border = "";

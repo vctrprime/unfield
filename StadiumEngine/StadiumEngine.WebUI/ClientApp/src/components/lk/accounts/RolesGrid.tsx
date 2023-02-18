@@ -114,10 +114,7 @@ export const RolesGrid = ({setSelectedRole} : any) => {
     const [error, setError] = useState<string|null>(null);
     
     const validate = (): boolean => {
-        if (
-        nameInput.current?.value === undefined ||
-        nameInput.current?.value === null ||
-        nameInput.current?.value === '') {
+        if (!nameInput.current?.value) {
             nameInput.current.style.border = "1px solid red";
             setTimeout(() => {
                 nameInput.current.style.border = "";

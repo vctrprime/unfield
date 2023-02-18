@@ -55,10 +55,7 @@ export const LockerRoom = () => {
     const descriptionInput = useRef<any>();
 
     const validate = (): boolean => {
-        if (
-            nameInput.current?.value === undefined ||
-            nameInput.current?.value === null ||
-            nameInput.current?.value === '') {
+        if (!nameInput.current?.value) {
             nameInput.current.style.border = "1px solid red";
             setTimeout(() => {
                 nameInput.current.style.border = "";
