@@ -14,10 +14,11 @@ import {AddLockerRoomCommand} from "../../../models/command/offers/AddLockerRoom
 export const LockerRoom = () => {
     let { id } = useParams();
     
-    const [data, setData] = useState<LockerRoomDto|null>(null);
+    const [data, setData] = useState<LockerRoomDto>({
+        gender: LockerRoomGender.Male,
+        isActive: true
+    } as LockerRoomDto);
     const [isError, setIsError] = useState<boolean>(false);
-    const [editingGender, setEditingGender] = useState<LockerRoomGender>(0);
-    const [isActive, setIsActive] = useState<boolean>(false)
     const [lockerRoomId, setLockerRoomId] = useState(parseInt(id||"0"))
     
     const [offersService] = useInject<IOffersService>('OffersService');
@@ -28,13 +29,7 @@ export const LockerRoom = () => {
         if (lockerRoomId > 0) {
             offersService.getLockerRoom(lockerRoomId).then((result: LockerRoomDto) => {
                 setData(result);
-                setEditingGender(result.gender);
-                setIsActive(result.isActive);
             }).catch(() => setIsError(true));
-        }
-        else {
-            setEditingGender(2);
-            setIsActive(true);
         }
     }
 
@@ -43,7 +38,7 @@ export const LockerRoom = () => {
     }, [])
     
     useEffect(() => {
-        if (data !== null) {
+        if (data.name !== undefined && data.name !== null) {
             document.title = getDataTitle(data.name);
         }
         else {
@@ -72,8 +67,8 @@ export const LockerRoom = () => {
             const command: AddLockerRoomCommand = {
                 name: nameInput.current?.value,
                 description: descriptionInput.current?.value,
-                isActive: isActive,
-                gender: editingGender
+                isActive: data.isActive,
+                gender: data.gender
             }
             offersService.addLockerRoom(command).then(() => {
                 navigate("/lk/offers/locker-rooms");
@@ -87,8 +82,8 @@ export const LockerRoom = () => {
                 id: lockerRoomId,
                 name: nameInput.current?.value,
                 description: descriptionInput.current?.value,
-                isActive: isActive,
-                gender: editingGender
+                isActive: data.isActive,
+                gender: data.gender
             }
             offersService.updateLockerRoom(command).then(() => {
                 navigate("/lk/offers/locker-rooms");
@@ -100,6 +95,20 @@ export const LockerRoom = () => {
         offersService.deleteLockerRoom(lockerRoomId).then(() => {
             navigate("/lk/offers/locker-rooms");
         })
+    }
+
+    const changeIsActive = () => {
+        setData({
+            ...data,
+            isActive: !data.isActive
+        });
+    }
+
+    const changeGender = (value: LockerRoomGender) => {
+        setData({
+            ...data,
+            gender: value
+        });
     }
     
     return isError ? <span/> : (<div>
@@ -113,7 +122,7 @@ export const LockerRoom = () => {
              <Form className="locker-room-form">
                  <Form.Field style={{marginBottom: 0}}>
                      <label>{t("offers:locker_rooms_grid:is_active")}</label>
-                     <Checkbox toggle checked={isActive} onChange={() => setIsActive(!isActive)}/>
+                     <Checkbox toggle checked={data.isActive} onChange={() => changeIsActive()}/>
                  </Form.Field>
                 <Form.Field>
                     <label>{t("offers:locker_rooms_grid:name")}</label>
@@ -128,8 +137,8 @@ export const LockerRoom = () => {
                                  label=''
                                  name='genderRadioGroup'
                                  value={2}
-                                 checked={editingGender === 2}
-                                 onChange={() => setEditingGender(2)}
+                                 checked={data.gender === LockerRoomGender.Male}
+                                 onChange={() => changeGender(LockerRoomGender.Male)}
                              />
                              <i className="fa fa-male" aria-hidden="true"/>
                          </div>
@@ -139,8 +148,8 @@ export const LockerRoom = () => {
                                  label=''
                                  name='genderRadioGroup'
                                  value={1}
-                                 checked={editingGender === 1}
-                                 onChange={() => setEditingGender(1)}
+                                 checked={data.gender === LockerRoomGender.Female}
+                                 onChange={() => changeGender(LockerRoomGender.Female)}
                              />
                              <i className="fa fa-female" aria-hidden="true"/>
                          </div>
@@ -150,8 +159,8 @@ export const LockerRoom = () => {
                                  label=''
                                  name='genderRadioGroup'
                                  value={3}
-                                 checked={editingGender === 3}
-                                 onChange={() => setEditingGender(3)}
+                                 checked={data.gender === LockerRoomGender.All}
+                                 onChange={() => changeGender(LockerRoomGender.All)}
                              />
                              <i className="fa fa-male" aria-hidden="true"/>
                              <i style={{marginLeft: 0}} className="fa fa-female" aria-hidden="true"/>

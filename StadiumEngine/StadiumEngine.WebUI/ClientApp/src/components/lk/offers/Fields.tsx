@@ -59,31 +59,22 @@ export const Fields = () => {
     }
     
     const TreeColumnRenderer = (obj: any) => {
-        return obj.data.parentFieldId ?  <Child isLastChild={obj.data.isLastChild} /> : <Parent/>
+        return obj.data.parentFieldId ?  <Child isLastChild={obj.data.isLastChild} /> : <Parent hasChild={data.filter(f => f.parentFieldId === obj.data.id).length > 0}/>
     }
     
     const toggleIsActive = (nodeId: number, data: FieldDto) => {
-        const isActive = !data.isActive;
+        data.isActive = !data.isActive;
         
         const form = getFieldBasicFormData(data);
         
-        form.append("isActive", isActive.toString());
-        for (let i = 0; i < data.sportKinds.length; i++) {
-            form.append('sportKinds['+i+']', data.sportKinds[i].toString());
-        }
         for (let i = 0; i < data.images.length; i++) {
             form.append('images['+i+'].path', data.images[i]);
             form.append('images['+i+'].formFile', '');
         }
         
-        form.forEach((value, key) => {
-            console.log(key, value);
-        })
-
-
         offersService.updateField(form).then(() => {
             const rowNode = gridRef.current.api.getRowNode(nodeId);
-            rowNode.setDataValue('isActive', isActive);
+            rowNode.setDataValue('isActive', data.isActive);
         });
     }
 

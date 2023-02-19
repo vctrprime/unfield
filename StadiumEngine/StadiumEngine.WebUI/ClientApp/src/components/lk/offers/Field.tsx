@@ -3,20 +3,36 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useInject} from "inversify-hooks";
 import {IOffersService} from "../../../services/OffersService";
 import {FieldDto} from "../../../models/dto/offers/FieldDto";
-import {getDataTitle, getTitle, StringFormat} from "../../../helpers/utils";
+import {getDataTitle, getFieldBasicFormData, getTitle, StringFormat} from "../../../helpers/utils";
 import {ActionButtons} from "../../common/actions/ActionButtons";
 import {t} from "i18next";
 import {Button, Checkbox, Dropdown, Form} from "semantic-ui-react";
 import {FieldCoveringType} from "../../../models/dto/offers/enums/FieldCoveringType";
 import {FieldSportKind} from "../../../models/dto/offers/enums/FieldSportKind";
 
+interface PassedImage {
+    path?: string;
+    formFile?: File
+}
+//toDo операции с изображениями
+//toDo запрет удаления родительской если есть потомки (и фронт и бэк)
+//toDo показ связанных площадок
+//toDo подумать что еще можно вывести в таблицу
+
 export const Field = () => {
     let { id } = useParams();
 
-    const [data, setData] = useState<FieldDto|null>(null);
+    const [data, setData] = useState<FieldDto>({
+        images: [] as string[],
+        isActive: true,
+        coveringType: FieldCoveringType.Natural,
+        sportKinds: [] as FieldSportKind[],
+        parentFieldId: null
+    } as FieldDto);
+    
+    const [passedImages, setPassedImages] = useState<PassedImage[]>([])
     const [isError, setIsError] = useState<boolean>(false);
-    const [isActive, setIsActive] = useState<boolean>(false)
-    const [fieldId, setFieldId] = useState(parseInt(id||"0"))
+    const [fieldId, setFieldId] = useState(parseInt(id||"0"));
     
     const [parentFields, setParentFields] = useState<FieldDto[]>([]);
 
@@ -28,11 +44,12 @@ export const Field = () => {
         if (fieldId > 0) {
             offersService.getField(fieldId).then((result: FieldDto) => {
                 setData(result);
-                setIsActive(result.isActive);
+                setPassedImages(result.images.map((image) => {
+                    return {
+                        path: image
+                    } as PassedImage
+                }));
             }).catch(() => setIsError(true));
-        }
-        else {
-            setIsActive(true);
         }
     }
     
@@ -48,7 +65,7 @@ export const Field = () => {
     }, [])
 
     useEffect(() => {
-        if (data !== null) {
+        if (data.name !== undefined && data.name !== null) {
             document.title = getDataTitle(data.name);
         }
         else {
@@ -56,7 +73,7 @@ export const Field = () => {
         }
     }, [data])
     
-    const coveringTypes = () => {
+    const coveringTypesAll = () => {
         const result = [];
         for (let item in FieldCoveringType) {
             if (!isNaN(Number(item))) {
@@ -73,7 +90,7 @@ export const Field = () => {
         return result;
     }
 
-    const sportKinds = () => {
+    const sportKindsAll = () => {
         const result = [];
         for (let item in FieldSportKind) {
             if (!isNaN(Number(item))) {
@@ -90,51 +107,96 @@ export const Field = () => {
         
         return result;
     }
+    
+    const changeIsActive = () => {
+        setData({
+            ...data,
+            isActive: !data.isActive
+        });
+    }
+
+    const changeCoveringType = (e : any, { value }: any) => {
+        setData({
+            ...data,
+            coveringType: value
+        });
+    }
+
+    const changeSportKinds = (e : any, { value }: any) => {
+        setData({
+            ...data,
+            sportKinds: value
+        });
+    }
+    
+    const changeParentFieldId = (e : any, { value }: any) => {
+        setData({
+            ...data,
+            parentFieldId: value
+        });
+    }
 
     const nameInput = useRef<any>();
     const descriptionInput = useRef<any>();
     const widthInput = useRef<any>();
     const lengthInput = useRef<any>();
+    const hiddenUploadInput = useRef<any>(null)
 
     const validate = (): boolean => {
-        if (!nameInput.current?.value) {
-            nameInput.current.style.border = "1px solid red";
-            setTimeout(() => {
-                nameInput.current.style.border = "";
-            }, 2000);
-            return false;
-        }
-        else {
-            return true;
-        }
+        let hasErrors = false;
+        const inputs = [nameInput, widthInput, lengthInput];
+        
+        inputs.forEach((input) => {
+            if (!input.current?.value) {
+                input.current.style.border = "1px solid red";
+                setTimeout(() => {
+                    input.current.style.border = "";
+                }, 2000);
+                hasErrors = true;
+            }
+        })
+        return !hasErrors;
     }
 
     const saveField = () => {
-        if (validate()) {
-            /*const command: AddLockerRoomCommand = {
-                name: nameInput.current?.value,
-                description: descriptionInput.current?.value,
-                isActive: isActive,
-                gender: editingGender
-            }
-            offersService.addLockerRoom(command).then(() => {
-                navigate("/lk/offers/locker-rooms");
-            })*/
-        }
+        saveAction();
     }
 
     const updateField = () => {
+        saveAction();
+    }
+    
+    const saveAction = () => {
         if (validate()) {
-            /*const command: UpdateLockerRoomCommand = {
-                id: lockerRoomId,
-                name: nameInput.current?.value,
-                description: descriptionInput.current?.value,
-                isActive: isActive,
-                gender: editingGender
+            data.name = nameInput.current?.value;
+            data.description = descriptionInput.current?.value;
+            data.width = widthInput.current?.value;
+            data.length = lengthInput.current?.value;
+
+            const form = getFieldBasicFormData(data);
+
+            for (let i = 0; i < passedImages.length; i++) {
+                if (passedImages[i].formFile === undefined) {
+                    form.append('images['+i+'].path', passedImages[i].path||'');
+                    form.append('images['+i+'].formFile', '');
+                }
+                else {
+                    form.append('images['+i+'].path', '');
+                    form.append('images['+i+'].formFile', passedImages[i].formFile||'');
+                }
+
             }
-            offersService.updateLockerRoom(command).then(() => {
-                navigate("/lk/offers/locker-rooms");
-            })*/
+            if (id === "new") {
+                offersService.addField(form).then(() => {
+                    navigate("/lk/offers/fields");
+                });
+            }
+            else {
+                offersService.updateField(form).then(() => {
+                    navigate("/lk/offers/fields");
+                });
+            }
+            
         }
     }
 
@@ -143,6 +205,17 @@ export const Field = () => {
             navigate("/lk/offers/fields");
         })
     }
+    
+    const uploadImages = (e: any) => {
+        const files = Array.from(e.target.files);
+        const newImages = files.map((file: any) => {
+            return {
+                path: URL.createObjectURL(file),
+                formFile: file
+            } as PassedImage
+        })
+        setPassedImages(oldImages => [...oldImages,...newImages] );
+    }
 
     return isError ? <span/> : (<div>
         <ActionButtons
@@ -150,28 +223,28 @@ export const Field = () => {
             saveAction={id === "new" ? saveField : updateField}
             deleteAction={id === "new" ? null : deleteField}
             deleteHeader={id === "new" ? null : t('offers:fields_grid:delete:header')}
-            deleteQuestion={id === "new" ? null : StringFormat(t('offers:fields_grid:delete:question'), data?.name||'')}
+            deleteQuestion={id === "new" ? null : StringFormat(t('offers:fields_grid:delete:question'), data.name||'')}
         />
         <Form className="field-form">
             <Form.Field style={{marginBottom: 0}}>
                 <label>{t("offers:fields_grid:is_active")}</label>
-                <Checkbox toggle checked={isActive} onChange={() => setIsActive(!isActive)}/>
+                <Checkbox toggle checked={data.isActive} onChange={() => changeIsActive()}/>
             </Form.Field>
             <Form.Field>
                 <label>{t("offers:fields_grid:name")}</label>
-                <input id="name-input" ref={nameInput} placeholder={t("offers:fields_grid:name")||''} defaultValue={data?.name || ''}/>
+                <input id="name-input" ref={nameInput} placeholder={t("offers:fields_grid:name")||''} defaultValue={data.name || ''}/>
             </Form.Field>
             <Form.Field >
                 <label>{t("offers:fields_grid:size")}</label>
                 <div className="field-size-cont">
-                    <input className="field-size-input" type="number" id="length-input" ref={lengthInput} placeholder={t("offers:fields_grid:length")||''} defaultValue={data?.length || ''}/>
+                    <input className="field-size-input" type="number" id="length-input" ref={lengthInput} placeholder={t("offers:fields_grid:length")||''} defaultValue={data.length || ''}/>
                     X
-                    <input className="field-size-input" type="number" id="width-input" ref={widthInput} placeholder={t("offers:fields_grid:width")||''} defaultValue={data?.width || ''}/>
+                    <input className="field-size-input" type="number" id="width-input" ref={widthInput} placeholder={t("offers:fields_grid:width")||''} defaultValue={data.width || ''}/>
                 </div>
             </Form.Field>
             <Form.Field>
                 <label>{t("offers:fields_grid:description")}</label>
-                <textarea id="description-input" ref={descriptionInput} rows={4} placeholder={t("offers:fields_grid:description")||''} defaultValue={data?.description || ''}/>
+                <textarea id="description-input" ref={descriptionInput} rows={4} placeholder={t("offers:fields_grid:description")||''} defaultValue={data.description || ''}/>
             </Form.Field>
             <Form.Field >
                 <label>{t("offers:fields_grid:covering")}</label>
@@ -181,8 +254,9 @@ export const Field = () => {
                     search
                     style={{width: "300px"}}
                     selection
-                    value={data?.coveringType||1}
-                    options={coveringTypes()}
+                    onChange={changeCoveringType}
+                    value={data.coveringType}
+                    options={coveringTypesAll()}
                 />
             </Form.Field>
             <Form.Field >
@@ -194,8 +268,9 @@ export const Field = () => {
                     multiple
                     style={{width: "500px"}}
                     selection
-                    value={data?.sportKinds||[]}
-                    options={sportKinds()}
+                    onChange={changeSportKinds}
+                    value={data.sportKinds}
+                    options={sportKindsAll()}
                 />
             </Form.Field>
             {parentFields.length > 0 && <Form.Field >
@@ -206,7 +281,8 @@ export const Field = () => {
                     clearable
                     style={{width: "300px", marginTop: '10px'}}
                     selection
-                    value={data?.parentFieldId||''}
+                    onChange={changeParentFieldId}
+                    value={data.parentFieldId||undefined}
                     options={parentFields.map((f) => {
                         return {
                             key: f.id.toString(),
@@ -218,12 +294,15 @@ export const Field = () => {
             </Form.Field>}
             <Form.Field>
                 <label>{t("offers:fields_grid:images")}</label>
-                <Button>{t('offers:fields_grid:upload_images')}</Button>
+                <Button onClick={() => hiddenUploadInput?.current?.click()}>{t('offers:fields_grid:upload_images')}</Button>
+                <input ref={hiddenUploadInput} style={{display: 'none'}} type="file" multiple onChange={uploadImages} />
                 <div className="field-images">
-                    {data?.images.map((img, index) => {
+                    {passedImages.map((img, index) => {
+                        const src = img.formFile !== undefined ? img.path : "/legal-images/" + img.path;
+                        
                         return <div key={index} className="field-image">
                             <div className="tools"></div>
-                            <img alt="" src={"/legal-images/" + img}/>
+                            <img alt="" src={src}/>
                         </div>
                     })}
                 </div>

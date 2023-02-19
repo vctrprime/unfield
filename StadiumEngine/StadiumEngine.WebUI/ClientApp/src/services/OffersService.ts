@@ -86,7 +86,7 @@ export class OffersService extends BaseService implements IOffersService {
 
     addField(command: FormData): Promise<void> {
         return this.fetchWrapper.post({
-            url: `${this.baseUrl}/locker-rooms`,
+            url: `${this.baseUrl}/fields`,
             body: command,
             contentType: null,
             successMessage: t('common:success_request')
