@@ -31,7 +31,7 @@ public static class ErrorsKeys
     #region offers
     public const string LockerRoomNotFound = "offers:locker_room_not_found";
     public const string FieldNotFound = "offers:field_not_found";
-    
+    public const string FieldHasChildrenFields = "offers:field_has_children_fields";
 
     #endregion
 

@@ -17,6 +17,7 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
             .Where(f => f.StadiumId == stadiumId && !f.IsDeleted)
             .Include(f => f.FieldSportKinds)
             .Include(f => f.Images)
+            .Include(f => f.ChildFields.Where(cf => !cf.IsDeleted))
             .ToListAsync();
     }
 
@@ -24,7 +25,9 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
     {
         return await Entities
             .Include(f => f.FieldSportKinds)
-            .Include(f => f.Images).FirstOrDefaultAsync(f => f.Id == fieldId && f.StadiumId == stadiumId && !f.IsDeleted);
+            .Include(f => f.Images)
+            .Include(f => f.ChildFields.Where(cf => !cf.IsDeleted))
+            .FirstOrDefaultAsync(f => f.Id == fieldId && f.StadiumId == stadiumId && !f.IsDeleted);
     }
 
     public new void Add(Field field)

@@ -62,4 +62,9 @@ public class FieldDto : BaseEntityDto
     /// </summary>
     public bool IsLastChild { get; set; }
     
+    /// <summary>
+    /// Потомки
+    /// </summary>
+    public List<string> ChildNames { get; set; }
+    
 }

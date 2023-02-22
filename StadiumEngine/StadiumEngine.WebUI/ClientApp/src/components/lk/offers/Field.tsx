@@ -6,17 +6,16 @@ import {FieldDto} from "../../../models/dto/offers/FieldDto";
 import {getDataTitle, getFieldBasicFormData, getTitle, StringFormat} from "../../../helpers/utils";
 import {ActionButtons} from "../../common/actions/ActionButtons";
 import {t} from "i18next";
-import {Button, Checkbox, Dropdown, Form} from "semantic-ui-react";
+import {Button, Checkbox, Dropdown, Form, Icon} from "semantic-ui-react";
 import {FieldCoveringType} from "../../../models/dto/offers/enums/FieldCoveringType";
 import {FieldSportKind} from "../../../models/dto/offers/enums/FieldSportKind";
 
 interface PassedImage {
     path?: string;
-    formFile?: File
+    formFile?: File;
+    isDeleted: boolean;
 }
-//toDo операции с изображениями
-//toDo запрет удаления родительской если есть потомки (и фронт и бэк)
-//toDo показ связанных площадок
+
 //toDo подумать что еще можно вывести в таблицу
 
 export const Field = () => {
@@ -174,17 +173,18 @@ export const Field = () => {
             data.length = lengthInput.current?.value;
 
             const form = getFieldBasicFormData(data);
+            
+            const actualImages = passedImages.filter(i => !i.isDeleted);
 
-            for (let i = 0; i < passedImages.length; i++) {
-                if (passedImages[i].formFile === undefined) {
-                    form.append('images['+i+'].path', passedImages[i].path||'');
+            for (let i = 0; i < actualImages.length; i++) {
+                if (actualImages[i].formFile === undefined) {
+                    form.append('images['+i+'].path', actualImages[i].path||'');
                     form.append('images['+i+'].formFile', '');
                 }
                 else {
                     form.append('images['+i+'].path', '');
-                    form.append('images['+i+'].formFile', passedImages[i].formFile||'');
+                    form.append('images['+i+'].formFile', actualImages[i].formFile||'');
                 }
-
             }
             if (id === "new") {
                 offersService.addField(form).then(() => {
@@ -216,14 +216,38 @@ export const Field = () => {
         })
         setPassedImages(oldImages => [...oldImages,...newImages] );
     }
+    
+    const changeImageOrder = (currentIndex: number, direction: number) => {
+        const currentImage = passedImages[currentIndex];
+        const directionNextImage = passedImages[currentIndex + direction];
+        
+        setPassedImages(passedImages.map((item,i)=> {
+            if(currentIndex === i){
+                return directionNextImage;
+            }
+            if (currentIndex + direction === i) {
+                return currentImage;
+            }
+            return item;
+        }));
+    }
+
+    const toggleImageDeleted = (index: number) => {
+        setPassedImages(passedImages.map((item,i)=> {
+            if(index === i){
+                item.isDeleted = !item.isDeleted;
+            }
+            return item;
+        }));
+    }
 
     return isError ? <span/> : (<div>
         <ActionButtons
             title={id === "new" ? t('offers:fields_grid:adding') : t('offers:fields_grid:editing')}
             saveAction={id === "new" ? saveField : updateField}
-            deleteAction={id === "new" ? null : deleteField}
-            deleteHeader={id === "new" ? null : t('offers:fields_grid:delete:header')}
-            deleteQuestion={id === "new" ? null : StringFormat(t('offers:fields_grid:delete:question'), data.name||'')}
+            deleteAction={id === "new" || data?.childNames?.length > 0 ? null : deleteField}
+            deleteHeader={id === "new" || data?.childNames?.length > 0 ? null : t('offers:fields_grid:delete:header')}
+            deleteQuestion={id === "new" || data?.childNames?.length > 0 ? null : StringFormat(t('offers:fields_grid:delete:question'), data.name||'')}
         />
         <Form className="field-form">
             <Form.Field style={{marginBottom: 0}}>
@@ -292,6 +316,8 @@ export const Field = () => {
                     })}
                 />
             </Form.Field>}
+            {data?.childNames?.length > 0 &&
+                <div style={{marginBottom: '1em'}}>{t("offers:fields_grid:child_fields_list")}: <br/><span style={{ fontWeight: 'bold'}}>{data.childNames.join(', ')}</span></div>}
             <Form.Field>
                 <label>{t("offers:fields_grid:images")}</label>
                 <Button onClick={() => hiddenUploadInput?.current?.click()}>{t('offers:fields_grid:upload_images')}</Button>
@@ -301,8 +327,22 @@ export const Field = () => {
                         const src = img.formFile !== undefined ? img.path : "/legal-images/" + img.path;
                         
                         return <div key={index} className="field-image">
-                            <div className="tools"></div>
-                            <img alt="" src={src}/>
+                            <div className="tools">
+                                <div className="change-order-buttons" title={t("offers:fields_grid:change_images_order")||''}>
+                                    {index !== 0 ? <Icon name='angle left' onClick={() => changeImageOrder(index, -1)}/> :
+                                        <Icon name='angle left' style={{ opacity: 0.4, pointerEvents: 'none'}}/>
+                                    }
+                                    {index !== passedImages.length - 1 ? <Icon name='angle right' onClick={() => changeImageOrder(index, 1)}/> :
+                                        <Icon name='angle right' style={{ opacity: 0.4, pointerEvents: 'none'}}/>
+                                    }
+                                 </div>
+                                <div className="remove-buttons">
+                                    {!img.isDeleted ? <Icon title={t("offers:fields_grid:delete_image")||''} onClick={() => toggleImageDeleted(index)} name='trash alternate' /> 
+                                        : <Icon title={t("offers:fields_grid:restore_image")||''} onClick={() => toggleImageDeleted(index)} name='redo' />}
+                                    
+                                </div>
+                            </div>
+                            <img style={ img.isDeleted ? { opacity: 0.5} : {}} alt="" src={src}/>
                         </div>
                     })}
                 </div>

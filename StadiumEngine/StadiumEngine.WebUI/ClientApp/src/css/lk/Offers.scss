@@ -55,13 +55,45 @@
       height: 300px;
       float: left;
       padding: 5px;
+      position: relative;
       
       .tools {
         height: 32px;
-        border: 1px solid #ccc;
-        border-bottom: none;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
+        position: absolute;
+        width: calc(100% - 10px);
+        background-color: rgba(255,255,255,0.7);
+        display: flex;
+        justify-content: space-between;
+        z-index: 100;
+
+        .change-order-buttons {
+          height: 100%;
+          align-items: center;
+          display: flex;
+          padding-top: 4px;
+          
+          i {
+            cursor: pointer;
+            font-size: 22px;
+            
+            &.right {
+              margin-left: -10px;
+            }
+          }
+        }
+        
+        .remove-buttons {
+          height: 100%;
+          align-items: center;
+          display: flex;
+          padding-right: 5px;
+          padding-bottom: 3px;
+
+          i {
+            cursor: pointer;
+            font-size: 16px;
+          }
+        }
       }
       
       img {

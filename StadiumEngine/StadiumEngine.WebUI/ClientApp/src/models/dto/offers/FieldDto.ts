@@ -14,4 +14,5 @@ export interface FieldDto extends BaseEntityDto {
     sportKinds: FieldSportKind[];
     isActive: boolean;
     IsLastChild: boolean;
+    childNames: string[];
 }

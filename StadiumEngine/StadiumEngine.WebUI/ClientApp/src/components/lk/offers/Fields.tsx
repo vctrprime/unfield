@@ -5,12 +5,9 @@ import {t} from "i18next";
 import {GridLoading} from "../common/GridLoading";
 import {useRecoilValue} from "recoil";
 import {stadiumAtom} from "../../../state/stadium";
-import {LockerRoomDto} from "../../../models/dto/offers/LockerRoomDto";
 import {useInject} from "inversify-hooks";
 import {IOffersService} from "../../../services/OffersService";
 import {useNavigate} from "react-router-dom";
-import {LockerRoomGender} from "../../../models/dto/offers/enums/LockerRoomGender";
-import {UpdateLockerRoomCommand} from "../../../models/command/offers/UpdateLockerRoomCommand";
 import {GridCellWithTitleRenderer} from "../../common/GridCellWithTitleRenderer";
 import {dateFormatter} from "../../../helpers/date-formatter";
 import {FieldDto} from "../../../models/dto/offers/FieldDto";
@@ -54,6 +51,17 @@ export const Fields = () => {
         return <span>{ t("offers:coverings:" + value.toLowerCase())}</span>;
     }
 
+    const SportKindsRenderer = (obj : any) => {
+        const kinds = obj.data.sportKinds;
+        
+        const textKinds = kinds.map((k: FieldSportKind) => {
+            const value = FieldSportKind[k];
+            return t("offers:sports:" + value.toLowerCase());
+        })
+
+        return <span>{textKinds.join('; ')}</span>;
+    }
+
     const IsActiveRenderer = (obj: any) => {
         return <Checkbox onChange={() => toggleIsActive(obj.node.id, obj.data)} toggle checked={obj.data.isActive}/>;
     }
@@ -82,9 +90,10 @@ export const Fields = () => {
         {field: 'parentFieldId', cellClass: "grid-center-cell grid-vcenter-cell no-vborder", headerName: '', width: 50, cellRenderer: TreeColumnRenderer},
         {field: 'isActive', cellClass: "grid-center-cell grid-vcenter-cell", headerName: '', width: 90, cellRenderer: IsActiveRenderer},
         {field: 'name', headerName: t("offers:fields_grid:name"), width: 250, cellRenderer: NameRenderer },
+        {field: 'size', cellClass: "grid-center-cell", headerName: t("offers:fields_grid:size"), width: 120, cellRenderer: SizeRenderer },
         {field: 'coveringType', cellClass: "grid-center-cell", headerName: t("offers:fields_grid:covering"), width: 200, cellRenderer: CoveringRenderer },
+        {field: 'sportKinds', headerName: t("offers:fields_grid:available_sport_kinds"), width: 500, cellRenderer: SportKindsRenderer },
         {field: 'description', headerName: t("offers:fields_grid:description"), width: 500, cellRenderer: (obj: any) => <GridCellWithTitleRenderer value={obj.data.description}/> },
-        {field: 'size', cellClass: "grid-center-cell", headerName: t("offers:fields_grid:size"), width: 100, cellRenderer: SizeRenderer },
         {field: 'userCreated', cellClass: "grid-center-cell", headerName: t("offers:fields_grid:user_created"), width: 200},
         {field: 'dateCreated', cellClass: "grid-center-cell", headerName: t("offers:fields_grid:date_created"), width: 170, valueFormatter: dateFormatter},
     ];

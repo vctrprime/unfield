@@ -20,7 +20,8 @@ internal class OffersProfile : Profile
         CreateMap<Field, FieldDto>()
             .IncludeBase<BaseUserEntity, BaseEntityDto>()
             .ForMember(dest => dest.SportKinds, act => act.MapFrom(s => s.FieldSportKinds.Select(k => k.SportKind).ToList()))
-            .ForMember(dest => dest.Images, act => act.MapFrom(s => s.Images.OrderBy(i => i.Order).Select(i => i.Path).ToList()));
+            .ForMember(dest => dest.Images, act => act.MapFrom(s => s.Images.OrderBy(i => i.Order).Select(i => i.Path).ToList()))
+            .ForMember(dest => dest.ChildNames, act => act.MapFrom(s => s.ChildFields.Select(cf => cf.Name)));
         CreateMap<AddFieldCommand, Field>()
             .ForMember(dest => dest.FieldSportKinds, act => act.MapFrom(s => s.SportKinds.Select(k => new FieldSportKind
             {

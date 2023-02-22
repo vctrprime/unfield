@@ -35,6 +35,11 @@ internal sealed class DeleteFieldHandler : BaseRequestHandler<DeleteFieldCommand
 
         if (field == null) throw new DomainException(ErrorsKeys.FieldNotFound);
 
+        if (field.ChildFields.Any())
+        {
+            throw new DomainException(ErrorsKeys.FieldHasChildrenFields);
+        }
+
         List<string> pathsToDelete = new List<string>();
         
         try
