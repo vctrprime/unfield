@@ -2,6 +2,7 @@ using AutoMapper;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Repositories.Offers;
 using StadiumEngine.Domain.Services;
+using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.LockerRooms;
 using StadiumEngine.Handlers.Commands.Offers.LockerRooms;
@@ -10,11 +11,15 @@ namespace StadiumEngine.Handlers.Handlers.Offers.LockerRooms;
 
 internal sealed class AddLockerRoomHandler : BaseRequestHandler<AddLockerRoomCommand, AddLockerRoomDto>
 {
-    private readonly ILockerRoomRepository _repository;
+    private readonly ILockerRoomFacade _lockerRoomFacade;
 
-    public AddLockerRoomHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, ILockerRoomRepository repository) : base(mapper, claimsIdentityService, unitOfWork)
+    public AddLockerRoomHandler(
+        ILockerRoomFacade lockerRoomFacade,
+        IMapper mapper, 
+        IClaimsIdentityService claimsIdentityService, 
+        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
     {
-        _repository = repository;
+        _lockerRoomFacade = lockerRoomFacade;
     }
     
     public override async ValueTask<AddLockerRoomDto> Handle(AddLockerRoomCommand request, CancellationToken cancellationToken)
@@ -23,7 +28,7 @@ internal sealed class AddLockerRoomHandler : BaseRequestHandler<AddLockerRoomCom
         lockerRoom.StadiumId = _currentStadiumId;
         lockerRoom.UserCreatedId = _userId;
         
-        _repository.Add(lockerRoom);
+        _lockerRoomFacade.AddLockerRoom(lockerRoom);
         await UnitOfWork.SaveChanges();
 
         return new AddLockerRoomDto();

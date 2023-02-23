@@ -23,7 +23,8 @@ public static class ServiceCollectionExtensions
         #region facades
 
         services.AddScoped<IFieldFacade, FieldFacade>();
-        
+        services.AddScoped<ILockerRoomFacade, LockerRoomFacade>();
+
         #endregion
     }
     

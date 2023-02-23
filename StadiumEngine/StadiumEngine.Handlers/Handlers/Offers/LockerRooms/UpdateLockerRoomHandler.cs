@@ -3,6 +3,7 @@ using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Repositories.Offers;
 using StadiumEngine.Domain.Services;
+using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.LockerRooms;
 using StadiumEngine.Handlers.Commands.Offers.LockerRooms;
@@ -11,16 +12,20 @@ namespace StadiumEngine.Handlers.Handlers.Offers.LockerRooms;
 
 internal sealed class UpdateLockerRoomHandler : BaseRequestHandler<UpdateLockerRoomCommand, UpdateLockerRoomDto>
 {
-    private readonly ILockerRoomRepository _repository;
+    private readonly ILockerRoomFacade _lockerRoomFacade;
 
-    public UpdateLockerRoomHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, ILockerRoomRepository repository) : base(mapper, claimsIdentityService, unitOfWork)
+    public UpdateLockerRoomHandler(
+        ILockerRoomFacade lockerRoomFacade,
+        IMapper mapper, 
+        IClaimsIdentityService claimsIdentityService, 
+        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
     {
-        _repository = repository;
+        _lockerRoomFacade = lockerRoomFacade;
     }
 
     public override async ValueTask<UpdateLockerRoomDto> Handle(UpdateLockerRoomCommand request, CancellationToken cancellationToken)
     {
-        var lockerRoom = await _repository.Get(request.Id, _currentStadiumId);
+        var lockerRoom = await _lockerRoomFacade.GetByLockerRoomId(request.Id, _currentStadiumId);
 
         if (lockerRoom == null) throw new DomainException(ErrorsKeys.LockerRoomNotFound);
         
@@ -30,7 +35,7 @@ internal sealed class UpdateLockerRoomHandler : BaseRequestHandler<UpdateLockerR
         lockerRoom.IsActive = request.IsActive;
         lockerRoom.UserModifiedId = _userId;
         
-        _repository.Update(lockerRoom);
+        _lockerRoomFacade.UpdateLockerRoom(lockerRoom);
         await UnitOfWork.SaveChanges();
 
         return new UpdateLockerRoomDto();
