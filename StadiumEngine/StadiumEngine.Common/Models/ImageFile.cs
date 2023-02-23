@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Http;
 
-namespace StadiumEngine.Handlers.Commands.Offers;
+namespace StadiumEngine.Common.Models;
 
-public class OffersImagePassed
+public class ImageFile
 {
     public string? Path { get; set; }
     public IFormFile? FormFile { get; set; }

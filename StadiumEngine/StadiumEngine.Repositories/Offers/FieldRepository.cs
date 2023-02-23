@@ -24,6 +24,7 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
     public async Task<Field?> Get(int fieldId,int stadiumId)
     {
         return await Entities
+            .Include(f => f.Stadium)
             .Include(f => f.FieldSportKinds)
             .Include(f => f.Images)
             .Include(f => f.ChildFields.Where(cf => !cf.IsDeleted))

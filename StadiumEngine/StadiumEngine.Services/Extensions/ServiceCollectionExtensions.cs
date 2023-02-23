@@ -1,6 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
+using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.Domain.Services.Infrastructure;
+using StadiumEngine.Services.Facades.Offers;
 using StadiumEngine.Services.Identity;
 using StadiumEngine.Services.Infrastructure;
 
@@ -17,6 +19,12 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPhoneNumberChecker, PhoneNumberChecker>();
         services.AddScoped<IPasswordValidator, PasswordValidator>();
         services.AddScoped<IImageService, ImageService>();
+
+        #region facades
+
+        services.AddScoped<IFieldFacade, FieldFacade>();
+        
+        #endregion
     }
     
     

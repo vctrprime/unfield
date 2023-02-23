@@ -9,14 +9,8 @@ import {t} from "i18next";
 import {Button, Checkbox, Dropdown, Form, Icon} from "semantic-ui-react";
 import {FieldCoveringType} from "../../../models/dto/offers/enums/FieldCoveringType";
 import {FieldSportKind} from "../../../models/dto/offers/enums/FieldSportKind";
+import {ImageFile} from "../../../models/common/ImageFile";
 
-interface PassedImage {
-    path?: string;
-    formFile?: File;
-    isDeleted: boolean;
-}
-
-//toDo подумать что еще можно вывести в таблицу
 
 export const Field = () => {
     let { id } = useParams();
@@ -29,7 +23,7 @@ export const Field = () => {
         parentFieldId: null
     } as FieldDto);
     
-    const [passedImages, setPassedImages] = useState<PassedImage[]>([])
+    const [passedImages, setPassedImages] = useState<ImageFile[]>([])
     const [isError, setIsError] = useState<boolean>(false);
     const [fieldId, setFieldId] = useState(parseInt(id||"0"));
     
@@ -46,7 +40,7 @@ export const Field = () => {
                 setPassedImages(result.images.map((image) => {
                     return {
                         path: image
-                    } as PassedImage
+                    } as ImageFile
                 }));
             }).catch(() => setIsError(true));
         }
@@ -212,7 +206,7 @@ export const Field = () => {
             return {
                 path: URL.createObjectURL(file),
                 formFile: file
-            } as PassedImage
+            } as ImageFile
         })
         setPassedImages(oldImages => [...oldImages,...newImages] );
     }

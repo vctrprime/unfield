@@ -1,5 +1,6 @@
 using Mediator;
 using StadiumEngine.Common.Enums.Offers;
+using StadiumEngine.Common.Models;
 using StadiumEngine.DTO.Offers.Fields;
 
 namespace StadiumEngine.Handlers.Commands.Offers.Fields;
@@ -14,6 +15,6 @@ public sealed class AddFieldCommand : IRequest<AddFieldDto>
     public bool IsActive { get; set; }
     public CoveringType CoveringType { get; set; }
     public List<SportKind> SportKinds { get; set; }
-    public List<OffersImagePassed> Images { get; set; } = new List<OffersImagePassed>();
+    public List<ImageFile> Images { get; set; } = new List<ImageFile>();
 }
 
