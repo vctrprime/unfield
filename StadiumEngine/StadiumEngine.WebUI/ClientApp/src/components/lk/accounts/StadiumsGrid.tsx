@@ -50,7 +50,7 @@ export const StadiumsGrid = ({selectedRole} : StadiumsGridProps) => {
     }
 
     const columnDefs = [
-        {field: 'isRoleBound', cellClass: "grid-center-cell", headerName: '', cellRenderer: BindingButtonRenderer, width: 50},
+        {field: 'isRoleBound', cellClass: "grid-center-cell", headerName: '', cellRenderer: BindingButtonRenderer, width: 60},
         {field: 'name', headerName: t("accounts:stadiums_grid:name"), width: 250},
         //{field: 'country', headerName: t("accounts:stadiums_grid:country"), width: 300},
         //{field: 'region', headerName: t("accounts:stadiums_grid:region"), width: 300},

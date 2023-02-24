@@ -2,10 +2,8 @@ using AutoMapper;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
-using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Utils;
 using StadiumEngine.Handlers.Commands.Utils;
-using StadiumEngine.Handlers.Containers.Utils;
 using StadiumEngine.Handlers.Static;
 
 namespace StadiumEngine.Handlers.Handlers.Utils;
@@ -15,9 +13,11 @@ internal sealed class SyncPermissionsHandler : BaseRequestHandler<SyncPermission
     private readonly IPermissionRepository _permissionRepository;
     private readonly IPermissionGroupRepository _permissionGroupRepository;
     
-    public SyncPermissionsHandler(IMapper mapper, 
-        IUnitOfWork unitOfWork, IPermissionRepository permissionRepository,
-        IPermissionGroupRepository permissionGroupRepository) : base(mapper, null, unitOfWork)
+    public SyncPermissionsHandler(
+        IPermissionRepository permissionRepository,
+        IPermissionGroupRepository permissionGroupRepository,
+        IMapper mapper, 
+        IUnitOfWork unitOfWork) : base(mapper, null, unitOfWork)
     {
         _permissionRepository = permissionRepository;
         _permissionGroupRepository = permissionGroupRepository;
@@ -118,6 +118,4 @@ internal sealed class SyncPermissionsHandler : BaseRequestHandler<SyncPermission
             await UnitOfWork.SaveChanges();
         }
     }
-
-
 }

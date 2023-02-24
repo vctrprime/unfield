@@ -54,7 +54,10 @@ internal class AccountsProfile : Profile
             .ForMember(dest => dest.Language, act => act.MapFrom(s => "ru"))
             .ForMember(dest => dest.IsSuperuser, act => act.MapFrom(s => false))
             .ForMember(dest => dest.IsAdmin, act => act.MapFrom(s => false));
-        CreateMap<AddAdminUserCommand, AddUserCommand>();
+        CreateMap<AddAdminUserCommand, User>()
+            .ForMember(dest => dest.Language, act => act.MapFrom(s => "ru"))
+            .ForMember(dest => dest.IsSuperuser, act => act.MapFrom(s => true))
+            .ForMember(dest => dest.IsAdmin, act => act.MapFrom(s => true));
         
         CreateMap<Role, RoleDto>()
             .IncludeBase<BaseUserEntity, BaseEntityDto>()

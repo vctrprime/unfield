@@ -1,10 +1,5 @@
 using AutoMapper;
-using Mediator;
 using Microsoft.Extensions.DependencyInjection;
-using Q101.ServiceCollectionExtensions.ServiceCollectionExtensions;
-using StadiumEngine.Handlers.Containers;
-using StadiumEngine.Handlers.Containers.Accounts;
-using StadiumEngine.Handlers.Containers.Utils;
 using StadiumEngine.Handlers.Mappings;
 using StadiumEngine.Repositories.Infrastructure.Extensions;
 using StadiumEngine.Services.Extensions;
@@ -33,8 +28,6 @@ public static class ServiceCollectionExtensions
             cfg.AddProfile(new OffersProfile());
         }).CreateMapper());
         
-        services.RegisterType<AddUserHandlerServicesContainer>().AsScoped().PropertiesAutowired().Bind();
-        services.RegisterType<AddLegalHandlerServicesContainer>().AsScoped().PropertiesAutowired().Bind();
     }
     
     
