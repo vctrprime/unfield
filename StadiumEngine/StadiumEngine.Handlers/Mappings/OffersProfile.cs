@@ -3,8 +3,10 @@ using StadiumEngine.Domain.Entities;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.DTO;
 using StadiumEngine.DTO.Offers.Fields;
+using StadiumEngine.DTO.Offers.Inventories;
 using StadiumEngine.DTO.Offers.LockerRooms;
 using StadiumEngine.Handlers.Commands.Offers.Fields;
+using StadiumEngine.Handlers.Commands.Offers.Inventories;
 using StadiumEngine.Handlers.Commands.Offers.LockerRooms;
 
 namespace StadiumEngine.Handlers.Mappings;
@@ -19,11 +21,25 @@ internal class OffersProfile : Profile
 
         CreateMap<Field, FieldDto>()
             .IncludeBase<BaseUserEntity, BaseEntityDto>()
-            .ForMember(dest => dest.SportKinds, act => act.MapFrom(s => s.FieldSportKinds.Select(k => k.SportKind).ToList()))
+            .ForMember(dest => dest.SportKinds, act => act.MapFrom(s => s.SportKinds.Select(k => k.SportKind).ToList()))
             .ForMember(dest => dest.Images, act => act.MapFrom(s => s.Images.OrderBy(i => i.Order).Select(i => i.Path).ToList()))
             .ForMember(dest => dest.ChildNames, act => act.MapFrom(s => s.ChildFields.Select(cf => cf.Name)));
         CreateMap<AddFieldCommand, Field>()
-            .ForMember(dest => dest.FieldSportKinds, act => act.MapFrom(s => s.SportKinds.Select(k => new FieldSportKind
+            .ForMember(dest => dest.SportKinds, act => act.MapFrom(s => s.SportKinds.Select(k => new OffersSportKind
+            {
+                SportKind = k
+            })))
+            .ForMember(dest => dest.Images, act => act.Ignore());
+
+        CreateMap<Inventory, InventoryDto>()
+            .IncludeBase<BaseUserEntity, BaseEntityDto>()
+            .ForMember(dest => dest.SportKinds,
+                act => act.MapFrom(s => s.SportKinds.Select(k => k.SportKind).ToList()))
+            .ForMember(dest => dest.Images,
+                act => act.MapFrom(s => s.Images.OrderBy(i => i.Order).Select(i => i.Path).ToList()));
+            
+        CreateMap<AddInventoryCommand, Inventory>()
+            .ForMember(dest => dest.SportKinds, act => act.MapFrom(s => s.SportKinds.Select(k => new OffersSportKind
             {
                 SportKind = k
             })))

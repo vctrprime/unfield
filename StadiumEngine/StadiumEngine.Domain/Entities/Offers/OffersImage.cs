@@ -21,6 +21,12 @@ public class OffersImage : BaseUserEntity
     
     public virtual Field? Field { get; set; }
     
+    [Column("inventory_id")]
+    [ForeignKey("InventoryId")]
+    public int? InventoryId { get; set; }
+    
+    public virtual Inventory? Inventory { get; set; }
+    
     [NotMapped]
     public new string Name { get; set; }
     [NotMapped]

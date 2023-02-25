@@ -80,6 +80,11 @@ public class User : BaseUserEntity
     public virtual ICollection<Field> LastModifiedFields { get; set; }
     
     [InverseProperty("UserCreated")]
+    public virtual ICollection<Inventory> CreatedInventories { get; set; }
+    [InverseProperty("UserModified")]
+    public virtual ICollection<Inventory> LastModifiedInventories { get; set; }
+    
+    [InverseProperty("UserCreated")]
     public virtual ICollection<OffersImage> CreatedOffersImages { get; set; }
 
 }

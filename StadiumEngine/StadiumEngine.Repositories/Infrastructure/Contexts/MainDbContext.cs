@@ -28,8 +28,9 @@ internal class MainDbContext : DbContext
     #region offers
     public DbSet<LockerRoom> LockerRooms { get; set; }
     public DbSet<Field> Fields { get; set; }
+    public DbSet<Inventory> Inventories { get; set; }
     public DbSet<OffersImage> OffersImages { get; set; }
-    public DbSet<FieldSportKind> FieldSportKinds { get; set; }
+    public DbSet<OffersSportKind> SportKinds { get; set; }
     #endregion
         
     public MainDbContext(DbContextOptions<MainDbContext> options)

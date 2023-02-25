@@ -8,7 +8,7 @@ import {ActionButtons} from "../../common/actions/ActionButtons";
 import {t} from "i18next";
 import {Button, Checkbox, Dropdown, Form, Icon} from "semantic-ui-react";
 import {FieldCoveringType} from "../../../models/dto/offers/enums/FieldCoveringType";
-import {FieldSportKind} from "../../../models/dto/offers/enums/FieldSportKind";
+import {SportKind} from "../../../models/dto/offers/enums/SportKind";
 import {ImageFile} from "../../../models/common/ImageFile";
 
 
@@ -19,7 +19,7 @@ export const Field = () => {
         images: [] as string[],
         isActive: true,
         coveringType: FieldCoveringType.Natural,
-        sportKinds: [] as FieldSportKind[],
+        sportKinds: [] as SportKind[],
         parentFieldId: null
     } as FieldDto);
     
@@ -85,9 +85,9 @@ export const Field = () => {
 
     const sportKindsAll = () => {
         const result = [];
-        for (let item in FieldSportKind) {
+        for (let item in SportKind) {
             if (!isNaN(Number(item))) {
-                const value = FieldSportKind[item];
+                const value = SportKind[item];
                 const text = t("offers:sports:" + value.toLowerCase());
 
                 result.push({
@@ -278,9 +278,9 @@ export const Field = () => {
                 />
             </Form.Field>
             <Form.Field >
-                <label>{t("offers:fields_grid:available_sport_kinds")}</label>
+                <label>{t("offers:fields_grid:sport_kinds")}</label>
                 <Dropdown
-                    placeholder={t("offers:fields_grid:available_sport_kinds")||''}
+                    placeholder={t("offers:fields_grid:sport_kinds")||''}
                     fluid
                     search
                     multiple

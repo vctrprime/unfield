@@ -42,6 +42,7 @@ public static class ServiceCollectionExtensions
         
         services.AddScoped<IFieldFacade, FieldFacade>();
         services.AddScoped<ILockerRoomFacade, LockerRoomFacade>();
+        services.AddScoped<IInventoryFacade, InventoryFacade>();
 
         #endregion
 

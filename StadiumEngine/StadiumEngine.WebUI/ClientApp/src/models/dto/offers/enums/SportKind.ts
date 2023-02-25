@@ -1,4 +1,4 @@
-export enum FieldSportKind {
+export enum SportKind {
     Football = 1,
     Basketball
 }

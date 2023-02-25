@@ -31,7 +31,11 @@ public static class PermissionSet
                 new() { Name = "get-locker-rooms", DisplayName = "Просмотр раздевалок", Description = "Просмотр списка раздевалок", Sort = 5},
                 new() { Name = "insert-locker-room", DisplayName = "Добавление раздевалки", Description = "Возможность добавить раздевалку", Sort = 6},
                 new() { Name = "update-locker-room", DisplayName = "Обновление раздевалки", Description = "Возможность изменить данные раздевалки", Sort = 7},
-                new() { Name = "delete-locker-room", DisplayName = "Удаление раздевалки", Description = "Возможность удалить раздевалку", Sort = 8}
+                new() { Name = "delete-locker-room", DisplayName = "Удаление раздевалки", Description = "Возможность удалить раздевалку", Sort = 8},
+                new() { Name = "get-inventories", DisplayName = "Просмотр инвентаря", Description = "Просмотр списка инвентаря", Sort = 9},
+                new() { Name = "insert-inventory", DisplayName = "Добавление инвентаря", Description = "Возможность добавить инвентарь", Sort = 10},
+                new() { Name = "update-inventory", DisplayName = "Обновление инвентаря", Description = "Возможность изменить данные об инвентаре", Sort = 11},
+                new() { Name = "delete-inventory", DisplayName = "Удаление инвентаря", Description = "Возможность удалить инвентарь", Sort = 12}
             }
         },
         new PermissionGroup

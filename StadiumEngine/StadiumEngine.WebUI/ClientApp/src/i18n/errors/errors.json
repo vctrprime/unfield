@@ -22,6 +22,7 @@
     "offers": {
         "locker_room_not_found": "Раздевалка не найдена",
         "field_not_found": "Площадка не найдена",
-        "field_has_children_fields": "Нельзя удалить площадку у которой имеются связанные площадки"
+        "field_has_children_fields": "Нельзя удалить площадку у которой имеются связанные площадки",
+        "inventory_not_found": "Инвентарь не найден"
     }
 }
