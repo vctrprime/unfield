@@ -1,8 +1,6 @@
 using AutoMapper;
 using Mediator;
-using StadiumEngine.Common;
-using StadiumEngine.Common.Exceptions;
-using StadiumEngine.Domain.Entities.Accounts;
+using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Identity;
 
@@ -33,9 +31,5 @@ internal abstract class BaseRequestHandler<TRequest, TResponse> : IRequestHandle
         UnitOfWork = unitOfWork;
     }
     public abstract ValueTask<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
-
-    protected void CheckRoleAccess(Role? role)
-    {
-        if (role == null || _legalId != role.LegalId) throw new DomainException(ErrorsKeys.RoleNotFound);
-    }
+    
 }

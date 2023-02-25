@@ -1,22 +1,25 @@
 using AutoMapper;
+using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services;
+using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Identity;
-using StadiumEngine.DTO.Accounts;
 using StadiumEngine.DTO.Accounts.Roles;
-using StadiumEngine.Handlers.Commands.Accounts;
 using StadiumEngine.Handlers.Commands.Accounts.Roles;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Roles;
 
 internal sealed class AddRoleHandler : BaseRequestHandler<AddRoleCommand, AddRoleDto>
 {
-    private readonly IRoleRepository _repository;
+    private readonly IRoleFacade _roleFacade;
 
-    public AddRoleHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, IRoleRepository repository) : base(mapper, claimsIdentityService, unitOfWork)
+    public AddRoleHandler(
+        IRoleFacade roleFacade,
+        IMapper mapper, 
+        IClaimsIdentityService claimsIdentityService, 
+        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
     {
-        _repository = repository;
+        _roleFacade = roleFacade;
     }
     
     public override async ValueTask<AddRoleDto> Handle(AddRoleCommand request, CancellationToken cancellationToken)
@@ -25,7 +28,7 @@ internal sealed class AddRoleHandler : BaseRequestHandler<AddRoleCommand, AddRol
         role.LegalId = _legalId;
         role.UserCreatedId = _userId;
         
-        _repository.Add(role);
+        _roleFacade.AddRole(role);
         await UnitOfWork.SaveChanges();
 
         return new AddRoleDto();

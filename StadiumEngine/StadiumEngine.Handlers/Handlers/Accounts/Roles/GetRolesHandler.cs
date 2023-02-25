@@ -1,26 +1,29 @@
 using AutoMapper;
-using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services;
+using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Identity;
-using StadiumEngine.DTO.Accounts;
 using StadiumEngine.DTO.Accounts.Roles;
-using StadiumEngine.Handlers.Queries.Accounts;
 using StadiumEngine.Handlers.Queries.Accounts.Roles;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Roles;
 
 internal sealed class GetRolesHandler : BaseRequestHandler<GetRolesQuery, List<RoleDto>>
 {
-    private readonly IRoleRepository _repository;
+    private readonly IRoleFacade _roleFacade;
 
-    public GetRolesHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, IRoleRepository repository) : base(mapper, claimsIdentityService, unitOfWork)
+    public GetRolesHandler(
+        IRoleFacade roleFacade,
+        IMapper mapper, 
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
     {
-        _repository = repository;
+        _roleFacade = roleFacade;
     }
     
     public override async ValueTask<List<RoleDto>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
     {
-        var roles = await _repository.GetAll(_legalId);
+        var roles = await _roleFacade.GetRolesForLegal(_legalId);
 
         var rolesDto = Mapper.Map<List<RoleDto>>(roles);
 

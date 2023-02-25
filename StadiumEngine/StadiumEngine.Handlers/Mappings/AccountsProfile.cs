@@ -79,10 +79,6 @@ internal class AccountsProfile : Profile
                 act => act.MapFrom(s => s.City.Region.ShortName))
             .ForMember(dest => dest.City, 
             act => act.MapFrom(s => s.City.ShortName));
-
-        CreateMap<ToggleRolePermissionCommand, RolePermission>();
-        CreateMap<ToggleRoleStadiumCommand, RoleStadium>();
-
     }
     
     private List<Claim> CreateClaimsList(User user)

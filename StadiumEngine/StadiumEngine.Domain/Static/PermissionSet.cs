@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using StadiumEngine.Domain.Entities.Accounts;
 
-namespace StadiumEngine.Handlers.Static;
+namespace StadiumEngine.Domain.Static;
 
 public static class PermissionSet
 {

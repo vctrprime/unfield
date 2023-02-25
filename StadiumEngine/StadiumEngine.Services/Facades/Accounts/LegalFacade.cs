@@ -23,6 +23,11 @@ internal class LegalFacade : ILegalFacade
         _newLegalBuilder = newLegalBuilder;
     }
 
+    public async Task<List<Legal>> GetLegalsByFilter(string searchString)
+    {
+        return await _legalRepository.GetByFilter(searchString);
+    }
+
     public async Task<string> AddLegal(Legal legal, User superuser)
     {
         if (!legal.Stadiums.Any()) throw new DomainException("Передан пустой список объектов для добавления!");

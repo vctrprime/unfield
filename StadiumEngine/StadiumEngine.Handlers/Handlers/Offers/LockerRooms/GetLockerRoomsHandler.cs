@@ -1,5 +1,5 @@
 using AutoMapper;
-using StadiumEngine.Domain.Repositories.Offers;
+using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Identity;

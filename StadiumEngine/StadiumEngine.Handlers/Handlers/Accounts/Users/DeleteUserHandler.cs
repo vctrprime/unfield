@@ -1,37 +1,29 @@
 using AutoMapper;
-using StadiumEngine.Common;
-using StadiumEngine.Common.Exceptions;
-using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services;
+using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Identity;
-using StadiumEngine.DTO.Accounts;
 using StadiumEngine.DTO.Accounts.Users;
-using StadiumEngine.Handlers.Commands.Accounts;
 using StadiumEngine.Handlers.Commands.Accounts.Users;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
 internal sealed class DeleteUserHandler : BaseRequestHandler<DeleteUserCommand, DeleteUserDto>
 {
-    private readonly IUserRepository _repository;
+    private readonly IUserFacade _userFacade;
 
-    public DeleteUserHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, IUserRepository repository) : base(mapper, claimsIdentityService, unitOfWork)
+    public DeleteUserHandler(
+        IUserFacade userFacade,
+        IMapper mapper, 
+        IClaimsIdentityService claimsIdentityService, 
+        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
     {
-        _repository = repository;
+        _userFacade = userFacade;
     }
     
     public override async ValueTask<DeleteUserDto> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await _repository.Get(request.UserId);
-        
-        if (user == null || _legalId != user.LegalId) throw new DomainException(ErrorsKeys.UserNotFound);
-        
-        if (user.IsSuperuser) throw new DomainException(ErrorsKeys.CantDeleteSuperuser);
-
-        user.UserModifiedId = _userId;
-        user.PhoneNumber = $"{user.PhoneNumber}.deleted-by-{_userId}.{DateTime.Now.Ticks}";
-        
-        _repository.Remove(user);
+        await _userFacade.DeleteUser(request.UserId, _legalId, _userId);
         await UnitOfWork.SaveChanges();
 
         return new DeleteUserDto();

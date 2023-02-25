@@ -1,6 +1,4 @@
 #nullable enable
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using StadiumEngine.Common.Enums.Offers;
 using StadiumEngine.Common.Models;
 using StadiumEngine.Domain.Entities.Offers;

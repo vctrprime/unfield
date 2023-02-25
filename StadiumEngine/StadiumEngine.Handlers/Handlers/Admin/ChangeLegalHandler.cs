@@ -1,10 +1,8 @@
-using System.Security.Claims;
 using AutoMapper;
-using StadiumEngine.Common.Exceptions;
-using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services;
+using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Identity;
-using StadiumEngine.DTO.Accounts;
 using StadiumEngine.DTO.Accounts.Users;
 using StadiumEngine.Handlers.Commands.Admin;
 
@@ -12,27 +10,24 @@ namespace StadiumEngine.Handlers.Handlers.Admin;
 
 internal sealed class ChangeLegalHandler : BaseRequestHandler<ChangeLegalCommand, AuthorizeUserDto?>
 {
-    private readonly IUserRepository _repository;
+    private readonly IUserFacade _userFacade;
 
-    public ChangeLegalHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, IUserRepository repository) : base(mapper, claimsIdentityService, unitOfWork)
+    public ChangeLegalHandler(
+        IUserFacade userFacade,
+        IMapper mapper, 
+        IClaimsIdentityService claimsIdentityService, 
+        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
     {
-        _repository = repository;
+        _userFacade = userFacade;
     }
 
     public override async ValueTask<AuthorizeUserDto?> Handle(ChangeLegalCommand request, CancellationToken cancellationToken)
     {
-        var user = await _repository.Get(_userId);
+        await _userFacade.ChangeLegal(_userId, request.LegalId);
         
-        if (user == null) return null;
-
-        if (user.LegalId != request.LegalId)
-        {
-            user.LegalId = request.LegalId;
-            _repository.Update(user);
-            await UnitOfWork.SaveChanges();
-            
-            user = await _repository.Get(_userId);
-        }
+        await UnitOfWork.SaveChanges();
+        
+        var user = await _userFacade.GetUser(_userId);
         
         var userDto = Mapper.Map<AuthorizeUserDto>(user);
         

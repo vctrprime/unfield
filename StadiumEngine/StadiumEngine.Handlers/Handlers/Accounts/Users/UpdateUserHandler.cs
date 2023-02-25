@@ -1,46 +1,41 @@
 using AutoMapper;
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
-using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services;
+using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Identity;
-using StadiumEngine.DTO.Accounts;
 using StadiumEngine.DTO.Accounts.Users;
-using StadiumEngine.Handlers.Commands.Accounts;
 using StadiumEngine.Handlers.Commands.Accounts.Users;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
 internal sealed class UpdateUserHandler : BaseRequestHandler<UpdateUserCommand, UpdateUserDto>
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IRoleRepository _roleRepository;
+    private readonly IUserFacade _userFacade;
 
-    public UpdateUserHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork, IUserRepository userRepository, IRoleRepository roleRepository) : base(mapper, claimsIdentityService, unitOfWork)
+    public UpdateUserHandler(
+        IUserFacade userFacade,
+        IMapper mapper, 
+        IClaimsIdentityService claimsIdentityService, 
+        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
     {
-        _userRepository = userRepository;
-        _roleRepository = roleRepository;
+        _userFacade = userFacade;
     }
     
     public override async ValueTask<UpdateUserDto> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         if (request.Id == _userId) throw new DomainException(ErrorsKeys.ModifyCurrentUser);
-        
-        var role = await _roleRepository.Get(request.RoleId);
-        CheckRoleAccess(role);
-        
-        if (!role.RoleStadiums.Any())
-            throw new DomainException(ErrorsKeys.UserRolesDoesntHaveStadiums);
 
-        var user = await _userRepository.Get(request.Id);
+        var user = await _userFacade.GetUser(request.Id);
         if (user == null || _legalId != user.LegalId) throw new DomainException(ErrorsKeys.UserNotFound);
-
+        
         user.Name = request.Name;
         user.Description = request.Description;
         user.RoleId = request.RoleId;
         user.LastName = request.LastName;
-        
-        _userRepository.Update(user);
+
+        await _userFacade.UpdateUser(user, _legalId);
         await UnitOfWork.SaveChanges();
 
         return new UpdateUserDto();

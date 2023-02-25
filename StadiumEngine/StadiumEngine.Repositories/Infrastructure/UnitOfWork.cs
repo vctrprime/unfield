@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore.Storage;
-using StadiumEngine.Domain.Services;
+using StadiumEngine.Domain;
 using StadiumEngine.Repositories.Infrastructure.Contexts;
 
 namespace StadiumEngine.Repositories.Infrastructure;

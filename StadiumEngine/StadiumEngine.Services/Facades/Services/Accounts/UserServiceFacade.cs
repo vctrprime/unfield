@@ -8,15 +8,18 @@ internal class UserServiceFacade : IUserServiceFacade
     private readonly IPasswordGenerator _passwordGenerator;
     private readonly IHasher _hasher;
     private readonly IPhoneNumberChecker _phoneNumberChecker;
+    private readonly IPasswordValidator _passwordValidator;
 
     public UserServiceFacade(
         IPasswordGenerator passwordGenerator, 
         IHasher hasher, 
-        IPhoneNumberChecker phoneNumberChecker)
+        IPhoneNumberChecker phoneNumberChecker,
+        IPasswordValidator passwordValidator)
     {
         _passwordGenerator = passwordGenerator;
         _hasher = hasher;
         _phoneNumberChecker = phoneNumberChecker;
+        _passwordValidator = passwordValidator;
     }
 
     public string GeneratePassword(int length)
@@ -37,5 +40,10 @@ internal class UserServiceFacade : IUserServiceFacade
     public string CheckPhoneNumber(string phoneNumber)
     {
         return _phoneNumberChecker.Check(phoneNumber);
+    }
+
+    public bool ValidatePassword(string password)
+    {
+        return _passwordValidator.Validate(password);
     }
 }

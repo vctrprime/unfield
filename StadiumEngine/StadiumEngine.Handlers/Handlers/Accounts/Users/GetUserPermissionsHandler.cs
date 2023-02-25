@@ -1,43 +1,28 @@
 using AutoMapper;
-using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services;
+using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Identity;
-using StadiumEngine.DTO.Accounts;
 using StadiumEngine.DTO.Accounts.Users;
-using StadiumEngine.Handlers.Queries.Accounts;
 using StadiumEngine.Handlers.Queries.Accounts.Users;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
 internal sealed class GetUserPermissionsHandler :  BaseRequestHandler<GetUserPermissionsQuery, List<UserPermissionDto>>
 {
-    private readonly IPermissionRepository _permissionRepository;
-    private readonly IUserRepository _userRepository;
-
-    public GetUserPermissionsHandler(IMapper mapper, IClaimsIdentityService claimsIdentityService,
-        IUnitOfWork unitOfWork, IPermissionRepository permissionRepository,
-        IUserRepository userRepository) : base(mapper, claimsIdentityService, unitOfWork)
+    private readonly IUserFacade _userFacade;
+    public GetUserPermissionsHandler(
+        IUserFacade userFacade,
+        IMapper mapper, 
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
     {
-        _permissionRepository = permissionRepository;
-        _userRepository = userRepository;
+        _userFacade = userFacade;
     }
 
     public override async ValueTask<List<UserPermissionDto>> Handle(GetUserPermissionsQuery request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.Get(_userId);
-
-        List<Permission> permissions = new List<Permission>();
-        
-        switch (user)
-        {
-            case { IsSuperuser: true, Role: null }:
-                permissions = await _permissionRepository.GetAll();
-                break;
-            case { Role: { } }:
-                permissions = await _permissionRepository.GetForRole(user.Role.Id);
-                break;
-        }
+        var permissions = await _userFacade.GetUserPermissions(_userId);
         
         var permissionsDto = Mapper.Map<List<UserPermissionDto>>(permissions);
         

@@ -1,7 +1,6 @@
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Handlers.Mappings;
-using StadiumEngine.Repositories.Infrastructure.Extensions;
 using StadiumEngine.Services.Extensions;
 
 namespace StadiumEngine.Handlers.Extensions;
@@ -16,7 +15,6 @@ public static class ServiceCollectionExtensions
     
     private static void RegisterModules(this IServiceCollection services)
     {
-        services.RegisterDataAccessModules();
         services.RegisterServices();
         services.AddMediator(options => options.ServiceLifetime = ServiceLifetime.Scoped);
         services.AddSingleton(provider => new MapperConfiguration(cfg =>

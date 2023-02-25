@@ -20,6 +20,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StadiumEngine.Handlers", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StadiumEngine.Services", "StadiumEngine.Services\StadiumEngine.Services.csproj", "{8A3DDE25-8C53-4D8D-86C9-27D3FFC8DB14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StadiumEngine.Domain.Repositories", "StadiumEngine.Domain.Repositories\StadiumEngine.Domain.Repositories.csproj", "{FE6C2EFB-9926-42BE-B317-D07B0C062C9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StadiumEngine.Domain.Services", "StadiumEngine.Domain.Services\StadiumEngine.Domain.Services.csproj", "{BA604A8E-BB01-47C6-AFE0-930F06A1A3AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +58,14 @@ Global
 		{8A3DDE25-8C53-4D8D-86C9-27D3FFC8DB14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A3DDE25-8C53-4D8D-86C9-27D3FFC8DB14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A3DDE25-8C53-4D8D-86C9-27D3FFC8DB14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE6C2EFB-9926-42BE-B317-D07B0C062C9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE6C2EFB-9926-42BE-B317-D07B0C062C9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE6C2EFB-9926-42BE-B317-D07B0C062C9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE6C2EFB-9926-42BE-B317-D07B0C062C9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA604A8E-BB01-47C6-AFE0-930F06A1A3AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA604A8E-BB01-47C6-AFE0-930F06A1A3AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA604A8E-BB01-47C6-AFE0-930F06A1A3AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA604A8E-BB01-47C6-AFE0-930F06A1A3AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5584AC2C-2707-40A9-AD43-15CC2781003F} = {2E204052-5F0F-431E-A767-1C6E7B18AD52}
@@ -62,5 +74,7 @@ Global
 		{C1C2389A-017E-454C-8E95-2A759521EE00} = {2E204052-5F0F-431E-A767-1C6E7B18AD52}
 		{F1723DFF-2A1C-4612-8AD1-7D4B019153FC} = {16A53E1F-9A7B-4B58-98F8-268B0A3B812F}
 		{8A3DDE25-8C53-4D8D-86C9-27D3FFC8DB14} = {16A53E1F-9A7B-4B58-98F8-268B0A3B812F}
+		{FE6C2EFB-9926-42BE-B317-D07B0C062C9C} = {2E204052-5F0F-431E-A767-1C6E7B18AD52}
+		{BA604A8E-BB01-47C6-AFE0-930F06A1A3AE} = {2E204052-5F0F-431E-A767-1C6E7B18AD52}
 	EndGlobalSection
 EndGlobal

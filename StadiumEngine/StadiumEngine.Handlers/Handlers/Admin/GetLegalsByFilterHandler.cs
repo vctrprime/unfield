@@ -1,6 +1,7 @@
 using AutoMapper;
-using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services;
+using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Admin;
 using StadiumEngine.Handlers.Queries.Admin;
@@ -9,16 +10,20 @@ namespace StadiumEngine.Handlers.Handlers.Admin;
 
 internal sealed class GetLegalsByFilterHandler : BaseRequestHandler<GetLegalsByFilterQuery, List<LegalDto>>
 {
-    private readonly ILegalRepository _repository;
+    private readonly ILegalFacade _legalFacade;
 
-    public GetLegalsByFilterHandler(IMapper mapper, IClaimsIdentityService? claimsIdentityService, IUnitOfWork unitOfWork, ILegalRepository repository) : base(mapper, claimsIdentityService, unitOfWork)
+    public GetLegalsByFilterHandler(
+        ILegalFacade legalFacade,
+        IMapper mapper, 
+        IClaimsIdentityService claimsIdentityService, 
+        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
     {
-        _repository = repository;
+        _legalFacade = legalFacade;
     }
     
     public override async ValueTask<List<LegalDto>> Handle(GetLegalsByFilterQuery request, CancellationToken cancellationToken)
     {
-        var legals = await _repository.GetByFilter(request.SearchString);
+        var legals = await _legalFacade.GetLegalsByFilter(request.SearchString);
 
         var legalsDto = Mapper.Map <List<LegalDto>>(legals);
 

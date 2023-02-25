@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using StadiumEngine.Domain;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Repositories.Offers;
-using StadiumEngine.Domain.Services;
 using StadiumEngine.Repositories.Accounts;
 using StadiumEngine.Repositories.Infrastructure.Contexts;
 using StadiumEngine.Repositories.Offers;

@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace StadiumEngine.Domain.Services;
+namespace StadiumEngine.Domain;
 
 public interface IUnitOfWork
 {
