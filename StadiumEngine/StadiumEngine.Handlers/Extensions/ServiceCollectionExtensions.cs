@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using StadiumEngine.Handlers.Facades;
 using StadiumEngine.Handlers.Mappings;
 using StadiumEngine.Services.Extensions;
 
@@ -25,7 +26,8 @@ public static class ServiceCollectionExtensions
             cfg.AddProfile(new AdminProfile());
             cfg.AddProfile(new OffersProfile());
         }).CreateMapper());
-        
+
+        services.AddScoped<IAddUserHandlerFacade, AddUserHandlerFacade>();
     }
     
     

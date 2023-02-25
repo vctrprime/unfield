@@ -11,6 +11,7 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 internal sealed class GetUserPermissionsHandler :  BaseRequestHandler<GetUserPermissionsQuery, List<UserPermissionDto>>
 {
     private readonly IUserFacade _userFacade;
+    
     public GetUserPermissionsHandler(
         IUserFacade userFacade,
         IMapper mapper, 

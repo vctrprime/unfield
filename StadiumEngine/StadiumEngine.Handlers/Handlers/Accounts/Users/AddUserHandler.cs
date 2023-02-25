@@ -1,29 +1,24 @@
 using AutoMapper;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Services;
-using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Identity;
-using StadiumEngine.Domain.Services.Infrastructure;
 using StadiumEngine.DTO.Accounts.Users;
 using StadiumEngine.Handlers.Commands.Accounts.Users;
+using StadiumEngine.Handlers.Facades;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
 internal sealed class AddUserHandler : BaseRequestHandler<AddUserCommand, AddUserDto>
 {
-    private readonly IUserFacade _userFacade;
-    private readonly ISmsSender _smsSender;
+    private readonly IAddUserHandlerFacade _facade;
 
     public AddUserHandler(
-        IUserFacade userFacade, 
-        ISmsSender smsSender,
+        IAddUserHandlerFacade facade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
         IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
     {
-        _userFacade = userFacade;
-        _smsSender = smsSender;
+        _facade = facade;
     }
     
     public override async ValueTask<AddUserDto> Handle(AddUserCommand request, CancellationToken cancellationToken)
@@ -32,10 +27,10 @@ internal sealed class AddUserHandler : BaseRequestHandler<AddUserCommand, AddUse
         user.LegalId = _legalId;
         user.UserCreatedId = _userId;
 
-        var password = await _userFacade.AddUser(user);
+        var password = await _facade.AddUser(user);
         await UnitOfWork.SaveChanges();
         
-        await _smsSender.SendPassword(user.PhoneNumber, password, user.Language);
+        await _facade.SendPassword(user.PhoneNumber, password, user.Language);
         
         return new AddUserDto();
     }
