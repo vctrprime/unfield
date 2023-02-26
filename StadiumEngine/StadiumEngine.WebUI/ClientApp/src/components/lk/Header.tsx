@@ -103,23 +103,14 @@ export const Header = () => {
                     </div>
                     <BackButton />
                 </div>}
-            
-            <div className="header-right-container">
-                {stadium !== null && <div className="header-icons">
-                        `{/*<div className="settings-icon">
-                            <GearFill color="#354650" size={22}/>
-                        </div>
-                        <div className="bell-icon">
-                            <Bell color="#354650" size={22}/>
-                        </div>
-                        <div className="profile-icon">
-                            <PersonCircle color="#354650" size={22}/>
-                        </div>*/}
+
+            {stadium !== null && <div className="header-right-container">
+                <div className="header-icons">
                         <LanguageSelect />
-                    </div>}
+                </div>
                 <AuthorizedUserInfo setProfileModal={setProfileModal}/>
                 {auth !== null && auth.isAdmin &&
                     <i onClick={toAdmin} title={t('common:lk_header:to_admin_title')||""} style={{marginLeft: "10px", cursor: "pointer"}} className="fa fa-font" />}
-            </div>
+            </div>}
         </div>)
 };

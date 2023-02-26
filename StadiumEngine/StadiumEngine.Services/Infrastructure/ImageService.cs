@@ -15,13 +15,15 @@ internal class ImageService : IImageService
 
     public async Task<string> Upload(IFormFile file, int legalId, int stadiumId, string module)
     {
-        var path = $"{legalId}/{stadiumId}/{module}/{Guid.NewGuid()}.jpg";
+        var path = $"{legalId}/{stadiumId}/{module}";
         var fullPath = Path.Combine(_directory, path);
-
-        await using Stream stream = new FileStream(fullPath, FileMode.Create);
+        var fileName = $"{Guid.NewGuid()}.jpg";
+        
+        Directory.CreateDirectory(fullPath);
+        await using Stream stream = new FileStream($"{fullPath}/{fileName}", FileMode.Create);
         await file.CopyToAsync(stream);
 
-        return path;
+        return $"{path}/{fileName}";
     }
 
     public void Delete(string path)

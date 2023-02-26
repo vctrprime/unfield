@@ -20,6 +20,9 @@
     "login_already_exist": "User with this phone number already exists"
   },
   "offers": {
-    "locker_room_not_found": "Locker room not found"
+    "locker_room_not_found": "Locker room not found",
+    "field_not_found": "Field not found",
+    "field_has_children_fields": "You cannot delete a field that has associated fields",
+    "inventory_not_found": "Inventory not found"
   }
 }

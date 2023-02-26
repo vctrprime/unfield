@@ -111,7 +111,7 @@ export const Inventory = () => {
     }
 
     const deleteInventory = () => {
-        offersService.deleteField(inventoryId).then(() => {
+        offersService.deleteInventory(inventoryId).then(() => {
             navigate("/lk/offers/inventories");
         })
     }
