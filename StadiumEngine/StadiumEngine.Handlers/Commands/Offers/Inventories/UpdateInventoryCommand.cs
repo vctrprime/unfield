@@ -14,6 +14,6 @@ public sealed class UpdateInventoryCommand : IRequest<UpdateInventoryDto>
     public decimal Quantity { get; set; }
     public bool IsActive { get; set; }
     public Currency Currency { get; set; }
-    public List<SportKind> SportKinds { get; set; }
+    public List<SportKind> SportKinds { get; set; } = new List<SportKind>();
     public List<ImageFile> Images { get; set; } = new List<ImageFile>();
 }

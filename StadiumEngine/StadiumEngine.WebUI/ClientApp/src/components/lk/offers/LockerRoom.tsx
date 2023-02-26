@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {getDataTitle, getTitle, StringFormat} from "../../../helpers/utils";
+import {getDataTitle, getTitle, StringFormat, validateInputs} from "../../../helpers/utils";
 import {useNavigate, useParams} from "react-router-dom";
 import {LockerRoomDto} from "../../../models/dto/offers/LockerRoomDto";
 import {useInject} from "inversify-hooks";
@@ -49,21 +49,9 @@ export const LockerRoom = () => {
     const nameInput = useRef<any>();
     const descriptionInput = useRef<any>();
 
-    const validate = (): boolean => {
-        if (!nameInput.current?.value) {
-            nameInput.current.style.border = "1px solid red";
-            setTimeout(() => {
-                nameInput.current.style.border = "";
-            }, 2000);
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
     
     const saveLockerRoom = () => {
-        if (validate()) {
+        if (validateInputs([nameInput])) {
             const command: AddLockerRoomCommand = {
                 name: nameInput.current?.value,
                 description: descriptionInput.current?.value,
@@ -77,7 +65,7 @@ export const LockerRoom = () => {
     }
     
     const updateLockerRoom = () => {
-        if (validate()) {
+        if (validateInputs([nameInput])) {
             const command: UpdateLockerRoomCommand = {
                 id: lockerRoomId,
                 name: nameInput.current?.value,

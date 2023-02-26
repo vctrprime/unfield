@@ -14,7 +14,7 @@ import {FieldDto} from "../../../models/dto/offers/FieldDto";
 import {Parent} from "../../common/tree/Parent";
 import {Child} from "../../common/tree/Child";
 import {FieldCoveringType} from "../../../models/dto/offers/enums/FieldCoveringType";
-import {SportKind} from "../../../models/dto/offers/enums/SportKind";
+import {SportKindsRenderer} from "../common/GridRenderers";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -51,17 +51,7 @@ export const Fields = () => {
         return <span>{ t("offers:coverings:" + value.toLowerCase())}</span>;
     }
 
-    const SportKindsRenderer = (obj : any) => {
-        const kinds = obj.data.sportKinds;
-        
-        const textKinds = kinds.map((k: SportKind) => {
-            const value = SportKind[k];
-            return t("offers:sports:" + value.toLowerCase());
-        })
-
-        return <span>{textKinds.join('; ')}</span>;
-    }
-
+    
     const IsActiveRenderer = (obj: any) => {
         return <Checkbox onChange={() => toggleIsActive(obj.node.id, obj.data)} toggle checked={obj.data.isActive}/>;
     }
@@ -92,7 +82,7 @@ export const Fields = () => {
         {field: 'name', headerName: t("offers:fields_grid:name"), width: 250, cellRenderer: NameRenderer },
         {field: 'size', cellClass: "grid-center-cell", headerName: t("offers:fields_grid:size"), width: 120, cellRenderer: SizeRenderer },
         {field: 'coveringType', cellClass: "grid-center-cell", headerName: t("offers:fields_grid:covering"), width: 200, cellRenderer: CoveringRenderer },
-        {field: 'sportKinds', headerName: t("offers:fields_grid:sport_kinds"), width: 500, cellRenderer: SportKindsRenderer },
+        {field: 'sportKinds', headerName: t("offers:sports:title"), width: 500, cellRenderer: SportKindsRenderer },
         {field: 'description', headerName: t("offers:fields_grid:description"), width: 500, cellRenderer: (obj: any) => <GridCellWithTitleRenderer value={obj.data.description}/> },
         {field: 'userCreated', cellClass: "grid-center-cell", headerName: t("offers:fields_grid:user_created"), width: 200},
         {field: 'dateCreated', cellClass: "grid-center-cell", headerName: t("offers:fields_grid:date_created"), width: 170, valueFormatter: dateFormatter},

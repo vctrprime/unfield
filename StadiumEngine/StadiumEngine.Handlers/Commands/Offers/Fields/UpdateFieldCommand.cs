@@ -15,6 +15,6 @@ public sealed class UpdateFieldCommand : IRequest<UpdateFieldDto>
     public int? ParentFieldId { get; set; }
     public bool IsActive { get; set; }
     public CoveringType CoveringType { get; set; }
-    public List<SportKind> SportKinds { get; set; }
+    public List<SportKind> SportKinds { get; set; } = new List<SportKind>();
     public List<ImageFile> Images { get; set; } = new List<ImageFile>();
 }

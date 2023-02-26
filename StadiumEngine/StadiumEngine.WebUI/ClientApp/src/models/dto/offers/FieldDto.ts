@@ -1,18 +1,12 @@
 import {FieldCoveringType} from "./enums/FieldCoveringType";
 import {SportKind} from "./enums/SportKind";
-import {BaseEntityDto} from "../BaseEntityDto";
+import {OfferDto} from "./OfferDto";
 
-export interface FieldDto extends BaseEntityDto {
-    id: number;
-    name: string;
-    description: string|null;
-    images: string[];
+export interface FieldDto extends OfferDto {
     width: number;
     length: number;
     parentFieldId: number | null;
     coveringType: FieldCoveringType;
-    sportKinds: SportKind[];
-    isActive: boolean;
     IsLastChild: boolean;
     childNames: string[];
 }

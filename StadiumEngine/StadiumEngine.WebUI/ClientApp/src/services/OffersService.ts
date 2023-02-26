@@ -4,6 +4,7 @@ import {UpdateLockerRoomCommand} from "../models/command/offers/UpdateLockerRoom
 import {t} from "i18next";
 import {AddLockerRoomCommand} from "../models/command/offers/AddLockerRoomCommand";
 import {FieldDto} from "../models/dto/offers/FieldDto";
+import {InventoryDto} from "../models/dto/offers/InventoryDto";
 
 export interface IOffersService {
     getLockerRooms(): Promise<LockerRoomDto[]>;
@@ -17,6 +18,12 @@ export interface IOffersService {
     updateField(command: FormData): Promise<void>;
     addField(command: FormData): Promise<void>;
     deleteField(fieldId: number): Promise<void>;
+
+    getInventories(): Promise<InventoryDto[]>;
+    getInventory(id:number): Promise<InventoryDto>;
+    updateInventory(command: FormData): Promise<void>;
+    addInventory(command: FormData): Promise<void>;
+    deleteInventory(inventoryId: number): Promise<void>;
 }
 
 export class OffersService extends BaseService implements IOffersService {
@@ -96,6 +103,45 @@ export class OffersService extends BaseService implements IOffersService {
     deleteField(fieldId: number): Promise<void> {
         return this.fetchWrapper.delete({
             url: `${this.baseUrl}/fields/${fieldId}`,
+            successMessage: t('common:success_request'),
+        })
+    }
+
+    getInventories(): Promise<InventoryDto[]> {
+        return this.fetchWrapper.get({
+            url: `${this.baseUrl}/inventories`,
+            withSpinner: false,
+            hideSpinner: false
+        })
+    }
+
+    getInventory(id: number): Promise<InventoryDto> {
+        return this.fetchWrapper.get({
+            url: `${this.baseUrl}/inventories/${id}`,
+        })
+    }
+
+    updateInventory(command: FormData): Promise<void> {
+        return this.fetchWrapper.put({
+            url: `${this.baseUrl}/inventories`,
+            body: command,
+            contentType: null,
+            successMessage: t('common:success_request')
+        })
+    }
+
+    addInventory(command: FormData): Promise<void> {
+        return this.fetchWrapper.post({
+            url: `${this.baseUrl}/inventories`,
+            body: command,
+            contentType: null,
+            successMessage: t('common:success_request')
+        })
+    }
+
+    deleteInventory(inventoryId: number): Promise<void> {
+        return this.fetchWrapper.delete({
+            url: `${this.baseUrl}/inventories/${inventoryId}`,
             successMessage: t('common:success_request'),
         })
     }

@@ -1,10 +1,10 @@
 @import "src/css/const.scss";
 
-.locker-rooms-container, .fields-container {
+.locker-rooms-container, .fields-container, .inventories-container {
   height: 100%;
 }
 
-.locker-room-form, .field-form {
+.locker-room-form, .field-form, .inventory-form {
   padding: 15px;
   
   #name-input {
@@ -32,6 +32,16 @@
   }
 }
 
+.inventory-form {
+  .price-qty-container {
+    display: flex;
+    
+    .delimiter {
+      width: 10px;
+    }
+  }
+}
+
 .field-form {
   .field-size-cont {
     display: flex;
@@ -48,58 +58,58 @@
       }
     }
   }
-  
-  .field-images {
-    
-    .field-image {
-      height: 300px;
-      float: left;
-      padding: 5px;
-      position: relative;
-      
-      .tools {
-        height: 32px;
-        position: absolute;
-        width: calc(100% - 10px);
-        background-color: rgba(255,255,255,0.7);
+}
+
+.offer-images {
+
+  .offer-image {
+    height: 300px;
+    float: left;
+    padding: 5px;
+    position: relative;
+
+    .tools {
+      height: 32px;
+      position: absolute;
+      width: calc(100% - 10px);
+      background-color: rgba(255,255,255,0.7);
+      display: flex;
+      justify-content: space-between;
+      z-index: 100;
+
+      .change-order-buttons {
+        height: 100%;
+        align-items: center;
         display: flex;
-        justify-content: space-between;
-        z-index: 100;
+        padding-top: 4px;
 
-        .change-order-buttons {
-          height: 100%;
-          align-items: center;
-          display: flex;
-          padding-top: 4px;
-          
-          i {
-            cursor: pointer;
-            font-size: 22px;
-            
-            &.right {
-              margin-left: -10px;
-            }
-          }
-        }
-        
-        .remove-buttons {
-          height: 100%;
-          align-items: center;
-          display: flex;
-          padding-right: 5px;
-          padding-bottom: 3px;
+        i {
+          cursor: pointer;
+          font-size: 22px;
 
-          i {
-            cursor: pointer;
-            font-size: 16px;
+          &.right {
+            margin-left: -10px;
           }
         }
       }
-      
-      img {
-        height: calc(100% - 32px);
-        max-width: 400px;
+
+      .remove-buttons {
+        height: 100%;
+        align-items: center;
+        display: flex;
+        padding-right: 5px;
+        padding-bottom: 3px;
+
+        i {
+          cursor: pointer;
+          font-size: 16px;
+        }
       }
+    }
+
+    img {
+      height: calc(100% - 32px);
+      max-width: 400px;
     }
   }
 }
