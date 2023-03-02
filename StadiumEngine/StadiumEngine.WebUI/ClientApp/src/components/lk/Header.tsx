@@ -63,7 +63,7 @@ export const Header = () => {
         navigate("/admin")
     }
 
-    const routesWithBackButton = ["locker-rooms", "fields", "inventories"];
+    const routesWithBackButton = ["locker-rooms", "fields", "inventories", "price-groups"];
     
     const routeWithoutStadiumList = ():boolean => {
         return routesWithBackButton.filter(r => window.location.pathname.indexOf(r + "/") !== -1).length > 0 
@@ -76,7 +76,7 @@ export const Header = () => {
         const route = parts[parts.length-2];
         
         return routesWithBackButton.find(r => r == route) !== undefined ?
-            <div className="back-button" onClick={() => navigate(`/lk/${parts[parts.length-3]}/${route}`)}>{t(`offers:back_buttons:${route.replace('-', '_')}`)}</div> :
+            <div className="back-button" onClick={() => navigate(`/lk/${parts[parts.length-3]}/${route}`)}>{t(`common:back_buttons:${route.replace('-', '_')}`)}</div> :
             <span/>
     }
     

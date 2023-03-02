@@ -67,4 +67,14 @@ public class FieldDto : BaseEntityDto
     /// </summary>
     public List<string> ChildNames { get; set; }
     
+    /// <summary>
+    /// Ценовая группа (id)
+    /// </summary>
+    public int? PriceGroupId { get; set; }
+    
+    /// <summary>
+    /// Ценовая группа (название)
+    /// </summary>
+    public string? PriceGroupName { get; set; }
+    
 }

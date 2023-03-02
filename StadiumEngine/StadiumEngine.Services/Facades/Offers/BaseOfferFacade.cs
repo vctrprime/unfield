@@ -6,7 +6,7 @@ using StadiumEngine.Domain.Services.Infrastructure;
 
 namespace StadiumEngine.Services.Facades.Offers;
 
-internal abstract class BaseOfferFacade<T> where T : BaseOffer
+internal abstract class BaseOfferFacade<T> where T : BaseOfferEntity
 {
     private readonly IOffersImageRepository _imageRepository;
     private readonly IImageService _imageService;

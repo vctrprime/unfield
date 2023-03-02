@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Facades.Offers;
+using StadiumEngine.Domain.Services.Facades.Rates;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.Domain.Services.Infrastructure;
 using StadiumEngine.Repositories.Infrastructure.Extensions;
@@ -9,6 +10,7 @@ using StadiumEngine.Services.Builders.Utils;
 using StadiumEngine.Services.Checkers;
 using StadiumEngine.Services.Facades.Accounts;
 using StadiumEngine.Services.Facades.Offers;
+using StadiumEngine.Services.Facades.Rates;
 using StadiumEngine.Services.Facades.Services.Accounts;
 using StadiumEngine.Services.Identity;
 using StadiumEngine.Services.Infrastructure;
@@ -43,6 +45,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IFieldFacade, FieldFacade>();
         services.AddScoped<ILockerRoomFacade, LockerRoomFacade>();
         services.AddScoped<IInventoryFacade, InventoryFacade>();
+
+        services.AddScoped<IPriceGroupFacade, PriceGroupFacade>();
 
         #endregion
 

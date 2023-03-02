@@ -3,6 +3,7 @@ using StadiumEngine.Domain.Entities;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Entities.Geo;
 using StadiumEngine.Domain.Entities.Offers;
+using StadiumEngine.Domain.Entities.Rates;
 
 namespace StadiumEngine.Repositories.Infrastructure.Contexts;
 
@@ -31,6 +32,14 @@ internal class MainDbContext : DbContext
     public DbSet<Inventory> Inventories { get; set; }
     public DbSet<OffersImage> OffersImages { get; set; }
     public DbSet<OffersSportKind> SportKinds { get; set; }
+    #endregion
+
+    #region rates
+    public DbSet<Tariff> Tariffs { get; set; }
+    public DbSet<DayInterval> DayIntervals { get; set; }
+    public DbSet<TariffDayInterval> TariffDayIntervals { get; set; }
+    public DbSet<Price> Prices { get; set; }
+    public DbSet<PriceGroup> PriceGroups { get; set; }
     #endregion
         
     public MainDbContext(DbContextOptions<MainDbContext> options)

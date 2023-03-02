@@ -45,6 +45,9 @@ import {Fields} from "./components/lk/offers/Fields";
 import {Field} from "./components/lk/offers/Field";
 import {Inventory} from "./components/lk/offers/Inventory";
 import {Inventories} from "./components/lk/offers/Inventories";
+import {Rates} from "./components/lk/rates/Rates";
+import {PriceGroups} from "./components/lk/rates/PriceGroups";
+import {PriceGroup} from "./components/lk/rates/PriceGroup";
 
 const ReactNotifications = require('react-notifications');
 const { NotificationContainer } = ReactNotifications;
@@ -123,6 +126,11 @@ const App = () => {
                   <Route path="offers/locker-rooms/:id" element={<LockerRoom />} />
                   <Route path="offers/fields/:id" element={<Field />} />
                   <Route path="offers/inventories/:id" element={<Inventory />} />
+
+                  <Route path="rates" element={<Rates />}>
+                      <Route path="price-groups" element={<PriceGroups />}/>
+                  </Route>
+                  <Route path="rates/price-groups/:id" element={<PriceGroup />} />
                   
                   <Route path="schedule" element={<Schedule />} />
                   <Route path="employees" element={<Employees />} />

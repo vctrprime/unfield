@@ -146,55 +146,65 @@ export const Permissions = () => {
                     defaultValue={selectedRoleId}
                     /> 
             </div> : null}
-        <div className="outer-container">
-            <div className="inner-container">
-                <PermissionGroupTitle groupKey="main-settings" />
-                {new Array(1).fill('').map((v, i) => {
-                    return <Permission key={i} className="permission" permission={data.find(p => p.groupKey === 'main-settings' && p.sortValue === i+1)}/>
-                   
-                })}
+        <div>
+            <div className="outer-container">
+                <div className="inner-container">
+                    <PermissionGroupTitle groupKey="main-settings" />
+                    {new Array(1).fill('').map((v, i) => {
+                        return <Permission key={i} className="permission" permission={data.find(p => p.groupKey === 'main-settings' && p.sortValue === i+1)}/>
+                       
+                    })}
+                </div>
             </div>
-        </div>
-        <div className="outer-container">
-            <div className="inner-container">
-                <PermissionGroupTitle groupKey="schedule" />
-                {new Array(1).fill('').map((v, i) => {
-                    return <Permission key={i} className="permission" permission={data.find(p => p.groupKey === 'schedule' && p.sortValue === i+1)}/>
-                })}
+            <div className="outer-container">
+                <div className="inner-container">
+                    <PermissionGroupTitle groupKey="schedule" />
+                    {new Array(1).fill('').map((v, i) => {
+                        return <Permission key={i} className="permission" permission={data.find(p => p.groupKey === 'schedule' && p.sortValue === i+1)}/>
+                    })}
+                </div>
             </div>
-        </div>
-        <div className="outer-container">
-            <div className="inner-container">
-                <PermissionGroupTitle groupKey="employees" />
-                {new Array(1).fill('').map((v, i) => {
-                    return <Permission key={i} className="permission" permission={data.find(p => p.groupKey === 'employees' && p.sortValue === i+1)}/>
-                })}
+            <div className="outer-container">
+                <div className="inner-container">
+                    <PermissionGroupTitle groupKey="employees" />
+                    {new Array(1).fill('').map((v, i) => {
+                        return <Permission key={i} className="permission" permission={data.find(p => p.groupKey === 'employees' && p.sortValue === i+1)}/>
+                    })}
+                </div>
             </div>
-        </div>
-        <div className="outer-container">
-            <div className="inner-container">
-                <PermissionGroupTitle groupKey="reports" />
-                {new Array(1).fill('').map((v, i) => {
-                    return <Permission key={i} className="permission" permission={data.find(p => p.groupKey === 'reports' && p.sortValue === i+1)}/>
-                })}
+            <div className="outer-container">
+                <div className="inner-container">
+                    <PermissionGroupTitle groupKey="reports" />
+                    {new Array(1).fill('').map((v, i) => {
+                        return <Permission key={i} className="permission" permission={data.find(p => p.groupKey === 'reports' && p.sortValue === i+1)}/>
+                    })}
+                </div>
             </div>
-        </div>
-        <div className="outer-container" style={{width: '100%'}}>
-            <div className="offers-permissions-container inner-container">
-                <PermissionGroupTitle groupKey="offers" />
-                {new Array(12).fill('').map((v, i) => {
-                    return <Permission key={i} className="permission offers-permission" permission={data.find(p => p.groupKey === 'offers' && p.sortValue === i+1)}/>
-                })}
+            <div className="outer-container" style={{width: '100%'}}>
+                <div className="offers-permissions-container inner-container">
+                    <PermissionGroupTitle groupKey="offers" />
+                    {new Array(12).fill('').map((v, i) => {
+                        return <Permission key={i} className="permission offers-permission" permission={data.find(p => p.groupKey === 'offers' && p.sortValue === i+1)}/>
+                    })}
+                </div>
             </div>
-        </div>
-        <div className="outer-container" style={{width: '100%'}}>
-            <div className="accounts-permissions-container inner-container">
-                <PermissionGroupTitle groupKey="accounts" />
-                {new Array(12).fill('').map((v, i) => {
-                    return <Permission key={i} className="permission accounts-permission" permission={data.find(p => p.groupKey === 'accounts' && p.sortValue === i+1)}/>
-                })}
+            <div className="outer-container" style={{width: '100%'}}>
+                <div className="rates-permissions-container inner-container">
+                    <PermissionGroupTitle groupKey="rates" />
+                    {new Array(12).fill('').map((v, i) => {
+                        return <Permission key={i} className="permission rates-permission" permission={data.find(p => p.groupKey === 'rates' && p.sortValue === i+1)}/>
+                    })}
+                </div>
             </div>
-            
+            <div className="outer-container" style={{width: '100%'}}>
+                <div className="accounts-permissions-container inner-container">
+                    <PermissionGroupTitle groupKey="accounts" />
+                    {new Array(12).fill('').map((v, i) => {
+                        return <Permission key={i} className="permission accounts-permission" permission={data.find(p => p.groupKey === 'accounts' && p.sortValue === i+1)}/>
+                    })}
+                </div>
+                
+            </div>
         </div>
     </div>);
 }

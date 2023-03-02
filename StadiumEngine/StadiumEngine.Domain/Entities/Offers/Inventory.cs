@@ -4,7 +4,7 @@ using StadiumEngine.Common.Enums.Offers;
 namespace StadiumEngine.Domain.Entities.Offers;
 
 [Table("inventory", Schema = "offers")]
-public class Inventory : BaseOffer
+public class Inventory : BaseOfferEntity
 {
     [Column("currency")]
     public Currency Currency { get; set; }
@@ -14,10 +14,5 @@ public class Inventory : BaseOffer
     
     [Column("quantity")]
     public decimal Quantity { get; set; }
-    
-    [Column("is_deleted")]
-    public bool IsDeleted { get; set; }
-    
-    [Column("is_active")]
-    public bool IsActive { get; set; }
+   
 }

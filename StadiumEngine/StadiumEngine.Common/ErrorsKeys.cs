@@ -36,4 +36,8 @@ public static class ErrorsKeys
 
     #endregion
 
+    #region MyRegion
+    public const string PriceGroupNotFound = "rates:price_group_not_found";
+    
+    #endregion
 }

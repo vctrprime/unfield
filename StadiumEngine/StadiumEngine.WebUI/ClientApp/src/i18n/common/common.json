@@ -3,10 +3,17 @@
     "main_settings": "Основные настройки",
     "schedule": "Расписание и брони",
     "offers": "Активы",
+    "rates": "Тарифы и цены",
     "employees": "Персонал",
     "reports": "Отчеты",
     "accounts": "Аккаунты и роли",
     "logout": "Выйти"
+  },
+  "back_buttons": {
+    "locker_rooms": "К списку раздевалок",
+    "fields": "К списку площадок",
+    "inventories": "К списку инвентаря",
+    "price_groups": "К списку ценовых групп"
   },
   "lk_header": {
     "current_stadium_title": "Текущий объект",

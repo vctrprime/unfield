@@ -72,6 +72,10 @@ export const NavMenu = () => {
                                 <CDBSidebarMenuItem title={t('common:lk_navbar:offers')} icon="object-ungroup">{t('common:lk_navbar:offers')}</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
+                            {viewNavLink('rates') ? <NavLink to="/lk/rates"  className={getNavLinkClassName}>
+                                <CDBSidebarMenuItem title={t('common:lk_navbar:rates')} icon="dollar-sign">{t('common:lk_navbar:rates')}</CDBSidebarMenuItem>
+                            </NavLink> : <span/>}
+
                             {viewNavLink('employees') ? <NavLink to="/lk/employees"  className={getNavLinkClassName}>
                                 <CDBSidebarMenuItem title={t('common:lk_navbar:employees')} icon="user-tie">{t('common:lk_navbar:employees')}</CDBSidebarMenuItem>
                             </NavLink> : <span/>}

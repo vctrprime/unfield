@@ -74,9 +74,10 @@
         height: 36px;
         display: inline-block;
         background-color: white;
+        position: sticky;
+        top: 0;
+        z-index: 100;
         
-        
-          
           a {
             color: $dark-color;
 

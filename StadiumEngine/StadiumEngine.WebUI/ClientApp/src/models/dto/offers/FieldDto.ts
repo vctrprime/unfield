@@ -7,6 +7,8 @@ export interface FieldDto extends OfferDto {
     length: number;
     parentFieldId: number | null;
     coveringType: FieldCoveringType;
-    IsLastChild: boolean;
+    isLastChild: boolean;
     childNames: string[];
+    priceGroupId: number | null;
+    priceGroupName: string | null;
 }

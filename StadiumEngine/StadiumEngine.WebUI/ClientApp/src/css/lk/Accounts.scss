@@ -86,13 +86,13 @@
     }
     
 
-    .accounts-permissions-container, .offers-permissions-container {
+    .accounts-permissions-container, .offers-permissions-container, .rates-permissions-container {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
       width: 100%;
       
-      .accounts-permission, .offers-permission  {
+      .accounts-permission, .offers-permission, .rates-permission {
         flex: 1 0 25%;
       }
     }

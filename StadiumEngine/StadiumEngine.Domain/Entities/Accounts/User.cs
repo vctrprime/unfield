@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using StadiumEngine.Domain.Entities.Offers;
+using StadiumEngine.Domain.Entities.Rates;
 
 namespace StadiumEngine.Domain.Entities.Accounts;
 
@@ -86,5 +87,27 @@ public class User : BaseUserEntity
     
     [InverseProperty("UserCreated")]
     public virtual ICollection<OffersImage> CreatedOffersImages { get; set; }
+    [InverseProperty("UserCreated")]
+    public virtual ICollection<OffersSportKind> CreatedOffersSportKinds { get; set; }
+    
+    [InverseProperty("UserCreated")]
+    public virtual ICollection<Tariff> CreatedTariff { get; set; }
+    [InverseProperty("UserModified")]
+    public virtual ICollection<Tariff> LastModifiedTariff { get; set; }
+    
+    [InverseProperty("UserCreated")]
+    public virtual ICollection<TariffDayInterval> CreatedTariffDayIntervals { get; set; }
+    [InverseProperty("UserModified")]
+    public virtual ICollection<TariffDayInterval> LastModifiedTariffDayIntervals { get; set; }
+    
+    [InverseProperty("UserCreated")]
+    public virtual ICollection<Price> CreatedPrices { get; set; }
+    [InverseProperty("UserModified")]
+    public virtual ICollection<Price> LastModifiedPrices { get; set; }
+    
+    [InverseProperty("UserCreated")]
+    public virtual ICollection<PriceGroup> CreatedPriceGroups { get; set; }
+    [InverseProperty("UserModified")]
+    public virtual ICollection<PriceGroup> LastModifiedPriceGroups { get; set; }
 
 }

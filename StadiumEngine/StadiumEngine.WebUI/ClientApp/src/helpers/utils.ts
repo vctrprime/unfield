@@ -28,6 +28,7 @@ export function getFieldBasicFormData(data: FieldDto) : FormData {
     form.append("length", data.length.toString());
     form.append("isActive", data.isActive.toString());
     form.append("parentFieldId", data.parentFieldId === null ? "" : data.parentFieldId.toString());
+    form.append("priceGroupId", data.priceGroupId === null ? "" : data.priceGroupId.toString());
     form.append("coveringType", data.coveringType.toString());
     for (let i = 0; i < data.sportKinds.length; i++) {
         form.append('sportKinds['+i+']', data.sportKinds[i].toString());

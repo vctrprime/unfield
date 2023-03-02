@@ -40,6 +40,7 @@ internal sealed class UpdateFieldHandler : BaseRequestHandler<UpdateFieldCommand
             field.ParentFieldId = request.ParentFieldId;
             field.CoveringType = request.CoveringType;
             field.IsActive = request.IsActive;
+            field.PriceGroupId = request.PriceGroupId;
             field.UserModifiedId = _userId;
 
             await _fieldFacade.UpdateField(field, request.Images, request.SportKinds);

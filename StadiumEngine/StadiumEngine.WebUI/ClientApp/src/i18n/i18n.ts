@@ -23,6 +23,9 @@ import errorsEN from '../i18n/errors/errors.en.json';
 import offersRU from '../i18n/offers/offers.json';
 import offersEN from '../i18n/offers/offers.en.json';
 
+import ratesRU from '../i18n/rates/rates.json';
+import ratesEN from '../i18n/rates/rates.en.json';
+
 
 const resources = {
     ru: {
@@ -31,7 +34,8 @@ const resources = {
         portal: portalRU,
         admin: adminRU,
         errors: errorsRU,
-        offers: offersRU
+        offers: offersRU,
+        rates: ratesRU
     },
     en: {
         accounts: accountsEN,
@@ -39,7 +43,8 @@ const resources = {
         portal: portalEN,
         admin: adminEN,
         errors: errorsEN,
-        offers: offersEN
+        offers: offersEN,
+        rates: ratesEN
     }
 };
 
@@ -47,7 +52,7 @@ i18next
     .use(reactI18nextModule) // passes i18n down to react-i18next
     .init({
         fallbackLng: "ru",
-        ns: ['portal', 'common','accounts', 'admin', 'errors', 'offers'],
+        ns: ['portal', 'common','accounts', 'admin', 'errors', 'offers', 'rates'],
         resources,
         lng: localStorage.getItem('language') || 'ru',
         keySeparator: false, // we do not use keys in form messages.welcome

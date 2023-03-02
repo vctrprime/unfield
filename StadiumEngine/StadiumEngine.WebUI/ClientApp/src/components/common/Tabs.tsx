@@ -22,7 +22,7 @@ export const Tabs = ({ tabsData, leftNavRoute } : TabsProps) => {
     
     return (
         <div className="tabs-container">
-            <div className="tabs-links">
+            <div className="tabs-links box-shadow">
                 {tabsData.map((tab, i) => {
                     return (
                         <NavLink key={i} to={tab.route} end>

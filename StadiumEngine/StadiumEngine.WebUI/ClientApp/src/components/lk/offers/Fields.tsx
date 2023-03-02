@@ -81,6 +81,7 @@ export const Fields = () => {
         {field: 'isActive', cellClass: "grid-center-cell grid-vcenter-cell", headerName: '', width: 90, cellRenderer: IsActiveRenderer},
         {field: 'name', headerName: t("offers:fields_grid:name"), width: 250, cellRenderer: NameRenderer },
         {field: 'size', cellClass: "grid-center-cell", headerName: t("offers:fields_grid:size"), width: 120, cellRenderer: SizeRenderer },
+        {field: 'priceGroupName', headerName: t("offers:fields_grid:price_group"), width: 200 },
         {field: 'coveringType', cellClass: "grid-center-cell", headerName: t("offers:fields_grid:covering"), width: 200, cellRenderer: CoveringRenderer },
         {field: 'sportKinds', headerName: t("offers:sports:title"), width: 500, cellRenderer: SportKindsRenderer },
         {field: 'description', headerName: t("offers:fields_grid:description"), width: 500, cellRenderer: (obj: any) => <GridCellWithTitleRenderer value={obj.data.description}/> },

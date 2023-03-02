@@ -18,6 +18,7 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
             .Include(f => f.SportKinds)
             .Include(f => f.Images)
             .Include(f => f.ChildFields.Where(cf => !cf.IsDeleted))
+            .Include(f => f.PriceGroup)
             .ToListAsync();
     }
 
@@ -28,6 +29,7 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
             .Include(f => f.SportKinds)
             .Include(f => f.Images)
             .Include(f => f.ChildFields.Where(cf => !cf.IsDeleted))
+            .Include(f => f.PriceGroup)
             .FirstOrDefaultAsync(f => f.Id == fieldId && f.StadiumId == stadiumId && !f.IsDeleted);
     }
 

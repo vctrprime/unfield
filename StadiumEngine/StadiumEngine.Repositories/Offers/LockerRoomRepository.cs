@@ -5,7 +5,7 @@ using StadiumEngine.Repositories.Infrastructure.Contexts;
 
 namespace StadiumEngine.Repositories.Offers;
 
-internal class LockerRoomRepository: BaseRepository<LockerRoom>, ILockerRoomRepository
+internal class LockerRoomRepository : BaseRepository<LockerRoom>, ILockerRoomRepository
 {
     public LockerRoomRepository(MainDbContext context) : base(context)
     {

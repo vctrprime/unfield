@@ -25,6 +25,7 @@ public static class ServiceCollectionExtensions
             cfg.AddProfile(new AccountsProfile());
             cfg.AddProfile(new AdminProfile());
             cfg.AddProfile(new OffersProfile());
+            cfg.AddProfile(new RatesProfile());
         }).CreateMapper());
 
         services.AddScoped<IAddUserHandlerFacade, AddUserHandlerFacade>();

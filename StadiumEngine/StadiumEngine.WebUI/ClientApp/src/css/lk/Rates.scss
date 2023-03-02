@@ -1,0 +1,13 @@
+@import "src/css/const.scss";
+
+.price-groups-container {
+  height: 100%;
+}
+
+.price-group-form {
+  padding: 15px;
+
+  #name-input {
+    width: 400px;
+  }
+}

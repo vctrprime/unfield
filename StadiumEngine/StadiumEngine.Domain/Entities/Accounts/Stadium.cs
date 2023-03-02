@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using StadiumEngine.Domain.Entities.Geo;
 using StadiumEngine.Domain.Entities.Offers;
+using StadiumEngine.Domain.Entities.Rates;
 
 namespace StadiumEngine.Domain.Entities.Accounts;
 
@@ -30,4 +31,6 @@ public class Stadium : BaseEntity
     public virtual ICollection<RoleStadium> RoleStadiums { get; set; }
     public virtual ICollection<LockerRoom> LockerRooms { get; set; }
     public virtual ICollection<Field> Fields { get; set; }
+    public virtual ICollection<Tariff> Tariffs { get; set; }
+    public virtual ICollection<PriceGroup> PriceGroups { get; set; }
 }

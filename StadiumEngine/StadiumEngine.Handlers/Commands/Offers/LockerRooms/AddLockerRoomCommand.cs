@@ -7,7 +7,7 @@ namespace StadiumEngine.Handlers.Commands.Offers.LockerRooms;
 public sealed class AddLockerRoomCommand : IRequest<AddLockerRoomDto>
 {
     public string Name { get; set; }
-    public string Description { get; set; }
+    public string? Description { get; set; }
     public LockerRoomGender Gender { get; set; }
     public bool IsActive { get; set; }
 }

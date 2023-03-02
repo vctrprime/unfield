@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using StadiumEngine.Common.Enums.Offers;
+using StadiumEngine.Domain.Entities.Rates;
 
 namespace StadiumEngine.Domain.Entities.Offers;
 
 [Table("field", Schema = "offers")]
-public class Field : BaseOffer
+public class Field : BaseOfferEntity
 {
     [Column("parent_field_id")]
     public int? ParentFieldId { get; set; }
@@ -23,11 +24,13 @@ public class Field : BaseOffer
     [Column("length")]
     public decimal Length { get; set; }
     
-    [Column("is_deleted")]
-    public bool IsDeleted { get; set; }
+    [Column("price_group_id")]
+    public int? PriceGroupId { get; set; }
     
-    [Column("is_active")]
-    public bool IsActive { get; set; }
+    [ForeignKey("PriceGroupId")]
+    public virtual PriceGroup? PriceGroup { get; set; }
     
     public virtual ICollection<Field> ChildFields { get; set; }
+    
+    public virtual ICollection<Price> Prices { get; set; }
 }

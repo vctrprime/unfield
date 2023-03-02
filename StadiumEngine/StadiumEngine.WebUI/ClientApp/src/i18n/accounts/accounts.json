@@ -87,7 +87,8 @@
     "offers": "Активы",
     "employees": "Персонал",
     "reports": "Отчетность",
-    "accounts": "Аккаунты и роли"
+    "accounts": "Аккаунты и роли",
+    "rates": "Тарифы и цены"
   },
   "permissions": {
     "get_bookings": "Просмотр броней",
@@ -145,6 +146,14 @@
     "toggle_role_stadium": "Связь \"роль-объект\"",
     "toggle_role_stadium_description": "Возможность добавить или удалить связь роли с объектом",
     "update_main_settings": "Обновление основных настроек",
-    "update_main_settings_description": "Возможность изменить основные данные по объекту"
+    "update_main_settings_description": "Возможность изменить основные данные по объекту",
+    "get_price_groups": "Просмотр ценовых групп",
+    "get_price_groups_description": "Просмотр списка ценовых групп",
+    "insert_price_group": "Добавление ценовой группы",
+    "insert_price_group_description": "Возможность добавить ценовую группу",
+    "update_price_group": "Обновление ценовой группы",
+    "update_price_group_description": "Возможность изменить данные ценовой группы",
+    "delete_price_group": "Удаление ценовой группы",
+    "delete_price_group_description": "Возможность удалить ценовую группу"
   }
 }

@@ -12,6 +12,8 @@ import {SportKind} from "../../../models/dto/offers/enums/SportKind";
 import {ImageFile} from "../../../models/common/ImageFile";
 import {ImagesForm} from "../common/ImagesForm";
 import {SportKindSelect} from "../common/SportKindSelect";
+import {IRatesService} from "../../../services/RatesService";
+import {PriceGroupDto} from "../../../models/dto/rates/PriceGroupDto";
 
 
 export const Field = () => {
@@ -30,8 +32,10 @@ export const Field = () => {
     const [fieldId, setFieldId] = useState(parseInt(id||"0"));
     
     const [parentFields, setParentFields] = useState<FieldDto[]>([]);
+    const [priceGroups, setPriceGroups] = useState<PriceGroupDto[]>([]);
 
     const [offersService] = useInject<IOffersService>('OffersService');
+    const [ratesService] = useInject<IRatesService>('RatesService');
 
     const navigate = useNavigate();
 
@@ -54,9 +58,16 @@ export const Field = () => {
         })
     }
 
+    const fetchPriceGroups = () => {
+        ratesService.getPriceGroups().then((result: PriceGroupDto[]) => {
+            setPriceGroups(result.filter(f => f.isActive));
+        })
+    }
+
     useEffect(() => {
         fetchField();
         fetchParentFields();
+        fetchPriceGroups();
     }, [])
 
     useEffect(() => {
@@ -103,6 +114,13 @@ export const Field = () => {
         setData({
             ...data,
             parentFieldId: value
+        });
+    }
+
+    const changePriceGroupId = (e : any, { value }: any) => {
+        setData({
+            ...data,
+            priceGroupId: value
         });
     }
 
@@ -206,6 +224,25 @@ export const Field = () => {
                     onChange={changeParentFieldId}
                     value={data.parentFieldId||undefined}
                     options={parentFields.map((f) => {
+                        return {
+                            key: f.id.toString(),
+                            value: f.id,
+                            text: f.name
+                        }
+                    })}
+                />
+            </Form.Field>}
+            {priceGroups.length > 0 && <Form.Field >
+                <label>{t("offers:fields_grid:price_group")}</label>
+                <div style={{fontSize: '12px', lineHeight: '12px'}}>{t("offers:fields_grid:price_group_hint")}</div>
+                <Dropdown
+                    placeholder={t("offers:fields_grid:price_group")||''}
+                    clearable
+                    style={{width: "300px", marginTop: '10px'}}
+                    selection
+                    onChange={changePriceGroupId}
+                    value={data.priceGroupId||undefined}
+                    options={priceGroups.map((f) => {
                         return {
                             key: f.id.toString(),
                             value: f.id,

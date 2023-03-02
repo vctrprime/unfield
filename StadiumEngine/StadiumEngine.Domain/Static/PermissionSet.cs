@@ -40,8 +40,21 @@ public static class PermissionSet
         },
         new PermissionGroup
         {
-            Key = "employees",
+            Key = "rates",
             Sort = 4,
+            Name = "Тарифы и цены",
+            Permissions = new List<Permission>
+            {
+                new() { Name = "get-price-groups", DisplayName = "Просмотр ценовых групп", Description = "Просмотр списка ценовых групп", Sort = 1},
+                new() { Name = "insert-price-group", DisplayName = "Добавление ценовой группы", Description = "Возможность добавить ценовую группу", Sort = 2},
+                new() { Name = "update-price-group", DisplayName = "Обновление ценовой группы", Description = "Возможность изменить данные ценовой группы", Sort = 3},
+                new() { Name = "delete-price-group", DisplayName = "Удаление ценовой группы", Description = "Возможность удалить ценовую группу", Sort = 4},
+            }
+        },
+        new PermissionGroup
+        {
+            Key = "employees",
+            Sort = 5,
             Name = "Персонал",
             Permissions = new List<Permission>
             {
@@ -51,7 +64,7 @@ public static class PermissionSet
         new PermissionGroup
         {
             Key = "reports",
-            Sort = 5,
+            Sort = 6,
             Name = "Отчетность",
             Permissions = new List<Permission>
             {
@@ -61,7 +74,7 @@ public static class PermissionSet
         new PermissionGroup
         {
             Key = "accounts",
-            Sort = 6,
+            Sort = 7,
             Name = "Аккаунты и роли",
             Description = "Управление доступом к приложению",
             Permissions = new List<Permission>
