@@ -10,10 +10,10 @@ namespace StadiumEngine.Handlers.Handlers.Admin;
 
 internal sealed class GetLegalsByFilterHandler : BaseRequestHandler<GetLegalsByFilterQuery, List<LegalDto>>
 {
-    private readonly ILegalFacade _legalFacade;
+    private readonly ILegalQueryFacade _legalFacade;
 
     public GetLegalsByFilterHandler(
-        ILegalFacade legalFacade,
+        ILegalQueryFacade legalFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {

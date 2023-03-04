@@ -10,10 +10,10 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Roles;
 
 internal sealed class GetPermissionsForRoleHandler : BaseRequestHandler<GetPermissionsForRoleQuery, List<PermissionDto>>
 {
-    private readonly IRoleFacade _roleFacade;
+    private readonly IRoleQueryFacade _roleFacade;
 
     public GetPermissionsForRoleHandler(
-        IRoleFacade roleFacade,
+        IRoleQueryFacade roleFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {

@@ -10,10 +10,10 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Roles;
 
 internal sealed class UpdateRoleHandler : BaseCommandHandler<UpdateRoleCommand, UpdateRoleDto>
 {
-    private readonly IRoleFacade _roleFacade;
+    private readonly IRoleCommandFacade _roleFacade;
     
     public UpdateRoleHandler(
-        IRoleFacade roleFacade,
+        IRoleCommandFacade roleFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
         IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)

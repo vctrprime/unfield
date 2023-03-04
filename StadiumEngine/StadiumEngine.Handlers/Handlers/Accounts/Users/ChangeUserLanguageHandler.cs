@@ -10,10 +10,10 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
 internal class ChangeUserLanguageHandler : BaseCommandHandler<ChangeUserLanguageCommand, ChangeUserLanguageDto>
 {
-    private readonly IUserFacade _userFacade;
+    private readonly IUserCommandFacade _userFacade;
 
     public ChangeUserLanguageHandler(
-        IUserFacade userFacade,
+        IUserCommandFacade userFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
         IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)

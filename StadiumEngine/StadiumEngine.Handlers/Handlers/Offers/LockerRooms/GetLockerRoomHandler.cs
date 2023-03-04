@@ -12,10 +12,10 @@ namespace StadiumEngine.Handlers.Handlers.Offers.LockerRooms;
 
 internal sealed class GetLockerRoomHandler : BaseRequestHandler<GetLockerRoomQuery, LockerRoomDto>
 {
-    private readonly ILockerRoomFacade _lockerRoomFacade;
+    private readonly ILockerRoomQueryFacade _lockerRoomFacade;
 
     public GetLockerRoomHandler(
-        ILockerRoomFacade lockerRoomFacade,
+        ILockerRoomQueryFacade lockerRoomFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {

@@ -9,10 +9,10 @@ namespace StadiumEngine.Handlers.Handlers.Rates.PriceGroups;
 
 internal sealed class GetPriceGroupsHandler : BaseRequestHandler<GetPriceGroupsQuery, List<PriceGroupDto>>
 {
-    private readonly IPriceGroupFacade _priceGroupFacade;
+    private readonly IPriceGroupQueryFacade _priceGroupFacade;
 
     public GetPriceGroupsHandler(
-        IPriceGroupFacade priceGroupFacade,
+        IPriceGroupQueryFacade priceGroupFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {

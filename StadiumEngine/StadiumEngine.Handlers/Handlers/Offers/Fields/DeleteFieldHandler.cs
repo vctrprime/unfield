@@ -10,9 +10,9 @@ namespace StadiumEngine.Handlers.Handlers.Offers.Fields;
 
 internal sealed class DeleteFieldHandler : BaseCommandHandler<DeleteFieldCommand, DeleteFieldDto>
 {
-    private readonly IFieldFacade _fieldFacade;
+    private readonly IFieldCommandFacade _fieldFacade;
     public DeleteFieldHandler(
-        IFieldFacade fieldFacade,
+        IFieldCommandFacade fieldFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
         IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)

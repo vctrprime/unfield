@@ -10,11 +10,11 @@ namespace StadiumEngine.Handlers.Handlers.Utils;
 
 internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddLegalDto>
 {
-    private readonly ILegalFacade _legalFacade;
+    private readonly ILegalCommandFacade _legalFacade;
     private readonly ISmsSender _smsSender;
     
     public AddLegalHandler(
-        ILegalFacade legalFacade,
+        ILegalCommandFacade legalFacade,
         ISmsSender smsSender,
         IMapper mapper, 
         IUnitOfWork unitOfWork) : base(mapper, null, unitOfWork, false)

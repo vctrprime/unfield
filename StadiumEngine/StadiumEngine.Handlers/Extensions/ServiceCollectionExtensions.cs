@@ -1,6 +1,12 @@
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Handlers.Facades;
+using StadiumEngine.Handlers.Facades.Accounts.Legals;
+using StadiumEngine.Handlers.Facades.Accounts.Users;
+using StadiumEngine.Handlers.Facades.Offers.Fields;
+using StadiumEngine.Handlers.Facades.Offers.Inventories;
+using StadiumEngine.Handlers.Facades.Offers.LockerRooms;
+using StadiumEngine.Handlers.Facades.Rates.PriceGroups;
 using StadiumEngine.Handlers.Mappings;
 using StadiumEngine.Services.Extensions;
 
@@ -28,7 +34,15 @@ public static class ServiceCollectionExtensions
             cfg.AddProfile(new RatesProfile());
         }).CreateMapper());
 
-        services.AddScoped<IAddUserHandlerFacade, AddUserHandlerFacade>();
+        services.AddScoped<IAddUserFacade, AddUserFacade>();
+        services.AddScoped<IUpdateUserFacade, UpdateUserFacade>();
+        services.AddScoped<IChangeLegalFacade, ChangeLegalFacade>();
+        
+        services.AddScoped<IUpdateFieldFacade, UpdateFieldFacade>();
+        services.AddScoped<IUpdateInventoryFacade, UpdateInventoryFacade>();
+        services.AddScoped<IUpdateLockerRoomFacade, UpdateLockerRoomFacade>();
+        
+        services.AddScoped<IUpdatePriceGroupFacade, UpdatePriceGroupFacade>();
     }
     
     

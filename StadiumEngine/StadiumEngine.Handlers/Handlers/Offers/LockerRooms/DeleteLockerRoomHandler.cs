@@ -10,10 +10,10 @@ namespace StadiumEngine.Handlers.Handlers.Offers.LockerRooms;
 
 internal sealed class DeleteLockerRoomHandler : BaseCommandHandler<DeleteLockerRoomCommand, DeleteLockerRoomDto>
 {
-    private readonly ILockerRoomFacade _lockerRoomFacade;
+    private readonly ILockerRoomCommandFacade _lockerRoomFacade;
 
     public DeleteLockerRoomHandler(
-        ILockerRoomFacade lockerRoomFacade,
+        ILockerRoomCommandFacade lockerRoomFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
         IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)

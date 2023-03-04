@@ -12,10 +12,10 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
 internal sealed class ChangeStadiumHandler : BaseCommandHandler<ChangeStadiumCommand, AuthorizeUserDto?>
 {
-    private readonly IUserFacade _userFacade;
+    private readonly IUserCommandFacade _userFacade;
 
     public ChangeStadiumHandler(
-        IUserFacade userFacade,
+        IUserCommandFacade userFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
         IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork, false)

@@ -37,16 +37,23 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUserServiceFacade, UserServiceFacade>();
         services.AddScoped<IUserRepositoryFacade, UserRepositoryFacade>();
         services.AddScoped<IRoleRepositoryFacade, RoleRepositoryFacade>();
-        services.AddScoped<IUserFacade, UserFacade>();
-        services.AddScoped<ILegalFacade, LegalFacade>();
-        services.AddScoped<IRoleFacade, RoleFacade>();
-        services.AddScoped<IPermissionFacade, PermissionFacade>();
+        services.AddScoped<IUserQueryFacade, UserQueryFacade>();
+        services.AddScoped<IUserCommandFacade, UserCommandFacade>();
+        services.AddScoped<ILegalQueryFacade, LegalQueryFacade>();
+        services.AddScoped<ILegalCommandFacade, LegalCommandFacade>();
+        services.AddScoped<IRoleQueryFacade, RoleQueryFacade>();
+        services.AddScoped<IRoleCommandFacade, RoleCommandFacade>();
+        services.AddScoped<IPermissionCommandFacade, PermissionCommandFacade>();
         
-        services.AddScoped<IFieldFacade, FieldFacade>();
-        services.AddScoped<ILockerRoomFacade, LockerRoomFacade>();
-        services.AddScoped<IInventoryFacade, InventoryFacade>();
+        services.AddScoped<IFieldQueryFacade, FieldQueryFacade>();
+        services.AddScoped<IFieldCommandFacade, FieldCommandFacade>();
+        services.AddScoped<ILockerRoomQueryFacade, LockerRoomQueryFacade>();
+        services.AddScoped<ILockerRoomCommandFacade, LockerRoomCommandFacade>();
+        services.AddScoped<IInventoryQueryFacade, InventoryQueryFacade>();
+        services.AddScoped<IInventoryCommandFacade, InventoryCommandFacade>();
 
-        services.AddScoped<IPriceGroupFacade, PriceGroupFacade>();
+        services.AddScoped<IPriceGroupQueryFacade, PriceGroupQueryFacade>();
+        services.AddScoped<IPriceGroupCommandFacade, PriceGroupCommandFacade>();
 
         #endregion
 

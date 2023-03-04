@@ -10,10 +10,10 @@ namespace StadiumEngine.Handlers.Handlers.Offers.Fields;
 
 internal sealed class GetFieldsHandler : BaseRequestHandler<GetFieldsQuery, List<FieldDto>>
 {
-    private readonly IFieldFacade _fieldFacade;
+    private readonly IFieldQueryFacade _fieldFacade;
 
     public GetFieldsHandler(
-        IFieldFacade fieldFacade, 
+        IFieldQueryFacade fieldFacade, 
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {

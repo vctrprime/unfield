@@ -23,6 +23,10 @@
       </PackageReference>
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Facades\Accounts" />
+    </ItemGroup>
     
 
 </Project>

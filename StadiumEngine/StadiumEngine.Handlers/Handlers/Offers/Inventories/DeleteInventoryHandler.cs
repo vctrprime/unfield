@@ -9,9 +9,9 @@ namespace StadiumEngine.Handlers.Handlers.Offers.Inventories;
 
 internal sealed class DeleteInventoryHandler : BaseCommandHandler<DeleteInventoryCommand, DeleteInventoryDto>
 {
-    private readonly IInventoryFacade _inventoryFacade;
+    private readonly IInventoryCommandFacade _inventoryFacade;
     public DeleteInventoryHandler(
-        IInventoryFacade inventoryFacade,
+        IInventoryCommandFacade inventoryFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
         IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)

@@ -9,10 +9,10 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
 internal sealed class AuthorizeUserHandler : BaseCommandHandler<AuthorizeUserCommand, AuthorizeUserDto?>
 {
-    private readonly IUserFacade _userFacade;
+    private readonly IUserCommandFacade _userFacade;
 
     public AuthorizeUserHandler(
-        IUserFacade userFacade,
+        IUserCommandFacade userFacade,
         IMapper mapper, 
         IUnitOfWork unitOfWork
     ) 

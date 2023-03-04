@@ -10,10 +10,10 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Roles;
 
 internal sealed class DeleteRoleHandler : BaseCommandHandler<DeleteRoleCommand, DeleteRoleDto>
 {
-    private readonly IRoleFacade _roleFacade;
+    private readonly IRoleCommandFacade _roleFacade;
 
     public DeleteRoleHandler(
-        IRoleFacade roleFacade,
+        IRoleCommandFacade roleFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
         IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)

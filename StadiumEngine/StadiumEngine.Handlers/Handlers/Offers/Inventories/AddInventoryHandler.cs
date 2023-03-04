@@ -10,10 +10,10 @@ namespace StadiumEngine.Handlers.Handlers.Offers.Inventories;
 
 internal sealed class AddInventoryHandler : BaseCommandHandler<AddInventoryCommand, AddInventoryDto>
 {
-    private readonly IInventoryFacade _inventoryFacade;
+    private readonly IInventoryCommandFacade _inventoryFacade;
 
     public AddInventoryHandler(
-        IInventoryFacade inventoryFacade,
+        IInventoryCommandFacade inventoryFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
         IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)

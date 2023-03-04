@@ -1,6 +1,5 @@
 using AutoMapper;
 using StadiumEngine.Domain;
-using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.DTO.Utils;
 using StadiumEngine.Handlers.Commands.Utils;
@@ -9,10 +8,10 @@ namespace StadiumEngine.Handlers.Handlers.Utils;
 
 internal sealed class SyncPermissionsHandler : BaseCommandHandler<SyncPermissionsCommand, SyncPermissionsDto>
 {
-    private readonly IPermissionFacade _permissionFacade;
+    private readonly IPermissionCommandFacade _permissionFacade;
     
     public SyncPermissionsHandler(
-        IPermissionFacade permissionFacade,
+        IPermissionCommandFacade permissionFacade,
         IMapper mapper, 
         IUnitOfWork unitOfWork) : base(mapper, null, unitOfWork, false)
     {

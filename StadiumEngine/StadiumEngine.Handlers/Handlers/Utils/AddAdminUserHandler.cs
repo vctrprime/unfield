@@ -11,11 +11,11 @@ namespace StadiumEngine.Handlers.Handlers.Utils;
 
 internal sealed class AddAdminUserHandler : BaseCommandHandler<AddAdminUserCommand, AddAdminUserDto>
 {
-    private readonly IUserFacade _userFacade;
+    private readonly IUserCommandFacade _userFacade;
     private readonly ISmsSender _smsSender;
     
     public AddAdminUserHandler(
-        IUserFacade userFacade,
+        IUserCommandFacade userFacade,
         ISmsSender smsSender,
         IMapper mapper, 
         IUnitOfWork unitOfWork) : base(mapper, null, unitOfWork, false)

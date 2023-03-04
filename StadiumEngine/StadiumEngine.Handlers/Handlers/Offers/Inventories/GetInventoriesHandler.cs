@@ -9,10 +9,10 @@ namespace StadiumEngine.Handlers.Handlers.Offers.Inventories;
 
 internal sealed class GetInventoriesHandler : BaseRequestHandler<GetInventoriesQuery, List<InventoryDto>>
 {
-    private readonly IInventoryFacade _inventoryFacade;
+    private readonly IInventoryQueryFacade _inventoryFacade;
 
     public GetInventoriesHandler(
-        IInventoryFacade inventoryFacade, 
+        IInventoryQueryFacade inventoryFacade, 
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {

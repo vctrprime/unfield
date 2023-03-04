@@ -10,10 +10,10 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
 internal sealed class DeleteUserHandler : BaseCommandHandler<DeleteUserCommand, DeleteUserDto>
 {
-    private readonly IUserFacade _userFacade;
+    private readonly IUserCommandFacade _userFacade;
 
     public DeleteUserHandler(
-        IUserFacade userFacade,
+        IUserCommandFacade userFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
         IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)

@@ -10,10 +10,10 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Roles;
 
 internal sealed class ToggleRolePermissionHandler : BaseCommandHandler<ToggleRolePermissionCommand, ToggleRolePermissionDto>
 {
-    private readonly IRoleFacade _roleFacade;
+    private readonly IRoleCommandFacade _roleFacade;
 
     public ToggleRolePermissionHandler(
-        IRoleFacade roleFacade,
+        IRoleCommandFacade roleFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
         IUnitOfWork unitOfWork

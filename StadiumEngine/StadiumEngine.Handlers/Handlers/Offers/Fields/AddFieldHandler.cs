@@ -11,10 +11,10 @@ namespace StadiumEngine.Handlers.Handlers.Offers.Fields;
 
 internal sealed class AddFieldHandler : BaseCommandHandler<AddFieldCommand, AddFieldDto>
 {
-    private readonly IFieldFacade _fieldFacade;
+    private readonly IFieldCommandFacade _fieldFacade;
 
     public AddFieldHandler(
-        IFieldFacade fieldFacade,
+        IFieldCommandFacade fieldFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
         IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)

@@ -5,15 +5,16 @@ using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts.Users;
 using StadiumEngine.Handlers.Commands.Accounts.Users;
 using StadiumEngine.Handlers.Facades;
+using StadiumEngine.Handlers.Facades.Accounts.Users;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
 internal sealed class AddUserHandler : BaseCommandHandler<AddUserCommand, AddUserDto>
 {
-    private readonly IAddUserHandlerFacade _facade;
+    private readonly IAddUserFacade _facade;
 
     public AddUserHandler(
-        IAddUserHandlerFacade facade,
+        IAddUserFacade facade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
         IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork, false)
@@ -27,11 +28,6 @@ internal sealed class AddUserHandler : BaseCommandHandler<AddUserCommand, AddUse
         user.LegalId = _legalId;
         user.UserCreatedId = _userId;
 
-        var password = await _facade.AddUser(user);
-        await UnitOfWork.SaveChanges();
-        
-        await _facade.SendPassword(user.PhoneNumber, password, user.Language);
-        
-        return new AddUserDto();
+        return await _facade.Add(user, UnitOfWork);
     }
 }

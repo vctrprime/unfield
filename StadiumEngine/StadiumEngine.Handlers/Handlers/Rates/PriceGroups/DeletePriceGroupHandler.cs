@@ -9,10 +9,10 @@ namespace StadiumEngine.Handlers.Handlers.Rates.PriceGroups;
 
 internal sealed class DeletePriceGroupHandler : BaseCommandHandler<DeletePriceGroupCommand, DeletePriceGroupDto>
 {
-    private readonly IPriceGroupFacade _priceGroupFacade;
+    private readonly IPriceGroupCommandFacade _priceGroupFacade;
 
     public DeletePriceGroupHandler(
-        IPriceGroupFacade priceGroupFacade,
+        IPriceGroupCommandFacade priceGroupFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
         IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)

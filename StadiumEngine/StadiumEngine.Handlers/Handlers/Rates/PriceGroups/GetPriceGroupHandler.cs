@@ -1,7 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
-using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services.Facades.Rates;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Rates.PriceGroups;
@@ -11,10 +10,10 @@ namespace StadiumEngine.Handlers.Handlers.Rates.PriceGroups;
 
 internal sealed class GetPriceGroupHandler : BaseRequestHandler<GetPriceGroupQuery, PriceGroupDto>
 {
-    private readonly IPriceGroupFacade _priceGroupFacade;
+    private readonly IPriceGroupQueryFacade _priceGroupFacade;
 
     public GetPriceGroupHandler(
-        IPriceGroupFacade priceGroupFacade,
+        IPriceGroupQueryFacade priceGroupFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {

@@ -10,10 +10,10 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
 internal sealed class GetAuthorizedUserHandler : BaseRequestHandler<GetAuthorizedUserQuery, AuthorizedUserDto>
 {
-    private readonly IUserFacade _userFacade;
+    private readonly IUserQueryFacade _userFacade;
     
     public GetAuthorizedUserHandler(
-        IUserFacade userFacade,
+        IUserQueryFacade userFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {

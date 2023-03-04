@@ -10,11 +10,11 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
 internal sealed class ResetUserPasswordHandler : BaseCommandHandler<ResetUserPasswordCommand, ResetUserPasswordDto>
 {
-    private readonly IUserFacade _userFacade;
+    private readonly IUserCommandFacade _userFacade;
     private readonly ISmsSender _smsSender;
 
     public ResetUserPasswordHandler(
-        IUserFacade userFacade,
+        IUserCommandFacade userFacade,
         ISmsSender smsSender,
         IMapper mapper, 
         IUnitOfWork unitOfWork) : base(mapper, null, unitOfWork, false)

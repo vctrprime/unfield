@@ -10,10 +10,10 @@ namespace StadiumEngine.Handlers.Handlers.Rates.PriceGroups;
 
 internal sealed class AddPriceGroupHandler : BaseCommandHandler<AddPriceGroupCommand, AddPriceGroupDto>
 {
-    private readonly IPriceGroupFacade _priceGroupFacade;
+    private readonly IPriceGroupCommandFacade _priceGroupFacade;
 
     public AddPriceGroupHandler(
-        IPriceGroupFacade priceGroupFacade,
+        IPriceGroupCommandFacade priceGroupFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
         IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
