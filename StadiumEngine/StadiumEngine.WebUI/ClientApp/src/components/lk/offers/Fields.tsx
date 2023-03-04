@@ -3,7 +3,7 @@ import {getFieldBasicFormData, getOverlayNoRowsTemplate, getTitle} from "../../.
 import {Button, Checkbox} from "semantic-ui-react";
 import {t} from "i18next";
 import {GridLoading} from "../common/GridLoading";
-import {useRecoilValue} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {stadiumAtom} from "../../../state/stadium";
 import {useInject} from "inversify-hooks";
 import {IOffersService} from "../../../services/OffersService";
@@ -17,6 +17,7 @@ import {FieldCoveringType} from "../../../models/dto/offers/enums/FieldCoveringT
 import {SportKindsRenderer} from "../common/GridRenderers";
 import {PermissionsKeys} from "../../../static/PermissionsKeys";
 import {permissionsAtom} from "../../../state/permissions";
+import {fieldsAtom} from "../../../state/offers/fields";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -26,6 +27,7 @@ export const Fields = () => {
 
     const stadium = useRecoilValue(stadiumAtom);
     const permissions = useRecoilValue(permissionsAtom);
+    const setFields = useSetRecoilState<FieldDto[]>(fieldsAtom);
 
     const [data, setData] = useState<FieldDto[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -97,6 +99,7 @@ export const Fields = () => {
         offersService.getFields().then((result: FieldDto[]) => {
             setTimeout(() => {
                 setData(result);
+                setFields(result);
                 setIsLoading(false);
             }, 500);
         })

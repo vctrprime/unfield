@@ -53,7 +53,11 @@ export const Inventory = () => {
 
     useEffect(() => {
         fetchInventory();
-    }, [])
+    },[inventoryId])
+
+    useEffect(() => {
+        setInventoryId(parseInt(id||"0"));
+    }, [id])
 
     useEffect(() => {
         if (data.name !== undefined && data.name !== null) {

@@ -3,7 +3,7 @@ import {getInventoryBasicFormData, getOverlayNoRowsTemplate, getTitle} from "../
 import {Button, Checkbox} from "semantic-ui-react";
 import {t} from "i18next";
 import {GridLoading} from "../common/GridLoading";
-import {useRecoilValue} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {stadiumAtom} from "../../../state/stadium";
 import {useInject} from "inversify-hooks";
 import {IOffersService} from "../../../services/OffersService";
@@ -15,6 +15,7 @@ import {Currency} from "../../../models/dto/offers/enums/Currency";
 import {SportKindsRenderer} from "../common/GridRenderers";
 import {PermissionsKeys} from "../../../static/PermissionsKeys";
 import {permissionsAtom} from "../../../state/permissions";
+import {inventoriesAtom} from "../../../state/offers/inventories";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -24,6 +25,7 @@ export const Inventories = () => {
 
     const stadium = useRecoilValue(stadiumAtom);
     const permissions = useRecoilValue(permissionsAtom);
+    const setInventories = useSetRecoilState<InventoryDto[]>(inventoriesAtom);
 
     const [data, setData] = useState<InventoryDto[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -86,6 +88,7 @@ export const Inventories = () => {
         offersService.getInventories().then((result: InventoryDto[]) => {
             setTimeout(() => {
                 setData(result);
+                setInventories(result);
                 setIsLoading(false);
             }, 500);
         })

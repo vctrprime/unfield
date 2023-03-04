@@ -34,7 +34,11 @@ export const PriceGroup = () => {
 
     useEffect(() => {
         fetchPriceGroup();
-    }, [])
+    },[priceGroupId])
+
+    useEffect(() => {
+        setPriceGroupId(parseInt(id||"0"));
+    }, [id])
     
     useEffect(() => {
         if (data.name !== undefined && data.name !== null) {

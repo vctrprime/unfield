@@ -9,13 +9,14 @@ import {useNavigate} from "react-router-dom";
 import {LockerRoomDto} from "../../../models/dto/offers/LockerRoomDto";
 import {GridLoading} from "../common/GridLoading";
 import {Button, Input} from "semantic-ui-react";
-import {useRecoilValue} from "recoil";
+import { useRecoilValue, useSetRecoilState} from "recoil";
 import {stadiumAtom} from "../../../state/stadium";
 import { Checkbox } from 'semantic-ui-react'
 import {UpdateLockerRoomCommand} from "../../../models/command/offers/UpdateLockerRoomCommand";
 import {LockerRoomGender} from "../../../models/dto/offers/enums/LockerRoomGender";
 import {PermissionsKeys} from "../../../static/PermissionsKeys";
 import {permissionsAtom} from "../../../state/permissions";
+import {lockerRoomsAtom} from "../../../state/offers/lockerRooms";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -25,6 +26,8 @@ export const LockerRooms = () => {
 
     const stadium = useRecoilValue(stadiumAtom);
     const permissions = useRecoilValue(permissionsAtom);
+
+    const setLockerRooms = useSetRecoilState<LockerRoomDto[]>(lockerRoomsAtom);
 
     const [data, setData] = useState<LockerRoomDto[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -90,6 +93,7 @@ export const LockerRooms = () => {
         offersService.getLockerRooms().then((result: LockerRoomDto[]) => {
             setTimeout(() => {
                 setData(result);
+                setLockerRooms(result);
                 setIsLoading(false);
             }, 500);
         })

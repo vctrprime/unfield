@@ -36,7 +36,11 @@ export const LockerRoom = () => {
 
     useEffect(() => {
         fetchLockerRoom();
-    }, [])
+    },[lockerRoomId])
+
+    useEffect(() => {
+        setLockerRoomId(parseInt(id||"0"));
+    }, [id])
     
     useEffect(() => {
         if (data.name !== undefined && data.name !== null) {

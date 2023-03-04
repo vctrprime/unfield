@@ -69,7 +69,11 @@ export const Field = () => {
         fetchField();
         fetchParentFields();
         fetchPriceGroups();
-    }, [])
+    }, [fieldId])
+    
+    useEffect(() => {
+        setFieldId(parseInt(id||"0"));
+    }, [id])
 
     useEffect(() => {
         if (data.name !== undefined && data.name !== null) {
