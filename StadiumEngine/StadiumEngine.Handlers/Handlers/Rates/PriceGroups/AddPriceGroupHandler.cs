@@ -8,7 +8,7 @@ using StadiumEngine.Handlers.Commands.Rates.PriceGroups;
 
 namespace StadiumEngine.Handlers.Handlers.Rates.PriceGroups;
 
-internal sealed class AddPriceGroupHandler : BaseRequestHandler<AddPriceGroupCommand, AddPriceGroupDto>
+internal sealed class AddPriceGroupHandler : BaseCommandHandler<AddPriceGroupCommand, AddPriceGroupDto>
 {
     private readonly IPriceGroupFacade _priceGroupFacade;
 
@@ -21,15 +21,14 @@ internal sealed class AddPriceGroupHandler : BaseRequestHandler<AddPriceGroupCom
         _priceGroupFacade = priceGroupFacade;
     }
     
-    public override async ValueTask<AddPriceGroupDto> Handle(AddPriceGroupCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<AddPriceGroupDto> HandleCommand(AddPriceGroupCommand request, CancellationToken cancellationToken)
     {
         var priceGroup = Mapper.Map<PriceGroup>(request);
         priceGroup.StadiumId = _currentStadiumId;
         priceGroup.UserCreatedId = _userId;
         
         _priceGroupFacade.AddPriceGroup(priceGroup);
-        await UnitOfWork.SaveChanges();
-
+        
         return new AddPriceGroupDto();
     }
 }

@@ -15,8 +15,7 @@ internal sealed class GetPermissionsForRoleHandler : BaseRequestHandler<GetPermi
     public GetPermissionsForRoleHandler(
         IRoleFacade roleFacade,
         IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {
         _roleFacade = roleFacade;
     }

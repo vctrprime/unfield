@@ -14,9 +14,9 @@ internal abstract class BaseRequestHandler<TRequest, TResponse> : IRequestHandle
     protected readonly int _legalId;
     protected readonly int _currentStadiumId;
     
-    protected readonly IUnitOfWork UnitOfWork;
+    
 
-    protected BaseRequestHandler(IMapper mapper, IClaimsIdentityService? claimsIdentityService, IUnitOfWork unitOfWork)
+    protected BaseRequestHandler(IMapper mapper, IClaimsIdentityService? claimsIdentityService)
     {
         Mapper = mapper;
 
@@ -26,9 +26,6 @@ internal abstract class BaseRequestHandler<TRequest, TResponse> : IRequestHandle
             _legalId = claimsIdentityService.GetLegalId();
             _currentStadiumId = claimsIdentityService.GetCurrentStadiumId();
         }
-        
-        
-        UnitOfWork = unitOfWork;
     }
     public abstract ValueTask<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
     

@@ -10,7 +10,7 @@ using StadiumEngine.Handlers.Commands.Offers.LockerRooms;
 
 namespace StadiumEngine.Handlers.Handlers.Offers.LockerRooms;
 
-internal sealed class UpdateLockerRoomHandler : BaseRequestHandler<UpdateLockerRoomCommand, UpdateLockerRoomDto>
+internal sealed class UpdateLockerRoomHandler : BaseCommandHandler<UpdateLockerRoomCommand, UpdateLockerRoomDto>
 {
     private readonly ILockerRoomFacade _lockerRoomFacade;
 
@@ -23,7 +23,7 @@ internal sealed class UpdateLockerRoomHandler : BaseRequestHandler<UpdateLockerR
         _lockerRoomFacade = lockerRoomFacade;
     }
 
-    public override async ValueTask<UpdateLockerRoomDto> Handle(UpdateLockerRoomCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<UpdateLockerRoomDto> HandleCommand(UpdateLockerRoomCommand request, CancellationToken cancellationToken)
     {
         var lockerRoom = await _lockerRoomFacade.GetByLockerRoomId(request.Id, _currentStadiumId);
 
@@ -36,8 +36,7 @@ internal sealed class UpdateLockerRoomHandler : BaseRequestHandler<UpdateLockerR
         lockerRoom.UserModifiedId = _userId;
         
         _lockerRoomFacade.UpdateLockerRoom(lockerRoom);
-        await UnitOfWork.SaveChanges();
-
+        
         return new UpdateLockerRoomDto();
     }
 }

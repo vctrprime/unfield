@@ -13,7 +13,10 @@ internal sealed class GetInventoryHandler : BaseRequestHandler<GetInventoryQuery
 {
     private readonly IInventoryFacade _inventoryFacade;
 
-    public GetInventoryHandler(IInventoryFacade inventoryFacade, IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+    public GetInventoryHandler(
+        IInventoryFacade inventoryFacade, 
+        IMapper mapper, 
+        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {
         _inventoryFacade = inventoryFacade;
     }

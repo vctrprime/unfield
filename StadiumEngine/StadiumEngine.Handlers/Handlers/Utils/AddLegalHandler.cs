@@ -8,7 +8,7 @@ using StadiumEngine.Handlers.Commands.Utils;
 
 namespace StadiumEngine.Handlers.Handlers.Utils;
 
-internal sealed class AddLegalHandler : BaseRequestHandler<AddLegalCommand, AddLegalDto>
+internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddLegalDto>
 {
     private readonly ILegalFacade _legalFacade;
     private readonly ISmsSender _smsSender;
@@ -17,13 +17,13 @@ internal sealed class AddLegalHandler : BaseRequestHandler<AddLegalCommand, AddL
         ILegalFacade legalFacade,
         ISmsSender smsSender,
         IMapper mapper, 
-        IUnitOfWork unitOfWork) : base(mapper, null, unitOfWork)
+        IUnitOfWork unitOfWork) : base(mapper, null, unitOfWork, false)
     {
         _legalFacade = legalFacade;
         _smsSender = smsSender;
     }
 
-    public override async ValueTask<AddLegalDto> Handle(AddLegalCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<AddLegalDto> HandleCommand(AddLegalCommand request, CancellationToken cancellationToken)
     {
         var legal = Mapper.Map<Legal>(request);
         var superuser = Mapper.Map<User>(request.Superuser);

@@ -8,7 +8,7 @@ using StadiumEngine.Handlers.Commands.Accounts.Roles;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Roles;
 
-internal sealed class DeleteRoleHandler : BaseRequestHandler<DeleteRoleCommand, DeleteRoleDto>
+internal sealed class DeleteRoleHandler : BaseCommandHandler<DeleteRoleCommand, DeleteRoleDto>
 {
     private readonly IRoleFacade _roleFacade;
 
@@ -22,11 +22,10 @@ internal sealed class DeleteRoleHandler : BaseRequestHandler<DeleteRoleCommand, 
     }
 
 
-    public override async ValueTask<DeleteRoleDto> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<DeleteRoleDto> HandleCommand(DeleteRoleCommand request, CancellationToken cancellationToken)
     {
         await _roleFacade.DeleteRole(request.RoleId, _legalId, _userId);
-        await UnitOfWork.SaveChanges();
-
+        
         return new DeleteRoleDto();
     }
 }

@@ -8,7 +8,7 @@ using StadiumEngine.Handlers.Commands.Accounts.Roles;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Roles;
 
-internal sealed class UpdateRoleHandler : BaseRequestHandler<UpdateRoleCommand, UpdateRoleDto>
+internal sealed class UpdateRoleHandler : BaseCommandHandler<UpdateRoleCommand, UpdateRoleDto>
 {
     private readonly IRoleFacade _roleFacade;
     
@@ -21,11 +21,9 @@ internal sealed class UpdateRoleHandler : BaseRequestHandler<UpdateRoleCommand, 
         _roleFacade = roleFacade;
     }
     
-    public override async ValueTask<UpdateRoleDto> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<UpdateRoleDto> HandleCommand(UpdateRoleCommand request, CancellationToken cancellationToken)
     {
         await _roleFacade.UpdateRole(request.Id, _legalId, _userId, request.Name, request.Description);
-        await UnitOfWork.SaveChanges();
-
         return new UpdateRoleDto();
     }
 }

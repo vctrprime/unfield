@@ -8,7 +8,7 @@ using StadiumEngine.Handlers.Commands.Offers.LockerRooms;
 
 namespace StadiumEngine.Handlers.Handlers.Offers.LockerRooms;
 
-internal sealed class DeleteLockerRoomHandler : BaseRequestHandler<DeleteLockerRoomCommand, DeleteLockerRoomDto>
+internal sealed class DeleteLockerRoomHandler : BaseCommandHandler<DeleteLockerRoomCommand, DeleteLockerRoomDto>
 {
     private readonly ILockerRoomFacade _lockerRoomFacade;
 
@@ -21,11 +21,9 @@ internal sealed class DeleteLockerRoomHandler : BaseRequestHandler<DeleteLockerR
         _lockerRoomFacade = lockerRoomFacade;
     }
 
-    public override async ValueTask<DeleteLockerRoomDto> Handle(DeleteLockerRoomCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<DeleteLockerRoomDto> HandleCommand(DeleteLockerRoomCommand request, CancellationToken cancellationToken)
     {
         await _lockerRoomFacade.DeleteLockerRoom(request.LockerRoomId, _currentStadiumId);
-        await UnitOfWork.SaveChanges();
-
         return new DeleteLockerRoomDto();
     }
 }

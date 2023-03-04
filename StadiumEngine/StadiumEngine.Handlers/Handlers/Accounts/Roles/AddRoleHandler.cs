@@ -9,7 +9,7 @@ using StadiumEngine.Handlers.Commands.Accounts.Roles;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Roles;
 
-internal sealed class AddRoleHandler : BaseRequestHandler<AddRoleCommand, AddRoleDto>
+internal sealed class AddRoleHandler : BaseCommandHandler<AddRoleCommand, AddRoleDto>
 {
     private readonly IRoleFacade _roleFacade;
 
@@ -22,15 +22,14 @@ internal sealed class AddRoleHandler : BaseRequestHandler<AddRoleCommand, AddRol
         _roleFacade = roleFacade;
     }
     
-    public override async ValueTask<AddRoleDto> Handle(AddRoleCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<AddRoleDto> HandleCommand(AddRoleCommand request, CancellationToken cancellationToken)
     {
         var role = Mapper.Map<Role>(request);
         role.LegalId = _legalId;
         role.UserCreatedId = _userId;
         
         _roleFacade.AddRole(role);
-        await UnitOfWork.SaveChanges();
-
+        
         return new AddRoleDto();
     }
 }

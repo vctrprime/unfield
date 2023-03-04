@@ -8,7 +8,7 @@ using StadiumEngine.Handlers.Commands.Admin;
 
 namespace StadiumEngine.Handlers.Handlers.Admin;
 
-internal sealed class ChangeLegalHandler : BaseRequestHandler<ChangeLegalCommand, AuthorizeUserDto?>
+internal sealed class ChangeLegalHandler : BaseCommandHandler<ChangeLegalCommand, AuthorizeUserDto?>
 {
     private readonly IUserFacade _userFacade;
 
@@ -16,12 +16,12 @@ internal sealed class ChangeLegalHandler : BaseRequestHandler<ChangeLegalCommand
         IUserFacade userFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork, false)
     {
         _userFacade = userFacade;
     }
 
-    public override async ValueTask<AuthorizeUserDto?> Handle(ChangeLegalCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<AuthorizeUserDto?> HandleCommand(ChangeLegalCommand request, CancellationToken cancellationToken)
     {
         await _userFacade.ChangeLegal(_userId, request.LegalId);
         

@@ -15,8 +15,7 @@ internal sealed class GetUserStadiumsHandler :  BaseRequestHandler<GetUserStadiu
     public GetUserStadiumsHandler(
         IUserFacade userFacade,
         IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {
         _userFacade = userFacade;
     }

@@ -10,7 +10,7 @@ using StadiumEngine.Handlers.Commands.Accounts.Users;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
-internal sealed class UpdateUserHandler : BaseRequestHandler<UpdateUserCommand, UpdateUserDto>
+internal sealed class UpdateUserHandler : BaseCommandHandler<UpdateUserCommand, UpdateUserDto>
 {
     private readonly IUserFacade _userFacade;
 
@@ -23,7 +23,7 @@ internal sealed class UpdateUserHandler : BaseRequestHandler<UpdateUserCommand, 
         _userFacade = userFacade;
     }
     
-    public override async ValueTask<UpdateUserDto> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<UpdateUserDto> HandleCommand(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         if (request.Id == _userId) throw new DomainException(ErrorsKeys.ModifyCurrentUser);
 
@@ -36,7 +36,6 @@ internal sealed class UpdateUserHandler : BaseRequestHandler<UpdateUserCommand, 
         user.LastName = request.LastName;
 
         await _userFacade.UpdateUser(user, _legalId);
-        await UnitOfWork.SaveChanges();
 
         return new UpdateUserDto();
     }

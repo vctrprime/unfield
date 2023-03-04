@@ -9,7 +9,7 @@ using StadiumEngine.Handlers.Commands.Offers.Inventories;
 
 namespace StadiumEngine.Handlers.Handlers.Offers.Inventories;
 
-internal sealed class UpdateInventoryHandler : BaseRequestHandler<UpdateInventoryCommand, UpdateInventoryDto>
+internal sealed class UpdateInventoryHandler : BaseCommandHandler<UpdateInventoryCommand, UpdateInventoryDto>
 {
     private readonly IInventoryFacade _inventoryFacade;
         
@@ -22,35 +22,22 @@ internal sealed class UpdateInventoryHandler : BaseRequestHandler<UpdateInventor
         _inventoryFacade = inventoryFacade;
     }
 
-    public override async ValueTask<UpdateInventoryDto> Handle(UpdateInventoryCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<UpdateInventoryDto> HandleCommand(UpdateInventoryCommand request, CancellationToken cancellationToken)
     {
         var inventory = await _inventoryFacade.GetByInventoryId(request.Id, _currentStadiumId);
 
         if (inventory == null) throw new DomainException(ErrorsKeys.InventoryNotFound);
+         
+        inventory.Name = request.Name;
+        inventory.Description = request.Description;
+        inventory.Price = request.Price;
+        inventory.Currency = request.Currency;
+        inventory.Quantity = request.Quantity;
+        inventory.IsActive = request.IsActive;
+        inventory.UserModifiedId = _userId;
 
-        try
-        {
-            await UnitOfWork.BeginTransaction();
-            
-            inventory.Name = request.Name;
-            inventory.Description = request.Description;
-            inventory.Price = request.Price;
-            inventory.Currency = request.Currency;
-            inventory.Quantity = request.Quantity;
-            inventory.IsActive = request.IsActive;
-            inventory.UserModifiedId = _userId;
-
-            await _inventoryFacade.UpdateInventory(inventory, request.Images, request.SportKinds);
-
-            await UnitOfWork.CommitTransaction();
-            
-            return new UpdateInventoryDto();
-
-        }
-        catch
-        {
-            await UnitOfWork.RollbackTransaction();
-            throw;
-        }
+        await _inventoryFacade.UpdateInventory(inventory, request.Images, request.SportKinds);
+        
+        return new UpdateInventoryDto();
     }
 }

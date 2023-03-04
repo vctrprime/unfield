@@ -14,7 +14,10 @@ internal sealed class GetFieldHandler : BaseRequestHandler<GetFieldQuery, FieldD
 {
     private readonly IFieldFacade _fieldFacade;
 
-    public GetFieldHandler(IFieldFacade fieldFacade, IMapper mapper, IClaimsIdentityService claimsIdentityService, IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+    public GetFieldHandler(
+        IFieldFacade fieldFacade, 
+        IMapper mapper, 
+        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {
         _fieldFacade = fieldFacade;
     }

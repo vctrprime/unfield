@@ -15,8 +15,7 @@ internal sealed class GetLockerRoomsHandler : BaseRequestHandler<GetLockerRoomsQ
     public GetLockerRoomsHandler(
         ILockerRoomFacade lockerRoomFacade,
         IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {
         _lockerRoomFacade = lockerRoomFacade;
     }

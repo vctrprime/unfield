@@ -9,7 +9,7 @@ using StadiumEngine.Handlers.Commands.Rates.PriceGroups;
 
 namespace StadiumEngine.Handlers.Handlers.Rates.PriceGroups;
 
-internal sealed class UpdatePriceGroupHandler : BaseRequestHandler<UpdatePriceGroupCommand, UpdatePriceGroupDto>
+internal sealed class UpdatePriceGroupHandler : BaseCommandHandler<UpdatePriceGroupCommand, UpdatePriceGroupDto>
 {
     private readonly IPriceGroupFacade _priceGroupFacade;
 
@@ -22,7 +22,7 @@ internal sealed class UpdatePriceGroupHandler : BaseRequestHandler<UpdatePriceGr
         _priceGroupFacade = priceGroupFacade;
     }
 
-    public override async ValueTask<UpdatePriceGroupDto> Handle(UpdatePriceGroupCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<UpdatePriceGroupDto> HandleCommand(UpdatePriceGroupCommand request, CancellationToken cancellationToken)
     {
         var priceGroup = await _priceGroupFacade.GetByPriceGroupId(request.Id, _currentStadiumId);
 
@@ -33,19 +33,7 @@ internal sealed class UpdatePriceGroupHandler : BaseRequestHandler<UpdatePriceGr
         priceGroup.IsActive = request.IsActive;
         priceGroup.UserModifiedId = _userId;
         
-        try
-        {
-            await UnitOfWork.BeginTransaction();
-            
-            _priceGroupFacade.UpdatePriceGroup(priceGroup);
-            
-            await UnitOfWork.CommitTransaction();
-        }
-        catch
-        {
-            await UnitOfWork.RollbackTransaction();
-            throw;
-        }
+        _priceGroupFacade.UpdatePriceGroup(priceGroup);
         
         return new UpdatePriceGroupDto();
     }

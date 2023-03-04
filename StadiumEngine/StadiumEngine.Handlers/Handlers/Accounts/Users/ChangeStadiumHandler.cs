@@ -10,7 +10,7 @@ using StadiumEngine.Handlers.Commands.Accounts.Users;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
-internal sealed class ChangeStadiumHandler : BaseRequestHandler<ChangeStadiumCommand, AuthorizeUserDto?>
+internal sealed class ChangeStadiumHandler : BaseCommandHandler<ChangeStadiumCommand, AuthorizeUserDto?>
 {
     private readonly IUserFacade _userFacade;
 
@@ -18,12 +18,12 @@ internal sealed class ChangeStadiumHandler : BaseRequestHandler<ChangeStadiumCom
         IUserFacade userFacade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork, false)
     {
         _userFacade = userFacade;
     }
 
-    public override async ValueTask<AuthorizeUserDto?> Handle(ChangeStadiumCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<AuthorizeUserDto?> HandleCommand(ChangeStadiumCommand request, CancellationToken cancellationToken)
     {
         var user = await _userFacade.ChangeStadium(_userId, request.StadiumId);
         

@@ -8,7 +8,7 @@ using StadiumEngine.Handlers.Facades;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
-internal sealed class AddUserHandler : BaseRequestHandler<AddUserCommand, AddUserDto>
+internal sealed class AddUserHandler : BaseCommandHandler<AddUserCommand, AddUserDto>
 {
     private readonly IAddUserHandlerFacade _facade;
 
@@ -16,12 +16,12 @@ internal sealed class AddUserHandler : BaseRequestHandler<AddUserCommand, AddUse
         IAddUserHandlerFacade facade,
         IMapper mapper, 
         IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork, false)
     {
         _facade = facade;
     }
     
-    public override async ValueTask<AddUserDto> Handle(AddUserCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<AddUserDto> HandleCommand(AddUserCommand request, CancellationToken cancellationToken)
     {
         var user = Mapper.Map<User>(request);
         user.LegalId = _legalId;

@@ -8,7 +8,7 @@ using StadiumEngine.Handlers.Commands.Accounts.Roles;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Roles;
 
-internal sealed class ToggleRoleStadiumHandler : BaseRequestHandler<ToggleRoleStadiumCommand, ToggleRoleStadiumDto>
+internal sealed class ToggleRoleStadiumHandler : BaseCommandHandler<ToggleRoleStadiumCommand, ToggleRoleStadiumDto>
 {
     private readonly IRoleFacade _roleFacade;
 
@@ -23,11 +23,9 @@ internal sealed class ToggleRoleStadiumHandler : BaseRequestHandler<ToggleRoleSt
     }
     
     
-    public override async ValueTask<ToggleRoleStadiumDto> Handle(ToggleRoleStadiumCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<ToggleRoleStadiumDto> HandleCommand(ToggleRoleStadiumCommand request, CancellationToken cancellationToken)
     {
         await _roleFacade.ToggleRoleStadium(request.RoleId, request.StadiumId, _legalId, _userId);
-        await UnitOfWork.SaveChanges();
-
         return new ToggleRoleStadiumDto();
     }
 }

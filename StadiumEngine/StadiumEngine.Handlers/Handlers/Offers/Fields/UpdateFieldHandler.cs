@@ -10,7 +10,7 @@ using StadiumEngine.Handlers.Commands.Offers.Fields;
 
 namespace StadiumEngine.Handlers.Handlers.Offers.Fields;
 
-internal sealed class UpdateFieldHandler : BaseRequestHandler<UpdateFieldCommand, UpdateFieldDto>
+internal sealed class UpdateFieldHandler : BaseCommandHandler<UpdateFieldCommand, UpdateFieldDto>
 {
     private readonly IFieldFacade _fieldFacade;
         
@@ -23,37 +23,24 @@ internal sealed class UpdateFieldHandler : BaseRequestHandler<UpdateFieldCommand
         _fieldFacade = fieldFacade;
     }
 
-    public override async ValueTask<UpdateFieldDto> Handle(UpdateFieldCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<UpdateFieldDto> HandleCommand(UpdateFieldCommand request, CancellationToken cancellationToken)
     {
         var field = await _fieldFacade.GetByFieldId(request.Id, _currentStadiumId);
 
         if (field == null) throw new DomainException(ErrorsKeys.FieldNotFound);
+        
+        field.Name = request.Name;
+        field.Description = request.Description;
+        field.Width = request.Width;
+        field.Length = request.Length;
+        field.ParentFieldId = request.ParentFieldId;
+        field.CoveringType = request.CoveringType;
+        field.IsActive = request.IsActive;
+        field.PriceGroupId = request.PriceGroupId;
+        field.UserModifiedId = _userId;
 
-        try
-        {
-            await UnitOfWork.BeginTransaction();
-            
-            field.Name = request.Name;
-            field.Description = request.Description;
-            field.Width = request.Width;
-            field.Length = request.Length;
-            field.ParentFieldId = request.ParentFieldId;
-            field.CoveringType = request.CoveringType;
-            field.IsActive = request.IsActive;
-            field.PriceGroupId = request.PriceGroupId;
-            field.UserModifiedId = _userId;
-
-            await _fieldFacade.UpdateField(field, request.Images, request.SportKinds);
-
-            await UnitOfWork.CommitTransaction();
-            
-            return new UpdateFieldDto();
-
-        }
-        catch
-        {
-            await UnitOfWork.RollbackTransaction();
-            throw;
-        }
+        await _fieldFacade.UpdateField(field, request.Images, request.SportKinds);
+        
+        return new UpdateFieldDto();
     }
 }

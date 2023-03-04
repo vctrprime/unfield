@@ -8,7 +8,7 @@ using StadiumEngine.Handlers.Commands.Accounts.Users;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
-internal sealed class ResetUserPasswordHandler : BaseRequestHandler<ResetUserPasswordCommand, ResetUserPasswordDto>
+internal sealed class ResetUserPasswordHandler : BaseCommandHandler<ResetUserPasswordCommand, ResetUserPasswordDto>
 {
     private readonly IUserFacade _userFacade;
     private readonly ISmsSender _smsSender;
@@ -17,13 +17,13 @@ internal sealed class ResetUserPasswordHandler : BaseRequestHandler<ResetUserPas
         IUserFacade userFacade,
         ISmsSender smsSender,
         IMapper mapper, 
-        IUnitOfWork unitOfWork) : base(mapper, null, unitOfWork)
+        IUnitOfWork unitOfWork) : base(mapper, null, unitOfWork, false)
     {
         _userFacade = userFacade;
         _smsSender = smsSender;
     }
 
-    public override async ValueTask<ResetUserPasswordDto> Handle(ResetUserPasswordCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<ResetUserPasswordDto> HandleCommand(ResetUserPasswordCommand request, CancellationToken cancellationToken)
     {
         var (user, password) = await _userFacade.ResetPassword(request.PhoneNumber);
         await UnitOfWork.SaveChanges();

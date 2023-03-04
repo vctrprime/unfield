@@ -9,7 +9,7 @@ using StadiumEngine.Handlers.Commands.Utils;
 
 namespace StadiumEngine.Handlers.Handlers.Utils;
 
-internal sealed class AddAdminUserHandler : BaseRequestHandler<AddAdminUserCommand, AddAdminUserDto>
+internal sealed class AddAdminUserHandler : BaseCommandHandler<AddAdminUserCommand, AddAdminUserDto>
 {
     private readonly IUserFacade _userFacade;
     private readonly ISmsSender _smsSender;
@@ -18,13 +18,13 @@ internal sealed class AddAdminUserHandler : BaseRequestHandler<AddAdminUserComma
         IUserFacade userFacade,
         ISmsSender smsSender,
         IMapper mapper, 
-        IUnitOfWork unitOfWork) : base(mapper, null, unitOfWork)
+        IUnitOfWork unitOfWork) : base(mapper, null, unitOfWork, false)
     {
         _userFacade = userFacade;
         _smsSender = smsSender;
     }
 
-    public override async ValueTask<AddAdminUserDto> Handle(AddAdminUserCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<AddAdminUserDto> HandleCommand(AddAdminUserCommand request, CancellationToken cancellationToken)
     {
         var user = Mapper.Map<User>(request);
         

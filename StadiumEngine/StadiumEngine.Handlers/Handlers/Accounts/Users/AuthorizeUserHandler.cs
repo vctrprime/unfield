@@ -7,7 +7,7 @@ using StadiumEngine.Handlers.Commands.Accounts.Users;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
-internal sealed class AuthorizeUserHandler : BaseRequestHandler<AuthorizeUserCommand, AuthorizeUserDto?>
+internal sealed class AuthorizeUserHandler : BaseCommandHandler<AuthorizeUserCommand, AuthorizeUserDto?>
 {
     private readonly IUserFacade _userFacade;
 
@@ -21,13 +21,12 @@ internal sealed class AuthorizeUserHandler : BaseRequestHandler<AuthorizeUserCom
         _userFacade = userFacade;
     }
 
-    public override async ValueTask<AuthorizeUserDto?> Handle(AuthorizeUserCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<AuthorizeUserDto?> HandleCommand(AuthorizeUserCommand request, CancellationToken cancellationToken)
     {
         if (request.Login == null || request.Password == null) return null;
 
         var user = await _userFacade.AuthorizeUser(request.Login, request.Password);
-        await UnitOfWork.SaveChanges();
-
+        
         var userDto = Mapper.Map<AuthorizeUserDto>(user);
         
         return userDto;

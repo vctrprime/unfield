@@ -8,7 +8,7 @@ using StadiumEngine.Handlers.Commands.Offers.Inventories;
 
 namespace StadiumEngine.Handlers.Handlers.Offers.Inventories;
 
-internal sealed class AddInventoryHandler : BaseRequestHandler<AddInventoryCommand, AddInventoryDto>
+internal sealed class AddInventoryHandler : BaseCommandHandler<AddInventoryCommand, AddInventoryDto>
 {
     private readonly IInventoryFacade _inventoryFacade;
 
@@ -21,27 +21,14 @@ internal sealed class AddInventoryHandler : BaseRequestHandler<AddInventoryComma
         _inventoryFacade = inventoryFacade;
     }
     
-    public override async ValueTask<AddInventoryDto> Handle(AddInventoryCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<AddInventoryDto> HandleCommand(AddInventoryCommand request, CancellationToken cancellationToken)
     {
-        try
-        {
-            await UnitOfWork.BeginTransaction();
-            
-            var inventory = Mapper.Map<Inventory>(request);
-            inventory.StadiumId = _currentStadiumId;
-            inventory.UserCreatedId = _userId;
+        var inventory = Mapper.Map<Inventory>(request);
+        inventory.StadiumId = _currentStadiumId;
+        inventory.UserCreatedId = _userId;
 
-            await _inventoryFacade.AddInventory(inventory, request.Images, _legalId);
-            
-            await UnitOfWork.CommitTransaction();
-
-            return new AddInventoryDto();
-
-        }
-        catch
-        {
-            await UnitOfWork.RollbackTransaction();
-            throw;
-        }
+        await _inventoryFacade.AddInventory(inventory, request.Images, _legalId);
+        
+        return new AddInventoryDto();
     }
 }

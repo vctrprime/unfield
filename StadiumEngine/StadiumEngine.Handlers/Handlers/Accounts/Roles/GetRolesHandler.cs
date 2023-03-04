@@ -15,8 +15,7 @@ internal sealed class GetRolesHandler : BaseRequestHandler<GetRolesQuery, List<R
     public GetRolesHandler(
         IRoleFacade roleFacade,
         IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService,
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {
         _roleFacade = roleFacade;
     }

@@ -15,8 +15,7 @@ internal sealed class GetAuthorizedUserHandler : BaseRequestHandler<GetAuthorize
     public GetAuthorizedUserHandler(
         IUserFacade userFacade,
         IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {
         _userFacade = userFacade;
     }

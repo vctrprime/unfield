@@ -16,8 +16,7 @@ internal sealed class GetPriceGroupHandler : BaseRequestHandler<GetPriceGroupQue
     public GetPriceGroupHandler(
         IPriceGroupFacade priceGroupFacade,
         IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {
         _priceGroupFacade = priceGroupFacade;
     }

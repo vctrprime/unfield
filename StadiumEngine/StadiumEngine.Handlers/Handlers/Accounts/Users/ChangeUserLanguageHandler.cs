@@ -8,7 +8,7 @@ using StadiumEngine.Handlers.Commands.Accounts.Users;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
-internal class ChangeUserLanguageHandler : BaseRequestHandler<ChangeUserLanguageCommand, ChangeUserLanguageDto>
+internal class ChangeUserLanguageHandler : BaseCommandHandler<ChangeUserLanguageCommand, ChangeUserLanguageDto>
 {
     private readonly IUserFacade _userFacade;
 
@@ -22,11 +22,9 @@ internal class ChangeUserLanguageHandler : BaseRequestHandler<ChangeUserLanguage
     }
 
 
-    public override async ValueTask<ChangeUserLanguageDto> Handle(ChangeUserLanguageCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<ChangeUserLanguageDto> HandleCommand(ChangeUserLanguageCommand request, CancellationToken cancellationToken)
     {
         await _userFacade.ChangeLanguage(_userId, request.Language);
-        await UnitOfWork.SaveChanges();
-
         return new ChangeUserLanguageDto();
     }
     

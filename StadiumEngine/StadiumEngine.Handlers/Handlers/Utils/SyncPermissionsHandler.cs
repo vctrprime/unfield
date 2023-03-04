@@ -7,34 +7,21 @@ using StadiumEngine.Handlers.Commands.Utils;
 
 namespace StadiumEngine.Handlers.Handlers.Utils;
 
-internal sealed class SyncPermissionsHandler : BaseRequestHandler<SyncPermissionsCommand, SyncPermissionsDto>
+internal sealed class SyncPermissionsHandler : BaseCommandHandler<SyncPermissionsCommand, SyncPermissionsDto>
 {
     private readonly IPermissionFacade _permissionFacade;
     
     public SyncPermissionsHandler(
         IPermissionFacade permissionFacade,
         IMapper mapper, 
-        IUnitOfWork unitOfWork) : base(mapper, null, unitOfWork)
+        IUnitOfWork unitOfWork) : base(mapper, null, unitOfWork, false)
     {
         _permissionFacade = permissionFacade;
     }
 
-    public override async ValueTask<SyncPermissionsDto> Handle(SyncPermissionsCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<SyncPermissionsDto> HandleCommand(SyncPermissionsCommand request, CancellationToken cancellationToken)
     {
-        try
-        {
-            await UnitOfWork.BeginTransaction();
-
-            await _permissionFacade.Sync(UnitOfWork);
-            
-            await UnitOfWork.CommitTransaction();
-            
-            return new SyncPermissionsDto();
-        }
-        catch
-        {
-            await UnitOfWork.RollbackTransaction();
-            throw;
-        }
+        await _permissionFacade.Sync(UnitOfWork);
+        return new SyncPermissionsDto();
     }
 }

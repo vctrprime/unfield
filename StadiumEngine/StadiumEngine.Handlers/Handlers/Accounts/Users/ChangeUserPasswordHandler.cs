@@ -10,7 +10,7 @@ using StadiumEngine.Handlers.Commands.Accounts.Users;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
-internal sealed class ChangeUserPasswordHandler : BaseRequestHandler<ChangeUserPasswordCommand, ChangeUserPasswordDto>
+internal sealed class ChangeUserPasswordHandler : BaseCommandHandler<ChangeUserPasswordCommand, ChangeUserPasswordDto>
 {
     private readonly IUserFacade _userFacade;
 
@@ -23,14 +23,12 @@ internal sealed class ChangeUserPasswordHandler : BaseRequestHandler<ChangeUserP
         _userFacade = userFacade;
     }
     
-    public override async ValueTask<ChangeUserPasswordDto> Handle(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<ChangeUserPasswordDto> HandleCommand(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
     {
         if (request.NewPassword != request.NewPasswordRepeat) throw new DomainException(ErrorsKeys.PasswordsNotEqual);
 
         await _userFacade.ChangePassword(_userId, request.NewPassword, request.OldPassword);
-
-        await UnitOfWork.SaveChanges();
-
+        
         return new ChangeUserPasswordDto();
     }
 }

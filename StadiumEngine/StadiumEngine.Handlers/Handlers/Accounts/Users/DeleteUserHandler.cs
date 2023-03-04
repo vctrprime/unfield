@@ -8,7 +8,7 @@ using StadiumEngine.Handlers.Commands.Accounts.Users;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
-internal sealed class DeleteUserHandler : BaseRequestHandler<DeleteUserCommand, DeleteUserDto>
+internal sealed class DeleteUserHandler : BaseCommandHandler<DeleteUserCommand, DeleteUserDto>
 {
     private readonly IUserFacade _userFacade;
 
@@ -21,11 +21,9 @@ internal sealed class DeleteUserHandler : BaseRequestHandler<DeleteUserCommand, 
         _userFacade = userFacade;
     }
     
-    public override async ValueTask<DeleteUserDto> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<DeleteUserDto> HandleCommand(DeleteUserCommand request, CancellationToken cancellationToken)
     {
         await _userFacade.DeleteUser(request.UserId, _legalId, _userId);
-        await UnitOfWork.SaveChanges();
-
         return new DeleteUserDto();
     }
 }

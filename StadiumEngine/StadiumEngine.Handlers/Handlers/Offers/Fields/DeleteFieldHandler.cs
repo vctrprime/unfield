@@ -8,7 +8,7 @@ using StadiumEngine.Handlers.Commands.Offers.Fields;
 
 namespace StadiumEngine.Handlers.Handlers.Offers.Fields;
 
-internal sealed class DeleteFieldHandler : BaseRequestHandler<DeleteFieldCommand, DeleteFieldDto>
+internal sealed class DeleteFieldHandler : BaseCommandHandler<DeleteFieldCommand, DeleteFieldDto>
 {
     private readonly IFieldFacade _fieldFacade;
     public DeleteFieldHandler(
@@ -20,22 +20,9 @@ internal sealed class DeleteFieldHandler : BaseRequestHandler<DeleteFieldCommand
         _fieldFacade = fieldFacade;
     }
 
-    public override async ValueTask<DeleteFieldDto> Handle(DeleteFieldCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<DeleteFieldDto> HandleCommand(DeleteFieldCommand request, CancellationToken cancellationToken)
     {
-        try
-        {
-            await UnitOfWork.BeginTransaction();
-            
-            await _fieldFacade.DeleteField(request.FieldId, _currentStadiumId);
-            
-            await UnitOfWork.CommitTransaction();
-        }
-        catch
-        {
-            await UnitOfWork.RollbackTransaction();
-            throw;
-        }
-
+        await _fieldFacade.DeleteField(request.FieldId, _currentStadiumId);
         return new DeleteFieldDto();
     }
 }

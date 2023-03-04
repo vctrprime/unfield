@@ -15,8 +15,7 @@ internal sealed class GetLegalsByFilterHandler : BaseRequestHandler<GetLegalsByF
     public GetLegalsByFilterHandler(
         ILegalFacade legalFacade,
         IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
     {
         _legalFacade = legalFacade;
     }

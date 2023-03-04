@@ -9,7 +9,7 @@ using StadiumEngine.Handlers.Commands.Offers.Fields;
 
 namespace StadiumEngine.Handlers.Handlers.Offers.Fields;
 
-internal sealed class AddFieldHandler : BaseRequestHandler<AddFieldCommand, AddFieldDto>
+internal sealed class AddFieldHandler : BaseCommandHandler<AddFieldCommand, AddFieldDto>
 {
     private readonly IFieldFacade _fieldFacade;
 
@@ -22,27 +22,14 @@ internal sealed class AddFieldHandler : BaseRequestHandler<AddFieldCommand, AddF
         _fieldFacade = fieldFacade;
     }
     
-    public override async ValueTask<AddFieldDto> Handle(AddFieldCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<AddFieldDto> HandleCommand(AddFieldCommand request, CancellationToken cancellationToken)
     {
-        try
-        {
-            await UnitOfWork.BeginTransaction();
-            
-            var field = Mapper.Map<Field>(request);
-            field.StadiumId = _currentStadiumId;
-            field.UserCreatedId = _userId;
+        var field = Mapper.Map<Field>(request);
+        field.StadiumId = _currentStadiumId;
+        field.UserCreatedId = _userId;
 
-            await _fieldFacade.AddField(field, request.Images, _legalId);
-            
-            await UnitOfWork.CommitTransaction();
-
-            return new AddFieldDto();
-
-        }
-        catch
-        {
-            await UnitOfWork.RollbackTransaction();
-            throw;
-        }
+        await _fieldFacade.AddField(field, request.Images, _legalId);
+        
+        return new AddFieldDto();
     }
 }
