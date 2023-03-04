@@ -12,6 +12,7 @@ import {IAccountsService} from "../../../services/AccountsService";
 import {ToggleRolePermissionCommand} from "../../../models/command/accounts/ToggleRolePermissionCommand";
 import {t} from "i18next";
 import {getTitle} from "../../../helpers/utils";
+import {PermissionsKeys} from "../../../static/PermissionsKeys";
 
 export interface PermissionsRoleDropDownData {
     key: number,
@@ -99,7 +100,7 @@ export const Permissions = () => {
     }
     
     const PermissionCheckBox = ({permission}: PermissionCheckBoxProps) => {
-        return permissions.filter(p => p.name === 'toggle-role-permission').length > 0 ?
+        return permissions.filter(p => p.name === PermissionsKeys.ToggleRolePermission).length > 0 ?
              <Checkbox
                     checked={permission.isRoleBound}
                     onChange={(e, data) => togglePermission(permission)}

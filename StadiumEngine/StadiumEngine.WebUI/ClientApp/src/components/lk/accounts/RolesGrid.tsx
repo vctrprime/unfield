@@ -14,6 +14,7 @@ import {permissionsAtom} from "../../../state/permissions";
 import {PopupCellRenderer} from "../../common/PopupCellRenderer";
 import {changeBindingStadiumAtom} from "../../../state/changeBindingStadium";
 import {ContainerLoading} from "../../common/ContainerLoading";
+import {PermissionsKeys} from "../../../static/PermissionsKeys";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -46,8 +47,8 @@ export const RolesGrid = ({setSelectedRole} : any) => {
     const columnDefs = [
         {
             headerName: '',
-            cellRenderer: (obj: any) => <PopupCellRenderer deleteAccess={permissions.filter(p => p.name === 'delete-role').length > 0} 
-                                                   editAccess={permissions.filter(p => p.name === 'update-role').length > 0} 
+            cellRenderer: (obj: any) => <PopupCellRenderer deleteAccess={permissions.filter(p => p.name === PermissionsKeys.DeleteRole).length > 0} 
+                                                   editAccess={permissions.filter(p => p.name === PermissionsKeys.UpdateRole).length > 0} 
                                                    deleteHandler={() => {
                                                        setDeletingRole(obj.data);
                                                        setDeleteRoleModal(true);
@@ -228,7 +229,7 @@ export const RolesGrid = ({setSelectedRole} : any) => {
             <Button onClick={() => {
                 setEditingRole(null);
                 setRoleModal(true);
-            }} disabled={permissions.filter(p => p.name === 'insert-role').length === 0} className="add-role-button">{t('accounts:roles_grid:add')}</Button>
+            }} disabled={permissions.filter(p => p.name === PermissionsKeys.InsertRole).length === 0} className="add-role-button">{t('accounts:roles_grid:add')}</Button>
             {data.length === 0 && !isLoading && <span className="no-rows-message">{t('accounts:roles_grid:no_rows')}</span>}
             <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 36px)'}}>
                 {isLoading ? <GridLoading columns={columnDefs}/> : <AgGridReact

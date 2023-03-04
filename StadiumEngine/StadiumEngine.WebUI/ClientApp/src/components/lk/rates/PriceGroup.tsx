@@ -9,6 +9,7 @@ import {t} from "i18next";
 import {UpdatePriceGroupCommand} from "../../../models/command/rates/UpdatePriceGroupCommand";
 import {AddPriceGroupCommand} from "../../../models/command/rates/AddPriceGroupCommand";
 import {IRatesService} from "../../../services/RatesService";
+import {PermissionsKeys} from "../../../static/PermissionsKeys";
 
 export const PriceGroup = () => {
     let { id } = useParams();
@@ -91,6 +92,8 @@ export const PriceGroup = () => {
     
     return isError ? <span/> : (<div>
             <ActionButtons
+                savePermission={id === "new" ? PermissionsKeys.InsertPriceGroup : PermissionsKeys.UpdatePriceGroup}
+                deletePermission={PermissionsKeys.DeletePriceGroup}
                 title={id === "new" ? t('rates:price_groups_grid:adding') : t('rates:price_groups_grid:editing')}
                 saveAction={id === "new" ? savePriceGroup : updatePriceGroup}
                 deleteAction={id === "new" ? null : deletePriceGroup}

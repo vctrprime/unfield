@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Offers.Fields;
 using StadiumEngine.Handlers.Commands.Offers.Fields;
 using StadiumEngine.Handlers.Queries.Offers.Fields;
@@ -19,7 +20,7 @@ public class FieldController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [HasPermission("get-fields")]
+    [HasPermission(PermissionsKeys.GetFields)]
     public async Task<List<FieldDto>> GetAll()
     {
         var fields = await Mediator.Send(new GetFieldsQuery());
@@ -31,7 +32,7 @@ public class FieldController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet("{fieldId}")]
-    [HasPermission("get-fields")]
+    [HasPermission(PermissionsKeys.GetFields)]
     public async Task<FieldDto> Get(int fieldId)
     {
         var field = await Mediator.Send(new GetFieldQuery(fieldId));
@@ -43,7 +44,7 @@ public class FieldController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    [HasPermission("insert-field")]
+    [HasPermission(PermissionsKeys.InsertField)]
     public async Task<AddFieldDto> Post([FromForm]AddFieldCommand command)
     {
         var dto = await Mediator.Send(command);
@@ -55,7 +56,7 @@ public class FieldController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPut]
-    [HasPermission("update-field")]
+    [HasPermission(PermissionsKeys.UpdateField)]
     public async Task<UpdateFieldDto> Put([FromForm]UpdateFieldCommand command)
     {
         var dto = await Mediator.Send(command);
@@ -67,7 +68,7 @@ public class FieldController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpDelete("{fieldId}")]
-    [HasPermission("delete-field")]
+    [HasPermission(PermissionsKeys.DeleteField)]
     public async Task<DeleteFieldDto> Delete(int fieldId)
     {
         var dto = await Mediator.Send(new DeleteFieldCommand(fieldId));

@@ -10,6 +10,7 @@ import {t} from "i18next";
 import {UpdateLockerRoomCommand} from "../../../models/command/offers/UpdateLockerRoomCommand";
 import {LockerRoomGender} from "../../../models/dto/offers/enums/LockerRoomGender";
 import {AddLockerRoomCommand} from "../../../models/command/offers/AddLockerRoomCommand";
+import {PermissionsKeys} from "../../../static/PermissionsKeys";
 
 export const LockerRoom = () => {
     let { id } = useParams();
@@ -101,6 +102,8 @@ export const LockerRoom = () => {
     
     return isError ? <span/> : (<div>
             <ActionButtons
+                savePermission={id === "new" ? PermissionsKeys.InsertLockerRoom : PermissionsKeys.UpdateLockerRoom}
+                deletePermission={PermissionsKeys.DeleteLockerRoom}
                 title={id === "new" ? t('offers:locker_rooms_grid:adding') : t('offers:locker_rooms_grid:editing')}
                 saveAction={id === "new" ? saveLockerRoom : updateLockerRoom}
                 deleteAction={id === "new" ? null : deleteLockerRoom}

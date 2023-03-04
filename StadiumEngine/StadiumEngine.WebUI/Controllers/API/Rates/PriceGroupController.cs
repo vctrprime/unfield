@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Rates.PriceGroups;
 using StadiumEngine.Handlers.Commands.Rates.PriceGroups;
 using StadiumEngine.Handlers.Queries.Rates;
@@ -19,7 +20,7 @@ public class PriceGroupController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [HasPermission("get-price-groups,get-fields")]
+    [HasPermission($"{PermissionsKeys.GetPriceGroups},{PermissionsKeys.GetFields}")]
     public async Task<List<PriceGroupDto>> GetAll()
     {
         var priceGroups = await Mediator.Send(new GetPriceGroupsQuery());
@@ -31,7 +32,7 @@ public class PriceGroupController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet("{priceGroupId}")]
-    [HasPermission("get-price-groups")]
+    [HasPermission(PermissionsKeys.GetPriceGroups)]
     public async Task<PriceGroupDto> Get(int priceGroupId)
     {
         var priceGroup = await Mediator.Send(new GetPriceGroupQuery(priceGroupId));
@@ -43,7 +44,7 @@ public class PriceGroupController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    [HasPermission("insert-price-group")]
+    [HasPermission(PermissionsKeys.InsertPriceGroup)]
     public async Task<AddPriceGroupDto> Post(AddPriceGroupCommand command)
     {
         var dto = await Mediator.Send(command);
@@ -55,7 +56,7 @@ public class PriceGroupController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPut]
-    [HasPermission("update-price-group")]
+    [HasPermission(PermissionsKeys.UpdatePriceGroup)]
     public async Task<UpdatePriceGroupDto> Put(UpdatePriceGroupCommand command)
     {
         var dto = await Mediator.Send(command);
@@ -67,7 +68,7 @@ public class PriceGroupController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpDelete("{priceGroupId}")]
-    [HasPermission("delete-price-group")]
+    [HasPermission(PermissionsKeys.DeletePriceGroup)]
     public async Task<DeletePriceGroupDto> Delete(int priceGroupId)
     {
         var dto = await Mediator.Send(new DeletePriceGroupCommand(priceGroupId));

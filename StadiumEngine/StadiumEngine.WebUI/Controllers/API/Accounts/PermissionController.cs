@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.DTO.Accounts.Permissions;
 using StadiumEngine.Handlers.Queries.Accounts;
@@ -20,7 +21,7 @@ public class PermissionController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet("{roleId}")]
-    [HasPermission("get-permissions")]
+    [HasPermission(PermissionsKeys.GetPermissions)]
     public async Task<List<PermissionDto>> Get(int roleId)
     {
         var permissions = await Mediator.Send(new GetPermissionsForRoleQuery(roleId));

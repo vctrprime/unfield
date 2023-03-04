@@ -18,6 +18,7 @@ import {Checkbox, Dropdown, Form} from "semantic-ui-react";
 import {SportKindSelect} from "../common/SportKindSelect";
 import {ImagesForm} from "../common/ImagesForm";
 import {CurrencySelect} from "../common/CurrencySelect";
+import {PermissionsKeys} from "../../../static/PermissionsKeys";
 
 export const Inventory = () => {
     let {id} = useParams();
@@ -118,6 +119,8 @@ export const Inventory = () => {
 
     return isError ? <span/> : (<div>
         <ActionButtons
+            savePermission={id === "new" ? PermissionsKeys.InsertInventory : PermissionsKeys.UpdateInventory}
+            deletePermission={PermissionsKeys.DeleteInventory}
             title={id === "new" ? t('offers:inventories_grid:adding') : t('offers:inventories_grid:editing')}
             saveAction={saveAction}
             deleteAction={id === "new" ? null : deleteInventory}

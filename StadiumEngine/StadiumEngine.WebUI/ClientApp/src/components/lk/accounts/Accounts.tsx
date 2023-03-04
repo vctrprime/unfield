@@ -3,6 +3,7 @@ import {TabData, Tabs} from "../../common/Tabs";
 import {useRecoilValue} from "recoil";
 import {permissionsAtom} from "../../../state/permissions";
 import {ForbiddenMessage} from "../common/ForbiddenMessage";
+import {PermissionsKeys} from "../../../static/PermissionsKeys";
 
 
 export const Accounts = () => {
@@ -12,13 +13,13 @@ export const Accounts = () => {
 
    
     
-    if (permissions.filter(p => p.name === 'get-users').length > 0) {
+    if (permissions.filter(p => p.name === PermissionsKeys.GetUsers).length > 0) {
         tabs.push({ route: '', resourcePath: 'accounts:users_tab'});
     }
-    if (permissions.filter(p => p.name === 'get-roles').length > 0) {
+    if (permissions.filter(p => p.name === PermissionsKeys.GetRoles).length > 0) {
         tabs.push({ route: 'roles', resourcePath: 'accounts:roles_tab'});
     }
-    if (permissions.filter(p => p.name === 'get-permissions').length > 0) {
+    if (permissions.filter(p => p.name === PermissionsKeys.GetPermissions).length > 0) {
         tabs.push({ route: 'permissions', resourcePath: 'accounts:permissions_tab'});
     }
     

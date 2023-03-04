@@ -15,6 +15,8 @@ import {Parent} from "../../common/tree/Parent";
 import {Child} from "../../common/tree/Child";
 import {FieldCoveringType} from "../../../models/dto/offers/enums/FieldCoveringType";
 import {SportKindsRenderer} from "../common/GridRenderers";
+import {PermissionsKeys} from "../../../static/PermissionsKeys";
+import {permissionsAtom} from "../../../state/permissions";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -23,6 +25,7 @@ export const Fields = () => {
     document.title = getTitle("offers:fields_tab")
 
     const stadium = useRecoilValue(stadiumAtom);
+    const permissions = useRecoilValue(permissionsAtom);
 
     const [data, setData] = useState<FieldDto[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -105,7 +108,9 @@ export const Fields = () => {
 
     return (<div className="fields-container">
         <div className="fields-btns">
-            <Button onClick={() => navigate("/lk/offers/fields/new")}>{t('offers:fields_grid:add')}</Button>
+            <Button
+                disabled={permissions.filter(p => p.name === PermissionsKeys.InsertField).length === 0}
+                onClick={() => navigate("/lk/offers/fields/new")}>{t('offers:fields_grid:add')}</Button>
             {data.length === 0 && !isLoading && <span>{t('offers:fields_grid:no_rows')}</span>}
         </div>
         <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 36px)'}}>

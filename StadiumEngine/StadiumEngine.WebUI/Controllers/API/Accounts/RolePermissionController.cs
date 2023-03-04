@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.DTO.Accounts.Roles;
 using StadiumEngine.Handlers.Commands.Accounts;
@@ -20,7 +21,7 @@ public class RolePermissionController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    [HasPermission("toggle-role-permission")]
+    [HasPermission(PermissionsKeys.ToggleRolePermission)]
     public async Task<ToggleRolePermissionDto> Post(ToggleRolePermissionCommand command)
     {
         var dto = await Mediator.Send(command);

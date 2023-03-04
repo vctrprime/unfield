@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.DTO.Accounts.Roles;
 using StadiumEngine.Handlers.Commands.Accounts;
@@ -22,7 +23,7 @@ public class RoleController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [HasPermission("get-roles,get-permissions,get-users")]
+    [HasPermission($"{PermissionsKeys.GetRoles},{PermissionsKeys.GetPermissions},{PermissionsKeys.GetUsers}")]
     public async Task<List<RoleDto>> Get()
     {
         var roles = await Mediator.Send(new GetRolesQuery());
@@ -34,7 +35,7 @@ public class RoleController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    [HasPermission("insert-role")]
+    [HasPermission(PermissionsKeys.InsertRole)]
     public async Task<AddRoleDto> Post(AddRoleCommand command)
     {
         var dto = await Mediator.Send(command);
@@ -46,7 +47,7 @@ public class RoleController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPut]
-    [HasPermission("update-role")]
+    [HasPermission(PermissionsKeys.UpdateRole)]
     public async Task<UpdateRoleDto> Put(UpdateRoleCommand command)
     {
         var dto = await Mediator.Send(command);
@@ -58,7 +59,7 @@ public class RoleController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpDelete("{roleId}")]
-    [HasPermission("delete-role")]
+    [HasPermission(PermissionsKeys.DeleteRole)]
     public async Task<DeleteRoleDto> Delete(int roleId)
     {
         var dto = await Mediator.Send(new DeleteRoleCommand(roleId));

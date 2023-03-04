@@ -13,6 +13,8 @@ import {dateFormatter} from "../../../helpers/date-formatter";
 import {InventoryDto} from "../../../models/dto/offers/InventoryDto";
 import {Currency} from "../../../models/dto/offers/enums/Currency";
 import {SportKindsRenderer} from "../common/GridRenderers";
+import {PermissionsKeys} from "../../../static/PermissionsKeys";
+import {permissionsAtom} from "../../../state/permissions";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -21,6 +23,7 @@ export const Inventories = () => {
     document.title = getTitle("offers:inventories_tab")
 
     const stadium = useRecoilValue(stadiumAtom);
+    const permissions = useRecoilValue(permissionsAtom);
 
     const [data, setData] = useState<InventoryDto[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -94,7 +97,9 @@ export const Inventories = () => {
 
     return (<div className="inventories-container">
         <div className="inventories-btns">
-            <Button onClick={() => navigate("/lk/offers/inventories/new")}>{t('offers:inventories_grid:add')}</Button>
+            <Button
+                disabled={permissions.filter(p => p.name === PermissionsKeys.InsertInventory).length === 0}
+                onClick={() => navigate("/lk/offers/inventories/new")}>{t('offers:inventories_grid:add')}</Button>
             {data.length === 0 && !isLoading && <span>{t('offers:inventories_grid:no_rows')}</span>}
         </div>
         <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 36px)'}}>

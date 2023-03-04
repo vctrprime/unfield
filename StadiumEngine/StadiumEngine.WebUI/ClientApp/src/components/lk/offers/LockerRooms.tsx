@@ -14,6 +14,8 @@ import {stadiumAtom} from "../../../state/stadium";
 import { Checkbox } from 'semantic-ui-react'
 import {UpdateLockerRoomCommand} from "../../../models/command/offers/UpdateLockerRoomCommand";
 import {LockerRoomGender} from "../../../models/dto/offers/enums/LockerRoomGender";
+import {PermissionsKeys} from "../../../static/PermissionsKeys";
+import {permissionsAtom} from "../../../state/permissions";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -22,6 +24,7 @@ export const LockerRooms = () => {
     document.title = getTitle("offers:locker_rooms_tab")
 
     const stadium = useRecoilValue(stadiumAtom);
+    const permissions = useRecoilValue(permissionsAtom);
 
     const [data, setData] = useState<LockerRoomDto[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -98,7 +101,9 @@ export const LockerRooms = () => {
 
     return (<div className="locker-rooms-container">
         <div className="locker-rooms-btns">
-            <Button onClick={() => navigate("/lk/offers/locker-rooms/new")}>{t('offers:locker_rooms_grid:add')}</Button>
+            <Button
+                disabled={permissions.filter(p => p.name === PermissionsKeys.InsertLockerRoom).length === 0}
+                onClick={() => navigate("/lk/offers/locker-rooms/new")}>{t('offers:locker_rooms_grid:add')}</Button>
             {data.length === 0 && !isLoading && <span>{t('offers:locker_rooms_grid:no_rows')}</span>}
         </div>
         <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 36px)'}}>

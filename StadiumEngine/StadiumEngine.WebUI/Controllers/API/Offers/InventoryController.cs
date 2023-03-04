@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Offers.Inventories;
 using StadiumEngine.Handlers.Commands.Offers.Inventories;
 using StadiumEngine.Handlers.Queries.Offers.Inventories;
@@ -19,7 +20,7 @@ public class InventoryController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [HasPermission("get-inventories")]
+    [HasPermission(PermissionsKeys.GetInventories)]
     public async Task<List<InventoryDto>> GetAll()
     {
         var inventories = await Mediator.Send(new GetInventoriesQuery());
@@ -31,7 +32,7 @@ public class InventoryController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet("{inventoryId}")]
-    [HasPermission("get-inventories")]
+    [HasPermission(PermissionsKeys.GetInventories)]
     public async Task<InventoryDto> Get(int inventoryId)
     {
         var inventory = await Mediator.Send(new GetInventoryQuery(inventoryId));
@@ -43,7 +44,7 @@ public class InventoryController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    [HasPermission("insert-inventory")]
+    [HasPermission(PermissionsKeys.InsertInventory)]
     public async Task<AddInventoryDto> Post([FromForm]AddInventoryCommand command)
     {
         var dto = await Mediator.Send(command);
@@ -55,7 +56,7 @@ public class InventoryController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPut]
-    [HasPermission("update-inventory")]
+    [HasPermission(PermissionsKeys.UpdateInventory)]
     public async Task<UpdateInventoryDto> Put([FromForm]UpdateInventoryCommand command)
     {
         var dto = await Mediator.Send(command);
@@ -67,7 +68,7 @@ public class InventoryController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpDelete("{inventoryId}")]
-    [HasPermission("delete-inventory")]
+    [HasPermission(PermissionsKeys.DeleteInventory)]
     public async Task<DeleteInventoryDto> Delete(int inventoryId)
     {
         var dto = await Mediator.Send(new DeleteInventoryCommand(inventoryId));

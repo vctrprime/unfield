@@ -13,8 +13,8 @@ import {stadiumAtom} from "../../../state/stadium";
 import { Checkbox } from 'semantic-ui-react'
 import {UpdatePriceGroupCommand} from "../../../models/command/rates/UpdatePriceGroupCommand";
 import {IRatesService} from "../../../services/RatesService";
-import {SportKindsRenderer} from "../common/GridRenderers";
-import {SportKind} from "../../../models/dto/offers/enums/SportKind";
+import {PermissionsKeys} from "../../../static/PermissionsKeys";
+import {permissionsAtom} from "../../../state/permissions";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -23,6 +23,7 @@ export const PriceGroups = () => {
     document.title = getTitle("rates:price_groups_tab")
 
     const stadium = useRecoilValue(stadiumAtom);
+    const permissions = useRecoilValue(permissionsAtom);
 
     const [data, setData] = useState<PriceGroupDto[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -88,7 +89,9 @@ export const PriceGroups = () => {
 
     return (<div className="price-groups-container">
         <div className="price-groups-btns">
-            <Button onClick={() => navigate("/lk/rates/price-groups/new")}>{t('rates:price_groups_grid:add')}</Button>
+            <Button
+                disabled={permissions.filter(p => p.name === PermissionsKeys.InsertPriceGroup).length === 0}
+                onClick={() => navigate("/lk/rates/price-groups/new")}>{t('rates:price_groups_grid:add')}</Button>
             {data.length === 0 && !isLoading && <span>{t('rates:price_groups_grid:no_rows')}</span>}
         </div>
         <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 36px)'}}>

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Accounts;
 using StadiumEngine.DTO.Accounts.Users;
 using StadiumEngine.Handlers.Commands.Accounts;
@@ -22,7 +23,7 @@ public class UserController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [HasPermission("get-users")]
+    [HasPermission(PermissionsKeys.GetUsers)]
     public async Task<List<UserDto>> Get()
     {
         var users = await Mediator.Send(new GetUsersQuery());
@@ -35,7 +36,7 @@ public class UserController : BaseApiController
     /// <param name="command"></param>
     /// <returns></returns>
     [HttpPost]
-    [HasPermission("insert-user")]
+    [HasPermission(PermissionsKeys.InsertUser)]
     public async Task<AddUserDto> Post(AddUserCommand command)
     {
         var dto = await Mediator.Send(command);
@@ -48,7 +49,7 @@ public class UserController : BaseApiController
     /// <param name="command"></param>
     /// <returns></returns>
     [HttpPut]
-    [HasPermission("update-user")]
+    [HasPermission(PermissionsKeys.UpdateUser)]
     public async Task<UpdateUserDto> Put(UpdateUserCommand command)
     {
         var dto = await Mediator.Send(command);
@@ -61,7 +62,7 @@ public class UserController : BaseApiController
     /// <param name="userId"></param>
     /// <returns></returns>
     [HttpDelete("{userId}")]
-    [HasPermission("delete-user")]
+    [HasPermission(PermissionsKeys.DeleteUser)]
     public async Task<DeleteUserDto> Delete(int userId)
     {
         var dto = await Mediator.Send(new DeleteUserCommand(userId));

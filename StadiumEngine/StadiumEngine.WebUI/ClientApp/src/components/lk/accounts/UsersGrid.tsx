@@ -18,6 +18,7 @@ import {rolesAtom} from "../../../state/roles";
 import {PermissionsRoleDropDownData} from "./Permissions";
 import {RoleDto} from "../../../models/dto/accounts/RoleDto";
 import {ContainerLoading} from "../../common/ContainerLoading";
+import {PermissionsKeys} from "../../../static/PermissionsKeys";
 
 const AgGrid = require('ag-grid-react');
 const { AgGridReact } = AgGrid;
@@ -62,8 +63,8 @@ export const UsersGrid = () => {
     const columnDefs = [
         {
             headerName: '',
-            cellRenderer: (obj: any) => <PopupCellRenderer deleteAccess={permissions.filter(p => p.name === 'delete-user').length > 0}
-                                                           editAccess={permissions.filter(p => p.name === 'update-user').length > 0}
+            cellRenderer: (obj: any) => <PopupCellRenderer deleteAccess={permissions.filter(p => p.name === PermissionsKeys.DeleteUser).length > 0}
+                                                           editAccess={permissions.filter(p => p.name === PermissionsKeys.UpdateUser).length > 0}
                                                            deleteHandler={() => {
                                                                setDeletingUser(obj.data);
                                                                setDeleteUserModal(true);
@@ -253,7 +254,7 @@ export const UsersGrid = () => {
                 setEditingUser(null);
                 setNewUserLogin(undefined);
                 setUserModal(true);
-            }} disabled={permissions.filter(p => p.name === 'insert-user').length === 0} className="add-user-button">{t('accounts:users_grid:add')}</Button>
+            }} disabled={permissions.filter(p => p.name === PermissionsKeys.InsertUser).length === 0} className="add-user-button">{t('accounts:users_grid:add')}</Button>
             {data.length === 0 && !isLoading && <span className="no-rows-message">{t('accounts:users_grid:no_rows')}</span>}
             <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 36px)'}}>
                 {isLoading ? <GridLoading columns={columnDefs} /> : <AgGridReact

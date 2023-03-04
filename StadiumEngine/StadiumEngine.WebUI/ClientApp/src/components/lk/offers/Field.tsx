@@ -14,6 +14,7 @@ import {ImagesForm} from "../common/ImagesForm";
 import {SportKindSelect} from "../common/SportKindSelect";
 import {IRatesService} from "../../../services/RatesService";
 import {PriceGroupDto} from "../../../models/dto/rates/PriceGroupDto";
+import {PermissionsKeys} from "../../../static/PermissionsKeys";
 
 
 export const Field = () => {
@@ -172,6 +173,8 @@ export const Field = () => {
     
     return isError ? <span/> : (<div>
         <ActionButtons
+            savePermission={id === "new" ? PermissionsKeys.InsertField : PermissionsKeys.UpdateField}
+            deletePermission={PermissionsKeys.DeleteField}
             title={id === "new" ? t('offers:fields_grid:adding') : t('offers:fields_grid:editing')}
             saveAction={saveAction}
             deleteAction={id === "new" || data?.childNames?.length > 0 ? null : deleteField}

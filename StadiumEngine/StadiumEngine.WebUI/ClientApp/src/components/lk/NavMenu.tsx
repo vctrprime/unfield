@@ -10,6 +10,7 @@ import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../services/AccountsService";
 import {t} from "i18next";
 import {logoutModalAtom} from "../../state/logoutModal";
+import {PermissionsKeys} from "../../static/PermissionsKeys";
 
 
 const cdbreact = require('cdbreact');
@@ -64,27 +65,27 @@ export const NavMenu = () => {
                                 <CDBSidebarMenuItem title={t('common:lk_navbar:main_settings')}  icon="columns">{t('common:lk_navbar:main_settings')}</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
-                            {viewNavLink('schedule') ? <NavLink to="/lk/schedule" className={getNavLinkClassName}>
+                            {viewNavLink(PermissionsKeys.ScheduleGroup) ? <NavLink to="/lk/schedule" className={getNavLinkClassName}>
                                 <CDBSidebarMenuItem title={t('common:lk_navbar:schedule')} icon="table">{t('common:lk_navbar:schedule')}</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
-                            {viewNavLink('offers') ? <NavLink to="/lk/offers"  className={getNavLinkClassName}>
+                            {viewNavLink(PermissionsKeys.OffersGroup) ? <NavLink to="/lk/offers"  className={getNavLinkClassName}>
                                 <CDBSidebarMenuItem title={t('common:lk_navbar:offers')} icon="object-ungroup">{t('common:lk_navbar:offers')}</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
-                            {viewNavLink('rates') ? <NavLink to="/lk/rates"  className={getNavLinkClassName}>
+                            {viewNavLink(PermissionsKeys.RatesGroup) ? <NavLink to="/lk/rates"  className={getNavLinkClassName}>
                                 <CDBSidebarMenuItem title={t('common:lk_navbar:rates')} icon="dollar-sign">{t('common:lk_navbar:rates')}</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
-                            {viewNavLink('employees') ? <NavLink to="/lk/employees"  className={getNavLinkClassName}>
+                            {viewNavLink(PermissionsKeys.EmployeesGroup) ? <NavLink to="/lk/employees"  className={getNavLinkClassName}>
                                 <CDBSidebarMenuItem title={t('common:lk_navbar:employees')} icon="user-tie">{t('common:lk_navbar:employees')}</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
-                            {viewNavLink('reports') ? <NavLink to="/lk/reports"  className={getNavLinkClassName}>
+                            {viewNavLink(PermissionsKeys.ReportsGroup) ? <NavLink to="/lk/reports"  className={getNavLinkClassName}>
                                 <CDBSidebarMenuItem title={t('common:lk_navbar:reports')} icon="chart-line">{t('common:lk_navbar:reports')}</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
 
-                            {viewNavLink('accounts') ? <NavLink  to="/lk/accounts" className={getNavLinkClassName}>
+                            {viewNavLink(PermissionsKeys.AccountsGroup) ? <NavLink  to="/lk/accounts" className={getNavLinkClassName}>
                                 <CDBSidebarMenuItem title={t('common:lk_navbar:accounts')} icon="users">{t('common:lk_navbar:accounts')}</CDBSidebarMenuItem>
                             </NavLink> : <span/>}
                             
