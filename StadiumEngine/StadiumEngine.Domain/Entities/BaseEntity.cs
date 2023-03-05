@@ -11,11 +11,15 @@ public abstract class BaseEntity
     [Column( "id", Order = 0 )]
     public int Id { get; set; }
 
-    [Column( "name" )] public string Name { get; set; }
+    [Column( "name" )]
+    public string Name { get; set; }
 
-    [Column( "description" )] public string Description { get; set; }
+    [Column( "description" )]
+    public string Description { get; set; }
 
-    [Column( "date_created" )] public DateTime DateCreated { get; set; }
+    [Column( "date_created" )]
+    public DateTime DateCreated { get; set; }
 
-    [Column( "date_modified" )] public DateTime? DateModified { get; set; }
+    [Column( "date_modified" )]
+    public DateTime? DateModified { get; set; }
 }

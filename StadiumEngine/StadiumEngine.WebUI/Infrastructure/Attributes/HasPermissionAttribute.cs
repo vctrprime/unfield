@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using System.Linq;
 using Mediator;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using StadiumEngine.DTO.Accounts.Users;
 using StadiumEngine.Handlers.Queries.Accounts.Users;
 
 namespace StadiumEngine.WebUI.Infrastructure.Attributes;
@@ -32,24 +34,22 @@ public class HasPermissionAttribute : ActionFilterAttribute
     /// <param name="context"></param>
     public override void OnActionExecuting( ActionExecutingContext context )
     {
-        var mediator = ( IMediator )context.HttpContext.RequestServices.GetService( typeof( IMediator ) );
-        if (mediator != null)
+        IMediator mediator = ( IMediator )context.HttpContext.RequestServices.GetService( typeof( IMediator ) );
+        if ( mediator != null )
         {
-            var permissions = mediator.Send( new GetUserPermissionsQuery() ).GetAwaiter().GetResult();
+            List<UserPermissionDto> permissions =
+                mediator.Send( new GetUserPermissionsQuery() ).GetAwaiter().GetResult();
 
-            var needAlternativePermissions = _needAlternativePermissions.Split( "," );
+            string[] needAlternativePermissions = _needAlternativePermissions.Split( "," );
 
-            if (permissions.Any(
-                    permission => needAlternativePermissions.Contains( permission.Name.ToLower() ) )) return;
+            if ( permissions.Any(
+                    permission => needAlternativePermissions.Contains( permission.Name.ToLower() ) ) )
+            {
+                return;
+            }
         }
 
         context.Result = new ObjectResult(
-            new
-            {
-                Message = "Fordidden"
-            } )
-        {
-            StatusCode = StatusCodes.Status403Forbidden
-        };
+            new { Message = "Fordidden" } ) { StatusCode = StatusCodes.Status403Forbidden };
     }
 }

@@ -30,9 +30,9 @@ internal sealed class AddAdminUserHandler : BaseCommandHandler<AddAdminUserComma
     protected override async ValueTask<AddAdminUserDto> HandleCommand( AddAdminUserCommand request,
         CancellationToken cancellationToken )
     {
-        var user = Mapper.Map<User>( request );
+        User? user = Mapper.Map<User>( request );
 
-        var password = await _userFacade.AddUser( user, true );
+        string password = await _userFacade.AddUser( user, true );
         await UnitOfWork.SaveChanges();
 
         await _smsSender.SendPassword( user.PhoneNumber, password, user.Language );

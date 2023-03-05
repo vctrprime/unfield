@@ -11,33 +11,23 @@ internal class PermissionRepository : BaseRepository<Permission>, IPermissionRep
     {
     }
 
-    public async Task<List<Permission>> GetAll()
-    {
-        return await Entities.Include( p => p.PermissionGroup )
+    public async Task<List<Permission>> GetAll() =>
+        await Entities.Include( p => p.PermissionGroup )
             .OrderBy( p => p.PermissionGroup.Sort )
             .ThenBy( p => p.Sort )
             .ToListAsync();
-    }
 
-    public async Task<List<Permission>> GetForRole( int roleId )
-    {
-        return await Entities
+    public async Task<List<Permission>> GetForRole( int roleId ) =>
+        await Entities
             .Include( p => p.PermissionGroup )
             .Include( rp => rp.RolePermissions )
             .Where( p => p.RolePermissions.Select( rp => rp.RoleId ).Contains( roleId ) )
             .OrderBy( p => p.PermissionGroup.Sort )
             .ThenBy( p => p.Sort )
             .ToListAsync();
-    }
 
 
-    public new void Add( Permission permission )
-    {
-        base.Add( permission );
-    }
+    public new void Add( Permission permission ) => base.Add( permission );
 
-    public new void Update( Permission permission )
-    {
-        base.Update( permission );
-    }
+    public new void Update( Permission permission ) => base.Update( permission );
 }

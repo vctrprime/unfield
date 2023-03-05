@@ -24,7 +24,7 @@ internal sealed class AddFieldHandler : BaseCommandHandler<AddFieldCommand, AddF
     protected override async ValueTask<AddFieldDto> HandleCommand( AddFieldCommand request,
         CancellationToken cancellationToken )
     {
-        var field = Mapper.Map<Field>( request );
+        Field? field = Mapper.Map<Field>( request );
         field.StadiumId = _currentStadiumId;
         field.UserCreatedId = _userId;
 

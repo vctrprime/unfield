@@ -20,9 +20,12 @@ internal class MainDbContext : DbContext
         modelBuilder.Ignore<BaseEntity>();
         modelBuilder.Ignore<BaseUserEntity>();
 
-        foreach (var et in modelBuilder.Model.GetEntityTypes())
+        foreach ( IMutableEntityType et in modelBuilder.Model.GetEntityTypes() )
         {
-            if (!et.ClrType.IsSubclassOf( typeof( BaseEntity ) )) continue;
+            if ( !et.ClrType.IsSubclassOf( typeof( BaseEntity ) ) )
+            {
+                continue;
+            }
 
             et.FindProperty( "DateCreated" )!.SetDefaultValueSql( "now()" );
             et.FindProperty( "DateCreated" )!.ValueGenerated =

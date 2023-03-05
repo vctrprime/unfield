@@ -13,15 +13,15 @@ public class UserPermissionDto
     /// <summary>
     ///     Название
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     /// <summary>
     ///     Понятное имя
     /// </summary>
-    public string DisplayName { get; set; }
+    public string? DisplayName { get; set; }
 
     /// <summary>
     ///     Ключ группы разрешений
     /// </summary>
-    public string GroupKey { get; set; }
+    public string GroupKey { get; set; } = null!;
 }

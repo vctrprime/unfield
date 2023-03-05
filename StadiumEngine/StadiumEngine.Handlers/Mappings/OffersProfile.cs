@@ -37,10 +37,7 @@ internal class OffersProfile : Profile
                 dest => dest.SportKinds,
                 act => act.MapFrom(
                     s => s.SportKinds.Select(
-                        k => new OffersSportKind
-                        {
-                            SportKind = k
-                        } ) ) )
+                        k => new OffersSportKind { SportKind = k } ) ) )
             .ForMember( dest => dest.Images, act => act.Ignore() );
 
         CreateMap<Inventory, InventoryDto>()
@@ -57,20 +54,11 @@ internal class OffersProfile : Profile
                 dest => dest.SportKinds,
                 act => act.MapFrom(
                     s => s.SportKinds.Select(
-                        k => new OffersSportKind
-                        {
-                            SportKind = k
-                        } ) ) )
+                        k => new OffersSportKind { SportKind = k } ) ) )
             .ForMember( dest => dest.Images, act => act.Ignore() );
     }
 
-    private int? MapPriceGroupId( PriceGroup? priceGroup )
-    {
-        return priceGroup?.Id;
-    }
+    private int? MapPriceGroupId( PriceGroup? priceGroup ) => priceGroup?.Id;
 
-    private string? MapPriceGroupName( PriceGroup? priceGroup )
-    {
-        return priceGroup?.Name;
-    }
+    private string? MapPriceGroupName( PriceGroup? priceGroup ) => priceGroup?.Name;
 }

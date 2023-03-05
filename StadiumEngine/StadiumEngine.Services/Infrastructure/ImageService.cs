@@ -15,9 +15,14 @@ internal class ImageService : IImageService
 
     public async Task<string> Upload( IFormFile file, int legalId, int stadiumId, string module )
     {
-        var path = $"{legalId}/{stadiumId}/{module}";
-        var fullPath = Path.Combine( _directory, path );
-        var fileName = $"{Guid.NewGuid()}.jpg";
+        if ( _directory is null )
+        {
+            return String.Empty;
+        }
+
+        string path = $"{legalId}/{stadiumId}/{module}";
+        string fullPath = Path.Combine( _directory, path );
+        string fileName = $"{Guid.NewGuid()}.jpg";
 
         Directory.CreateDirectory( fullPath );
         await using Stream stream = new FileStream( $"{fullPath}/{fileName}", FileMode.Create );
@@ -28,7 +33,12 @@ internal class ImageService : IImageService
 
     public void Delete( string path )
     {
-        var fullPath = Path.Combine( _directory, path );
+        if ( _directory is null )
+        {
+            return;
+        }
+
+        string fullPath = Path.Combine( _directory, path );
         File.Delete( fullPath );
     }
 }

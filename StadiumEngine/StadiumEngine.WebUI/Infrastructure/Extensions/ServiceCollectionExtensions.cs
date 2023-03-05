@@ -12,8 +12,5 @@ public static class ServiceCollectionExtensions
     ///     Зарегистрировать все необходимые модули
     /// </summary>
     /// <param name="services"></param>
-    public static void RegisterModules( this IServiceCollection services )
-    {
-        services.RegisterHandlers();
-    }
+    public static void RegisterModules( this IServiceCollection services ) => services.RegisterHandlers();
 }

@@ -6,9 +6,11 @@ namespace StadiumEngine.Domain.Entities.Offers;
 [Table( "image", Schema = "offers" )]
 public class OffersImage : BaseUserEntity
 {
-    [Column( "path" )] public string Path { get; set; }
+    [Column( "path" )]
+    public string Path { get; set; } = null!;
 
-    [Column( "order_value" )] public int Order { get; set; }
+    [Column( "order_value" )]
+    public int Order { get; set; }
 
     [Column( "field_id" )]
     [ForeignKey( "FieldId" )]
@@ -22,6 +24,9 @@ public class OffersImage : BaseUserEntity
 
     public virtual Inventory? Inventory { get; set; }
 
-    [NotMapped] public new string Name { get; set; }
-    [NotMapped] public new string Description { get; set; }
+    [NotMapped]
+    public new string? Name { get; set; }
+
+    [NotMapped]
+    public new string? Description { get; set; }
 }

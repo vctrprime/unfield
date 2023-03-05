@@ -18,7 +18,7 @@ internal abstract class BaseRequestHandler<TRequest, TResponse> : IRequestHandle
     {
         Mapper = mapper;
 
-        if (claimsIdentityService != null)
+        if ( claimsIdentityService != null )
         {
             _userId = claimsIdentityService.GetUserId();
             _legalId = claimsIdentityService.GetLegalId();

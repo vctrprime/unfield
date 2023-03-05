@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts.Users;
@@ -21,9 +22,9 @@ internal sealed class GetUserPermissionsHandler : BaseRequestHandler<GetUserPerm
     public override async ValueTask<List<UserPermissionDto>> Handle( GetUserPermissionsQuery request,
         CancellationToken cancellationToken )
     {
-        var permissions = await _userFacade.GetUserPermissions( _userId );
+        List<Permission> permissions = await _userFacade.GetUserPermissions( _userId );
 
-        var permissionsDto = Mapper.Map<List<UserPermissionDto>>( permissions );
+        List<UserPermissionDto>? permissionsDto = Mapper.Map<List<UserPermissionDto>>( permissions );
 
         return permissionsDto;
     }

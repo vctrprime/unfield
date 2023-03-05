@@ -19,7 +19,7 @@ public class UserPasswordController : BaseApiController
     [HttpPut( "change" )]
     public async Task<ChangeUserPasswordDto> Change( ChangeUserPasswordCommand command )
     {
-        var dto = await Mediator.Send( command );
+        ChangeUserPasswordDto dto = await Mediator.Send( command );
         return dto;
     }
 
@@ -31,7 +31,7 @@ public class UserPasswordController : BaseApiController
     [HttpPut( "reset" )]
     public async Task<ResetUserPasswordDto> Reset( ResetUserPasswordCommand command )
     {
-        var dto = await Mediator.Send( command );
+        ResetUserPasswordDto dto = await Mediator.Send( command );
         return dto;
     }
 }

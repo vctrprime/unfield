@@ -23,7 +23,7 @@ public class PriceGroupController : BaseApiController
     [HasPermission( $"{PermissionsKeys.GetPriceGroups},{PermissionsKeys.GetFields}" )]
     public async Task<List<PriceGroupDto>> GetAll()
     {
-        var priceGroups = await Mediator.Send( new GetPriceGroupsQuery() );
+        List<PriceGroupDto> priceGroups = await Mediator.Send( new GetPriceGroupsQuery() );
         return priceGroups;
     }
 
@@ -35,7 +35,7 @@ public class PriceGroupController : BaseApiController
     [HasPermission( PermissionsKeys.GetPriceGroups )]
     public async Task<PriceGroupDto> Get( int priceGroupId )
     {
-        var priceGroup = await Mediator.Send( new GetPriceGroupQuery( priceGroupId ) );
+        PriceGroupDto priceGroup = await Mediator.Send( new GetPriceGroupQuery( priceGroupId ) );
         return priceGroup;
     }
 
@@ -47,7 +47,7 @@ public class PriceGroupController : BaseApiController
     [HasPermission( PermissionsKeys.InsertPriceGroup )]
     public async Task<AddPriceGroupDto> Post( AddPriceGroupCommand command )
     {
-        var dto = await Mediator.Send( command );
+        AddPriceGroupDto dto = await Mediator.Send( command );
         return dto;
     }
 
@@ -59,7 +59,7 @@ public class PriceGroupController : BaseApiController
     [HasPermission( PermissionsKeys.UpdatePriceGroup )]
     public async Task<UpdatePriceGroupDto> Put( UpdatePriceGroupCommand command )
     {
-        var dto = await Mediator.Send( command );
+        UpdatePriceGroupDto dto = await Mediator.Send( command );
         return dto;
     }
 
@@ -71,7 +71,7 @@ public class PriceGroupController : BaseApiController
     [HasPermission( PermissionsKeys.DeletePriceGroup )]
     public async Task<DeletePriceGroupDto> Delete( int priceGroupId )
     {
-        var dto = await Mediator.Send( new DeletePriceGroupCommand( priceGroupId ) );
+        DeletePriceGroupDto dto = await Mediator.Send( new DeletePriceGroupCommand( priceGroupId ) );
         return dto;
     }
 }

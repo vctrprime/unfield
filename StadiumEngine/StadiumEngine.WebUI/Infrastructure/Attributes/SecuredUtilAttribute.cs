@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Primitives;
 
 namespace StadiumEngine.WebUI.Infrastructure.Attributes;
 
@@ -18,17 +19,13 @@ public class SecuredUtilAttribute : ActionFilterAttribute
     public override void OnActionExecuting( ActionExecutingContext context )
     {
         //Get header 
-        var requestHeaders = context.HttpContext.Request.Headers["SE-Utils-Api-Key"];
-        var value = requestHeaders.FirstOrDefault();
+        StringValues requestHeaders = context.HttpContext.Request.Headers[ "SE-Utils-Api-Key" ];
+        string value = requestHeaders.FirstOrDefault();
 
-        if (string.IsNullOrEmpty( value ) || value != Environment.GetEnvironmentVariable( "UTILS_API_KEY" ))
+        if ( String.IsNullOrEmpty( value ) || value != Environment.GetEnvironmentVariable( "UTILS_API_KEY" ) )
+        {
             context.Result = new ObjectResult(
-                new
-                {
-                    Message = "Forbidden"
-                } )
-            {
-                StatusCode = StatusCodes.Status403Forbidden
-            };
+                new { Message = "Forbidden" } ) { StatusCode = StatusCodes.Status403Forbidden };
+        }
     }
 }

@@ -16,18 +16,25 @@ public static class WebHostEnvironmentExtensions
     /// </summary>
     public static void WriteReactEnvAppVersion( this IWebHostEnvironment environment )
     {
-        if (!environment.IsDevelopment()) return;
-        var version = typeof( Program ).Assembly.GetName().Version;
+        if ( !environment.IsDevelopment() )
+        {
+            return;
+        }
 
-        var stringVersion = $"v{version}";
+        Version version = typeof( Program ).Assembly.GetName().Version;
 
-        var filePath = $"{environment.ContentRootPath}/ClientApp/.env";
+        string stringVersion = $"v{version}";
 
-        if (!File.Exists( filePath )) return;
+        string filePath = $"{environment.ContentRootPath}/ClientApp/.env";
 
-        var fileStringsArray = File.ReadAllLines( filePath );
+        if ( !File.Exists( filePath ) )
+        {
+            return;
+        }
 
-        var filteredArray =
+        string[] fileStringsArray = File.ReadAllLines( filePath );
+
+        string[] filteredArray =
             fileStringsArray.Where(
                     x =>
                         !x.StartsWith(

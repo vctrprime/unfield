@@ -1,5 +1,6 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
+using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.DTO.Offers.Inventories;
 using StadiumEngine.Handlers.Commands.Offers.Inventories;
@@ -19,9 +20,12 @@ internal class UpdateInventoryFacade : IUpdateInventoryFacade
 
     public async Task<UpdateInventoryDto> Update( UpdateInventoryCommand request, int stadiumId, int userId )
     {
-        var inventory = await _queryFacade.GetByInventoryId( request.Id, stadiumId );
+        Inventory? inventory = await _queryFacade.GetByInventoryId( request.Id, stadiumId );
 
-        if (inventory == null) throw new DomainException( ErrorsKeys.InventoryNotFound );
+        if ( inventory == null )
+        {
+            throw new DomainException( ErrorsKeys.InventoryNotFound );
+        }
 
         inventory.Name = request.Name;
         inventory.Description = request.Description;

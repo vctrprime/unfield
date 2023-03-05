@@ -28,7 +28,7 @@ internal sealed class AddUserHandler : BaseCommandHandler<AddUserCommand, AddUse
     protected override async ValueTask<AddUserDto> HandleCommand( AddUserCommand request,
         CancellationToken cancellationToken )
     {
-        var user = Mapper.Map<User>( request );
+        User? user = Mapper.Map<User>( request );
         user.LegalId = _legalId;
         user.UserCreatedId = _userId;
 

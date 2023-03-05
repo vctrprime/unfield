@@ -15,10 +15,7 @@ internal class UnitOfWork : IUnitOfWork
         _context = context;
     }
 
-    public async Task BeginTransaction()
-    {
-        _transaction = await _context.Database.BeginTransactionAsync();
-    }
+    public async Task BeginTransaction() => _transaction = await _context.Database.BeginTransactionAsync();
 
     public async Task CommitTransaction()
     {
@@ -52,8 +49,5 @@ internal class UnitOfWork : IUnitOfWork
         }
     }
 
-    public async Task SaveChanges()
-    {
-        await _context.SaveChangesAsync();
-    }
+    public async Task SaveChanges() => await _context.SaveChangesAsync();
 }

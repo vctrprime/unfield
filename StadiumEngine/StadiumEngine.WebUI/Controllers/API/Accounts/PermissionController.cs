@@ -22,7 +22,7 @@ public class PermissionController : BaseApiController
     [HasPermission( PermissionsKeys.GetPermissions )]
     public async Task<List<PermissionDto>> Get( int roleId )
     {
-        var permissions = await Mediator.Send( new GetPermissionsForRoleQuery( roleId ) );
+        List<PermissionDto> permissions = await Mediator.Send( new GetPermissionsForRoleQuery( roleId ) );
         return permissions;
     }
 }

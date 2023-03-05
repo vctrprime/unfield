@@ -22,7 +22,7 @@ public class StadiumController : BaseApiController
     [HasPermission( PermissionsKeys.GetStadiums )]
     public async Task<List<StadiumDto>> Get( int roleId )
     {
-        var stadiums = await Mediator.Send( new GetStadiumsForRoleQuery( roleId ) );
+        List<StadiumDto> stadiums = await Mediator.Send( new GetStadiumsForRoleQuery( roleId ) );
         return stadiums;
     }
 }

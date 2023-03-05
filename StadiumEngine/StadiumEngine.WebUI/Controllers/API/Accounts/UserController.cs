@@ -23,7 +23,7 @@ public class UserController : BaseApiController
     [HasPermission( PermissionsKeys.GetUsers )]
     public async Task<List<UserDto>> Get()
     {
-        var users = await Mediator.Send( new GetUsersQuery() );
+        List<UserDto> users = await Mediator.Send( new GetUsersQuery() );
         return users;
     }
 
@@ -36,7 +36,7 @@ public class UserController : BaseApiController
     [HasPermission( PermissionsKeys.InsertUser )]
     public async Task<AddUserDto> Post( AddUserCommand command )
     {
-        var dto = await Mediator.Send( command );
+        AddUserDto dto = await Mediator.Send( command );
         return dto;
     }
 
@@ -49,7 +49,7 @@ public class UserController : BaseApiController
     [HasPermission( PermissionsKeys.UpdateUser )]
     public async Task<UpdateUserDto> Put( UpdateUserCommand command )
     {
-        var dto = await Mediator.Send( command );
+        UpdateUserDto dto = await Mediator.Send( command );
         return dto;
     }
 
@@ -62,7 +62,7 @@ public class UserController : BaseApiController
     [HasPermission( PermissionsKeys.DeleteUser )]
     public async Task<DeleteUserDto> Delete( int userId )
     {
-        var dto = await Mediator.Send( new DeleteUserCommand( userId ) );
+        DeleteUserDto dto = await Mediator.Send( new DeleteUserCommand( userId ) );
         return dto;
     }
 }

@@ -1,86 +1,86 @@
 {
-  "locker_rooms_tab": "Locker rooms",
-  "fields_tab": "Fields",
-  "inventories_tab": "Inventory",
-  "back_buttons": {
-    "locker_rooms": "Back to locker rooms list",
-    "fields": "Back to fields list",
-    "inventories": "Back to inventory list"
-  },
-  "locker_rooms_grid": {
-    "name": "Name",
-    "is_active": "Activity",
-    "description": "Description",
-    "gender": "Gender",
-    "date_created": "Date Of Creation",
-    "user_created": "Created By",
-    "no_rows": "Locker rooms not found",
-    "add": "Add locker room",
-    "adding": "Adding a locker room",
-    "editing": "Editing locker room",
-    "delete": {
-      "header": "Delete locker room",
-      "question": "Are you sure you want to remove the locker room \"{0}\"?"
+    "locker_rooms_tab": "Locker rooms",
+    "fields_tab": "Fields",
+    "inventories_tab": "Inventory",
+    "back_buttons": {
+        "locker_rooms": "Back to locker rooms list",
+        "fields": "Back to fields list",
+        "inventories": "Back to inventory list"
+    },
+    "locker_rooms_grid": {
+        "name": "Name",
+        "is_active": "Activity",
+        "description": "Description",
+        "gender": "Gender",
+        "date_created": "Date Of Creation",
+        "user_created": "Created By",
+        "no_rows": "Locker rooms not found",
+        "add": "Add locker room",
+        "adding": "Adding a locker room",
+        "editing": "Editing locker room",
+        "delete": {
+            "header": "Delete locker room",
+            "question": "Are you sure you want to remove the locker room \"{0}\"?"
+        }
+    },
+    "fields_grid": {
+        "name": "Name",
+        "is_active": "Activity",
+        "description": "Description",
+        "size": "Size (m)",
+        "length": "Length",
+        "width": "Width",
+        "covering": "Covering",
+        "parent_field": "Parent field",
+        "parent_field_hint": "Specify a different field here if the current field is part of it. For example, half of a football field is part of the whole field, but is available for booking as a separate field. Booking the current field will block the associated field for booking at the same time.",
+        "child_fields_list": "Other fields associated with this field",
+        "date_created": "Date Of Creation",
+        "user_created": "Created By",
+        "no_rows": "Fields not found",
+        "add": "Add field",
+        "adding": "Adding field",
+        "editing": "Editing field",
+        "delete": {
+            "header": "Delete field",
+            "question": "Are you sure you want to remove the field \"{0}\"?"
+        }
+    },
+    "inventories_grid": {
+        "name": "Name",
+        "is_active": "Activity",
+        "description": "Description",
+        "quantity": "Quantity",
+        "price": "Price",
+        "date_created": "Date Of Creation",
+        "user_created": "Created By",
+        "no_rows": "Inventory not found",
+        "add": "Add inventory",
+        "adding": "Adding inventory",
+        "editing": "Editing inventory",
+        "delete": {
+            "header": "Delete inventory",
+            "question": "Are you sure you want to remove the inventory \"{0}\"?"
+        }
+    },
+    "images": {
+        "title": "Images",
+        "upload_images": "Upload images",
+        "change_images_order": "Change sort order",
+        "delete_image": "Delete image",
+        "restore_image": "Restore image"
+    },
+    "coverings": {
+        "natural": "Natural grass",
+        "synthetic": "Synthetic grass",
+        "parquet": "Parquet"
+    },
+    "sports": {
+        "title": "Sports",
+        "football": "Football",
+        "basketball": "Basketball"
+    },
+    "currencies": {
+        "title": "Currency",
+        "rub": "rub."
     }
-  },
-  "fields_grid": {
-    "name": "Name",
-    "is_active": "Activity",
-    "description": "Description",
-    "size": "Size (m)",
-    "length": "Length",
-    "width": "Width",
-    "covering": "Covering",
-    "parent_field": "Parent field",
-    "parent_field_hint": "Specify a different field here if the current field is part of it. For example, half of a football field is part of the whole field, but is available for booking as a separate field. Booking the current field will block the associated field for booking at the same time.",
-    "child_fields_list": "Other fields associated with this field",
-    "date_created": "Date Of Creation",
-    "user_created": "Created By",
-    "no_rows": "Fields not found",
-    "add": "Add field",
-    "adding": "Adding field",
-    "editing": "Editing field",
-    "delete": {
-      "header": "Delete field",
-      "question": "Are you sure you want to remove the field \"{0}\"?"
-    }
-  },
-  "inventories_grid": {
-    "name": "Name",
-    "is_active": "Activity",
-    "description": "Description",
-    "quantity": "Quantity",
-    "price": "Price",
-    "date_created": "Date Of Creation",
-    "user_created": "Created By",
-    "no_rows": "Inventory not found",
-    "add": "Add inventory",
-    "adding": "Adding inventory",
-    "editing": "Editing inventory",
-    "delete": {
-      "header": "Delete inventory",
-      "question": "Are you sure you want to remove the inventory \"{0}\"?"
-    }
-  },
-  "images": {
-    "title": "Images",
-    "upload_images": "Upload images",
-    "change_images_order": "Change sort order",
-    "delete_image": "Delete image",
-    "restore_image": "Restore image"
-  },
-  "coverings": {
-    "natural": "Natural grass",
-    "synthetic": "Synthetic grass",
-    "parquet": "Parquet"
-  },
-  "sports": {
-    "title": "Sports",
-    "football": "Football",
-    "basketball": "Basketball"
-  },
-  "currencies": {
-    "title": "Currency",
-    "rub": "rub."
-  }
 }

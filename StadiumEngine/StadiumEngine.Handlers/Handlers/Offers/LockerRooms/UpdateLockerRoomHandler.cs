@@ -21,8 +21,6 @@ internal sealed class UpdateLockerRoomHandler : BaseCommandHandler<UpdateLockerR
     }
 
     protected override async ValueTask<UpdateLockerRoomDto> HandleCommand( UpdateLockerRoomCommand request,
-        CancellationToken cancellationToken )
-    {
-        return await _facade.Update( request, _currentStadiumId, _userId );
-    }
+        CancellationToken cancellationToken ) =>
+        await _facade.Update( request, _currentStadiumId, _userId );
 }

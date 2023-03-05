@@ -1,6 +1,7 @@
 using AutoMapper;
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
+using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Fields;
@@ -22,11 +23,14 @@ internal sealed class GetFieldHandler : BaseRequestHandler<GetFieldQuery, FieldD
 
     public override async ValueTask<FieldDto> Handle( GetFieldQuery request, CancellationToken cancellationToken )
     {
-        var field = await _fieldFacade.GetByFieldId( request.FieldId, _currentStadiumId );
+        Field? field = await _fieldFacade.GetByFieldId( request.FieldId, _currentStadiumId );
 
-        if (field == null) throw new DomainException( ErrorsKeys.FieldNotFound );
+        if ( field == null )
+        {
+            throw new DomainException( ErrorsKeys.FieldNotFound );
+        }
 
-        var fieldDto = Mapper.Map<FieldDto>( field );
+        FieldDto? fieldDto = Mapper.Map<FieldDto>( field );
 
         return fieldDto;
     }

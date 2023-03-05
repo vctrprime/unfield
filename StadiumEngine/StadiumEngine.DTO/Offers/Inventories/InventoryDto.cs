@@ -2,6 +2,9 @@ using StadiumEngine.Common.Enums.Offers;
 
 namespace StadiumEngine.DTO.Offers.Inventories;
 
+/// <summary>
+/// ДТО инвентаря
+/// </summary>
 public class InventoryDto : BaseEntityDto
 {
     /// <summary>
@@ -12,17 +15,17 @@ public class InventoryDto : BaseEntityDto
     /// <summary>
     ///     Название
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     /// <summary>
     ///     Описание
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     ///     Изображения
     /// </summary>
-    public List<string> Images { get; set; }
+    public List<string>? Images { get; set; }
 
     /// <summary>
     ///     Цена
@@ -42,7 +45,7 @@ public class InventoryDto : BaseEntityDto
     /// <summary>
     ///     Список видов спорта
     /// </summary>
-    public List<SportKind> SportKinds { get; set; }
+    public List<SportKind>? SportKinds { get; set; }
 
     /// <summary>
     ///     Активность

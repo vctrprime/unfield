@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts.Roles;
@@ -20,9 +21,9 @@ internal sealed class GetRolesHandler : BaseRequestHandler<GetRolesQuery, List<R
 
     public override async ValueTask<List<RoleDto>> Handle( GetRolesQuery request, CancellationToken cancellationToken )
     {
-        var roles = await _roleFacade.GetRolesForLegal( _legalId );
+        List<Role> roles = await _roleFacade.GetRolesForLegal( _legalId );
 
-        var rolesDto = Mapper.Map<List<RoleDto>>( roles );
+        List<RoleDto>? rolesDto = Mapper.Map<List<RoleDto>>( roles );
 
         return rolesDto;
     }

@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.LockerRooms;
@@ -21,9 +22,9 @@ internal sealed class GetLockerRoomsHandler : BaseRequestHandler<GetLockerRoomsQ
     public override async ValueTask<List<LockerRoomDto>> Handle( GetLockerRoomsQuery request,
         CancellationToken cancellationToken )
     {
-        var lockerRooms = await _lockerRoomFacade.GetByStadiumId( _currentStadiumId );
+        List<LockerRoom> lockerRooms = await _lockerRoomFacade.GetByStadiumId( _currentStadiumId );
 
-        var lockerRoomsDto = Mapper.Map<List<LockerRoomDto>>( lockerRooms );
+        List<LockerRoomDto>? lockerRoomsDto = Mapper.Map<List<LockerRoomDto>>( lockerRooms );
 
         return lockerRoomsDto;
     }

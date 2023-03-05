@@ -14,13 +14,9 @@ internal class InventoryQueryFacade : IInventoryQueryFacade
         _inventoryRepository = inventoryRepository;
     }
 
-    public async Task<List<Inventory>> GetByStadiumId( int stadiumId )
-    {
-        return await _inventoryRepository.GetAll( stadiumId );
-    }
+    public async Task<List<Inventory>> GetByStadiumId( int stadiumId ) =>
+        await _inventoryRepository.GetAll( stadiumId );
 
-    public async Task<Inventory?> GetByInventoryId( int inventoryId, int stadiumId )
-    {
-        return await _inventoryRepository.Get( inventoryId, stadiumId );
-    }
+    public async Task<Inventory?> GetByInventoryId( int inventoryId, int stadiumId ) =>
+        await _inventoryRepository.Get( inventoryId, stadiumId );
 }

@@ -11,37 +11,27 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
     {
     }
 
-    public async Task<List<Field>> GetAll( int stadiumId )
-    {
-        return await Entities
+    public async Task<List<Field>> GetAll( int stadiumId ) =>
+        await Entities
             .Where( f => f.StadiumId == stadiumId && !f.IsDeleted )
             .Include( f => f.SportKinds )
             .Include( f => f.Images )
             .Include( f => f.ChildFields.Where( cf => !cf.IsDeleted ) )
             .Include( f => f.PriceGroup )
             .ToListAsync();
-    }
 
-    public async Task<Field?> Get( int fieldId, int stadiumId )
-    {
-        return await Entities
+    public async Task<Field?> Get( int fieldId, int stadiumId ) =>
+        await Entities
             .Include( f => f.Stadium )
             .Include( f => f.SportKinds )
             .Include( f => f.Images )
             .Include( f => f.ChildFields.Where( cf => !cf.IsDeleted ) )
             .Include( f => f.PriceGroup )
             .FirstOrDefaultAsync( f => f.Id == fieldId && f.StadiumId == stadiumId && !f.IsDeleted );
-    }
 
-    public new void Add( Field field )
-    {
-        base.Add( field );
-    }
+    public new void Add( Field field ) => base.Add( field );
 
-    public new void Update( Field field )
-    {
-        base.Update( field );
-    }
+    public new void Update( Field field ) => base.Update( field );
 
     public new void Remove( Field field )
     {

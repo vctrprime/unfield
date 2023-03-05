@@ -30,12 +30,12 @@ internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddL
     protected override async ValueTask<AddLegalDto> HandleCommand( AddLegalCommand request,
         CancellationToken cancellationToken )
     {
-        var legal = Mapper.Map<Legal>( request );
-        var superuser = Mapper.Map<User>( request.Superuser );
+        Legal? legal = Mapper.Map<Legal>( request );
+        User? superuser = Mapper.Map<User>( request.Superuser );
 
         superuser.Language = request.Language;
 
-        var password = await _legalFacade.AddLegal( legal, superuser );
+        string password = await _legalFacade.AddLegal( legal, superuser );
 
         await UnitOfWork.SaveChanges();
 
@@ -44,7 +44,7 @@ internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddL
             password,
             superuser.Language );
 
-        var legalDto = Mapper.Map<AddLegalDto>( legal );
+        AddLegalDto? legalDto = Mapper.Map<AddLegalDto>( legal );
 
         return legalDto;
     }

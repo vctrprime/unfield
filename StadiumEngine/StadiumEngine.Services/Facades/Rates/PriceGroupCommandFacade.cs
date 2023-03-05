@@ -1,5 +1,6 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
+using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Repositories.Offers;
 using StadiumEngine.Domain.Repositories.Rates;
@@ -18,22 +19,25 @@ internal class PriceGroupCommandFacade : IPriceGroupCommandFacade
         _fieldRepository = fieldRepository;
     }
 
-    public void AddPriceGroup( PriceGroup priceGroup )
-    {
-        _priceGroupRepository.Add( priceGroup );
-    }
+    public void AddPriceGroup( PriceGroup priceGroup ) => _priceGroupRepository.Add( priceGroup );
 
     public void UpdatePriceGroup( PriceGroup priceGroup )
     {
         _priceGroupRepository.Update( priceGroup );
-        if (!priceGroup.IsActive) ResetFieldsPriceGroup( priceGroup );
+        if ( !priceGroup.IsActive )
+        {
+            ResetFieldsPriceGroup( priceGroup );
+        }
     }
 
     public async Task DeletePriceGroup( int priceGroupId, int stadiumId )
     {
-        var priceGroup = await _priceGroupRepository.Get( priceGroupId, stadiumId );
+        PriceGroup? priceGroup = await _priceGroupRepository.Get( priceGroupId, stadiumId );
 
-        if (priceGroup == null) throw new DomainException( ErrorsKeys.PriceGroupNotFound );
+        if ( priceGroup == null )
+        {
+            throw new DomainException( ErrorsKeys.PriceGroupNotFound );
+        }
 
         _priceGroupRepository.Remove( priceGroup );
 
@@ -42,7 +46,7 @@ internal class PriceGroupCommandFacade : IPriceGroupCommandFacade
 
     private void ResetFieldsPriceGroup( PriceGroup priceGroup )
     {
-        foreach (var field in priceGroup.Fields)
+        foreach ( Field? field in priceGroup.Fields )
         {
             field.PriceGroupId = null;
             field.UserModifiedId = priceGroup.UserModifiedId;

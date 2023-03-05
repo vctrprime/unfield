@@ -1,32 +1,32 @@
 ﻿{
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:14466",
-      "sslPort": 44331
-    }
-  },
-  "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "DB_CONNECTION_STRING": "User ID=miotyqbu;Password=eh4FaM34RQDOnzlBYeNO2kQ9xswSNI19;Host=mouse.db.elephantsql.com;Port=5432;Database=miotyqbu;",
-        "UTILS_API_KEY": "ea3cee9e-ba0f-48d2-95df-625777d2153b",
-        "IMAGE_STORAGE": "/Users/kovalchuk/RiderProjects/github/stadium-engine-images"
-      }
+    "iisSettings": {
+        "windowsAuthentication": false,
+        "anonymousAuthentication": true,
+        "iisExpress": {
+            "applicationUrl": "http://localhost:14466",
+            "sslPort": 44331
+        }
     },
-    "StadiumEngine.WebUI": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "DB_CONNECTION_STRING": "User ID=miotyqbu;Password=eh4FaM34RQDOnzlBYeNO2kQ9xswSNI19;Host=mouse.db.elephantsql.com;Port=5432;Database=miotyqbu;",
-        "UTILS_API_KEY": "ea3cee9e-ba0f-48d2-95df-625777d2153b",
-        "IMAGE_STORAGE": "/Users/kovalchuk/RiderProjects/github/stadium-engine-images"
-      }
+    "profiles": {
+        "IIS Express": {
+            "commandName": "IISExpress",
+            "launchBrowser": true,
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "DB_CONNECTION_STRING": "User ID=miotyqbu;Password=eh4FaM34RQDOnzlBYeNO2kQ9xswSNI19;Host=mouse.db.elephantsql.com;Port=5432;Database=miotyqbu;",
+                "UTILS_API_KEY": "ea3cee9e-ba0f-48d2-95df-625777d2153b",
+                "IMAGE_STORAGE": "/Users/kovalchuk/RiderProjects/github/stadium-engine-images"
+            }
+        },
+        "StadiumEngine.WebUI": {
+            "commandName": "Project",
+            "launchBrowser": true,
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "DB_CONNECTION_STRING": "User ID=miotyqbu;Password=eh4FaM34RQDOnzlBYeNO2kQ9xswSNI19;Host=mouse.db.elephantsql.com;Port=5432;Database=miotyqbu;",
+                "UTILS_API_KEY": "ea3cee9e-ba0f-48d2-95df-625777d2153b",
+                "IMAGE_STORAGE": "/Users/kovalchuk/RiderProjects/github/stadium-engine-images"
+            }
+        }
     }
-  }
 }

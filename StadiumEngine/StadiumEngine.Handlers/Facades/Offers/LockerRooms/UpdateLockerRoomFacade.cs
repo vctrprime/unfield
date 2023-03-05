@@ -1,5 +1,6 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
+using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.DTO.Offers.LockerRooms;
 using StadiumEngine.Handlers.Commands.Offers.LockerRooms;
@@ -19,9 +20,12 @@ internal class UpdateLockerRoomFacade : IUpdateLockerRoomFacade
 
     public async Task<UpdateLockerRoomDto> Update( UpdateLockerRoomCommand request, int stadiumId, int userId )
     {
-        var lockerRoom = await _queryFacade.GetByLockerRoomId( request.Id, stadiumId );
+        LockerRoom? lockerRoom = await _queryFacade.GetByLockerRoomId( request.Id, stadiumId );
 
-        if (lockerRoom == null) throw new DomainException( ErrorsKeys.LockerRoomNotFound );
+        if ( lockerRoom == null )
+        {
+            throw new DomainException( ErrorsKeys.LockerRoomNotFound );
+        }
 
         lockerRoom.Name = request.Name;
         lockerRoom.Description = request.Description;

@@ -7,19 +7,17 @@ internal class SmsSender : ISmsSender
 {
     public async Task SendPassword( string phoneNumber, string password, string language )
     {
-        switch (language)
+        switch ( language )
         {
             case "en":
-                await Send( phoneNumber, string.Format( SmsTemplates.SendPasswordEn, password ) );
+                await Send( phoneNumber, String.Format( SmsTemplates.SendPasswordEn, password ) );
                 break;
             default:
-                await Send( phoneNumber, string.Format( SmsTemplates.SendPasswordRu, password ) );
+                await Send( phoneNumber, String.Format( SmsTemplates.SendPasswordRu, password ) );
                 break;
         }
     }
 
-    private async Task Send( string phoneNumber, string message )
-    {
-        Console.WriteLine( message );
-    }
+    private static async Task Send( string phoneNumber, string message ) =>
+        await Task.Run( () => Console.WriteLine( message ) );
 }

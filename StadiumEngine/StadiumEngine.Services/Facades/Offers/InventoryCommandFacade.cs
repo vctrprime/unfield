@@ -24,56 +24,45 @@ internal class InventoryCommandFacade : BaseOfferCommandFacade<Inventory>, IInve
 
     protected override string ImageFolder => "inventories";
 
-    public async Task AddInventory( Inventory inventory, List<ImageFile> images, int legalId )
-    {
+    public async Task AddInventory( Inventory inventory, List<ImageFile> images, int legalId ) =>
         await base.AddOffer( inventory, images, legalId );
-    }
 
 
-    public async Task UpdateInventory( Inventory inventory, List<ImageFile> images, List<SportKind> sportKinds )
-    {
+    public async Task UpdateInventory( Inventory inventory, List<ImageFile> images, List<SportKind> sportKinds ) =>
         await base.UpdateOffer( inventory, images, sportKinds );
-    }
 
     public async Task DeleteInventory( int inventoryId, int stadiumId )
     {
-        var inventory = await _inventoryRepository.Get( inventoryId, stadiumId );
+        Inventory? inventory = await _inventoryRepository.Get( inventoryId, stadiumId );
 
-        if (inventory == null) throw new DomainException( ErrorsKeys.InventoryNotFound );
+        if ( inventory == null )
+        {
+            throw new DomainException( ErrorsKeys.InventoryNotFound );
+        }
 
         _inventoryRepository.Remove( inventory );
 
         DeleteAllImagesAndSportKinds( inventory );
     }
 
-    protected override void AddOffer( Inventory inventory )
-    {
-        _inventoryRepository.Add( inventory );
-    }
+    protected override void AddOffer( Inventory inventory ) => _inventoryRepository.Add( inventory );
 
-    protected override void UpdateOffer( Inventory inventory )
-    {
-        _inventoryRepository.Update( inventory );
-    }
+    protected override void UpdateOffer( Inventory inventory ) => _inventoryRepository.Update( inventory );
 
-    protected override OffersSportKind CreateSportKind( int inventoryId, int userId, SportKind sportKind )
-    {
-        return new OffersSportKind
+    protected override OffersSportKind CreateSportKind( int inventoryId, int userId, SportKind sportKind ) =>
+        new()
         {
             InventoryId = inventoryId,
             UserCreatedId = userId,
             SportKind = sportKind
         };
-    }
 
-    protected override OffersImage CreateImage( int inventoryId, int userId, string path, int order )
-    {
-        return new OffersImage
+    protected override OffersImage CreateImage( int inventoryId, int userId, string path, int order ) =>
+        new()
         {
             InventoryId = inventoryId,
             Path = path,
             Order = order,
             UserCreatedId = userId
         };
-    }
 }

@@ -8,7 +8,7 @@ namespace StadiumEngine.Handlers.Commands.Offers.Inventories;
 public sealed class UpdateInventoryCommand : IRequest<UpdateInventoryDto>
 {
     public int Id { get; set; }
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
     public string? Description { get; set; }
     public decimal Price { get; set; }
     public decimal Quantity { get; set; }

@@ -7,7 +7,7 @@ namespace StadiumEngine.Handlers.Commands.Offers.Inventories;
 
 public sealed class AddInventoryCommand : IRequest<AddInventoryDto>
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
     public string? Description { get; set; }
     public decimal Price { get; set; }
     public decimal Quantity { get; set; }

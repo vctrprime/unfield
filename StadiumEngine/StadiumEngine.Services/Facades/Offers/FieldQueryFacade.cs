@@ -14,13 +14,8 @@ internal class FieldQueryFacade : IFieldQueryFacade
         _fieldRepository = fieldRepository;
     }
 
-    public async Task<List<Field>> GetByStadiumId( int stadiumId )
-    {
-        return await _fieldRepository.GetAll( stadiumId );
-    }
+    public async Task<List<Field>> GetByStadiumId( int stadiumId ) => await _fieldRepository.GetAll( stadiumId );
 
-    public async Task<Field?> GetByFieldId( int fieldId, int stadiumId )
-    {
-        return await _fieldRepository.Get( fieldId, stadiumId );
-    }
+    public async Task<Field?> GetByFieldId( int fieldId, int stadiumId ) =>
+        await _fieldRepository.Get( fieldId, stadiumId );
 }

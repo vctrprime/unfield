@@ -20,22 +20,19 @@ internal class PermissionCommandFacade : IPermissionCommandFacade
     }
 
 
-    public async Task Sync( IUnitOfWork unitOfWork )
-    {
-        await SyncPermissionsAndGroups( unitOfWork );
-    }
+    public async Task Sync( IUnitOfWork unitOfWork ) => await SyncPermissionsAndGroups( unitOfWork );
 
     private async Task SyncPermissionsAndGroups( IUnitOfWork unitOfWork )
     {
-        var storedPermissions = await _permissionRepository.GetAll();
-        var storedPermissionsGroups = storedPermissions
+        List<Permission> storedPermissions = await _permissionRepository.GetAll();
+        List<PermissionGroup> storedPermissionsGroups = storedPermissions
             .Select( p => p.PermissionGroup )
             .GroupBy( pg => pg.Id )
             .Select( g => g.First() ).ToList();
 
-        foreach (var permissionGroup in PermissionSet.PermissionGroups)
+        foreach ( PermissionGroup? permissionGroup in PermissionSet.PermissionGroups )
         {
-            var copyPermissionGroup = new PermissionGroup
+            PermissionGroup copyPermissionGroup = new()
             {
                 Key = permissionGroup.Key,
                 Name = permissionGroup.Name,
@@ -43,9 +40,9 @@ internal class PermissionCommandFacade : IPermissionCommandFacade
                 Sort = permissionGroup.Sort
             };
 
-            var storedPermissionsGroup =
+            PermissionGroup? storedPermissionsGroup =
                 storedPermissionsGroups.FirstOrDefault( pg => pg.Key == permissionGroup.Key );
-            if (storedPermissionsGroup != null)
+            if ( storedPermissionsGroup != null )
             {
                 copyPermissionGroup.Id = storedPermissionsGroup.Id;
 
@@ -73,9 +70,9 @@ internal class PermissionCommandFacade : IPermissionCommandFacade
     private async Task SyncPermissions( IUnitOfWork unitOfWork, PermissionGroup permissionGroup, int permissionGroupId,
         List<Permission> storedPermissions )
     {
-        foreach (var permission in permissionGroup.Permissions)
+        foreach ( Permission? permission in permissionGroup.Permissions )
         {
-            var copyPermission = new Permission
+            Permission copyPermission = new()
             {
                 PermissionGroupId = permissionGroupId,
                 DisplayName = permission.DisplayName,
@@ -84,9 +81,9 @@ internal class PermissionCommandFacade : IPermissionCommandFacade
                 Sort = permission.Sort
             };
 
-            var storedPermission =
+            Permission? storedPermission =
                 storedPermissions.FirstOrDefault( p => p.Name == copyPermission.Name );
-            if (storedPermission != null)
+            if ( storedPermission != null )
             {
                 storedPermission.PermissionGroupId = permissionGroupId;
 

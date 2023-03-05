@@ -25,11 +25,14 @@ internal class LegalCommandFacade : ILegalCommandFacade
 
     public async Task<string> AddLegal( Legal legal, User superuser )
     {
-        if (!legal.Stadiums.Any()) throw new DomainException( "Передан пустой список объектов для добавления!" );
+        if ( !legal.Stadiums.Any() )
+        {
+            throw new DomainException( "Передан пустой список объектов для добавления!" );
+        }
 
         superuser.PhoneNumber = _userServiceFacade.CheckPhoneNumber( superuser.PhoneNumber );
 
-        var password = await _newLegalBuilder.Build( legal, superuser );
+        string password = await _newLegalBuilder.Build( legal, superuser );
 
         _legalRepository.Add( legal );
 

@@ -12,35 +12,21 @@ internal class UserRepository : BaseRepository<User>, IUserRepository
     {
     }
 
-    public async Task<List<User>> GetAll( int legalId )
-    {
-        return await Entities
+    public async Task<List<User>> GetAll( int legalId ) =>
+        await Entities
             .Where( u => u.LegalId == legalId && !u.IsDeleted && !u.IsSuperuser && !u.IsAdmin )
             .Include( u => u.Role )
             .Include( u => u.UserCreated )
             .Include( u => u.UserModified )
             .ToListAsync();
-    }
 
-    public async Task<User?> Get( string login )
-    {
-        return await Get( u => u.PhoneNumber == login && !u.IsDeleted );
-    }
+    public async Task<User?> Get( string login ) => await Get( u => u.PhoneNumber == login && !u.IsDeleted );
 
-    public async Task<User?> Get( int id )
-    {
-        return await Get( u => u.Id == id && !u.IsDeleted );
-    }
+    public async Task<User?> Get( int id ) => await Get( u => u.Id == id && !u.IsDeleted );
 
-    public new void Add( User user )
-    {
-        base.Add( user );
-    }
+    public new void Add( User user ) => base.Add( user );
 
-    public new void Update( User user )
-    {
-        base.Update( user );
-    }
+    public new void Update( User user ) => base.Update( user );
 
     public new void Remove( User user )
     {
@@ -48,13 +34,11 @@ internal class UserRepository : BaseRepository<User>, IUserRepository
         base.Update( user );
     }
 
-    private async Task<User?> Get( Expression<Func<User, bool>> predicate )
-    {
-        return await Entities
+    private async Task<User?> Get( Expression<Func<User, bool>> predicate ) =>
+        await Entities
             .Include( u => u.Role )
             .ThenInclude( r => r.RoleStadiums.Where( rs => !rs.Stadium.IsDeleted ) )
             .Include( u => u.Legal )
             .ThenInclude( l => l.Stadiums )
             .FirstOrDefaultAsync( predicate );
-    }
 }

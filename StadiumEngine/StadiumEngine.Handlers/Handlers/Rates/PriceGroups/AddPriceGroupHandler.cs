@@ -24,12 +24,12 @@ internal sealed class AddPriceGroupHandler : BaseCommandHandler<AddPriceGroupCom
     protected override async ValueTask<AddPriceGroupDto> HandleCommand( AddPriceGroupCommand request,
         CancellationToken cancellationToken )
     {
-        var priceGroup = Mapper.Map<PriceGroup>( request );
+        PriceGroup? priceGroup = Mapper.Map<PriceGroup>( request );
         priceGroup.StadiumId = _currentStadiumId;
         priceGroup.UserCreatedId = _userId;
 
         _priceGroupFacade.AddPriceGroup( priceGroup );
 
-        return new AddPriceGroupDto();
+        return await Task.Run( () => new AddPriceGroupDto(), cancellationToken );
     }
 }

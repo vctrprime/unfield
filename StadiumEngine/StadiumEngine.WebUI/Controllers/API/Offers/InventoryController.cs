@@ -23,7 +23,7 @@ public class InventoryController : BaseApiController
     [HasPermission( PermissionsKeys.GetInventories )]
     public async Task<List<InventoryDto>> GetAll()
     {
-        var inventories = await Mediator.Send( new GetInventoriesQuery() );
+        List<InventoryDto> inventories = await Mediator.Send( new GetInventoriesQuery() );
         return inventories;
     }
 
@@ -35,7 +35,7 @@ public class InventoryController : BaseApiController
     [HasPermission( PermissionsKeys.GetInventories )]
     public async Task<InventoryDto> Get( int inventoryId )
     {
-        var inventory = await Mediator.Send( new GetInventoryQuery( inventoryId ) );
+        InventoryDto inventory = await Mediator.Send( new GetInventoryQuery( inventoryId ) );
         return inventory;
     }
 
@@ -47,7 +47,7 @@ public class InventoryController : BaseApiController
     [HasPermission( PermissionsKeys.InsertInventory )]
     public async Task<AddInventoryDto> Post( [FromForm] AddInventoryCommand command )
     {
-        var dto = await Mediator.Send( command );
+        AddInventoryDto dto = await Mediator.Send( command );
         return dto;
     }
 
@@ -59,7 +59,7 @@ public class InventoryController : BaseApiController
     [HasPermission( PermissionsKeys.UpdateInventory )]
     public async Task<UpdateInventoryDto> Put( [FromForm] UpdateInventoryCommand command )
     {
-        var dto = await Mediator.Send( command );
+        UpdateInventoryDto dto = await Mediator.Send( command );
         return dto;
     }
 
@@ -71,7 +71,7 @@ public class InventoryController : BaseApiController
     [HasPermission( PermissionsKeys.DeleteInventory )]
     public async Task<DeleteInventoryDto> Delete( int inventoryId )
     {
-        var dto = await Mediator.Send( new DeleteInventoryCommand( inventoryId ) );
+        DeleteInventoryDto dto = await Mediator.Send( new DeleteInventoryCommand( inventoryId ) );
         return dto;
     }
 }

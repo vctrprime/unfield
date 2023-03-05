@@ -10,13 +10,7 @@ internal class PermissionGroupRepository : BaseRepository<PermissionGroup>, IPer
     {
     }
 
-    public new void Add( PermissionGroup permissionGroup )
-    {
-        base.Add( permissionGroup );
-    }
+    public new void Add( PermissionGroup permissionGroup ) => base.Add( permissionGroup );
 
-    public new void Update( PermissionGroup permissionGroup )
-    {
-        base.Update( permissionGroup );
-    }
+    public new void Update( PermissionGroup permissionGroup ) => base.Update( permissionGroup );
 }

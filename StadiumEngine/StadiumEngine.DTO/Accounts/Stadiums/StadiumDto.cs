@@ -13,32 +13,32 @@ public class StadiumDto
     /// <summary>
     ///     Название
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     /// <summary>
     ///     Адрес
     /// </summary>
-    public string Address { get; set; }
+    public string Address { get; set; } = null!;
 
     /// <summary>
     ///     Описание
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     ///     Страна
     /// </summary>
-    public string Country { get; set; }
+    public string Country { get; set; } = null!;
 
     /// <summary>
     ///     Регион
     /// </summary>
-    public string Region { get; set; }
+    public string Region { get; set; } = null!;
 
     /// <summary>
     ///     Город
     /// </summary>
-    public string City { get; set; }
+    public string City { get; set; } = null!;
 
     /// <summary>
     ///     Дата добавления

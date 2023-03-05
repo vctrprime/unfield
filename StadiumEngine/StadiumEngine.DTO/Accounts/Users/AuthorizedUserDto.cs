@@ -8,17 +8,17 @@ public class AuthorizedUserDto
     /// <summary>
     ///     Полное имя
     /// </summary>
-    public string FullName { get; set; }
+    public string FullName { get; set; } = null!;
 
     /// <summary>
     ///     Название роли
     /// </summary>
-    public string RoleName { get; set; }
+    public string? RoleName { get; set; }
 
     /// <summary>
     ///     Язык
     /// </summary>
-    public string Language { get; set; }
+    public string Language { get; set; } = null!;
 
     /// <summary>
     ///     Флаг суперюзера
@@ -38,5 +38,5 @@ public class AuthorizedUserDto
     /// <summary>
     ///     Организация
     /// </summary>
-    public string LegalName { get; set; }
+    public string LegalName { get; set; } = null!;
 }

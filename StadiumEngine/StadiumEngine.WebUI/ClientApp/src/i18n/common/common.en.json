@@ -1,28 +1,28 @@
 {
-  "lk_navbar": {
-    "main_settings": "Main Settings",
-    "schedule": "Schedule",
-    "offers": "Actives",
-    "employees": "Employees",
-    "reports": "Reports",
-    "accounts": "Accounts",
-    "logout": "Logout"
-  },
-  "lk_header": {
-    "current_stadium_title": "Current stadium",
-    "to_admin_title": "To admin panel"
-  },
-  "success_request_title": "Success",
-  "success_request": "Request completed successfully",
-  "error_request_title": "Error",
-  "error_request": "Error while executing request",
-  "mobile_notification": "Unfortunately, we do not work on mobile devices yet :(",
-  "search_button": "Search",
-  "edit_button": "Edit",
-  "delete_button": "Delete",
-  "yes_button": "Yes",
-  "no_button": "No",
-  "save_button": "Save",
-  "close_button": "Close",
-  "apply_button": "Apply"
+    "lk_navbar": {
+        "main_settings": "Main Settings",
+        "schedule": "Schedule",
+        "offers": "Actives",
+        "employees": "Employees",
+        "reports": "Reports",
+        "accounts": "Accounts",
+        "logout": "Logout"
+    },
+    "lk_header": {
+        "current_stadium_title": "Current stadium",
+        "to_admin_title": "To admin panel"
+    },
+    "success_request_title": "Success",
+    "success_request": "Request completed successfully",
+    "error_request_title": "Error",
+    "error_request": "Error while executing request",
+    "mobile_notification": "Unfortunately, we do not work on mobile devices yet :(",
+    "search_button": "Search",
+    "edit_button": "Edit",
+    "delete_button": "Delete",
+    "yes_button": "Yes",
+    "no_button": "No",
+    "save_button": "Save",
+    "close_button": "Close",
+    "apply_button": "Apply"
 }

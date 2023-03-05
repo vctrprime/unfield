@@ -21,8 +21,6 @@ internal sealed class UpdateUserHandler : BaseCommandHandler<UpdateUserCommand, 
     }
 
     protected override async ValueTask<UpdateUserDto> HandleCommand( UpdateUserCommand request,
-        CancellationToken cancellationToken )
-    {
-        return await _facade.Update( request, _userId, _legalId );
-    }
+        CancellationToken cancellationToken ) =>
+        await _facade.Update( request, _userId, _legalId );
 }

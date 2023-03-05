@@ -22,28 +22,13 @@ internal class UserServiceFacade : IUserServiceFacade
         _passwordValidator = passwordValidator;
     }
 
-    public string GeneratePassword( int length )
-    {
-        return _passwordGenerator.Generate( length );
-    }
+    public string GeneratePassword( int length ) => _passwordGenerator.Generate( length );
 
-    public string CryptPassword( string password )
-    {
-        return _hasher.Crypt( password );
-    }
+    public string CryptPassword( string password ) => _hasher.Crypt( password );
 
-    public bool CheckPassword( string secretPassword, string password )
-    {
-        return _hasher.Check( secretPassword, password );
-    }
+    public bool CheckPassword( string secretPassword, string password ) => _hasher.Check( secretPassword, password );
 
-    public string CheckPhoneNumber( string phoneNumber )
-    {
-        return _phoneNumberChecker.Check( phoneNumber );
-    }
+    public string CheckPhoneNumber( string phoneNumber ) => _phoneNumberChecker.Check( phoneNumber );
 
-    public bool ValidatePassword( string password )
-    {
-        return _passwordValidator.Validate( password );
-    }
+    public bool ValidatePassword( string password ) => _passwordValidator.Validate( password );
 }

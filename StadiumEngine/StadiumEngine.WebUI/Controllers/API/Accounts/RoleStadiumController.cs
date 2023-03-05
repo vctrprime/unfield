@@ -21,7 +21,7 @@ public class RoleStadiumController : BaseApiController
     [HasPermission( PermissionsKeys.ToggleRoleStadium )]
     public async Task<ToggleRoleStadiumDto> Post( ToggleRoleStadiumCommand command )
     {
-        var dto = await Mediator.Send( command );
+        ToggleRoleStadiumDto dto = await Mediator.Send( command );
         return dto;
     }
 }

@@ -1,5 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain;
+using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts.Users;
 using StadiumEngine.Handlers.Commands.Admin;
@@ -27,8 +28,8 @@ internal sealed class ChangeLegalHandler : BaseCommandHandler<ChangeLegalCommand
     protected override async ValueTask<AuthorizeUserDto?> HandleCommand( ChangeLegalCommand request,
         CancellationToken cancellationToken )
     {
-        var user = await _facade.Change( request, _userId, UnitOfWork );
-        var userDto = Mapper.Map<AuthorizeUserDto>( user );
+        User? user = await _facade.Change( request, _userId, UnitOfWork );
+        AuthorizeUserDto? userDto = Mapper.Map<AuthorizeUserDto>( user );
 
         return userDto;
     }

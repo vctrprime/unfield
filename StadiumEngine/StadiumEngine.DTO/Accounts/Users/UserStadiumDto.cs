@@ -13,12 +13,12 @@ public class UserStadiumDto
     /// <summary>
     ///     Название
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     /// <summary>
     ///     Адрес
     /// </summary>
-    public string Address { get; set; }
+    public string Address { get; set; } = null!;
 
     /// <summary>
     ///     Теущий выбранный стадион

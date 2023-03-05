@@ -1,5 +1,6 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
+using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Services.Facades.Rates;
 using StadiumEngine.DTO.Rates.PriceGroups;
 using StadiumEngine.Handlers.Commands.Rates.PriceGroups;
@@ -19,9 +20,12 @@ internal class UpdatePriceGroupFacade : IUpdatePriceGroupFacade
 
     public async Task<UpdatePriceGroupDto> Update( UpdatePriceGroupCommand request, int stadiumId, int userId )
     {
-        var priceGroup = await _queryFacade.GetByPriceGroupId( request.Id, stadiumId );
+        PriceGroup? priceGroup = await _queryFacade.GetByPriceGroupId( request.Id, stadiumId );
 
-        if (priceGroup == null) throw new DomainException( ErrorsKeys.PriceGroupNotFound );
+        if ( priceGroup == null )
+        {
+            throw new DomainException( ErrorsKeys.PriceGroupNotFound );
+        }
 
         priceGroup.Name = request.Name;
         priceGroup.Description = request.Description;

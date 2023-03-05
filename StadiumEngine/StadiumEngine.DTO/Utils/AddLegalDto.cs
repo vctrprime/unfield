@@ -13,15 +13,15 @@ public class AddLegalDto
     /// <summary>
     ///     ИНН
     /// </summary>
-    public string Inn { get; set; }
+    public string Inn { get; set; } = null!;
 
     /// <summary>
     ///     Руководитель
     /// </summary>
-    public string HeadName { get; set; }
+    public string HeadName { get; set; } = null!;
 
     /// <summary>
     ///     Название
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 }

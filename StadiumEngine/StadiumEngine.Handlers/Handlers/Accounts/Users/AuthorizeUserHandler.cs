@@ -1,5 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain;
+using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.DTO.Accounts.Users;
 using StadiumEngine.Handlers.Commands.Accounts.Users;
@@ -23,11 +24,14 @@ internal sealed class AuthorizeUserHandler : BaseCommandHandler<AuthorizeUserCom
     protected override async ValueTask<AuthorizeUserDto?> HandleCommand( AuthorizeUserCommand request,
         CancellationToken cancellationToken )
     {
-        if (request.Login == null || request.Password == null) return null;
+        if ( request.Login == null || request.Password == null )
+        {
+            return null;
+        }
 
-        var user = await _userFacade.AuthorizeUser( request.Login, request.Password );
+        User user = await _userFacade.AuthorizeUser( request.Login, request.Password );
 
-        var userDto = Mapper.Map<AuthorizeUserDto>( user );
+        AuthorizeUserDto? userDto = Mapper.Map<AuthorizeUserDto>( user );
 
         return userDto;
     }

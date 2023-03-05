@@ -19,7 +19,7 @@ internal class AddUserFacade : IAddUserFacade
 
     public async Task<AddUserDto> Add( User user, IUnitOfWork unitOfWork )
     {
-        var password = await _commandFacade.AddUser( user );
+        string password = await _commandFacade.AddUser( user );
         await unitOfWork.SaveChanges();
 
         await _smsSender.SendPassword( user.PhoneNumber, password, user.Language );

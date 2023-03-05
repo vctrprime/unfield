@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using AutoMapper;
 using StadiumEngine.Domain;
+using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Extensions;
 using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Identity;
@@ -29,12 +30,15 @@ internal sealed class ChangeStadiumHandler : BaseCommandHandler<ChangeStadiumCom
     protected override async ValueTask<AuthorizeUserDto?> HandleCommand( ChangeStadiumCommand request,
         CancellationToken cancellationToken )
     {
-        var user = await _userFacade.ChangeStadium( _userId, request.StadiumId );
+        User user = await _userFacade.ChangeStadium( _userId, request.StadiumId );
 
-        var userDto = Mapper.Map<AuthorizeUserDto>( user );
-        var stadiumClaim = userDto.Claims.FirstOrDefault( s => s.Type == "stadiumId" );
+        AuthorizeUserDto? userDto = Mapper.Map<AuthorizeUserDto>( user );
+        Claim? stadiumClaim = userDto.Claims.FirstOrDefault( s => s.Type == "stadiumId" );
 
-        if (stadiumClaim == null) return userDto;
+        if ( stadiumClaim == null )
+        {
+            return userDto;
+        }
 
         userDto.Claims.Remove( stadiumClaim );
         userDto.Claims.Add( new Claim( "stadiumId", request.StadiumId.ToString() ) );

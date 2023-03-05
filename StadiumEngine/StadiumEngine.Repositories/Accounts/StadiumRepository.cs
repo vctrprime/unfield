@@ -11,23 +11,19 @@ internal class StadiumRepository : BaseRepository<Stadium>, IStadiumRepository
     {
     }
 
-    public async Task<List<Stadium>> GetForLegal( int legalId )
-    {
-        return await Entities
+    public async Task<List<Stadium>> GetForLegal( int legalId ) =>
+        await Entities
             .Where( s => s.LegalId == legalId && !s.IsDeleted )
             .Include( s => s.City )
             .ThenInclude( c => c.Region )
             .ThenInclude( r => r.Country )
             .ToListAsync();
-    }
 
-    public async Task<List<Stadium>> GetForRole( int roleId )
-    {
-        return await Entities
+    public async Task<List<Stadium>> GetForRole( int roleId ) =>
+        await Entities
             .Where( s => s.RoleStadiums.Select( rs => rs.RoleId ).Contains( roleId ) && !s.IsDeleted )
             .Include( s => s.City )
             .ThenInclude( c => c.Region )
             .ThenInclude( r => r.Country )
             .ToListAsync();
-    }
 }

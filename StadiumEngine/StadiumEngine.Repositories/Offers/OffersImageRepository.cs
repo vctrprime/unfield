@@ -11,25 +11,14 @@ internal class OffersImageRepository : BaseRepository<OffersImage>, IOffersImage
     {
     }
 
-    public async Task<List<OffersImage>> GetForField( int fieldId )
-    {
-        return await Entities
+    public async Task<List<OffersImage>> GetForField( int fieldId ) =>
+        await Entities
             .Where( i => i.FieldId == fieldId )
             .ToListAsync();
-    }
 
-    public new void Add( OffersImage image )
-    {
-        base.Add( image );
-    }
+    public new void Add( OffersImage image ) => base.Add( image );
 
-    public new void Update( OffersImage image )
-    {
-        base.Update( image );
-    }
+    public new void Update( OffersImage image ) => base.Update( image );
 
-    public new void Remove( IEnumerable<OffersImage> images )
-    {
-        base.Remove( images );
-    }
+    public new void Remove( IEnumerable<OffersImage> images ) => base.Remove( images );
 }

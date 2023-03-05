@@ -22,7 +22,7 @@ internal class ChangeLegalFacade : IChangeLegalFacade
 
         await unitOfWork.SaveChanges();
 
-        var user = await _queryFacade.GetUser( userId );
+        User? user = await _queryFacade.GetUser( userId );
 
         return user;
     }

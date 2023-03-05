@@ -26,12 +26,17 @@ internal class UserCommandFacade : IUserCommandFacade
 
     public async Task<User> AuthorizeUser( string login, string password )
     {
-        var user = await _userRepositoryFacade.GetUser( login );
+        User? user = await _userRepositoryFacade.GetUser( login );
 
-        if (user == null) throw new DomainException( ErrorsKeys.InvalidLogin );
+        if ( user == null )
+        {
+            throw new DomainException( ErrorsKeys.InvalidLogin );
+        }
 
-        if (!_userServiceFacade.CheckPassword( user.Password, password ))
+        if ( !_userServiceFacade.CheckPassword( user.Password, password ) )
+        {
             throw new DomainException( ErrorsKeys.InvalidPassword );
+        }
 
         user.LastLoginDate = DateTime.Now.ToUniversalTime();
 
@@ -42,29 +47,42 @@ internal class UserCommandFacade : IUserCommandFacade
 
     public async Task<User> ChangeStadium( int userId, int stadiumId )
     {
-        var user = await _userRepositoryFacade.GetUser( userId );
+        User? user = await _userRepositoryFacade.GetUser( userId );
 
-        if (user == null) throw new DomainException( ErrorsKeys.UserNotFound );
+        if ( user == null )
+        {
+            throw new DomainException( ErrorsKeys.UserNotFound );
+        }
+
         ;
 
-        if (user.Role == null
-            && user.Legal.Stadiums.FirstOrDefault( s => s.Id == stadiumId ) == null
-            ||
-            user.Role != null
-            && user.Role.RoleStadiums.Select( s => s.Stadium ).FirstOrDefault( s => s.Id == stadiumId ) == null)
+        if ( ( user.Role == null
+               && user.Legal.Stadiums.FirstOrDefault( s => s.Id == stadiumId ) == null )
+             ||
+             ( user.Role != null
+               && user.Role.RoleStadiums.Select( s => s.Stadium ).FirstOrDefault( s => s.Id == stadiumId ) == null ) )
+        {
             throw new DomainException( ErrorsKeys.Forbidden );
+        }
 
         return user;
     }
 
     public async Task ChangeLegal( int userId, int legalId )
     {
-        var user = await _userRepositoryFacade.GetUser( userId );
+        User? user = await _userRepositoryFacade.GetUser( userId );
 
-        if (user == null) throw new DomainException( ErrorsKeys.UserNotFound );
+        if ( user == null )
+        {
+            throw new DomainException( ErrorsKeys.UserNotFound );
+        }
+
         ;
 
-        if (user.LegalId == legalId) return;
+        if ( user.LegalId == legalId )
+        {
+            return;
+        }
 
         user.LegalId = legalId;
         _userRepositoryFacade.UpdateUser( user );
@@ -74,26 +92,30 @@ internal class UserCommandFacade : IUserCommandFacade
     {
         user.PhoneNumber = _userServiceFacade.CheckPhoneNumber( user.PhoneNumber );
 
-        var userSameNumber = await _userRepositoryFacade.GetUser( user.PhoneNumber );
-        if (userSameNumber != null)
+        User? userSameNumber = await _userRepositoryFacade.GetUser( user.PhoneNumber );
+        if ( userSameNumber != null )
+        {
             throw new DomainException(
                 isAdminUser ? "Пользователь с таким номером телефона уже существует" : ErrorsKeys.LoginAlreadyExist );
+        }
 
-        if (isAdminUser)
+        if ( isAdminUser )
         {
-            var legals = await _userRepositoryFacade.GetLegals( string.Empty );
+            List<Legal> legals = await _userRepositoryFacade.GetLegals( String.Empty );
             user.LegalId = legals.First().Id;
         }
         else
         {
-            var role = await _userRepositoryFacade.GetRole( user.RoleId ?? 0 );
+            Role? role = await _userRepositoryFacade.GetRole( user.RoleId ?? 0 );
             _accountsAccessChecker.CheckRoleAccess( role, user.LegalId );
 
-            if (!role.RoleStadiums.Any())
+            if ( !role!.RoleStadiums.Any() )
+            {
                 throw new DomainException( ErrorsKeys.UserRolesDoesntHaveStadiums );
+            }
         }
 
-        var userPassword = _userServiceFacade.GeneratePassword( 8 );
+        string userPassword = _userServiceFacade.GeneratePassword( 8 );
         user.Password = _userServiceFacade.CryptPassword( userPassword );
 
         _userRepositoryFacade.AddUser( user );
@@ -103,9 +125,12 @@ internal class UserCommandFacade : IUserCommandFacade
 
     public async Task ChangeLanguage( int userId, string language )
     {
-        var user = await _userRepositoryFacade.GetUser( userId );
+        User? user = await _userRepositoryFacade.GetUser( userId );
 
-        if (user == null) throw new DomainException( ErrorsKeys.UserNotFound );
+        if ( user == null )
+        {
+            throw new DomainException( ErrorsKeys.UserNotFound );
+        }
 
         user.Language = language;
         user.UserModifiedId = userId;
@@ -118,14 +143,21 @@ internal class UserCommandFacade : IUserCommandFacade
         string newPassword,
         string oldPassword )
     {
-        if (!_userServiceFacade.ValidatePassword( newPassword ))
+        if ( !_userServiceFacade.ValidatePassword( newPassword ) )
+        {
             throw new DomainException( ErrorsKeys.PasswordDoesntMatchConditions );
+        }
 
-        var user = await _userRepositoryFacade.GetUser( userId );
-        if (user == null) throw new DomainException( ErrorsKeys.UserNotFound );
+        User? user = await _userRepositoryFacade.GetUser( userId );
+        if ( user == null )
+        {
+            throw new DomainException( ErrorsKeys.UserNotFound );
+        }
 
-        if (!_userServiceFacade.CheckPassword( user.Password, oldPassword ))
+        if ( !_userServiceFacade.CheckPassword( user.Password, oldPassword ) )
+        {
             throw new DomainException( ErrorsKeys.InvalidPassword );
+        }
 
         user.Password = _userServiceFacade.CryptPassword( newPassword );
         _userRepositoryFacade.UpdateUser( user );
@@ -135,10 +167,13 @@ internal class UserCommandFacade : IUserCommandFacade
     {
         phoneNumber = _userServiceFacade.CheckPhoneNumber( phoneNumber );
 
-        var user = await _userRepositoryFacade.GetUser( phoneNumber );
-        if (user == null) throw new DomainException( ErrorsKeys.UserNotFound );
+        User? user = await _userRepositoryFacade.GetUser( phoneNumber );
+        if ( user == null )
+        {
+            throw new DomainException( ErrorsKeys.UserNotFound );
+        }
 
-        var userPassword = _userServiceFacade.GeneratePassword( 8 );
+        string userPassword = _userServiceFacade.GeneratePassword( 8 );
         user.Password = _userServiceFacade.CryptPassword( userPassword );
 
         _userRepositoryFacade.UpdateUser( user );
@@ -148,22 +183,27 @@ internal class UserCommandFacade : IUserCommandFacade
 
     public async Task UpdateUser( User user, int legalId )
     {
-        var role = await _userRepositoryFacade.GetRole( user.RoleId ?? 0 );
+        Role? role = await _userRepositoryFacade.GetRole( user.RoleId ?? 0 );
         _accountsAccessChecker.CheckRoleAccess( role, legalId );
 
-        if (!role.RoleStadiums.Any())
+        if ( !role!.RoleStadiums.Any() )
+        {
             throw new DomainException( ErrorsKeys.UserRolesDoesntHaveStadiums );
+        }
 
         _userRepositoryFacade.UpdateUser( user );
     }
 
     public async Task DeleteUser( int userId, int legalId, int userModifiedId )
     {
-        var user = await _userRepositoryFacade.GetUser( userId );
+        User? user = await _userRepositoryFacade.GetUser( userId );
 
         _accountsAccessChecker.CheckUserAccess( user, legalId );
 
-        if (user.IsSuperuser) throw new DomainException( ErrorsKeys.CantDeleteSuperuser );
+        if ( user!.IsSuperuser )
+        {
+            throw new DomainException( ErrorsKeys.CantDeleteSuperuser );
+        }
 
         user.UserModifiedId = userModifiedId;
         user.PhoneNumber = $"{user.PhoneNumber}.deleted-by-{userModifiedId}.{DateTime.Now.Ticks}";

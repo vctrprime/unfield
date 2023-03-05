@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Services.Facades.Rates;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Rates.PriceGroups;
@@ -21,9 +22,9 @@ internal sealed class GetPriceGroupsHandler : BaseRequestHandler<GetPriceGroupsQ
     public override async ValueTask<List<PriceGroupDto>> Handle( GetPriceGroupsQuery request,
         CancellationToken cancellationToken )
     {
-        var priceGroups = await _priceGroupFacade.GetByStadiumId( _currentStadiumId );
+        List<PriceGroup> priceGroups = await _priceGroupFacade.GetByStadiumId( _currentStadiumId );
 
-        var priceGroupsDto = Mapper.Map<List<PriceGroupDto>>( priceGroups );
+        List<PriceGroupDto>? priceGroupsDto = Mapper.Map<List<PriceGroupDto>>( priceGroups );
 
         return priceGroupsDto;
     }

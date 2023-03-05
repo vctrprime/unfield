@@ -18,7 +18,7 @@ public class UserLanguageController : BaseApiController
     [HttpPut( "{language}" )]
     public async Task<ChangeUserLanguageDto> Put( string language )
     {
-        var dto = await Mediator.Send( new ChangeUserLanguageCommand( language ) );
+        ChangeUserLanguageDto dto = await Mediator.Send( new ChangeUserLanguageCommand( language ) );
         return dto;
     }
 }

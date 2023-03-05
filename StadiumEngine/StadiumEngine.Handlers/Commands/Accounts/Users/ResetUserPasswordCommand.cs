@@ -5,5 +5,5 @@ namespace StadiumEngine.Handlers.Commands.Accounts.Users;
 
 public sealed class ResetUserPasswordCommand : IRequest<ResetUserPasswordDto>
 {
-    public string PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; } = null!;
 }

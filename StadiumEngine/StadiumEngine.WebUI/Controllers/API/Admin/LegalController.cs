@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ public class LegalController : BaseApiController
     [HttpGet]
     public async Task<List<LegalDto>> Get( string q )
     {
-        var legals = await Mediator.Send( new GetLegalsByFilterQuery( q ?? string.Empty ) );
+        List<LegalDto> legals = await Mediator.Send( new GetLegalsByFilterQuery( q ?? String.Empty ) );
         return legals;
     }
 }

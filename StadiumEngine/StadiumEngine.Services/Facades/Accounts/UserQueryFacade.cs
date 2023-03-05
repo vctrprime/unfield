@@ -16,19 +16,13 @@ internal class UserQueryFacade : IUserQueryFacade
     }
 
 
-    public async Task<User?> GetUser( int userId )
-    {
-        return await _userRepositoryFacade.GetUser( userId );
-    }
+    public async Task<User?> GetUser( int userId ) => await _userRepositoryFacade.GetUser( userId );
 
-    public async Task<List<User>> GetUsersByLegalId( int legalId )
-    {
-        return await _userRepositoryFacade.GetUsers( legalId );
-    }
+    public async Task<List<User>> GetUsersByLegalId( int legalId ) => await _userRepositoryFacade.GetUsers( legalId );
 
     public async Task<List<Permission>> GetUserPermissions( int userId )
     {
-        var user = await _userRepositoryFacade.GetUser( userId );
+        User? user = await _userRepositoryFacade.GetUser( userId );
 
         return user switch
         {
@@ -39,7 +33,7 @@ internal class UserQueryFacade : IUserQueryFacade
 
     public async Task<List<Stadium>> GetUserStadiums( int userId, int legalId )
     {
-        var user = await _userRepositoryFacade.GetUser( userId );
+        User? user = await _userRepositoryFacade.GetUser( userId );
 
         return user switch
         {

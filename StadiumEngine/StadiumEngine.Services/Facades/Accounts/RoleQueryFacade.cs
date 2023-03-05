@@ -23,18 +23,15 @@ internal class RoleQueryFacade : IRoleQueryFacade
     }
 
 
-    public async Task<List<Role>> GetRolesForLegal( int legalId )
-    {
-        return await _roleRepositoryFacade.GetRoles( legalId );
-    }
+    public async Task<List<Role>> GetRolesForLegal( int legalId ) => await _roleRepositoryFacade.GetRoles( legalId );
 
     public async Task<Dictionary<Permission, bool>> GetPermissionsForRole( int roleId, int legalId )
     {
-        var role = await _roleRepositoryFacade.GetRole( roleId );
+        Role? role = await _roleRepositoryFacade.GetRole( roleId );
         _accountsAccessChecker.CheckRoleAccess( role, legalId );
 
-        var permissions = await _roleRepositoryFacade.GetPermissions();
-        var rolePermissions = await _roleRepositoryFacade.GetPermissions( roleId );
+        List<Permission> permissions = await _roleRepositoryFacade.GetPermissions();
+        List<Permission> rolePermissions = await _roleRepositoryFacade.GetPermissions( roleId );
 
         return permissions.ToDictionary(
             permission => permission,
@@ -43,14 +40,14 @@ internal class RoleQueryFacade : IRoleQueryFacade
 
     public async Task<Dictionary<Stadium, bool>> GetStadiumsForRole( int roleId, int legalId )
     {
-        var role = await _roleRepositoryFacade.GetRole( roleId );
+        Role? role = await _roleRepositoryFacade.GetRole( roleId );
         _accountsAccessChecker.CheckRoleAccess( role, legalId );
 
-        var stadiums = await _stadiumRepository.GetForLegal( legalId );
+        List<Stadium> stadiums = await _stadiumRepository.GetForLegal( legalId );
 
         return stadiums.ToDictionary(
             stadium => stadium,
-            stadium => role.RoleStadiums.FirstOrDefault( rs => rs.RoleId == roleId && stadium.Id == rs.StadiumId ) !=
+            stadium => role!.RoleStadiums.FirstOrDefault( rs => rs.RoleId == roleId && stadium.Id == rs.StadiumId ) !=
                        null );
     }
 }

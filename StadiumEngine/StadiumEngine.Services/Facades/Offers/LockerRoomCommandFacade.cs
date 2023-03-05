@@ -15,21 +15,18 @@ internal class LockerRoomCommandFacade : ILockerRoomCommandFacade
         _lockerRoomRepository = lockerRoomRepository;
     }
 
-    public void AddLockerRoom( LockerRoom lockerRoom )
-    {
-        _lockerRoomRepository.Add( lockerRoom );
-    }
+    public void AddLockerRoom( LockerRoom lockerRoom ) => _lockerRoomRepository.Add( lockerRoom );
 
-    public void UpdateLockerRoom( LockerRoom lockerRoom )
-    {
-        _lockerRoomRepository.Update( lockerRoom );
-    }
+    public void UpdateLockerRoom( LockerRoom lockerRoom ) => _lockerRoomRepository.Update( lockerRoom );
 
     public async Task DeleteLockerRoom( int lockerRoomId, int stadiumId )
     {
-        var lockerRoom = await _lockerRoomRepository.Get( lockerRoomId, stadiumId );
+        LockerRoom? lockerRoom = await _lockerRoomRepository.Get( lockerRoomId, stadiumId );
 
-        if (lockerRoom == null) throw new DomainException( ErrorsKeys.LockerRoomNotFound );
+        if ( lockerRoom == null )
+        {
+            throw new DomainException( ErrorsKeys.LockerRoomNotFound );
+        }
 
         _lockerRoomRepository.Remove( lockerRoom );
     }

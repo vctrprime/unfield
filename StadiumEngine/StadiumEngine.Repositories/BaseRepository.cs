@@ -12,25 +12,13 @@ internal abstract class BaseRepository<TEntity> where TEntity : BaseEntity
         Entities = context.Set<TEntity>();
     }
 
-    protected void Add( TEntity entity )
-    {
-        Entities.Add( entity );
-    }
+    protected void Add( TEntity entity ) => Entities.Add( entity );
 
-    protected void Add( IEnumerable<TEntity> entities )
-    {
-        Entities.AddRange( entities );
-    }
+    protected void Add( IEnumerable<TEntity> entities ) => Entities.AddRange( entities );
 
-    protected void Remove( TEntity entity )
-    {
-        Entities.Remove( entity );
-    }
+    protected void Remove( TEntity entity ) => Entities.Remove( entity );
 
-    protected void Remove( IEnumerable<TEntity> entities )
-    {
-        Entities.RemoveRange( entities );
-    }
+    protected void Remove( IEnumerable<TEntity> entities ) => Entities.RemoveRange( entities );
 
     protected void Update( TEntity entity )
     {

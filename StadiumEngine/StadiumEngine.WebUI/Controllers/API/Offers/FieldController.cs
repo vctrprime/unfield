@@ -23,7 +23,7 @@ public class FieldController : BaseApiController
     [HasPermission( PermissionsKeys.GetFields )]
     public async Task<List<FieldDto>> GetAll()
     {
-        var fields = await Mediator.Send( new GetFieldsQuery() );
+        List<FieldDto> fields = await Mediator.Send( new GetFieldsQuery() );
         return fields;
     }
 
@@ -35,7 +35,7 @@ public class FieldController : BaseApiController
     [HasPermission( PermissionsKeys.GetFields )]
     public async Task<FieldDto> Get( int fieldId )
     {
-        var field = await Mediator.Send( new GetFieldQuery( fieldId ) );
+        FieldDto field = await Mediator.Send( new GetFieldQuery( fieldId ) );
         return field;
     }
 
@@ -47,7 +47,7 @@ public class FieldController : BaseApiController
     [HasPermission( PermissionsKeys.InsertField )]
     public async Task<AddFieldDto> Post( [FromForm] AddFieldCommand command )
     {
-        var dto = await Mediator.Send( command );
+        AddFieldDto dto = await Mediator.Send( command );
         return dto;
     }
 
@@ -59,7 +59,7 @@ public class FieldController : BaseApiController
     [HasPermission( PermissionsKeys.UpdateField )]
     public async Task<UpdateFieldDto> Put( [FromForm] UpdateFieldCommand command )
     {
-        var dto = await Mediator.Send( command );
+        UpdateFieldDto dto = await Mediator.Send( command );
         return dto;
     }
 
@@ -71,7 +71,7 @@ public class FieldController : BaseApiController
     [HasPermission( PermissionsKeys.DeleteField )]
     public async Task<DeleteFieldDto> Delete( int fieldId )
     {
-        var dto = await Mediator.Send( new DeleteFieldCommand( fieldId ) );
+        DeleteFieldDto dto = await Mediator.Send( new DeleteFieldCommand( fieldId ) );
         return dto;
     }
 }

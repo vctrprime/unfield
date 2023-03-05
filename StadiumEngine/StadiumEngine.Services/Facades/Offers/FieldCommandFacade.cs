@@ -24,57 +24,49 @@ internal class FieldCommandFacade : BaseOfferCommandFacade<Field>, IFieldCommand
 
     protected override string ImageFolder => "fields";
 
-    public async Task AddField( Field field, List<ImageFile> images, int legalId )
-    {
+    public async Task AddField( Field field, List<ImageFile> images, int legalId ) =>
         await base.AddOffer( field, images, legalId );
-    }
 
-    public async Task UpdateField( Field field, List<ImageFile> images, List<SportKind> sportKinds )
-    {
+    public async Task UpdateField( Field field, List<ImageFile> images, List<SportKind> sportKinds ) =>
         await base.UpdateOffer( field, images, sportKinds );
-    }
 
     public async Task DeleteField( int fieldId, int stadiumId )
     {
-        var field = await _fieldRepository.Get( fieldId, stadiumId );
+        Field? field = await _fieldRepository.Get( fieldId, stadiumId );
 
-        if (field == null) throw new DomainException( ErrorsKeys.FieldNotFound );
+        if ( field == null )
+        {
+            throw new DomainException( ErrorsKeys.FieldNotFound );
+        }
 
-        if (field.ChildFields.Any()) throw new DomainException( ErrorsKeys.FieldHasChildrenFields );
+        if ( field.ChildFields.Any() )
+        {
+            throw new DomainException( ErrorsKeys.FieldHasChildrenFields );
+        }
 
         _fieldRepository.Remove( field );
 
         DeleteAllImagesAndSportKinds( field );
     }
 
-    protected override void AddOffer( Field field )
-    {
-        _fieldRepository.Add( field );
-    }
+    protected override void AddOffer( Field field ) => _fieldRepository.Add( field );
 
-    protected override void UpdateOffer( Field field )
-    {
-        _fieldRepository.Update( field );
-    }
+    protected override void UpdateOffer( Field field ) => _fieldRepository.Update( field );
 
-    protected override OffersSportKind CreateSportKind( int fieldId, int userId, SportKind sportKind )
-    {
-        return new OffersSportKind
+    protected override OffersSportKind CreateSportKind( int fieldId, int userId, SportKind sportKind ) =>
+        new()
         {
             FieldId = fieldId,
             UserCreatedId = userId,
             SportKind = sportKind
         };
-    }
 
-    protected override OffersImage CreateImage( int fieldId, int userId, string path, int order )
-    {
-        return new OffersImage
+    protected override OffersImage CreateImage( int fieldId, int userId, string path, int order ) =>
+        new()
         {
             FieldId = fieldId,
             Path = path,
             Order = order,
             UserCreatedId = userId
         };
-    }
 }

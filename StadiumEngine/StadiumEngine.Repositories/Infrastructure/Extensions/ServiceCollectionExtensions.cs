@@ -13,16 +13,14 @@ namespace StadiumEngine.Repositories.Infrastructure.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void RegisterDataAccessModules( this IServiceCollection services )
-    {
+    public static void RegisterDataAccessModules( this IServiceCollection services ) =>
         services
             .RegisterContexts()
             .RegisterRepositories();
-    }
 
     private static IServiceCollection RegisterContexts( this IServiceCollection services )
     {
-        var connectionString = Environment.GetEnvironmentVariable( "DB_CONNECTION_STRING" );
+        string? connectionString = Environment.GetEnvironmentVariable( "DB_CONNECTION_STRING" );
         services.AddDbContext<MainDbContext>( options => { options.UseNpgsql( connectionString ); } );
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 

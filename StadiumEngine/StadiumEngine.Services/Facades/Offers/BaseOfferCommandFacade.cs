@@ -26,13 +26,21 @@ internal abstract class BaseOfferCommandFacade<T> where T : BaseOfferEntity
 
     protected async Task AddOffer( T offer, List<ImageFile> images, int legalId )
     {
-        foreach (var offersSportKind in offer.SportKinds) offersSportKind.UserCreatedId = offer.UserCreatedId;
+        foreach ( OffersSportKind? offersSportKind in offer.SportKinds )
+        {
+            offersSportKind.UserCreatedId = offer.UserCreatedId;
+        }
 
         offer.Images = new List<OffersImage>();
 
-        foreach (var image in images)
+        foreach ( ImageFile image in images )
         {
-            var path = await _imageService.Upload(
+            if ( image.FormFile is null )
+            {
+                continue;
+            }
+
+            string path = await _imageService.Upload(
                 image.FormFile,
                 legalId,
                 offer.StadiumId,
@@ -51,14 +59,15 @@ internal abstract class BaseOfferCommandFacade<T> where T : BaseOfferEntity
 
     protected async Task UpdateOffer( T offer, List<ImageFile> images, List<SportKind> sportKinds )
     {
-        var userId = offer.UserModifiedId ?? 0;
+        int userId = offer.UserModifiedId ?? 0;
 
         UpdateOffer( offer );
 
-        var pathsToDelete = await ProcessImages( images, offer, userId );
+        List<string> pathsToDelete = await ProcessImages( images, offer, userId );
         ProcessSportKinds( sportKinds, offer, userId );
 
-        foreach (var path in pathsToDelete)
+        foreach ( string path in pathsToDelete )
+        {
             try
             {
                 _imageService.Delete( path );
@@ -67,20 +76,22 @@ internal abstract class BaseOfferCommandFacade<T> where T : BaseOfferEntity
             {
                 //ignore
             }
+        }
     }
 
     protected void DeleteAllImagesAndSportKinds( T offer )
     {
         _offersSportKindRepository.Remove( offer.SportKinds );
-        var pathsToDelete = new List<string>();
+        List<string> pathsToDelete = new();
 
-        if (offer.Images.Any())
+        if ( offer.Images.Any() )
         {
             pathsToDelete = offer.Images.Select( x => x.Path ).ToList();
             _imageRepository.Remove( offer.Images );
         }
 
-        foreach (var path in pathsToDelete)
+        foreach ( string path in pathsToDelete )
+        {
             try
             {
                 _imageService.Delete( path );
@@ -89,24 +100,28 @@ internal abstract class BaseOfferCommandFacade<T> where T : BaseOfferEntity
             {
                 //ignore
             }
+        }
     }
 
     private async Task<List<string>> ProcessImages( List<ImageFile> passedImage, T offer, int userId )
     {
-        var imagesToRemove = offer.Images
+        List<OffersImage> imagesToRemove = offer.Images
             .Where( k => !passedImage.Exists( p => p.Path == k.Path ) )
             .ToList();
 
-        var pathsToDelete = imagesToRemove.Select( x => x.Path ).ToList();
+        List<string> pathsToDelete = imagesToRemove.Select( x => x.Path ).ToList();
 
-        if (imagesToRemove.Any()) _imageRepository.Remove( imagesToRemove );
-
-        foreach (var image in passedImage)
+        if ( imagesToRemove.Any() )
         {
-            var entityImage = offer.Images.FirstOrDefault( x => x.Path == image.Path );
-            if (entityImage == null)
+            _imageRepository.Remove( imagesToRemove );
+        }
+
+        foreach ( ImageFile image in passedImage )
+        {
+            OffersImage? entityImage = offer.Images.FirstOrDefault( x => x.Path == image.Path );
+            if ( entityImage == null && image.FormFile is not null )
             {
-                var path = await _imageService.Upload(
+                string path = await _imageService.Upload(
                     image.FormFile,
                     offer.Stadium.LegalId,
                     offer.StadiumId,
@@ -120,8 +135,11 @@ internal abstract class BaseOfferCommandFacade<T> where T : BaseOfferEntity
             }
             else
             {
-                var newOrder = passedImage.IndexOf( image );
-                if (newOrder == entityImage.Order) continue;
+                int newOrder = passedImage.IndexOf( image );
+                if ( newOrder == entityImage!.Order )
+                {
+                    continue;
+                }
 
                 entityImage.Order = newOrder;
                 entityImage.UserModifiedId = userId;
@@ -134,19 +152,24 @@ internal abstract class BaseOfferCommandFacade<T> where T : BaseOfferEntity
 
     private void ProcessSportKinds( List<SportKind> passedSportKinds, T offer, int userId )
     {
-        var kindsToRemove = offer.SportKinds
+        List<OffersSportKind> kindsToRemove = offer.SportKinds
             .Where( k => !passedSportKinds.Exists( p => p == k.SportKind ) )
             .ToList();
 
-        if (kindsToRemove.Any()) _offersSportKindRepository.Remove( kindsToRemove );
+        if ( kindsToRemove.Any() )
+        {
+            _offersSportKindRepository.Remove( kindsToRemove );
+        }
 
-        var offerSportsKind = offer.SportKinds.ToList();
-        var kindsToAdd = passedSportKinds
+        List<OffersSportKind> offerSportsKind = offer.SportKinds.ToList();
+        List<SportKind> kindsToAdd = passedSportKinds
             .Where( k => !offerSportsKind.Exists( x => x.SportKind == k ) )
             .ToList();
 
-        if (kindsToAdd.Any())
+        if ( kindsToAdd.Any() )
+        {
             _offersSportKindRepository.Add( kindsToAdd.Select( k => CreateSportKind( offer.Id, userId, k ) ) );
+        }
     }
 
     protected abstract void AddOffer( T offer );

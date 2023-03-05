@@ -28,7 +28,7 @@ internal class AccountsProfile : Profile
             .ForMember( dest => dest.Language, act => act.MapFrom( s => s.Language ?? "ru" ) )
             .ForMember(
                 dest => dest.RoleName,
-                act => act.MapFrom( s => s.Role == null ? string.Empty : s.Role.Name ) );
+                act => act.MapFrom( s => s.Role == null ? String.Empty : s.Role.Name ) );
 
         CreateMap<User, AuthorizeUserDto>()
             .IncludeBase<User, AuthorizedUserDto>()
@@ -89,11 +89,11 @@ internal class AccountsProfile : Profile
 
     private List<Claim> CreateClaimsList( User user )
     {
-        var claims = new List<Claim>
+        List<Claim> claims = new()
         {
-            new( "id", user.Id.ToString() ),
-            new( "legalId", user.LegalId.ToString() ),
-            new(
+            new Claim( "id", user.Id.ToString() ),
+            new Claim( "legalId", user.LegalId.ToString() ),
+            new Claim(
                 "stadiumId",
                 user.Role == null
                     ? user.Legal.Stadiums.First().Id.ToString()

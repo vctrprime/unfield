@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Fields;
@@ -21,25 +22,29 @@ internal sealed class GetFieldsHandler : BaseRequestHandler<GetFieldsQuery, List
     public override async ValueTask<List<FieldDto>> Handle( GetFieldsQuery request,
         CancellationToken cancellationToken )
     {
-        var fields = await _fieldFacade.GetByStadiumId( _currentStadiumId );
+        List<Field> fields = await _fieldFacade.GetByStadiumId( _currentStadiumId );
 
-        var fieldsDto = Mapper.Map<List<FieldDto>>( fields );
+        List<FieldDto>? fieldsDto = Mapper.Map<List<FieldDto>>( fields );
 
         return GetSortingFields( fieldsDto );
     }
 
     private List<FieldDto> GetSortingFields( List<FieldDto> fieldsDto )
     {
-        var sortedFieldsDto = new List<FieldDto>();
+        List<FieldDto> sortedFieldsDto = new();
 
-        foreach (var fieldDto in fieldsDto.Where( x => !x.ParentFieldId.HasValue ).OrderBy( x => x.Id ))
+        foreach ( FieldDto fieldDto in fieldsDto.Where( x => !x.ParentFieldId.HasValue ).OrderBy( x => x.Id ) )
         {
             sortedFieldsDto.Add( fieldDto );
-            var sortedChildren = fieldsDto.Where( x => x.ParentFieldId == fieldDto.Id ).OrderBy( x => x.Id ).ToList();
+            List<FieldDto> sortedChildren =
+                fieldsDto.Where( x => x.ParentFieldId == fieldDto.Id ).OrderBy( x => x.Id ).ToList();
 
-            if (!sortedChildren.Any()) continue;
+            if ( !sortedChildren.Any() )
+            {
+                continue;
+            }
 
-            var lastChild = sortedChildren.Last();
+            FieldDto lastChild = sortedChildren.Last();
             lastChild.IsLastChild = true;
 
             sortedFieldsDto.AddRange( sortedChildren );

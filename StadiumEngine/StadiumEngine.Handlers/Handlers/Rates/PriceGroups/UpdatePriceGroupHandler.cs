@@ -21,8 +21,6 @@ internal sealed class UpdatePriceGroupHandler : BaseCommandHandler<UpdatePriceGr
     }
 
     protected override async ValueTask<UpdatePriceGroupDto> HandleCommand( UpdatePriceGroupCommand request,
-        CancellationToken cancellationToken )
-    {
-        return await _facade.Update( request, _currentStadiumId, _userId );
-    }
+        CancellationToken cancellationToken ) =>
+        await _facade.Update( request, _currentStadiumId, _userId );
 }

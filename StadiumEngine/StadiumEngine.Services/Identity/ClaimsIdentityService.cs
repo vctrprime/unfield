@@ -12,24 +12,15 @@ internal class ClaimsIdentityService : IClaimsIdentityService
         _userIdentity = userIdentity;
     }
 
-    public int GetUserId()
-    {
-        return GetClaim<int>( "id" );
-    }
+    public int GetUserId() => GetClaim<int>( "id" );
 
-    public int GetLegalId()
-    {
-        return GetClaim<int>( "legalId" );
-    }
+    public int GetLegalId() => GetClaim<int>( "legalId" );
 
-    public int GetCurrentStadiumId()
-    {
-        return GetClaim<int>( "stadiumId" );
-    }
+    public int GetCurrentStadiumId() => GetClaim<int>( "stadiumId" );
 
     private T GetClaim<T>( string claimName )
     {
-        var value = _userIdentity.FindFirst( claimName )?.Value ?? string.Empty;
+        string value = _userIdentity.FindFirst( claimName )?.Value ?? String.Empty;
 
         return ( T )Convert.ChangeType( value, typeof( T ) );
     }

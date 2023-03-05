@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Inventories;
@@ -21,9 +22,9 @@ internal sealed class GetInventoriesHandler : BaseRequestHandler<GetInventoriesQ
     public override async ValueTask<List<InventoryDto>> Handle( GetInventoriesQuery request,
         CancellationToken cancellationToken )
     {
-        var inventories = await _inventoryFacade.GetByStadiumId( _currentStadiumId );
+        List<Inventory> inventories = await _inventoryFacade.GetByStadiumId( _currentStadiumId );
 
-        var inventoriesDto = Mapper.Map<List<InventoryDto>>( inventories );
+        List<InventoryDto>? inventoriesDto = Mapper.Map<List<InventoryDto>>( inventories );
 
         return inventoriesDto;
     }

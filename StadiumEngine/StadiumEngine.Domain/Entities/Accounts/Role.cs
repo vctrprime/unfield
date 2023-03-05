@@ -11,9 +11,11 @@ public class Role : BaseUserEntity
     [DefaultValue( false )]
     public bool IsDeleted { get; set; }
 
-    [Column( "legal_id" )] public int LegalId { get; set; }
+    [Column( "legal_id" )]
+    public int LegalId { get; set; }
 
-    [ForeignKey( "LegalId" )] public virtual Legal Legal { get; set; }
+    [ForeignKey( "LegalId" )]
+    public virtual Legal Legal { get; set; }
 
     public virtual ICollection<User> Users { get; set; }
     public virtual ICollection<RolePermission> RolePermissions { get; set; }

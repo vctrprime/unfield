@@ -24,12 +24,12 @@ internal sealed class AddLockerRoomHandler : BaseCommandHandler<AddLockerRoomCom
     protected override async ValueTask<AddLockerRoomDto> HandleCommand( AddLockerRoomCommand request,
         CancellationToken cancellationToken )
     {
-        var lockerRoom = Mapper.Map<LockerRoom>( request );
+        LockerRoom? lockerRoom = Mapper.Map<LockerRoom>( request );
         lockerRoom.StadiumId = _currentStadiumId;
         lockerRoom.UserCreatedId = _userId;
 
         _lockerRoomFacade.AddLockerRoom( lockerRoom );
 
-        return new AddLockerRoomDto();
+        return await Task.Run( () => new AddLockerRoomDto(), cancellationToken );
     }
 }

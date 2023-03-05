@@ -9,13 +9,17 @@ namespace StadiumEngine.Domain.Entities.Accounts;
 [Index( nameof( Inn ), IsUnique = true )]
 public class Legal : BaseEntity
 {
-    [Column( "inn" )] public string Inn { get; set; }
+    [Column( "inn" )]
+    public string Inn { get; set; }
 
-    [Column( "head_name" )] public string HeadName { get; set; }
+    [Column( "head_name" )]
+    public string HeadName { get; set; }
 
-    [Column( "city_id" )] public int CityId { get; set; }
+    [Column( "city_id" )]
+    public int CityId { get; set; }
 
-    [ForeignKey( "CityId" )] public virtual City City { get; set; }
+    [ForeignKey( "CityId" )]
+    public virtual City City { get; set; }
 
 
     public virtual ICollection<Role> Roles { get; set; }

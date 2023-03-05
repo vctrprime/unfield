@@ -1,5 +1,6 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
+using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.DTO.Offers.Fields;
 using StadiumEngine.Handlers.Commands.Offers.Fields;
@@ -19,9 +20,12 @@ internal class UpdateFieldFacade : IUpdateFieldFacade
 
     public async Task<UpdateFieldDto> Update( UpdateFieldCommand request, int stadiumId, int userId )
     {
-        var field = await _queryFacade.GetByFieldId( request.Id, stadiumId );
+        Field? field = await _queryFacade.GetByFieldId( request.Id, stadiumId );
 
-        if (field == null) throw new DomainException( ErrorsKeys.FieldNotFound );
+        if ( field == null )
+        {
+            throw new DomainException( ErrorsKeys.FieldNotFound );
+        }
 
         field.Name = request.Name;
         field.Description = request.Description;

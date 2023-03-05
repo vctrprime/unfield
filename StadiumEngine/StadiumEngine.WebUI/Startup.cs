@@ -50,11 +50,11 @@ public class Startup
     /// <param name="services"></param>
     public void ConfigureServices( IServiceCollection services )
     {
-        var folderPath =
+        string folderPath =
             Path.Combine(
                 Path.GetDirectoryName(
                     Assembly
-                        .GetAssembly( typeof( Startup ) )?.Location ) ?? string.Empty,
+                        .GetAssembly( typeof( Startup ) )?.Location ) ?? String.Empty,
                 "keys" );
 
         services.AddDataProtection()
@@ -65,17 +65,25 @@ public class Startup
 
         services.RegisterModules();
 
-        if (_environment.IsDevelopment())
+        if ( _environment.IsDevelopment() )
+        {
             services.AddSwaggerGen(
                 c =>
                 {
-                    c.SwaggerDoc( "v1", new OpenApiInfo { Title = "Stadium Engine API", Version = "v1" } );
-                    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                    var xmlPath = Path.Combine( AppContext.BaseDirectory, xmlFile );
+                    c.SwaggerDoc(
+                        "v1",
+                        new OpenApiInfo
+                        {
+                            Title = "Stadium Engine API",
+                            Version = "v1"
+                        } );
+                    string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    string xmlPath = Path.Combine( AppContext.BaseDirectory, xmlFile );
                     c.IncludeXmlComments( xmlPath, true );
-                    var dtpXmlPath = Path.Combine( AppContext.BaseDirectory, "StadiumEngine.DTO.xml" );
+                    string dtpXmlPath = Path.Combine( AppContext.BaseDirectory, "StadiumEngine.DTO.xml" );
                     c.IncludeXmlComments( dtpXmlPath );
                 } );
+        }
 
         services.AddAuthentication( "Identity.Application" )
             .AddCookie(
@@ -88,10 +96,7 @@ public class Startup
                         context.Response.StatusCode = 401;
                         context.Response.WriteAsync(
                             JsonConvert.SerializeObject(
-                                new
-                                {
-                                    Message = "Вы не авторизованы!"
-                                } ) );
+                                new { Message = "Вы не авторизованы!" } ) );
                         return Task.CompletedTask;
                     };
                     // Access denied return 403.
@@ -128,7 +133,7 @@ public class Startup
     {
         env.WriteReactEnvAppVersion();
 
-        if (env.IsDevelopment())
+        if ( env.IsDevelopment() )
         {
             app.UseDeveloperExceptionPage();
         }
@@ -149,7 +154,7 @@ public class Startup
         app.Use(
             async ( context, next ) =>
             {
-                if (context.Request.Path.Value != null && context.Request.Path.Value.Contains( "api/" ))
+                if ( context.Request.Path.Value != null && context.Request.Path.Value.Contains( "api/" ) )
                 {
                     //Thread.Sleep(3000);
                 }
@@ -172,7 +177,7 @@ public class Startup
         app.UseAuthentication();
         app.UseAuthorization();
 
-        if (env.IsDevelopment())
+        if ( env.IsDevelopment() )
         {
             app.UseSwagger();
 
@@ -194,7 +199,10 @@ public class Startup
             {
                 spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment()) spa.UseReactDevelopmentServer( "start" );
+                if ( env.IsDevelopment() )
+                {
+                    spa.UseReactDevelopmentServer( "start" );
+                }
             } );
     }
 }

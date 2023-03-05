@@ -24,12 +24,12 @@ internal sealed class AddRoleHandler : BaseCommandHandler<AddRoleCommand, AddRol
     protected override async ValueTask<AddRoleDto> HandleCommand( AddRoleCommand request,
         CancellationToken cancellationToken )
     {
-        var role = Mapper.Map<Role>( request );
+        Role? role = Mapper.Map<Role>( request );
         role.LegalId = _legalId;
         role.UserCreatedId = _userId;
 
         _roleFacade.AddRole( role );
 
-        return new AddRoleDto();
+        return await Task.Run( () => new AddRoleDto(), cancellationToken );
     }
 }

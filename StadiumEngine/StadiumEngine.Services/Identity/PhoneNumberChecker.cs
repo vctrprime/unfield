@@ -22,23 +22,29 @@ internal class PhoneNumberChecker : IPhoneNumberChecker
 
     public string Check( string phoneNumber )
     {
-        if (string.IsNullOrEmpty( phoneNumber )
-            || string.IsNullOrWhiteSpace( phoneNumber ))
+        if ( String.IsNullOrEmpty( phoneNumber )
+             || String.IsNullOrWhiteSpace( phoneNumber ) )
+        {
             throw new DomainException( ErrorsKeys.IncorrectPhoneNumber );
+        }
 
-        var digitsRegex = new Regex( "[^0-9]" );
+        Regex digitsRegex = new( "[^0-9]" );
 
-        var phoneDigits = digitsRegex.Replace( phoneNumber, string.Empty );
+        string phoneDigits = digitsRegex.Replace( phoneNumber, String.Empty );
 
         // Проверим количество оставшихся цифр
-        if (phoneDigits.Length < 10 || phoneDigits.Length > 11)
+        if ( phoneDigits.Length < 10 || phoneDigits.Length > 11 )
+        {
             throw new DomainException( ErrorsKeys.IncorrectPhoneNumber );
+        }
 
         // Возьмём 10 цифр с конца
-        var phone = phoneDigits.Substring( phoneDigits.Length - 10, 10 );
+        string phone = phoneDigits.Substring( phoneDigits.Length - 10, 10 );
 
-        if (_startWithCheckList.Any( checkValue => phone.StartsWith( checkValue ) ))
+        if ( _startWithCheckList.Any( checkValue => phone.StartsWith( checkValue ) ) )
+        {
             throw new DomainException( ErrorsKeys.IncorrectPhoneNumber );
+        }
 
         phone = phone.StartsWith( "7" ) ? phone : $"7{phone}";
 

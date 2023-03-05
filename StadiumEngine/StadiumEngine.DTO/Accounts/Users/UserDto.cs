@@ -13,17 +13,17 @@ public class UserDto : BaseEntityDto
     /// <summary>
     ///     Имя
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     /// <summary>
     ///     Фамилия
     /// </summary>
-    public string LastName { get; set; }
+    public string? LastName { get; set; }
 
     /// <summary>
     ///     Номер телефона
     /// </summary>
-    public string PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; } = null!;
 
     /// <summary>
     ///     Id роли
@@ -33,7 +33,7 @@ public class UserDto : BaseEntityDto
     /// <summary>
     ///     Название роли
     /// </summary>
-    public string RoleName { get; set; }
+    public string? RoleName { get; set; }
 
     /// <summary>
     ///     Дата последнего входа

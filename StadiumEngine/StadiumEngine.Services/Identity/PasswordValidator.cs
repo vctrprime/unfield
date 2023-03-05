@@ -7,9 +7,9 @@ internal class PasswordValidator : IPasswordValidator
 {
     public bool Validate( string password )
     {
-        var hasNumber = new Regex( @"[0-9]+" );
-        var hasUpperChar = new Regex( @"[A-Z]+" );
-        var hasMinimum8Chars = new Regex( @".{8,}" );
+        Regex hasNumber = new( @"[0-9]+" );
+        Regex hasUpperChar = new( @"[A-Z]+" );
+        Regex hasMinimum8Chars = new( @".{8,}" );
 
         return hasNumber.IsMatch( password ) && hasUpperChar.IsMatch( password ) &&
                hasMinimum8Chars.IsMatch( password );

@@ -11,29 +11,19 @@ internal class PriceGroupRepository : BaseRepository<PriceGroup>, IPriceGroupRep
     {
     }
 
-    public async Task<List<PriceGroup>> GetAll( int stadiumId )
-    {
-        return await Entities
+    public async Task<List<PriceGroup>> GetAll( int stadiumId ) =>
+        await Entities
             .Include( pg => pg.Fields.Where( f => f.IsActive && !f.IsDeleted ) )
             .Where( pg => pg.StadiumId == stadiumId && !pg.IsDeleted ).ToListAsync();
-    }
 
-    public async Task<PriceGroup?> Get( int priceGroupId, int stadiumId )
-    {
-        return await Entities
+    public async Task<PriceGroup?> Get( int priceGroupId, int stadiumId ) =>
+        await Entities
             .Include( pg => pg.Fields.Where( f => f.IsActive && !f.IsDeleted ) )
             .FirstOrDefaultAsync( pg => pg.Id == priceGroupId && pg.StadiumId == stadiumId && !pg.IsDeleted );
-    }
 
-    public new void Add( PriceGroup priceGroup )
-    {
-        base.Add( priceGroup );
-    }
+    public new void Add( PriceGroup priceGroup ) => base.Add( priceGroup );
 
-    public new void Update( PriceGroup priceGroup )
-    {
-        base.Update( priceGroup );
-    }
+    public new void Update( PriceGroup priceGroup ) => base.Update( priceGroup );
 
     public new void Remove( PriceGroup priceGroup )
     {

@@ -23,13 +23,16 @@ internal abstract class BaseCommandHandler<TRequest, TResponse> : BaseRequestHan
 
     public override async ValueTask<TResponse> Handle( TRequest request, CancellationToken cancellationToken )
     {
-        if (!_transactional) return await HandleCommand( request, cancellationToken );
+        if ( !_transactional )
+        {
+            return await HandleCommand( request, cancellationToken );
+        }
 
         try
         {
             await UnitOfWork.BeginTransaction();
 
-            var result = await HandleCommand( request, cancellationToken );
+            TResponse result = await HandleCommand( request, cancellationToken );
 
             await UnitOfWork.CommitTransaction();
 

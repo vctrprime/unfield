@@ -13,12 +13,12 @@ public class PermissionDto
     /// <summary>
     ///     Название
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     /// <summary>
     ///     Описание
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     ///     Порядок сортировки
@@ -28,12 +28,12 @@ public class PermissionDto
     /// <summary>
     ///     Название группы
     /// </summary>
-    public string GroupName { get; set; }
+    public string GroupName { get; set; } = null!;
 
     /// <summary>
     ///     Ключ группы
     /// </summary>
-    public string GroupKey { get; set; }
+    public string GroupKey { get; set; } = null!;
 
     /// <summary>
     ///     Порядок сортировки группы

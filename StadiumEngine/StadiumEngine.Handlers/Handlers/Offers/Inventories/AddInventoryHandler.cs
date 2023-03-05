@@ -24,7 +24,7 @@ internal sealed class AddInventoryHandler : BaseCommandHandler<AddInventoryComma
     protected override async ValueTask<AddInventoryDto> HandleCommand( AddInventoryCommand request,
         CancellationToken cancellationToken )
     {
-        var inventory = Mapper.Map<Inventory>( request );
+        Inventory? inventory = Mapper.Map<Inventory>( request );
         inventory.StadiumId = _currentStadiumId;
         inventory.UserCreatedId = _userId;
 

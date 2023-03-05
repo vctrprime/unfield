@@ -23,7 +23,7 @@ public class UserUtilController : BaseApiController
     [SecuredUtil]
     public async Task<AddAdminUserDto> Post( AddAdminUserCommand command )
     {
-        var dto = await Mediator.Send( command );
+        AddAdminUserDto dto = await Mediator.Send( command );
 
         return dto;
     }

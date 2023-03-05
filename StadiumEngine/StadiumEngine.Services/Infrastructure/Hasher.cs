@@ -11,35 +11,38 @@ internal class Hasher : IHasher
 
     public string Crypt( string value )
     {
-        using var algorithm = new Rfc2898DeriveBytes(
+        using Rfc2898DeriveBytes algorithm = new(
             value,
             SaltSize,
             Iterations,
             HashAlgorithmName.SHA256 );
-        var key = Convert.ToBase64String( algorithm.GetBytes( KeySize ) );
-        var salt = Convert.ToBase64String( algorithm.Salt );
+        string key = Convert.ToBase64String( algorithm.GetBytes( KeySize ) );
+        string salt = Convert.ToBase64String( algorithm.Salt );
 
         return $"{Iterations}.{salt}.{key}";
     }
 
     public bool Check( string secretValue, string value )
     {
-        var parts = secretValue.Split( '.', 3 );
+        string[] parts = secretValue.Split( '.', 3 );
 
-        if (parts.Length != 3) return false;
+        if ( parts.Length != 3 )
+        {
+            return false;
+        }
 
-        var iterations = Convert.ToInt32( parts[0] );
-        var salt = Convert.FromBase64String( parts[1] );
-        var key = Convert.FromBase64String( parts[2] );
+        int iterations = Convert.ToInt32( parts[ 0 ] );
+        byte[] salt = Convert.FromBase64String( parts[ 1 ] );
+        byte[] key = Convert.FromBase64String( parts[ 2 ] );
 
-        using var algorithm = new Rfc2898DeriveBytes(
+        using Rfc2898DeriveBytes algorithm = new(
             value,
             salt,
             iterations,
             HashAlgorithmName.SHA256 );
-        var keyToCheck = algorithm.GetBytes( KeySize );
+        byte[] keyToCheck = algorithm.GetBytes( KeySize );
 
-        var verified = keyToCheck.SequenceEqual( key );
+        bool verified = keyToCheck.SequenceEqual( key );
 
         return verified;
     }

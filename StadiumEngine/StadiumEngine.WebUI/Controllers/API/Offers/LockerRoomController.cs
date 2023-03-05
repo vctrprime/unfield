@@ -23,7 +23,7 @@ public class LockerRoomController : BaseApiController
     [HasPermission( PermissionsKeys.GetLockerRooms )]
     public async Task<List<LockerRoomDto>> GetAll()
     {
-        var lockerRooms = await Mediator.Send( new GetLockerRoomsQuery() );
+        List<LockerRoomDto> lockerRooms = await Mediator.Send( new GetLockerRoomsQuery() );
         return lockerRooms;
     }
 
@@ -35,7 +35,7 @@ public class LockerRoomController : BaseApiController
     [HasPermission( PermissionsKeys.GetLockerRooms )]
     public async Task<LockerRoomDto> Get( int lockerRoomId )
     {
-        var lockerRoom = await Mediator.Send( new GetLockerRoomQuery( lockerRoomId ) );
+        LockerRoomDto lockerRoom = await Mediator.Send( new GetLockerRoomQuery( lockerRoomId ) );
         return lockerRoom;
     }
 
@@ -47,7 +47,7 @@ public class LockerRoomController : BaseApiController
     [HasPermission( PermissionsKeys.InsertLockerRoom )]
     public async Task<AddLockerRoomDto> Post( AddLockerRoomCommand command )
     {
-        var dto = await Mediator.Send( command );
+        AddLockerRoomDto dto = await Mediator.Send( command );
         return dto;
     }
 
@@ -59,7 +59,7 @@ public class LockerRoomController : BaseApiController
     [HasPermission( PermissionsKeys.UpdateLockerRoom )]
     public async Task<UpdateLockerRoomDto> Put( UpdateLockerRoomCommand command )
     {
-        var dto = await Mediator.Send( command );
+        UpdateLockerRoomDto dto = await Mediator.Send( command );
         return dto;
     }
 
@@ -71,7 +71,7 @@ public class LockerRoomController : BaseApiController
     [HasPermission( PermissionsKeys.DeleteLockerRoom )]
     public async Task<DeleteLockerRoomDto> Delete( int lockerRoomId )
     {
-        var dto = await Mediator.Send( new DeleteLockerRoomCommand( lockerRoomId ) );
+        DeleteLockerRoomDto dto = await Mediator.Send( new DeleteLockerRoomCommand( lockerRoomId ) );
         return dto;
     }
 }

@@ -22,7 +22,7 @@ internal class UtilsProfile : Profile
 
     private List<Stadium> MapLegalStadium( AddLegalCommand source )
     {
-        var stadiums = source.Stadiums.Select(
+        List<Stadium> stadiums = source.Stadiums.Select(
             s => new Stadium
             {
                 Name = s.Name,

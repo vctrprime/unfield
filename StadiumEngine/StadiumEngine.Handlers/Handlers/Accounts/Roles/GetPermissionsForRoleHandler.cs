@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts.Permissions;
@@ -21,9 +22,9 @@ internal sealed class GetPermissionsForRoleHandler : BaseRequestHandler<GetPermi
     public override async ValueTask<List<PermissionDto>> Handle( GetPermissionsForRoleQuery request,
         CancellationToken cancellationToken )
     {
-        var permissions = await _roleFacade.GetPermissionsForRole( request.RoleId, _legalId );
+        Dictionary<Permission, bool> permissions = await _roleFacade.GetPermissionsForRole( request.RoleId, _legalId );
 
-        var permissionsDto = Mapper.Map<List<PermissionDto>>( permissions.Keys );
+        List<PermissionDto>? permissionsDto = Mapper.Map<List<PermissionDto>>( permissions.Keys );
 
         permissionsDto.ForEach(
             pd => { pd.IsRoleBound = permissions.FirstOrDefault( p => p.Key.Id == pd.Id ).Value; } );

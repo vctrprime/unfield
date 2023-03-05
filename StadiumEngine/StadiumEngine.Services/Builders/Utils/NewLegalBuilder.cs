@@ -23,25 +23,19 @@ internal class NewLegalBuilder : INewLegalBuilder
 
     public async Task<string> Build( Legal legal, User superuser )
     {
-        var superuserPassword = _passwordGenerator.Generate( 8 );
+        string superuserPassword = _passwordGenerator.Generate( 8 );
         superuser.Password = _hasher.Crypt( superuserPassword );
 
-        legal.Roles = new List<Role>
-        {
-            await GetBaseRole( legal.Stadiums )
-        };
+        legal.Roles = new List<Role> { await GetBaseRole( legal.Stadiums ) };
 
-        legal.Users = new List<User>
-        {
-            superuser
-        };
+        legal.Users = new List<User> { superuser };
 
         return superuserPassword;
     }
 
     private async Task<Role> GetBaseRole( IEnumerable<Stadium> stadiums )
     {
-        var role = new Role
+        Role role = new()
         {
             Name = "Администратор",
             Description = "Базовая роль для администратора (добавлена автоматически)",
@@ -54,27 +48,23 @@ internal class NewLegalBuilder : INewLegalBuilder
 
     private async Task<List<RolePermission>> GetRolePermissions()
     {
-        var permissions = await _permissionRepository.GetAll();
-        var permissionsKeys = new List<string>
+        List<Permission> permissions = await _permissionRepository.GetAll();
+        List<string> permissionsKeys = new()
         {
-            "schedule", "offers"
+            "schedule",
+            "offers"
         };
 
-        var rolePermissions = permissions.Where( p => permissionsKeys.Contains( p.PermissionGroup.Key ) ).Select(
-            p => new RolePermission
-            {
-                Permission = p
-            } );
+        IEnumerable<RolePermission> rolePermissions = permissions
+            .Where( p => permissionsKeys.Contains( p.PermissionGroup.Key ) ).Select(
+                p => new RolePermission { Permission = p } );
         return rolePermissions.ToList();
     }
 
     private List<RoleStadium> GetRoleStadiums( IEnumerable<Stadium> stadiums )
     {
-        var roleStadiums = stadiums.Select(
-            s => new RoleStadium
-            {
-                Stadium = s
-            } );
+        IEnumerable<RoleStadium> roleStadiums = stadiums.Select(
+            s => new RoleStadium { Stadium = s } );
 
         return roleStadiums.ToList();
     }

@@ -23,7 +23,7 @@ public class LegalUtilController : BaseApiController
     [SecuredUtil]
     public async Task<AddLegalDto> Post( AddLegalCommand command )
     {
-        var legal = await Mediator.Send( command );
+        AddLegalDto legal = await Mediator.Send( command );
 
         return legal;
     }

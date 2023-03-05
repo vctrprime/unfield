@@ -22,7 +22,7 @@ public class PermissionUtilController : BaseApiController
     [SecuredUtil]
     public async Task<SyncPermissionsDto> Sync()
     {
-        var syncPermissionsDto = await Mediator.Send( new SyncPermissionsCommand() );
+        SyncPermissionsDto syncPermissionsDto = await Mediator.Send( new SyncPermissionsCommand() );
 
         return syncPermissionsDto;
     }

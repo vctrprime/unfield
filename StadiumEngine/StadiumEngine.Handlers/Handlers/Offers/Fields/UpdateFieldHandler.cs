@@ -21,8 +21,6 @@ internal sealed class UpdateFieldHandler : BaseCommandHandler<UpdateFieldCommand
     }
 
     protected override async ValueTask<UpdateFieldDto> HandleCommand( UpdateFieldCommand request,
-        CancellationToken cancellationToken )
-    {
-        return await _facade.Update( request, _currentStadiumId, _userId );
-    }
+        CancellationToken cancellationToken ) =>
+        await _facade.Update( request, _currentStadiumId, _userId );
 }

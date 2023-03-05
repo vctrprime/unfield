@@ -10,13 +10,7 @@ internal class OffersSportKindRepository : BaseRepository<OffersSportKind>, IOff
     {
     }
 
-    public new void Add( IEnumerable<OffersSportKind> sportKinds )
-    {
-        base.Add( sportKinds );
-    }
+    public new void Add( IEnumerable<OffersSportKind> sportKinds ) => base.Add( sportKinds );
 
-    public new void Remove( IEnumerable<OffersSportKind> sportKinds )
-    {
-        base.Remove( sportKinds );
-    }
+    public new void Remove( IEnumerable<OffersSportKind> sportKinds ) => base.Remove( sportKinds );
 }

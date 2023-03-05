@@ -13,13 +13,9 @@ internal class PriceGroupQueryFacade : IPriceGroupQueryFacade
         _priceGroupRepository = priceGroupRepository;
     }
 
-    public async Task<List<PriceGroup>> GetByStadiumId( int stadiumId )
-    {
-        return await _priceGroupRepository.GetAll( stadiumId );
-    }
+    public async Task<List<PriceGroup>> GetByStadiumId( int stadiumId ) =>
+        await _priceGroupRepository.GetAll( stadiumId );
 
-    public async Task<PriceGroup?> GetByPriceGroupId( int priceGroupId, int stadiumId )
-    {
-        return await _priceGroupRepository.Get( priceGroupId, stadiumId );
-    }
+    public async Task<PriceGroup?> GetByPriceGroupId( int priceGroupId, int stadiumId ) =>
+        await _priceGroupRepository.Get( priceGroupId, stadiumId );
 }

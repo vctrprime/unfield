@@ -15,17 +15,17 @@ public class FieldDto : BaseEntityDto
     /// <summary>
     ///     Название
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     /// <summary>
     ///     Описание
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     ///     Изображения
     /// </summary>
-    public List<string> Images { get; set; }
+    public List<string>? Images { get; set; }
 
     /// <summary>
     ///     Ширина
@@ -50,7 +50,7 @@ public class FieldDto : BaseEntityDto
     /// <summary>
     ///     Список видов спорта
     /// </summary>
-    public List<SportKind> SportKinds { get; set; }
+    public List<SportKind>? SportKinds { get; set; }
 
     /// <summary>
     ///     Активность
@@ -65,7 +65,7 @@ public class FieldDto : BaseEntityDto
     /// <summary>
     ///     Потомки
     /// </summary>
-    public List<string> ChildNames { get; set; }
+    public List<string>? ChildNames { get; set; }
 
     /// <summary>
     ///     Ценовая группа (id)

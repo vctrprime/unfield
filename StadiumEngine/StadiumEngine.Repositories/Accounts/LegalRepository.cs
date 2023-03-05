@@ -13,7 +13,7 @@ internal class LegalRepository : BaseRepository<Legal>, ILegalRepository
 
     public async Task<List<Legal>> GetByFilter( string searchString )
     {
-        var searchStringLower = searchString.ToLower();
+        string searchStringLower = searchString.ToLower();
 
         return await Entities
             .Where(
@@ -29,8 +29,5 @@ internal class LegalRepository : BaseRepository<Legal>, ILegalRepository
             .ToListAsync();
     }
 
-    public new void Add( Legal legal )
-    {
-        base.Add( legal );
-    }
+    public new void Add( Legal legal ) => base.Add( legal );
 }

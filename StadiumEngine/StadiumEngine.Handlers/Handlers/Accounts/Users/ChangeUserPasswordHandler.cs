@@ -25,7 +25,10 @@ internal sealed class ChangeUserPasswordHandler : BaseCommandHandler<ChangeUserP
     protected override async ValueTask<ChangeUserPasswordDto> HandleCommand( ChangeUserPasswordCommand request,
         CancellationToken cancellationToken )
     {
-        if (request.NewPassword != request.NewPasswordRepeat) throw new DomainException( ErrorsKeys.PasswordsNotEqual );
+        if ( request.NewPassword != request.NewPasswordRepeat )
+        {
+            throw new DomainException( ErrorsKeys.PasswordsNotEqual );
+        }
 
         await _userFacade.ChangePassword( _userId, request.NewPassword, request.OldPassword );
 

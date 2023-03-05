@@ -1,6 +1,7 @@
 using AutoMapper;
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
+using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Inventories;
@@ -23,11 +24,14 @@ internal sealed class GetInventoryHandler : BaseRequestHandler<GetInventoryQuery
     public override async ValueTask<InventoryDto> Handle( GetInventoryQuery request,
         CancellationToken cancellationToken )
     {
-        var inventory = await _inventoryFacade.GetByInventoryId( request.InventoryId, _currentStadiumId );
+        Inventory? inventory = await _inventoryFacade.GetByInventoryId( request.InventoryId, _currentStadiumId );
 
-        if (inventory == null) throw new DomainException( ErrorsKeys.InventoryNotFound );
+        if ( inventory == null )
+        {
+            throw new DomainException( ErrorsKeys.InventoryNotFound );
+        }
 
-        var inventoryDto = Mapper.Map<InventoryDto>( inventory );
+        InventoryDto? inventoryDto = Mapper.Map<InventoryDto>( inventory );
 
         return inventoryDto;
     }

@@ -11,18 +11,10 @@ internal class RolePermissionRepository : BaseRepository<RolePermission>, IRoleP
     {
     }
 
-    public async Task<RolePermission?> Get( int roleId, int permissionId )
-    {
-        return await Entities.FirstOrDefaultAsync( rp => rp.RoleId == roleId && rp.PermissionId == permissionId );
-    }
+    public async Task<RolePermission?> Get( int roleId, int permissionId ) =>
+        await Entities.FirstOrDefaultAsync( rp => rp.RoleId == roleId && rp.PermissionId == permissionId );
 
-    public new void Add( RolePermission rolePermission )
-    {
-        base.Add( rolePermission );
-    }
+    public new void Add( RolePermission rolePermission ) => base.Add( rolePermission );
 
-    public new void Remove( RolePermission rolePermission )
-    {
-        base.Remove( rolePermission );
-    }
+    public new void Remove( RolePermission rolePermission ) => base.Remove( rolePermission );
 }

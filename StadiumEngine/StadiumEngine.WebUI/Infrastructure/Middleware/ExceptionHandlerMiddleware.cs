@@ -18,18 +18,17 @@ public static class ExceptionHandlerMiddleware
     /// </summary>
     /// <param name="app"></param>
     /// <param name="logger"></param>
-    public static void ConfigureExceptionHandler( this IApplicationBuilder app, ILogger logger )
-    {
+    public static void ConfigureExceptionHandler( this IApplicationBuilder app, ILogger logger ) =>
         app.UseExceptionHandler(
             appError =>
             {
                 appError.Run(
                     async context =>
                     {
-                        var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+                        IExceptionHandlerFeature contextFeature = context.Features.Get<IExceptionHandlerFeature>();
 
                         //если исключение не предметно, а системное - запись в лог и возврат 500
-                        if (contextFeature is { Error: not DomainException })
+                        if ( contextFeature is { Error: not DomainException } )
                         {
                             context.Response.StatusCode = ( int )HttpStatusCode.InternalServerError;
                             context.Response.ContentType = "application/json";
@@ -57,7 +56,6 @@ public static class ExceptionHandlerMiddleware
                         }
                     } );
             } );
-    }
 
     /// <summary>
     ///     Объект ошибки
@@ -78,9 +76,6 @@ public static class ExceptionHandlerMiddleware
         ///     Строковое представление
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return JsonConvert.SerializeObject( this );
-        }
+        public override string ToString() => JsonConvert.SerializeObject( this );
     }
 }

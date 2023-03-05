@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts.Users;
@@ -21,9 +22,9 @@ internal sealed class GetUserStadiumsHandler : BaseRequestHandler<GetUserStadium
     public override async ValueTask<List<UserStadiumDto>> Handle( GetUserStadiumsQuery request,
         CancellationToken cancellationToken )
     {
-        var stadiums = await _userFacade.GetUserStadiums( _userId, _legalId );
+        List<Stadium> stadiums = await _userFacade.GetUserStadiums( _userId, _legalId );
 
-        var stadiumsDto = Mapper.Map<List<UserStadiumDto>>( stadiums );
+        List<UserStadiumDto>? stadiumsDto = Mapper.Map<List<UserStadiumDto>>( stadiums );
 
         stadiumsDto.First( s => s.Id == _currentStadiumId ).IsCurrent = true;
 

@@ -10,17 +10,21 @@ namespace StadiumEngine.Domain.Entities.Accounts;
 [Table( "stadium", Schema = "accounts" )]
 public class Stadium : BaseEntity
 {
-    [Column( "city_id" )] public int CityId { get; set; }
+    [Column( "city_id" )]
+    public int CityId { get; set; }
 
-    [ForeignKey( "CityId" )] public virtual City City { get; set; }
+    [ForeignKey( "CityId" )]
+    public virtual City City { get; set; }
 
-    [Column( "legal_id" )] public int LegalId { get; set; }
+    [Column( "legal_id" )]
+    public int LegalId { get; set; }
 
     [Column( "is_deleted" )]
     [DefaultValue( false )]
     public bool IsDeleted { get; set; }
 
-    [ForeignKey( "LegalId" )] public virtual Legal Legal { get; set; }
+    [ForeignKey( "LegalId" )]
+    public virtual Legal Legal { get; set; }
 
     public string Address { get; set; }
 
