@@ -3,32 +3,32 @@ using StadiumEngine.Common.Enums.Offers;
 namespace StadiumEngine.DTO.Offers.LockerRooms;
 
 /// <summary>
-/// ДТО раздевалки
+///     ДТО раздевалки
 /// </summary>
 public class LockerRoomDto : BaseEntityDto
 {
     /// <summary>
-    /// Id
+    ///     Id
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    ///  Название
+    ///     Название
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    ///  Описание
+    ///     Описание
     /// </summary>
     public string Description { get; set; }
 
     /// <summary>
-    ///  Пол
+    ///     Пол
     /// </summary>
     public LockerRoomGender Gender { get; set; }
 
     /// <summary>
-    ///  Активность
+    ///     Активность
     /// </summary>
     public bool IsActive { get; set; }
 }

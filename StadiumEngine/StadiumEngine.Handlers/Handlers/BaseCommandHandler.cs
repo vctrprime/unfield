@@ -8,8 +8,8 @@ namespace StadiumEngine.Handlers.Handlers;
 internal abstract class BaseCommandHandler<TRequest, TResponse> : BaseRequestHandler<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
-    protected readonly IUnitOfWork UnitOfWork;
     private readonly bool _transactional;
+    protected readonly IUnitOfWork UnitOfWork;
 
     protected BaseCommandHandler(
         IMapper mapper,

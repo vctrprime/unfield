@@ -8,8 +8,8 @@ namespace StadiumEngine.Handlers.Facades.Rates.PriceGroups;
 
 internal class UpdatePriceGroupFacade : IUpdatePriceGroupFacade
 {
-    private readonly IPriceGroupQueryFacade _queryFacade;
     private readonly IPriceGroupCommandFacade _commandFacade;
+    private readonly IPriceGroupQueryFacade _queryFacade;
 
     public UpdatePriceGroupFacade( IPriceGroupQueryFacade queryFacade, IPriceGroupCommandFacade commandFacade )
     {

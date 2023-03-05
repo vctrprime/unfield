@@ -7,12 +7,12 @@ using Microsoft.Extensions.Hosting;
 namespace StadiumEngine.WebUI.Infrastructure.Extensions;
 
 /// <summary>
-/// Extensions for IWebHostEnvironment
+///     Extensions for IWebHostEnvironment
 /// </summary>
 public static class WebHostEnvironmentExtensions
 {
     /// <summary>
-    /// Get application version string.
+    ///     Get application version string.
     /// </summary>
     public static void WriteReactEnvAppVersion( this IWebHostEnvironment environment )
     {

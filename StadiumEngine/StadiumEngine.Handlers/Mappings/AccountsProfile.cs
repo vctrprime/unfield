@@ -1,17 +1,13 @@
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 using AutoMapper;
 using StadiumEngine.Domain.Entities;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Extensions;
 using StadiumEngine.DTO;
-using StadiumEngine.DTO.Accounts;
 using StadiumEngine.DTO.Accounts.Permissions;
 using StadiumEngine.DTO.Accounts.Roles;
 using StadiumEngine.DTO.Accounts.Stadiums;
 using StadiumEngine.DTO.Accounts.Users;
-using StadiumEngine.Handlers.Commands.Accounts;
 using StadiumEngine.Handlers.Commands.Accounts.Roles;
 using StadiumEngine.Handlers.Commands.Accounts.Users;
 using StadiumEngine.Handlers.Commands.Utils;

@@ -2,14 +2,12 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
@@ -25,12 +23,14 @@ using StadiumEngine.WebUI.Infrastructure.Middleware;
 namespace StadiumEngine.WebUI;
 
 /// <summary>
-/// Установочный класс
+///     Установочный класс
 /// </summary>
 public class Startup
 {
+    private readonly IWebHostEnvironment _environment;
+
     /// <summary>
-    /// Установочный класс
+    ///     Установочный класс
     /// </summary>
     public Startup( IConfiguration configuration,
         IWebHostEnvironment environment )
@@ -40,14 +40,12 @@ public class Startup
     }
 
     /// <summary>
-    /// Объект конфигурации
+    ///     Объект конфигурации
     /// </summary>
     public IConfiguration Configuration { get; }
 
-    private readonly IWebHostEnvironment _environment;
-
     /// <summary>
-    /// Конфигурация сервисов
+    ///     Конфигурация сервисов
     /// </summary>
     /// <param name="services"></param>
     public void ConfigureServices( IServiceCollection services )
@@ -121,7 +119,7 @@ public class Startup
     }
 
     /// <summary>
-    /// Конфигурация конвейера
+    ///     Конфигурация конвейера
     /// </summary>
     /// <param name="app"></param>
     /// <param name="env"></param>

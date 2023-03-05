@@ -1,5 +1,4 @@
 import {FieldCoveringType} from "./enums/FieldCoveringType";
-import {SportKind} from "./enums/SportKind";
 import {OfferDto} from "./OfferDto";
 
 export interface FieldDto extends OfferDto {

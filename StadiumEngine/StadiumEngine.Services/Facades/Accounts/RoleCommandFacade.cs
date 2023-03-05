@@ -10,10 +10,10 @@ namespace StadiumEngine.Services.Facades.Accounts;
 
 internal class RoleCommandFacade : IRoleCommandFacade
 {
+    private readonly IAccountsAccessChecker _accountsAccessChecker;
     private readonly IRoleRepositoryFacade _roleRepositoryFacade;
     private readonly IStadiumRepository _stadiumRepository;
     private readonly IUserRepository _userRepository;
-    private readonly IAccountsAccessChecker _accountsAccessChecker;
 
     public RoleCommandFacade(
         IRoleRepositoryFacade roleRepositoryFacade,
@@ -37,7 +37,7 @@ internal class RoleCommandFacade : IRoleCommandFacade
         int legalId,
         int userId,
         string name,
-        string description )
+        string? description )
     {
         var user = await _userRepository.Get( roleId );
 

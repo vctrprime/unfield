@@ -1,42 +1,42 @@
 namespace StadiumEngine.DTO.Accounts.Users;
 
 /// <summary>
-/// ДТО авторизованного пользователя
+///     ДТО авторизованного пользователя
 /// </summary>
 public class AuthorizedUserDto
 {
     /// <summary>
-    /// Полное имя
+    ///     Полное имя
     /// </summary>
     public string FullName { get; set; }
 
     /// <summary>
-    /// Название роли
+    ///     Название роли
     /// </summary>
     public string RoleName { get; set; }
 
     /// <summary>
-    /// Язык
+    ///     Язык
     /// </summary>
     public string Language { get; set; }
 
     /// <summary>
-    /// Флаг суперюзера
+    ///     Флаг суперюзера
     /// </summary>
     public bool IsSuperuser { get; set; }
 
     /// <summary>
-    /// Флаг админа
+    ///     Флаг админа
     /// </summary>
     public bool IsAdmin { get; set; }
 
     /// <summary>
-    /// Токен для отслеживания изменений
+    ///     Токен для отслеживания изменений
     /// </summary>
     public Guid UniqueToken { get; set; }
 
     /// <summary>
-    /// Организация
+    ///     Организация
     /// </summary>
     public string LegalName { get; set; }
 }

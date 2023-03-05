@@ -1,5 +1,4 @@
 using AutoMapper;
-using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services.Facades.Rates;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Rates.PriceGroups;

@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace StadiumEngine.WebUI.Infrastructure.Attributes;
 
 /// <summary>
-/// Атрибут для защиты использования utils по апи ключу
+///     Атрибут для защиты использования utils по апи ключу
 /// </summary>
 public class SecuredUtilAttribute : ActionFilterAttribute
 {
     /// <summary>
-    /// Проверить апи ключ
+    ///     Проверить апи ключ
     /// </summary>
     /// <param name="context"></param>
     public override void OnActionExecuting( ActionExecutingContext context )

@@ -1,5 +1,4 @@
 using Mediator;
-using StadiumEngine.DTO.Accounts;
 using StadiumEngine.DTO.Utils;
 
 namespace StadiumEngine.Handlers.Commands.Utils;

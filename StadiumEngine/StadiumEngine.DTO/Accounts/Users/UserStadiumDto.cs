@@ -1,27 +1,27 @@
 namespace StadiumEngine.DTO.Accounts.Users;
 
 /// <summary>
-/// Доступные для пользователя стадионы
+///     Доступные для пользователя стадионы
 /// </summary>
 public class UserStadiumDto
 {
     /// <summary>
-    /// Id
+    ///     Id
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    ///  Название
+    ///     Название
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    ///  Адрес
+    ///     Адрес
     /// </summary>
     public string Address { get; set; }
 
     /// <summary>
-    /// Теущий выбранный стадион
+    ///     Теущий выбранный стадион
     /// </summary>
     public bool IsCurrent { get; set; }
 }

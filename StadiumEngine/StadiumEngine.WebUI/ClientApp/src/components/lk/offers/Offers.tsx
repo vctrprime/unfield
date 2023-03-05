@@ -1,11 +1,9 @@
 import React from 'react';
-import {getTitle} from "../../../helpers/utils";
 import {useRecoilValue} from "recoil";
 import {permissionsAtom} from "../../../state/permissions";
 import {TabData, Tabs} from "../../common/Tabs";
 import {ForbiddenMessage} from "../common/ForbiddenMessage";
 import {PermissionsKeys} from "../../../static/PermissionsKeys";
-import {Ge} from "react-flags-select";
 
 export const Offers = () => {
     const permissions = useRecoilValue(permissionsAtom);

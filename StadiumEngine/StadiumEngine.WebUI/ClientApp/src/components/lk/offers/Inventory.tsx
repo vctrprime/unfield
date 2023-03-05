@@ -6,15 +6,10 @@ import {Currency} from "../../../models/dto/offers/enums/Currency";
 import {ImageFile} from "../../../models/common/ImageFile";
 import {useInject} from "inversify-hooks";
 import {IOffersService} from "../../../services/OffersService";
-import {
-    getDataTitle,
-    getInventoryBasicFormData,
-    getTitle, StringFormat,
-    validateInputs
-} from "../../../helpers/utils";
+import {getDataTitle, getInventoryBasicFormData, getTitle, StringFormat, validateInputs} from "../../../helpers/utils";
 import {ActionButtons} from "../../common/actions/ActionButtons";
 import {t} from "i18next";
-import {Checkbox, Dropdown, Form} from "semantic-ui-react";
+import {Checkbox, Form} from "semantic-ui-react";
 import {SportKindSelect} from "../common/SportKindSelect";
 import {ImagesForm} from "../common/ImagesForm";
 import {CurrencySelect} from "../common/CurrencySelect";

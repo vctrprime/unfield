@@ -10,13 +10,13 @@ using StadiumEngine.WebUI.Infrastructure.Attributes;
 namespace StadiumEngine.WebUI.Controllers.API.Offers;
 
 /// <summary>
-/// Раздевалки
+///     Раздевалки
 /// </summary>
 [Route( "api/offers/locker-rooms" )]
 public class LockerRoomController : BaseApiController
 {
     /// <summary>
-    /// Получить раздевалки
+    ///     Получить раздевалки
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -28,7 +28,7 @@ public class LockerRoomController : BaseApiController
     }
 
     /// <summary>
-    /// Получить раздевалку
+    ///     Получить раздевалку
     /// </summary>
     /// <returns></returns>
     [HttpGet( "{lockerRoomId}" )]
@@ -40,7 +40,7 @@ public class LockerRoomController : BaseApiController
     }
 
     /// <summary>
-    /// Добавить раздевалку
+    ///     Добавить раздевалку
     /// </summary>
     /// <returns></returns>
     [HttpPost]
@@ -52,7 +52,7 @@ public class LockerRoomController : BaseApiController
     }
 
     /// <summary>
-    /// Обновить раздевалку
+    ///     Обновить раздевалку
     /// </summary>
     /// <returns></returns>
     [HttpPut]
@@ -64,7 +64,7 @@ public class LockerRoomController : BaseApiController
     }
 
     /// <summary>
-    /// Удалить раздевалку
+    ///     Удалить раздевалку
     /// </summary>
     /// <returns></returns>
     [HttpDelete( "{lockerRoomId}" )]

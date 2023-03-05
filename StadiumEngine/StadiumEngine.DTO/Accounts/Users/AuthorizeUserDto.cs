@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace StadiumEngine.DTO.Accounts.Users;
 
 /// <summary>
-/// ДТО пользователя при авторизации
+///     ДТО пользователя при авторизации
 /// </summary>
 public class AuthorizeUserDto : AuthorizedUserDto
 {

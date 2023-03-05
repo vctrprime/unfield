@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using StadiumEngine.Domain.Entities;
-using StadiumEngine.Domain.Entities.Accounts;
 
 namespace StadiumEngine.Repositories;
 

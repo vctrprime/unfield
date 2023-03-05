@@ -1,6 +1,5 @@
 using AutoMapper;
 using StadiumEngine.Domain;
-using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Infrastructure;
 using StadiumEngine.DTO.Accounts.Users;
@@ -10,8 +9,8 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
 internal sealed class ResetUserPasswordHandler : BaseCommandHandler<ResetUserPasswordCommand, ResetUserPasswordDto>
 {
-    private readonly IUserCommandFacade _userFacade;
     private readonly ISmsSender _smsSender;
+    private readonly IUserCommandFacade _userFacade;
 
     public ResetUserPasswordHandler(
         IUserCommandFacade userFacade,

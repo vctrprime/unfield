@@ -10,13 +10,13 @@ using StadiumEngine.WebUI.Infrastructure.Attributes;
 namespace StadiumEngine.WebUI.Controllers.API.Rates;
 
 /// <summary>
-/// Ценовые группы
+///     Ценовые группы
 /// </summary>
 [Route( "api/rates/price-groups" )]
 public class PriceGroupController : BaseApiController
 {
     /// <summary>
-    /// Получить ценовые группы
+    ///     Получить ценовые группы
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -28,7 +28,7 @@ public class PriceGroupController : BaseApiController
     }
 
     /// <summary>
-    /// Получить ценовую группу
+    ///     Получить ценовую группу
     /// </summary>
     /// <returns></returns>
     [HttpGet( "{priceGroupId}" )]
@@ -40,7 +40,7 @@ public class PriceGroupController : BaseApiController
     }
 
     /// <summary>
-    /// Добавить ценовую группу
+    ///     Добавить ценовую группу
     /// </summary>
     /// <returns></returns>
     [HttpPost]
@@ -52,7 +52,7 @@ public class PriceGroupController : BaseApiController
     }
 
     /// <summary>
-    /// Обновить ценовую группу
+    ///     Обновить ценовую группу
     /// </summary>
     /// <returns></returns>
     [HttpPut]
@@ -64,7 +64,7 @@ public class PriceGroupController : BaseApiController
     }
 
     /// <summary>
-    /// Удалить ценовую группу
+    ///     Удалить ценовую группу
     /// </summary>
     /// <returns></returns>
     [HttpDelete( "{priceGroupId}" )]

@@ -1,12 +1,12 @@
 namespace StadiumEngine.DTO;
 
 /// <summary>
-/// Базовое пустое ДТО ответа
+///     Базовое пустое ДТО ответа
 /// </summary>
 public class BaseEmptySuccessDto
 {
     /// <summary>
-    /// Сообщение
+    ///     Сообщение
     /// </summary>
     public string Message { get; set; } = "Успешно!";
 }

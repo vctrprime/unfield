@@ -2,24 +2,21 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Constant;
-using StadiumEngine.DTO.Accounts;
 using StadiumEngine.DTO.Accounts.Users;
-using StadiumEngine.Handlers.Commands.Accounts;
 using StadiumEngine.Handlers.Commands.Accounts.Users;
-using StadiumEngine.Handlers.Queries.Accounts;
 using StadiumEngine.Handlers.Queries.Accounts.Users;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 
 namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 
 /// <summary>
-/// Пользователи
+///     Пользователи
 /// </summary>
 [Route( "api/accounts/users" )]
 public class UserController : BaseApiController
 {
     /// <summary>
-    /// Получить пользователей
+    ///     Получить пользователей
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -31,7 +28,7 @@ public class UserController : BaseApiController
     }
 
     /// <summary>
-    /// Добавить пользователя
+    ///     Добавить пользователя
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
@@ -44,7 +41,7 @@ public class UserController : BaseApiController
     }
 
     /// <summary>
-    /// Изменить пользователя
+    ///     Изменить пользователя
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
@@ -57,7 +54,7 @@ public class UserController : BaseApiController
     }
 
     /// <summary>
-    /// Удалить пользователя
+    ///     Удалить пользователя
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>

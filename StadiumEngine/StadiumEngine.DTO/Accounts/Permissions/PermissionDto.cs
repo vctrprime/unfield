@@ -1,47 +1,47 @@
 namespace StadiumEngine.DTO.Accounts.Permissions;
 
 /// <summary>
-/// ДТО разрешения
+///     ДТО разрешения
 /// </summary>
 public class PermissionDto
 {
     /// <summary>
-    /// Id
+    ///     Id
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Название
+    ///     Название
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    /// Описание
+    ///     Описание
     /// </summary>
     public string Description { get; set; }
 
     /// <summary>
-    /// Порядок сортировки
+    ///     Порядок сортировки
     /// </summary>
     public int SortValue { get; set; }
 
     /// <summary>
-    /// Название группы
+    ///     Название группы
     /// </summary>
     public string GroupName { get; set; }
 
     /// <summary>
-    /// Ключ группы
+    ///     Ключ группы
     /// </summary>
     public string GroupKey { get; set; }
 
     /// <summary>
-    /// Порядок сортировки группы
+    ///     Порядок сортировки группы
     /// </summary>
     public int GroupSortValue { get; set; }
 
     /// <summary>
-    /// Связан с ролью, для которой был запрос
+    ///     Связан с ролью, для которой был запрос
     /// </summary>
     public bool IsRoleBound { get; set; }
 }

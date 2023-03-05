@@ -8,10 +8,9 @@ import {dateFormatter} from "../../../helpers/date-formatter";
 import {useNavigate} from "react-router-dom";
 import {LockerRoomDto} from "../../../models/dto/offers/LockerRoomDto";
 import {GridLoading} from "../common/GridLoading";
-import {Button, Input} from "semantic-ui-react";
+import {Button, Checkbox} from "semantic-ui-react";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {stadiumAtom} from "../../../state/stadium";
-import {Checkbox} from 'semantic-ui-react'
 import {UpdateLockerRoomCommand} from "../../../models/command/offers/UpdateLockerRoomCommand";
 import {LockerRoomGender} from "../../../models/dto/offers/enums/LockerRoomGender";
 import {PermissionsKeys} from "../../../static/PermissionsKeys";

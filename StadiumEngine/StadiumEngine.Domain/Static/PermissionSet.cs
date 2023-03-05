@@ -8,7 +8,7 @@ public static class PermissionSet
 {
     public static List<PermissionGroup> PermissionGroups = new()
     {
-        new()
+        new PermissionGroup
         {
             Key = PermissionsKeys.ScheduleGroup,
             Sort = 2,
@@ -22,7 +22,7 @@ public static class PermissionSet
                 }
             }
         },
-        new()
+        new PermissionGroup
         {
             Key = PermissionsKeys.OffersGroup,
             Sort = 3,
@@ -91,7 +91,7 @@ public static class PermissionSet
                 }
             }
         },
-        new()
+        new PermissionGroup
         {
             Key = PermissionsKeys.RatesGroup,
             Sort = 4,
@@ -120,7 +120,7 @@ public static class PermissionSet
                 }
             }
         },
-        new()
+        new PermissionGroup
         {
             Key = PermissionsKeys.EmployeesGroup,
             Sort = 5,
@@ -134,7 +134,7 @@ public static class PermissionSet
                 }
             }
         },
-        new()
+        new PermissionGroup
         {
             Key = PermissionsKeys.ReportsGroup,
             Sort = 6,
@@ -148,7 +148,7 @@ public static class PermissionSet
                 }
             }
         },
-        new()
+        new PermissionGroup
         {
             Key = PermissionsKeys.AccountsGroup,
             Sort = 7,
@@ -218,7 +218,7 @@ public static class PermissionSet
                 }
             }
         },
-        new()
+        new PermissionGroup
         {
             Key = PermissionsKeys.MainSettingsGroup,
             Sort = 1,

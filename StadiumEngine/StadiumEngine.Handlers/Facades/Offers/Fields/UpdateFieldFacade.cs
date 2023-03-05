@@ -8,8 +8,8 @@ namespace StadiumEngine.Handlers.Facades.Offers.Fields;
 
 internal class UpdateFieldFacade : IUpdateFieldFacade
 {
-    private readonly IFieldQueryFacade _queryFacade;
     private readonly IFieldCommandFacade _commandFacade;
+    private readonly IFieldQueryFacade _queryFacade;
 
     public UpdateFieldFacade( IFieldQueryFacade queryFacade, IFieldCommandFacade commandFacade )
     {

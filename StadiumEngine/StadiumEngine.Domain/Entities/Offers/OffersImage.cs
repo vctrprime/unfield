@@ -1,8 +1,5 @@
 #nullable enable
-using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using StadiumEngine.Domain.Entities.Accounts;
 
 namespace StadiumEngine.Domain.Entities.Offers;
 

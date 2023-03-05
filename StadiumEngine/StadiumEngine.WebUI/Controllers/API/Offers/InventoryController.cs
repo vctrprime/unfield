@@ -10,13 +10,13 @@ using StadiumEngine.WebUI.Infrastructure.Attributes;
 namespace StadiumEngine.WebUI.Controllers.API.Offers;
 
 /// <summary>
-/// Инвентарь
+///     Инвентарь
 /// </summary>
 [Route( "api/offers/inventories" )]
 public class InventoryController : BaseApiController
 {
     /// <summary>
-    /// Получить инвентарь (список)
+    ///     Получить инвентарь (список)
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -28,7 +28,7 @@ public class InventoryController : BaseApiController
     }
 
     /// <summary>
-    /// Получить инвентарь
+    ///     Получить инвентарь
     /// </summary>
     /// <returns></returns>
     [HttpGet( "{inventoryId}" )]
@@ -40,7 +40,7 @@ public class InventoryController : BaseApiController
     }
 
     /// <summary>
-    /// Добавить инвентарь
+    ///     Добавить инвентарь
     /// </summary>
     /// <returns></returns>
     [HttpPost]
@@ -52,7 +52,7 @@ public class InventoryController : BaseApiController
     }
 
     /// <summary>
-    /// Обновить инвентарь
+    ///     Обновить инвентарь
     /// </summary>
     /// <returns></returns>
     [HttpPut]
@@ -64,7 +64,7 @@ public class InventoryController : BaseApiController
     }
 
     /// <summary>
-    /// Удалить инвентарь
+    ///     Удалить инвентарь
     /// </summary>
     /// <returns></returns>
     [HttpDelete( "{inventoryId}" )]

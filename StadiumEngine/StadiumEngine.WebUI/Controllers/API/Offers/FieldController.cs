@@ -10,13 +10,13 @@ using StadiumEngine.WebUI.Infrastructure.Attributes;
 namespace StadiumEngine.WebUI.Controllers.API.Offers;
 
 /// <summary>
-/// Площадки
+///     Площадки
 /// </summary>
 [Route( "api/offers/fields" )]
 public class FieldController : BaseApiController
 {
     /// <summary>
-    /// Получить площадки
+    ///     Получить площадки
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -28,7 +28,7 @@ public class FieldController : BaseApiController
     }
 
     /// <summary>
-    /// Получить площадку
+    ///     Получить площадку
     /// </summary>
     /// <returns></returns>
     [HttpGet( "{fieldId}" )]
@@ -40,7 +40,7 @@ public class FieldController : BaseApiController
     }
 
     /// <summary>
-    /// Добавить площадку
+    ///     Добавить площадку
     /// </summary>
     /// <returns></returns>
     [HttpPost]
@@ -52,7 +52,7 @@ public class FieldController : BaseApiController
     }
 
     /// <summary>
-    /// Обновить площадку
+    ///     Обновить площадку
     /// </summary>
     /// <returns></returns>
     [HttpPut]
@@ -64,7 +64,7 @@ public class FieldController : BaseApiController
     }
 
     /// <summary>
-    /// Удалить площадку
+    ///     Удалить площадку
     /// </summary>
     /// <returns></returns>
     [HttpDelete( "{fieldId}" )]

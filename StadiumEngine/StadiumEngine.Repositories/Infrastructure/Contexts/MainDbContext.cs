@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using StadiumEngine.Domain.Entities;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Entities.Geo;
@@ -9,6 +10,28 @@ namespace StadiumEngine.Repositories.Infrastructure.Contexts;
 
 internal class MainDbContext : DbContext
 {
+    public MainDbContext( DbContextOptions<MainDbContext> options )
+        : base( options )
+    {
+    }
+
+    protected override void OnModelCreating( ModelBuilder modelBuilder )
+    {
+        modelBuilder.Ignore<BaseEntity>();
+        modelBuilder.Ignore<BaseUserEntity>();
+
+        foreach (var et in modelBuilder.Model.GetEntityTypes())
+        {
+            if (!et.ClrType.IsSubclassOf( typeof( BaseEntity ) )) continue;
+
+            et.FindProperty( "DateCreated" )!.SetDefaultValueSql( "now()" );
+            et.FindProperty( "DateCreated" )!.ValueGenerated =
+                ValueGenerated.OnAdd;
+        }
+
+        base.OnModelCreating( modelBuilder );
+    }
+
     #region geo
 
     public DbSet<Country> Countries { get; set; }
@@ -49,26 +72,4 @@ internal class MainDbContext : DbContext
     public DbSet<PriceGroup> PriceGroups { get; set; }
 
     #endregion
-
-    public MainDbContext( DbContextOptions<MainDbContext> options )
-        : base( options )
-    {
-    }
-
-    protected override void OnModelCreating( ModelBuilder modelBuilder )
-    {
-        modelBuilder.Ignore<BaseEntity>();
-        modelBuilder.Ignore<BaseUserEntity>();
-
-        foreach (var et in modelBuilder.Model.GetEntityTypes())
-        {
-            if (!et.ClrType.IsSubclassOf( typeof( BaseEntity ) )) continue;
-
-            et.FindProperty( "DateCreated" )!.SetDefaultValueSql( "now()" );
-            et.FindProperty( "DateCreated" )!.ValueGenerated =
-                Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.OnAdd;
-        }
-
-        base.OnModelCreating( modelBuilder );
-    }
 }

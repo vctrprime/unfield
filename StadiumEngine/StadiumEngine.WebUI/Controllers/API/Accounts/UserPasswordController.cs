@@ -1,21 +1,19 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using StadiumEngine.DTO.Accounts;
 using StadiumEngine.DTO.Accounts.Users;
-using StadiumEngine.Handlers.Commands.Accounts;
 using StadiumEngine.Handlers.Commands.Accounts.Users;
 
 namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 
 /// <summary>
-/// Работа с паролем пользователя
+///     Работа с паролем пользователя
 /// </summary>
 [Route( "api/accounts/user-password" )]
 public class UserPasswordController : BaseApiController
 {
     /// <summary>
-    /// Сменить пароль пользователя
+    ///     Сменить пароль пользователя
     /// </summary>
     /// <returns></returns>
     [HttpPut( "change" )]
@@ -26,7 +24,7 @@ public class UserPasswordController : BaseApiController
     }
 
     /// <summary>
-    /// Сбросить пароль пользователя
+    ///     Сбросить пароль пользователя
     /// </summary>
     /// <returns></returns>
     [AllowAnonymous]

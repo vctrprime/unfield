@@ -1,62 +1,62 @@
 namespace StadiumEngine.DTO.Admin;
 
 /// <summary>
-/// ДТО организации
+///     ДТО организации
 /// </summary>
 public class LegalDto
 {
     /// <summary>
-    /// Id
+    ///     Id
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Название
+    ///     Название
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    /// ИНН
+    ///     ИНН
     /// </summary>
     public string Inn { get; set; }
 
     /// <summary>
-    /// Руководитель
+    ///     Руководитель
     /// </summary>
     public string HeadName { get; set; }
 
     /// <summary>
-    /// Описание
+    ///     Описание
     /// </summary>
     public string Description { get; set; }
 
     /// <summary>
-    /// Страна
+    ///     Страна
     /// </summary>
     public string Country { get; set; }
 
     /// <summary>
-    /// Регион
+    ///     Регион
     /// </summary>
     public string Region { get; set; }
 
     /// <summary>
-    /// Город
+    ///     Город
     /// </summary>
     public string City { get; set; }
 
     /// <summary>
-    /// Дата добавления
+    ///     Дата добавления
     /// </summary>
     public DateTime DateCreated { get; set; }
 
     /// <summary>
-    /// Кол-во пользователей
+    ///     Кол-во пользователей
     /// </summary>
     public int UsersCount { get; set; }
 
     /// <summary>
-    /// Кол-во объектов
+    ///     Кол-во объектов
     /// </summary>
     public int StadiumsCount { get; set; }
 }

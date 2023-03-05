@@ -9,9 +9,9 @@ namespace StadiumEngine.Services.Facades.Accounts;
 
 internal class LegalCommandFacade : ILegalCommandFacade
 {
-    private readonly IUserServiceFacade _userServiceFacade;
     private readonly ILegalRepository _legalRepository;
     private readonly INewLegalBuilder _newLegalBuilder;
+    private readonly IUserServiceFacade _userServiceFacade;
 
     public LegalCommandFacade(
         IUserServiceFacade userServiceFacade,

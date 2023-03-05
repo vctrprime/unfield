@@ -7,16 +7,13 @@ import {dateFormatter} from "../../../helpers/date-formatter";
 import {useNavigate} from "react-router-dom";
 import {PriceGroupDto} from "../../../models/dto/rates/PriceGroupDto";
 import {GridLoading} from "../common/GridLoading";
-import {Button, Input} from "semantic-ui-react";
+import {Button, Checkbox} from "semantic-ui-react";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {stadiumAtom} from "../../../state/stadium";
-import {Checkbox} from 'semantic-ui-react'
 import {UpdatePriceGroupCommand} from "../../../models/command/rates/UpdatePriceGroupCommand";
 import {IRatesService} from "../../../services/RatesService";
 import {PermissionsKeys} from "../../../static/PermissionsKeys";
 import {permissionsAtom} from "../../../state/permissions";
-import {FieldDto} from "../../../models/dto/offers/FieldDto";
-import {fieldsAtom} from "../../../state/offers/fields";
 import {priceGroupsAtom} from "../../../state/rates/priceGroups";
 
 const AgGrid = require('ag-grid-react');

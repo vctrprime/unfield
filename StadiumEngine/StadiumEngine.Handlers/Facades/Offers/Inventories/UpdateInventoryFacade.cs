@@ -1,8 +1,5 @@
 using StadiumEngine.Common;
-using StadiumEngine.Common.Enums.Offers;
 using StadiumEngine.Common.Exceptions;
-using StadiumEngine.Common.Models;
-using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.DTO.Offers.Inventories;
 using StadiumEngine.Handlers.Commands.Offers.Inventories;
@@ -11,8 +8,8 @@ namespace StadiumEngine.Handlers.Facades.Offers.Inventories;
 
 internal class UpdateInventoryFacade : IUpdateInventoryFacade
 {
-    private readonly IInventoryQueryFacade _queryFacade;
     private readonly IInventoryCommandFacade _commandFacade;
+    private readonly IInventoryQueryFacade _queryFacade;
 
     public UpdateInventoryFacade( IInventoryQueryFacade queryFacade, IInventoryCommandFacade commandFacade )
     {

@@ -2,24 +2,21 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Constant;
-using StadiumEngine.DTO.Accounts;
 using StadiumEngine.DTO.Accounts.Roles;
-using StadiumEngine.Handlers.Commands.Accounts;
 using StadiumEngine.Handlers.Commands.Accounts.Roles;
-using StadiumEngine.Handlers.Queries.Accounts;
 using StadiumEngine.Handlers.Queries.Accounts.Roles;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 
 namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 
 /// <summary>
-/// Роли
+///     Роли
 /// </summary>
 [Route( "api/accounts/roles" )]
 public class RoleController : BaseApiController
 {
     /// <summary>
-    /// Получить роли
+    ///     Получить роли
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -31,7 +28,7 @@ public class RoleController : BaseApiController
     }
 
     /// <summary>
-    /// Добавить роль
+    ///     Добавить роль
     /// </summary>
     /// <returns></returns>
     [HttpPost]
@@ -43,7 +40,7 @@ public class RoleController : BaseApiController
     }
 
     /// <summary>
-    /// Обновить роль
+    ///     Обновить роль
     /// </summary>
     /// <returns></returns>
     [HttpPut]
@@ -55,7 +52,7 @@ public class RoleController : BaseApiController
     }
 
     /// <summary>
-    /// Удалить роль
+    ///     Удалить роль
     /// </summary>
     /// <returns></returns>
     [HttpDelete( "{roleId}" )]

@@ -1,6 +1,5 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
-using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.DTO.Accounts.Users;
 using StadiumEngine.Handlers.Commands.Accounts.Users;
@@ -9,8 +8,8 @@ namespace StadiumEngine.Handlers.Facades.Accounts.Users;
 
 internal class UpdateUserFacade : IUpdateUserFacade
 {
-    private readonly IUserQueryFacade _queryFacade;
     private readonly IUserCommandFacade _commandFacade;
+    private readonly IUserQueryFacade _queryFacade;
 
     public UpdateUserFacade( IUserQueryFacade queryFacade, IUserCommandFacade commandFacade )
     {

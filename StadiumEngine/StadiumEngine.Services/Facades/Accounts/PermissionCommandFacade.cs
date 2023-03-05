@@ -1,8 +1,6 @@
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Repositories;
 using StadiumEngine.Domain.Repositories.Accounts;
-using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Static;
 
@@ -10,8 +8,8 @@ namespace StadiumEngine.Services.Facades.Accounts;
 
 internal class PermissionCommandFacade : IPermissionCommandFacade
 {
-    private readonly IPermissionRepository _permissionRepository;
     private readonly IPermissionGroupRepository _permissionGroupRepository;
+    private readonly IPermissionRepository _permissionRepository;
 
     public PermissionCommandFacade(
         IPermissionRepository permissionRepository,
@@ -77,7 +75,7 @@ internal class PermissionCommandFacade : IPermissionCommandFacade
     {
         foreach (var permission in permissionGroup.Permissions)
         {
-            var copyPermission = new Permission()
+            var copyPermission = new Permission
             {
                 PermissionGroupId = permissionGroupId,
                 DisplayName = permission.DisplayName,

@@ -5,47 +5,47 @@ namespace StadiumEngine.DTO.Offers.Inventories;
 public class InventoryDto : BaseEntityDto
 {
     /// <summary>
-    /// Id
+    ///     Id
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    ///  Название
+    ///     Название
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    ///  Описание
+    ///     Описание
     /// </summary>
     public string Description { get; set; }
 
     /// <summary>
-    /// Изображения
+    ///     Изображения
     /// </summary>
     public List<string> Images { get; set; }
 
     /// <summary>
-    /// Цена
+    ///     Цена
     /// </summary>
     public decimal Price { get; set; }
 
     /// <summary>
-    /// Валюта
+    ///     Валюта
     /// </summary>
     public Currency Currency { get; set; }
 
     /// <summary>
-    /// Количество
+    ///     Количество
     /// </summary>
     public decimal Quantity { get; set; }
 
     /// <summary>
-    /// Список видов спорта
+    ///     Список видов спорта
     /// </summary>
     public List<SportKind> SportKinds { get; set; }
 
     /// <summary>
-    ///  Активность
+    ///     Активность
     /// </summary>
     public bool IsActive { get; set; }
 }

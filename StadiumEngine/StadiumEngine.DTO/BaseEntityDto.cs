@@ -1,27 +1,27 @@
 namespace StadiumEngine.DTO;
 
 /// <summary>
-/// Базовое ДТо для сущностей
+///     Базовое ДТо для сущностей
 /// </summary>
 public class BaseEntityDto
 {
     /// <summary>
-    /// Дата создания
+    ///     Дата создания
     /// </summary>
     public DateTime DateCreated { get; set; }
 
     /// <summary>
-    /// Дата обновления
+    ///     Дата обновления
     /// </summary>
     public DateTime? DateModified { get; set; }
 
     /// <summary>
-    /// Пользователь создал
+    ///     Пользователь создал
     /// </summary>
     public string UserCreated { get; set; }
 
     /// <summary>
-    /// Пользователь обновил
+    ///     Пользователь обновил
     /// </summary>
     public string UserModified { get; set; }
 }

@@ -8,14 +8,14 @@ using StadiumEngine.WebUI.Infrastructure.Attributes;
 namespace StadiumEngine.WebUI.Controllers.Utils;
 
 /// <summary>
-/// Util-запросы для работы с разрешениями
+///     Util-запросы для работы с разрешениями
 /// </summary>
 [Route( "utils/permissions" )]
 [AllowAnonymous]
 public class PermissionUtilController : BaseApiController
 {
     /// <summary>
-    /// Синхронизировать разрешения
+    ///     Синхронизировать разрешения
     /// </summary>
     /// <returns></returns>
     [HttpPost( "sync" )]

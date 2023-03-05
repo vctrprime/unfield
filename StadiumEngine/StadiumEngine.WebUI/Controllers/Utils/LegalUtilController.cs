@@ -8,14 +8,14 @@ using StadiumEngine.WebUI.Infrastructure.Attributes;
 namespace StadiumEngine.WebUI.Controllers.Utils;
 
 /// <summary>
-/// Util-запросы для работы с юр. лицами
+///     Util-запросы для работы с юр. лицами
 /// </summary>
 [Route( "utils/legals" )]
 [AllowAnonymous]
 public class LegalUtilController : BaseApiController
 {
     /// <summary>
-    /// Добавление нового юр.лица (с суперюзером и стадионами)
+    ///     Добавление нового юр.лица (с суперюзером и стадионами)
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>

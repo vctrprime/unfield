@@ -1,4 +1,3 @@
-using System.IO;
 using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -10,12 +9,12 @@ using StadiumEngine.Common.Exceptions;
 namespace StadiumEngine.WebUI.Infrastructure.Middleware;
 
 /// <summary>
-/// Глобальная обработка исключений
+///     Глобальная обработка исключений
 /// </summary>
 public static class ExceptionHandlerMiddleware
 {
     /// <summary>
-    /// Сконфигурировать
+    ///     Сконфигурировать
     /// </summary>
     /// <param name="app"></param>
     /// <param name="logger"></param>
@@ -61,22 +60,22 @@ public static class ExceptionHandlerMiddleware
     }
 
     /// <summary>
-    /// Объект ошибки
+    ///     Объект ошибки
     /// </summary>
     public class ErrorDetails
     {
         /// <summary>
-        /// Код
+        ///     Код
         /// </summary>
         public int StatusCode { get; set; }
 
         /// <summary>
-        /// Сообщение
+        ///     Сообщение
         /// </summary>
         public string Message { get; set; }
 
         /// <summary>
-        /// Строковое представление
+        ///     Строковое представление
         /// </summary>
         /// <returns></returns>
         public override string ToString()

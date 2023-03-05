@@ -9,8 +9,8 @@ namespace StadiumEngine.Services.Facades.Rates;
 
 internal class PriceGroupCommandFacade : IPriceGroupCommandFacade
 {
-    private readonly IPriceGroupRepository _priceGroupRepository;
     private readonly IFieldRepository _fieldRepository;
+    private readonly IPriceGroupRepository _priceGroupRepository;
 
     public PriceGroupCommandFacade( IPriceGroupRepository priceGroupRepository, IFieldRepository fieldRepository )
     {

@@ -2,7 +2,6 @@ using System.Security.Claims;
 using AutoMapper;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Extensions;
-using StadiumEngine.Domain.Services;
 using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts.Users;

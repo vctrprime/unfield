@@ -7,9 +7,9 @@ namespace StadiumEngine.Services.Builders.Utils;
 
 internal class NewLegalBuilder : INewLegalBuilder
 {
-    private readonly IPermissionRepository _permissionRepository;
-    private readonly IPasswordGenerator _passwordGenerator;
     private readonly IHasher _hasher;
+    private readonly IPasswordGenerator _passwordGenerator;
+    private readonly IPermissionRepository _permissionRepository;
 
     public NewLegalBuilder(
         IPermissionRepository permissionRepository,
@@ -26,7 +26,7 @@ internal class NewLegalBuilder : INewLegalBuilder
         var superuserPassword = _passwordGenerator.Generate( 8 );
         superuser.Password = _hasher.Crypt( superuserPassword );
 
-        legal.Roles = new List<Role>()
+        legal.Roles = new List<Role>
         {
             await GetBaseRole( legal.Stadiums )
         };
@@ -61,7 +61,7 @@ internal class NewLegalBuilder : INewLegalBuilder
         };
 
         var rolePermissions = permissions.Where( p => permissionsKeys.Contains( p.PermissionGroup.Key ) ).Select(
-            p => new RolePermission()
+            p => new RolePermission
             {
                 Permission = p
             } );

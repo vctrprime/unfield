@@ -7,8 +7,8 @@ namespace StadiumEngine.Handlers.Facades.Accounts.Legals;
 
 internal class ChangeLegalFacade : IChangeLegalFacade
 {
-    private readonly IUserQueryFacade _queryFacade;
     private readonly IUserCommandFacade _commandFacade;
+    private readonly IUserQueryFacade _queryFacade;
 
     public ChangeLegalFacade( IUserQueryFacade queryFacade, IUserCommandFacade commandFacade )
     {

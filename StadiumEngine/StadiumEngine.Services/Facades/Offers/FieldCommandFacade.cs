@@ -12,7 +12,6 @@ namespace StadiumEngine.Services.Facades.Offers;
 internal class FieldCommandFacade : BaseOfferCommandFacade<Field>, IFieldCommandFacade
 {
     private readonly IFieldRepository _fieldRepository;
-    protected override string ImageFolder => "fields";
 
     public FieldCommandFacade(
         IFieldRepository fieldRepository,
@@ -22,6 +21,8 @@ internal class FieldCommandFacade : BaseOfferCommandFacade<Field>, IFieldCommand
     {
         _fieldRepository = fieldRepository;
     }
+
+    protected override string ImageFolder => "fields";
 
     public async Task AddField( Field field, List<ImageFile> images, int legalId )
     {

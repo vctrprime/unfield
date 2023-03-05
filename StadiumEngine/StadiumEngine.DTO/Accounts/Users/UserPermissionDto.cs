@@ -1,27 +1,27 @@
 namespace StadiumEngine.DTO.Accounts.Users;
 
 /// <summary>
-/// Разрешения для авторизованного пользователя
+///     Разрешения для авторизованного пользователя
 /// </summary>
 public class UserPermissionDto
 {
     /// <summary>
-    /// Id
+    ///     Id
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    ///  Название
+    ///     Название
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    /// Понятное имя
+    ///     Понятное имя
     /// </summary>
     public string DisplayName { get; set; }
 
     /// <summary>
-    /// Ключ группы разрешений
+    ///     Ключ группы разрешений
     /// </summary>
     public string GroupKey { get; set; }
 }

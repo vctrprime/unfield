@@ -4,25 +4,22 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Exceptions;
-using StadiumEngine.DTO.Accounts;
 using StadiumEngine.DTO.Accounts.Users;
-using StadiumEngine.Handlers.Commands.Accounts;
 using StadiumEngine.Handlers.Commands.Accounts.Users;
 using StadiumEngine.Handlers.Commands.Admin;
-using StadiumEngine.Handlers.Queries.Accounts;
 using StadiumEngine.Handlers.Queries.Accounts.Users;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 
 namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 
 /// <summary>
-/// Авторизация
+///     Авторизация
 /// </summary>
 [Route( "api/accounts" )]
 public class AuthorizeController : BaseApiController
 {
     /// <summary>
-    /// Получить авторизованного юзера
+    ///     Получить авторизованного юзера
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -33,7 +30,7 @@ public class AuthorizeController : BaseApiController
     }
 
     /// <summary>
-    /// Авторизовать
+    ///     Авторизовать
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
@@ -47,7 +44,7 @@ public class AuthorizeController : BaseApiController
     }
 
     /// <summary>
-    /// Сменить стадион
+    ///     Сменить стадион
     /// </summary>
     /// <param name="stadiumId"></param>
     /// <returns></returns>
@@ -60,7 +57,7 @@ public class AuthorizeController : BaseApiController
     }
 
     /// <summary>
-    /// Сменить орагнизацию (админ)
+    ///     Сменить орагнизацию (админ)
     /// </summary>
     /// <param name="legalId"></param>
     /// <returns></returns>
@@ -74,7 +71,7 @@ public class AuthorizeController : BaseApiController
     }
 
     /// <summary>
-    /// Выйти из системы
+    ///     Выйти из системы
     /// </summary>
     [HttpDelete( "logout" )]
     [AllowAnonymous]

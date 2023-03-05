@@ -8,14 +8,14 @@ using StadiumEngine.WebUI.Infrastructure.Attributes;
 namespace StadiumEngine.WebUI.Controllers.Utils;
 
 /// <summary>
-/// Util-запросы для работы с пользователями
+///     Util-запросы для работы с пользователями
 /// </summary>
 [Route( "utils/users" )]
 [AllowAnonymous]
 public class UserUtilController : BaseApiController
 {
     /// <summary>
-    /// Добавление нового админа
+    ///     Добавление нового админа
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>

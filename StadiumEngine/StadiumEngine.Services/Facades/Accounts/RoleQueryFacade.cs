@@ -1,5 +1,3 @@
-using StadiumEngine.Common;
-using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services.Facades.Accounts;
@@ -10,9 +8,9 @@ namespace StadiumEngine.Services.Facades.Accounts;
 
 internal class RoleQueryFacade : IRoleQueryFacade
 {
+    private readonly IAccountsAccessChecker _accountsAccessChecker;
     private readonly IRoleRepositoryFacade _roleRepositoryFacade;
     private readonly IStadiumRepository _stadiumRepository;
-    private readonly IAccountsAccessChecker _accountsAccessChecker;
 
     public RoleQueryFacade(
         IRoleRepositoryFacade roleRepositoryFacade,

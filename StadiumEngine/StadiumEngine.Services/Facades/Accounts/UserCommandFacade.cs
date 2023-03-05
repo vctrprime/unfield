@@ -9,9 +9,9 @@ namespace StadiumEngine.Services.Facades.Accounts;
 
 internal class UserCommandFacade : IUserCommandFacade
 {
-    private readonly IUserServiceFacade _userServiceFacade;
-    private readonly IUserRepositoryFacade _userRepositoryFacade;
     private readonly IAccountsAccessChecker _accountsAccessChecker;
+    private readonly IUserRepositoryFacade _userRepositoryFacade;
+    private readonly IUserServiceFacade _userServiceFacade;
 
     public UserCommandFacade(
         IUserServiceFacade userServiceFacade,

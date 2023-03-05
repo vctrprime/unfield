@@ -12,8 +12,6 @@ internal abstract class BaseOfferCommandFacade<T> where T : BaseOfferEntity
     private readonly IImageService _imageService;
     private readonly IOffersSportKindRepository _offersSportKindRepository;
 
-    protected abstract string ImageFolder { get; }
-
     protected BaseOfferCommandFacade(
         IOffersImageRepository imageRepository,
         IImageService imageService,
@@ -23,6 +21,8 @@ internal abstract class BaseOfferCommandFacade<T> where T : BaseOfferEntity
         _imageService = imageService;
         _offersSportKindRepository = offersSportKindRepository;
     }
+
+    protected abstract string ImageFolder { get; }
 
     protected async Task AddOffer( T offer, List<ImageFile> images, int legalId )
     {

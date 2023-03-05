@@ -12,7 +12,6 @@ namespace StadiumEngine.Services.Facades.Offers;
 internal class InventoryCommandFacade : BaseOfferCommandFacade<Inventory>, IInventoryCommandFacade
 {
     private readonly IInventoryRepository _inventoryRepository;
-    protected override string ImageFolder => "inventories";
 
     public InventoryCommandFacade(
         IInventoryRepository inventoryRepository,
@@ -22,6 +21,8 @@ internal class InventoryCommandFacade : BaseOfferCommandFacade<Inventory>, IInve
     {
         _inventoryRepository = inventoryRepository;
     }
+
+    protected override string ImageFolder => "inventories";
 
     public async Task AddInventory( Inventory inventory, List<ImageFile> images, int legalId )
     {

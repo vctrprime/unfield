@@ -5,9 +5,9 @@ namespace StadiumEngine.Services.Facades.Services.Accounts;
 
 internal class RoleRepositoryFacade : IRoleRepositoryFacade
 {
-    private readonly IRoleRepository _roleRepository;
     private readonly IPermissionRepository _permissionRepository;
     private readonly IRolePermissionRepository _rolePermissionRepository;
+    private readonly IRoleRepository _roleRepository;
     private readonly IRoleStadiumRepository _roleStadiumRepository;
 
     public RoleRepositoryFacade(

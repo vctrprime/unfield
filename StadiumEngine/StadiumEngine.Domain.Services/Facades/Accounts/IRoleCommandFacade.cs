@@ -11,7 +11,7 @@ public interface IRoleCommandFacade
         int legalId,
         int userId,
         string name,
-        string description );
+        string? description );
 
     Task DeleteRole( int roleId, int legalId, int userModifiedId );
 

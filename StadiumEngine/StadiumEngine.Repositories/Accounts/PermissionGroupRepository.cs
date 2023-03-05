@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Repositories.Infrastructure.Contexts;

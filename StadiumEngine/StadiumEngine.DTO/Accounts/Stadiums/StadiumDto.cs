@@ -1,52 +1,52 @@
 namespace StadiumEngine.DTO.Accounts.Stadiums;
 
 /// <summary>
-/// ДТО стадиона
+///     ДТО стадиона
 /// </summary>
 public class StadiumDto
 {
     /// <summary>
-    /// Id
+    ///     Id
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Название
+    ///     Название
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    /// Адрес
+    ///     Адрес
     /// </summary>
     public string Address { get; set; }
 
     /// <summary>
-    /// Описание
+    ///     Описание
     /// </summary>
     public string Description { get; set; }
 
     /// <summary>
-    /// Страна
+    ///     Страна
     /// </summary>
     public string Country { get; set; }
 
     /// <summary>
-    /// Регион
+    ///     Регион
     /// </summary>
     public string Region { get; set; }
 
     /// <summary>
-    /// Город
+    ///     Город
     /// </summary>
     public string City { get; set; }
 
     /// <summary>
-    /// Дата добавления
+    ///     Дата добавления
     /// </summary>
     public DateTime DateCreated { get; set; }
 
     /// <summary>
-    /// Связан с ролью, для которой был запрос
+    ///     Связан с ролью, для которой был запрос
     /// </summary>
     public bool IsRoleBound { get; set; }
 }

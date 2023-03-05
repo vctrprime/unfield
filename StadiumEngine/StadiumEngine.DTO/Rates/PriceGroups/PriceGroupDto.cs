@@ -3,27 +3,27 @@ namespace StadiumEngine.DTO.Rates.PriceGroups;
 public class PriceGroupDto : BaseEntityDto
 {
     /// <summary>
-    /// Id
+    ///     Id
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    ///  Название
+    ///     Название
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    ///  Описание
+    ///     Описание
     /// </summary>
     public string Description { get; set; }
 
     /// <summary>
-    ///  Активность
+    ///     Активность
     /// </summary>
     public bool IsActive { get; set; }
 
     /// <summary>
-    /// Площадки
+    ///     Площадки
     /// </summary>
     public List<string> FieldNames { get; set; }
 }

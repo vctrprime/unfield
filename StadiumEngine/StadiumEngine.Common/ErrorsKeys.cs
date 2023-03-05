@@ -2,6 +2,12 @@ namespace StadiumEngine.Common;
 
 public static class ErrorsKeys
 {
+    #region MyRegion
+
+    public const string PriceGroupNotFound = "rates:price_group_not_found";
+
+    #endregion
+
     #region accounts
 
     public const string Forbidden = "accounts:forbidden";
@@ -34,12 +40,6 @@ public static class ErrorsKeys
     public const string FieldNotFound = "offers:field_not_found";
     public const string FieldHasChildrenFields = "offers:field_has_children_fields";
     public const string InventoryNotFound = "offers:inventory_not_found";
-
-    #endregion
-
-    #region MyRegion
-
-    public const string PriceGroupNotFound = "rates:price_group_not_found";
 
     #endregion
 }

@@ -1,32 +1,33 @@
 using System.Linq;
-using System.Threading.Tasks;
 using Mediator;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using StadiumEngine.Handlers.Queries.Accounts;
 using StadiumEngine.Handlers.Queries.Accounts.Users;
 
 namespace StadiumEngine.WebUI.Infrastructure.Attributes;
 
 /// <summary>
-/// Атрибут проверки разрешений на метод
+///     Атрибут проверки разрешений на метод
 /// </summary>
 public class HasPermissionAttribute : ActionFilterAttribute
 {
     private readonly string _needAlternativePermissions;
 
     /// <summary>
-    /// Атрибут проверки разрешений на метод
+    ///     Атрибут проверки разрешений на метод
     /// </summary>
-    /// <param name="needAlternativePermissions">Список разрешений через "," (разрешает выполнение метода, если есть хотя бы одно разрешение из поданного списка)</param>
+    /// <param name="needAlternativePermissions">
+    ///     Список разрешений через "," (разрешает выполнение метода, если есть хотя бы
+    ///     одно разрешение из поданного списка)
+    /// </param>
     public HasPermissionAttribute( string needAlternativePermissions )
     {
         _needAlternativePermissions = needAlternativePermissions.ToLower();
     }
 
     /// <summary>
-    /// Проверить разрешение перед выполнением метода
+    ///     Проверить разрешение перед выполнением метода
     /// </summary>
     /// <param name="context"></param>
     public override void OnActionExecuting( ActionExecutingContext context )

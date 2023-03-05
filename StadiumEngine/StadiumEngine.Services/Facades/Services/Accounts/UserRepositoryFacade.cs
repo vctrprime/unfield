@@ -5,10 +5,10 @@ namespace StadiumEngine.Services.Facades.Services.Accounts;
 
 internal class UserRepositoryFacade : IUserRepositoryFacade
 {
-    private readonly IUserRepository _userRepository;
     private readonly ILegalRepository _legalRepository;
-    private readonly IStadiumRepository _stadiumRepository;
     private readonly IRoleRepositoryFacade _roleRepositoryFacade;
+    private readonly IStadiumRepository _stadiumRepository;
+    private readonly IUserRepository _userRepository;
 
     public UserRepositoryFacade(
         IUserRepository userRepository,

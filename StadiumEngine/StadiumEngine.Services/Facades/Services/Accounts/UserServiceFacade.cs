@@ -5,10 +5,10 @@ namespace StadiumEngine.Services.Facades.Services.Accounts;
 
 internal class UserServiceFacade : IUserServiceFacade
 {
-    private readonly IPasswordGenerator _passwordGenerator;
     private readonly IHasher _hasher;
-    private readonly IPhoneNumberChecker _phoneNumberChecker;
+    private readonly IPasswordGenerator _passwordGenerator;
     private readonly IPasswordValidator _passwordValidator;
+    private readonly IPhoneNumberChecker _phoneNumberChecker;
 
     public UserServiceFacade(
         IPasswordGenerator passwordGenerator,
