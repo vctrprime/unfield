@@ -14,6 +14,8 @@ import {inventoriesAtom} from "../../../state/offers/inventories";
 import {PriceGroupDto} from "../../../models/dto/rates/PriceGroupDto";
 import {priceGroupsAtom} from "../../../state/rates/priceGroups";
 import {IRatesService} from "../../../services/RatesService";
+import {TariffDto} from "../../../models/dto/rates/TariffDto";
+import {tariffsAtom} from "../../../state/rates/tariffs";
 
 export interface HeaderNavigationProps {
     routesWithBackButton: string[]
@@ -25,6 +27,7 @@ export const HeaderNavigation = (props: HeaderNavigationProps) => {
     const [inventories, setInventories] = useRecoilState<InventoryDto[]>(inventoriesAtom);
 
     const [priceGroups, setPriceGroups] = useRecoilState<PriceGroupDto[]>(priceGroupsAtom);
+    const [tariffs, setTariffs] = useRecoilState<TariffDto[]>(tariffsAtom);
 
     const [data, setData] = useState<any[]>([])
 
@@ -46,48 +49,14 @@ export const HeaderNavigation = (props: HeaderNavigationProps) => {
             <span/>
     }
 
-    const fetchLockerRooms = () => {
-        if (lockerRooms.length === 0) {
-            offersService.getLockerRooms().then((result: LockerRoomDto[]) => {
-                setLockerRooms(result);
+    const fetch = (atom: any[], setAtom: any, getAction: any) => {
+        if (atom.length === 0) {
+            getAction().then((result: any[]) => {
+                setAtom(result);
                 setData(result.map(mapToDropDownRow));
             })
         } else {
-            setData(lockerRooms.map(mapToDropDownRow));
-        }
-
-    }
-
-    const fetchFields = () => {
-        if (fields.length === 0) {
-            offersService.getFields().then((result: FieldDto[]) => {
-                setFields(result);
-                setData(result.map(mapToDropDownRow));
-            })
-        } else {
-            setData(fields.map(mapToDropDownRow));
-        }
-    }
-
-    const fetchInventories = () => {
-        if (inventories.length === 0) {
-            offersService.getInventories().then((result: InventoryDto[]) => {
-                setInventories(result);
-                setData(result.map(mapToDropDownRow));
-            })
-        } else {
-            setData(inventories.map(mapToDropDownRow));
-        }
-    }
-
-    const fetchPriceGroups = () => {
-        if (priceGroups.length === 0) {
-            ratesService.getPriceGroups().then((result: PriceGroupDto[]) => {
-                setPriceGroups(result);
-                setData(result.map(mapToDropDownRow));
-            })
-        } else {
-            setData(priceGroups.map(mapToDropDownRow));
+            setData(atom.map(mapToDropDownRow));
         }
     }
 
@@ -99,16 +68,19 @@ export const HeaderNavigation = (props: HeaderNavigationProps) => {
         if (id !== "new") {
             switch (route) {
                 case "locker-rooms":
-                    fetchLockerRooms();
+                    fetch(lockerRooms, setLockerRooms, () => offersService.getLockerRooms());
                     break;
                 case "fields":
-                    fetchFields();
+                    fetch(fields, setFields, () => offersService.getFields());
                     break;
                 case "inventories":
-                    fetchInventories();
+                    fetch(inventories, setInventories, () => offersService.getInventories());
                     break;
                 case "price-groups":
-                    fetchPriceGroups();
+                    fetch(priceGroups, setPriceGroups, () => ratesService.getPriceGroups());
+                    break;
+                case "tariffs":
+                    fetch(tariffs, setTariffs, () => ratesService.getTariffs());
                     break;
             }
         }

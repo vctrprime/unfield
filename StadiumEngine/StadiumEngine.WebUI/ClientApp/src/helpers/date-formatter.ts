@@ -7,5 +7,9 @@ interface GridDateValueParams {
 export function dateFormatter(params: GridDateValueParams) {
     if (params.value === null) return null;
     return moment(params.value).format('DD.MM.YYYY HH:mm');
+}
 
+export function dateFormatterWithoutTime(params: GridDateValueParams) {
+    if (params.value === null) return null;
+    return moment(params.value).format('DD.MM.YYYY');
 }

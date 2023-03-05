@@ -3,7 +3,7 @@ using StadiumEngine.DTO.Rates.Tariffs;
 
 namespace StadiumEngine.Handlers.Commands.Rates.Tariffs;
 
-public class UpdateTariffCommand : IRequest<UpdateTariffDto>
+public sealed class UpdateTariffCommand : IRequest<UpdateTariffDto>
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;

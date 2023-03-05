@@ -118,7 +118,7 @@ export const LockerRooms = () => {
         offersService.getLockerRooms().then((result: LockerRoomDto[]) => {
             setTimeout(() => {
                 setData(result);
-                setLockerRooms(result);
+                setLockerRooms(JSON.parse(JSON.stringify(result)));
                 setIsLoading(false);
             }, 500);
         })

@@ -29,6 +29,10 @@ export class PermissionsKeys {
     public static readonly InsertPriceGroup = "insert-price-group";
     public static readonly UpdatePriceGroup = "update-price-group";
     public static readonly DeletePriceGroup = "delete-price-group";
+    public static readonly GetTariffs = "get-tariffs";
+    public static readonly InsertTariff = "insert-tariff";
+    public static readonly UpdateTariff = "update-tariff";
+    public static readonly DeleteTariff = "delete-tariff";
 
     public static readonly GetEmployees = "get-employees";
 

@@ -179,7 +179,7 @@ public static class PermissionSet
                     DisplayName = "Удаление тарифа",
                     Description = "Возможность удалить тариф",
                     Sort = 8
-                },
+                }
             }
         },
         new PermissionGroup

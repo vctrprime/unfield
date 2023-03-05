@@ -22,5 +22,9 @@ internal sealed class UpdateTariffHandler : BaseCommandHandler<UpdateTariffComma
 
     protected override async ValueTask<UpdateTariffDto> HandleCommand( UpdateTariffCommand request,
         CancellationToken cancellationToken ) =>
-        await _facade.Update( request, _currentStadiumId, _userId, UnitOfWork );
+        await _facade.Update(
+            request,
+            _currentStadiumId,
+            _userId,
+            UnitOfWork );
 }

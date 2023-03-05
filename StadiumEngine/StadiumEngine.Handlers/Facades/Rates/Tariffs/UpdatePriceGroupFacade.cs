@@ -20,8 +20,8 @@ internal class UpdateTariffFacade : IUpdateTariffFacade
     }
 
     public async Task<UpdateTariffDto> Update(
-        UpdateTariffCommand request, 
-        int stadiumId, 
+        UpdateTariffCommand request,
+        int stadiumId,
         int userId,
         IUnitOfWork unitOfWork )
     {

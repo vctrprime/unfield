@@ -106,7 +106,7 @@ export const PriceGroups = () => {
         ratesService.getPriceGroups().then((result: PriceGroupDto[]) => {
             setTimeout(() => {
                 setData(result);
-                setPriceGroups(result);
+                setPriceGroups(JSON.parse(JSON.stringify(result)));
                 setIsLoading(false);
             }, 500);
         })

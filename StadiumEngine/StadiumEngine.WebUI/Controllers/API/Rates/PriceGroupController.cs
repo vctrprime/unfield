@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Rates.PriceGroups;
 using StadiumEngine.Handlers.Commands.Rates.PriceGroups;
-using StadiumEngine.Handlers.Queries.Rates;
 using StadiumEngine.Handlers.Queries.Rates.PriceGroups;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 

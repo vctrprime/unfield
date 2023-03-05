@@ -11,11 +11,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.2"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\StadiumEngine.Common\StadiumEngine.Common.csproj" />
+        <ProjectReference Include="..\StadiumEngine.Common\StadiumEngine.Common.csproj"/>
     </ItemGroup>
 
 </Project>

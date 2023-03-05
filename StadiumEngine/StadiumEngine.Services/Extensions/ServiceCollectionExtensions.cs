@@ -54,6 +54,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPriceGroupCommandFacade, PriceGroupCommandFacade>();
         services.AddScoped<ITariffQueryFacade, TariffQueryFacade>();
         services.AddScoped<ITariffCommandFacade, TariffCommandFacade>();
+
         #endregion
 
         #region builders

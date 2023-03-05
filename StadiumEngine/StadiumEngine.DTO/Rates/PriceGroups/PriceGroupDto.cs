@@ -1,7 +1,7 @@
 namespace StadiumEngine.DTO.Rates.PriceGroups;
 
 /// <summary>
-/// ДТО ценовой группы
+///     ДТО ценовой группы
 /// </summary>
 public class PriceGroupDto : BaseEntityDto
 {

@@ -48,6 +48,8 @@ import {Inventories} from "./components/lk/offers/Inventories";
 import {Rates} from "./components/lk/rates/Rates";
 import {PriceGroups} from "./components/lk/rates/PriceGroups";
 import {PriceGroup} from "./components/lk/rates/PriceGroup";
+import {Tariffs} from "./components/lk/rates/Tariffs";
+import {Tariff} from "./components/lk/rates/Tariff";
 
 const ReactNotifications = require('react-notifications');
 const {NotificationContainer} = ReactNotifications;
@@ -128,8 +130,10 @@ const App = () => {
 
                         <Route path="rates" element={<Rates/>}>
                             <Route path="price-groups" element={<PriceGroups/>}/>
+                            <Route path="tariffs" element={<Tariffs/>}/>
                         </Route>
                         <Route path="rates/price-groups/:id" element={<PriceGroup/>}/>
+                        <Route path="rates/tariffs/:id" element={<Tariff/>}/>
 
                         <Route path="schedule" element={<Schedule/>}/>
                         <Route path="employees" element={<Employees/>}/>

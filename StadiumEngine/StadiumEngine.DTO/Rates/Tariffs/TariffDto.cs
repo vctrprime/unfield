@@ -1,7 +1,7 @@
 namespace StadiumEngine.DTO.Rates.Tariffs;
 
 /// <summary>
-/// ДТО тарифа
+///     ДТО тарифа
 /// </summary>
 public class TariffDto : BaseEntityDto
 {
@@ -26,53 +26,52 @@ public class TariffDto : BaseEntityDto
     public bool IsActive { get; set; }
 
     /// <summary>
-    ///  Дата начала тарифа
+    ///     Дата начала тарифа
     /// </summary>
     public DateTime DateStart { get; set; }
-    
+
     /// <summary>
-    ///  Дата окончания тарифа
+    ///     Дата окончания тарифа
     /// </summary>
     public DateTime? DateEnd { get; set; }
-    
+
     /// <summary>
-    /// Действует в понедельник
+    ///     Действует в понедельник
     /// </summary>
     public bool Monday { get; set; }
-    
+
     /// <summary>
-    /// Действует во вторник
+    ///     Действует во вторник
     /// </summary>
     public bool Tuesday { get; set; }
-    
+
     /// <summary>
-    /// Действует в среду
+    ///     Действует в среду
     /// </summary>
     public bool Wednesday { get; set; }
-    
+
     /// <summary>
-    /// Действует в четверг
+    ///     Действует в четверг
     /// </summary>
     public bool Thursday { get; set; }
-    
+
     /// <summary>
-    /// Действует в пятницу
+    ///     Действует в пятницу
     /// </summary>
     public bool Friday { get; set; }
-    
+
     /// <summary>
-    /// Действует в субботу
+    ///     Действует в субботу
     /// </summary>
     public bool Saturday { get; set; }
-    
+
     /// <summary>
-    /// Действует в воскресенье
+    ///     Действует в воскресенье
     /// </summary>
     public bool Sunday { get; set; }
 
     /// <summary>
-    /// Временные интвервалы
+    ///     Временные интвервалы
     /// </summary>
     public List<string[]> DayIntervals { get; set; } = new();
 }
-

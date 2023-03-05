@@ -5,7 +5,6 @@ using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Services.Facades.Rates;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Rates.PriceGroups;
-using StadiumEngine.Handlers.Queries.Rates;
 using StadiumEngine.Handlers.Queries.Rates.PriceGroups;
 
 namespace StadiumEngine.Handlers.Handlers.Rates.PriceGroups;

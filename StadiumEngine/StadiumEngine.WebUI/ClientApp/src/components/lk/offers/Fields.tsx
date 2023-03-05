@@ -140,7 +140,7 @@ export const Fields = () => {
         offersService.getFields().then((result: FieldDto[]) => {
             setTimeout(() => {
                 setData(result);
-                setFields(result);
+                setFields(JSON.parse(JSON.stringify(result)));
                 setIsLoading(false);
             }, 500);
         })

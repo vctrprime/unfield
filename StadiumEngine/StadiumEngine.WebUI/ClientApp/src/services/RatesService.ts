@@ -3,6 +3,9 @@ import {BaseService} from "./BaseService";
 import {UpdatePriceGroupCommand} from "../models/command/rates/UpdatePriceGroupCommand";
 import {AddPriceGroupCommand} from "../models/command/rates/AddPriceGroupCommand";
 import {t} from "i18next";
+import {TariffDto} from "../models/dto/rates/TariffDto";
+import {UpdateTariffCommand} from "../models/command/rates/UpdateTariffCommand";
+import {AddTariffCommand} from "../models/command/rates/AddTariffCommand";
 
 export interface IRatesService {
     getPriceGroups(): Promise<PriceGroupDto[]>;
@@ -14,6 +17,16 @@ export interface IRatesService {
     addPriceGroup(command: AddPriceGroupCommand): Promise<void>;
 
     deletePriceGroup(priceGroupId: number): Promise<void>;
+
+    getTariffs(): Promise<TariffDto[]>;
+
+    getTariff(id: number): Promise<TariffDto>;
+
+    updateTariff(command: UpdateTariffCommand): Promise<void>;
+
+    addTariff(command: AddTariffCommand): Promise<void>;
+
+    deleteTariff(tariffId: number): Promise<void>;
 }
 
 export class RatesService extends BaseService implements IRatesService {
@@ -54,6 +67,43 @@ export class RatesService extends BaseService implements IRatesService {
     deletePriceGroup(priceGroupId: number): Promise<void> {
         return this.fetchWrapper.delete({
             url: `${this.baseUrl}/price-groups/${priceGroupId}`,
+            successMessage: t('common:success_request'),
+        })
+    }
+
+    getTariffs(): Promise<TariffDto[]> {
+        return this.fetchWrapper.get({
+            url: `${this.baseUrl}/tariffs`,
+            withSpinner: false,
+            hideSpinner: false
+        })
+    }
+
+    getTariff(id: number): Promise<TariffDto> {
+        return this.fetchWrapper.get({
+            url: `${this.baseUrl}/tariffs/${id}`,
+        })
+    }
+
+    updateTariff(command: UpdateTariffCommand): Promise<void> {
+        return this.fetchWrapper.put({
+            url: `${this.baseUrl}/tariffs`,
+            body: command,
+            successMessage: t('common:success_request')
+        })
+    }
+
+    addTariff(command: AddTariffCommand): Promise<void> {
+        return this.fetchWrapper.post({
+            url: `${this.baseUrl}/tariffs`,
+            body: command,
+            successMessage: t('common:success_request')
+        })
+    }
+
+    deleteTariff(tariffId: number): Promise<void> {
+        return this.fetchWrapper.delete({
+            url: `${this.baseUrl}/tariffs/${tariffId}`,
             successMessage: t('common:success_request'),
         })
     }

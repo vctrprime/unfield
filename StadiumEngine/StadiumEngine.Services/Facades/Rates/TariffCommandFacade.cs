@@ -9,9 +9,9 @@ namespace StadiumEngine.Services.Facades.Rates;
 
 internal class TariffCommandFacade : ITariffCommandFacade
 {
-    private readonly ITariffRepository _tariffRepository;
     private readonly IDayIntervalRepository _dayIntervalRepository;
     private readonly ITariffDayIntervalRepository _tariffDayIntervalRepository;
+    private readonly ITariffRepository _tariffRepository;
 
     public TariffCommandFacade( ITariffRepository tariffRepository, IDayIntervalRepository dayIntervalRepository,
         ITariffDayIntervalRepository tariffDayIntervalRepository )
@@ -25,7 +25,7 @@ internal class TariffCommandFacade : ITariffCommandFacade
     {
         _tariffRepository.Add( tariff );
         await unitOfWork.SaveChanges();
-        
+
         await AddIntervals( tariff, intervals, unitOfWork );
     }
 
@@ -62,7 +62,7 @@ internal class TariffCommandFacade : ITariffCommandFacade
         _tariffDayIntervalRepository.Remove( tariff.TariffDayIntervals );
         _tariffRepository.Remove( tariff );
     }
-    
+
     private async Task AddIntervals( Tariff tariff, List<string[]> intervals, IUnitOfWork unitOfWork )
     {
         foreach ( string[] interval in intervals )

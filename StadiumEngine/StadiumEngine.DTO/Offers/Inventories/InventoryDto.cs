@@ -3,7 +3,7 @@ using StadiumEngine.Common.Enums.Offers;
 namespace StadiumEngine.DTO.Offers.Inventories;
 
 /// <summary>
-/// ДТО инвентаря
+///     ДТО инвентаря
 /// </summary>
 public class InventoryDto : BaseEntityDto
 {

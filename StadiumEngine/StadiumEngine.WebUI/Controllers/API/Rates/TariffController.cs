@@ -38,7 +38,7 @@ public class TariffController : BaseApiController
         TariffDto tariff = await Mediator.Send( new GetTariffQuery( tariffId ) );
         return tariff;
     }
-    
+
     /// <summary>
     ///     Добавить тариф
     /// </summary>

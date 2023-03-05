@@ -36,7 +36,7 @@ public static class ErrorsKeys
     public const string InventoryNotFound = "offers:inventory_not_found";
 
     #endregion
-    
+
     #region rates
 
     public const string PriceGroupNotFound = "rates:price_group_not_found";

@@ -11,7 +11,8 @@ internal class DayIntervalRepository : BaseRepository<DayInterval>, IDayInterval
     {
     }
 
-    public Task<DayInterval?> Get( string start, string end ) => Entities.FirstOrDefaultAsync( di => di.Start == start && di.End == end );
+    public Task<DayInterval?> Get( string start, string end ) =>
+        Entities.FirstOrDefaultAsync( di => di.Start == start && di.End == end );
 
     public new void Add( DayInterval dayInterval ) => base.Add( dayInterval );
 }

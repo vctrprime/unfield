@@ -121,7 +121,7 @@ export const Inventories = () => {
         offersService.getInventories().then((result: InventoryDto[]) => {
             setTimeout(() => {
                 setData(result);
-                setInventories(result);
+                setInventories(JSON.parse(JSON.stringify(result)));
                 setIsLoading(false);
             }, 500);
         })
