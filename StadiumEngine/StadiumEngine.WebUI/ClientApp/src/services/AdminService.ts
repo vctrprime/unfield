@@ -3,8 +3,9 @@ import {BaseService} from "./BaseService";
 import {AuthorizeUserDto} from "../models/dto/accounts/AuthorizeUserDto";
 
 export interface IAdminService {
-    getLegals(q: string|null) : Promise<LegalDto[]>;
-    changeLegal(legalId: number) : Promise<AuthorizeUserDto>;
+    getLegals(q: string | null): Promise<LegalDto[]>;
+
+    changeLegal(legalId: number): Promise<AuthorizeUserDto>;
 }
 
 export class AdminService extends BaseService implements IAdminService {
@@ -13,10 +14,10 @@ export class AdminService extends BaseService implements IAdminService {
     }
 
     getLegals(q: string | null): Promise<LegalDto[]> {
-        const endpoint = (q === null ? 
+        const endpoint = (q === null ?
             "/legals" :
             `/legals?q=${q}`);
-        
+
         return this.fetchWrapper.get({
             url: `${this.baseUrl}${endpoint}`,
             withSpinner: false,

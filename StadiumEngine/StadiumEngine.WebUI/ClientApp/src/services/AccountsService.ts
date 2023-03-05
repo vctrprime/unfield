@@ -19,32 +19,51 @@ import {ResetUserPasswordCommand} from "../models/command/accounts/ResetUserPass
 
 export interface IAccountsService {
     authorize(command: AuthorizeUserCommand): Promise<AuthorizeUserDto>;
+
     logout(): Promise<void>;
+
     getCurrentUserPermissions(): Promise<UserPermissionDto[]>;
+
     getCurrentUserStadiums(): Promise<UserStadiumDto[]>;
+
     changeCurrentStadium(stadiumId: number): Promise<AuthorizeUserDto>;
+
     getUsers(): Promise<UserDto[]>;
+
     addUser(command: AddUserCommand): Promise<void>;
+
     updateUser(command: UpdateUserCommand): Promise<void>;
+
     deleteUser(userId: number): Promise<void>;
+
     getRoles(): Promise<RoleDto[]>;
+
     addRole(command: AddRoleCommand): Promise<void>;
+
     updateRole(command: UpdateRoleCommand): Promise<void>;
+
     deleteRole(roleId: number): Promise<void>;
+
     getStadiums(roleId: number): Promise<StadiumDto[]>;
+
     getPermissions(roleId: number): Promise<PermissionDto[]>;
+
     toggleRolePermission(command: ToggleRolePermissionCommand): Promise<void>;
+
     toggleRoleStadium(command: ToggleRoleStadiumCommand): Promise<void>;
+
     changeLanguage(language: string): Promise<void>;
+
     changePassword(command: ChangeUserPasswordCommand): Promise<void>;
+
     resetPassword(command: ResetUserPasswordCommand): Promise<void>;
 }
 
-export class AccountsService extends BaseService implements IAccountsService  {
+export class AccountsService extends BaseService implements IAccountsService {
     constructor() {
         super("api/accounts");
     }
-    
+
     authorize(command: AuthorizeUserCommand): Promise<AuthorizeUserDto> {
         return this.fetchWrapper.post({
             url: `${this.baseUrl}/login`,
@@ -61,8 +80,8 @@ export class AccountsService extends BaseService implements IAccountsService  {
 
     getCurrentUserPermissions(): Promise<UserPermissionDto[]> {
         return this.fetchWrapper.get({
-            url: `${this.baseUrl}/user-permissions`, 
-            withSpinner: true, 
+            url: `${this.baseUrl}/user-permissions`,
+            withSpinner: true,
             hideSpinner: true
         });
     }
@@ -95,15 +114,15 @@ export class AccountsService extends BaseService implements IAccountsService  {
             url: `${this.baseUrl}/stadiums/${roleId}`
         })
     }
-    
+
     getPermissions(roleId: number): Promise<PermissionDto[]> {
         return this.fetchWrapper.get({
-            url: `${this.baseUrl}/permissions/${roleId}`, 
-            withSpinner: false, 
+            url: `${this.baseUrl}/permissions/${roleId}`,
+            withSpinner: false,
             hideSpinner: false
         })
     }
-    
+
     toggleRolePermission(command: ToggleRolePermissionCommand): Promise<void> {
         return this.fetchWrapper.post({
             url: `${this.baseUrl}/role-permission`,
@@ -114,8 +133,8 @@ export class AccountsService extends BaseService implements IAccountsService  {
 
     getUsers(): Promise<UserDto[]> {
         return this.fetchWrapper.get({
-            url: `${this.baseUrl}/users`, 
-            withSpinner: false, 
+            url: `${this.baseUrl}/users`,
+            withSpinner: false,
             hideSpinner: false
         })
     }
@@ -172,6 +191,7 @@ export class AccountsService extends BaseService implements IAccountsService  {
             showErrorAlert: false
         })
     }
+
     updateUser(command: UpdateUserCommand): Promise<void> {
         return this.fetchWrapper.put({
             url: `${this.baseUrl}/users`,
@@ -181,6 +201,7 @@ export class AccountsService extends BaseService implements IAccountsService  {
             showErrorAlert: false
         })
     }
+
     deleteUser(userId: number): Promise<void> {
         return this.fetchWrapper.delete({
             url: `${this.baseUrl}/users/${userId}`,

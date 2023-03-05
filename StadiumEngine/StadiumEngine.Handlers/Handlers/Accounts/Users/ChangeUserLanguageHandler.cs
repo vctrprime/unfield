@@ -14,18 +14,18 @@ internal class ChangeUserLanguageHandler : BaseCommandHandler<ChangeUserLanguage
 
     public ChangeUserLanguageHandler(
         IUserCommandFacade userFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _userFacade = userFacade;
     }
 
 
-    protected override async ValueTask<ChangeUserLanguageDto> HandleCommand(ChangeUserLanguageCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<ChangeUserLanguageDto> HandleCommand( ChangeUserLanguageCommand request,
+        CancellationToken cancellationToken )
     {
-        await _userFacade.ChangeLanguage(_userId, request.Language);
+        await _userFacade.ChangeLanguage( _userId, request.Language );
         return new ChangeUserLanguageDto();
     }
-    
 }

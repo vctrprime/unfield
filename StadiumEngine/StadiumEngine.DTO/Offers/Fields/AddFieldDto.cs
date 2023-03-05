@@ -5,5 +5,4 @@ namespace StadiumEngine.DTO.Offers.Fields;
 /// </summary>
 public class AddFieldDto : BaseEmptySuccessDto
 {
-    
 }

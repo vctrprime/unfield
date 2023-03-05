@@ -15,21 +15,22 @@ internal sealed class AddLockerRoomHandler : BaseCommandHandler<AddLockerRoomCom
 
     public AddLockerRoomHandler(
         ILockerRoomCommandFacade lockerRoomFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _lockerRoomFacade = lockerRoomFacade;
     }
-    
-    protected override async ValueTask<AddLockerRoomDto> HandleCommand(AddLockerRoomCommand request, CancellationToken cancellationToken)
+
+    protected override async ValueTask<AddLockerRoomDto> HandleCommand( AddLockerRoomCommand request,
+        CancellationToken cancellationToken )
     {
-        var lockerRoom = Mapper.Map<LockerRoom>(request);
+        var lockerRoom = Mapper.Map<LockerRoom>( request );
         lockerRoom.StadiumId = _currentStadiumId;
         lockerRoom.UserCreatedId = _userId;
-        
-        _lockerRoomFacade.AddLockerRoom(lockerRoom);
-        
+
+        _lockerRoomFacade.AddLockerRoom( lockerRoom );
+
         return new AddLockerRoomDto();
     }
 }

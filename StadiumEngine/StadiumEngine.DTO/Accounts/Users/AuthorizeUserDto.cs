@@ -8,7 +8,5 @@ namespace StadiumEngine.DTO.Accounts.Users;
 /// </summary>
 public class AuthorizeUserDto : AuthorizedUserDto
 {
-    [JsonIgnore]
-    public List<Claim> Claims { get; set; }
+    [JsonIgnore] public List<Claim> Claims { get; set; }
 }
-

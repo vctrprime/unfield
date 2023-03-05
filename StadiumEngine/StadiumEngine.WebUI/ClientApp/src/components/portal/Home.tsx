@@ -6,7 +6,7 @@ import {t} from "i18next";
 
 export const Home = () => {
     document.title = t("portal:title")
-    
+
     return (
         <div>
             <NavMenu/>

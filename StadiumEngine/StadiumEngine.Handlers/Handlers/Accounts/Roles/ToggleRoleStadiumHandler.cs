@@ -14,18 +14,23 @@ internal sealed class ToggleRoleStadiumHandler : BaseCommandHandler<ToggleRoleSt
 
     public ToggleRoleStadiumHandler(
         IRoleCommandFacade roleFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
         IUnitOfWork unitOfWork
-        ) : base(mapper, claimsIdentityService, unitOfWork)
+    ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _roleFacade = roleFacade;
     }
-    
-    
-    protected override async ValueTask<ToggleRoleStadiumDto> HandleCommand(ToggleRoleStadiumCommand request, CancellationToken cancellationToken)
+
+
+    protected override async ValueTask<ToggleRoleStadiumDto> HandleCommand( ToggleRoleStadiumCommand request,
+        CancellationToken cancellationToken )
     {
-        await _roleFacade.ToggleRoleStadium(request.RoleId, request.StadiumId, _legalId, _userId);
+        await _roleFacade.ToggleRoleStadium(
+            request.RoleId,
+            request.StadiumId,
+            _legalId,
+            _userId );
         return new ToggleRoleStadiumDto();
     }
 }

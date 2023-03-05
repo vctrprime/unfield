@@ -14,19 +14,20 @@ internal sealed class GetPriceGroupHandler : BaseRequestHandler<GetPriceGroupQue
 
     public GetPriceGroupHandler(
         IPriceGroupQueryFacade priceGroupFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
         _priceGroupFacade = priceGroupFacade;
     }
-    
-    public override async ValueTask<PriceGroupDto> Handle(GetPriceGroupQuery request, CancellationToken cancellationToken)
+
+    public override async ValueTask<PriceGroupDto> Handle( GetPriceGroupQuery request,
+        CancellationToken cancellationToken )
     {
-        var priceGroup = await _priceGroupFacade.GetByPriceGroupId(request.PriceGroupId, _currentStadiumId);
+        var priceGroup = await _priceGroupFacade.GetByPriceGroupId( request.PriceGroupId, _currentStadiumId );
 
-        if (priceGroup == null) throw new DomainException(ErrorsKeys.PriceGroupNotFound);
+        if (priceGroup == null) throw new DomainException( ErrorsKeys.PriceGroupNotFound );
 
-        var priceGroupDto = Mapper.Map<PriceGroupDto>(priceGroup);
+        var priceGroupDto = Mapper.Map<PriceGroupDto>( priceGroup );
 
         return priceGroupDto;
     }

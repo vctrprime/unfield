@@ -11,25 +11,25 @@ internal class UpdatePriceGroupFacade : IUpdatePriceGroupFacade
     private readonly IPriceGroupQueryFacade _queryFacade;
     private readonly IPriceGroupCommandFacade _commandFacade;
 
-    public UpdatePriceGroupFacade(IPriceGroupQueryFacade queryFacade, IPriceGroupCommandFacade commandFacade)
+    public UpdatePriceGroupFacade( IPriceGroupQueryFacade queryFacade, IPriceGroupCommandFacade commandFacade )
     {
         _queryFacade = queryFacade;
         _commandFacade = commandFacade;
     }
 
-    public async Task<UpdatePriceGroupDto> Update(UpdatePriceGroupCommand request, int stadiumId, int userId)
+    public async Task<UpdatePriceGroupDto> Update( UpdatePriceGroupCommand request, int stadiumId, int userId )
     {
-        var priceGroup = await _queryFacade.GetByPriceGroupId(request.Id, stadiumId);
+        var priceGroup = await _queryFacade.GetByPriceGroupId( request.Id, stadiumId );
 
-        if (priceGroup == null) throw new DomainException(ErrorsKeys.PriceGroupNotFound);
-        
+        if (priceGroup == null) throw new DomainException( ErrorsKeys.PriceGroupNotFound );
+
         priceGroup.Name = request.Name;
         priceGroup.Description = request.Description;
         priceGroup.IsActive = request.IsActive;
         priceGroup.UserModifiedId = userId;
-        
-        _commandFacade.UpdatePriceGroup(priceGroup);
-        
+
+        _commandFacade.UpdatePriceGroup( priceGroup );
+
         return new UpdatePriceGroupDto();
     }
 }

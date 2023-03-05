@@ -14,16 +14,17 @@ internal sealed class DeleteLockerRoomHandler : BaseCommandHandler<DeleteLockerR
 
     public DeleteLockerRoomHandler(
         ILockerRoomCommandFacade lockerRoomFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _lockerRoomFacade = lockerRoomFacade;
     }
 
-    protected override async ValueTask<DeleteLockerRoomDto> HandleCommand(DeleteLockerRoomCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<DeleteLockerRoomDto> HandleCommand( DeleteLockerRoomCommand request,
+        CancellationToken cancellationToken )
     {
-        await _lockerRoomFacade.DeleteLockerRoom(request.LockerRoomId, _currentStadiumId);
+        await _lockerRoomFacade.DeleteLockerRoom( request.LockerRoomId, _currentStadiumId );
         return new DeleteLockerRoomDto();
     }
 }

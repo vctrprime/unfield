@@ -11,18 +11,20 @@ namespace StadiumEngine.Handlers.Handlers.Offers.Fields;
 internal sealed class DeleteFieldHandler : BaseCommandHandler<DeleteFieldCommand, DeleteFieldDto>
 {
     private readonly IFieldCommandFacade _fieldFacade;
+
     public DeleteFieldHandler(
         IFieldCommandFacade fieldFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _fieldFacade = fieldFacade;
     }
 
-    protected override async ValueTask<DeleteFieldDto> HandleCommand(DeleteFieldCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<DeleteFieldDto> HandleCommand( DeleteFieldCommand request,
+        CancellationToken cancellationToken )
     {
-        await _fieldFacade.DeleteField(request.FieldId, _currentStadiumId);
+        await _fieldFacade.DeleteField( request.FieldId, _currentStadiumId );
         return new DeleteFieldDto();
     }
 }

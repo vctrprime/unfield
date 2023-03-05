@@ -14,7 +14,7 @@ public static class PermissionsKeys
     public const string GetStadiums = "get-stadiums";
     public const string ToggleRolePermission = "toggle-role-permission";
     public const string ToggleRoleStadium = "toggle-role-stadium";
-    
+
     public const string GetFields = "get-fields";
     public const string GetInventories = "get-inventories";
     public const string GetLockerRooms = "get-locker-rooms";
@@ -27,16 +27,16 @@ public static class PermissionsKeys
     public const string DeleteField = "delete-field";
     public const string DeleteInventory = "delete-inventory";
     public const string DeleteLockerRoom = "delete-locker-room";
-    
+
     public const string GetPriceGroups = "get-price-groups";
     public const string InsertPriceGroup = "insert-price-group";
     public const string UpdatePriceGroup = "update-price-group";
     public const string DeletePriceGroup = "delete-price-group";
-    
-    public const string GetEmployees = "get-employees"; 
-    
-    public const string GetReports = "get-reports"; 
-    
+
+    public const string GetEmployees = "get-employees";
+
+    public const string GetReports = "get-reports";
+
     public const string GetBookings = "get-bookings";
 
     public const string UpdateMainSettings = "update-main-settings";

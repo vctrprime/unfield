@@ -5,10 +5,10 @@ namespace StadiumEngine.Handlers.Queries.Rates;
 
 public sealed class GetPriceGroupQuery : IRequest<PriceGroupDto>
 {
-    public GetPriceGroupQuery(int priceGroupId)
+    public GetPriceGroupQuery( int priceGroupId )
     {
         PriceGroupId = priceGroupId;
     }
-    
+
     public int PriceGroupId { get; }
 }

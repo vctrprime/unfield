@@ -7,29 +7,30 @@ namespace StadiumEngine.Repositories.Accounts;
 
 internal class LegalRepository : BaseRepository<Legal>, ILegalRepository
 {
-    public LegalRepository(MainDbContext context) : base(context)
+    public LegalRepository( MainDbContext context ) : base( context )
     {
     }
 
-    public async Task<List<Legal>> GetByFilter(string searchString)
+    public async Task<List<Legal>> GetByFilter( string searchString )
     {
-        string searchStringLower = searchString.ToLower();
-        
+        var searchStringLower = searchString.ToLower();
+
         return await Entities
-            .Where(l => l.Name.ToLower().Contains(searchStringLower) ||
-                        l.Inn.ToLower().Contains(searchStringLower) ||
-                        l.Description.ToLower().Contains(searchStringLower) ||
-                        l.HeadName.ToLower().Contains(searchStringLower))
-            .Take(50)
-            .OrderBy(l => l.Name)
-            .Include(l => l.City).ThenInclude(c => c.Region).ThenInclude(r => r.Country)
-            .Include(l => l.Users.Where(u => !u.IsDeleted && !u.IsAdmin))
-            .Include(l => l.Stadiums.Where(s => !s.IsDeleted))
+            .Where(
+                l => l.Name.ToLower().Contains( searchStringLower ) ||
+                     l.Inn.ToLower().Contains( searchStringLower ) ||
+                     l.Description.ToLower().Contains( searchStringLower ) ||
+                     l.HeadName.ToLower().Contains( searchStringLower ) )
+            .Take( 50 )
+            .OrderBy( l => l.Name )
+            .Include( l => l.City ).ThenInclude( c => c.Region ).ThenInclude( r => r.Country )
+            .Include( l => l.Users.Where( u => !u.IsDeleted && !u.IsAdmin ) )
+            .Include( l => l.Stadiums.Where( s => !s.IsDeleted ) )
             .ToListAsync();
     }
 
-    public new void Add(Legal legal)
+    public new void Add( Legal legal )
     {
-        base.Add(legal);
+        base.Add( legal );
     }
 }

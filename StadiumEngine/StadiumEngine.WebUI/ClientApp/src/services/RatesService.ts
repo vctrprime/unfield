@@ -6,9 +6,13 @@ import {t} from "i18next";
 
 export interface IRatesService {
     getPriceGroups(): Promise<PriceGroupDto[]>;
-    getPriceGroup(id:number): Promise<PriceGroupDto>;
+
+    getPriceGroup(id: number): Promise<PriceGroupDto>;
+
     updatePriceGroup(command: UpdatePriceGroupCommand): Promise<void>;
+
     addPriceGroup(command: AddPriceGroupCommand): Promise<void>;
+
     deletePriceGroup(priceGroupId: number): Promise<void>;
 }
 

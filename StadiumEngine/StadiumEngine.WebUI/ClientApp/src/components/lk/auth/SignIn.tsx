@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import { useSetRecoilState } from 'recoil';
-import { authAtom } from '../../../state/auth';
+import {useSetRecoilState} from 'recoil';
+import {authAtom} from '../../../state/auth';
 import {Link, NavLink, useNavigate} from "react-router-dom";
 import {NavbarBrand} from "reactstrap";
 import logo from "../../../img/logo/logo_icon_with_title.png";
 import {AuthorizeUserCommand} from "../../../models/command/accounts/AuthorizeUserCommand";
 import {AuthorizeUserDto} from "../../../models/dto/accounts/AuthorizeUserDto";
-import { useInject } from 'inversify-hooks';
+import {useInject} from 'inversify-hooks';
 import {IAccountsService} from "../../../services/AccountsService";
 import {t} from "i18next";
 import i18n from "../../../i18n/i18n";
@@ -25,57 +25,57 @@ import {ContainerLoading} from "../../common/ContainerLoading";
 
 export const SignIn = () => {
     document.title = getTitle("accounts:sign_in:button")
-    
+
     const setAuth = useSetRecoilState(authAtom);
     const setLoading = useSetRecoilState(loadingAtom);
-    
+
     const [accountsService] = useInject<IAccountsService>('AccountsService');
-    
+
     const [login, setLogin] = useState<string | undefined>();
-    
+
     const navigate = useNavigate();
-    
+
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
-        const { password } = document.forms[0];
+        const {password} = document.forms[0];
         if (login !== undefined) {
-            const command : AuthorizeUserCommand = { login, password: password.value };
+            const command: AuthorizeUserCommand = {login, password: password.value};
 
             accountsService.authorize(command)
                 .then((user: AuthorizeUserDto) => {
                     localStorage.setItem('user', JSON.stringify(user));
                     setAuth(user);
-                    
+
                     const localStorageLanguage = localStorage.getItem('language') || 'ru';
-                    
+
                     if (localStorageLanguage !== user.language) {
-                        accountsService.changeLanguage(localStorageLanguage).then(() => {});
+                        accountsService.changeLanguage(localStorageLanguage).then(() => {
+                        });
                     }
-                    
+
                     if (user.isAdmin) {
                         setLoading(false);
                         navigate("/admin");
-                    }
-                    else {
+                    } else {
                         navigate("/lk");
                     }
-                    
+
                 });
         }
     };
-    
+
     const [resetPasswordPhoneNumber, setResetPasswordPhoneNumber] = useState<string | undefined>();
     const [resetPasswordModal, setResetPasswordModal] = useState<boolean>(false)
     const [resetPasswordLoading, setResetPasswordLoading] = useState<boolean>(false)
 
-    const [resetPasswordError, setResetPasswordError] = useState<string|null>(null);
-    
+    const [resetPasswordError, setResetPasswordError] = useState<string | null>(null);
+
     const resetPassword = () => {
         setResetPasswordLoading(true);
         setResetPasswordError(null);
         accountsService.resetPassword({
-            phoneNumber: resetPasswordPhoneNumber||''
+            phoneNumber: resetPasswordPhoneNumber || ''
         }).then(() => {
             setResetPasswordModal(false);
         })
@@ -96,7 +96,7 @@ export const SignIn = () => {
                 open={resetPasswordModal}>
                 <Modal.Header>{t('accounts:reset_password:title')}</Modal.Header>
                 <Modal.Content>
-                    <ContainerLoading show={resetPasswordLoading} />
+                    <ContainerLoading show={resetPasswordLoading}/>
                     <p className="reset-password-description">{t('accounts:reset_password:description')}</p>
                     <Form style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                         <PhoneInput
@@ -115,13 +115,14 @@ export const SignIn = () => {
                 </Modal.Content>
                 <Modal.Actions>
                     <Button onClick={() => setResetPasswordModal(false)}>{t('common:close_button')}</Button>
-                    <Button style={{backgroundColor: '#3CB371', color: 'white'}} onClick={resetPassword}>{t('accounts:reset_password:button')}</Button>
+                    <Button style={{backgroundColor: '#3CB371', color: 'white'}}
+                            onClick={resetPassword}>{t('accounts:reset_password:button')}</Button>
                 </Modal.Actions>
             </Modal>
-            
-            
-            <div className="color-block bottom-color-block" />
-            <div className="color-block top-color-block" />
+
+
+            <div className="color-block bottom-color-block"/>
+            <div className="color-block top-color-block"/>
 
             <div className="logo-container">
                 <NavbarBrand className={"navbar-brand-ext"} tag={Link} to="/">
@@ -130,72 +131,73 @@ export const SignIn = () => {
                 <div className={"version-title"}>{process.env.REACT_APP_VERSION}</div>
             </div>
 
-            
+
             <div style={{
                 display: 'flex',
                 flexDirection: 'column',
                 width: '100%',
                 justifyContent: 'center',
-                alignItems: 'center'}} >
+                alignItems: 'center'
+            }}>
 
-            <div className="balls balls-top"  style={{
-                backgroundImage: `url(${back_balls})`
-            }}/>
-            <form
-               
-            >
-                <div className="form-group">
-                    <label className="form-control-label">{t("accounts:sign_in:login")}</label>
-                    <PhoneInput
-                        onlyCountries={['ru']} // Перчень стран в поиске 
-                        country='ru'
-                        containerStyle={{marginTop: '10px'}}
-                        inputStyle={{width: '100%', height: 40}}
-                        searchClass='search-class'
-                        searchStyle={{margin: 0, width: '90%', height: '30px', fontFamily: 'inherit'}}
-                        enableSearch={false}
-                        placeholder={'+7 (123) 456-78-90'}
-                        disableSearchIcon
-                        value={login}
-                        localization={i18n.language === 'ru' ? ru : undefined}
-                        countryCodeEditable={false}
-                        onChange={(phone) => setLogin(phone)}
-                    />
-                </div>
+                <div className="balls balls-top" style={{
+                    backgroundImage: `url(${back_balls})`
+                }}/>
+                <form
 
-                <div className="form-group">
-                    <label className="form-control-label">{t("accounts:sign_in:password")}</label>
-                    <input
-                        className="form-control password-input"
-                        type="password"
-                        name="password"
-                    />
+                >
+                    <div className="form-group">
+                        <label className="form-control-label">{t("accounts:sign_in:login")}</label>
+                        <PhoneInput
+                            onlyCountries={['ru']} // Перчень стран в поиске 
+                            country='ru'
+                            containerStyle={{marginTop: '10px'}}
+                            inputStyle={{width: '100%', height: 40}}
+                            searchClass='search-class'
+                            searchStyle={{margin: 0, width: '90%', height: '30px', fontFamily: 'inherit'}}
+                            enableSearch={false}
+                            placeholder={'+7 (123) 456-78-90'}
+                            disableSearchIcon
+                            value={login}
+                            localization={i18n.language === 'ru' ? ru : undefined}
+                            countryCodeEditable={false}
+                            onChange={(phone) => setLogin(phone)}
+                        />
+                    </div>
 
-                    <div className="reset-button-modal" onClick={() => {
-                        setResetPasswordModal(true);
-                        setResetPasswordError(null);
-                        setResetPasswordPhoneNumber(undefined);
-                    }}>{t('accounts:reset_password:title')}</div>
-                    <button
-                        type="submit"
-                        onClick={handleSubmit}
-                    >
-                        {t("accounts:sign_in:button")}
-                    </button>
-                </div>
-                
-               
-            </form>
-            <div className="balls balls-bottom"  style={{
-                backgroundImage: `url(${back_balls})`
-            }}/>
+                    <div className="form-group">
+                        <label className="form-control-label">{t("accounts:sign_in:password")}</label>
+                        <input
+                            className="form-control password-input"
+                            type="password"
+                            name="password"
+                        />
+
+                        <div className="reset-button-modal" onClick={() => {
+                            setResetPasswordModal(true);
+                            setResetPasswordError(null);
+                            setResetPasswordPhoneNumber(undefined);
+                        }}>{t('accounts:reset_password:title')}</div>
+                        <button
+                            type="submit"
+                            onClick={handleSubmit}
+                        >
+                            {t("accounts:sign_in:button")}
+                        </button>
+                    </div>
+
+
+                </form>
+                <div className="balls balls-bottom" style={{
+                    backgroundImage: `url(${back_balls})`
+                }}/>
 
             </div>
 
             <LanguageSelect withRequest={false} style={{position: 'absolute', top: 10, left: 20}}/>
-            
+
             <div className="sign-in-right-container">
-                
+
                 <NavLink className="portal-button" to="/">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                          className="bi bi-house" viewBox="0 0 16 16">
@@ -204,8 +206,8 @@ export const SignIn = () => {
                     </svg>
                 </NavLink>
             </div>
-            
-           
+
+
         </div>
     );
 }

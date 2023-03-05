@@ -14,16 +14,17 @@ internal sealed class DeleteUserHandler : BaseCommandHandler<DeleteUserCommand, 
 
     public DeleteUserHandler(
         IUserCommandFacade userFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _userFacade = userFacade;
     }
-    
-    protected override async ValueTask<DeleteUserDto> HandleCommand(DeleteUserCommand request, CancellationToken cancellationToken)
+
+    protected override async ValueTask<DeleteUserDto> HandleCommand( DeleteUserCommand request,
+        CancellationToken cancellationToken )
     {
-        await _userFacade.DeleteUser(request.UserId, _legalId, _userId);
+        await _userFacade.DeleteUser( request.UserId, _legalId, _userId );
         return new DeleteUserDto();
     }
 }

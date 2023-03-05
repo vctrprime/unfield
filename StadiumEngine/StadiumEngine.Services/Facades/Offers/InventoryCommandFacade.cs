@@ -13,42 +13,49 @@ internal class InventoryCommandFacade : BaseOfferCommandFacade<Inventory>, IInve
 {
     private readonly IInventoryRepository _inventoryRepository;
     protected override string ImageFolder => "inventories";
-    
+
     public InventoryCommandFacade(
-        IInventoryRepository inventoryRepository, 
-        IOffersImageRepository imageRepository, 
-        IOffersSportKindRepository inventorySportKindRepository, 
-        IImageService imageService) : base(imageRepository, imageService, inventorySportKindRepository)
+        IInventoryRepository inventoryRepository,
+        IOffersImageRepository imageRepository,
+        IOffersSportKindRepository inventorySportKindRepository,
+        IImageService imageService ) : base( imageRepository, imageService, inventorySportKindRepository )
     {
         _inventoryRepository = inventoryRepository;
     }
-    
-    public async Task AddInventory(Inventory inventory, List<ImageFile> images, int legalId)
+
+    public async Task AddInventory( Inventory inventory, List<ImageFile> images, int legalId )
     {
-        await base.AddOffer(inventory, images, legalId);
-    }
-    
-    
-    public async Task UpdateInventory(Inventory inventory, List<ImageFile> images, List<SportKind> sportKinds)
-    {
-        await base.UpdateOffer(inventory, images, sportKinds);
+        await base.AddOffer( inventory, images, legalId );
     }
 
-    public async Task DeleteInventory(int inventoryId, int stadiumId)
-    {
-        var inventory = await _inventoryRepository.Get(inventoryId, stadiumId);
 
-        if (inventory == null) throw new DomainException(ErrorsKeys.InventoryNotFound);
-        
-        _inventoryRepository.Remove(inventory);
-        
-        DeleteAllImagesAndSportKinds(inventory);
+    public async Task UpdateInventory( Inventory inventory, List<ImageFile> images, List<SportKind> sportKinds )
+    {
+        await base.UpdateOffer( inventory, images, sportKinds );
     }
-    
-    protected override void AddOffer(Inventory inventory) => _inventoryRepository.Add(inventory);
-    protected override void UpdateOffer(Inventory inventory) => _inventoryRepository.Update(inventory);
-    
-    protected override OffersSportKind CreateSportKind(int inventoryId, int userId, SportKind sportKind)
+
+    public async Task DeleteInventory( int inventoryId, int stadiumId )
+    {
+        var inventory = await _inventoryRepository.Get( inventoryId, stadiumId );
+
+        if (inventory == null) throw new DomainException( ErrorsKeys.InventoryNotFound );
+
+        _inventoryRepository.Remove( inventory );
+
+        DeleteAllImagesAndSportKinds( inventory );
+    }
+
+    protected override void AddOffer( Inventory inventory )
+    {
+        _inventoryRepository.Add( inventory );
+    }
+
+    protected override void UpdateOffer( Inventory inventory )
+    {
+        _inventoryRepository.Update( inventory );
+    }
+
+    protected override OffersSportKind CreateSportKind( int inventoryId, int userId, SportKind sportKind )
     {
         return new OffersSportKind
         {
@@ -57,8 +64,8 @@ internal class InventoryCommandFacade : BaseOfferCommandFacade<Inventory>, IInve
             SportKind = sportKind
         };
     }
-    
-    protected override OffersImage CreateImage(int inventoryId, int userId, string path, int order)
+
+    protected override OffersImage CreateImage( int inventoryId, int userId, string path, int order )
     {
         return new OffersImage
         {

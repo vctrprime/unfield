@@ -9,7 +9,7 @@ public class BaseEntityDto
     /// Дата создания
     /// </summary>
     public DateTime DateCreated { get; set; }
-    
+
     /// <summary>
     /// Дата обновления
     /// </summary>
@@ -19,9 +19,9 @@ public class BaseEntityDto
     /// Пользователь создал
     /// </summary>
     public string UserCreated { get; set; }
-    
+
     /// <summary>
     /// Пользователь обновил
     /// </summary>
-    public string UserModified { get; set; } 
+    public string UserModified { get; set; }
 }

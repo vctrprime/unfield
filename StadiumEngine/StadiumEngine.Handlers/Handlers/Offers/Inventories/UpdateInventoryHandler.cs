@@ -13,18 +13,19 @@ namespace StadiumEngine.Handlers.Handlers.Offers.Inventories;
 internal sealed class UpdateInventoryHandler : BaseCommandHandler<UpdateInventoryCommand, UpdateInventoryDto>
 {
     private readonly IUpdateInventoryFacade _facade;
-        
+
     public UpdateInventoryHandler(
         IUpdateInventoryFacade facade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _facade = facade;
     }
 
-    protected override async ValueTask<UpdateInventoryDto> HandleCommand(UpdateInventoryCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<UpdateInventoryDto> HandleCommand( UpdateInventoryCommand request,
+        CancellationToken cancellationToken )
     {
-        return await _facade.Update(request, _currentStadiumId, _userId);
+        return await _facade.Update( request, _currentStadiumId, _userId );
     }
 }

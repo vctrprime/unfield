@@ -9,16 +9,16 @@
   .roles-container {
     flex: 4 1;
     width: 100%;
-    
+
     .add-role-button {
       margin-left: 3px;
     }
-    
+
     .no-rows-message {
       margin-left: 5px;
     }
   }
-  
+
   .users-container {
     flex: 1;
     width: 100%;
@@ -31,11 +31,11 @@
       margin-left: 5px;
     }
   }
-  
+
   .stadiums-container {
     flex: 3 1;
     width: 100%;
-    
+
     .fa-link {
       cursor: pointer;
     }
@@ -44,12 +44,12 @@
 
 .permissions-container {
   padding: 5px 8px;
-  
+
   .outer-container {
     padding: 5px;
     float: left;
     width: 25%;
-    
+
     .inner-container {
       border: 1px solid #ccc;
       padding: 8px;
@@ -57,15 +57,15 @@
       -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
       -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
       box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-      
-      
+
+
       .permission {
         width: 100%;
         margin-top: 8px;
         min-height: 40px;
-        
+
         .permission-inner {
-         
+
           .permission-inner-descr {
             font-size: 11px;
             color: #666;
@@ -78,38 +78,40 @@
         }
       }
     }
-    
+
     .permission-group-title {
       width: 100%;
       font-size: 15px;
       font-weight: bold;
     }
-    
+
 
     .accounts-permissions-container, .offers-permissions-container, .rates-permissions-container {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
       width: 100%;
-      
+
       .accounts-permission, .offers-permission, .rates-permission {
         flex: 1 0 25%;
       }
     }
   }
 }
+
 .profile-container {
   min-width: 350px;
-  
+
   .profile-row {
     span {
       font-weight: bold;
     }
   }
+
   i {
     margin-left: 2px;
   }
-  
+
   .change-password-title {
     padding-top: 4px;
     margin-top: 8px;
@@ -117,17 +119,19 @@
     font-weight: bold;
     border-top: 1px solid #eee;
   }
+
   .error-message {
     color: #CD5C5C;
     text-align: center;
     margin-bottom: 8px;
   }
+
   .change-password-description {
     max-width: 350px;
     font-size: 11px;
     color: #999;
   }
-  
+
   .field {
     text-align: left;
   }

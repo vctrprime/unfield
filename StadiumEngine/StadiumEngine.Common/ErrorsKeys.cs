@@ -8,7 +8,7 @@ public static class ErrorsKeys
     public const string InvalidLogin = "accounts:invalid_login";
     public const string InvalidPassword = "accounts:invalid_password";
     public const string LoginAlreadyExist = "accounts:login_already_exist";
-    
+
     public const string UserNotFound = "accounts:user_not_found";
     public const string StadiumNotFound = "accounts:stadium_not_found";
     public const string RoleNotFound = "accounts:role_not_found";
@@ -22,13 +22,14 @@ public static class ErrorsKeys
     public const string ModifyStadiumsCurrentRole = "accounts:modify_stadiums_current_role";
     public const string CantDeleteSuperuser = "accounts:cant_delete_superuser";
     public const string ModifyCurrentRole = "accounts:modify_current_role";
-    public const string ModifyCurrentUser = "accounts:modify_current_user"; 
-    public const string LastRoleStadiumUnbind = "accounts:last_role_stadium_unbind"; 
-    public const string DeleteRoleHasBindings = "accounts:delete_role_has_bindings"; 
+    public const string ModifyCurrentUser = "accounts:modify_current_user";
+    public const string LastRoleStadiumUnbind = "accounts:last_role_stadium_unbind";
+    public const string DeleteRoleHasBindings = "accounts:delete_role_has_bindings";
 
     #endregion
 
     #region offers
+
     public const string LockerRoomNotFound = "offers:locker_room_not_found";
     public const string FieldNotFound = "offers:field_not_found";
     public const string FieldHasChildrenFields = "offers:field_has_children_fields";
@@ -37,7 +38,8 @@ public static class ErrorsKeys
     #endregion
 
     #region MyRegion
+
     public const string PriceGroupNotFound = "rates:price_group_not_found";
-    
+
     #endregion
 }

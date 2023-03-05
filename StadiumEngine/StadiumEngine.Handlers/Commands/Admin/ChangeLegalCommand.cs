@@ -4,11 +4,11 @@ using StadiumEngine.DTO.Accounts.Users;
 
 namespace StadiumEngine.Handlers.Commands.Admin;
 
-public sealed class ChangeLegalCommand: IRequest<AuthorizeUserDto?>
+public sealed class ChangeLegalCommand : IRequest<AuthorizeUserDto?>
 {
     public int LegalId { get; }
 
-    public ChangeLegalCommand(int legalId)
+    public ChangeLegalCommand( int legalId )
     {
         LegalId = legalId;
     }

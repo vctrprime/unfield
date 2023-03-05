@@ -6,5 +6,4 @@ public class ImageFile
 {
     public string? Path { get; set; }
     public IFormFile? FormFile { get; set; }
-    
 }

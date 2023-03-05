@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import {atom} from 'recoil';
 import {PermissionsRoleDropDownData} from "../components/lk/accounts/Permissions";
 
 const rolesAtom = atom({
@@ -6,4 +6,4 @@ const rolesAtom = atom({
     default: [] as PermissionsRoleDropDownData[]
 });
 
-export { rolesAtom };
+export {rolesAtom};

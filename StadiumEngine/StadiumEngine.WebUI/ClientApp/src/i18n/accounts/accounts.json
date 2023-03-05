@@ -93,7 +93,7 @@
   "permissions": {
     "get_bookings": "Просмотр броней",
     "get_bookings_description": "Просмотр расписания и забронированных слотов",
-    "get_fields":  "Просмотр площадок",
+    "get_fields": "Просмотр площадок",
     "get_fields_description": "Просмотр списка площадок",
     "insert_field": "Добавление площадки",
     "insert_field_description": "Возможность добавить площадку",
@@ -109,7 +109,7 @@
     "update_locker_room_description": "Возможность изменить данные раздевалки",
     "delete_locker_room": "Удаление раздевалки",
     "delete_locker_room_description": "Возможность удалить раздевалку",
-    "get_inventories":  "Просмотр инвентаря",
+    "get_inventories": "Просмотр инвентаря",
     "get_inventories_description": "Просмотр списка инвентаря",
     "insert_inventory": "Добавление инвентаря",
     "insert_inventory_description": "Возможность добавить инвентарь",

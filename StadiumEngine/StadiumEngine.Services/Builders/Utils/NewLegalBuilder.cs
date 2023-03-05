@@ -12,25 +12,25 @@ internal class NewLegalBuilder : INewLegalBuilder
     private readonly IHasher _hasher;
 
     public NewLegalBuilder(
-        IPermissionRepository permissionRepository, 
-        IPasswordGenerator passwordGenerator, 
-        IHasher hasher)
+        IPermissionRepository permissionRepository,
+        IPasswordGenerator passwordGenerator,
+        IHasher hasher )
     {
         _permissionRepository = permissionRepository;
         _passwordGenerator = passwordGenerator;
         _hasher = hasher;
     }
 
-    public async Task<string> Build(Legal legal, User superuser)
+    public async Task<string> Build( Legal legal, User superuser )
     {
-        var superuserPassword = _passwordGenerator.Generate(8);
-        superuser.Password = _hasher.Crypt(superuserPassword);
-        
+        var superuserPassword = _passwordGenerator.Generate( 8 );
+        superuser.Password = _hasher.Crypt( superuserPassword );
+
         legal.Roles = new List<Role>()
         {
-            await GetBaseRole(legal.Stadiums)
+            await GetBaseRole( legal.Stadiums )
         };
-        
+
         legal.Users = new List<User>
         {
             superuser
@@ -38,21 +38,20 @@ internal class NewLegalBuilder : INewLegalBuilder
 
         return superuserPassword;
     }
-    
-    private async Task<Role> GetBaseRole(IEnumerable<Stadium> stadiums)
+
+    private async Task<Role> GetBaseRole( IEnumerable<Stadium> stadiums )
     {
         var role = new Role
         {
             Name = "Администратор",
             Description = "Базовая роль для администратора (добавлена автоматически)",
             RolePermissions = await GetRolePermissions(),
-            RoleStadiums = GetRoleStadiums(stadiums)
-            
+            RoleStadiums = GetRoleStadiums( stadiums )
         };
-        
+
         return role;
     }
-    
+
     private async Task<List<RolePermission>> GetRolePermissions()
     {
         var permissions = await _permissionRepository.GetAll();
@@ -60,20 +59,22 @@ internal class NewLegalBuilder : INewLegalBuilder
         {
             "schedule", "offers"
         };
-            
-        var rolePermissions = permissions.Where(p => permissionsKeys.Contains(p.PermissionGroup.Key)).Select(p => new RolePermission()
-        {
-            Permission = p
-        });
+
+        var rolePermissions = permissions.Where( p => permissionsKeys.Contains( p.PermissionGroup.Key ) ).Select(
+            p => new RolePermission()
+            {
+                Permission = p
+            } );
         return rolePermissions.ToList();
     }
-    
-    private List<RoleStadium> GetRoleStadiums(IEnumerable<Stadium> stadiums)
+
+    private List<RoleStadium> GetRoleStadiums( IEnumerable<Stadium> stadiums )
     {
-        var roleStadiums = stadiums.Select(s => new RoleStadium
-        {
-            Stadium = s
-        });
+        var roleStadiums = stadiums.Select(
+            s => new RoleStadium
+            {
+                Stadium = s
+            } );
 
         return roleStadiums.ToList();
     }

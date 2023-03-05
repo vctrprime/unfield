@@ -7,6 +7,6 @@ namespace StadiumEngine.Domain.Services.Facades.Offers;
 
 public interface IInventoryQueryFacade
 {
-    Task<List<Inventory>> GetByStadiumId(int stadiumId);
-    Task<Inventory?> GetByInventoryId(int inventoryId, int stadiumId);
+    Task<List<Inventory>> GetByStadiumId( int stadiumId );
+    Task<Inventory?> GetByInventoryId( int inventoryId, int stadiumId );
 }

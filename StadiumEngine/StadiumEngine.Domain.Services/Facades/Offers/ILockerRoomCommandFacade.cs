@@ -7,7 +7,7 @@ namespace StadiumEngine.Domain.Services.Facades.Offers;
 
 public interface ILockerRoomCommandFacade
 {
-    void AddLockerRoom(LockerRoom lockerRoom);
-    void UpdateLockerRoom(LockerRoom lockerRoom);
-    Task DeleteLockerRoom(int lockerRoomId, int stadiumId);
+    void AddLockerRoom( LockerRoom lockerRoom );
+    void UpdateLockerRoom( LockerRoom lockerRoom );
+    Task DeleteLockerRoom( int lockerRoomId, int stadiumId );
 }

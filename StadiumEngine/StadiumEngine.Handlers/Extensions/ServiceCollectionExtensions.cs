@@ -14,38 +14,36 @@ namespace StadiumEngine.Handlers.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void RegisterHandlers(this IServiceCollection services)
+    public static void RegisterHandlers( this IServiceCollection services )
     {
-        services.AddMediator(options => options.ServiceLifetime = ServiceLifetime.Scoped);
+        services.AddMediator( options => options.ServiceLifetime = ServiceLifetime.Scoped );
         services.RegisterModules();
     }
-    
-    private static void RegisterModules(this IServiceCollection services)
+
+    private static void RegisterModules( this IServiceCollection services )
     {
         services.RegisterServices();
-        services.AddMediator(options => options.ServiceLifetime = ServiceLifetime.Scoped);
-        services.AddSingleton(provider => new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new CommonProfile());
-            cfg.AddProfile(new UtilsProfile());
-            cfg.AddProfile(new AccountsProfile());
-            cfg.AddProfile(new AdminProfile());
-            cfg.AddProfile(new OffersProfile());
-            cfg.AddProfile(new RatesProfile());
-        }).CreateMapper());
+        services.AddMediator( options => options.ServiceLifetime = ServiceLifetime.Scoped );
+        services.AddSingleton(
+            provider => new MapperConfiguration(
+                cfg =>
+                {
+                    cfg.AddProfile( new CommonProfile() );
+                    cfg.AddProfile( new UtilsProfile() );
+                    cfg.AddProfile( new AccountsProfile() );
+                    cfg.AddProfile( new AdminProfile() );
+                    cfg.AddProfile( new OffersProfile() );
+                    cfg.AddProfile( new RatesProfile() );
+                } ).CreateMapper() );
 
         services.AddScoped<IAddUserFacade, AddUserFacade>();
         services.AddScoped<IUpdateUserFacade, UpdateUserFacade>();
         services.AddScoped<IChangeLegalFacade, ChangeLegalFacade>();
-        
+
         services.AddScoped<IUpdateFieldFacade, UpdateFieldFacade>();
         services.AddScoped<IUpdateInventoryFacade, UpdateInventoryFacade>();
         services.AddScoped<IUpdateLockerRoomFacade, UpdateLockerRoomFacade>();
-        
+
         services.AddScoped<IUpdatePriceGroupFacade, UpdatePriceGroupFacade>();
     }
-    
-    
-    
-    
 }

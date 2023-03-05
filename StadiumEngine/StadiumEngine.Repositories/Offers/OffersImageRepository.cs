@@ -7,30 +7,29 @@ namespace StadiumEngine.Repositories.Offers;
 
 internal class OffersImageRepository : BaseRepository<OffersImage>, IOffersImageRepository
 {
-    public OffersImageRepository(MainDbContext context) : base(context)
+    public OffersImageRepository( MainDbContext context ) : base( context )
     {
     }
 
-    public async Task<List<OffersImage>> GetForField(int fieldId)
+    public async Task<List<OffersImage>> GetForField( int fieldId )
     {
         return await Entities
-            .Where(i => i.FieldId == fieldId)
+            .Where( i => i.FieldId == fieldId )
             .ToListAsync();
     }
 
-    public new void Add(OffersImage image)
+    public new void Add( OffersImage image )
     {
-        base.Add(image);
+        base.Add( image );
     }
 
-    public new void Update(OffersImage image)
+    public new void Update( OffersImage image )
     {
-        base.Update(image);
+        base.Update( image );
     }
 
-    public new void Remove(IEnumerable<OffersImage> images)
+    public new void Remove( IEnumerable<OffersImage> images )
     {
-        base.Remove(images);
+        base.Remove( images );
     }
-    
 }

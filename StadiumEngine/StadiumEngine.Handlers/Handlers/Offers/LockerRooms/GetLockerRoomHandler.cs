@@ -16,19 +16,20 @@ internal sealed class GetLockerRoomHandler : BaseRequestHandler<GetLockerRoomQue
 
     public GetLockerRoomHandler(
         ILockerRoomQueryFacade lockerRoomFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
         _lockerRoomFacade = lockerRoomFacade;
     }
-    
-    public override async ValueTask<LockerRoomDto> Handle(GetLockerRoomQuery request, CancellationToken cancellationToken)
+
+    public override async ValueTask<LockerRoomDto> Handle( GetLockerRoomQuery request,
+        CancellationToken cancellationToken )
     {
-        var lockerRoom = await _lockerRoomFacade.GetByLockerRoomId(request.LockerRoomId, _currentStadiumId);
+        var lockerRoom = await _lockerRoomFacade.GetByLockerRoomId( request.LockerRoomId, _currentStadiumId );
 
-        if (lockerRoom == null) throw new DomainException(ErrorsKeys.LockerRoomNotFound);
+        if (lockerRoom == null) throw new DomainException( ErrorsKeys.LockerRoomNotFound );
 
-        var lockerRoomDto = Mapper.Map<LockerRoomDto>(lockerRoom);
+        var lockerRoomDto = Mapper.Map<LockerRoomDto>( lockerRoom );
 
         return lockerRoomDto;
     }

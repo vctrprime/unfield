@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import {atom} from 'recoil';
 import {PriceGroupDto} from "../../models/dto/rates/PriceGroupDto";
 
 const priceGroupsAtom = atom({
@@ -6,4 +6,4 @@ const priceGroupsAtom = atom({
     default: [] as PriceGroupDto[]
 });
 
-export { priceGroupsAtom };
+export {priceGroupsAtom};

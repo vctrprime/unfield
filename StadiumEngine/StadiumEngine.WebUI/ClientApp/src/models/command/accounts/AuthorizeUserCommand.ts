@@ -1,4 +1,4 @@
 export interface AuthorizeUserCommand {
-   login: string,
-   password: string 
+    login: string,
+    password: string
 }

@@ -2,7 +2,7 @@ import {SportKind} from "../../../models/dto/offers/enums/SportKind";
 import {t} from "i18next";
 import React from "react";
 
-export const SportKindsRenderer = (obj : any) => {
+export const SportKindsRenderer = (obj: any) => {
     const kinds = obj.data.sportKinds;
 
     const textKinds = kinds.map((k: SportKind) => {

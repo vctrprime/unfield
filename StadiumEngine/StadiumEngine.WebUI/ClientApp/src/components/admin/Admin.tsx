@@ -7,12 +7,12 @@ import {ForbiddenMessage} from "../lk/common/ForbiddenMessage";
 
 export const Admin = () => {
     const auth = useRecoilValue<AuthorizeUserDto | null>(authAtom);
-    
+
     if (auth === null || !auth.isAdmin) return <ForbiddenMessage/>
-    
+
     const tabs: TabData[] = [
         {route: "", resourcePath: "admin:legals_tab"}
     ]
-    
-    return ( <Tabs tabsData={tabs} leftNavRoute={"/admin"}/>)
+
+    return (<Tabs tabsData={tabs} leftNavRoute={"/admin"}/>)
 }

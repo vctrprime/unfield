@@ -12,19 +12,18 @@ namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 /// <summary>
 /// Связи ролей и объектов
 /// </summary>
-[Route("api/accounts/role-stadium")]
+[Route( "api/accounts/role-stadium" )]
 public class RoleStadiumController : BaseApiController
 {
-
     /// <summary>
     /// Добавить/убрать связь
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    [HasPermission(PermissionsKeys.ToggleRoleStadium)]
-    public async Task<ToggleRoleStadiumDto> Post(ToggleRoleStadiumCommand command)
+    [HasPermission( PermissionsKeys.ToggleRoleStadium )]
+    public async Task<ToggleRoleStadiumDto> Post( ToggleRoleStadiumCommand command )
     {
-        var dto = await Mediator.Send(command);
+        var dto = await Mediator.Send( command );
         return dto;
     }
 }

@@ -2,11 +2,11 @@ import {t} from "i18next";
 import {FieldDto} from "../models/dto/offers/FieldDto";
 import {InventoryDto} from "../models/dto/offers/InventoryDto";
 
-export function getTitle(path: string) : string {
+export function getTitle(path: string): string {
     return t(path) + " - Stadium Engine";
 }
 
-export function getDataTitle(name: string) : string {
+export function getDataTitle(name: string): string {
     return name + " - Stadium Engine";
 }
 
@@ -17,7 +17,7 @@ export const getOverlayNoRowsTemplate = () => {
 export const StringFormat = (str: string, ...args: string[]) =>
     str.replace(/{(\d+)}/g, (match, index) => args[index] || '')
 
-export function getFieldBasicFormData(data: FieldDto) : FormData {
+export function getFieldBasicFormData(data: FieldDto): FormData {
     const form = new FormData();
     if (data.id !== undefined) {
         form.append("id", data.id.toString());
@@ -31,13 +31,13 @@ export function getFieldBasicFormData(data: FieldDto) : FormData {
     form.append("priceGroupId", data.priceGroupId === null ? "" : data.priceGroupId.toString());
     form.append("coveringType", data.coveringType.toString());
     for (let i = 0; i < data.sportKinds.length; i++) {
-        form.append('sportKinds['+i+']', data.sportKinds[i].toString());
+        form.append('sportKinds[' + i + ']', data.sportKinds[i].toString());
     }
-   
+
     return form;
 }
 
-export function getInventoryBasicFormData(data: InventoryDto) : FormData {
+export function getInventoryBasicFormData(data: InventoryDto): FormData {
     const form = new FormData();
     if (data.id !== undefined) {
         form.append("id", data.id.toString());
@@ -49,7 +49,7 @@ export function getInventoryBasicFormData(data: InventoryDto) : FormData {
     form.append("quantity", data.quantity.toString());
     form.append("isActive", data.isActive.toString());
     for (let i = 0; i < data.sportKinds.length; i++) {
-        form.append('sportKinds['+i+']', data.sportKinds[i].toString());
+        form.append('sportKinds[' + i + ']', data.sportKinds[i].toString());
     }
 
     return form;

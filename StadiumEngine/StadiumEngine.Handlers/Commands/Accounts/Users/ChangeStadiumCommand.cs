@@ -7,7 +7,7 @@ public sealed class ChangeStadiumCommand : IRequest<AuthorizeUserDto?>
 {
     public int StadiumId { get; }
 
-    public ChangeStadiumCommand(int stadiumId)
+    public ChangeStadiumCommand( int stadiumId )
     {
         StadiumId = stadiumId;
     }

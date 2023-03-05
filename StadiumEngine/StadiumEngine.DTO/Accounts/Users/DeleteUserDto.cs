@@ -5,5 +5,4 @@ namespace StadiumEngine.DTO.Accounts.Users;
 /// </summary>
 public class DeleteUserDto : BaseEmptySuccessDto
 {
-    
 }

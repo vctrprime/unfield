@@ -6,31 +6,24 @@ using StadiumEngine.Domain.Entities.Rates;
 
 namespace StadiumEngine.Domain.Entities.Offers;
 
-[Table("field", Schema = "offers")]
+[Table( "field", Schema = "offers" )]
 public class Field : BaseOfferEntity
 {
-    [Column("parent_field_id")]
-    public int? ParentFieldId { get; set; }
-    
-    [ForeignKey("ParentFieldId")]
-    public virtual Field? ParentField { get; set; }
-    
-    [Column("covering_type")]
-    public CoveringType CoveringType { get; set; }
-    
-    [Column("width")]
-    public decimal Width { get; set; }
-    
-    [Column("length")]
-    public decimal Length { get; set; }
-    
-    [Column("price_group_id")]
-    public int? PriceGroupId { get; set; }
-    
-    [ForeignKey("PriceGroupId")]
-    public virtual PriceGroup? PriceGroup { get; set; }
-    
+    [Column( "parent_field_id" )] public int? ParentFieldId { get; set; }
+
+    [ForeignKey( "ParentFieldId" )] public virtual Field? ParentField { get; set; }
+
+    [Column( "covering_type" )] public CoveringType CoveringType { get; set; }
+
+    [Column( "width" )] public decimal Width { get; set; }
+
+    [Column( "length" )] public decimal Length { get; set; }
+
+    [Column( "price_group_id" )] public int? PriceGroupId { get; set; }
+
+    [ForeignKey( "PriceGroupId" )] public virtual PriceGroup? PriceGroup { get; set; }
+
     public virtual ICollection<Field> ChildFields { get; set; }
-    
+
     public virtual ICollection<Price> Prices { get; set; }
 }

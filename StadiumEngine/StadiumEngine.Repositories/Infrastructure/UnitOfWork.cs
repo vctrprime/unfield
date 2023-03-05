@@ -7,10 +7,10 @@ namespace StadiumEngine.Repositories.Infrastructure;
 internal class UnitOfWork : IUnitOfWork
 {
     private readonly MainDbContext _context;
-    
+
     private IDbContextTransaction? _transaction;
 
-    public UnitOfWork(MainDbContext context)
+    public UnitOfWork( MainDbContext context )
     {
         _context = context;
     }

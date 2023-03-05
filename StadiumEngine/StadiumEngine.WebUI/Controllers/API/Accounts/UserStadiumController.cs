@@ -12,7 +12,7 @@ namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 /// <summary>
 /// Стадионы пользователя
 /// </summary>
-[Route("api/accounts/user-stadiums")]
+[Route( "api/accounts/user-stadiums" )]
 public class UserStadiumController : BaseApiController
 {
     /// <summary>
@@ -22,7 +22,7 @@ public class UserStadiumController : BaseApiController
     [HttpGet]
     public async Task<List<UserStadiumDto>> Get()
     {
-        var stadiums = await Mediator.Send(new GetUserStadiumsQuery());
+        var stadiums = await Mediator.Send( new GetUserStadiumsQuery() );
         return stadiums;
     }
 }

@@ -5,33 +5,34 @@ using StadiumEngine.Domain.Services.Identity;
 
 namespace StadiumEngine.Handlers.Handlers;
 
-internal abstract class BaseCommandHandler<TRequest, TResponse> : BaseRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
+internal abstract class BaseCommandHandler<TRequest, TResponse> : BaseRequestHandler<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
 {
     protected readonly IUnitOfWork UnitOfWork;
     private readonly bool _transactional;
 
     protected BaseCommandHandler(
-        IMapper mapper, 
-        IClaimsIdentityService? claimsIdentityService, 
+        IMapper mapper,
+        IClaimsIdentityService? claimsIdentityService,
         IUnitOfWork unitOfWork,
-        bool transactional = true) : base(mapper, claimsIdentityService)
+        bool transactional = true ) : base( mapper, claimsIdentityService )
     {
         UnitOfWork = unitOfWork;
         _transactional = transactional;
     }
 
-    public override async ValueTask<TResponse> Handle(TRequest request, CancellationToken cancellationToken)
+    public override async ValueTask<TResponse> Handle( TRequest request, CancellationToken cancellationToken )
     {
-        if (!_transactional) return await HandleCommand(request, cancellationToken);
-        
+        if (!_transactional) return await HandleCommand( request, cancellationToken );
+
         try
         {
             await UnitOfWork.BeginTransaction();
-            
-            var result  = await HandleCommand(request, cancellationToken);
-            
+
+            var result = await HandleCommand( request, cancellationToken );
+
             await UnitOfWork.CommitTransaction();
-            
+
             return result;
         }
         catch
@@ -40,6 +41,6 @@ internal abstract class BaseCommandHandler<TRequest, TResponse> : BaseRequestHan
             throw;
         }
     }
-    
-    protected abstract ValueTask<TResponse> HandleCommand(TRequest request, CancellationToken cancellationToken);
+
+    protected abstract ValueTask<TResponse> HandleCommand( TRequest request, CancellationToken cancellationToken );
 }

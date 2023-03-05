@@ -11,18 +11,18 @@ internal class UpdateFieldFacade : IUpdateFieldFacade
     private readonly IFieldQueryFacade _queryFacade;
     private readonly IFieldCommandFacade _commandFacade;
 
-    public UpdateFieldFacade(IFieldQueryFacade queryFacade, IFieldCommandFacade commandFacade)
+    public UpdateFieldFacade( IFieldQueryFacade queryFacade, IFieldCommandFacade commandFacade )
     {
         _queryFacade = queryFacade;
         _commandFacade = commandFacade;
     }
-    
-    public async Task<UpdateFieldDto> Update(UpdateFieldCommand request, int stadiumId, int userId)
-    {
-        var field = await _queryFacade.GetByFieldId(request.Id, stadiumId);
 
-        if (field == null) throw new DomainException(ErrorsKeys.FieldNotFound);
-        
+    public async Task<UpdateFieldDto> Update( UpdateFieldCommand request, int stadiumId, int userId )
+    {
+        var field = await _queryFacade.GetByFieldId( request.Id, stadiumId );
+
+        if (field == null) throw new DomainException( ErrorsKeys.FieldNotFound );
+
         field.Name = request.Name;
         field.Description = request.Description;
         field.Width = request.Width;
@@ -33,8 +33,8 @@ internal class UpdateFieldFacade : IUpdateFieldFacade
         field.PriceGroupId = request.PriceGroupId;
         field.UserModifiedId = userId;
 
-        await _commandFacade.UpdateField(field, request.Images, request.SportKinds);
-        
+        await _commandFacade.UpdateField( field, request.Images, request.SportKinds );
+
         return new UpdateFieldDto();
     }
 }

@@ -11,7 +11,7 @@ namespace StadiumEngine.WebUI.Controllers.API.Admin;
 /// <summary>
 /// Организации
 /// </summary>
-[Route("api/admin/legals")]
+[Route( "api/admin/legals" )]
 public class LegalController : BaseApiController
 {
     /// <summary>
@@ -20,9 +20,9 @@ public class LegalController : BaseApiController
     /// <returns></returns>
     [AdminFeature]
     [HttpGet]
-    public async Task<List<LegalDto>> Get(string q)
+    public async Task<List<LegalDto>> Get( string q )
     {
-        var legals = await Mediator.Send(new GetLegalsByFilterQuery(q ?? string.Empty));
+        var legals = await Mediator.Send( new GetLegalsByFilterQuery( q ?? string.Empty ) );
         return legals;
     }
 }

@@ -13,46 +13,50 @@ internal class FieldCommandFacade : BaseOfferCommandFacade<Field>, IFieldCommand
 {
     private readonly IFieldRepository _fieldRepository;
     protected override string ImageFolder => "fields";
-    
+
     public FieldCommandFacade(
-        IFieldRepository fieldRepository, 
-        IOffersImageRepository imageRepository, 
-        IOffersSportKindRepository offersSportKindRepository, 
-        IImageService imageService) : base(imageRepository, imageService, offersSportKindRepository)
+        IFieldRepository fieldRepository,
+        IOffersImageRepository imageRepository,
+        IOffersSportKindRepository offersSportKindRepository,
+        IImageService imageService ) : base( imageRepository, imageService, offersSportKindRepository )
     {
         _fieldRepository = fieldRepository;
     }
-    
-    public async Task AddField(Field field, List<ImageFile> images, int legalId)
+
+    public async Task AddField( Field field, List<ImageFile> images, int legalId )
     {
-        await base.AddOffer(field, images, legalId);
+        await base.AddOffer( field, images, legalId );
     }
 
-    public async Task UpdateField(Field field, List<ImageFile> images, List<SportKind> sportKinds)
+    public async Task UpdateField( Field field, List<ImageFile> images, List<SportKind> sportKinds )
     {
-        await base.UpdateOffer(field, images, sportKinds);
+        await base.UpdateOffer( field, images, sportKinds );
     }
 
-    public async Task DeleteField(int fieldId, int stadiumId)
+    public async Task DeleteField( int fieldId, int stadiumId )
     {
-        var field = await _fieldRepository.Get(fieldId, stadiumId);
+        var field = await _fieldRepository.Get( fieldId, stadiumId );
 
-        if (field == null) throw new DomainException(ErrorsKeys.FieldNotFound);
+        if (field == null) throw new DomainException( ErrorsKeys.FieldNotFound );
 
-        if (field.ChildFields.Any())
-        {
-            throw new DomainException(ErrorsKeys.FieldHasChildrenFields);
-        }
-        
-        _fieldRepository.Remove(field);
-            
-        DeleteAllImagesAndSportKinds(field);
+        if (field.ChildFields.Any()) throw new DomainException( ErrorsKeys.FieldHasChildrenFields );
+
+        _fieldRepository.Remove( field );
+
+        DeleteAllImagesAndSportKinds( field );
     }
-    
-    protected override void AddOffer(Field field) => _fieldRepository.Add(field);
-    protected override void UpdateOffer(Field field) => _fieldRepository.Update(field);
-    
-    protected override OffersSportKind CreateSportKind(int fieldId, int userId, SportKind sportKind)
+
+    protected override void AddOffer( Field field )
+    {
+        _fieldRepository.Add( field );
+    }
+
+    protected override void UpdateOffer( Field field )
+    {
+        _fieldRepository.Update( field );
+    }
+
+    protected override OffersSportKind CreateSportKind( int fieldId, int userId, SportKind sportKind )
     {
         return new OffersSportKind
         {
@@ -62,7 +66,7 @@ internal class FieldCommandFacade : BaseOfferCommandFacade<Field>, IFieldCommand
         };
     }
 
-    protected override OffersImage CreateImage(int fieldId, int userId, string path, int order)
+    protected override OffersImage CreateImage( int fieldId, int userId, string path, int order )
     {
         return new OffersImage
         {

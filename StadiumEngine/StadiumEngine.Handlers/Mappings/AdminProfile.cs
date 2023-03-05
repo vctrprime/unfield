@@ -9,12 +9,14 @@ internal class AdminProfile : Profile
     public AdminProfile()
     {
         CreateMap<Legal, LegalDto>()
-            .ForMember(dest => dest.City,
-                act => act.MapFrom(s => s.City.ShortName))
-            .ForMember(dest => dest.Region,
-                act => act.MapFrom(s => s.City.Region.ShortName))
-            .ForMember(dest => dest.Country,
-                act => act.MapFrom(s => s.City.Region.Country.ShortName));
-
+            .ForMember(
+                dest => dest.City,
+                act => act.MapFrom( s => s.City.ShortName ) )
+            .ForMember(
+                dest => dest.Region,
+                act => act.MapFrom( s => s.City.Region.ShortName ) )
+            .ForMember(
+                dest => dest.Country,
+                act => act.MapFrom( s => s.City.Region.Country.ShortName ) );
     }
 }

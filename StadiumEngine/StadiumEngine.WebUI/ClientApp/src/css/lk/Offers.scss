@@ -6,28 +6,28 @@
 
 .locker-room-form, .field-form, .inventory-form {
   padding: 15px;
-  
+
   #name-input {
     width: 400px;
   }
-  
+
   .gender-radio-container {
     display: flex;
     align-items: center;
-    
+
     .gender-radio {
       margin-left: 10px;
-      
+
       label {
         padding: 0 !important;
       }
-      
+
       i {
         font-size: 20px;
         color: $dark-color;
         margin-left: 5px;
       }
-      
+
     }
   }
 }
@@ -35,7 +35,7 @@
 .inventory-form {
   .price-qty-container {
     display: flex;
-    
+
     .delimiter {
       width: 10px;
     }
@@ -46,13 +46,14 @@
   .field-size-cont {
     display: flex;
     align-items: center;
-    
+
     .field-size-input {
       width: 100px !important;
-      
+
       &#width-input {
         margin-left: 5px;
       }
+
       &#length-input {
         margin-right: 5px;
       }
@@ -72,7 +73,7 @@
       height: 32px;
       position: absolute;
       width: calc(100% - 10px);
-      background-color: rgba(255,255,255,0.7);
+      background-color: rgba(255, 255, 255, 0.7);
       display: flex;
       justify-content: space-between;
       z-index: 1;

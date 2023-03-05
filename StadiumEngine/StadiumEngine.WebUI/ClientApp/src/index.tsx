@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './fonts/custom-fonts.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import {RecoilRoot} from "recoil";
@@ -22,13 +22,13 @@ document.head.appendChild(styleLink);
 registerServices();
 
 ReactDOM.render(
-  <BrowserRouter basename={baseUrl || ''}>
-      <RecoilRoot>
-          <App />
-      </RecoilRoot>
-    
-  </BrowserRouter>,
-  rootElement);
+    <BrowserRouter basename={baseUrl || ''}>
+        <RecoilRoot>
+            <App/>
+        </RecoilRoot>
+
+    </BrowserRouter>,
+    rootElement);
 
 registerServiceWorker();
 

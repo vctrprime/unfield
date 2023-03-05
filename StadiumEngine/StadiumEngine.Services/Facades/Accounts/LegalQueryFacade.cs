@@ -12,13 +12,13 @@ internal class LegalQueryFacade : ILegalQueryFacade
     private readonly ILegalRepository _legalRepository;
 
     public LegalQueryFacade(
-        ILegalRepository legalRepository)
+        ILegalRepository legalRepository )
     {
         _legalRepository = legalRepository;
     }
 
-    public async Task<List<Legal>> GetLegalsByFilter(string searchString)
+    public async Task<List<Legal>> GetLegalsByFilter( string searchString )
     {
-        return await _legalRepository.GetByFilter(searchString);
+        return await _legalRepository.GetByFilter( searchString );
     }
 }

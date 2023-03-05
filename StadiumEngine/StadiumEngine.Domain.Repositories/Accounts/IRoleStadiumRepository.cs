@@ -5,7 +5,7 @@ namespace StadiumEngine.Domain.Repositories.Accounts;
 
 public interface IRoleStadiumRepository
 {
-    Task<RoleStadium?> Get(int roleId, int stadiumId);
-    void Add(RoleStadium roleStadium);
-    void Remove(RoleStadium roleStadium);
+    Task<RoleStadium?> Get( int roleId, int stadiumId );
+    void Add( RoleStadium roleStadium );
+    void Remove( RoleStadium roleStadium );
 }

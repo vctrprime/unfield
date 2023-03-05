@@ -4,6 +4,6 @@ namespace StadiumEngine.Domain.Repositories.Offers;
 
 public interface IOffersSportKindRepository
 {
-    void Add(IEnumerable<OffersSportKind> sportKinds);
-    void Remove(IEnumerable<OffersSportKind> sportKinds);
+    void Add( IEnumerable<OffersSportKind> sportKinds );
+    void Remove( IEnumerable<OffersSportKind> sportKinds );
 }

@@ -10,17 +10,17 @@ namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 /// <summary>
 /// Язык пользователя
 /// </summary>
-[Route("api/accounts/user-language")]
+[Route( "api/accounts/user-language" )]
 public class UserLanguageController : BaseApiController
 {
     /// <summary>
     /// Сменить язык пользователя
     /// </summary>
     /// <returns></returns>
-    [HttpPut("{language}")]
-    public async Task<ChangeUserLanguageDto> Put(string language)
+    [HttpPut( "{language}" )]
+    public async Task<ChangeUserLanguageDto> Put( string language )
     {
-        var dto = await Mediator.Send(new ChangeUserLanguageCommand(language));
+        var dto = await Mediator.Send( new ChangeUserLanguageCommand( language ) );
         return dto;
     }
 }

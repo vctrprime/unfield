@@ -6,10 +6,10 @@ import {OfferDto} from "../../../models/dto/offers/OfferDto";
 
 export interface SportKindSelectProps<T> {
     data: T,
-    setData:  React.Dispatch<React.SetStateAction<T>>
+    setData: React.Dispatch<React.SetStateAction<T>>
 }
 
-export const SportKindSelect = <T extends OfferDto,>(props: SportKindSelectProps<T>) => {
+export const SportKindSelect = <T extends OfferDto, >(props: SportKindSelectProps<T>) => {
     const sportKindsAll = () => {
         const result = [];
         for (let item in SportKind) {
@@ -27,18 +27,18 @@ export const SportKindSelect = <T extends OfferDto,>(props: SportKindSelectProps
 
         return result;
     }
-    
-    const changeSportKinds = (e : any, { value }: any) => {
+
+    const changeSportKinds = (e: any, {value}: any) => {
         props.setData({
             ...props.data,
             sportKinds: value
         });
     }
-    
-    return  <Form.Field >
+
+    return <Form.Field>
         <label>{t("offers:sports:title")}</label>
         <Dropdown
-            placeholder={t("offers:sports:title")||''}
+            placeholder={t("offers:sports:title") || ''}
             fluid
             search
             multiple

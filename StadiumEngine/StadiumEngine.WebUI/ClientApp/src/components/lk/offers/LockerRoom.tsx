@@ -13,17 +13,17 @@ import {AddLockerRoomCommand} from "../../../models/command/offers/AddLockerRoom
 import {PermissionsKeys} from "../../../static/PermissionsKeys";
 
 export const LockerRoom = () => {
-    let { id } = useParams();
-    
+    let {id} = useParams();
+
     const [data, setData] = useState<LockerRoomDto>({
         gender: LockerRoomGender.Male,
         isActive: true
     } as LockerRoomDto);
     const [isError, setIsError] = useState<boolean>(false);
-    const [lockerRoomId, setLockerRoomId] = useState(parseInt(id||"0"))
-    
+    const [lockerRoomId, setLockerRoomId] = useState(parseInt(id || "0"))
+
     const [offersService] = useInject<IOffersService>('OffersService');
-    
+
     const navigate = useNavigate();
 
     const fetchLockerRoom = () => {
@@ -36,17 +36,16 @@ export const LockerRoom = () => {
 
     useEffect(() => {
         fetchLockerRoom();
-    },[lockerRoomId])
+    }, [lockerRoomId])
 
     useEffect(() => {
-        setLockerRoomId(parseInt(id||"0"));
+        setLockerRoomId(parseInt(id || "0"));
     }, [id])
-    
+
     useEffect(() => {
         if (data.name !== undefined && data.name !== null) {
             document.title = getDataTitle(data.name);
-        }
-        else {
+        } else {
             document.title = getTitle("offers:locker_rooms_tab")
         }
     }, [data])
@@ -54,7 +53,7 @@ export const LockerRoom = () => {
     const nameInput = useRef<any>();
     const descriptionInput = useRef<any>();
 
-    
+
     const saveLockerRoom = () => {
         if (validateInputs([nameInput])) {
             const command: AddLockerRoomCommand = {
@@ -68,7 +67,7 @@ export const LockerRoom = () => {
             })
         }
     }
-    
+
     const updateLockerRoom = () => {
         if (validateInputs([nameInput])) {
             const command: UpdateLockerRoomCommand = {
@@ -83,7 +82,7 @@ export const LockerRoom = () => {
             })
         }
     }
-    
+
     const deleteLockerRoom = () => {
         offersService.deleteLockerRoom(lockerRoomId).then(() => {
             navigate("/lk/offers/locker-rooms");
@@ -103,69 +102,72 @@ export const LockerRoom = () => {
             gender: value
         });
     }
-    
+
     return isError ? <span/> : (<div>
-            <ActionButtons
-                savePermission={id === "new" ? PermissionsKeys.InsertLockerRoom : PermissionsKeys.UpdateLockerRoom}
-                deletePermission={PermissionsKeys.DeleteLockerRoom}
-                title={id === "new" ? t('offers:locker_rooms_grid:adding') : t('offers:locker_rooms_grid:editing')}
-                saveAction={id === "new" ? saveLockerRoom : updateLockerRoom}
-                deleteAction={id === "new" ? null : deleteLockerRoom}
-                deleteHeader={id === "new" ? null : t('offers:locker_rooms_grid:delete:header')}
-                deleteQuestion={id === "new" ? null : StringFormat(t('offers:locker_rooms_grid:delete:question'), data?.name||'')}
-            />
-             <Form className="locker-room-form">
-                 <Form.Field style={{marginBottom: 0}}>
-                     <label>{t("offers:locker_rooms_grid:is_active")}</label>
-                     <Checkbox toggle checked={data.isActive} onChange={() => changeIsActive()}/>
-                 </Form.Field>
-                <Form.Field>
-                    <label>{t("offers:locker_rooms_grid:name")}</label>
-                    <input id="name-input" ref={nameInput} placeholder={t("offers:locker_rooms_grid:name")||''} defaultValue={data?.name || ''}/>
-                </Form.Field>
-                 <Form.Field>
-                     <label>{t("offers:locker_rooms_grid:gender")}</label>
-                     <div className="gender-radio-container">
-                         <div className="gender-radio">
-                             <Checkbox
-                                 radio
-                                 label=''
-                                 name='genderRadioGroup'
-                                 value={2}
-                                 checked={data.gender === LockerRoomGender.Male}
-                                 onChange={() => changeGender(LockerRoomGender.Male)}
-                             />
-                             <i className="fa fa-male" aria-hidden="true"/>
-                         </div>
-                         <div className="gender-radio">
-                             <Checkbox
-                                 radio
-                                 label=''
-                                 name='genderRadioGroup'
-                                 value={1}
-                                 checked={data.gender === LockerRoomGender.Female}
-                                 onChange={() => changeGender(LockerRoomGender.Female)}
-                             />
-                             <i className="fa fa-female" aria-hidden="true"/>
-                         </div>
-                         <div className="gender-radio">
-                             <Checkbox
-                                 radio
-                                 label=''
-                                 name='genderRadioGroup'
-                                 value={3}
-                                 checked={data.gender === LockerRoomGender.All}
-                                 onChange={() => changeGender(LockerRoomGender.All)}
-                             />
-                             <i className="fa fa-male" aria-hidden="true"/>
-                             <i style={{marginLeft: 0}} className="fa fa-female" aria-hidden="true"/>
-                         </div>
-                     </div>
-                 </Form.Field>
-                <Form.Field>
-                    <label>{t("offers:locker_rooms_grid:description")}</label>
-                    <textarea id="description-input" ref={descriptionInput} rows={4} placeholder={t("offers:locker_rooms_grid:description")||''} defaultValue={data?.description || ''}/>
-                </Form.Field>
-            </Form>
-        </div>);
+        <ActionButtons
+            savePermission={id === "new" ? PermissionsKeys.InsertLockerRoom : PermissionsKeys.UpdateLockerRoom}
+            deletePermission={PermissionsKeys.DeleteLockerRoom}
+            title={id === "new" ? t('offers:locker_rooms_grid:adding') : t('offers:locker_rooms_grid:editing')}
+            saveAction={id === "new" ? saveLockerRoom : updateLockerRoom}
+            deleteAction={id === "new" ? null : deleteLockerRoom}
+            deleteHeader={id === "new" ? null : t('offers:locker_rooms_grid:delete:header')}
+            deleteQuestion={id === "new" ? null : StringFormat(t('offers:locker_rooms_grid:delete:question'), data?.name || '')}
+        />
+        <Form className="locker-room-form">
+            <Form.Field style={{marginBottom: 0}}>
+                <label>{t("offers:locker_rooms_grid:is_active")}</label>
+                <Checkbox toggle checked={data.isActive} onChange={() => changeIsActive()}/>
+            </Form.Field>
+            <Form.Field>
+                <label>{t("offers:locker_rooms_grid:name")}</label>
+                <input id="name-input" ref={nameInput} placeholder={t("offers:locker_rooms_grid:name") || ''}
+                       defaultValue={data?.name || ''}/>
+            </Form.Field>
+            <Form.Field>
+                <label>{t("offers:locker_rooms_grid:gender")}</label>
+                <div className="gender-radio-container">
+                    <div className="gender-radio">
+                        <Checkbox
+                            radio
+                            label=''
+                            name='genderRadioGroup'
+                            value={2}
+                            checked={data.gender === LockerRoomGender.Male}
+                            onChange={() => changeGender(LockerRoomGender.Male)}
+                        />
+                        <i className="fa fa-male" aria-hidden="true"/>
+                    </div>
+                    <div className="gender-radio">
+                        <Checkbox
+                            radio
+                            label=''
+                            name='genderRadioGroup'
+                            value={1}
+                            checked={data.gender === LockerRoomGender.Female}
+                            onChange={() => changeGender(LockerRoomGender.Female)}
+                        />
+                        <i className="fa fa-female" aria-hidden="true"/>
+                    </div>
+                    <div className="gender-radio">
+                        <Checkbox
+                            radio
+                            label=''
+                            name='genderRadioGroup'
+                            value={3}
+                            checked={data.gender === LockerRoomGender.All}
+                            onChange={() => changeGender(LockerRoomGender.All)}
+                        />
+                        <i className="fa fa-male" aria-hidden="true"/>
+                        <i style={{marginLeft: 0}} className="fa fa-female" aria-hidden="true"/>
+                    </div>
+                </div>
+            </Form.Field>
+            <Form.Field>
+                <label>{t("offers:locker_rooms_grid:description")}</label>
+                <textarea id="description-input" ref={descriptionInput} rows={4}
+                          placeholder={t("offers:locker_rooms_grid:description") || ''}
+                          defaultValue={data?.description || ''}/>
+            </Form.Field>
+        </Form>
+    </div>);
 }

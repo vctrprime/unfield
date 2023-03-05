@@ -12,19 +12,20 @@ internal sealed class GetInventoriesHandler : BaseRequestHandler<GetInventoriesQ
     private readonly IInventoryQueryFacade _inventoryFacade;
 
     public GetInventoriesHandler(
-        IInventoryQueryFacade inventoryFacade, 
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
+        IInventoryQueryFacade inventoryFacade,
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
         _inventoryFacade = inventoryFacade;
     }
-    
-    public override async ValueTask<List<InventoryDto>> Handle(GetInventoriesQuery request, CancellationToken cancellationToken)
-    {
-        var inventories = await _inventoryFacade.GetByStadiumId(_currentStadiumId);
 
-        var inventoriesDto = Mapper.Map<List<InventoryDto>>(inventories);
-        
+    public override async ValueTask<List<InventoryDto>> Handle( GetInventoriesQuery request,
+        CancellationToken cancellationToken )
+    {
+        var inventories = await _inventoryFacade.GetByStadiumId( _currentStadiumId );
+
+        var inventoriesDto = Mapper.Map<List<InventoryDto>>( inventories );
+
         return inventoriesDto;
     }
 }

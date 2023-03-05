@@ -16,19 +16,20 @@ internal sealed class ChangeUserPasswordHandler : BaseCommandHandler<ChangeUserP
 
     public ChangeUserPasswordHandler(
         IUserCommandFacade userFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _userFacade = userFacade;
     }
-    
-    protected override async ValueTask<ChangeUserPasswordDto> HandleCommand(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
-    {
-        if (request.NewPassword != request.NewPasswordRepeat) throw new DomainException(ErrorsKeys.PasswordsNotEqual);
 
-        await _userFacade.ChangePassword(_userId, request.NewPassword, request.OldPassword);
-        
+    protected override async ValueTask<ChangeUserPasswordDto> HandleCommand( ChangeUserPasswordCommand request,
+        CancellationToken cancellationToken )
+    {
+        if (request.NewPassword != request.NewPasswordRepeat) throw new DomainException( ErrorsKeys.PasswordsNotEqual );
+
+        await _userFacade.ChangePassword( _userId, request.NewPassword, request.OldPassword );
+
         return new ChangeUserPasswordDto();
     }
 }

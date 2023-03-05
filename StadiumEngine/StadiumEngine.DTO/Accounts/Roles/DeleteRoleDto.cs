@@ -5,5 +5,4 @@ namespace StadiumEngine.DTO.Accounts.Roles;
 /// </summary>
 public class DeleteRoleDto : BaseEmptySuccessDto
 {
-    
 }

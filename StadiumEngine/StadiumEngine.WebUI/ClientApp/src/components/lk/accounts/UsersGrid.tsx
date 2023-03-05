@@ -21,8 +21,7 @@ import {ContainerLoading} from "../../common/ContainerLoading";
 import {PermissionsKeys} from "../../../static/PermissionsKeys";
 
 const AgGrid = require('ag-grid-react');
-const { AgGridReact } = AgGrid;
-
+const {AgGridReact} = AgGrid;
 
 
 export const UsersGrid = () => {
@@ -39,7 +38,7 @@ export const UsersGrid = () => {
     const [editingUser, setEditingUser] = useState<UserDto | null>(null);
     const [deletingUser, setDeletingUser] = useState<UserDto | null>(null);
     const [newUserLogin, setNewUserLogin] = useState<string | undefined>();
-    
+
     const gridRef = useRef<any>();
 
     const [accountsService] = useInject<IAccountsService>('AccountsService');
@@ -48,45 +47,66 @@ export const UsersGrid = () => {
         const fetchRoles = () => {
             accountsService.getRoles().then((result: RoleDto[]) => {
                 setRoles(result.map((r) => {
-                    return { key: r.id, value: r.id, text: r.name }
+                    return {key: r.id, value: r.id, text: r.name}
                 }));
             })
         }
-        
+
         if (roles.length === 0) {
             fetchRoles();
         }
     }, [])
 
-    
-    
+
     const columnDefs = [
         {
             headerName: '',
-            cellRenderer: (obj: any) => <PopupCellRenderer deleteAccess={permissions.filter(p => p.name === PermissionsKeys.DeleteUser).length > 0}
-                                                           editAccess={permissions.filter(p => p.name === PermissionsKeys.UpdateUser).length > 0}
-                                                           deleteHandler={() => {
-                                                               setDeletingUser(obj.data);
-                                                               setDeleteUserModal(true);
-                                                           }}
-                                                           editHandler={() => {
-                                                               setEditingUser(obj.data);
-                                                               setUserModal(true);
-                                                           }}
+            cellRenderer: (obj: any) => <PopupCellRenderer
+                deleteAccess={permissions.filter(p => p.name === PermissionsKeys.DeleteUser).length > 0}
+                editAccess={permissions.filter(p => p.name === PermissionsKeys.UpdateUser).length > 0}
+                deleteHandler={() => {
+                    setDeletingUser(obj.data);
+                    setDeleteUserModal(true);
+                }}
+                editHandler={() => {
+                    setEditingUser(obj.data);
+                    setUserModal(true);
+                }}
             />,
             pinned: 'left',
             width: 58,
         },
         {field: 'name', headerName: t("accounts:users_grid:name"), width: 150},
         {field: 'lastName', headerName: t("accounts:users_grid:last_name"), width: 170},
-        {field: 'phoneNumber', cellClass: "grid-center-cell", headerName: t("accounts:users_grid:phone_number"), width: 150},
+        {
+            field: 'phoneNumber',
+            cellClass: "grid-center-cell",
+            headerName: t("accounts:users_grid:phone_number"),
+            width: 150
+        },
         {field: 'roleName', cellClass: "grid-center-cell", headerName: t("accounts:users_grid:role_name"), width: 170},
-        {field: 'userCreated', cellClass: "grid-center-cell", headerName: t("accounts:users_grid:user_created"), width: 200},
-        {field: 'dateCreated', cellClass: "grid-center-cell", headerName: t("accounts:users_grid:date_created"), width: 170, valueFormatter: dateFormatter},
-        {field: 'lastLoginDate', cellClass: "grid-center-cell", headerName: t("accounts:users_grid:last_login_date"), width: 200, valueFormatter: dateFormatter}
+        {
+            field: 'userCreated',
+            cellClass: "grid-center-cell",
+            headerName: t("accounts:users_grid:user_created"),
+            width: 200
+        },
+        {
+            field: 'dateCreated',
+            cellClass: "grid-center-cell",
+            headerName: t("accounts:users_grid:date_created"),
+            width: 170,
+            valueFormatter: dateFormatter
+        },
+        {
+            field: 'lastLoginDate',
+            cellClass: "grid-center-cell",
+            headerName: t("accounts:users_grid:last_login_date"),
+            width: 200,
+            valueFormatter: dateFormatter
+        }
     ]
 
-    
 
     useEffect(() => {
         fetchUsers();
@@ -113,14 +133,13 @@ export const UsersGrid = () => {
                 nameInput.current.style.border = "";
             }, 2000);
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }
-    
+
     const [userAction, setUserAction] = useState<boolean>(false);
-    const [error, setError] = useState<string|null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     const addUser = () => {
         setError(null);
@@ -128,8 +147,8 @@ export const UsersGrid = () => {
             setUserAction(true);
             accountsService.addUser({
                 name: nameInput.current?.value,
-                roleId: parseInt(roleIdInput.current?.value), 
-                phoneNumber: newUserLogin||'',
+                roleId: parseInt(roleIdInput.current?.value),
+                phoneNumber: newUserLogin || '',
                 lastName: lastNameInput.current?.value
             }).then(() => {
                 fetchUsers();
@@ -137,8 +156,8 @@ export const UsersGrid = () => {
             }).catch((error) => {
                 setError(error);
             }).finally(() => {
-                    setUserAction(false);
-                });
+                setUserAction(false);
+            });
         }
     }
 
@@ -147,7 +166,7 @@ export const UsersGrid = () => {
         if (validate()) {
             setUserAction(true);
             accountsService.updateUser({
-                id: editingUser?.id||0,
+                id: editingUser?.id || 0,
                 name: nameInput.current?.value,
                 roleId: parseInt(roleIdInput.current?.value),
                 lastName: lastNameInput.current?.value
@@ -159,21 +178,21 @@ export const UsersGrid = () => {
                     setError(error);
                 })
                 .finally(() => {
-                setUserAction(false);
-            });
+                    setUserAction(false);
+                });
         }
     }
 
     const deleteUser = () => {
         setUserAction(true);
-        accountsService.deleteUser(deletingUser?.id||0).then(() => {
+        accountsService.deleteUser(deletingUser?.id || 0).then(() => {
             fetchUsers();
         }).finally(() => {
             setUserAction(false);
             setDeleteUserModal(false);
         });
     }
-    
+
     return (
         <div className="users-container">
 
@@ -181,11 +200,11 @@ export const UsersGrid = () => {
                 dimmer='blurring'
                 size='small'
                 open={userModal}>
-                <ContainerLoading show={userAction} />
+                <ContainerLoading show={userAction}/>
                 <Modal.Header>{editingUser === null ? t('accounts:users_grid:add') : t('accounts:users_grid:edit')}</Modal.Header>
                 <Modal.Content>
                     <Form style={{width: '500px'}}>
-                        {editingUser === null &&  <Form.Field>
+                        {editingUser === null && <Form.Field>
                             <label>{t("accounts:users_grid:phone_number")}</label>
                             <PhoneInput
                                 onlyCountries={['ru']}
@@ -200,15 +219,17 @@ export const UsersGrid = () => {
                         </Form.Field>}
                         <Form.Field>
                             <label>{t("accounts:users_grid:name")}</label>
-                            <input ref={nameInput}  placeholder={t("accounts:users_grid:name")||''} defaultValue={editingUser?.name || ''}/>
+                            <input ref={nameInput} placeholder={t("accounts:users_grid:name") || ''}
+                                   defaultValue={editingUser?.name || ''}/>
                         </Form.Field>
                         <Form.Field>
                             <label>{t("accounts:users_grid:last_name")}</label>
-                            <input ref={lastNameInput}  placeholder={t("accounts:users_grid:last_name")||''} defaultValue={editingUser?.lastName || ''}/>
+                            <input ref={lastNameInput} placeholder={t("accounts:users_grid:last_name") || ''}
+                                   defaultValue={editingUser?.lastName || ''}/>
                         </Form.Field>
                         <Form.Field>
                             <label>{t("accounts:users_grid:role_name")}</label>
-                            <select ref={roleIdInput} defaultValue={editingUser?.roleId||roles[0]?.value}>
+                            <select ref={roleIdInput} defaultValue={editingUser?.roleId || roles[0]?.value}>
                                 {roles.map((r, i) => {
                                     return <option key={i} value={r.value}>{r.text}</option>
                                 })}
@@ -235,29 +256,32 @@ export const UsersGrid = () => {
                 dimmer='blurring'
                 size='small'
                 open={deleteUserModal}>
-                <ContainerLoading show={userAction} />
+                <ContainerLoading show={userAction}/>
                 <Modal.Header>{t('accounts:users_grid:delete:header')}</Modal.Header>
                 <Modal.Content>
-                    <p>{StringFormat(t('accounts:users_grid:delete:question'), `${deletingUser?.name} ${deletingUser?.lastName}`||'')}</p>
+                    <p>{StringFormat(t('accounts:users_grid:delete:question'), `${deletingUser?.name} ${deletingUser?.lastName}` || '')}</p>
                 </Modal.Content>
                 <Modal.Actions>
                     <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
                         setDeletingUser(null);
                         setDeleteUserModal(false);
                     }}>{t('common:no_button')}</Button>
-                    <Button style={{backgroundColor: '#3CB371', color: 'white'}} onClick={deleteUser}>{t('common:yes_button')}</Button>
+                    <Button style={{backgroundColor: '#3CB371', color: 'white'}}
+                            onClick={deleteUser}>{t('common:yes_button')}</Button>
                 </Modal.Actions>
             </Modal>
-            
-            
+
+
             <Button onClick={() => {
                 setEditingUser(null);
                 setNewUserLogin(undefined);
                 setUserModal(true);
-            }} disabled={permissions.filter(p => p.name === PermissionsKeys.InsertUser).length === 0} className="add-user-button">{t('accounts:users_grid:add')}</Button>
-            {data.length === 0 && !isLoading && <span className="no-rows-message">{t('accounts:users_grid:no_rows')}</span>}
+            }} disabled={permissions.filter(p => p.name === PermissionsKeys.InsertUser).length === 0}
+                    className="add-user-button">{t('accounts:users_grid:add')}</Button>
+            {data.length === 0 && !isLoading &&
+                <span className="no-rows-message">{t('accounts:users_grid:no_rows')}</span>}
             <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 36px)'}}>
-                {isLoading ? <GridLoading columns={columnDefs} /> : <AgGridReact
+                {isLoading ? <GridLoading columns={columnDefs}/> : <AgGridReact
                     ref={gridRef}
                     rowData={data}
                     columnDefs={columnDefs}

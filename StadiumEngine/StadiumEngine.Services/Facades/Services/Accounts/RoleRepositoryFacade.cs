@@ -11,10 +11,10 @@ internal class RoleRepositoryFacade : IRoleRepositoryFacade
     private readonly IRoleStadiumRepository _roleStadiumRepository;
 
     public RoleRepositoryFacade(
-        IRoleRepository roleRepository, 
-        IPermissionRepository permissionRepository, 
-        IRolePermissionRepository rolePermissionRepository, 
-        IRoleStadiumRepository roleStadiumRepository)
+        IRoleRepository roleRepository,
+        IPermissionRepository permissionRepository,
+        IRolePermissionRepository rolePermissionRepository,
+        IRoleStadiumRepository roleStadiumRepository )
     {
         _roleRepository = roleRepository;
         _permissionRepository = permissionRepository;
@@ -22,29 +22,29 @@ internal class RoleRepositoryFacade : IRoleRepositoryFacade
         _roleStadiumRepository = roleStadiumRepository;
     }
 
-    public async Task<List<Role>> GetRoles(int legalId)
+    public async Task<List<Role>> GetRoles( int legalId )
     {
-        return await _roleRepository.GetAll(legalId);
+        return await _roleRepository.GetAll( legalId );
     }
 
-    public async Task<Role?> GetRole(int roleId)
+    public async Task<Role?> GetRole( int roleId )
     {
-        return await _roleRepository.Get(roleId);
+        return await _roleRepository.Get( roleId );
     }
 
-    public void AddRole(Role role)
+    public void AddRole( Role role )
     {
-        _roleRepository.Add(role);
+        _roleRepository.Add( role );
     }
 
-    public void UpdateRole(Role role)
+    public void UpdateRole( Role role )
     {
-        _roleRepository.Update(role);
+        _roleRepository.Update( role );
     }
 
-    public void RemoveRole(Role role)
+    public void RemoveRole( Role role )
     {
-        _roleRepository.Remove(role);
+        _roleRepository.Remove( role );
     }
 
     public async Task<List<Permission>> GetPermissions()
@@ -52,38 +52,38 @@ internal class RoleRepositoryFacade : IRoleRepositoryFacade
         return await _permissionRepository.GetAll();
     }
 
-    public async Task<List<Permission>> GetPermissions(int roleId)
+    public async Task<List<Permission>> GetPermissions( int roleId )
     {
-        return await _permissionRepository.GetForRole(roleId);
+        return await _permissionRepository.GetForRole( roleId );
     }
 
-    public async Task<RolePermission?> GetRolePermission(int roleId, int permissionId)
+    public async Task<RolePermission?> GetRolePermission( int roleId, int permissionId )
     {
-        return await _rolePermissionRepository.Get(roleId, permissionId);
+        return await _rolePermissionRepository.Get( roleId, permissionId );
     }
 
-    public void AddRolePermission(RolePermission rolePermission)
+    public void AddRolePermission( RolePermission rolePermission )
     {
-        _rolePermissionRepository.Add(rolePermission);
+        _rolePermissionRepository.Add( rolePermission );
     }
 
-    public void RemoveRolePermission(RolePermission rolePermission)
+    public void RemoveRolePermission( RolePermission rolePermission )
     {
-        _rolePermissionRepository.Remove(rolePermission);
+        _rolePermissionRepository.Remove( rolePermission );
     }
 
-    public async Task<RoleStadium?> GetRoleStadium(int roleId, int stadiumId)
+    public async Task<RoleStadium?> GetRoleStadium( int roleId, int stadiumId )
     {
-        return await _roleStadiumRepository.Get(roleId, stadiumId);
+        return await _roleStadiumRepository.Get( roleId, stadiumId );
     }
 
-    public void AddRoleStadium(RoleStadium roleStadium)
+    public void AddRoleStadium( RoleStadium roleStadium )
     {
-        _roleStadiumRepository.Add(roleStadium);
+        _roleStadiumRepository.Add( roleStadium );
     }
 
-    public void RemoveRoleStadium(RoleStadium roleStadium)
+    public void RemoveRoleStadium( RoleStadium roleStadium )
     {
-        _roleStadiumRepository.Remove(roleStadium);
+        _roleStadiumRepository.Remove( roleStadium );
     }
 }

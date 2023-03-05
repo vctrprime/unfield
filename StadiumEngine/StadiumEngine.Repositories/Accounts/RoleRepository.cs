@@ -7,42 +7,42 @@ namespace StadiumEngine.Repositories.Accounts;
 
 internal class RoleRepository : BaseRepository<Role>, IRoleRepository
 {
-    public RoleRepository(MainDbContext context) : base(context)
+    public RoleRepository( MainDbContext context ) : base( context )
     {
     }
-    
-    public async Task<List<Role>> GetAll(int legalId)
+
+    public async Task<List<Role>> GetAll( int legalId )
     {
         return await Entities
-            .Where(r => r.LegalId == legalId && !r.IsDeleted)
-            .Include(r => r.Users.Where(u => !u.IsDeleted))
-            .Include(r => r.RoleStadiums.Where(rs => !rs.Stadium.IsDeleted))
-            .Include(r => r.UserCreated)
-            .Include(r => r.UserModified)
+            .Where( r => r.LegalId == legalId && !r.IsDeleted )
+            .Include( r => r.Users.Where( u => !u.IsDeleted ) )
+            .Include( r => r.RoleStadiums.Where( rs => !rs.Stadium.IsDeleted ) )
+            .Include( r => r.UserCreated )
+            .Include( r => r.UserModified )
             .ToListAsync();
     }
 
-    public async Task<Role?> Get(int roleId)
+    public async Task<Role?> Get( int roleId )
     {
         return await Entities
-            .Include(r => r.Users.Where(u => !u.IsDeleted))
-            .Include(r => r.RoleStadiums.Where(rs => !rs.Stadium.IsDeleted))
-            .FirstOrDefaultAsync(r => r.Id == roleId && !r.IsDeleted);
+            .Include( r => r.Users.Where( u => !u.IsDeleted ) )
+            .Include( r => r.RoleStadiums.Where( rs => !rs.Stadium.IsDeleted ) )
+            .FirstOrDefaultAsync( r => r.Id == roleId && !r.IsDeleted );
     }
 
-    public new void Add(Role role)
+    public new void Add( Role role )
     {
-        base.Add(role);
-    }
-    
-    public new void Update(Role role)
-    {
-        base.Update(role);
+        base.Add( role );
     }
 
-    public new void Remove(Role role)
+    public new void Update( Role role )
+    {
+        base.Update( role );
+    }
+
+    public new void Remove( Role role )
     {
         role.IsDeleted = true;
-        base.Update(role);
+        base.Update( role );
     }
 }

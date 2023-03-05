@@ -1,7 +1,7 @@
 @import "src/css/const.scss";
 
 .header-right-container {
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   padding-right: 15px;
@@ -10,11 +10,11 @@
     display: flex;
     flex-direction: column;
     cursor: pointer;
-    
+
     &-name {
       font-weight: bold;
     }
-    
+
     &-legal {
       font-size: 11px;
       margin-top: -8px;
@@ -25,7 +25,7 @@
 
 .header-left-container {
   padding-left: 15px;
-  
+
   .panel-admin-title {
     font-size: 13px;
     letter-spacing: 0px;
@@ -34,7 +34,7 @@
 }
 
 .language-container {
-  
+
   ul {
     font-size: 13px !important;
   }
@@ -67,7 +67,7 @@
 
 .loading-grid {
   border-collapse: collapse;
-  
+
   td, th {
     border: 1px solid #eee;
   }
@@ -78,47 +78,51 @@
     font-size: 20px;
     color: $dark-color;
   }
+
   .toggle {
     label {
       margin-bottom: 0;
     }
   }
-  
+
   .grid-center-cell {
     text-align: center;
   }
+
   .grid-vcenter-cell {
     display: flex;
     align-items: center;
     justify-content: center;
   }
+
   .no-vborder {
     border-bottom: 0 !important;
     border-top: 0 !important;
   }
+
   .ag-header-cell {
     background-color: #eee;
     border-right: 1px solid #ddd;
   }
-  
+
   .ag-cell {
     border-right: 1px solid #eee;
-    
+
     &.without-border {
       border-right: none;
     }
-    
+
     .link-cell {
       cursor: pointer;
       text-decoration: underline;
     }
-    
-    
+
+
   }
 }
 
 .modals {
-  
+
   .modal {
     margin-top: -100px !important;
     justify-content: center !important;
@@ -154,6 +158,7 @@
     border-color: #dc3545;
     color: white;
   }
+
   .grid-menu-item {
     display: block;
     padding: 0.25rem 1rem;
@@ -174,7 +179,7 @@
   top: 0;
   background-color: white;
   z-index: 2;
-  
+
   .action-buttons-title {
     display: flex;
     width: 50%;
@@ -185,6 +190,7 @@
     font-size: 18px;
     color: $dark-color;
   }
+
   .action-buttons {
     display: flex;
     width: 50%;
@@ -207,7 +213,7 @@
   justify-content: flex-end;
   align-items: center;
   height: 100%;
-  
+
   .square {
     width: 20px;
     height: 20px;
@@ -215,6 +221,7 @@
     opacity: 0.8;
     border-radius: 3px;
   }
+
   .line {
     width: 2px;
     height: 10px;
@@ -228,12 +235,12 @@
   justify-content: flex-end;
   align-items: center;
   height: 100%;
-  
+
   .empty {
     width: 5px;
     height: 20px;
   }
-  
+
   .line {
     width: 2px;
     height: 100%;
@@ -244,7 +251,7 @@
     width: 5px;
     height: 2px;
     background-color: #ddd;
-    
+
     .round {
       width: 15px;
       height: 15px;
@@ -265,11 +272,12 @@
   align-items: flex-start;
   height: 100%;
   width: 100%;
-  
+
   .empty {
     width: 23px;
     height: 20px;
   }
+
   .line {
     width: 25px;
     height: 21px;
@@ -277,7 +285,7 @@
     border-top: none;
     border-right: none;
     border-bottom-left-radius: 5px;
-    
+
     .round {
       width: 15px;
       height: 15px;

@@ -16,16 +16,19 @@ export interface ActionButtonsProps {
 
 export const ActionButtons = (props: ActionButtonsProps) => {
     const permissions = useRecoilValue(permissionsAtom);
-    
-    
+
+
     return <div className="action-buttons-container box-shadow">
         <div className="action-buttons-title">
             {props.title}
         </div>
         <div className="action-buttons">
-            {props.saveAction !== null && permissions.filter(p => p.name === props.savePermission).length > 0 && <SaveButton action={props.saveAction}/>}
-            {props.deleteAction !== null && permissions.filter(p => p.name === props.deletePermission).length > 0 && <DeleteButton action={props.deleteAction} deleteHeader={props.deleteHeader} deleteQuestion={props.deleteQuestion}/>}
+            {props.saveAction !== null && permissions.filter(p => p.name === props.savePermission).length > 0 &&
+                <SaveButton action={props.saveAction}/>}
+            {props.deleteAction !== null && permissions.filter(p => p.name === props.deletePermission).length > 0 &&
+                <DeleteButton action={props.deleteAction} deleteHeader={props.deleteHeader}
+                              deleteQuestion={props.deleteQuestion}/>}
         </div>
-        
+
     </div>
 }

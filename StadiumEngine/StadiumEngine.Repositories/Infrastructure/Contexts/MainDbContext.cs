@@ -10,12 +10,15 @@ namespace StadiumEngine.Repositories.Infrastructure.Contexts;
 internal class MainDbContext : DbContext
 {
     #region geo
+
     public DbSet<Country> Countries { get; set; }
     public DbSet<Region> Regions { get; set; }
     public DbSet<City> Cities { get; set; }
+
     #endregion
 
     #region accounts
+
     public DbSet<Legal> Legals { get; set; }
     public DbSet<PermissionGroup> PermissionGroups { get; set; }
     public DbSet<Role> Roles { get; set; }
@@ -24,43 +27,48 @@ internal class MainDbContext : DbContext
     public DbSet<RolePermission> RolePermissions { get; set; }
     public DbSet<RoleStadium> RoleStadiums { get; set; }
     public DbSet<Stadium> Stadiums { get; set; }
+
     #endregion
 
     #region offers
+
     public DbSet<LockerRoom> LockerRooms { get; set; }
     public DbSet<Field> Fields { get; set; }
     public DbSet<Inventory> Inventories { get; set; }
     public DbSet<OffersImage> OffersImages { get; set; }
     public DbSet<OffersSportKind> SportKinds { get; set; }
+
     #endregion
 
     #region rates
+
     public DbSet<Tariff> Tariffs { get; set; }
     public DbSet<DayInterval> DayIntervals { get; set; }
     public DbSet<TariffDayInterval> TariffDayIntervals { get; set; }
     public DbSet<Price> Prices { get; set; }
     public DbSet<PriceGroup> PriceGroups { get; set; }
+
     #endregion
-        
-    public MainDbContext(DbContextOptions<MainDbContext> options)
-        : base(options)
+
+    public MainDbContext( DbContextOptions<MainDbContext> options )
+        : base( options )
     {
     }
-    
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+    protected override void OnModelCreating( ModelBuilder modelBuilder )
     {
         modelBuilder.Ignore<BaseEntity>();
         modelBuilder.Ignore<BaseUserEntity>();
-        
+
         foreach (var et in modelBuilder.Model.GetEntityTypes())
         {
-            if (!et.ClrType.IsSubclassOf(typeof(BaseEntity))) continue;
-            
-            et.FindProperty("DateCreated")!.SetDefaultValueSql("now()");
-            et.FindProperty("DateCreated")!.ValueGenerated = Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.OnAdd;
-            
+            if (!et.ClrType.IsSubclassOf( typeof( BaseEntity ) )) continue;
+
+            et.FindProperty( "DateCreated" )!.SetDefaultValueSql( "now()" );
+            et.FindProperty( "DateCreated" )!.ValueGenerated =
+                Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.OnAdd;
         }
-        
-        base.OnModelCreating(modelBuilder);
+
+        base.OnModelCreating( modelBuilder );
     }
 }

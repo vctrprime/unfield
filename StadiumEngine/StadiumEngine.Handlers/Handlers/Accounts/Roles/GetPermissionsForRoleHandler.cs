@@ -14,21 +14,21 @@ internal sealed class GetPermissionsForRoleHandler : BaseRequestHandler<GetPermi
 
     public GetPermissionsForRoleHandler(
         IRoleQueryFacade roleFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
         _roleFacade = roleFacade;
     }
-    public override async ValueTask<List<PermissionDto>> Handle(GetPermissionsForRoleQuery request, CancellationToken cancellationToken)
-    {
-        var permissions = await _roleFacade.GetPermissionsForRole(request.RoleId, _legalId);
 
-        var permissionsDto = Mapper.Map<List<PermissionDto>>(permissions.Keys);
-        
-        permissionsDto.ForEach(pd =>
-        {
-            pd.IsRoleBound = permissions.FirstOrDefault(p => p.Key.Id == pd.Id).Value;
-        });
+    public override async ValueTask<List<PermissionDto>> Handle( GetPermissionsForRoleQuery request,
+        CancellationToken cancellationToken )
+    {
+        var permissions = await _roleFacade.GetPermissionsForRole( request.RoleId, _legalId );
+
+        var permissionsDto = Mapper.Map<List<PermissionDto>>( permissions.Keys );
+
+        permissionsDto.ForEach(
+            pd => { pd.IsRoleBound = permissions.FirstOrDefault( p => p.Key.Id == pd.Id ).Value; } );
 
         return permissionsDto;
     }

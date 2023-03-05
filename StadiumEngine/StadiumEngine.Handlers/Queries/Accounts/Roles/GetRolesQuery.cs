@@ -5,5 +5,4 @@ namespace StadiumEngine.Handlers.Queries.Accounts.Roles;
 
 public sealed class GetRolesQuery : IRequest<List<RoleDto>>
 {
-    
 }

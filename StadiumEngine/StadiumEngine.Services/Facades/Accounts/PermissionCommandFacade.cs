@@ -14,27 +14,27 @@ internal class PermissionCommandFacade : IPermissionCommandFacade
     private readonly IPermissionGroupRepository _permissionGroupRepository;
 
     public PermissionCommandFacade(
-        IPermissionRepository permissionRepository, 
-        IPermissionGroupRepository permissionGroupRepository)
+        IPermissionRepository permissionRepository,
+        IPermissionGroupRepository permissionGroupRepository )
     {
         _permissionRepository = permissionRepository;
         _permissionGroupRepository = permissionGroupRepository;
     }
 
 
-    public async Task Sync(IUnitOfWork unitOfWork)
+    public async Task Sync( IUnitOfWork unitOfWork )
     {
-        await SyncPermissionsAndGroups(unitOfWork);
+        await SyncPermissionsAndGroups( unitOfWork );
     }
-    
-    private async Task SyncPermissionsAndGroups(IUnitOfWork unitOfWork)
+
+    private async Task SyncPermissionsAndGroups( IUnitOfWork unitOfWork )
     {
         var storedPermissions = await _permissionRepository.GetAll();
         var storedPermissionsGroups = storedPermissions
-            .Select(p => p.PermissionGroup)
-            .GroupBy(pg => pg.Id)
-            .Select(g => g.First()).ToList();
-        
+            .Select( p => p.PermissionGroup )
+            .GroupBy( pg => pg.Id )
+            .Select( g => g.First() ).ToList();
+
         foreach (var permissionGroup in PermissionSet.PermissionGroups)
         {
             var copyPermissionGroup = new PermissionGroup
@@ -44,31 +44,36 @@ internal class PermissionCommandFacade : IPermissionCommandFacade
                 Description = permissionGroup.Description,
                 Sort = permissionGroup.Sort
             };
-            
+
             var storedPermissionsGroup =
-                storedPermissionsGroups.FirstOrDefault(pg => pg.Key == permissionGroup.Key);
+                storedPermissionsGroups.FirstOrDefault( pg => pg.Key == permissionGroup.Key );
             if (storedPermissionsGroup != null)
             {
                 copyPermissionGroup.Id = storedPermissionsGroup.Id;
-                
+
                 storedPermissionsGroup.Name = permissionGroup.Name;
                 storedPermissionsGroup.Description = permissionGroup.Description;
                 storedPermissionsGroup.Sort = permissionGroup.Sort;
-                
-                _permissionGroupRepository.Update(storedPermissionsGroup);
+
+                _permissionGroupRepository.Update( storedPermissionsGroup );
             }
             else
             {
-                _permissionGroupRepository.Add(copyPermissionGroup);
+                _permissionGroupRepository.Add( copyPermissionGroup );
             }
 
             await unitOfWork.SaveChanges();
 
-            await SyncPermissions(unitOfWork, permissionGroup, copyPermissionGroup.Id, storedPermissions);
+            await SyncPermissions(
+                unitOfWork,
+                permissionGroup,
+                copyPermissionGroup.Id,
+                storedPermissions );
         }
     }
 
-    private async Task SyncPermissions(IUnitOfWork unitOfWork, PermissionGroup permissionGroup, int permissionGroupId, List<Permission> storedPermissions)
+    private async Task SyncPermissions( IUnitOfWork unitOfWork, PermissionGroup permissionGroup, int permissionGroupId,
+        List<Permission> storedPermissions )
     {
         foreach (var permission in permissionGroup.Permissions)
         {
@@ -79,27 +84,26 @@ internal class PermissionCommandFacade : IPermissionCommandFacade
                 Name = permission.Name,
                 Description = permission.Description,
                 Sort = permission.Sort
-                
             };
-                    
+
             var storedPermission =
-                storedPermissions.FirstOrDefault(p => p.Name == copyPermission.Name);
+                storedPermissions.FirstOrDefault( p => p.Name == copyPermission.Name );
             if (storedPermission != null)
             {
                 storedPermission.PermissionGroupId = permissionGroupId;
-                
+
                 storedPermission.DisplayName = permission.DisplayName;
                 storedPermission.Name = permission.Name;
                 storedPermission.Description = permission.Description;
                 storedPermission.Sort = permission.Sort;
-                
-                _permissionRepository.Update(storedPermission);
+
+                _permissionRepository.Update( storedPermission );
             }
             else
             {
-                _permissionRepository.Add(copyPermission);
+                _permissionRepository.Add( copyPermission );
             }
-                    
+
             await unitOfWork.SaveChanges();
         }
     }

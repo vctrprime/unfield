@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import {atom} from 'recoil';
 import {FieldDto} from "../../models/dto/offers/FieldDto";
 
 const fieldsAtom = atom({
@@ -6,4 +6,4 @@ const fieldsAtom = atom({
     default: [] as FieldDto[]
 });
 
-export { fieldsAtom };
+export {fieldsAtom};

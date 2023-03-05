@@ -13,16 +13,17 @@ internal sealed class DeletePriceGroupHandler : BaseCommandHandler<DeletePriceGr
 
     public DeletePriceGroupHandler(
         IPriceGroupCommandFacade priceGroupFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _priceGroupFacade = priceGroupFacade;
     }
 
-    protected override async ValueTask<DeletePriceGroupDto> HandleCommand(DeletePriceGroupCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<DeletePriceGroupDto> HandleCommand( DeletePriceGroupCommand request,
+        CancellationToken cancellationToken )
     {
-        await _priceGroupFacade.DeletePriceGroup(request.PriceGroupId, _currentStadiumId);
+        await _priceGroupFacade.DeletePriceGroup( request.PriceGroupId, _currentStadiumId );
         return new DeletePriceGroupDto();
     }
 }

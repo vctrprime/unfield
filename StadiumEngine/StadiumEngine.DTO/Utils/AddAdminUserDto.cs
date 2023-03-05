@@ -5,5 +5,4 @@ namespace StadiumEngine.DTO.Utils;
 /// </summary>
 public class AddAdminUserDto : BaseEmptySuccessDto
 {
-    
 }

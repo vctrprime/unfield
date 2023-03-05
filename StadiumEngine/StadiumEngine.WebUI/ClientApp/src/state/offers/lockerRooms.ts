@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import {atom} from 'recoil';
 import {LockerRoomDto} from "../../models/dto/offers/LockerRoomDto";
 
 const lockerRoomsAtom = atom({
@@ -6,4 +6,4 @@ const lockerRoomsAtom = atom({
     default: [] as LockerRoomDto[]
 });
 
-export { lockerRoomsAtom };
+export {lockerRoomsAtom};

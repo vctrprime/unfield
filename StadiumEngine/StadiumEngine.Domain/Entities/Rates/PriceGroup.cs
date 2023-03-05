@@ -4,7 +4,7 @@ using StadiumEngine.Domain.Entities.Offers;
 
 namespace StadiumEngine.Domain.Entities.Rates;
 
-[Table("price_group", Schema = "rates")]
+[Table( "price_group", Schema = "rates" )]
 public class PriceGroup : BaseRateEntity
 {
     public virtual ICollection<Field> Fields { get; set; }

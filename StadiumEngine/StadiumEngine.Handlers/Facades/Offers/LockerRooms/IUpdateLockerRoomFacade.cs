@@ -5,5 +5,5 @@ namespace StadiumEngine.Handlers.Facades.Offers.LockerRooms;
 
 internal interface IUpdateLockerRoomFacade
 {
-    Task<UpdateLockerRoomDto> Update(UpdateLockerRoomCommand request, int stadiumId, int userId);
+    Task<UpdateLockerRoomDto> Update( UpdateLockerRoomCommand request, int stadiumId, int userId );
 }

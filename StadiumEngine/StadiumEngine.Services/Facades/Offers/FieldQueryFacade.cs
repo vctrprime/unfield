@@ -7,22 +7,20 @@ namespace StadiumEngine.Services.Facades.Offers;
 internal class FieldQueryFacade : IFieldQueryFacade
 {
     private readonly IFieldRepository _fieldRepository;
-    
+
     public FieldQueryFacade(
-        IFieldRepository fieldRepository)
+        IFieldRepository fieldRepository )
     {
         _fieldRepository = fieldRepository;
     }
 
-    public async Task<List<Field>> GetByStadiumId(int stadiumId)
+    public async Task<List<Field>> GetByStadiumId( int stadiumId )
     {
-        return await _fieldRepository.GetAll(stadiumId);
+        return await _fieldRepository.GetAll( stadiumId );
     }
 
-    public async Task<Field?> GetByFieldId(int fieldId, int stadiumId)
+    public async Task<Field?> GetByFieldId( int fieldId, int stadiumId )
     {
-        return await _fieldRepository.Get(fieldId, stadiumId);
+        return await _fieldRepository.Get( fieldId, stadiumId );
     }
-
-    
 }

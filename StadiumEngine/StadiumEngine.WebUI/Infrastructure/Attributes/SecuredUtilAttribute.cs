@@ -15,22 +15,20 @@ public class SecuredUtilAttribute : ActionFilterAttribute
     /// Проверить апи ключ
     /// </summary>
     /// <param name="context"></param>
-    public override void OnActionExecuting(ActionExecutingContext context)
+    public override void OnActionExecuting( ActionExecutingContext context )
     {
         //Get header 
         var requestHeaders = context.HttpContext.Request.Headers["SE-Utils-Api-Key"];
         var value = requestHeaders.FirstOrDefault();
 
-        if (string.IsNullOrEmpty(value) || value != Environment.GetEnvironmentVariable("UTILS_API_KEY"))
-        {
-            context.Result = new ObjectResult(new
-            {
-                Message = "Forbidden",
-            })
+        if (string.IsNullOrEmpty( value ) || value != Environment.GetEnvironmentVariable( "UTILS_API_KEY" ))
+            context.Result = new ObjectResult(
+                new
+                {
+                    Message = "Forbidden"
+                } )
             {
                 StatusCode = StatusCodes.Status403Forbidden
             };
-
-        }
     }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet} from "react-router-dom";
+import {Outlet} from "react-router-dom";
 import {NavMenu} from "./NavMenu";
 import {Header} from "./Header";
 import '../../css/lk/Main.scss';
@@ -18,24 +18,24 @@ export const Layout = () => {
     const stadium = useRecoilValue(stadiumAtom);
 
 
-    if(isMobile) {
+    if (isMobile) {
         return (
             <MobileNotification/>
         )
     }
-    
+
     return (
         <div
-            style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' }}
+            style={{display: 'flex', height: '100vh', overflow: 'scroll initial'}}
         >
-            <NavMenu />
+            <NavMenu/>
             <div className="right-container">
-                <Header />
+                <Header/>
                 {stadium !== null && <div className="content-container">
-                    <Outlet />
+                    <Outlet/>
                 </div>}
             </div>
-           
+
         </div>
     );
 }

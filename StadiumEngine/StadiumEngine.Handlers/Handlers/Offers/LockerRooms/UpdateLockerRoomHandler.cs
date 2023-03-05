@@ -15,15 +15,16 @@ internal sealed class UpdateLockerRoomHandler : BaseCommandHandler<UpdateLockerR
 
     public UpdateLockerRoomHandler(
         IUpdateLockerRoomFacade facade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _facade = facade;
     }
 
-    protected override async ValueTask<UpdateLockerRoomDto> HandleCommand(UpdateLockerRoomCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<UpdateLockerRoomDto> HandleCommand( UpdateLockerRoomCommand request,
+        CancellationToken cancellationToken )
     {
-        return await _facade.Update(request, _currentStadiumId, _userId);
+        return await _facade.Update( request, _currentStadiumId, _userId );
     }
 }

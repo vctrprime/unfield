@@ -7,17 +7,17 @@ namespace StadiumEngine.Repositories.Accounts;
 
 internal class PermissionGroupRepository : BaseRepository<PermissionGroup>, IPermissionGroupRepository
 {
-    public PermissionGroupRepository(MainDbContext context) : base(context)
+    public PermissionGroupRepository( MainDbContext context ) : base( context )
     {
     }
 
-    public new void Add(PermissionGroup permissionGroup)
+    public new void Add( PermissionGroup permissionGroup )
     {
-        base.Add(permissionGroup);
+        base.Add( permissionGroup );
     }
 
-    public new void Update(PermissionGroup permissionGroup)
+    public new void Update( PermissionGroup permissionGroup )
     {
-        base.Update(permissionGroup);
+        base.Update( permissionGroup );
     }
 }

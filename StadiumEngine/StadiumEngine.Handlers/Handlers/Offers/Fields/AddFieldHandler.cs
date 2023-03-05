@@ -15,21 +15,22 @@ internal sealed class AddFieldHandler : BaseCommandHandler<AddFieldCommand, AddF
 
     public AddFieldHandler(
         IFieldCommandFacade fieldFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _fieldFacade = fieldFacade;
     }
-    
-    protected override async ValueTask<AddFieldDto> HandleCommand(AddFieldCommand request, CancellationToken cancellationToken)
+
+    protected override async ValueTask<AddFieldDto> HandleCommand( AddFieldCommand request,
+        CancellationToken cancellationToken )
     {
-        var field = Mapper.Map<Field>(request);
+        var field = Mapper.Map<Field>( request );
         field.StadiumId = _currentStadiumId;
         field.UserCreatedId = _userId;
 
-        await _fieldFacade.AddField(field, request.Images, _legalId);
-        
+        await _fieldFacade.AddField( field, request.Images, _legalId );
+
         return new AddFieldDto();
     }
 }

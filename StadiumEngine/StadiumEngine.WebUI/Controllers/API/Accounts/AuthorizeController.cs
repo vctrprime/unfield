@@ -18,7 +18,7 @@ namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 /// <summary>
 /// Авторизация
 /// </summary>
-[Route("api/accounts")]
+[Route( "api/accounts" )]
 public class AuthorizeController : BaseApiController
 {
     /// <summary>
@@ -28,84 +28,77 @@ public class AuthorizeController : BaseApiController
     [HttpGet]
     public async Task<AuthorizedUserDto> Get()
     {
-        var user = await Mediator.Send(new GetAuthorizedUserQuery());
+        var user = await Mediator.Send( new GetAuthorizedUserQuery() );
         return user;
     }
-    
+
     /// <summary>
     /// Авторизовать
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    [HttpPost("login")]
+    [HttpPost( "login" )]
     [AllowAnonymous]
-    public async Task<AuthorizeUserDto> Login([FromBody] AuthorizeUserCommand command)
+    public async Task<AuthorizeUserDto> Login( [FromBody] AuthorizeUserCommand command )
     {
-        var user = await Mediator.Send(command);
+        var user = await Mediator.Send( command );
 
-        return await Authorize(user, "Invalid password or login");
+        return await Authorize( user, "Invalid password or login" );
     }
-    
+
     /// <summary>
     /// Сменить стадион
     /// </summary>
     /// <param name="stadiumId"></param>
     /// <returns></returns>
-    [HttpPut("change-stadium/{stadiumId}")]
-    public async Task<AuthorizeUserDto> ChangeStadium(int stadiumId)
+    [HttpPut( "change-stadium/{stadiumId}" )]
+    public async Task<AuthorizeUserDto> ChangeStadium( int stadiumId )
     {
-        var user = await Mediator.Send(new ChangeStadiumCommand(stadiumId));
+        var user = await Mediator.Send( new ChangeStadiumCommand( stadiumId ) );
 
-        return await Authorize(user, "Forbidden");
+        return await Authorize( user, "Forbidden" );
     }
-    
+
     /// <summary>
     /// Сменить орагнизацию (админ)
     /// </summary>
     /// <param name="legalId"></param>
     /// <returns></returns>
     [AdminFeature]
-    [HttpPut("/api/admin/change-legal/{legalId}")]
-    public async Task<AuthorizeUserDto> ChangeLegal(int legalId)
+    [HttpPut( "/api/admin/change-legal/{legalId}" )]
+    public async Task<AuthorizeUserDto> ChangeLegal( int legalId )
     {
-        var user = await Mediator.Send(new ChangeLegalCommand(legalId));
+        var user = await Mediator.Send( new ChangeLegalCommand( legalId ) );
 
-        return await Authorize(user, "Forbidden");
+        return await Authorize( user, "Forbidden" );
     }
 
     /// <summary>
     /// Выйти из системы
     /// </summary>
-    [HttpDelete("logout")]
+    [HttpDelete( "logout" )]
     [AllowAnonymous]
     public async Task Logout()
     {
-        if (User.Identity is { IsAuthenticated: true })
-        {
-            await HttpContext.SignOutAsync();
-        }
+        if (User.Identity is { IsAuthenticated: true }) await HttpContext.SignOutAsync();
     }
 
-    private async Task<AuthorizeUserDto> Authorize(AuthorizeUserDto user, string exceptionMessage)
+    private async Task<AuthorizeUserDto> Authorize( AuthorizeUserDto user, string exceptionMessage )
     {
-        if (user == null) throw new DomainException(exceptionMessage);
-        
-        var claimsIdentity = new ClaimsIdentity(user.Claims, "Identity.Application");
-        
-        if (User.Identity is { IsAuthenticated: true })
-        {
-            await HttpContext.SignOutAsync();
-        }
-        
+        if (user == null) throw new DomainException( exceptionMessage );
+
+        var claimsIdentity = new ClaimsIdentity( user.Claims, "Identity.Application" );
+
+        if (User.Identity is { IsAuthenticated: true }) await HttpContext.SignOutAsync();
+
         await HttpContext.SignInAsync(
             "Identity.Application",
-            new ClaimsPrincipal(claimsIdentity),
+            new ClaimsPrincipal( claimsIdentity ),
             new AuthenticationProperties
             {
                 IsPersistent = true
-            });
+            } );
 
         return user;
     }
-
 }

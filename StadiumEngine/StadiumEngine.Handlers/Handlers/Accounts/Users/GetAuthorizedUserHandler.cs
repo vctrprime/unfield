@@ -11,20 +11,21 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 internal sealed class GetAuthorizedUserHandler : BaseRequestHandler<GetAuthorizedUserQuery, AuthorizedUserDto>
 {
     private readonly IUserQueryFacade _userFacade;
-    
+
     public GetAuthorizedUserHandler(
         IUserQueryFacade userFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
         _userFacade = userFacade;
     }
 
-    public override async ValueTask<AuthorizedUserDto> Handle(GetAuthorizedUserQuery request, CancellationToken cancellationToken)
+    public override async ValueTask<AuthorizedUserDto> Handle( GetAuthorizedUserQuery request,
+        CancellationToken cancellationToken )
     {
-        var user = await _userFacade.GetUser(_userId);
+        var user = await _userFacade.GetUser( _userId );
 
-        var userDto = Mapper.Map<AuthorizedUserDto>(user);
+        var userDto = Mapper.Map<AuthorizedUserDto>( user );
 
         return userDto;
     }

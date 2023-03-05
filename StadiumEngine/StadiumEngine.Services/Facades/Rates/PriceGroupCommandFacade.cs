@@ -12,44 +12,41 @@ internal class PriceGroupCommandFacade : IPriceGroupCommandFacade
     private readonly IPriceGroupRepository _priceGroupRepository;
     private readonly IFieldRepository _fieldRepository;
 
-    public PriceGroupCommandFacade(IPriceGroupRepository priceGroupRepository, IFieldRepository fieldRepository)
+    public PriceGroupCommandFacade( IPriceGroupRepository priceGroupRepository, IFieldRepository fieldRepository )
     {
         _priceGroupRepository = priceGroupRepository;
         _fieldRepository = fieldRepository;
     }
-    
-    public void AddPriceGroup(PriceGroup priceGroup)
+
+    public void AddPriceGroup( PriceGroup priceGroup )
     {
-        _priceGroupRepository.Add(priceGroup);
+        _priceGroupRepository.Add( priceGroup );
     }
 
-    public void UpdatePriceGroup(PriceGroup priceGroup)
+    public void UpdatePriceGroup( PriceGroup priceGroup )
     {
-        _priceGroupRepository.Update(priceGroup);
-        if (!priceGroup.IsActive)
-        {
-            ResetFieldsPriceGroup(priceGroup);
-        }
+        _priceGroupRepository.Update( priceGroup );
+        if (!priceGroup.IsActive) ResetFieldsPriceGroup( priceGroup );
     }
 
-    public async Task DeletePriceGroup(int priceGroupId, int stadiumId)
+    public async Task DeletePriceGroup( int priceGroupId, int stadiumId )
     {
-        var priceGroup = await _priceGroupRepository.Get(priceGroupId, stadiumId);
+        var priceGroup = await _priceGroupRepository.Get( priceGroupId, stadiumId );
 
-        if (priceGroup == null) throw new DomainException(ErrorsKeys.PriceGroupNotFound);
-        
-        _priceGroupRepository.Remove(priceGroup);
+        if (priceGroup == null) throw new DomainException( ErrorsKeys.PriceGroupNotFound );
 
-        ResetFieldsPriceGroup(priceGroup);
+        _priceGroupRepository.Remove( priceGroup );
+
+        ResetFieldsPriceGroup( priceGroup );
     }
 
-    private void ResetFieldsPriceGroup(PriceGroup priceGroup)
+    private void ResetFieldsPriceGroup( PriceGroup priceGroup )
     {
         foreach (var field in priceGroup.Fields)
         {
             field.PriceGroupId = null;
             field.UserModifiedId = priceGroup.UserModifiedId;
-            _fieldRepository.Update(field);
+            _fieldRepository.Update( field );
         }
     }
 }

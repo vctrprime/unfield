@@ -10,18 +10,18 @@ internal class LockerRoomQueryFacade : ILockerRoomQueryFacade
 {
     private readonly ILockerRoomRepository _lockerRoomRepository;
 
-    public LockerRoomQueryFacade(ILockerRoomRepository lockerRoomRepository)
+    public LockerRoomQueryFacade( ILockerRoomRepository lockerRoomRepository )
     {
         _lockerRoomRepository = lockerRoomRepository;
     }
-    public async Task<List<LockerRoom>> GetByStadiumId(int stadiumId)
+
+    public async Task<List<LockerRoom>> GetByStadiumId( int stadiumId )
     {
-        return await _lockerRoomRepository.GetAll(stadiumId);
+        return await _lockerRoomRepository.GetAll( stadiumId );
     }
 
-    public async Task<LockerRoom?> GetByLockerRoomId(int lockerRoomId, int stadiumId)
+    public async Task<LockerRoom?> GetByLockerRoomId( int lockerRoomId, int stadiumId )
     {
-        return await _lockerRoomRepository.Get(lockerRoomId, stadiumId);
+        return await _lockerRoomRepository.Get( lockerRoomId, stadiumId );
     }
-    
 }

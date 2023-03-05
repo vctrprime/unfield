@@ -4,43 +4,38 @@ using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace StadiumEngine.WebUI.Infrastructure.Extensions
+namespace StadiumEngine.WebUI.Infrastructure.Extensions;
+
+/// <summary>
+/// Extensions for IWebHostEnvironment
+/// </summary>
+public static class WebHostEnvironmentExtensions
 {
     /// <summary>
-    /// Extensions for IWebHostEnvironment
+    /// Get application version string.
     /// </summary>
-    public static class WebHostEnvironmentExtensions
+    public static void WriteReactEnvAppVersion( this IWebHostEnvironment environment )
     {
-        /// <summary>
-        /// Get application version string.
-        /// </summary>
-        public static void WriteReactEnvAppVersion(this IWebHostEnvironment environment)
-        {
-            if (!environment.IsDevelopment())
-            {
-                return;
-            }
-            var version = typeof(Program).Assembly.GetName().Version;
+        if (!environment.IsDevelopment()) return;
+        var version = typeof( Program ).Assembly.GetName().Version;
 
-            var stringVersion = $"v{version}";
+        var stringVersion = $"v{version}";
 
-            var filePath = $"{ environment.ContentRootPath}/ClientApp/.env";
+        var filePath = $"{environment.ContentRootPath}/ClientApp/.env";
 
-            if (!File.Exists(filePath))
-            {
-                return;
-            }
+        if (!File.Exists( filePath )) return;
 
-            var fileStringsArray = File.ReadAllLines(filePath);
+        var fileStringsArray = File.ReadAllLines( filePath );
 
-            var filteredArray =
-                fileStringsArray.Where(x =>
-                        !x.StartsWith("REACT_APP_VERSION",
-                            StringComparison.OrdinalIgnoreCase))
-                    .Append($"REACT_APP_VERSION={stringVersion}")
-                    .ToArray();
+        var filteredArray =
+            fileStringsArray.Where(
+                    x =>
+                        !x.StartsWith(
+                            "REACT_APP_VERSION",
+                            StringComparison.OrdinalIgnoreCase ) )
+                .Append( $"REACT_APP_VERSION={stringVersion}" )
+                .ToArray();
 
-            File.WriteAllLines(filePath, filteredArray);
-        }
+        File.WriteAllLines( filePath, filteredArray );
     }
 }

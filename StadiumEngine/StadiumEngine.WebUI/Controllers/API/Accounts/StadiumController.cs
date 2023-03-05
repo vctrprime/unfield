@@ -13,18 +13,18 @@ namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 /// <summary>
 /// Стадионы
 /// </summary>
-[Route("api/accounts/stadiums")]
+[Route( "api/accounts/stadiums" )]
 public class StadiumController : BaseApiController
 {
     /// <summary>
     /// Получить стадионы
     /// </summary>
     /// <returns></returns>
-    [HttpGet("{roleId}")]
-    [HasPermission(PermissionsKeys.GetStadiums)]
-    public async Task<List<StadiumDto>> Get(int roleId)
+    [HttpGet( "{roleId}" )]
+    [HasPermission( PermissionsKeys.GetStadiums )]
+    public async Task<List<StadiumDto>> Get( int roleId )
     {
-        var stadiums = await Mediator.Send(new GetStadiumsForRoleQuery(roleId));
+        var stadiums = await Mediator.Send( new GetStadiumsForRoleQuery( roleId ) );
         return stadiums;
     }
 }

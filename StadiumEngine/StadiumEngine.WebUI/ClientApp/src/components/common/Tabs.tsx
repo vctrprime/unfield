@@ -6,12 +6,13 @@ export interface TabData {
     route: string,
     resourcePath: string
 }
+
 interface TabsProps {
     tabsData: TabData[]
     leftNavRoute: string
 }
 
-export const Tabs = ({ tabsData, leftNavRoute } : TabsProps) => {
+export const Tabs = ({tabsData, leftNavRoute}: TabsProps) => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -19,7 +20,7 @@ export const Tabs = ({ tabsData, leftNavRoute } : TabsProps) => {
             navigate(tabsData[0].route);
         }
     }, [])
-    
+
     return (
         <div className="tabs-container">
             <div className="tabs-links box-shadow">
@@ -34,7 +35,7 @@ export const Tabs = ({ tabsData, leftNavRoute } : TabsProps) => {
                 })}
             </div>
             <div className="tabs-content">
-                <Outlet />
+                <Outlet/>
             </div>
 
         </div>)

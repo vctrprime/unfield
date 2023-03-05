@@ -15,21 +15,22 @@ internal sealed class AddRoleHandler : BaseCommandHandler<AddRoleCommand, AddRol
 
     public AddRoleHandler(
         IRoleCommandFacade roleFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _roleFacade = roleFacade;
     }
-    
-    protected override async ValueTask<AddRoleDto> HandleCommand(AddRoleCommand request, CancellationToken cancellationToken)
+
+    protected override async ValueTask<AddRoleDto> HandleCommand( AddRoleCommand request,
+        CancellationToken cancellationToken )
     {
-        var role = Mapper.Map<Role>(request);
+        var role = Mapper.Map<Role>( request );
         role.LegalId = _legalId;
         role.UserCreatedId = _userId;
-        
-        _roleFacade.AddRole(role);
-        
+
+        _roleFacade.AddRole( role );
+
         return new AddRoleDto();
     }
 }

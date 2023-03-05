@@ -12,16 +12,16 @@ import {IRatesService} from "../../../services/RatesService";
 import {PermissionsKeys} from "../../../static/PermissionsKeys";
 
 export const PriceGroup = () => {
-    let { id } = useParams();
-    
+    let {id} = useParams();
+
     const [data, setData] = useState<PriceGroupDto>({
         isActive: true
     } as PriceGroupDto);
     const [isError, setIsError] = useState<boolean>(false);
-    const [priceGroupId, setPriceGroupId] = useState(parseInt(id||"0"))
-    
+    const [priceGroupId, setPriceGroupId] = useState(parseInt(id || "0"))
+
     const [ratesService] = useInject<IRatesService>('RatesService');
-    
+
     const navigate = useNavigate();
 
     const fetchPriceGroup = () => {
@@ -34,17 +34,16 @@ export const PriceGroup = () => {
 
     useEffect(() => {
         fetchPriceGroup();
-    },[priceGroupId])
+    }, [priceGroupId])
 
     useEffect(() => {
-        setPriceGroupId(parseInt(id||"0"));
+        setPriceGroupId(parseInt(id || "0"));
     }, [id])
-    
+
     useEffect(() => {
         if (data.name !== undefined && data.name !== null) {
             document.title = getDataTitle(data.name);
-        }
-        else {
+        } else {
             document.title = getTitle("rates:price_groups_tab")
         }
     }, [data])
@@ -52,7 +51,7 @@ export const PriceGroup = () => {
     const nameInput = useRef<any>();
     const descriptionInput = useRef<any>();
 
-    
+
     const savePriceGroup = () => {
         if (validateInputs([nameInput])) {
             const command: AddPriceGroupCommand = {
@@ -65,7 +64,7 @@ export const PriceGroup = () => {
             })
         }
     }
-    
+
     const updatePriceGroup = () => {
         if (validateInputs([nameInput])) {
             const command: UpdatePriceGroupCommand = {
@@ -79,7 +78,7 @@ export const PriceGroup = () => {
             })
         }
     }
-    
+
     const deletePriceGroup = () => {
         ratesService.deletePriceGroup(priceGroupId).then(() => {
             navigate("/lk/rates/price-groups");
@@ -93,32 +92,36 @@ export const PriceGroup = () => {
         });
     }
 
-    
+
     return isError ? <span/> : (<div>
-            <ActionButtons
-                savePermission={id === "new" ? PermissionsKeys.InsertPriceGroup : PermissionsKeys.UpdatePriceGroup}
-                deletePermission={PermissionsKeys.DeletePriceGroup}
-                title={id === "new" ? t('rates:price_groups_grid:adding') : t('rates:price_groups_grid:editing')}
-                saveAction={id === "new" ? savePriceGroup : updatePriceGroup}
-                deleteAction={id === "new" ? null : deletePriceGroup}
-                deleteHeader={id === "new" ? null : t('rates:price_groups_grid:delete:header')}
-                deleteQuestion={id === "new" ? null : StringFormat(t('rates:price_groups_grid:delete:question'), data?.name||'')}
-            />
-             <Form className="price-group-form">
-                 <Form.Field style={{marginBottom: 0}}>
-                     <label>{t("rates:price_groups_grid:is_active")}</label>
-                     <Checkbox toggle checked={data.isActive} onChange={() => changeIsActive()}/>
-                 </Form.Field>
-                <Form.Field>
-                    <label>{t("rates:price_groups_grid:name")}</label>
-                    <input id="name-input" ref={nameInput} placeholder={t("rates:price_groups_grid:name")||''} defaultValue={data?.name || ''}/>
-                </Form.Field>
-                <Form.Field>
-                    <label>{t("rates:price_groups_grid:description")}</label>
-                    <textarea id="description-input" ref={descriptionInput} rows={4} placeholder={t("rates:price_groups_grid:description")||''} defaultValue={data?.description || ''}/>
-                </Form.Field>
-                 {data?.fieldNames?.length > 0 &&
-                     <div style={{marginBottom: '1em'}}>{t("rates:price_groups_grid:fields_list")}: <br/><span style={{ fontWeight: 'bold'}}>{data.fieldNames.join(', ')}</span></div>}
-            </Form>
-        </div>);
+        <ActionButtons
+            savePermission={id === "new" ? PermissionsKeys.InsertPriceGroup : PermissionsKeys.UpdatePriceGroup}
+            deletePermission={PermissionsKeys.DeletePriceGroup}
+            title={id === "new" ? t('rates:price_groups_grid:adding') : t('rates:price_groups_grid:editing')}
+            saveAction={id === "new" ? savePriceGroup : updatePriceGroup}
+            deleteAction={id === "new" ? null : deletePriceGroup}
+            deleteHeader={id === "new" ? null : t('rates:price_groups_grid:delete:header')}
+            deleteQuestion={id === "new" ? null : StringFormat(t('rates:price_groups_grid:delete:question'), data?.name || '')}
+        />
+        <Form className="price-group-form">
+            <Form.Field style={{marginBottom: 0}}>
+                <label>{t("rates:price_groups_grid:is_active")}</label>
+                <Checkbox toggle checked={data.isActive} onChange={() => changeIsActive()}/>
+            </Form.Field>
+            <Form.Field>
+                <label>{t("rates:price_groups_grid:name")}</label>
+                <input id="name-input" ref={nameInput} placeholder={t("rates:price_groups_grid:name") || ''}
+                       defaultValue={data?.name || ''}/>
+            </Form.Field>
+            <Form.Field>
+                <label>{t("rates:price_groups_grid:description")}</label>
+                <textarea id="description-input" ref={descriptionInput} rows={4}
+                          placeholder={t("rates:price_groups_grid:description") || ''}
+                          defaultValue={data?.description || ''}/>
+            </Form.Field>
+            {data?.fieldNames?.length > 0 &&
+                <div style={{marginBottom: '1em'}}>{t("rates:price_groups_grid:fields_list")}: <br/><span
+                    style={{fontWeight: 'bold'}}>{data.fieldNames.join(', ')}</span></div>}
+        </Form>
+    </div>);
 }

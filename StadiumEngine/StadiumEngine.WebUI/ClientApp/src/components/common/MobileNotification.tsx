@@ -6,8 +6,8 @@ import {t} from "i18next";
 
 export const MobileNotification = () => {
     return (<div className="sign-in-container">
-        <div className="color-block bottom-color-block" style={{top: 0}} />
-        <div className="color-block top-color-block" />
+        <div className="color-block bottom-color-block" style={{top: 0}}/>
+        <div className="color-block top-color-block"/>
 
         <div className="logo-container">
             <NavbarBrand className={"navbar-brand-ext"} tag={Link} to="/">
@@ -16,7 +16,15 @@ export const MobileNotification = () => {
             <div className={"version-title"}>{process.env.REACT_APP_VERSION}</div>
         </div>
 
-        <div style={{width: '100%', position: "absolute", left: 0, top: "150px",  zIndex: 2, padding: '10px 50px', textAlign: 'center'}}>{t('common:mobile_notification')}</div>
+        <div style={{
+            width: '100%',
+            position: "absolute",
+            left: 0,
+            top: "150px",
+            zIndex: 2,
+            padding: '10px 50px',
+            textAlign: 'center'
+        }}>{t('common:mobile_notification')}</div>
 
         <NavLink className="portal-button" to="/">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"

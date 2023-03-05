@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import {atom} from 'recoil';
 import {InventoryDto} from "../../models/dto/offers/InventoryDto";
 
 const inventoriesAtom = atom({
@@ -6,4 +6,4 @@ const inventoriesAtom = atom({
     default: [] as InventoryDto[]
 });
 
-export { inventoriesAtom };
+export {inventoriesAtom};

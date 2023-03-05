@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import {Button, Icon, Modal} from "semantic-ui-react";
 import {t} from "i18next";
 
-export const DeleteButton = ({action, deleteHeader, deleteQuestion} : any) => {
+export const DeleteButton = ({action, deleteHeader, deleteQuestion}: any) => {
     const [deleteModal, setDeleteModal] = useState<boolean>(false)
-    
+
     return <div>
         <Modal
             dimmer='blurring'
@@ -24,7 +24,8 @@ export const DeleteButton = ({action, deleteHeader, deleteQuestion} : any) => {
                 }}>{t('common:yes_button')}</Button>
             </Modal.Actions>
         </Modal>
-        <Icon name='trash alternate' title={t('common:delete_button')} className="action-button" onClick={() => setDeleteModal(true)}/>
+        <Icon name='trash alternate' title={t('common:delete_button')} className="action-button"
+              onClick={() => setDeleteModal(true)}/>
     </div>
-    
+
 }

@@ -6,10 +6,10 @@ import {Currency} from "../../../models/dto/offers/enums/Currency";
 
 export interface CurrencySelectProps<T> {
     data: T,
-    setData:  React.Dispatch<React.SetStateAction<T>>
+    setData: React.Dispatch<React.SetStateAction<T>>
 }
 
-export const CurrencySelect = <T extends PriceOfferDto,>(props: CurrencySelectProps<T>) => {
+export const CurrencySelect = <T extends PriceOfferDto, >(props: CurrencySelectProps<T>) => {
     const currenciesAll = () => {
         const result = [];
         for (let item in Currency) {
@@ -27,18 +27,18 @@ export const CurrencySelect = <T extends PriceOfferDto,>(props: CurrencySelectPr
 
         return result;
     }
-    
-    const changeCurrency = (e : any, { value }: any) => {
+
+    const changeCurrency = (e: any, {value}: any) => {
         props.setData({
             ...props.data,
             currency: value
         });
     }
-    
-    return  <Form.Field >
+
+    return <Form.Field>
         <label>{t("offers:currencies:title")}</label>
         <Dropdown
-            placeholder={t("offers:currencies:title")||''}
+            placeholder={t("offers:currencies:title") || ''}
             fluid
             search
             selection

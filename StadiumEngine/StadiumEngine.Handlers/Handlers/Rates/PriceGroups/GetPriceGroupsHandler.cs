@@ -13,17 +13,18 @@ internal sealed class GetPriceGroupsHandler : BaseRequestHandler<GetPriceGroupsQ
 
     public GetPriceGroupsHandler(
         IPriceGroupQueryFacade priceGroupFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
         _priceGroupFacade = priceGroupFacade;
     }
-    
-    public override async ValueTask<List<PriceGroupDto>> Handle(GetPriceGroupsQuery request, CancellationToken cancellationToken)
-    {
-        var priceGroups = await _priceGroupFacade.GetByStadiumId(_currentStadiumId);
 
-        var priceGroupsDto = Mapper.Map<List<PriceGroupDto>>(priceGroups);
+    public override async ValueTask<List<PriceGroupDto>> Handle( GetPriceGroupsQuery request,
+        CancellationToken cancellationToken )
+    {
+        var priceGroups = await _priceGroupFacade.GetByStadiumId( _currentStadiumId );
+
+        var priceGroupsDto = Mapper.Map<List<PriceGroupDto>>( priceGroups );
 
         return priceGroupsDto;
     }

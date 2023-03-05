@@ -5,7 +5,7 @@ namespace StadiumEngine.Handlers.Commands.Accounts.Roles;
 
 public sealed class DeleteRoleCommand : IRequest<DeleteRoleDto>
 {
-    public DeleteRoleCommand(int roleId)
+    public DeleteRoleCommand( int roleId )
     {
         RoleId = roleId;
     }

@@ -5,5 +5,4 @@ namespace StadiumEngine.DTO.Rates.PriceGroups;
 /// </summary>
 public class UpdatePriceGroupDto : BaseEmptySuccessDto
 {
-    
 }

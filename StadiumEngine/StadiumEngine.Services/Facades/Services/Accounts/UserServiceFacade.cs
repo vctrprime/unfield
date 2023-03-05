@@ -11,10 +11,10 @@ internal class UserServiceFacade : IUserServiceFacade
     private readonly IPasswordValidator _passwordValidator;
 
     public UserServiceFacade(
-        IPasswordGenerator passwordGenerator, 
-        IHasher hasher, 
+        IPasswordGenerator passwordGenerator,
+        IHasher hasher,
         IPhoneNumberChecker phoneNumberChecker,
-        IPasswordValidator passwordValidator)
+        IPasswordValidator passwordValidator )
     {
         _passwordGenerator = passwordGenerator;
         _hasher = hasher;
@@ -22,28 +22,28 @@ internal class UserServiceFacade : IUserServiceFacade
         _passwordValidator = passwordValidator;
     }
 
-    public string GeneratePassword(int length)
+    public string GeneratePassword( int length )
     {
-        return _passwordGenerator.Generate(length);
+        return _passwordGenerator.Generate( length );
     }
 
-    public string CryptPassword(string password)
+    public string CryptPassword( string password )
     {
-        return _hasher.Crypt(password);
+        return _hasher.Crypt( password );
     }
 
-    public bool CheckPassword(string secretPassword, string password)
+    public bool CheckPassword( string secretPassword, string password )
     {
-        return _hasher.Check(secretPassword, password);
+        return _hasher.Check( secretPassword, password );
     }
 
-    public string CheckPhoneNumber(string phoneNumber)
+    public string CheckPhoneNumber( string phoneNumber )
     {
-        return _phoneNumberChecker.Check(phoneNumber);
+        return _phoneNumberChecker.Check( phoneNumber );
     }
 
-    public bool ValidatePassword(string password)
+    public bool ValidatePassword( string password )
     {
-        return _passwordValidator.Validate(password);
+        return _passwordValidator.Validate( password );
     }
 }

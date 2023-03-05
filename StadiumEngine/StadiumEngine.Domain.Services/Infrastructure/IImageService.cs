@@ -5,6 +5,6 @@ namespace StadiumEngine.Domain.Services.Infrastructure;
 
 public interface IImageService
 {
-    Task<string> Upload(IFormFile file, int legalId, int stadiumId, string module);
-    void Delete(string path);
+    Task<string> Upload( IFormFile file, int legalId, int stadiumId, string module );
+    void Delete( string path );
 }

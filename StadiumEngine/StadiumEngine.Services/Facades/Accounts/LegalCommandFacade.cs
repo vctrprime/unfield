@@ -14,24 +14,24 @@ internal class LegalCommandFacade : ILegalCommandFacade
     private readonly INewLegalBuilder _newLegalBuilder;
 
     public LegalCommandFacade(
-        IUserServiceFacade userServiceFacade, 
-        ILegalRepository legalRepository, 
-        INewLegalBuilder newLegalBuilder)
+        IUserServiceFacade userServiceFacade,
+        ILegalRepository legalRepository,
+        INewLegalBuilder newLegalBuilder )
     {
         _userServiceFacade = userServiceFacade;
         _legalRepository = legalRepository;
         _newLegalBuilder = newLegalBuilder;
     }
-    
-    public async Task<string> AddLegal(Legal legal, User superuser)
-    {
-        if (!legal.Stadiums.Any()) throw new DomainException("Передан пустой список объектов для добавления!");
-        
-        superuser.PhoneNumber = _userServiceFacade.CheckPhoneNumber(superuser.PhoneNumber);
 
-        var password = await _newLegalBuilder.Build(legal, superuser);
-        
-        _legalRepository.Add(legal);
+    public async Task<string> AddLegal( Legal legal, User superuser )
+    {
+        if (!legal.Stadiums.Any()) throw new DomainException( "Передан пустой список объектов для добавления!" );
+
+        superuser.PhoneNumber = _userServiceFacade.CheckPhoneNumber( superuser.PhoneNumber );
+
+        var password = await _newLegalBuilder.Build( legal, superuser );
+
+        _legalRepository.Add( legal );
 
         return password;
     }

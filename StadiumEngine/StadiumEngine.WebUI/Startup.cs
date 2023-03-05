@@ -22,74 +22,78 @@ using Newtonsoft.Json;
 using StadiumEngine.WebUI.Infrastructure.Extensions;
 using StadiumEngine.WebUI.Infrastructure.Middleware;
 
-namespace StadiumEngine.WebUI
+namespace StadiumEngine.WebUI;
+
+/// <summary>
+/// Установочный класс
+/// </summary>
+public class Startup
 {
     /// <summary>
     /// Установочный класс
     /// </summary>
-    public class Startup
+    public Startup( IConfiguration configuration,
+        IWebHostEnvironment environment )
     {
-        /// <summary>
-        /// Установочный класс
-        /// </summary>
-        public Startup(IConfiguration configuration,
-            IWebHostEnvironment environment)
-        {
-            Configuration = configuration;
-            _environment = environment;
-        }
-        
-        /// <summary>
-        /// Объект конфигурации
-        /// </summary>
-        public IConfiguration Configuration { get; }
-        
-        private readonly IWebHostEnvironment _environment;
+        Configuration = configuration;
+        _environment = environment;
+    }
 
-        /// <summary>
-        /// Конфигурация сервисов
-        /// </summary>
-        /// <param name="services"></param>
-        public void ConfigureServices(IServiceCollection services)
-        {
-            var folderPath = 
-                Path.Combine(Path.GetDirectoryName(System
-                    .Reflection
-                    .Assembly
-                    .GetAssembly(typeof(Startup))?.Location) ?? string.Empty, "keys");
+    /// <summary>
+    /// Объект конфигурации
+    /// </summary>
+    public IConfiguration Configuration { get; }
 
-            services.AddDataProtection()
-                .PersistKeysToFileSystem(new DirectoryInfo(folderPath))
-                .SetApplicationName($"StadiumEngine-{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}")
-                .SetDefaultKeyLifetime(TimeSpan.FromDays(10000))
-                .DisableAutomaticKeyGeneration();
-            
-            services.RegisterModules();
+    private readonly IWebHostEnvironment _environment;
 
-            if (_environment.IsDevelopment())
-            {
-                services.AddSwaggerGen(c =>
+    /// <summary>
+    /// Конфигурация сервисов
+    /// </summary>
+    /// <param name="services"></param>
+    public void ConfigureServices( IServiceCollection services )
+    {
+        var folderPath =
+            Path.Combine(
+                Path.GetDirectoryName(
+                    Assembly
+                        .GetAssembly( typeof( Startup ) )?.Location ) ?? string.Empty,
+                "keys" );
+
+        services.AddDataProtection()
+            .PersistKeysToFileSystem( new DirectoryInfo( folderPath ) )
+            .SetApplicationName( $"StadiumEngine-{Environment.GetEnvironmentVariable( "ASPNETCORE_ENVIRONMENT" )}" )
+            .SetDefaultKeyLifetime( TimeSpan.FromDays( 10000 ) )
+            .DisableAutomaticKeyGeneration();
+
+        services.RegisterModules();
+
+        if (_environment.IsDevelopment())
+            services.AddSwaggerGen(
+                c =>
                 {
-                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Stadium Engine API", Version = "v1" });   
+                    c.SwaggerDoc( "v1", new OpenApiInfo { Title = "Stadium Engine API", Version = "v1" } );
                     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                    c.IncludeXmlComments(xmlPath, true);
-                    var dtpXmlPath = Path.Combine(AppContext.BaseDirectory, "StadiumEngine.DTO.xml");
-                    c.IncludeXmlComments(dtpXmlPath);
-                });
-            }
-            
-            services.AddAuthentication("Identity.Application")
-                .AddCookie("Identity.Application", options =>
+                    var xmlPath = Path.Combine( AppContext.BaseDirectory, xmlFile );
+                    c.IncludeXmlComments( xmlPath, true );
+                    var dtpXmlPath = Path.Combine( AppContext.BaseDirectory, "StadiumEngine.DTO.xml" );
+                    c.IncludeXmlComments( dtpXmlPath );
+                } );
+
+        services.AddAuthentication( "Identity.Application" )
+            .AddCookie(
+                "Identity.Application",
+                options =>
                 {
                     // Unauthorized return 401.
                     options.Events.OnRedirectToLogin = context =>
                     {
                         context.Response.StatusCode = 401;
-                        context.Response.WriteAsync(JsonConvert.SerializeObject(new
-                        {
-                            Message = "Вы не авторизованы!",
-                        }));
+                        context.Response.WriteAsync(
+                            JsonConvert.SerializeObject(
+                                new
+                                {
+                                    Message = "Вы не авторизованы!"
+                                } ) );
                         return Task.CompletedTask;
                     };
                     // Access denied return 403.
@@ -98,104 +102,101 @@ namespace StadiumEngine.WebUI
                         context.Response.StatusCode = 403;
                         return Task.CompletedTask;
                     };*/
-                    options.ExpireTimeSpan = TimeSpan.FromHours(8);
+                    options.ExpireTimeSpan = TimeSpan.FromHours( 8 );
                     options.SlidingExpiration = true;
-                });
-            
-            
-            services.AddControllersWithViews().AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                })
-                .AddNewtonsoftJson();
-            
-            services.AddHttpContextAccessor();
-            services.AddTransient(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
-            
-            services.Configure<KestrelServerOptions>(Configuration.GetSection("Kestrel"));
+                } );
 
-            // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
-        }
 
-        /// <summary>
-        /// Конфигурация конвейера
-        /// </summary>
-        /// <param name="app"></param>
-        /// <param name="env"></param>
-        /// <param name="logger"></param>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
+        services.AddControllersWithViews().AddJsonOptions(
+                options => { options.JsonSerializerOptions.Converters.Add( new JsonStringEnumConverter() ); } )
+            .AddNewtonsoftJson();
+
+        services.AddHttpContextAccessor();
+        services.AddTransient( s => s.GetService<IHttpContextAccessor>().HttpContext.User );
+
+        services.Configure<KestrelServerOptions>( Configuration.GetSection( "Kestrel" ) );
+
+        // In production, the React files will be served from this directory
+        services.AddSpaStaticFiles( configuration => { configuration.RootPath = "ClientApp/build"; } );
+    }
+
+    /// <summary>
+    /// Конфигурация конвейера
+    /// </summary>
+    /// <param name="app"></param>
+    /// <param name="env"></param>
+    /// <param name="logger"></param>
+    public void Configure( IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger )
+    {
+        env.WriteReactEnvAppVersion();
+
+        if (env.IsDevelopment())
         {
-            env.WriteReactEnvAppVersion();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseForwardedHeaders(new ForwardedHeadersOptions
+            app.UseDeveloperExceptionPage();
+        }
+        else
+        {
+            app.UseForwardedHeaders(
+                new ForwardedHeadersOptions
                 {
                     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-                });
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-                app.UseHttpsRedirection();
-            }
-            
-            //ставим небольшую задержку на обработку запросов, для тестов скелетона и спиннера
-            app.Use(async (context, next) =>
+                } );
+            app.UseExceptionHandler( "/Error" );
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+            app.UseHttpsRedirection();
+        }
+
+        //ставим небольшую задержку на обработку запросов, для тестов скелетона и спиннера
+        app.Use(
+            async ( context, next ) =>
             {
-                if (context.Request.Path.Value != null && context.Request.Path.Value.Contains("api/"))
+                if (context.Request.Path.Value != null && context.Request.Path.Value.Contains( "api/" ))
                 {
                     //Thread.Sleep(3000);
                 }
+
                 await next.Invoke();
-            });
-            
-            app.ConfigureExceptionHandler(logger);
-            
-            app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions
+            } );
+
+        app.ConfigureExceptionHandler( logger );
+
+        app.UseStaticFiles();
+        app.UseStaticFiles(
+            new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Environment.GetEnvironmentVariable("IMAGE_STORAGE")),
+                FileProvider = new PhysicalFileProvider( Environment.GetEnvironmentVariable( "IMAGE_STORAGE" ) ),
                 RequestPath = "/legal-images"
-            });
-            
-            app.UseSpaStaticFiles();
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
-            
-            if (env.IsDevelopment())
-            {
-                app.UseSwagger();
+            } );
 
-                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-                // specifying the Swagger JSON endpoint.
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Stadium Engine API");
-                });
-            }
+        app.UseSpaStaticFiles();
+        app.UseRouting();
+        app.UseAuthentication();
+        app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+        if (env.IsDevelopment())
+        {
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI( c => { c.SwaggerEndpoint( "/swagger/v1/swagger.json", "Stadium Engine API" ); } );
+        }
+
+        app.UseEndpoints(
+            endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
-            });
+                    "default",
+                    "{controller}/{action=Index}/{id?}" );
+            } );
 
-            app.UseSpa(spa =>
+        app.UseSpa(
+            spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
-            });
-        }
+                if (env.IsDevelopment()) spa.UseReactDevelopmentServer( "start" );
+            } );
     }
 }

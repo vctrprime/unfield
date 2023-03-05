@@ -20,7 +20,7 @@ import {permissionsAtom} from "../../../state/permissions";
 import {fieldsAtom} from "../../../state/offers/fields";
 
 const AgGrid = require('ag-grid-react');
-const { AgGridReact } = AgGrid;
+const {AgGridReact} = AgGrid;
 
 export const Fields = () => {
     document.title = getTitle("offers:fields_tab")
@@ -42,39 +42,40 @@ export const Fields = () => {
         navigate("/lk/offers/fields/" + id);
     }
 
-    const NameRenderer = (obj : any) => {
+    const NameRenderer = (obj: any) => {
         return <span className="link-cell" onClick={() => onNameClick(obj.data.id)}>{obj.data.name}</span>;
     }
-    
-    const SizeRenderer = (obj : any) => {
+
+    const SizeRenderer = (obj: any) => {
         return <span>{obj.data.length}x{obj.data.width}</span>;
     }
 
-    const CoveringRenderer = (obj : any) => {
+    const CoveringRenderer = (obj: any) => {
         const value = FieldCoveringType[obj.data.coveringType];
-        
-        return <span>{ t("offers:coverings:" + value.toLowerCase())}</span>;
+
+        return <span>{t("offers:coverings:" + value.toLowerCase())}</span>;
     }
 
-    
+
     const IsActiveRenderer = (obj: any) => {
         return <Checkbox onChange={() => toggleIsActive(obj.node.id, obj.data)} toggle checked={obj.data.isActive}/>;
     }
-    
+
     const TreeColumnRenderer = (obj: any) => {
-        return obj.data.parentFieldId ?  <Child isLastChild={obj.data.isLastChild} /> : <Parent hasChild={data.filter(f => f.parentFieldId === obj.data.id).length > 0}/>
+        return obj.data.parentFieldId ? <Child isLastChild={obj.data.isLastChild}/> :
+            <Parent hasChild={data.filter(f => f.parentFieldId === obj.data.id).length > 0}/>
     }
-    
+
     const toggleIsActive = (nodeId: number, data: FieldDto) => {
         data.isActive = !data.isActive;
-        
+
         const form = getFieldBasicFormData(data);
-        
+
         for (let i = 0; i < data.images.length; i++) {
-            form.append('images['+i+'].path', data.images[i]);
-            form.append('images['+i+'].formFile', '');
+            form.append('images[' + i + '].path', data.images[i]);
+            form.append('images[' + i + '].formFile', '');
         }
-        
+
         offersService.updateField(form).then(() => {
             const rowNode = gridRef.current.api.getRowNode(nodeId);
             rowNode.setDataValue('isActive', data.isActive);
@@ -82,16 +83,56 @@ export const Fields = () => {
     }
 
     const columnDefs = [
-        {field: 'parentFieldId', cellClass: "grid-center-cell grid-vcenter-cell no-vborder", headerName: '', width: 50, cellRenderer: TreeColumnRenderer},
-        {field: 'isActive', cellClass: "grid-center-cell grid-vcenter-cell", headerName: '', width: 90, cellRenderer: IsActiveRenderer},
-        {field: 'name', headerName: t("offers:fields_grid:name"), width: 250, cellRenderer: NameRenderer },
-        {field: 'size', cellClass: "grid-center-cell", headerName: t("offers:fields_grid:size"), width: 120, cellRenderer: SizeRenderer },
-        {field: 'priceGroupName', headerName: t("offers:fields_grid:price_group"), width: 200 },
-        {field: 'coveringType', cellClass: "grid-center-cell", headerName: t("offers:fields_grid:covering"), width: 200, cellRenderer: CoveringRenderer },
-        {field: 'sportKinds', headerName: t("offers:sports:title"), width: 500, cellRenderer: SportKindsRenderer },
-        {field: 'description', headerName: t("offers:fields_grid:description"), width: 500, cellRenderer: (obj: any) => <GridCellWithTitleRenderer value={obj.data.description}/> },
-        {field: 'userCreated', cellClass: "grid-center-cell", headerName: t("offers:fields_grid:user_created"), width: 200},
-        {field: 'dateCreated', cellClass: "grid-center-cell", headerName: t("offers:fields_grid:date_created"), width: 170, valueFormatter: dateFormatter},
+        {
+            field: 'parentFieldId',
+            cellClass: "grid-center-cell grid-vcenter-cell no-vborder",
+            headerName: '',
+            width: 50,
+            cellRenderer: TreeColumnRenderer
+        },
+        {
+            field: 'isActive',
+            cellClass: "grid-center-cell grid-vcenter-cell",
+            headerName: '',
+            width: 90,
+            cellRenderer: IsActiveRenderer
+        },
+        {field: 'name', headerName: t("offers:fields_grid:name"), width: 250, cellRenderer: NameRenderer},
+        {
+            field: 'size',
+            cellClass: "grid-center-cell",
+            headerName: t("offers:fields_grid:size"),
+            width: 120,
+            cellRenderer: SizeRenderer
+        },
+        {field: 'priceGroupName', headerName: t("offers:fields_grid:price_group"), width: 200},
+        {
+            field: 'coveringType',
+            cellClass: "grid-center-cell",
+            headerName: t("offers:fields_grid:covering"),
+            width: 200,
+            cellRenderer: CoveringRenderer
+        },
+        {field: 'sportKinds', headerName: t("offers:sports:title"), width: 500, cellRenderer: SportKindsRenderer},
+        {
+            field: 'description',
+            headerName: t("offers:fields_grid:description"),
+            width: 500,
+            cellRenderer: (obj: any) => <GridCellWithTitleRenderer value={obj.data.description}/>
+        },
+        {
+            field: 'userCreated',
+            cellClass: "grid-center-cell",
+            headerName: t("offers:fields_grid:user_created"),
+            width: 200
+        },
+        {
+            field: 'dateCreated',
+            cellClass: "grid-center-cell",
+            headerName: t("offers:fields_grid:date_created"),
+            width: 170,
+            valueFormatter: dateFormatter
+        },
     ];
 
     const fetchFields = () => {

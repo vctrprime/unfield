@@ -1,21 +1,19 @@
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Handlers.Extensions;
 
-namespace StadiumEngine.WebUI.Infrastructure.Extensions
+namespace StadiumEngine.WebUI.Infrastructure.Extensions;
+
+/// <summary>
+/// Расширение для регистрации зависимостей
+/// </summary>
+public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Расширение для регистрации зависимостей
+    /// Зарегистрировать все необходимые модули
     /// </summary>
-    public static class ServiceCollectionExtensions
+    /// <param name="services"></param>
+    public static void RegisterModules( this IServiceCollection services )
     {
-        /// <summary>
-        /// Зарегистрировать все необходимые модули
-        /// </summary>
-        /// <param name="services"></param>
-        public static void RegisterModules(this IServiceCollection services)
-        {
-            services.RegisterHandlers();
-        }
-        
+        services.RegisterHandlers();
     }
 }

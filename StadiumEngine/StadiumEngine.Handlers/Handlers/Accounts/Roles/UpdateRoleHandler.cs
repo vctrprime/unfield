@@ -11,19 +11,25 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Roles;
 internal sealed class UpdateRoleHandler : BaseCommandHandler<UpdateRoleCommand, UpdateRoleDto>
 {
     private readonly IRoleCommandFacade _roleFacade;
-    
+
     public UpdateRoleHandler(
         IRoleCommandFacade roleFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _roleFacade = roleFacade;
     }
-    
-    protected override async ValueTask<UpdateRoleDto> HandleCommand(UpdateRoleCommand request, CancellationToken cancellationToken)
+
+    protected override async ValueTask<UpdateRoleDto> HandleCommand( UpdateRoleCommand request,
+        CancellationToken cancellationToken )
     {
-        await _roleFacade.UpdateRole(request.Id, _legalId, _userId, request.Name, request.Description);
+        await _roleFacade.UpdateRole(
+            request.Id,
+            _legalId,
+            _userId,
+            request.Name,
+            request.Description );
         return new UpdateRoleDto();
     }
 }

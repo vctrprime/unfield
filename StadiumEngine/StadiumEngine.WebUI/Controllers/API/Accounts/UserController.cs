@@ -15,7 +15,7 @@ namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 /// <summary>
 /// Пользователи
 /// </summary>
-[Route("api/accounts/users")]
+[Route( "api/accounts/users" )]
 public class UserController : BaseApiController
 {
     /// <summary>
@@ -23,49 +23,49 @@ public class UserController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [HasPermission(PermissionsKeys.GetUsers)]
+    [HasPermission( PermissionsKeys.GetUsers )]
     public async Task<List<UserDto>> Get()
     {
-        var users = await Mediator.Send(new GetUsersQuery());
+        var users = await Mediator.Send( new GetUsersQuery() );
         return users;
     }
-    
+
     /// <summary>
     /// Добавить пользователя
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
     [HttpPost]
-    [HasPermission(PermissionsKeys.InsertUser)]
-    public async Task<AddUserDto> Post(AddUserCommand command)
+    [HasPermission( PermissionsKeys.InsertUser )]
+    public async Task<AddUserDto> Post( AddUserCommand command )
     {
-        var dto = await Mediator.Send(command);
+        var dto = await Mediator.Send( command );
         return dto;
     }
-    
+
     /// <summary>
     /// Изменить пользователя
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
     [HttpPut]
-    [HasPermission(PermissionsKeys.UpdateUser)]
-    public async Task<UpdateUserDto> Put(UpdateUserCommand command)
+    [HasPermission( PermissionsKeys.UpdateUser )]
+    public async Task<UpdateUserDto> Put( UpdateUserCommand command )
     {
-        var dto = await Mediator.Send(command);
+        var dto = await Mediator.Send( command );
         return dto;
     }
-    
+
     /// <summary>
     /// Удалить пользователя
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    [HttpDelete("{userId}")]
-    [HasPermission(PermissionsKeys.DeleteUser)]
-    public async Task<DeleteUserDto> Delete(int userId)
+    [HttpDelete( "{userId}" )]
+    [HasPermission( PermissionsKeys.DeleteUser )]
+    public async Task<DeleteUserDto> Delete( int userId )
     {
-        var dto = await Mediator.Send(new DeleteUserCommand(userId));
+        var dto = await Mediator.Send( new DeleteUserCommand( userId ) );
         return dto;
     }
 }

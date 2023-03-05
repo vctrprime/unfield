@@ -25,49 +25,47 @@ export const HeaderNavigation = (props: HeaderNavigationProps) => {
     const [inventories, setInventories] = useRecoilState<InventoryDto[]>(inventoriesAtom);
 
     const [priceGroups, setPriceGroups] = useRecoilState<PriceGroupDto[]>(priceGroupsAtom);
-    
-    const [data, setData]= useState<any[]>([])
+
+    const [data, setData] = useState<any[]>([])
 
     const navigate = useNavigate();
 
     const parts = window.location.pathname.split("/");
-    const route = parts[parts.length-2];
-    const id = parts[parts.length-1];
+    const route = parts[parts.length - 2];
+    const id = parts[parts.length - 1];
 
     const [offersService] = useInject<IOffersService>('OffersService');
     const [ratesService] = useInject<IRatesService>('RatesService');
 
     const BackButton = () => {
         return props.routesWithBackButton.find(r => r == route) !== undefined ?
-            <Icon className="back-button" 
-                  name='caret left' 
-                  title={t(`common:back_buttons:${route.replace('-', '_')}`)} 
-                  onClick={() => navigate(`/lk/${parts[parts.length-3]}/${route}`)}/> :
+            <Icon className="back-button"
+                  name='caret left'
+                  title={t(`common:back_buttons:${route.replace('-', '_')}`)}
+                  onClick={() => navigate(`/lk/${parts[parts.length - 3]}/${route}`)}/> :
             <span/>
     }
-    
+
     const fetchLockerRooms = () => {
         if (lockerRooms.length === 0) {
             offersService.getLockerRooms().then((result: LockerRoomDto[]) => {
                 setLockerRooms(result);
-                setData(result.filter(x => x.isActive).map(mapToDropDownRow));
+                setData(result.map(mapToDropDownRow));
             })
+        } else {
+            setData(lockerRooms.map(mapToDropDownRow));
         }
-        else {
-            setData(lockerRooms.filter(x => x.isActive).map(mapToDropDownRow));
-        }
-        
+
     }
-    
+
     const fetchFields = () => {
         if (fields.length === 0) {
             offersService.getFields().then((result: FieldDto[]) => {
                 setFields(result);
-                setData(result.filter(x => x.isActive).map(mapToDropDownRow));
+                setData(result.map(mapToDropDownRow));
             })
-        }
-        else {
-            setData(fields.filter(x => x.isActive).map(mapToDropDownRow));
+        } else {
+            setData(fields.map(mapToDropDownRow));
         }
     }
 
@@ -75,11 +73,10 @@ export const HeaderNavigation = (props: HeaderNavigationProps) => {
         if (inventories.length === 0) {
             offersService.getInventories().then((result: InventoryDto[]) => {
                 setInventories(result);
-                setData(result.filter(x => x.isActive).map(mapToDropDownRow));
+                setData(result.map(mapToDropDownRow));
             })
-        }
-        else {
-            setData(inventories.filter(x => x.isActive).map(mapToDropDownRow));
+        } else {
+            setData(inventories.map(mapToDropDownRow));
         }
     }
 
@@ -87,18 +84,17 @@ export const HeaderNavigation = (props: HeaderNavigationProps) => {
         if (priceGroups.length === 0) {
             ratesService.getPriceGroups().then((result: PriceGroupDto[]) => {
                 setPriceGroups(result);
-                setData(result.filter(x => x.isActive).map(mapToDropDownRow));
+                setData(result.map(mapToDropDownRow));
             })
-        }
-        else {
-            setData(priceGroups.filter(x => x.isActive).map(mapToDropDownRow));
+        } else {
+            setData(priceGroups.map(mapToDropDownRow));
         }
     }
-    
+
     const mapToDropDownRow = (obj: any) => {
-        return { key: obj.id, value: obj.id, text: obj.name }
+        return {key: obj.id, value: obj.id, text: obj.name}
     }
-    
+
     useEffect(() => {
         if (id !== "new") {
             switch (route) {
@@ -117,13 +113,13 @@ export const HeaderNavigation = (props: HeaderNavigationProps) => {
             }
         }
     }, []);
-    
-    const changeObject = (e : any, { value }: any) => {
-        navigate(`/lk/${parts[parts.length-3]}/${route}/${value}`);
+
+    const changeObject = (e: any, {value}: any) => {
+        navigate(`/lk/${parts[parts.length - 3]}/${route}/${value}`);
     }
-    
-    return <div style={{ display: "flex"}}>
-        <BackButton />
+
+    return <div style={{display: "flex"}}>
+        <BackButton/>
         {data.length > 0 && <Dropdown
             onChange={changeObject}
             inline

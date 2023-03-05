@@ -14,17 +14,18 @@ internal sealed class GetLockerRoomsHandler : BaseRequestHandler<GetLockerRoomsQ
 
     public GetLockerRoomsHandler(
         ILockerRoomQueryFacade lockerRoomFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
         _lockerRoomFacade = lockerRoomFacade;
     }
-    
-    public override async ValueTask<List<LockerRoomDto>> Handle(GetLockerRoomsQuery request, CancellationToken cancellationToken)
-    {
-        var lockerRooms = await _lockerRoomFacade.GetByStadiumId(_currentStadiumId);
 
-        var lockerRoomsDto = Mapper.Map<List<LockerRoomDto>>(lockerRooms);
+    public override async ValueTask<List<LockerRoomDto>> Handle( GetLockerRoomsQuery request,
+        CancellationToken cancellationToken )
+    {
+        var lockerRooms = await _lockerRoomFacade.GetByStadiumId( _currentStadiumId );
+
+        var lockerRoomsDto = Mapper.Map<List<LockerRoomDto>>( lockerRooms );
 
         return lockerRoomsDto;
     }

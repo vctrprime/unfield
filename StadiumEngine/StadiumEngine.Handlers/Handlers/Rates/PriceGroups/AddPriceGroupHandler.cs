@@ -14,21 +14,22 @@ internal sealed class AddPriceGroupHandler : BaseCommandHandler<AddPriceGroupCom
 
     public AddPriceGroupHandler(
         IPriceGroupCommandFacade priceGroupFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _priceGroupFacade = priceGroupFacade;
     }
-    
-    protected override async ValueTask<AddPriceGroupDto> HandleCommand(AddPriceGroupCommand request, CancellationToken cancellationToken)
+
+    protected override async ValueTask<AddPriceGroupDto> HandleCommand( AddPriceGroupCommand request,
+        CancellationToken cancellationToken )
     {
-        var priceGroup = Mapper.Map<PriceGroup>(request);
+        var priceGroup = Mapper.Map<PriceGroup>( request );
         priceGroup.StadiumId = _currentStadiumId;
         priceGroup.UserCreatedId = _userId;
-        
-        _priceGroupFacade.AddPriceGroup(priceGroup);
-        
+
+        _priceGroupFacade.AddPriceGroup( priceGroup );
+
         return new AddPriceGroupDto();
     }
 }

@@ -5,5 +5,5 @@ namespace StadiumEngine.Handlers.Facades.Accounts.Users;
 
 internal interface IUpdateUserFacade
 {
-    Task<UpdateUserDto> Update(UpdateUserCommand request, int userId, int legalId);
+    Task<UpdateUserDto> Update( UpdateUserCommand request, int userId, int legalId );
 }

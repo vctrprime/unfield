@@ -12,18 +12,19 @@ namespace StadiumEngine.Handlers.Handlers.Offers.Fields;
 internal sealed class UpdateFieldHandler : BaseCommandHandler<UpdateFieldCommand, UpdateFieldDto>
 {
     private readonly IUpdateFieldFacade _facade;
-        
+
     public UpdateFieldHandler(
         IUpdateFieldFacade facade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _facade = facade;
     }
 
-    protected override async ValueTask<UpdateFieldDto> HandleCommand(UpdateFieldCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<UpdateFieldDto> HandleCommand( UpdateFieldCommand request,
+        CancellationToken cancellationToken )
     {
-        return await _facade.Update(request, _currentStadiumId, _userId);
+        return await _facade.Update( request, _currentStadiumId, _userId );
     }
 }

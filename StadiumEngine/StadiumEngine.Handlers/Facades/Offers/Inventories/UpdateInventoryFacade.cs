@@ -14,18 +14,18 @@ internal class UpdateInventoryFacade : IUpdateInventoryFacade
     private readonly IInventoryQueryFacade _queryFacade;
     private readonly IInventoryCommandFacade _commandFacade;
 
-    public UpdateInventoryFacade(IInventoryQueryFacade queryFacade, IInventoryCommandFacade commandFacade)
+    public UpdateInventoryFacade( IInventoryQueryFacade queryFacade, IInventoryCommandFacade commandFacade )
     {
         _queryFacade = queryFacade;
         _commandFacade = commandFacade;
     }
-    
-    public async Task<UpdateInventoryDto> Update(UpdateInventoryCommand request, int stadiumId, int userId)
-    {
-        var inventory = await _queryFacade.GetByInventoryId(request.Id, stadiumId);
 
-        if (inventory == null) throw new DomainException(ErrorsKeys.InventoryNotFound);
-         
+    public async Task<UpdateInventoryDto> Update( UpdateInventoryCommand request, int stadiumId, int userId )
+    {
+        var inventory = await _queryFacade.GetByInventoryId( request.Id, stadiumId );
+
+        if (inventory == null) throw new DomainException( ErrorsKeys.InventoryNotFound );
+
         inventory.Name = request.Name;
         inventory.Description = request.Description;
         inventory.Price = request.Price;
@@ -34,8 +34,8 @@ internal class UpdateInventoryFacade : IUpdateInventoryFacade
         inventory.IsActive = request.IsActive;
         inventory.UserModifiedId = userId;
 
-        await _commandFacade.UpdateInventory(inventory, request.Images, request.SportKinds);
-        
+        await _commandFacade.UpdateInventory( inventory, request.Images, request.SportKinds );
+
         return new UpdateInventoryDto();
     }
 }

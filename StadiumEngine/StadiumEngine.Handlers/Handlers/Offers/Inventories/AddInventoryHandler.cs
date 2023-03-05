@@ -14,21 +14,22 @@ internal sealed class AddInventoryHandler : BaseCommandHandler<AddInventoryComma
 
     public AddInventoryHandler(
         IInventoryCommandFacade inventoryFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _inventoryFacade = inventoryFacade;
     }
-    
-    protected override async ValueTask<AddInventoryDto> HandleCommand(AddInventoryCommand request, CancellationToken cancellationToken)
+
+    protected override async ValueTask<AddInventoryDto> HandleCommand( AddInventoryCommand request,
+        CancellationToken cancellationToken )
     {
-        var inventory = Mapper.Map<Inventory>(request);
+        var inventory = Mapper.Map<Inventory>( request );
         inventory.StadiumId = _currentStadiumId;
         inventory.UserCreatedId = _userId;
 
-        await _inventoryFacade.AddInventory(inventory, request.Images, _legalId);
-        
+        await _inventoryFacade.AddInventory( inventory, request.Images, _legalId );
+
         return new AddInventoryDto();
     }
 }

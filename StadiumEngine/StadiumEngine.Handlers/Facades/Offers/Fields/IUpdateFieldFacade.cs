@@ -5,5 +5,5 @@ namespace StadiumEngine.Handlers.Facades.Offers.Fields;
 
 internal interface IUpdateFieldFacade
 {
-    Task<UpdateFieldDto> Update(UpdateFieldCommand request, int stadiumId, int userId);
+    Task<UpdateFieldDto> Update( UpdateFieldCommand request, int stadiumId, int userId );
 }

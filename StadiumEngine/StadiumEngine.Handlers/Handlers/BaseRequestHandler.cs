@@ -6,17 +6,17 @@ using StadiumEngine.Domain.Services.Identity;
 
 namespace StadiumEngine.Handlers.Handlers;
 
-internal abstract class BaseRequestHandler<TRequest, TResponse> : IRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
+internal abstract class BaseRequestHandler<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
 {
     protected readonly IMapper Mapper;
-    
+
     protected readonly int _userId;
     protected readonly int _legalId;
     protected readonly int _currentStadiumId;
-    
-    
 
-    protected BaseRequestHandler(IMapper mapper, IClaimsIdentityService? claimsIdentityService)
+
+    protected BaseRequestHandler( IMapper mapper, IClaimsIdentityService? claimsIdentityService )
     {
         Mapper = mapper;
 
@@ -27,6 +27,6 @@ internal abstract class BaseRequestHandler<TRequest, TResponse> : IRequestHandle
             _currentStadiumId = claimsIdentityService.GetCurrentStadiumId();
         }
     }
-    public abstract ValueTask<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
-    
+
+    public abstract ValueTask<TResponse> Handle( TRequest request, CancellationToken cancellationToken );
 }

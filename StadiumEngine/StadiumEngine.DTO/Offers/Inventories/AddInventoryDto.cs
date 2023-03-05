@@ -5,5 +5,4 @@ namespace StadiumEngine.DTO.Offers.Inventories;
 /// </summary>
 public class AddInventoryDto : BaseEmptySuccessDto
 {
-    
 }

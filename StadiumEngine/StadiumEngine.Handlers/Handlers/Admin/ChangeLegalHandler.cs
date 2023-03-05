@@ -13,19 +13,23 @@ internal sealed class ChangeLegalHandler : BaseCommandHandler<ChangeLegalCommand
 
     public ChangeLegalHandler(
         IChangeLegalFacade facade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork, false)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base(
+        mapper,
+        claimsIdentityService,
+        unitOfWork,
+        false )
     {
         _facade = facade;
     }
 
-    protected override async ValueTask<AuthorizeUserDto?> HandleCommand(ChangeLegalCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<AuthorizeUserDto?> HandleCommand( ChangeLegalCommand request,
+        CancellationToken cancellationToken )
     {
-        var user = await _facade.Change(request, _userId, UnitOfWork);
-        var userDto = Mapper.Map<AuthorizeUserDto>(user);
-        
+        var user = await _facade.Change( request, _userId, UnitOfWork );
+        var userDto = Mapper.Map<AuthorizeUserDto>( user );
+
         return userDto;
     }
-    
 }

@@ -12,7 +12,7 @@ namespace StadiumEngine.WebUI.Controllers.API.Offers;
 /// <summary>
 /// Инвентарь
 /// </summary>
-[Route("api/offers/inventories")]
+[Route( "api/offers/inventories" )]
 public class InventoryController : BaseApiController
 {
     /// <summary>
@@ -20,58 +20,58 @@ public class InventoryController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [HasPermission(PermissionsKeys.GetInventories)]
+    [HasPermission( PermissionsKeys.GetInventories )]
     public async Task<List<InventoryDto>> GetAll()
     {
-        var inventories = await Mediator.Send(new GetInventoriesQuery());
+        var inventories = await Mediator.Send( new GetInventoriesQuery() );
         return inventories;
     }
-    
+
     /// <summary>
     /// Получить инвентарь
     /// </summary>
     /// <returns></returns>
-    [HttpGet("{inventoryId}")]
-    [HasPermission(PermissionsKeys.GetInventories)]
-    public async Task<InventoryDto> Get(int inventoryId)
+    [HttpGet( "{inventoryId}" )]
+    [HasPermission( PermissionsKeys.GetInventories )]
+    public async Task<InventoryDto> Get( int inventoryId )
     {
-        var inventory = await Mediator.Send(new GetInventoryQuery(inventoryId));
+        var inventory = await Mediator.Send( new GetInventoryQuery( inventoryId ) );
         return inventory;
     }
-    
+
     /// <summary>
     /// Добавить инвентарь
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    [HasPermission(PermissionsKeys.InsertInventory)]
-    public async Task<AddInventoryDto> Post([FromForm]AddInventoryCommand command)
+    [HasPermission( PermissionsKeys.InsertInventory )]
+    public async Task<AddInventoryDto> Post( [FromForm] AddInventoryCommand command )
     {
-        var dto = await Mediator.Send(command);
+        var dto = await Mediator.Send( command );
         return dto;
     }
-    
+
     /// <summary>
     /// Обновить инвентарь
     /// </summary>
     /// <returns></returns>
     [HttpPut]
-    [HasPermission(PermissionsKeys.UpdateInventory)]
-    public async Task<UpdateInventoryDto> Put([FromForm]UpdateInventoryCommand command)
+    [HasPermission( PermissionsKeys.UpdateInventory )]
+    public async Task<UpdateInventoryDto> Put( [FromForm] UpdateInventoryCommand command )
     {
-        var dto = await Mediator.Send(command);
+        var dto = await Mediator.Send( command );
         return dto;
     }
-    
+
     /// <summary>
     /// Удалить инвентарь
     /// </summary>
     /// <returns></returns>
-    [HttpDelete("{inventoryId}")]
-    [HasPermission(PermissionsKeys.DeleteInventory)]
-    public async Task<DeleteInventoryDto> Delete(int inventoryId)
+    [HttpDelete( "{inventoryId}" )]
+    [HasPermission( PermissionsKeys.DeleteInventory )]
+    public async Task<DeleteInventoryDto> Delete( int inventoryId )
     {
-        var dto = await Mediator.Send(new DeleteInventoryCommand(inventoryId));
+        var dto = await Mediator.Send( new DeleteInventoryCommand( inventoryId ) );
         return dto;
     }
 }

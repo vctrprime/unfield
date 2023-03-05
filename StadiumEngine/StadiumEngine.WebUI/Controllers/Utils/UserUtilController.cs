@@ -10,7 +10,7 @@ namespace StadiumEngine.WebUI.Controllers.Utils;
 /// <summary>
 /// Util-запросы для работы с пользователями
 /// </summary>
-[Route("utils/users")]
+[Route( "utils/users" )]
 [AllowAnonymous]
 public class UserUtilController : BaseApiController
 {
@@ -19,11 +19,11 @@ public class UserUtilController : BaseApiController
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    [HttpPost("new-admin")]
+    [HttpPost( "new-admin" )]
     [SecuredUtil]
-    public async Task<AddAdminUserDto> Post(AddAdminUserCommand command)
+    public async Task<AddAdminUserDto> Post( AddAdminUserCommand command )
     {
-        var dto = await Mediator.Send(command);
+        var dto = await Mediator.Send( command );
 
         return dto;
     }

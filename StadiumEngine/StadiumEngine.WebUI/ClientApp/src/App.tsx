@@ -1,6 +1,6 @@
-import React, { useEffect, useRef} from 'react';
-import { Layout } from './components/Layout';
-import {Routes, Route } from "react-router-dom";
+import React, {useEffect, useRef} from 'react';
+import {Layout} from './components/Layout';
+import {Routes, Route} from "react-router-dom";
 import {Home} from "./components/portal/Home";
 import {Layout as LkLayout} from "./components/lk/Layout";
 import {Layout as AdminLayout} from "./components/admin/Layout";
@@ -10,7 +10,7 @@ import {Main} from "./components/lk/Main";
 import {SignIn} from "./components/lk/auth/SignIn";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 
-import { withNamespaces } from 'react-i18next';
+import {withNamespaces} from 'react-i18next';
 
 import './custom.css'
 import './css/lk/SignIn.scss'
@@ -50,7 +50,7 @@ import {PriceGroups} from "./components/lk/rates/PriceGroups";
 import {PriceGroup} from "./components/lk/rates/PriceGroup";
 
 const ReactNotifications = require('react-notifications');
-const { NotificationContainer } = ReactNotifications;
+const {NotificationContainer} = ReactNotifications;
 
 /*NotificationManager.info('Info message');
 NotificationManager.success('Success message', 'Title here');
@@ -63,7 +63,7 @@ NotificationManager.error('Error message', 'Click me!', 5000, () => {
 const App = () => {
     const [user, setUser] = useLocalStorage<AuthorizeUserDto | null>('user', null);
     const prevUserRef = useRef<AuthorizeUserDto | null>(user);
-    
+
     const [logoutModal, setLogoutModal] = useRecoilState<boolean>(logoutModalAtom);
 
     const setStadium = useSetRecoilState<number | null>(stadiumAtom);
@@ -71,8 +71,8 @@ const App = () => {
     const setAuth = useSetRecoilState(authAtom);
 
     const [accountsService] = useInject<IAccountsService>('AccountsService');
-    
-    
+
+
     useEffect(() => {
         const prev = JSON.stringify(prevUserRef.current);
         const current = JSON.stringify(user)
@@ -81,8 +81,7 @@ const App = () => {
                 prevUserRef.current = user;
                 if (window.location.pathname === "/lk/sign-in" && user?.isAdmin) {
                     window.location.href = `/admin`;
-                }
-                else {
+                } else {
                     window.location.href = `/lk`;
                 }
             }
@@ -106,48 +105,48 @@ const App = () => {
                 window.location.href = "/lk/sign-in";
             });
     }
-    
+
     return (
         <div>
-            
-        
-      <Layout>
-          <NotificationContainer/>
-          <Routes>
-              <Route path="/" element={<Home/>} />
-              <Route path="/lk/sign-in" element={<SignIn />} />
-              <Route path="/lk" element={<ProtectedRoute component={LkLayout}  />}>
-                  <Route path="" element={<Main />} />
-                  <Route path="offers" element={<Offers />}>
-                      <Route path="fields" element={<Fields />}/>
-                      <Route path="locker-rooms" element={<LockerRooms />}/>
-                      <Route path="inventories" element={<Inventories />}/>
-                  </Route>
-                  <Route path="offers/locker-rooms/:id" element={<LockerRoom />} />
-                  <Route path="offers/fields/:id" element={<Field />} />
-                  <Route path="offers/inventories/:id" element={<Inventory />} />
 
-                  <Route path="rates" element={<Rates />}>
-                      <Route path="price-groups" element={<PriceGroups />}/>
-                  </Route>
-                  <Route path="rates/price-groups/:id" element={<PriceGroup />} />
-                  
-                  <Route path="schedule" element={<Schedule />} />
-                  <Route path="employees" element={<Employees />} />
-                  <Route path="reports" element={<Reports />} />
-                  <Route path="accounts" element={<Accounts />} >
-                      <Route path="" element={<Users />} />
-                      <Route path="roles" element={<Roles />} />
-                      <Route path="permissions" element={<Permissions />} />
-                  </Route>
-              </Route>
-              <Route path="/admin" element={<ProtectedRoute component={AdminLayout}  />}>
-                  <Route path="" element={<Admin />} >
-                      <Route path="" element={<Legals />} />
-                  </Route>
-              </Route>
-          </Routes>
-      </Layout>
+
+            <Layout>
+                <NotificationContainer/>
+                <Routes>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/lk/sign-in" element={<SignIn/>}/>
+                    <Route path="/lk" element={<ProtectedRoute component={LkLayout}/>}>
+                        <Route path="" element={<Main/>}/>
+                        <Route path="offers" element={<Offers/>}>
+                            <Route path="fields" element={<Fields/>}/>
+                            <Route path="locker-rooms" element={<LockerRooms/>}/>
+                            <Route path="inventories" element={<Inventories/>}/>
+                        </Route>
+                        <Route path="offers/locker-rooms/:id" element={<LockerRoom/>}/>
+                        <Route path="offers/fields/:id" element={<Field/>}/>
+                        <Route path="offers/inventories/:id" element={<Inventory/>}/>
+
+                        <Route path="rates" element={<Rates/>}>
+                            <Route path="price-groups" element={<PriceGroups/>}/>
+                        </Route>
+                        <Route path="rates/price-groups/:id" element={<PriceGroup/>}/>
+
+                        <Route path="schedule" element={<Schedule/>}/>
+                        <Route path="employees" element={<Employees/>}/>
+                        <Route path="reports" element={<Reports/>}/>
+                        <Route path="accounts" element={<Accounts/>}>
+                            <Route path="" element={<Users/>}/>
+                            <Route path="roles" element={<Roles/>}/>
+                            <Route path="permissions" element={<Permissions/>}/>
+                        </Route>
+                    </Route>
+                    <Route path="/admin" element={<ProtectedRoute component={AdminLayout}/>}>
+                        <Route path="" element={<Admin/>}>
+                            <Route path="" element={<Legals/>}/>
+                        </Route>
+                    </Route>
+                </Routes>
+            </Layout>
             <Modal
                 dimmer='blurring'
                 size='small'
@@ -158,8 +157,10 @@ const App = () => {
                     <p>{t('accounts:logout:question')}</p>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => setLogoutModal(false)}>{t('common:no_button')}</Button>
-                    <Button style={{backgroundColor: '#3CB371', color: 'white'}} onClick={logout}>{t('common:yes_button')}</Button>
+                    <Button style={{backgroundColor: '#CD5C5C', color: 'white'}}
+                            onClick={() => setLogoutModal(false)}>{t('common:no_button')}</Button>
+                    <Button style={{backgroundColor: '#3CB371', color: 'white'}}
+                            onClick={logout}>{t('common:yes_button')}</Button>
                 </Modal.Actions>
             </Modal>
         </div>

@@ -14,18 +14,19 @@ internal sealed class DeleteRoleHandler : BaseCommandHandler<DeleteRoleCommand, 
 
     public DeleteRoleHandler(
         IRoleCommandFacade roleFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _roleFacade = roleFacade;
     }
 
 
-    protected override async ValueTask<DeleteRoleDto> HandleCommand(DeleteRoleCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<DeleteRoleDto> HandleCommand( DeleteRoleCommand request,
+        CancellationToken cancellationToken )
     {
-        await _roleFacade.DeleteRole(request.RoleId, _legalId, _userId);
-        
+        await _roleFacade.DeleteRole( request.RoleId, _legalId, _userId );
+
         return new DeleteRoleDto();
     }
 }

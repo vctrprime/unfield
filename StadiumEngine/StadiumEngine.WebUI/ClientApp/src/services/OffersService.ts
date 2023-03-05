@@ -8,21 +8,33 @@ import {InventoryDto} from "../models/dto/offers/InventoryDto";
 
 export interface IOffersService {
     getLockerRooms(): Promise<LockerRoomDto[]>;
-    getLockerRoom(id:number): Promise<LockerRoomDto>;
+
+    getLockerRoom(id: number): Promise<LockerRoomDto>;
+
     updateLockerRoom(command: UpdateLockerRoomCommand): Promise<void>;
+
     addLockerRoom(command: AddLockerRoomCommand): Promise<void>;
+
     deleteLockerRoom(lockerRoomId: number): Promise<void>;
 
     getFields(): Promise<FieldDto[]>;
-    getField(id:number): Promise<FieldDto>;
+
+    getField(id: number): Promise<FieldDto>;
+
     updateField(command: FormData): Promise<void>;
+
     addField(command: FormData): Promise<void>;
+
     deleteField(fieldId: number): Promise<void>;
 
     getInventories(): Promise<InventoryDto[]>;
-    getInventory(id:number): Promise<InventoryDto>;
+
+    getInventory(id: number): Promise<InventoryDto>;
+
     updateInventory(command: FormData): Promise<void>;
+
     addInventory(command: FormData): Promise<void>;
+
     deleteInventory(inventoryId: number): Promise<void>;
 }
 

@@ -14,17 +14,17 @@ internal sealed class GetRolesHandler : BaseRequestHandler<GetRolesQuery, List<R
 
     public GetRolesHandler(
         IRoleQueryFacade roleFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
         _roleFacade = roleFacade;
     }
-    
-    public override async ValueTask<List<RoleDto>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
-    {
-        var roles = await _roleFacade.GetRolesForLegal(_legalId);
 
-        var rolesDto = Mapper.Map<List<RoleDto>>(roles);
+    public override async ValueTask<List<RoleDto>> Handle( GetRolesQuery request, CancellationToken cancellationToken )
+    {
+        var roles = await _roleFacade.GetRolesForLegal( _legalId );
+
+        var rolesDto = Mapper.Map<List<RoleDto>>( roles );
 
         return rolesDto;
     }

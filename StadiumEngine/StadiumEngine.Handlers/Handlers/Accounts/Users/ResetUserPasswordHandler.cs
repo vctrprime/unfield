@@ -16,19 +16,24 @@ internal sealed class ResetUserPasswordHandler : BaseCommandHandler<ResetUserPas
     public ResetUserPasswordHandler(
         IUserCommandFacade userFacade,
         ISmsSender smsSender,
-        IMapper mapper, 
-        IUnitOfWork unitOfWork) : base(mapper, null, unitOfWork, false)
+        IMapper mapper,
+        IUnitOfWork unitOfWork ) : base(
+        mapper,
+        null,
+        unitOfWork,
+        false )
     {
         _userFacade = userFacade;
         _smsSender = smsSender;
     }
 
-    protected override async ValueTask<ResetUserPasswordDto> HandleCommand(ResetUserPasswordCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<ResetUserPasswordDto> HandleCommand( ResetUserPasswordCommand request,
+        CancellationToken cancellationToken )
     {
-        var (user, password) = await _userFacade.ResetPassword(request.PhoneNumber);
+        var (user, password) = await _userFacade.ResetPassword( request.PhoneNumber );
         await UnitOfWork.SaveChanges();
-        
-        await _smsSender.SendPassword(user.PhoneNumber, password, user.Language);
+
+        await _smsSender.SendPassword( user.PhoneNumber, password, user.Language );
 
         return new ResetUserPasswordDto();
     }

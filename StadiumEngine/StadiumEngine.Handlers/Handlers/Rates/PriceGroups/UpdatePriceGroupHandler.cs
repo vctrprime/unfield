@@ -13,15 +13,16 @@ internal sealed class UpdatePriceGroupHandler : BaseCommandHandler<UpdatePriceGr
 
     public UpdatePriceGroupHandler(
         IUpdatePriceGroupFacade facade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _facade = facade;
     }
 
-    protected override async ValueTask<UpdatePriceGroupDto> HandleCommand(UpdatePriceGroupCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<UpdatePriceGroupDto> HandleCommand( UpdatePriceGroupCommand request,
+        CancellationToken cancellationToken )
     {
-        return await _facade.Update(request, _currentStadiumId, _userId);
+        return await _facade.Update( request, _currentStadiumId, _userId );
     }
 }

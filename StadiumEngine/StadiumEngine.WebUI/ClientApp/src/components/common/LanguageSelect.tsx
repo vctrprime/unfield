@@ -6,22 +6,22 @@ import {loadingAtom} from "../../state/loading";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../services/AccountsService";
 
-export const LanguageSelect = ({ withRequest = true, style} : any) => {
+export const LanguageSelect = ({withRequest = true, style}: any) => {
     const setLoading = useSetRecoilState(loadingAtom);
 
     const [accountsService] = useInject<IAccountsService>('AccountsService');
-    
+
     const customLabelsLanguages = {
         RU: "Русский",
         US: "English",
     };
-    const getSelectedLanguage = ():string => {
+    const getSelectedLanguage = (): string => {
         const language = localStorage.getItem('language') || 'ru';
         if (language === 'en') return 'US';
 
         return language.toUpperCase();
     }
-    
+
     const changeLanguage = (code: string) => {
         const currentLanguage = localStorage.getItem('language') || 'ru';
         code = code === 'US' ? 'en' : code.toLowerCase();
@@ -34,24 +34,24 @@ export const LanguageSelect = ({ withRequest = true, style} : any) => {
                         setLoading(false);
                     });
                 });
-            }
-            else {
-                i18n.changeLanguage(code).then(() => {});
+            } else {
+                i18n.changeLanguage(code).then(() => {
+                });
             }
         }
 
     }
-    
-    
+
+
     return (
-        <div className="language-container" style={style === undefined ? { marginRight: '0'} : style}>
-        <ReactFlagsSelect
-            selected={getSelectedLanguage()}
-            onSelect={changeLanguage}
-            showSelectedLabel={false}
-            customLabels={customLabelsLanguages}
-            fullWidth={false}
-            countries={["US", "RU"]}
-        />
-    </div>)
+        <div className="language-container" style={style === undefined ? {marginRight: '0'} : style}>
+            <ReactFlagsSelect
+                selected={getSelectedLanguage()}
+                onSelect={changeLanguage}
+                showSelectedLabel={false}
+                customLabels={customLabelsLanguages}
+                fullWidth={false}
+                countries={["US", "RU"]}
+            />
+        </div>)
 }

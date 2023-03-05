@@ -5,10 +5,10 @@ namespace StadiumEngine.Handlers.Commands.Rates.PriceGroups;
 
 public sealed class DeletePriceGroupCommand : IRequest<DeletePriceGroupDto>
 {
-    public DeletePriceGroupCommand(int priceGroupId)
+    public DeletePriceGroupCommand( int priceGroupId )
     {
         PriceGroupId = priceGroupId;
     }
-    
+
     public int PriceGroupId { get; }
 }

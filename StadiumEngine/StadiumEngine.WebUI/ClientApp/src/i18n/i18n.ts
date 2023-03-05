@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import i18next from "i18next";
-import { reactI18nextModule }  from "react-i18next";
+import {reactI18nextModule} from "react-i18next";
 
 
 import portalRU from '../i18n/portal/portal.json';
@@ -52,7 +52,7 @@ i18next
     .use(reactI18nextModule) // passes i18n down to react-i18next
     .init({
         fallbackLng: "ru",
-        ns: ['portal', 'common','accounts', 'admin', 'errors', 'offers', 'rates'],
+        ns: ['portal', 'common', 'accounts', 'admin', 'errors', 'offers', 'rates'],
         resources,
         lng: localStorage.getItem('language') || 'ru',
         keySeparator: false, // we do not use keys in form messages.welcome

@@ -18,24 +18,23 @@ public class AdminFeatureAttribute : ActionFilterAttribute
     /// Проверить разрешение перед выполнением метода
     /// </summary>
     /// <param name="context"></param>
-    public override void OnActionExecuting(ActionExecutingContext context)
+    public override void OnActionExecuting( ActionExecutingContext context )
     {
-        var mediator = (IMediator)context.HttpContext.RequestServices.GetService(typeof(IMediator));
+        var mediator = ( IMediator )context.HttpContext.RequestServices.GetService( typeof( IMediator ) );
         if (mediator != null)
         {
-            var user = mediator.Send(new GetAuthorizedUserQuery()).GetAwaiter().GetResult();
-            
+            var user = mediator.Send( new GetAuthorizedUserQuery() ).GetAwaiter().GetResult();
+
             if (user.IsAdmin) return;
-            
         }
-        
-        context.Result = new ObjectResult(new
-        {
-            Message = "Forbidden",
-        })
+
+        context.Result = new ObjectResult(
+            new
+            {
+                Message = "Forbidden"
+            } )
         {
             StatusCode = StatusCodes.Status403Forbidden
         };
-       
     }
 }

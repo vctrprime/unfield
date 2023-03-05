@@ -23,15 +23,15 @@ interface StadiumDropDownData {
 export const Header = () => {
     const [stadiums, setStadiums] = useState<StadiumDropDownData[]>([])
     const [stadium, setStadium] = useRecoilState<number | null>(stadiumAtom);
-    
+
     const [profileModal, setProfileModal] = useState(false)
 
     const [auth, setAuth] = useRecoilState(authAtom);
-    
+
     const [accountsService] = useInject<IAccountsService>('AccountsService');
 
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         loadStadiums();
     }, []);
@@ -40,41 +40,41 @@ export const Header = () => {
         accountsService.getCurrentUserStadiums()
             .then((result: UserStadiumDto[]) => {
                 setStadiums(result.map((s) => {
-                    return { key: s.id, value: s.id, text: s.address }
+                    return {key: s.id, value: s.id, text: s.address}
                 }));
-                const currentStadium: UserStadiumDto|undefined = result.find(s => s.isCurrent);
+                const currentStadium: UserStadiumDto | undefined = result.find(s => s.isCurrent);
                 if (currentStadium !== undefined) {
                     setStadium(currentStadium.id);
                 }
-                
-        })
+
+            })
     }
-    
-    const changeStadium = (e : any, { value }: any) => {
+
+    const changeStadium = (e: any, {value}: any) => {
         accountsService.changeCurrentStadium(value)
             .then((result: AuthorizeUserDto) => {
                 setAuth(result);
                 setStadium(value);
                 localStorage.setItem('user', JSON.stringify(result));
                 localStorage.setItem('language', result.language);
-        })
+            })
     }
-    
+
     const toAdmin = () => {
         navigate("/admin")
     }
 
     const routesWithBackButton = ["locker-rooms", "fields", "inventories", "price-groups"];
-    
-    const routeWithoutStadiumList = ():boolean => {
-        return routesWithBackButton.filter(r => window.location.pathname.indexOf(r + "/") !== -1).length > 0 
+
+    const routeWithoutStadiumList = (): boolean => {
+        return routesWithBackButton.filter(r => window.location.pathname.indexOf(r + "/") !== -1).length > 0
             || window.location.pathname.startsWith("/lk/accounts");
     }
-    
+
     return (
         <div className="border-bottom navbar navbar-light box-shadow lk-header">
             <ProfileModal open={profileModal} setOpen={setProfileModal}/>
-            {stadium !== null && 
+            {stadium !== null &&
                 <div className="stadium-list">
                     <div style={routeWithoutStadiumList() ? {display: "none"} : {}}>
                         {t("common:lk_header:current_stadium_title")}:  &nbsp;
@@ -85,11 +85,14 @@ export const Header = () => {
                             defaultValue={stadium}
                         />
                     </div>
-                    <div className="header-warning" style={window.location.pathname.startsWith("/lk/accounts") ? {} : {display: "none"}}>
-                        <i className="fa fa-exclamation-circle" aria-hidden="true" />
+                    <div className="header-warning"
+                         style={window.location.pathname.startsWith("/lk/accounts") ? {} : {display: "none"}}>
+                        <i className="fa fa-exclamation-circle" aria-hidden="true"/>
                         <div className="header-warning-text">
-                            <span title={t("accounts:header_notification_line1")|| ''}>{t("accounts:header_notification_line1")}</span>
-                            <span title={t("accounts:header_notification_line2")|| ''}>{t("accounts:header_notification_line2")}</span>
+                            <span
+                                title={t("accounts:header_notification_line1") || ''}>{t("accounts:header_notification_line1")}</span>
+                            <span
+                                title={t("accounts:header_notification_line2") || ''}>{t("accounts:header_notification_line2")}</span>
                         </div>
                     </div>
                     {routeWithoutStadiumList() && <HeaderNavigation routesWithBackButton={routesWithBackButton}/>}
@@ -97,11 +100,12 @@ export const Header = () => {
 
             {stadium !== null && <div className="header-right-container">
                 <div className="header-icons">
-                        <LanguageSelect />
+                    <LanguageSelect/>
                 </div>
                 <AuthorizedUserInfo setProfileModal={setProfileModal}/>
                 {auth !== null && auth.isAdmin &&
-                    <i onClick={toAdmin} title={t('common:lk_header:to_admin_title')||""} style={{marginLeft: "10px", cursor: "pointer"}} className="fa fa-font" />}
+                    <i onClick={toAdmin} title={t('common:lk_header:to_admin_title') || ""}
+                       style={{marginLeft: "10px", cursor: "pointer"}} className="fa fa-font"/>}
             </div>}
         </div>)
 };

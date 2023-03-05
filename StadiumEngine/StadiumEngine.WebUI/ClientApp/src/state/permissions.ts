@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import {atom} from 'recoil';
 import {UserPermissionDto} from "../models/dto/accounts/UserPermissionDto";
 
 const permissionsAtom = atom({
@@ -6,4 +6,4 @@ const permissionsAtom = atom({
     default: [] as UserPermissionDto[]
 });
 
-export { permissionsAtom };
+export {permissionsAtom};

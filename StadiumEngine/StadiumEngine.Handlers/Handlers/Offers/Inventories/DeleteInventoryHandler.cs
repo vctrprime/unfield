@@ -10,18 +10,20 @@ namespace StadiumEngine.Handlers.Handlers.Offers.Inventories;
 internal sealed class DeleteInventoryHandler : BaseCommandHandler<DeleteInventoryCommand, DeleteInventoryDto>
 {
     private readonly IInventoryCommandFacade _inventoryFacade;
+
     public DeleteInventoryHandler(
         IInventoryCommandFacade inventoryFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _inventoryFacade = inventoryFacade;
     }
 
-    protected override async ValueTask<DeleteInventoryDto> HandleCommand(DeleteInventoryCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<DeleteInventoryDto> HandleCommand( DeleteInventoryCommand request,
+        CancellationToken cancellationToken )
     {
-        await _inventoryFacade.DeleteInventory(request.InventoryId, _currentStadiumId);
+        await _inventoryFacade.DeleteInventory( request.InventoryId, _currentStadiumId );
         return new DeleteInventoryDto();
     }
 }

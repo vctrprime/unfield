@@ -13,7 +13,7 @@ public class RatesProfile : Profile
     {
         CreateMap<PriceGroup, PriceGroupDto>()
             .IncludeBase<BaseUserEntity, BaseEntityDto>()
-            .ForMember(dest => dest.FieldNames, act => act.MapFrom(s => s.Fields.Select(cf => cf.Name)));
+            .ForMember( dest => dest.FieldNames, act => act.MapFrom( s => s.Fields.Select( cf => cf.Name ) ) );
         CreateMap<AddPriceGroupCommand, PriceGroup>();
     }
 }

@@ -13,26 +13,31 @@ internal sealed class AddAdminUserHandler : BaseCommandHandler<AddAdminUserComma
 {
     private readonly IUserCommandFacade _userFacade;
     private readonly ISmsSender _smsSender;
-    
+
     public AddAdminUserHandler(
         IUserCommandFacade userFacade,
         ISmsSender smsSender,
-        IMapper mapper, 
-        IUnitOfWork unitOfWork) : base(mapper, null, unitOfWork, false)
+        IMapper mapper,
+        IUnitOfWork unitOfWork ) : base(
+        mapper,
+        null,
+        unitOfWork,
+        false )
     {
         _userFacade = userFacade;
         _smsSender = smsSender;
     }
 
-    protected override async ValueTask<AddAdminUserDto> HandleCommand(AddAdminUserCommand request, CancellationToken cancellationToken)
+    protected override async ValueTask<AddAdminUserDto> HandleCommand( AddAdminUserCommand request,
+        CancellationToken cancellationToken )
     {
-        var user = Mapper.Map<User>(request);
-        
-        var password = await _userFacade.AddUser(user, true);
+        var user = Mapper.Map<User>( request );
+
+        var password = await _userFacade.AddUser( user, true );
         await UnitOfWork.SaveChanges();
-        
-        await _smsSender.SendPassword(user.PhoneNumber, password, user.Language);
-        
+
+        await _smsSender.SendPassword( user.PhoneNumber, password, user.Language );
+
         return new AddAdminUserDto();
     }
 }

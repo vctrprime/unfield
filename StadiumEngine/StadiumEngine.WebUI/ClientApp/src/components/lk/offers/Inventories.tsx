@@ -18,7 +18,7 @@ import {permissionsAtom} from "../../../state/permissions";
 import {inventoriesAtom} from "../../../state/offers/inventories";
 
 const AgGrid = require('ag-grid-react');
-const { AgGridReact } = AgGrid;
+const {AgGridReact} = AgGrid;
 
 export const Inventories = () => {
     document.title = getTitle("offers:inventories_tab")
@@ -40,30 +40,30 @@ export const Inventories = () => {
         navigate("/lk/offers/inventories/" + id);
     }
 
-    const NameRenderer = (obj : any) => {
+    const NameRenderer = (obj: any) => {
         return <span className="link-cell" onClick={() => onNameClick(obj.data.id)}>{obj.data.name}</span>;
     }
 
-    const PriceRenderer = (obj : any) => {
+    const PriceRenderer = (obj: any) => {
         const currency = Currency[obj.data.currency];
-        
+
         return <span>{obj.data.price} {t("offers:currencies:" + currency.toLowerCase())}</span>;
     }
-    
-    
+
+
     const IsActiveRenderer = (obj: any) => {
         return <Checkbox onChange={() => toggleIsActive(obj.node.id, obj.data)} toggle checked={obj.data.isActive}/>;
     }
 
-    
+
     const toggleIsActive = (nodeId: number, data: InventoryDto) => {
         data.isActive = !data.isActive;
 
         const form = getInventoryBasicFormData(data);
 
         for (let i = 0; i < data.images.length; i++) {
-            form.append('images['+i+'].path', data.images[i]);
-            form.append('images['+i+'].formFile', '');
+            form.append('images[' + i + '].path', data.images[i]);
+            form.append('images[' + i + '].formFile', '');
         }
 
         offersService.updateInventory(form).then(() => {
@@ -73,14 +73,47 @@ export const Inventories = () => {
     }
 
     const columnDefs = [
-        {field: 'isActive', cellClass: "grid-center-cell grid-vcenter-cell", headerName: '', width: 90, cellRenderer: IsActiveRenderer},
-        {field: 'name', headerName: t("offers:inventories_grid:name"), width: 250, cellRenderer: NameRenderer },
-        {field: 'quantity', cellClass: "grid-center-cell", headerName: t("offers:inventories_grid:quantity"), width: 120 },
-        {field: 'price', cellClass: "grid-center-cell", headerName: t("offers:inventories_grid:price"), width: 200, cellRenderer: PriceRenderer },
-        {field: 'sportKinds', headerName: t("offers:sports:title"), width: 500, cellRenderer: SportKindsRenderer },
-        {field: 'description', headerName: t("offers:inventories_grid:description"), width: 500, cellRenderer: (obj: any) => <GridCellWithTitleRenderer value={obj.data.description}/> },
-        {field: 'userCreated', cellClass: "grid-center-cell", headerName: t("offers:inventories_grid:user_created"), width: 200},
-        {field: 'dateCreated', cellClass: "grid-center-cell", headerName: t("offers:inventories_grid:date_created"), width: 170, valueFormatter: dateFormatter},
+        {
+            field: 'isActive',
+            cellClass: "grid-center-cell grid-vcenter-cell",
+            headerName: '',
+            width: 90,
+            cellRenderer: IsActiveRenderer
+        },
+        {field: 'name', headerName: t("offers:inventories_grid:name"), width: 250, cellRenderer: NameRenderer},
+        {
+            field: 'quantity',
+            cellClass: "grid-center-cell",
+            headerName: t("offers:inventories_grid:quantity"),
+            width: 120
+        },
+        {
+            field: 'price',
+            cellClass: "grid-center-cell",
+            headerName: t("offers:inventories_grid:price"),
+            width: 200,
+            cellRenderer: PriceRenderer
+        },
+        {field: 'sportKinds', headerName: t("offers:sports:title"), width: 500, cellRenderer: SportKindsRenderer},
+        {
+            field: 'description',
+            headerName: t("offers:inventories_grid:description"),
+            width: 500,
+            cellRenderer: (obj: any) => <GridCellWithTitleRenderer value={obj.data.description}/>
+        },
+        {
+            field: 'userCreated',
+            cellClass: "grid-center-cell",
+            headerName: t("offers:inventories_grid:user_created"),
+            width: 200
+        },
+        {
+            field: 'dateCreated',
+            cellClass: "grid-center-cell",
+            headerName: t("offers:inventories_grid:date_created"),
+            width: 170,
+            valueFormatter: dateFormatter
+        },
     ];
 
     const fetchInventories = () => {

@@ -13,15 +13,16 @@ internal sealed class UpdateUserHandler : BaseCommandHandler<UpdateUserCommand, 
 
     public UpdateUserHandler(
         IUpdateUserFacade facade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService, 
-        IUnitOfWork unitOfWork) : base(mapper, claimsIdentityService, unitOfWork)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService,
+        IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _facade = facade;
     }
-    
-    protected override async ValueTask<UpdateUserDto> HandleCommand(UpdateUserCommand request, CancellationToken cancellationToken)
+
+    protected override async ValueTask<UpdateUserDto> HandleCommand( UpdateUserCommand request,
+        CancellationToken cancellationToken )
     {
-        return await _facade.Update(request, _userId, _legalId);
+        return await _facade.Update( request, _userId, _legalId );
     }
 }

@@ -14,22 +14,20 @@ internal sealed class GetStadiumsForRoleHandler : BaseRequestHandler<GetStadiums
 
     public GetStadiumsForRoleHandler(
         IRoleQueryFacade roleFacade,
-        IMapper mapper, 
-        IClaimsIdentityService claimsIdentityService) : base(mapper, claimsIdentityService)
+        IMapper mapper,
+        IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
         _roleFacade = roleFacade;
     }
-    
-    public override async ValueTask<List<StadiumDto>> Handle(GetStadiumsForRoleQuery request, CancellationToken cancellationToken)
-    {
-        var stadiums = await _roleFacade.GetStadiumsForRole(request.RoleId, _legalId);
 
-        var stadiumsDto = Mapper.Map<List<StadiumDto>>(stadiums.Keys);
-        stadiumsDto.ForEach(sd =>
-        {
-            sd.IsRoleBound = stadiums.FirstOrDefault(s => s.Key.Id == sd.Id).Value;
-        });
-        
+    public override async ValueTask<List<StadiumDto>> Handle( GetStadiumsForRoleQuery request,
+        CancellationToken cancellationToken )
+    {
+        var stadiums = await _roleFacade.GetStadiumsForRole( request.RoleId, _legalId );
+
+        var stadiumsDto = Mapper.Map<List<StadiumDto>>( stadiums.Keys );
+        stadiumsDto.ForEach( sd => { sd.IsRoleBound = stadiums.FirstOrDefault( s => s.Key.Id == sd.Id ).Value; } );
+
         return stadiumsDto;
     }
 }

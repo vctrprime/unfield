@@ -11,74 +11,74 @@ internal class UserRepositoryFacade : IUserRepositoryFacade
     private readonly IRoleRepositoryFacade _roleRepositoryFacade;
 
     public UserRepositoryFacade(
-        IUserRepository userRepository, 
+        IUserRepository userRepository,
         ILegalRepository legalRepository,
         IStadiumRepository stadiumRepository,
-        IRoleRepositoryFacade roleRepositoryFacade)
+        IRoleRepositoryFacade roleRepositoryFacade )
     {
         _userRepository = userRepository;
         _legalRepository = legalRepository;
         _stadiumRepository = stadiumRepository;
         _roleRepositoryFacade = roleRepositoryFacade;
     }
-    
-    public async Task<User?> GetUser(string login)
+
+    public async Task<User?> GetUser( string login )
     {
-        return await _userRepository.Get(login);
-    }
-    
-    public async Task<User?> GetUser(int userId)
-    {
-        return await _userRepository.Get(userId);
+        return await _userRepository.Get( login );
     }
 
-    public async Task<List<User>> GetUsers(int legalId)
+    public async Task<User?> GetUser( int userId )
     {
-        return await _userRepository.GetAll(legalId);
+        return await _userRepository.Get( userId );
     }
 
-    public void AddUser(User user)
+    public async Task<List<User>> GetUsers( int legalId )
     {
-        _userRepository.Add(user);
+        return await _userRepository.GetAll( legalId );
     }
 
-    public void UpdateUser(User user)
+    public void AddUser( User user )
     {
-        _userRepository.Update(user);
+        _userRepository.Add( user );
     }
 
-    public void RemoveUser(User user)
+    public void UpdateUser( User user )
     {
-        _userRepository.Remove(user);
+        _userRepository.Update( user );
     }
 
-    public async Task<List<Legal>> GetLegals(string searchString)
+    public void RemoveUser( User user )
     {
-        return await _legalRepository.GetByFilter(searchString);
+        _userRepository.Remove( user );
     }
 
-    public async Task<Role?> GetRole(int roleId)
+    public async Task<List<Legal>> GetLegals( string searchString )
     {
-        return await _roleRepositoryFacade.GetRole(roleId);
+        return await _legalRepository.GetByFilter( searchString );
+    }
+
+    public async Task<Role?> GetRole( int roleId )
+    {
+        return await _roleRepositoryFacade.GetRole( roleId );
     }
 
     public async Task<List<Permission>> GetPermissions()
     {
         return await _roleRepositoryFacade.GetPermissions();
     }
-    
-    public async Task<List<Permission>> GetPermissions(int roleId)
+
+    public async Task<List<Permission>> GetPermissions( int roleId )
     {
-        return await _roleRepositoryFacade.GetPermissions(roleId);
+        return await _roleRepositoryFacade.GetPermissions( roleId );
     }
 
-    public async Task<List<Stadium>> GetStadiumsForLegal(int legalId)
+    public async Task<List<Stadium>> GetStadiumsForLegal( int legalId )
     {
-        return await _stadiumRepository.GetForLegal(legalId);
+        return await _stadiumRepository.GetForLegal( legalId );
     }
 
-    public async Task<List<Stadium>> GetStadiumsForRole(int roleId)
+    public async Task<List<Stadium>> GetStadiumsForRole( int roleId )
     {
-        return await _stadiumRepository.GetForRole(roleId);
+        return await _stadiumRepository.GetForRole( roleId );
     }
 }

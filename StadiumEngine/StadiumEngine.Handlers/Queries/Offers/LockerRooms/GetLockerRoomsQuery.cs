@@ -5,5 +5,4 @@ namespace StadiumEngine.Handlers.Queries.Offers.LockerRooms;
 
 public sealed class GetLockerRoomsQuery : IRequest<List<LockerRoomDto>>
 {
-    
 }

@@ -19,10 +19,10 @@ namespace StadiumEngine.Services.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void RegisterServices(this IServiceCollection services)
+    public static void RegisterServices( this IServiceCollection services )
     {
         services.RegisterDataAccessModules();
-        
+
         services.AddScoped<IClaimsIdentityService, ClaimsIdentityService>();
         services.AddScoped<IPasswordGenerator, PasswordGenerator>();
         services.AddScoped<IHasher, Hasher>();
@@ -33,7 +33,6 @@ public static class ServiceCollectionExtensions
 
         #region facades
 
-        
         services.AddScoped<IUserServiceFacade, UserServiceFacade>();
         services.AddScoped<IUserRepositoryFacade, UserRepositoryFacade>();
         services.AddScoped<IRoleRepositoryFacade, RoleRepositoryFacade>();
@@ -44,7 +43,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRoleQueryFacade, RoleQueryFacade>();
         services.AddScoped<IRoleCommandFacade, RoleCommandFacade>();
         services.AddScoped<IPermissionCommandFacade, PermissionCommandFacade>();
-        
+
         services.AddScoped<IFieldQueryFacade, FieldQueryFacade>();
         services.AddScoped<IFieldCommandFacade, FieldCommandFacade>();
         services.AddScoped<ILockerRoomQueryFacade, LockerRoomQueryFacade>();
@@ -58,9 +57,9 @@ public static class ServiceCollectionExtensions
         #endregion
 
         #region builders
-        
+
         services.AddScoped<INewLegalBuilder, NewLegalBuilder>();
-        
+
         #endregion
 
         #region checkers
@@ -69,6 +68,4 @@ public static class ServiceCollectionExtensions
 
         #endregion
     }
-    
-    
 }

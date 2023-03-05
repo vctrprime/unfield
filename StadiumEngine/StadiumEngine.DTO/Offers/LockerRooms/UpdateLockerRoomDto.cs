@@ -5,5 +5,4 @@ namespace StadiumEngine.DTO.Offers.LockerRooms;
 /// </summary>
 public class UpdateLockerRoomDto : BaseEmptySuccessDto
 {
-    
 }

@@ -10,7 +10,7 @@ namespace StadiumEngine.WebUI.Controllers.Utils;
 /// <summary>
 /// Util-запросы для работы с юр. лицами
 /// </summary>
-[Route("utils/legals")]
+[Route( "utils/legals" )]
 [AllowAnonymous]
 public class LegalUtilController : BaseApiController
 {
@@ -21,9 +21,9 @@ public class LegalUtilController : BaseApiController
     /// <returns></returns>
     [HttpPost]
     [SecuredUtil]
-    public async Task<AddLegalDto> Post(AddLegalCommand command)
+    public async Task<AddLegalDto> Post( AddLegalCommand command )
     {
-        var legal = await Mediator.Send(command);
+        var legal = await Mediator.Send( command );
 
         return legal;
     }

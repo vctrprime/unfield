@@ -15,7 +15,7 @@ namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 /// <summary>
 /// Роли
 /// </summary>
-[Route("api/accounts/roles")]
+[Route( "api/accounts/roles" )]
 public class RoleController : BaseApiController
 {
     /// <summary>
@@ -23,46 +23,46 @@ public class RoleController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [HasPermission($"{PermissionsKeys.GetRoles},{PermissionsKeys.GetPermissions},{PermissionsKeys.GetUsers}")]
+    [HasPermission( $"{PermissionsKeys.GetRoles},{PermissionsKeys.GetPermissions},{PermissionsKeys.GetUsers}" )]
     public async Task<List<RoleDto>> Get()
     {
-        var roles = await Mediator.Send(new GetRolesQuery());
+        var roles = await Mediator.Send( new GetRolesQuery() );
         return roles;
     }
-    
+
     /// <summary>
     /// Добавить роль
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    [HasPermission(PermissionsKeys.InsertRole)]
-    public async Task<AddRoleDto> Post(AddRoleCommand command)
+    [HasPermission( PermissionsKeys.InsertRole )]
+    public async Task<AddRoleDto> Post( AddRoleCommand command )
     {
-        var dto = await Mediator.Send(command);
+        var dto = await Mediator.Send( command );
         return dto;
     }
-    
+
     /// <summary>
     /// Обновить роль
     /// </summary>
     /// <returns></returns>
     [HttpPut]
-    [HasPermission(PermissionsKeys.UpdateRole)]
-    public async Task<UpdateRoleDto> Put(UpdateRoleCommand command)
+    [HasPermission( PermissionsKeys.UpdateRole )]
+    public async Task<UpdateRoleDto> Put( UpdateRoleCommand command )
     {
-        var dto = await Mediator.Send(command);
+        var dto = await Mediator.Send( command );
         return dto;
     }
-    
+
     /// <summary>
     /// Удалить роль
     /// </summary>
     /// <returns></returns>
-    [HttpDelete("{roleId}")]
-    [HasPermission(PermissionsKeys.DeleteRole)]
-    public async Task<DeleteRoleDto> Delete(int roleId)
+    [HttpDelete( "{roleId}" )]
+    [HasPermission( PermissionsKeys.DeleteRole )]
+    public async Task<DeleteRoleDto> Delete( int roleId )
     {
-        var dto = await Mediator.Send(new DeleteRoleCommand(roleId));
+        var dto = await Mediator.Send( new DeleteRoleCommand( roleId ) );
         return dto;
     }
 }

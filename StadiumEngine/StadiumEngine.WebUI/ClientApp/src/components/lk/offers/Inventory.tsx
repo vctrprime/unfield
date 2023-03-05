@@ -32,8 +32,8 @@ export const Inventory = () => {
 
     const [passedImages, setPassedImages] = useState<ImageFile[]>([])
     const [isError, setIsError] = useState<boolean>(false);
-    const [inventoryId, setInventoryId] = useState(parseInt(id||"0"));
-    
+    const [inventoryId, setInventoryId] = useState(parseInt(id || "0"));
+
     const [offersService] = useInject<IOffersService>('OffersService');
 
     const navigate = useNavigate();
@@ -53,17 +53,16 @@ export const Inventory = () => {
 
     useEffect(() => {
         fetchInventory();
-    },[inventoryId])
+    }, [inventoryId])
 
     useEffect(() => {
-        setInventoryId(parseInt(id||"0"));
+        setInventoryId(parseInt(id || "0"));
     }, [id])
 
     useEffect(() => {
         if (data.name !== undefined && data.name !== null) {
             document.title = getDataTitle(data.name);
-        }
-        else {
+        } else {
             document.title = getTitle("offers:inventories_tab")
         }
     }, [data])
@@ -79,7 +78,7 @@ export const Inventory = () => {
     const descriptionInput = useRef<any>();
     const priceInput = useRef<any>();
     const quantityInput = useRef<any>();
-    
+
     const saveAction = () => {
         if (validateInputs([nameInput, priceInput, quantityInput])) {
             data.name = nameInput.current?.value;
@@ -93,20 +92,18 @@ export const Inventory = () => {
 
             for (let i = 0; i < actualImages.length; i++) {
                 if (actualImages[i].formFile === undefined) {
-                    form.append('images['+i+'].path', actualImages[i].path||'');
-                    form.append('images['+i+'].formFile', '');
-                }
-                else {
-                    form.append('images['+i+'].path', '');
-                    form.append('images['+i+'].formFile', actualImages[i].formFile||'');
+                    form.append('images[' + i + '].path', actualImages[i].path || '');
+                    form.append('images[' + i + '].formFile', '');
+                } else {
+                    form.append('images[' + i + '].path', '');
+                    form.append('images[' + i + '].formFile', actualImages[i].formFile || '');
                 }
             }
             if (id === "new") {
                 offersService.addInventory(form).then(() => {
                     navigate("/lk/offers/inventories");
                 });
-            }
-            else {
+            } else {
                 offersService.updateInventory(form).then(() => {
                     navigate("/lk/offers/inventories");
                 });
@@ -129,7 +126,7 @@ export const Inventory = () => {
             saveAction={saveAction}
             deleteAction={id === "new" ? null : deleteInventory}
             deleteHeader={id === "new" ? null : t('offers:inventories_grid:delete:header')}
-            deleteQuestion={id === "new" ? null : StringFormat(t('offers:inventories_grid:delete:question'), data.name||'')}
+            deleteQuestion={id === "new" ? null : StringFormat(t('offers:inventories_grid:delete:question'), data.name || '')}
         />
         <Form className="inventory-form">
             <Form.Field style={{marginBottom: 0}}>
@@ -138,30 +135,35 @@ export const Inventory = () => {
             </Form.Field>
             <Form.Field>
                 <label>{t("offers:inventories_grid:name")}</label>
-                <input id="name-input" ref={nameInput} placeholder={t("offers:inventories_grid:name")||''} defaultValue={data.name || ''}/>
+                <input id="name-input" ref={nameInput} placeholder={t("offers:inventories_grid:name") || ''}
+                       defaultValue={data.name || ''}/>
             </Form.Field>
-            
+
             <div className="price-qty-container">
                 <Form.Field>
                     <label>{t("offers:inventories_grid:price")}</label>
-                    <input id="price-input" type="number" ref={priceInput} placeholder={t("offers:inventories_grid:price")||''} defaultValue={data.price || ''}/>
+                    <input id="price-input" type="number" ref={priceInput}
+                           placeholder={t("offers:inventories_grid:price") || ''} defaultValue={data.price || ''}/>
                 </Form.Field>
-                <div className="delimiter" />
-                <CurrencySelect data={data} setData={setData} />
+                <div className="delimiter"/>
+                <CurrencySelect data={data} setData={setData}/>
             </div>
-            
+
             <Form.Field>
                 <label>{t("offers:inventories_grid:quantity")}</label>
-                <input id="quantity-input" style={{width: '200px'}} type="number" ref={quantityInput} placeholder={t("offers:inventories_grid:quantity")||''} defaultValue={data.quantity || ''}/>
+                <input id="quantity-input" style={{width: '200px'}} type="number" ref={quantityInput}
+                       placeholder={t("offers:inventories_grid:quantity") || ''} defaultValue={data.quantity || ''}/>
             </Form.Field>
-            
+
             <Form.Field>
                 <label>{t("offers:inventories_grid:description")}</label>
-                <textarea id="description-input" ref={descriptionInput} rows={4} placeholder={t("offers:inventories_grid:description")||''} defaultValue={data.description || ''}/>
+                <textarea id="description-input" ref={descriptionInput} rows={4}
+                          placeholder={t("offers:inventories_grid:description") || ''}
+                          defaultValue={data.description || ''}/>
             </Form.Field>
-           
-            <SportKindSelect data={data} setData={setData} />
-            <ImagesForm passedImages={passedImages} setPassedImages={setPassedImages} />
+
+            <SportKindSelect data={data} setData={setData}/>
+            <ImagesForm passedImages={passedImages} setPassedImages={setPassedImages}/>
         </Form>
     </div>);
 }

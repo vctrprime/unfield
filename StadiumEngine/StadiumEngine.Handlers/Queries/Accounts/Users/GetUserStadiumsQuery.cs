@@ -5,5 +5,4 @@ namespace StadiumEngine.Handlers.Queries.Accounts.Users;
 
 public sealed class GetUserStadiumsQuery : IRequest<List<UserStadiumDto>>
 {
-    
 }

@@ -10,7 +10,7 @@ namespace StadiumEngine.WebUI.Controllers.Utils;
 /// <summary>
 /// Util-запросы для работы с разрешениями
 /// </summary>
-[Route("utils/permissions")]
+[Route( "utils/permissions" )]
 [AllowAnonymous]
 public class PermissionUtilController : BaseApiController
 {
@@ -18,11 +18,11 @@ public class PermissionUtilController : BaseApiController
     /// Синхронизировать разрешения
     /// </summary>
     /// <returns></returns>
-    [HttpPost("sync")]
+    [HttpPost( "sync" )]
     [SecuredUtil]
     public async Task<SyncPermissionsDto> Sync()
     {
-        var syncPermissionsDto = await Mediator.Send(new SyncPermissionsCommand());
+        var syncPermissionsDto = await Mediator.Send( new SyncPermissionsCommand() );
 
         return syncPermissionsDto;
     }
