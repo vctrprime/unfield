@@ -151,7 +151,35 @@ public static class PermissionSet
                     DisplayName = "Удаление ценовой группы",
                     Description = "Возможность удалить ценовую группу",
                     Sort = 4
-                }
+                },
+                new()
+                {
+                    Name = PermissionsKeys.GetTariffs,
+                    DisplayName = "Просмотр тарифов",
+                    Description = "Просмотр списка тарифов",
+                    Sort = 5
+                },
+                new()
+                {
+                    Name = PermissionsKeys.InsertTariff,
+                    DisplayName = "Добавление тарифа",
+                    Description = "Возможность добавить тариф",
+                    Sort = 6
+                },
+                new()
+                {
+                    Name = PermissionsKeys.UpdateTariff,
+                    DisplayName = "Обновление тарифа",
+                    Description = "Возможность изменить данные тарифа",
+                    Sort = 7
+                },
+                new()
+                {
+                    Name = PermissionsKeys.DeleteTariff,
+                    DisplayName = "Удаление тарифа",
+                    Description = "Возможность удалить тариф",
+                    Sort = 8
+                },
             }
         },
         new PermissionGroup

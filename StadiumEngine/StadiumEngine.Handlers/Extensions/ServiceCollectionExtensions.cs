@@ -6,6 +6,7 @@ using StadiumEngine.Handlers.Facades.Offers.Fields;
 using StadiumEngine.Handlers.Facades.Offers.Inventories;
 using StadiumEngine.Handlers.Facades.Offers.LockerRooms;
 using StadiumEngine.Handlers.Facades.Rates.PriceGroups;
+using StadiumEngine.Handlers.Facades.Rates.Tariffs;
 using StadiumEngine.Handlers.Mappings;
 using StadiumEngine.Services.Extensions;
 
@@ -44,5 +45,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUpdateLockerRoomFacade, UpdateLockerRoomFacade>();
 
         services.AddScoped<IUpdatePriceGroupFacade, UpdatePriceGroupFacade>();
+        services.AddScoped<IUpdateTariffFacade, UpdateTariffFacade>();
     }
 }

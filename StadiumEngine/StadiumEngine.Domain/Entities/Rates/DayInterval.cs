@@ -7,10 +7,10 @@ namespace StadiumEngine.Domain.Entities.Rates;
 [Table( "day_interval", Schema = "rates" )]
 public class DayInterval : BaseEntity
 {
-    [Column( "start_id" )]
+    [Column( "start" )]
     public string Start { get; set; }
 
-    [Column( "end_id" )]
+    [Column( "end" )]
     public string End { get; set; }
 
     [NotMapped]

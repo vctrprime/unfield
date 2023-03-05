@@ -32,6 +32,10 @@ public static class PermissionsKeys
     public const string InsertPriceGroup = "insert-price-group";
     public const string UpdatePriceGroup = "update-price-group";
     public const string DeletePriceGroup = "delete-price-group";
+    public const string GetTariffs = "get-tariffs";
+    public const string InsertTariff = "insert-tariff";
+    public const string UpdateTariff = "update-tariff";
+    public const string DeleteTariff = "delete-tariff";
 
     public const string GetEmployees = "get-employees";
 

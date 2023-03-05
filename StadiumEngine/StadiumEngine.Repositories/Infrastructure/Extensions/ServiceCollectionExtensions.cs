@@ -55,6 +55,9 @@ public static class ServiceCollectionExtensions
         #region rates
 
         services.AddScoped<IPriceGroupRepository, PriceGroupRepository>();
+        services.AddScoped<ITariffDayIntervalRepository, TariffDayIntervalRepository>();
+        services.AddScoped<IDayIntervalRepository, DayIntervalRepository>();
+        services.AddScoped<ITariffRepository, TariffRepository>();
 
         #endregion
 

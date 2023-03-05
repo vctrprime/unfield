@@ -7,15 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\StadiumEngine.Common\StadiumEngine.Common.csproj"/>
-        <ProjectReference Include="..\StadiumEngine.Domain.Repositories\StadiumEngine.Domain.Repositories.csproj" PrivateAssets="All"/>
-        <ProjectReference Include="..\StadiumEngine.Domain.Services\StadiumEngine.Domain.Services.csproj" PrivateAssets="All"/>
-        <ProjectReference Include="..\StadiumEngine.Domain\StadiumEngine.Domain.csproj" PrivateAssets="All"/>
-        <ProjectReference Include="..\StadiumEngine.Repositories\StadiumEngine.Repositories.csproj" PrivateAssets="All"/>
+        <ProjectReference Include="..\StadiumEngine.Common\StadiumEngine.Common.csproj" />
+        <ProjectReference Include="..\StadiumEngine.Domain.Repositories\StadiumEngine.Domain.Repositories.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\StadiumEngine.Domain.Services\StadiumEngine.Domain.Services.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\StadiumEngine.Domain\StadiumEngine.Domain.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\StadiumEngine.Repositories\StadiumEngine.Repositories.csproj" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     </ItemGroup>
 
 
