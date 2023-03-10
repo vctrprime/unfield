@@ -25,6 +25,7 @@ import offersEN from '../i18n/offers/offers.en.json';
 
 import ratesRU from '../i18n/rates/rates.json';
 import ratesEN from '../i18n/rates/rates.en.json';
+import {LocaleOptions} from "react-semantic-ui-datepickers/dist/types";
 
 
 const resources = {
@@ -48,6 +49,7 @@ const resources = {
     }
 };
 
+
 i18next
     .use(reactI18nextModule) // passes i18n down to react-i18next
     .init({
@@ -60,5 +62,19 @@ i18next
             escapeValue: false // react already safes from xss
         }
     });
+
+interface Locales {
+    ru: LocaleOptions;
+    en: LocaleOptions
+}
+
+const locales : Locales = {
+    ru: "ru-RU",
+    en: "en-US"
+}
+
+export const getLocale = (): LocaleOptions => {
+    return locales[i18next.language as keyof Locales];
+}
 
 export default i18next;

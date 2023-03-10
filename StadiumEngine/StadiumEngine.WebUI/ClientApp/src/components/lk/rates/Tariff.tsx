@@ -7,17 +7,23 @@ import {getDataTitle, getTitle, StringFormat, validateInputs} from "../../../hel
 import {ActionButtons} from "../../common/actions/ActionButtons";
 import {PermissionsKeys} from "../../../static/PermissionsKeys";
 import {t} from "i18next";
-import {Checkbox, Form} from "semantic-ui-react";
+import {Button, Checkbox, Form} from "semantic-ui-react";
+import {DateRangeSelect} from "../common/DateRangeSelect";
+import {TariffInterval} from "./TariffInterval";
+import {AddTariffCommand} from "../../../models/command/rates/AddTariffCommand";
+import {UpdateTariffCommand} from "../../../models/command/rates/UpdateTariffCommand";
+
 
 export const Tariff = () => {
     let {id} = useParams();
 
     const [data, setData] = useState<TariffDto>({
-        isActive: true
+        isActive: true,
+        dateStart: new Date()
     } as TariffDto);
     const [isError, setIsError] = useState<boolean>(false);
     const [tariffId, setTariffId] = useState(parseInt(id || "0"))
-
+    
     const [ratesService] = useInject<IRatesService>('RatesService');
 
     const navigate = useNavigate();
@@ -52,28 +58,48 @@ export const Tariff = () => {
 
     const saveTariff = () => {
         if (validateInputs([nameInput])) {
-            /*const command: AddTariffCommand = {
+            const command: AddTariffCommand = {
                 name: nameInput.current?.value,
                 description: descriptionInput.current?.value,
                 isActive: data.isActive,
+                dateStart: data.dateStart,
+                dateEnd: data.dateEnd,
+                monday: data.monday,
+                tuesday: data.tuesday,
+                wednesday: data.wednesday,
+                thursday: data.thursday,
+                friday: data.friday,
+                saturday: data.saturday,
+                sunday: data.sunday,
+                dayIntervals: data.dayIntervals
             }
             ratesService.addTariff(command).then(() => {
                 navigate("/lk/rates/tariffs");
-            })*/
+            })
         }
     }
 
     const updateTariff = () => {
         if (validateInputs([nameInput])) {
-            /*const command: UpdateTariffCommand = {
+            const command: UpdateTariffCommand = {
                 id: tariffId,
                 name: nameInput.current?.value,
                 description: descriptionInput.current?.value,
-                isActive: data.isActive
+                isActive: data.isActive,
+                dateStart: data.dateStart,
+                dateEnd: data.dateEnd,
+                monday: data.monday,
+                tuesday: data.tuesday,
+                wednesday: data.wednesday,
+                thursday: data.thursday,
+                friday: data.friday,
+                saturday: data.saturday,
+                sunday: data.sunday,
+                dayIntervals: data.dayIntervals
             }
             ratesService.updateTariff(command).then(() => {
                 navigate("/lk/rates/tariffs");
-            })*/
+            })
         }
     }
 
@@ -96,8 +122,57 @@ export const Tariff = () => {
             [day]: !(data[day as keyof TariffDto] as boolean)
         });
     }
-
-
+    
+    const periodValue = () => {
+        let result = [];
+        if (data?.dateEnd) {
+            result = [new Date(data?.dateStart), new Date(data?.dateEnd)]
+        }
+        else {
+            result = [new Date(data?.dateStart)];
+        }
+        return result;
+    }
+    const changePeriod = (event: any, dates: any) => {
+        let startDate = new Date();
+        if (dates.value !== null && dates.value.length > 0) {
+            startDate = dates.value[0];
+        }
+        let endDate = null;
+        if (dates.value !== null && dates.value.length > 1) {
+            endDate = dates.value[1]
+        }
+        
+        setData({
+            ...data,
+            dateStart: startDate,
+            dateEnd: endDate
+        });
+    }
+    
+    const setInterval = (start: string, end: string, interval: string[]|null = null, isRemove: boolean = false ) => {
+        const newIntervals: string[][] = [];
+        data?.dayIntervals?.forEach((i) => {
+            if (i !== interval) {
+                newIntervals.push(i);
+            }
+            else {
+                if (!isRemove) {
+                    newIntervals.push([start, end]);
+                }
+            }
+        });
+        
+        if (interval === null) {
+            newIntervals.push([start, end]);
+        }
+        
+        setData({
+            ...data,
+            dayIntervals: newIntervals
+        });
+    }
+    
     return isError ? <span/> : (<div>
         <ActionButtons
             savePermission={id === "new" ? PermissionsKeys.InsertTariff : PermissionsKeys.UpdateTariff}
@@ -126,6 +201,7 @@ export const Tariff = () => {
             </Form.Field>
             <Form.Field>
                 <label>{t("rates:tariffs_grid:period")}</label>
+                <DateRangeSelect value={periodValue()} onChange={changePeriod}/>
             </Form.Field>
             <Form.Field>
                 <label>{t("rates:tariffs_grid:days")}</label>
@@ -139,6 +215,17 @@ export const Tariff = () => {
             </Form.Field>
             <Form.Field>
                 <label>{t("rates:tariffs_grid:intervals")}</label>
+                <div style={{fontSize: '12px', lineHeight: '12px'}}>{t("rates:tariffs_grid:intervals_hint")}</div>
+                <Button style={{marginTop: "10px"}} onClick={() => {
+                    setInterval("08:00", "09:00");
+                }}>{t('rates:tariffs_grid:add_interval')}</Button>
+                {data?.dayIntervals?.map((v, i) => {
+                    return <TariffInterval key={i} 
+                                           interval={v}
+                                           index={i}
+                                           setInterval={setInterval}/>
+                    }
+                )}
             </Form.Field>
         </Form>
     </div>);

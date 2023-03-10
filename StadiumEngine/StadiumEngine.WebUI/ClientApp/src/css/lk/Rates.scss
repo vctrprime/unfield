@@ -14,4 +14,41 @@
   .checkbox {
     margin-right: 20px;
   }
+  
+  .tariff-interval-timeline {
+    display: flex;
+    padding-left: 30px;
+    
+    .tariff-interval-cont {
+      display: flex;
+      
+      .tariff-interval-point-cont {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        .tariff-interval-point {
+          background-color: $dark-color;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          
+          &.small {
+            width: 5px;
+            height: 5px;
+            margin-top: 1px;
+          }
+        }
+        .tariff-interval-point-text {
+          font-size: 8px;
+        }
+      }
+      
+      .tariff-interval-point-line {
+        background-color: $dark-color;
+        flex: 0.3;
+        margin-top: 3px;
+      }
+    }
+  }
 }

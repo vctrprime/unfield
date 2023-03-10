@@ -178,7 +178,7 @@
   position: sticky;
   top: 0;
   background-color: white;
-  z-index: 2;
+  z-index: 5;
 
   .action-buttons-title {
     display: flex;
@@ -299,5 +299,10 @@
   }
 }
 
+.date-range-picker {
+  input {
+    width: 220px !important;
+  }
+}
 
 
