@@ -43,4 +43,10 @@ public static class ErrorsKeys
     public const string TariffNotFound = "rates:tariff_not_found";
 
     #endregion
+
+    #region settings
+
+    public const string MainSettingsInvalidOpenClosePeriod = "settings:main_invalid_open_close";
+
+    #endregion
 }

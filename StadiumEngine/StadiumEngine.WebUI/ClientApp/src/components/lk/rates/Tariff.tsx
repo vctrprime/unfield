@@ -12,6 +12,7 @@ import {DateRangeSelect} from "../common/DateRangeSelect";
 import {TariffInterval} from "./TariffInterval";
 import {AddTariffCommand} from "../../../models/command/rates/AddTariffCommand";
 import {UpdateTariffCommand} from "../../../models/command/rates/UpdateTariffCommand";
+import {ISettingsService} from "../../../services/SettingsService";
 
 
 export const Tariff = () => {
@@ -24,7 +25,10 @@ export const Tariff = () => {
     const [isError, setIsError] = useState<boolean>(false);
     const [tariffId, setTariffId] = useState(parseInt(id || "0"))
     
+    const [intervalPoints, setIntervalPoints] = useState<string[]>([]);
+    
     const [ratesService] = useInject<IRatesService>('RatesService');
+    const [settingsService] = useInject<ISettingsService>('SettingsService');
 
     const navigate = useNavigate();
 
@@ -35,6 +39,22 @@ export const Tariff = () => {
             }).catch(() => setIsError(true));
         }
     }
+    
+    useEffect(() => {
+        settingsService.getStadiumMainSettings().then((result) => {
+            const points: string[] = [];
+            for (let i = result.openTime; i <= result.closeTime; i++) {
+                if (i === result.closeTime) {
+                    points.push(i.toString().length === 1 ? `0${i}:00`: `${i}:00`);
+                }
+                else {
+                    points.push(i.toString().length === 1 ? `0${i}:00`: `${i}:00`);
+                    points.push(i.toString().length === 1 ? `0${i}:30`: `${i}:30`);
+                }
+            }
+            setIntervalPoints(points);
+        })
+    }, [])
 
     useEffect(() => {
         fetchTariff();
@@ -223,6 +243,7 @@ export const Tariff = () => {
                     return <TariffInterval key={i} 
                                            interval={v}
                                            index={i}
+                                           points={intervalPoints}
                                            setInterval={setInterval}/>
                     }
                 )}

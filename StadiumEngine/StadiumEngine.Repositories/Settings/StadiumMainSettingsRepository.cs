@@ -23,8 +23,8 @@ internal class StadiumMainSettingsRepository : BaseRepository<StadiumMainSetting
         settings = new StadiumMainSettings
         {
             StadiumId = stadiumId,
-            OpenTime = "08:00",
-            CloseTime = "23:00"
+            OpenTime = 8,
+            CloseTime = 23
         };
         Entities.Add( settings );
         await Commit();

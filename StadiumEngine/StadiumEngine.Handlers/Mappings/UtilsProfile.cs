@@ -32,8 +32,8 @@ internal class UtilsProfile : Profile
                 CityId = source.CityId,
                 MainSettings = new StadiumMainSettings
                 {
-                    OpenTime = "08:00",
-                    CloseTime = "23:00"
+                    OpenTime = 8,
+                    CloseTime = 23
                 }
             } ).ToList();
 

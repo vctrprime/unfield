@@ -24,5 +24,12 @@
         "field_not_found": "Площадка не найдена",
         "field_has_children_fields": "Нельзя удалить площадку у которой имеются связанные площадки",
         "inventory_not_found": "Инвентарь не найден"
+    },
+    "rates": {
+        "price_group_not_found": "Ценовая группа не найдена",
+        "tariff_not_found": "Тариф не найден"
+    },
+    "settings": {
+        "main_invalid_open_close": "Указан некорректный режим работы"
     }
 }

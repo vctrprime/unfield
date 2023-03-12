@@ -13,10 +13,10 @@ public class StadiumMainSettings : BaseUserEntity
     public virtual Stadium Stadium { get; set; }
     
     [Column( "open_time" )]
-    public string OpenTime { get; set; }
+    public int OpenTime { get; set; }
     
     [Column( "close_time" )]
-    public string CloseTime { get; set; }
+    public int CloseTime { get; set; }
     
     [NotMapped]
     public new int? UserCreatedId { get; set; }

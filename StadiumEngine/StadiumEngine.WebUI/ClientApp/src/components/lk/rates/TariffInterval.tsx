@@ -7,44 +7,22 @@ export interface TariffIntervalProps {
     interval: string[];
     setInterval: any;
     index: number;
+    points: string[]
 }
 
 export const TariffInterval = (props: TariffIntervalProps) => {
-    const startHour = 8;
-    const endHour = 24;
     
-    const getAllIntervals = (): string[] => {
-        const result: string[] = [];
-        for (let i = startHour; i <= endHour; i++) {
-            if (i === endHour) {
-                result.push(i.toString().length === 1 ? `0${i}:00`: `${i}:00`);
-            }
-            else {
-                result.push(i.toString().length === 1 ? `0${i}:00`: `${i}:00`);
-                result.push(i.toString().length === 1 ? `0${i}:30`: `${i}:30`);
-            }
-        }
-        
-        return result;
-    }
-    
-    const allIntervals = getAllIntervals();
-
-    const startIndex = allIntervals.indexOf(props.interval[0]);
-    const endIndex = allIntervals.indexOf(props.interval[1]);
+    const startIndex = props.points.indexOf(props.interval[0]);
+    const endIndex = props.points.indexOf(props.interval[1]);
     
     const dropdownDataStart = () => {
-        const endIndex = allIntervals.indexOf(props.interval[1]);
-        
-        return allIntervals.map((v, i) => {
+        return props.points.map((v, i) => {
            return {key: i, value: v, text: v, disabled: i >= endIndex};
        });
     }
 
     const dropdownDataEnd = () => {
-        const startIndex = allIntervals.indexOf(props.interval[0]);
-        
-        return allIntervals.map((v, i) => {
+        return props.points.map((v, i) => {
             return {key: i, value: v, text: v, disabled: i <= startIndex};
         });
     }
@@ -86,7 +64,7 @@ export const TariffInterval = (props: TariffIntervalProps) => {
             />
         </div>
         <div className="tariff-interval-timeline">
-            {allIntervals.map((time, index) => {
+            {props.points.map((time, index) => {
                 return <>
                     <div className="tariff-interval-cont">
                         <div className="tariff-interval-point-cont">
@@ -95,7 +73,7 @@ export const TariffInterval = (props: TariffIntervalProps) => {
                         </div>
                     </div>
                     <div className="tariff-interval-cont" style={{flexDirection: 'column'}}>
-                        {index !== allIntervals.length - 1 && <div style={index >= startIndex && index < endIndex ? { backgroundColor: "#00d2ff"} : {}} className="tariff-interval-point-line" />}
+                        {index !== props.points.length - 1 && <div style={index >= startIndex && index < endIndex ? { backgroundColor: "#00d2ff"} : {}} className="tariff-interval-point-line" />}
                         <div style={{ opacity: 0, fontSize: '6px'}} className="tariff-interval-point-text">{time}</div>
                     </div>
                 </>

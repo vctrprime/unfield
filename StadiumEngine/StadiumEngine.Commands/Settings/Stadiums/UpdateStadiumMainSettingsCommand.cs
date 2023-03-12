@@ -7,6 +7,6 @@ public class UpdateStadiumMainSettingsCommand: IRequest<UpdateStadiumMainSetting
 {
     public string? Name { get; set; }
     public string? Description { get; set; }
-    public string? OpenTime { get; set; }
-    public string? CloseTime { get; set; }
+    public int OpenTime { get; set; }
+    public int CloseTime { get; set; }
 }

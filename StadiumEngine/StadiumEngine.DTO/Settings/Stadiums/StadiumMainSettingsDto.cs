@@ -18,10 +18,10 @@ public class StadiumMainSettingsDto
     /// <summary>
     /// Времяя октрытия
     /// </summary>
-    public string? OpenTime { get; set; }
+    public int OpenTime { get; set; }
     
     /// <summary>
     /// Время закрытия
     /// </summary>
-    public string? CloseTime { get; set; }
+    public int CloseTime { get; set; }
 }
