@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.DTO.Admin;
-using StadiumEngine.Handlers.Queries.Admin;
+using StadiumEngine.Queries.Admin;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 
 namespace StadiumEngine.WebUI.Controllers.API.Admin;

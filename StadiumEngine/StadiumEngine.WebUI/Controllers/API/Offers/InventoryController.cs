@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Offers.Inventories;
 using StadiumEngine.Handlers.Commands.Offers.Inventories;
-using StadiumEngine.Handlers.Queries.Offers.Inventories;
+using StadiumEngine.Queries.Offers.Inventories;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 
 namespace StadiumEngine.WebUI.Controllers.API.Offers;

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using StadiumEngine.DTO.Accounts.Users;
-using StadiumEngine.Handlers.Queries.Accounts.Users;
+using StadiumEngine.Queries.Accounts.Users;
 
 namespace StadiumEngine.WebUI.Infrastructure.Attributes;
 

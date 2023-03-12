@@ -3,7 +3,7 @@ using StadiumEngine.Domain.Entities.Settings;
 using StadiumEngine.Domain.Services.Facades.Settings;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Settings.Stadiums;
-using StadiumEngine.Handlers.Queries.Settings.Stadiums;
+using StadiumEngine.Queries.Settings.Stadiums;
 
 namespace StadiumEngine.Handlers.Handlers.Settings.Stadiums;
 

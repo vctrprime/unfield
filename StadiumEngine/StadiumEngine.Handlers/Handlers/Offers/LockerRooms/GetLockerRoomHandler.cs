@@ -5,7 +5,7 @@ using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.LockerRooms;
-using StadiumEngine.Handlers.Queries.Offers.LockerRooms;
+using StadiumEngine.Queries.Offers.LockerRooms;
 
 namespace StadiumEngine.Handlers.Handlers.Offers.LockerRooms;
 

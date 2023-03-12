@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Settings.Stadiums;
 using StadiumEngine.Handlers.Commands.Settings.Stadiums;
-using StadiumEngine.Handlers.Queries.Settings.Stadiums;
+using StadiumEngine.Queries.Settings.Stadiums;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 
 namespace StadiumEngine.WebUI.Controllers.API.Settings;

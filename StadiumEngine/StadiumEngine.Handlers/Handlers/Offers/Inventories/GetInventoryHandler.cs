@@ -5,7 +5,7 @@ using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Inventories;
-using StadiumEngine.Handlers.Queries.Offers.Inventories;
+using StadiumEngine.Queries.Offers.Inventories;
 
 namespace StadiumEngine.Handlers.Handlers.Offers.Inventories;
 

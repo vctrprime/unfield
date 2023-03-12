@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Accounts.Roles;
 using StadiumEngine.Handlers.Commands.Accounts.Roles;
-using StadiumEngine.Handlers.Queries.Accounts.Roles;
+using StadiumEngine.Queries.Accounts.Roles;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 
 namespace StadiumEngine.WebUI.Controllers.API.Accounts;

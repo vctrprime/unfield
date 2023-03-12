@@ -9,15 +9,14 @@
     <ItemGroup>
         <ProjectReference Include="..\StadiumEngine.Common\StadiumEngine.Common.csproj" />
         <ProjectReference Include="..\StadiumEngine.Domain.Services\StadiumEngine.Domain.Services.csproj" PrivateAssets="All" />
-        <ProjectReference Include="..\StadiumEngine.DTO\StadiumEngine.DTO.csproj" />
         <ProjectReference Include="..\StadiumEngine.Domain\StadiumEngine.Domain.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\StadiumEngine.Queries\StadiumEngine.Queries.csproj" />
         <ProjectReference Include="..\StadiumEngine.Services\StadiumEngine.Services.csproj" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="12.0.0" />
-        <PackageReference Include="Mediator.Abstractions" Version="2.1.0-preview.5" />
-        <PackageReference Include="Mediator.SourceGenerator" Version="2.1.0-preview.5">
+        <PackageReference Include="Mediator.SourceGenerator" Version="2.2.0-preview.2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

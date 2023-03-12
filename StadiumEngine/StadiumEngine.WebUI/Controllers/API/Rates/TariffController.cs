@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Rates.Tariffs;
 using StadiumEngine.Handlers.Commands.Rates.Tariffs;
-using StadiumEngine.Handlers.Queries.Rates.Tariffs;
+using StadiumEngine.Queries.Rates.Tariffs;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 
 namespace StadiumEngine.WebUI.Controllers.API.Rates;

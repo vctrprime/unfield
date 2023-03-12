@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.DTO.Accounts.Users;
-using StadiumEngine.Handlers.Queries.Accounts.Users;
+using StadiumEngine.Queries.Accounts.Users;
 
 namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 

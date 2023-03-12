@@ -3,7 +3,7 @@ using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Admin;
-using StadiumEngine.Handlers.Queries.Admin;
+using StadiumEngine.Queries.Admin;
 
 namespace StadiumEngine.Handlers.Handlers.Admin;
 

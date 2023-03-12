@@ -3,7 +3,7 @@ using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Fields;
-using StadiumEngine.Handlers.Queries.Offers.Fields;
+using StadiumEngine.Queries.Offers.Fields;
 
 namespace StadiumEngine.Handlers.Handlers.Offers.Fields;
 
