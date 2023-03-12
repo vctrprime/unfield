@@ -3,7 +3,7 @@ using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts.Users;
-using StadiumEngine.Handlers.Commands.Accounts.Users;
+using StadiumEngine.Commands.Accounts.Users;
 using StadiumEngine.Handlers.Facades.Accounts.Users;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Users;

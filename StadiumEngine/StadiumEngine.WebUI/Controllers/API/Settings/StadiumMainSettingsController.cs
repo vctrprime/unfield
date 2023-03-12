@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Settings.Stadiums;
-using StadiumEngine.Handlers.Commands.Settings.Stadiums;
+using StadiumEngine.Commands.Settings.Stadiums;
 using StadiumEngine.Queries.Settings.Stadiums;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 

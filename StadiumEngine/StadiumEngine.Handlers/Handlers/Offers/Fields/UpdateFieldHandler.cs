@@ -2,7 +2,7 @@ using AutoMapper;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Fields;
-using StadiumEngine.Handlers.Commands.Offers.Fields;
+using StadiumEngine.Commands.Offers.Fields;
 using StadiumEngine.Handlers.Facades.Offers.Fields;
 
 namespace StadiumEngine.Handlers.Handlers.Offers.Fields;

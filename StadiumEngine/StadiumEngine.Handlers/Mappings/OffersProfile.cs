@@ -6,9 +6,9 @@ using StadiumEngine.DTO;
 using StadiumEngine.DTO.Offers.Fields;
 using StadiumEngine.DTO.Offers.Inventories;
 using StadiumEngine.DTO.Offers.LockerRooms;
-using StadiumEngine.Handlers.Commands.Offers.Fields;
-using StadiumEngine.Handlers.Commands.Offers.Inventories;
-using StadiumEngine.Handlers.Commands.Offers.LockerRooms;
+using StadiumEngine.Commands.Offers.Fields;
+using StadiumEngine.Commands.Offers.Inventories;
+using StadiumEngine.Commands.Offers.LockerRooms;
 
 namespace StadiumEngine.Handlers.Mappings;
 

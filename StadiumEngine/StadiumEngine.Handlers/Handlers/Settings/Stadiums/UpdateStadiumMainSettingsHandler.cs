@@ -2,7 +2,7 @@ using AutoMapper;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Settings.Stadiums;
-using StadiumEngine.Handlers.Commands.Settings.Stadiums;
+using StadiumEngine.Commands.Settings.Stadiums;
 using StadiumEngine.Handlers.Facades.Settings.Stadiums;
 
 namespace StadiumEngine.Handlers.Handlers.Settings.Stadiums;

@@ -8,9 +8,9 @@ using StadiumEngine.DTO.Accounts.Permissions;
 using StadiumEngine.DTO.Accounts.Roles;
 using StadiumEngine.DTO.Accounts.Stadiums;
 using StadiumEngine.DTO.Accounts.Users;
-using StadiumEngine.Handlers.Commands.Accounts.Roles;
-using StadiumEngine.Handlers.Commands.Accounts.Users;
-using StadiumEngine.Handlers.Commands.Utils;
+using StadiumEngine.Commands.Accounts.Roles;
+using StadiumEngine.Commands.Accounts.Users;
+using StadiumEngine.Commands.Utils;
 
 namespace StadiumEngine.Handlers.Mappings;
 

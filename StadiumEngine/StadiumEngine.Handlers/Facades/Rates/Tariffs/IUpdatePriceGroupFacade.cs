@@ -1,6 +1,6 @@
 using StadiumEngine.Domain;
 using StadiumEngine.DTO.Rates.Tariffs;
-using StadiumEngine.Handlers.Commands.Rates.Tariffs;
+using StadiumEngine.Commands.Rates.Tariffs;
 
 namespace StadiumEngine.Handlers.Facades.Rates.Tariffs;
 

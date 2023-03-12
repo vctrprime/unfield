@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Rates.PriceGroups;
-using StadiumEngine.Handlers.Commands.Rates.PriceGroups;
+using StadiumEngine.Commands.Rates.PriceGroups;
 using StadiumEngine.Queries.Rates.PriceGroups;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 

@@ -3,7 +3,7 @@ using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.LockerRooms;
-using StadiumEngine.Handlers.Commands.Offers.LockerRooms;
+using StadiumEngine.Commands.Offers.LockerRooms;
 
 namespace StadiumEngine.Handlers.Handlers.Offers.LockerRooms;
 

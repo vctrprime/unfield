@@ -7,10 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\StadiumEngine.Commands\StadiumEngine.Commands.csproj" PrivateAssets="All"/>
         <ProjectReference Include="..\StadiumEngine.Common\StadiumEngine.Common.csproj" />
         <ProjectReference Include="..\StadiumEngine.Domain.Services\StadiumEngine.Domain.Services.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\StadiumEngine.Domain\StadiumEngine.Domain.csproj" PrivateAssets="All" />
-        <ProjectReference Include="..\StadiumEngine.Queries\StadiumEngine.Queries.csproj" />
+        <ProjectReference Include="..\StadiumEngine.Queries\StadiumEngine.Queries.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\StadiumEngine.Services\StadiumEngine.Services.csproj" PrivateAssets="All" />
     </ItemGroup>
 

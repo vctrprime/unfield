@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.DTO.Accounts.Users;
-using StadiumEngine.Handlers.Commands.Accounts.Users;
-using StadiumEngine.Handlers.Commands.Admin;
+using StadiumEngine.Commands.Accounts.Users;
+using StadiumEngine.Commands.Admin;
 using StadiumEngine.Queries.Accounts.Users;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 

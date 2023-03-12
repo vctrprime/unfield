@@ -2,7 +2,7 @@ using AutoMapper;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Rates.PriceGroups;
-using StadiumEngine.Handlers.Commands.Rates.PriceGroups;
+using StadiumEngine.Commands.Rates.PriceGroups;
 using StadiumEngine.Handlers.Facades.Rates.PriceGroups;
 
 namespace StadiumEngine.Handlers.Handlers.Rates.PriceGroups;

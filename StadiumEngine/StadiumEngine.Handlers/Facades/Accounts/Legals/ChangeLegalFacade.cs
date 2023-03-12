@@ -1,7 +1,7 @@
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Services.Facades.Accounts;
-using StadiumEngine.Handlers.Commands.Admin;
+using StadiumEngine.Commands.Admin;
 
 namespace StadiumEngine.Handlers.Facades.Accounts.Legals;
 

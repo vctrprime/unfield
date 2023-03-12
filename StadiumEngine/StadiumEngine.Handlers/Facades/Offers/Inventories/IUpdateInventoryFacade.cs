@@ -1,5 +1,5 @@
 using StadiumEngine.DTO.Offers.Inventories;
-using StadiumEngine.Handlers.Commands.Offers.Inventories;
+using StadiumEngine.Commands.Offers.Inventories;
 
 namespace StadiumEngine.Handlers.Facades.Offers.Inventories;
 

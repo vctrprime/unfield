@@ -2,7 +2,7 @@ using AutoMapper;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Inventories;
-using StadiumEngine.Handlers.Commands.Offers.Inventories;
+using StadiumEngine.Commands.Offers.Inventories;
 using StadiumEngine.Handlers.Facades.Offers.Inventories;
 
 namespace StadiumEngine.Handlers.Handlers.Offers.Inventories;

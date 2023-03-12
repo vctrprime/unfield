@@ -1,5 +1,5 @@
 using StadiumEngine.DTO.Accounts.Users;
-using StadiumEngine.Handlers.Commands.Accounts.Users;
+using StadiumEngine.Commands.Accounts.Users;
 
 namespace StadiumEngine.Handlers.Facades.Accounts.Users;
 

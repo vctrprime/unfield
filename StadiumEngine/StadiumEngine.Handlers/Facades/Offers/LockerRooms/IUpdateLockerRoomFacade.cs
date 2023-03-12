@@ -1,5 +1,5 @@
 using StadiumEngine.DTO.Offers.LockerRooms;
-using StadiumEngine.Handlers.Commands.Offers.LockerRooms;
+using StadiumEngine.Commands.Offers.LockerRooms;
 
 namespace StadiumEngine.Handlers.Facades.Offers.LockerRooms;
 

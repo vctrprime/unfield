@@ -3,7 +3,7 @@ using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Inventories;
-using StadiumEngine.Handlers.Commands.Offers.Inventories;
+using StadiumEngine.Commands.Offers.Inventories;
 
 namespace StadiumEngine.Handlers.Handlers.Offers.Inventories;
 

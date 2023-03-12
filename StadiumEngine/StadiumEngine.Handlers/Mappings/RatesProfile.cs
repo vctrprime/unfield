@@ -4,8 +4,8 @@ using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.DTO;
 using StadiumEngine.DTO.Rates.PriceGroups;
 using StadiumEngine.DTO.Rates.Tariffs;
-using StadiumEngine.Handlers.Commands.Rates.PriceGroups;
-using StadiumEngine.Handlers.Commands.Rates.Tariffs;
+using StadiumEngine.Commands.Rates.PriceGroups;
+using StadiumEngine.Commands.Rates.Tariffs;
 
 namespace StadiumEngine.Handlers.Mappings;
 

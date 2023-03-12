@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Offers.LockerRooms;
-using StadiumEngine.Handlers.Commands.Offers.LockerRooms;
+using StadiumEngine.Commands.Offers.LockerRooms;
 using StadiumEngine.Queries.Offers.LockerRooms;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 

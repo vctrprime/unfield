@@ -3,7 +3,7 @@ using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services.Facades.Rates;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Rates.Tariffs;
-using StadiumEngine.Handlers.Commands.Rates.Tariffs;
+using StadiumEngine.Commands.Rates.Tariffs;
 
 namespace StadiumEngine.Handlers.Handlers.Rates.Tariffs;
 

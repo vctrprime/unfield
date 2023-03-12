@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Accounts.Users;
-using StadiumEngine.Handlers.Commands.Accounts.Users;
+using StadiumEngine.Commands.Accounts.Users;
 using StadiumEngine.Queries.Accounts.Users;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 

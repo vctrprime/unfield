@@ -1,7 +1,7 @@
 using StadiumEngine.Domain.Entities.Settings;
 using StadiumEngine.Domain.Services.Facades.Settings;
 using StadiumEngine.DTO.Settings.Stadiums;
-using StadiumEngine.Handlers.Commands.Settings.Stadiums;
+using StadiumEngine.Commands.Settings.Stadiums;
 
 namespace StadiumEngine.Handlers.Facades.Settings.Stadiums;
 

@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.DTO.Utils;
-using StadiumEngine.Handlers.Commands.Utils;
+using StadiumEngine.Commands.Utils;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 
 namespace StadiumEngine.WebUI.Controllers.Utils;

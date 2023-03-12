@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Offers.Fields;
-using StadiumEngine.Handlers.Commands.Offers.Fields;
+using StadiumEngine.Commands.Offers.Fields;
 using StadiumEngine.Queries.Offers.Fields;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 

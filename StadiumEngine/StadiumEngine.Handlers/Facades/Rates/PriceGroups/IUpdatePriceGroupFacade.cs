@@ -1,5 +1,5 @@
 using StadiumEngine.DTO.Rates.PriceGroups;
-using StadiumEngine.Handlers.Commands.Rates.PriceGroups;
+using StadiumEngine.Commands.Rates.PriceGroups;
 
 namespace StadiumEngine.Handlers.Facades.Rates.PriceGroups;
 

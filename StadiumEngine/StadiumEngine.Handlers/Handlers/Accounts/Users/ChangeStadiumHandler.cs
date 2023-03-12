@@ -6,7 +6,7 @@ using StadiumEngine.Domain.Extensions;
 using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts.Users;
-using StadiumEngine.Handlers.Commands.Accounts.Users;
+using StadiumEngine.Commands.Accounts.Users;
 
 namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 

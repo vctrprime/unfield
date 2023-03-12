@@ -53,8 +53,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\StadiumEngine.Commands\StadiumEngine.Commands.csproj" />
         <ProjectReference Include="..\StadiumEngine.Common\StadiumEngine.Common.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\StadiumEngine.Handlers\StadiumEngine.Handlers.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\StadiumEngine.Queries\StadiumEngine.Queries.csproj" />
     </ItemGroup>
 
     <ItemGroup>
