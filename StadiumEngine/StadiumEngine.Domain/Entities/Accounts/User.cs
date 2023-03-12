@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
+using StadiumEngine.Domain.Entities.Settings;
 
 namespace StadiumEngine.Domain.Entities.Accounts;
 
@@ -121,4 +122,7 @@ public class User : BaseUserEntity
 
     [InverseProperty( "UserModified" )]
     public virtual ICollection<PriceGroup> LastModifiedPriceGroups { get; set; }
+    
+    [InverseProperty( "UserModified" )]
+    public virtual ICollection<StadiumMainSettings> LastModifiedStadiumMainSettings { get; set; }
 }

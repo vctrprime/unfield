@@ -1,5 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain.Entities.Accounts;
+using StadiumEngine.Domain.Entities.Settings;
 using StadiumEngine.DTO.Utils;
 using StadiumEngine.Handlers.Commands.Utils;
 
@@ -28,7 +29,12 @@ internal class UtilsProfile : Profile
                 Name = s.Name,
                 Address = s.Address,
                 Description = s.Description,
-                CityId = source.CityId
+                CityId = source.CityId,
+                MainSettings = new StadiumMainSettings
+                {
+                    OpenTime = "08:00",
+                    CloseTime = "23:00"
+                }
             } ).ToList();
 
         return stadiums;

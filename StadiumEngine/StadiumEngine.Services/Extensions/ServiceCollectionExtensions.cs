@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Facades.Rates;
+using StadiumEngine.Domain.Services.Facades.Settings;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.Domain.Services.Infrastructure;
 using StadiumEngine.Repositories.Infrastructure.Extensions;
@@ -11,6 +12,7 @@ using StadiumEngine.Services.Facades.Accounts;
 using StadiumEngine.Services.Facades.Offers;
 using StadiumEngine.Services.Facades.Rates;
 using StadiumEngine.Services.Facades.Services.Accounts;
+using StadiumEngine.Services.Facades.Settings;
 using StadiumEngine.Services.Identity;
 using StadiumEngine.Services.Infrastructure;
 
@@ -54,6 +56,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPriceGroupCommandFacade, PriceGroupCommandFacade>();
         services.AddScoped<ITariffQueryFacade, TariffQueryFacade>();
         services.AddScoped<ITariffCommandFacade, TariffCommandFacade>();
+        
+        services.AddScoped<IStadiumMainSettingsQueryFacade, StadiumMainSettingsQueryFacade>();
+        services.AddScoped<IStadiumMainSettingsCommandFacade, StadiumMainSettingsCommandFacade>();
 
         #endregion
 

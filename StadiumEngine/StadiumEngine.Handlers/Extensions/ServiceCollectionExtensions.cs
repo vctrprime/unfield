@@ -7,6 +7,7 @@ using StadiumEngine.Handlers.Facades.Offers.Inventories;
 using StadiumEngine.Handlers.Facades.Offers.LockerRooms;
 using StadiumEngine.Handlers.Facades.Rates.PriceGroups;
 using StadiumEngine.Handlers.Facades.Rates.Tariffs;
+using StadiumEngine.Handlers.Facades.Settings.Stadiums;
 using StadiumEngine.Handlers.Mappings;
 using StadiumEngine.Services.Extensions;
 
@@ -34,6 +35,7 @@ public static class ServiceCollectionExtensions
                     cfg.AddProfile( new AdminProfile() );
                     cfg.AddProfile( new OffersProfile() );
                     cfg.AddProfile( new RatesProfile() );
+                    cfg.AddProfile( new SettingsProfile() );
                 } ).CreateMapper() );
 
         services.AddScoped<IAddUserFacade, AddUserFacade>();
@@ -46,5 +48,7 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IUpdatePriceGroupFacade, UpdatePriceGroupFacade>();
         services.AddScoped<IUpdateTariffFacade, UpdateTariffFacade>();
+
+        services.AddScoped<IUpdateStadiumMainSettingsFacade, UpdateStadiumMainSettingsFacade>();
     }
 }

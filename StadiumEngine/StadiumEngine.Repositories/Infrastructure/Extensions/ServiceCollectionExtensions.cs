@@ -4,10 +4,12 @@ using StadiumEngine.Domain;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Repositories.Offers;
 using StadiumEngine.Domain.Repositories.Rates;
+using StadiumEngine.Domain.Repositories.Settings;
 using StadiumEngine.Repositories.Accounts;
 using StadiumEngine.Repositories.Infrastructure.Contexts;
 using StadiumEngine.Repositories.Offers;
 using StadiumEngine.Repositories.Rates;
+using StadiumEngine.Repositories.Settings;
 
 namespace StadiumEngine.Repositories.Infrastructure.Extensions;
 
@@ -58,6 +60,12 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ITariffDayIntervalRepository, TariffDayIntervalRepository>();
         services.AddScoped<IDayIntervalRepository, DayIntervalRepository>();
         services.AddScoped<ITariffRepository, TariffRepository>();
+
+        #endregion
+
+        #region settings
+
+        services.AddScoped<IStadiumMainSettingsRepository, StadiumMainSettingsRepository>();
 
         #endregion
 

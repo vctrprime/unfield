@@ -5,6 +5,7 @@ using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Entities.Geo;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
+using StadiumEngine.Domain.Entities.Settings;
 
 namespace StadiumEngine.Repositories.Infrastructure.Contexts;
 
@@ -73,6 +74,12 @@ internal class MainDbContext : DbContext
     public DbSet<TariffDayInterval> TariffDayIntervals { get; set; }
     public DbSet<Price> Prices { get; set; }
     public DbSet<PriceGroup> PriceGroups { get; set; }
+
+    #endregion
+
+    #region settings
+
+    public DbSet<StadiumMainSettings> MainSettings { get; set; }
 
     #endregion
 }

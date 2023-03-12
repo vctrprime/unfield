@@ -6,9 +6,11 @@ namespace StadiumEngine.Repositories;
 internal abstract class BaseRepository<TEntity> where TEntity : BaseEntity
 {
     protected readonly DbSet<TEntity> Entities;
+    private readonly DbContext _context;
 
     protected BaseRepository( DbContext context )
     {
+        _context = context;
         Entities = context.Set<TEntity>();
     }
 
@@ -27,4 +29,6 @@ internal abstract class BaseRepository<TEntity> where TEntity : BaseEntity
         Entities.Attach( entity );
         Entities.Entry( entity ).State = EntityState.Modified;
     }
+
+    protected async Task Commit() => await _context.SaveChangesAsync();
 }
