@@ -17,5 +17,5 @@ public sealed class AddTariffCommand : IRequest<AddTariffDto>
     public bool Friday { get; set; }
     public bool Saturday { get; set; }
     public bool Sunday { get; set; }
-    public List<string[]> DayIntervals { get; set; } = new();
+    public List<TariffDayIntervalDto> DayIntervals { get; set; } = new();
 }

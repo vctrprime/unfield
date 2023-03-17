@@ -73,5 +73,21 @@ public class TariffDto : BaseEntityDto
     /// <summary>
     ///     Временные интвервалы
     /// </summary>
-    public List<string[]> DayIntervals { get; set; } = new();
+    public List<TariffDayIntervalDto> DayIntervals { get; set; } = new();
+}
+
+/// <summary>
+/// ДТО интервала в тарифе
+/// </summary>
+public class TariffDayIntervalDto
+{
+    /// <summary>
+    /// ID связки
+    /// </summary>
+    public int TariffDayIntervalId { get; set; }
+    
+    /// <summary>
+    /// Интервал
+    /// </summary>
+    public string[] Interval { get; set; }
 }

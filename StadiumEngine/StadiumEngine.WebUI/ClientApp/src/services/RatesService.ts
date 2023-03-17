@@ -6,6 +6,8 @@ import {t} from "i18next";
 import {TariffDto} from "../models/dto/rates/TariffDto";
 import {UpdateTariffCommand} from "../models/command/rates/UpdateTariffCommand";
 import {AddTariffCommand} from "../models/command/rates/AddTariffCommand";
+import {PriceDto} from "../models/dto/rates/PriceDto";
+import {SetPricesCommand} from "../models/command/rates/SetPricesCommand";
 
 export interface IRatesService {
     getPriceGroups(): Promise<PriceGroupDto[]>;
@@ -27,6 +29,10 @@ export interface IRatesService {
     addTariff(command: AddTariffCommand): Promise<void>;
 
     deleteTariff(tariffId: number): Promise<void>;
+    
+    getPrices(): Promise<PriceDto[]>;
+    
+    setPrices(command: SetPricesCommand): Promise<void>;
 }
 
 export class RatesService extends BaseService implements IRatesService {
@@ -105,6 +111,22 @@ export class RatesService extends BaseService implements IRatesService {
         return this.fetchWrapper.delete({
             url: `${this.baseUrl}/tariffs/${tariffId}`,
             successMessage: t('common:success_request'),
+        })
+    }
+
+    getPrices(): Promise<PriceDto[]> {
+        return this.fetchWrapper.get({
+            url: `${this.baseUrl}/prices`,
+            withSpinner: false,
+            hideSpinner: false
+        })
+    }
+
+    setPrices(command: SetPricesCommand): Promise<void> {
+        return this.fetchWrapper.put({
+            url: `${this.baseUrl}/prices`,
+            body: command,
+            successMessage: t('common:success_request')
         })
     }
 }

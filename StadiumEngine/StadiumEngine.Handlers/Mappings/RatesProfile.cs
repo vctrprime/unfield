@@ -32,7 +32,11 @@ public class RatesProfile : Profile
             .ForMember( dest => dest.Currency, act => act.MapFrom( s => Currency.Rub ) );
     }
 
-    private static List<string[]> MapDayIntervals( Tariff tariff ) =>
+    private static List<TariffDayIntervalDto> MapDayIntervals( Tariff tariff ) =>
         tariff.TariffDayIntervals
-            .Select( x => new[] { x.DayInterval.Start, x.DayInterval.End } ).ToList();
+            .Select( x => new TariffDayIntervalDto
+            {
+                TariffDayIntervalId = x.Id,
+                Interval = new[] { x.DayInterval.Start, x.DayInterval.End }
+            }).ToList();
 }

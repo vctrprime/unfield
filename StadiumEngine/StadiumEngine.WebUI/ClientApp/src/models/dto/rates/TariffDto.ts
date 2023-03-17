@@ -14,5 +14,10 @@ export interface TariffDto extends BaseEntityDto {
     friday: boolean,
     saturday: boolean,
     sunday: boolean,
-    dayIntervals: string[][]
+    dayIntervals: TariffDayIntervalDto[]
+}
+
+export interface TariffDayIntervalDto {
+    tariffDayIntervalId?: number;
+    interval: string[]
 }

@@ -20,7 +20,7 @@ public class TariffController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [HasPermission( PermissionsKeys.GetTariffs )]
+    [HasPermission( $"{PermissionsKeys.GetTariffs},{PermissionsKeys.GetPrices}" )]
     public async Task<List<TariffDto>> GetAll()
     {
         List<TariffDto> tariffs = await Mediator.Send( new GetTariffsQuery() );

@@ -46,7 +46,7 @@ internal class UpdateTariffFacade : IUpdateTariffFacade
         tariff.Saturday = request.Saturday;
         tariff.Sunday = request.Sunday;
 
-        await _commandFacade.UpdateTariff( tariff, request.DayIntervals, unitOfWork );
+        await _commandFacade.UpdateTariff( tariff, request.DayIntervals.Select( x => x.Interval ).ToList(), unitOfWork );
 
         return new UpdateTariffDto();
     }

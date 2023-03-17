@@ -31,7 +31,9 @@ internal sealed class GetTariffHandler : BaseRequestHandler<GetTariffQuery, Tari
             throw new DomainException( ErrorsKeys.TariffNotFound );
         }
 
-        TariffDto? tariffDto = Mapper.Map<TariffDto>( tariff );
+        TariffDto tariffDto = Mapper.Map<TariffDto>( tariff );
+        tariffDto.DayIntervals = tariffDto.DayIntervals
+            .OrderBy( x => Int32.Parse( x.Interval[ 0 ].Replace( ":", "" ) ) ).ToList();
 
         return tariffDto;
     }

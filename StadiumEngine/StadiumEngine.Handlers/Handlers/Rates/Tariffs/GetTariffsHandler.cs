@@ -24,8 +24,13 @@ internal sealed class GetTariffsHandler : BaseRequestHandler<GetTariffsQuery, Li
     {
         List<Tariff> tariffs = await _tariffFacade.GetByStadiumId( _currentStadiumId );
 
-        List<TariffDto>? tariffsDto = Mapper.Map<List<TariffDto>>( tariffs );
-
+        List<TariffDto> tariffsDto = Mapper.Map<List<TariffDto>>( tariffs );
+        tariffsDto.ForEach(
+            dto =>
+            {
+                dto.DayIntervals = dto.DayIntervals.OrderBy( x => Int32.Parse( x.Interval[ 0 ].Replace( ":", "" ) ) ).ToList();
+            } );
+        
         return tariffsDto;
     }
 }

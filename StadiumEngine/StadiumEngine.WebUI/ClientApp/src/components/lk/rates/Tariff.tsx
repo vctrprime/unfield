@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
-import {TariffDto} from "../../../models/dto/rates/TariffDto";
+import {TariffDayIntervalDto, TariffDto} from "../../../models/dto/rates/TariffDto";
 import {useInject} from "inversify-hooks";
 import {IRatesService} from "../../../services/RatesService";
 import {getDataTitle, getTitle, StringFormat, validateInputs} from "../../../helpers/utils";
@@ -171,20 +171,24 @@ export const Tariff = () => {
     }
     
     const setInterval = (start: string, end: string, interval: string[]|null = null, isRemove: boolean = false ) => {
-        const newIntervals: string[][] = [];
+        const newIntervals: TariffDayIntervalDto[] = [];
         data?.dayIntervals?.forEach((i) => {
-            if (i !== interval) {
+            if (i.interval !== interval) {
                 newIntervals.push(i);
             }
             else {
                 if (!isRemove) {
-                    newIntervals.push([start, end]);
+                    newIntervals.push({
+                        interval: [start, end]
+                    });
                 }
             }
         });
         
         if (interval === null) {
-            newIntervals.push([start, end]);
+            newIntervals.push({
+                interval: [start, end]
+            });
         }
         
         setData({
@@ -241,7 +245,7 @@ export const Tariff = () => {
                 }}>{t('rates:tariffs_grid:add_interval')}</Button>
                 {data?.dayIntervals?.map((v, i) => {
                     return <TariffInterval key={i} 
-                                           interval={v}
+                                           interval={v.interval}
                                            index={i}
                                            points={intervalPoints}
                                            setInterval={setInterval}/>

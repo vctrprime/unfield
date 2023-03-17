@@ -18,6 +18,10 @@ export const Rates = () => {
         tabs.push({route: 'tariffs', resourcePath: 'rates:tariffs_tab'});
     }
 
+    if (permissions.filter(p => p.name === PermissionsKeys.GetPrices).length > 0) {
+        tabs.push({route: 'prices', resourcePath: 'rates:prices_tab'});
+    }
+
     return (tabs.length > 0 ?
         <Tabs tabsData={tabs} leftNavRoute={"/lk/rates"}/> :
         <ForbiddenMessage/>)
