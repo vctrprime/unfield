@@ -7,11 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\StadiumEngine.DTO\StadiumEngine.DTO.csproj"/>
+        <ProjectReference Include="..\StadiumEngine.DTO\StadiumEngine.DTO.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Mediator.Abstractions" Version="2.2.0-preview.2"/>
+        <PackageReference Include="Mediator.Abstractions" Version="2.2.0-preview.2" />
     </ItemGroup>
 
 </Project>

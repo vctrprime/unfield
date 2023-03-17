@@ -56,6 +56,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPriceGroupCommandFacade, PriceGroupCommandFacade>();
         services.AddScoped<ITariffQueryFacade, TariffQueryFacade>();
         services.AddScoped<ITariffCommandFacade, TariffCommandFacade>();
+        services.AddScoped<IPriceQueryFacade, PriceQueryFacade>();
+        services.AddScoped<IPriceCommandFacade, PriceCommandFacade>();
         
         services.AddScoped<IStadiumMainSettingsQueryFacade, StadiumMainSettingsQueryFacade>();
         services.AddScoped<IStadiumMainSettingsCommandFacade, StadiumMainSettingsCommandFacade>();

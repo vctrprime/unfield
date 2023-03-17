@@ -179,6 +179,20 @@ public static class PermissionSet
                     DisplayName = "Удаление тарифа",
                     Description = "Возможность удалить тариф",
                     Sort = 8
+                },
+                new()
+                {
+                    Name = PermissionsKeys.GetPrices,
+                    DisplayName = "Просмотр цен",
+                    Description = "Просмотр ценовой матрицы",
+                    Sort = 9
+                },
+                new()
+                {
+                    Name = PermissionsKeys.SetPrices,
+                    DisplayName = "Установка цен",
+                    Description = "Возможность изменить цены",
+                    Sort = 10
                 }
             }
         },

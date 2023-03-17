@@ -33,6 +33,8 @@ export class PermissionsKeys {
     public static readonly InsertTariff = "insert-tariff";
     public static readonly UpdateTariff = "update-tariff";
     public static readonly DeleteTariff = "delete-tariff";
+    public static readonly GetPrices = "get-prices";
+    public static readonly SetPrices = "set-prices";
 
     public static readonly GetEmployees = "get-employees";
 

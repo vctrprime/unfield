@@ -36,6 +36,8 @@ public static class PermissionsKeys
     public const string InsertTariff = "insert-tariff";
     public const string UpdateTariff = "update-tariff";
     public const string DeleteTariff = "delete-tariff";
+    public const string GetPrices = "get-prices";
+    public const string SetPrices = "set-prices";
 
     public const string GetEmployees = "get-employees";
 

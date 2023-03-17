@@ -6,6 +6,8 @@ using StadiumEngine.DTO.Rates.PriceGroups;
 using StadiumEngine.DTO.Rates.Tariffs;
 using StadiumEngine.Commands.Rates.PriceGroups;
 using StadiumEngine.Commands.Rates.Tariffs;
+using StadiumEngine.Common.Enums.Offers;
+using StadiumEngine.DTO.Rates.Prices;
 
 namespace StadiumEngine.Handlers.Mappings;
 
@@ -24,6 +26,10 @@ public class RatesProfile : Profile
                 dest => dest.DayIntervals,
                 act => act.MapFrom( s => MapDayIntervals( s ) ) );
         CreateMap<AddTariffCommand, Tariff>();
+
+        CreateMap<Price, PriceDto>();
+        CreateMap<PriceDto, Price>()
+            .ForMember( dest => dest.Currency, act => act.MapFrom( s => Currency.Rub ) );
     }
 
     private static List<string[]> MapDayIntervals( Tariff tariff ) =>

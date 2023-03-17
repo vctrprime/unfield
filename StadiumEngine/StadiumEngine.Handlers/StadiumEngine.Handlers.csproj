@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\StadiumEngine.Commands\StadiumEngine.Commands.csproj" PrivateAssets="All"/>
+        <ProjectReference Include="..\StadiumEngine.Commands\StadiumEngine.Commands.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\StadiumEngine.Common\StadiumEngine.Common.csproj" />
         <ProjectReference Include="..\StadiumEngine.Domain.Services\StadiumEngine.Domain.Services.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\StadiumEngine.Domain\StadiumEngine.Domain.csproj" PrivateAssets="All" />

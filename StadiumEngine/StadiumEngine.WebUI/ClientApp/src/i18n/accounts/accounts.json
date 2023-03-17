@@ -154,6 +154,10 @@
         "update_price_group": "Обновление ценовой группы",
         "update_price_group_description": "Возможность изменить данные ценовой группы",
         "delete_price_group": "Удаление ценовой группы",
-        "delete_price_group_description": "Возможность удалить ценовую группу"
+        "delete_price_group_description": "Возможность удалить ценовую группу",
+        "get_prices": "Просмотр цен",
+        "get_prices_description": "Просмотр ценовой матрицы",
+        "set_prices": "Установка цен",
+        "set_prices_description": "Возможность изменить цены"
     }
 }
