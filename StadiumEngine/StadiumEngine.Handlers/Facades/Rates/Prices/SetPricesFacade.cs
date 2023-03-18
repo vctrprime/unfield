@@ -1,5 +1,4 @@
 using StadiumEngine.Common;
-using StadiumEngine.Common.Enums.Offers;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
@@ -28,11 +27,6 @@ internal class SetPricesFacade : ISetPricesFacade
     public async Task<SetPricesDto> SetPrices( IEnumerable<Price> prices, int stadiumId, int userId )
     {
         List<Price> currentPrices = await _priceQueryFacade.GetByStadiumId( stadiumId );
-        currentPrices.ForEach(
-            cp =>
-            {
-                cp.UserModifiedId = userId;
-            } );
         _priceCommandFacade.DeletePrices( currentPrices );
 
         List<Field> fields = await _fieldQueryFacade.GetByStadiumId( stadiumId );

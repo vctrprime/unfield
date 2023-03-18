@@ -52,3 +52,78 @@
     }
   }
 }
+
+.prices-container {
+  .fields-header {
+    display: flex;
+    flex-direction: row;
+    background-color: #ddd;
+    
+    .top-left-cell {
+      width: 80px;
+    }
+    .fields-header-cell {
+      width: 220px;
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+  
+  .tariff-block {
+    display: flex;
+    flex-direction: column;
+    
+    .tariff-name {
+      width: 100%;
+      background-color: #bbb;
+      font-weight: bold;
+      padding-left: 5px;
+    }
+    
+    .tariff-interval-row {
+      display: flex;
+      flex-direction: row;
+      
+      .tariff-interval-name {
+        width: 80px;
+        font-size: 12px;
+        padding-left: 15px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background-color: #ddd;
+        box-shadow:
+                1px 0 0 0 #ccc,
+                0 1px 0 0 #ccc,
+                1px 1px 0 0 #ccc,   /* Just to fix the corner */
+                1px 0 0 0 #ccc inset,
+                0 1px 0 0 #ccc inset;
+      }
+      
+      .tariff-interval-value {
+        width: 220px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        text-align: center;
+        box-shadow:
+                1px 0 0 0 #ddd,
+                0 1px 0 0 #ddd,
+                1px 1px 0 0 #ddd,   /* Just to fix the corner */
+                1px 0 0 0 #ddd inset,
+                0 1px 0 0 #ddd inset;
+        
+        input {
+          text-align: center;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        input[type=number] {
+          -moz-appearance: textfield;
+        }
+      }
+    }
+  }
+}
