@@ -35,6 +35,7 @@ export const Prices = () => {
     const [fields, setFields] = useState<HeaderField[]>([]);
     const [tariffs, setTariffs] = useState<TariffDto[]>([]);
     const [prices, setPrices] = useState<PriceDto[]>([]);
+    const [initialPrices, setInitialPrices] = useState<PriceDto[]>([]);
 
     const [offersService] = useInject<IOffersService>('OffersService');
     const [ratesService] = useInject<IRatesService>('RatesService');
@@ -49,6 +50,7 @@ export const Prices = () => {
                 setTariffs(responseTariffs);
                 ratesService.getPrices().then((responsePrices: PriceDto[]) => {
                     setPrices(responsePrices.filter(p => fieldsIds.indexOf(p.fieldId) !== -1));
+                    setInitialPrices(responsePrices.filter(p => fieldsIds.indexOf(p.fieldId) !== -1));
                     setLoading(false);
                 })
             })
@@ -107,10 +109,33 @@ export const Prices = () => {
     const savePrices = () => {
         ratesService.setPrices({
             prices: prices
-        }).then();
+        }).then(() => {
+            setInitialPrices(prices);
+        });
+    }
+    
+    const resetPrices = () => {
+        setPrices(initialPrices);
+    }
+    
+    const hasChanged = () => {
+        let result = false;
+        prices.forEach(p => {
+            const initialPrice = initialPrices.find(ip => ip.fieldId === p.fieldId && ip.tariffDayIntervalId === p.tariffDayIntervalId);
+            if (initialPrice?.value !== p.value) {
+                result = true;
+            }
+        })
+        
+        return result;
     }
     
     return isError ? <span/> : (<div className="prices-container">
+        <label style={{paddingLeft: '10px', width: '100%', backgroundColor: 'white', marginBottom: 0, paddingBottom: '5px', marginTop: '-3px'}}>
+            <i style={{color: '#00d2ff'}} className="fa fa-exclamation-circle" aria-hidden="true"/> {t('rates:prices:message_line1')} <br/>
+            {t('rates:prices:message_line2')} <br/> <br/>
+            {t('rates:prices:message_line3')}
+        </label>
         <div className="fields-header">
             <div className="top-left-cell" />
             {fields.map((f) => {
@@ -122,16 +147,20 @@ export const Prices = () => {
                 </div>
             })}
         </div>
-        {tariffs.filter(s => s.isActive).map((t) => {
-            return <div key={t.id} className="tariff-block">
-                <div className="tariff-name">{t.name}</div>
-                {t.dayIntervals.map((i) => {
+        {tariffs.filter(s => s.isActive).map((tariff) => {
+            return <div key={tariff.id} className="tariff-block">
+                <div className="tariff-name">{tariff.name}</div>
+                {tariff.dayIntervals.map((i) => {
                     return <div key={i.tariffDayIntervalId} className="tariff-interval-row">
                         <div className="tariff-interval-name">{i.interval[0]}-{i.interval[1]}</div>
                         {fields.map((f) => {
-                            const price = prices.find(p => p.tariffDayIntervalId == i.tariffDayIntervalId && p.fieldId == f.id)
-                            return <div key={f.id} className="tariff-interval-value">
-                                <Input transparent onChange={(e, {value}) => changePrice(value, i.tariffDayIntervalId||0, f.id)}
+                            const price = prices.find(p => p.tariffDayIntervalId == i.tariffDayIntervalId && p.fieldId == f.id);
+                            const initialPrice = initialPrices.find(p => p.tariffDayIntervalId == i.tariffDayIntervalId && p.fieldId == f.id);
+                            const title = initialPrice?.value !== price?.value ? `${t('rates:prices:initial')}: ${initialPrice?.value === undefined ? '-' : initialPrice?.value}` : null;
+                            
+                            return <div title={title||''} style={ title !== null ? { backgroundColor: "rgba(102, 205, 170, 0.5)"} : {}} key={f.id} className="tariff-interval-value">
+                                <Input
+                                    transparent onChange={(e, {value}) => changePrice(value, i.tariffDayIntervalId||0, f.id)}
                                        type="number"
                                        value={price?.value || ''}/>
                             </div>
@@ -140,7 +169,11 @@ export const Prices = () => {
                 })}
             </div>
         })}
-        {permissions.filter(p => p.name === PermissionsKeys.SetPrices).length > 0 && 
-            <Button style={{marginTop: '5px', marginLeft: '5px'}} onClick={savePrices}>{t('rates:prices:save')}</Button>}
+        {permissions.filter(p => p.name === PermissionsKeys.SetPrices).length > 0 &&
+            <div style={{marginTop: '5px'}}>
+                <Button disabled={!hasChanged()} style={{ marginLeft: '5px', backgroundColor: '#3CB371', color: 'white'}} onClick={savePrices}>{t('rates:prices:save')}</Button>
+                <Button disabled={!hasChanged()} style={{ marginLeft: '5px', backgroundColor: '#CD5C5C', color: 'white'}} onClick={resetPrices}>{t('rates:prices:reset')}</Button>
+            </div>
+            }
     </div>);
 }

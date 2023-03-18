@@ -66,6 +66,8 @@
       width: 220px;
       text-align: center;
       font-weight: bold;
+      padding-top: 5px;
+      padding-bottom: 5px;
     }
   }
   
@@ -78,6 +80,8 @@
       background-color: #bbb;
       font-weight: bold;
       padding-left: 5px;
+      padding-top: 2px;
+      padding-bottom: 2px;
     }
     
     .tariff-interval-row {
@@ -87,7 +91,7 @@
       .tariff-interval-name {
         width: 80px;
         font-size: 12px;
-        padding-left: 15px;
+        padding-left: 10px;
         padding-top: 5px;
         padding-bottom: 5px;
         background-color: #ddd;
