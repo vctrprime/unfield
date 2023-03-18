@@ -13,7 +13,7 @@ import {IRatesService} from "../../../services/RatesService";
 import {IOffersService} from "../../../services/OffersService";
 import {loadingAtom} from "../../../state/loading";
 import {Button, Icon, Input} from "semantic-ui-react";
-import {values} from "ag-grid-community/dist/lib/utils/generic";
+import {permissionsAtom} from "../../../state/permissions";
 
 export interface HeaderField {
     id: number;
@@ -24,6 +24,8 @@ export interface HeaderField {
 
 export const Prices = () => {
     document.title = getTitle("rates:prices_tab")
+
+    const permissions = useRecoilValue(permissionsAtom);
 
     const stadium = useRecoilValue(stadiumAtom);
     const setLoading = useSetRecoilState(loadingAtom);
@@ -80,6 +82,10 @@ export const Prices = () => {
     }
     
     const changePrice = (valueStr: string, intervalId: number, fieldId: number) => {
+        if (permissions.filter(p => p.name === PermissionsKeys.SetPrices).length === 0) {
+            return;
+        }
+        
         const value = parseInt(valueStr);
         const currentPrice = prices.find(p => p.tariffDayIntervalId === intervalId && p.fieldId === fieldId);
         if (value) {
@@ -134,6 +140,7 @@ export const Prices = () => {
                 })}
             </div>
         })}
-        <Button style={{marginTop: '5px', marginLeft: '5px'}} onClick={savePrices}>Сохранить</Button>
+        {permissions.filter(p => p.name === PermissionsKeys.SetPrices).length > 0 && 
+            <Button style={{marginTop: '5px', marginLeft: '5px'}} onClick={savePrices}>{t('rates:prices:save')}</Button>}
     </div>);
 }
