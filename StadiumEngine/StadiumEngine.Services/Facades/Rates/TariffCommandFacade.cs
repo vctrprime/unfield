@@ -12,13 +12,16 @@ internal class TariffCommandFacade : ITariffCommandFacade
     private readonly IDayIntervalRepository _dayIntervalRepository;
     private readonly ITariffDayIntervalRepository _tariffDayIntervalRepository;
     private readonly ITariffRepository _tariffRepository;
+    private readonly IPromoCodeRepository _promoCodeRepository;
 
-    public TariffCommandFacade( ITariffRepository tariffRepository, IDayIntervalRepository dayIntervalRepository,
-        ITariffDayIntervalRepository tariffDayIntervalRepository )
+    public TariffCommandFacade( IDayIntervalRepository dayIntervalRepository,
+        ITariffDayIntervalRepository tariffDayIntervalRepository, ITariffRepository tariffRepository,
+        IPromoCodeRepository promoCodeRepository )
     {
-        _tariffRepository = tariffRepository;
         _dayIntervalRepository = dayIntervalRepository;
         _tariffDayIntervalRepository = tariffDayIntervalRepository;
+        _tariffRepository = tariffRepository;
+        _promoCodeRepository = promoCodeRepository;
     }
 
     public async Task AddTariff( Tariff tariff, List<string[]> intervals, IUnitOfWork unitOfWork )
@@ -29,9 +32,30 @@ internal class TariffCommandFacade : ITariffCommandFacade
         await AddIntervals( tariff, intervals, unitOfWork );
     }
 
-    public async Task UpdateTariff( Tariff tariff, List<string[]> intervals, IUnitOfWork unitOfWork )
+    public async Task UpdateTariff( Tariff tariff, List<string[]> intervals, List<PromoCode> promoCodes,
+        IUnitOfWork unitOfWork )
     {
         _tariffRepository.Update( tariff );
+        await ProcessIntervals( tariff, intervals, unitOfWork );
+        ProcessPromoCodes( tariff, promoCodes );
+    }
+
+    public async Task DeleteTariff( int tariffId, int stadiumId )
+    {
+        Tariff? tariff = await _tariffRepository.Get( tariffId, stadiumId );
+
+        if ( tariff == null )
+        {
+            throw new DomainException( ErrorsKeys.TariffNotFound );
+        }
+
+        _tariffDayIntervalRepository.Remove( tariff.TariffDayIntervals );
+        _promoCodeRepository.Remove( tariff.PromoCodes );
+        _tariffRepository.Remove( tariff );
+    }
+
+    private async Task ProcessIntervals( Tariff tariff, List<string[]> intervals, IUnitOfWork unitOfWork )
+    {
         List<TariffDayInterval> intervalsToRemove = tariff.TariffDayIntervals
             .Where( k => !intervals.Exists( p => p[ 0 ] == k.DayInterval.Start && p[ 1 ] == k.DayInterval.End ) )
             .ToList();
@@ -50,17 +74,37 @@ internal class TariffCommandFacade : ITariffCommandFacade
         await AddIntervals( tariff, intervalsToAdd, unitOfWork );
     }
 
-    public async Task DeleteTariff( int tariffId, int stadiumId )
+    private void ProcessPromoCodes( Tariff tariff, List<PromoCode> promoCodes )
     {
-        Tariff? tariff = await _tariffRepository.Get( tariffId, stadiumId );
+        promoCodes.ForEach( p => p.TariffId = tariff.Id );
+        List<PromoCode> promoCodesToRemove = tariff.PromoCodes
+            .Where( x => !promoCodes.Exists( y => x.Code == y.Code && x.TariffId == y.TariffId ) )
+            .ToList();
 
-        if ( tariff == null )
+        if ( promoCodesToRemove.Any() )
         {
-            throw new DomainException( ErrorsKeys.TariffNotFound );
+            _promoCodeRepository.Remove( promoCodesToRemove );
         }
 
-        _tariffDayIntervalRepository.Remove( tariff.TariffDayIntervals );
-        _tariffRepository.Remove( tariff );
+        foreach ( PromoCode promoCode in promoCodes )
+        {
+            PromoCode? entityPromoCode =
+                tariff.PromoCodes.FirstOrDefault( x => x.Code == promoCode.Code && x.TariffId == promoCode.TariffId );
+            if ( entityPromoCode == null )
+            {
+                promoCode.UserCreatedId = tariff.UserModifiedId;
+                _promoCodeRepository.Add( promoCode );
+            }
+            else
+            {
+                entityPromoCode.Code = promoCode.Code;
+                entityPromoCode.Type = promoCode.Type;
+                entityPromoCode.Value = promoCode.Value;
+                entityPromoCode.UserModifiedId = tariff.UserModifiedId;
+                
+                _promoCodeRepository.Update( entityPromoCode );
+            }
+        }
     }
 
     private async Task AddIntervals( Tariff tariff, List<string[]> intervals, IUnitOfWork unitOfWork )

@@ -74,6 +74,7 @@ internal class MainDbContext : DbContext
     public DbSet<TariffDayInterval> TariffDayIntervals { get; set; }
     public DbSet<Price> Prices { get; set; }
     public DbSet<PriceGroup> PriceGroups { get; set; }
+    public DbSet<PriceGroup> PromoCodes { get; set; }
 
     #endregion
 

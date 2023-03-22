@@ -3,6 +3,7 @@ using StadiumEngine.Domain;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Rates.Tariffs;
 using StadiumEngine.Commands.Rates.Tariffs;
+using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Handlers.Facades.Rates.Tariffs;
 
 namespace StadiumEngine.Handlers.Handlers.Rates.Tariffs;
@@ -24,6 +25,7 @@ internal sealed class UpdateTariffHandler : BaseCommandHandler<UpdateTariffComma
         CancellationToken cancellationToken ) =>
         await _facade.Update(
             request,
+            Mapper.Map<List<PromoCode>>( request.PromoCodes ),
             _currentStadiumId,
             _userId,
             UnitOfWork );

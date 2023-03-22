@@ -20,12 +20,15 @@ public class RatesProfile : Profile
             .ForMember( dest => dest.FieldNames, act => act.MapFrom( s => s.Fields.Select( cf => cf.Name ) ) );
         CreateMap<AddPriceGroupCommand, PriceGroup>();
 
+        CreateMap<PromoCode, PromoCodeDto>();
+        CreateMap<PromoCodeDto, PromoCode>();
         CreateMap<Tariff, TariffDto>()
             .IncludeBase<BaseUserEntity, BaseEntityDto>()
             .ForMember(
                 dest => dest.DayIntervals,
                 act => act.MapFrom( s => MapDayIntervals( s ) ) );
         CreateMap<AddTariffCommand, Tariff>();
+        
 
         CreateMap<Price, PriceDto>();
         CreateMap<PriceDto, Price>()

@@ -10,12 +10,7 @@ internal class OffersImageRepository : BaseRepository<OffersImage>, IOffersImage
     public OffersImageRepository( MainDbContext context ) : base( context )
     {
     }
-
-    public async Task<List<OffersImage>> GetForField( int fieldId ) =>
-        await Entities
-            .Where( i => i.FieldId == fieldId )
-            .ToListAsync();
-
+    
     public new void Add( OffersImage image ) => base.Add( image );
 
     public new void Update( OffersImage image ) => base.Update( image );

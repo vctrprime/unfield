@@ -35,4 +35,5 @@ public class Tariff : BaseRateEntity
     public bool Sunday { get; set; }
 
     public virtual ICollection<TariffDayInterval> TariffDayIntervals { get; set; }
+    public virtual ICollection<PromoCode> PromoCodes { get; set; }
 }

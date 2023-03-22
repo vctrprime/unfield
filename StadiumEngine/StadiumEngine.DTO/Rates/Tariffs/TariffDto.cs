@@ -1,3 +1,5 @@
+using StadiumEngine.Common.Enums.Rates;
+
 namespace StadiumEngine.DTO.Rates.Tariffs;
 
 /// <summary>
@@ -74,6 +76,11 @@ public class TariffDto : BaseEntityDto
     ///     Временные интвервалы
     /// </summary>
     public List<TariffDayIntervalDto> DayIntervals { get; set; } = new();
+    
+    /// <summary>
+    /// Промокоды
+    /// </summary>
+    public List<PromoCodeDto> PromoCodes { get; set; } = new();
 }
 
 /// <summary>
@@ -90,4 +97,25 @@ public class TariffDayIntervalDto
     /// Интервал
     /// </summary>
     public string[] Interval { get; set; }
+}
+
+/// <summary>
+/// ДТО промокоды
+/// </summary>
+public class PromoCodeDto
+{
+    /// <summary>
+    /// Код
+    /// </summary>
+    public string Code { get; set; }
+    
+    /// <summary>
+    /// Тип
+    /// </summary>
+    public PromoCodeType Type { get; set; }
+    
+    /// <summary>
+    /// Значение скидки
+    /// </summary>
+    public decimal Value { get; set; }
 }

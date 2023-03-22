@@ -61,6 +61,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IDayIntervalRepository, DayIntervalRepository>();
         services.AddScoped<ITariffRepository, TariffRepository>();
         services.AddScoped<IPriceRepository, PriceRepository>();
+        services.AddScoped<IPromoCodeRepository, PromoCodeRepository>();
 
         #endregion
 

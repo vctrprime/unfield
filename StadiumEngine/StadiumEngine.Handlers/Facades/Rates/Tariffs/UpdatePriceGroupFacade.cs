@@ -21,6 +21,7 @@ internal class UpdateTariffFacade : IUpdateTariffFacade
 
     public async Task<UpdateTariffDto> Update(
         UpdateTariffCommand request,
+        List<PromoCode> promoCodes,
         int stadiumId,
         int userId,
         IUnitOfWork unitOfWork )
@@ -46,7 +47,11 @@ internal class UpdateTariffFacade : IUpdateTariffFacade
         tariff.Saturday = request.Saturday;
         tariff.Sunday = request.Sunday;
 
-        await _commandFacade.UpdateTariff( tariff, request.DayIntervals.Select( x => x.Interval ).ToList(), unitOfWork );
+        await _commandFacade.UpdateTariff(
+            tariff,
+            request.DayIntervals.Select( x => x.Interval ).ToList(),
+            promoCodes,
+            unitOfWork );
 
         return new UpdateTariffDto();
     }

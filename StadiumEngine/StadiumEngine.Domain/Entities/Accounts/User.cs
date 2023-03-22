@@ -125,4 +125,10 @@ public class User : BaseUserEntity
     
     [InverseProperty( "UserModified" )]
     public virtual ICollection<StadiumMainSettings> LastModifiedStadiumMainSettings { get; set; }
+    
+    [InverseProperty( "UserCreated" )]
+    public virtual ICollection<PromoCode> CreatedPromoCodes { get; set; }
+
+    [InverseProperty( "UserModified" )]
+    public virtual ICollection<PromoCode> LastModifiedPromoCodes { get; set; }
 }
