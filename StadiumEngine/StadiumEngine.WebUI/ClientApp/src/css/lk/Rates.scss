@@ -57,7 +57,6 @@
   .fields-header {
     display: flex;
     flex-direction: row;
-    background-color: #ddd;
     
     .top-left-cell {
       width: 80px;
@@ -104,6 +103,7 @@
       }
       
       .tariff-interval-value {
+        position: relative;
         width: 220px;
         padding-top: 5px;
         padding-bottom: 5px;

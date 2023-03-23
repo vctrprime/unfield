@@ -1,4 +1,6 @@
 import {BaseEntityDto} from "../BaseEntityDto";
+import {Nu} from "react-flags-select";
+import {PromoCodeType} from "./enums/PromoCodeType";
 
 export interface TariffDto extends BaseEntityDto {
     id: number,
@@ -14,10 +16,17 @@ export interface TariffDto extends BaseEntityDto {
     friday: boolean,
     saturday: boolean,
     sunday: boolean,
-    dayIntervals: TariffDayIntervalDto[]
+    dayIntervals: TariffDayIntervalDto[],
+    promoCodes: PromoCodeDto[]
 }
 
 export interface TariffDayIntervalDto {
     tariffDayIntervalId?: number;
     interval: string[]
+}
+
+export interface PromoCodeDto {
+    code: string,
+    type: PromoCodeType,
+    value: number
 }

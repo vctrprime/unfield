@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {ActionButtons} from "../../common/actions/ActionButtons";
 import {PermissionsKeys} from "../../../static/PermissionsKeys";
 import {t} from "i18next";
 import {getTitle} from "../../../helpers/utils";
@@ -14,6 +13,8 @@ import {IOffersService} from "../../../services/OffersService";
 import {loadingAtom} from "../../../state/loading";
 import {Button, Icon, Input} from "semantic-ui-react";
 import {permissionsAtom} from "../../../state/permissions";
+import {PromoCodeType} from "../../../models/dto/rates/enums/PromoCodeType";
+import {Tr} from "react-flags-select";
 
 export interface HeaderField {
     id: number;
@@ -39,6 +40,8 @@ export const Prices = () => {
 
     const [offersService] = useInject<IOffersService>('OffersService');
     const [ratesService] = useInject<IRatesService>('RatesService');
+    
+    const [promoCode, setPromoCode] = useState<string>('');
     
     const fieldsIds: number[] = []
     
@@ -120,6 +123,9 @@ export const Prices = () => {
     
     const hasChanged = () => {
         let result = false;
+        if (prices.length !== initialPrices.length) {
+            return true;
+        }
         prices.forEach(p => {
             const initialPrice = initialPrices.find(ip => ip.fieldId === p.fieldId && ip.tariffDayIntervalId === p.tariffDayIntervalId);
             if (initialPrice?.value !== p.value) {
@@ -129,9 +135,24 @@ export const Prices = () => {
         
         return result;
     }
-    
+
+    const promoCodesForTariffsText = () => {
+        let result: string[] = [];
+        tariffs.filter(s => s.isActive).forEach((tariff) => {
+            if (tariff.promoCodes.length > 0) {
+                const promoCodes = tariff.promoCodes.map(p => p.code).join('\r\n');
+                result.push(`${t('rates:prices:promocodes_for_tariff')} "${tariff.name}":\r\n${promoCodes}`);
+            }
+            else {
+                result.push(`${t('rates:prices:promocodes_for_tariff')} "${tariff.name}":\r\n-`);
+            }
+        })
+        return result.join('\r\n\r\n');
+    }
+
+
     return isError ? <span/> : (<div className="prices-container">
-        <label style={{paddingLeft: '10px', width: '100%', backgroundColor: 'white', marginBottom: 0, paddingBottom: '5px', marginTop: '-3px'}}>
+        <label className="box-shadow" style={{padding: '8px', marginLeft: '8px', width: 'calc(100% - 16px)', borderRadius: '10px', backgroundColor: 'white'}}>
             <i style={{color: '#00d2ff'}} className="fa fa-exclamation-circle" aria-hidden="true"/> {t('rates:prices:message_line1')} <br/>
             {t('rates:prices:message_line2')} <br/> <br/>
             {t('rates:prices:message_line3')}
@@ -155,6 +176,19 @@ export const Prices = () => {
                         <div className="tariff-interval-name">{i.interval[0]}-{i.interval[1]}</div>
                         {fields.map((f) => {
                             const price = prices.find(p => p.tariffDayIntervalId == i.tariffDayIntervalId && p.fieldId == f.id);
+                            
+                            const tariffPromoCode = tariff.promoCodes.find(p => p.code.toLowerCase() == promoCode.toLowerCase());
+                            
+                            let promocodePriceValue = price?.value;
+                            if (tariffPromoCode !== undefined && promocodePriceValue !== undefined) {
+                                if (tariffPromoCode.type === PromoCodeType.Percent) {
+                                    promocodePriceValue = promocodePriceValue * ((100 - tariffPromoCode.value) / 100);
+                                }
+                                if (tariffPromoCode.type === PromoCodeType.Fixed) {
+                                    promocodePriceValue = promocodePriceValue - tariffPromoCode.value;
+                                }
+                            }
+                            
                             const initialPrice = initialPrices.find(p => p.tariffDayIntervalId == i.tariffDayIntervalId && p.fieldId == f.id);
                             const title = initialPrice?.value !== price?.value ? `${t('rates:prices:initial')}: ${initialPrice?.value === undefined ? '-' : initialPrice?.value}` : null;
                             
@@ -163,14 +197,21 @@ export const Prices = () => {
                                     transparent onChange={(e, {value}) => changePrice(value, i.tariffDayIntervalId||0, f.id)}
                                        type="number"
                                        value={price?.value || ''}/>
+                                {promocodePriceValue !== undefined && tariffPromoCode !== undefined && 
+                                    <span title={t('rates:prices:promocode_value')||''} style={{ position: 'absolute', right: '5px',
+                                        fontSize: '12px', cursor: 'pointer'}}>{promocodePriceValue}</span>
+                                }
                             </div>
                         })}
                     </div>
                 })}
             </div>
         })}
+        <label style={{marginTop: '10px', marginLeft: '10px'}}>{t("rates:prices:promo_code_hint")}<Icon name='question circle outline' style={{ fontSize: '11px', marginLeft: '4px', height: '100%'}} title={promoCodesForTariffsText()} /></label> <br />
+        <Input style={{ width: '200px', marginLeft: '10px'}} onChange={(event) => setPromoCode(event.target.value)} placeholder={t("rates:prices:promo_code_title") || ''}
+               defaultValue={promoCode}/>
         {permissions.filter(p => p.name === PermissionsKeys.SetPrices).length > 0 &&
-            <div style={{marginTop: '5px'}}>
+            <div style={{marginTop: '10px'}}>
                 <Button disabled={!hasChanged()} style={{ marginLeft: '5px', backgroundColor: '#3CB371', color: 'white'}} onClick={savePrices}>{t('rates:prices:save')}</Button>
                 <Button disabled={!hasChanged()} style={{ marginLeft: '5px', backgroundColor: '#CD5C5C', color: 'white'}} onClick={resetPrices}>{t('rates:prices:reset')}</Button>
             </div>

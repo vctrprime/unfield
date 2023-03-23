@@ -65,7 +65,7 @@ export const TariffInterval = (props: TariffIntervalProps) => {
         </div>
         <div className="tariff-interval-timeline">
             {props.points.map((time, index) => {
-                return <>
+                return <React.Fragment key={index}>
                     <div className="tariff-interval-cont">
                         <div className="tariff-interval-point-cont">
                             <div style={index >= startIndex && index <= endIndex ? { backgroundColor: "#00d2ff"} : {}} className={index % 2 == 0 ? "tariff-interval-point" : "tariff-interval-point small"} />
@@ -76,7 +76,7 @@ export const TariffInterval = (props: TariffIntervalProps) => {
                         {index !== props.points.length - 1 && <div style={index >= startIndex && index < endIndex ? { backgroundColor: "#00d2ff"} : {}} className="tariff-interval-point-line" />}
                         <div style={{ opacity: 0, fontSize: '6px'}} className="tariff-interval-point-text">{time}</div>
                     </div>
-                </>
+                </React.Fragment>
                     })}
                 
         </div>

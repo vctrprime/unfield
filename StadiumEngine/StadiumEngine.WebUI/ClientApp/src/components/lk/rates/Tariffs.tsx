@@ -101,7 +101,8 @@ export const Tariffs = () => {
             friday: data.friday,
             saturday: data.saturday,
             sunday: data.sunday,
-            dayIntervals: data.dayIntervals
+            dayIntervals: data.dayIntervals,
+            promoCodes: data.promoCodes
         }
         ratesService.updateTariff(command).then(() => {
             const rowNode = gridRef.current.api.getRowNode(nodeId);

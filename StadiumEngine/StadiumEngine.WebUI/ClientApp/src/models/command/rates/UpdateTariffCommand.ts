@@ -1,4 +1,4 @@
-import {TariffDayIntervalDto} from "../../dto/rates/TariffDto";
+import {PromoCodeDto, TariffDayIntervalDto} from "../../dto/rates/TariffDto";
 
 export interface UpdateTariffCommand {
     id: number;
@@ -14,5 +14,6 @@ export interface UpdateTariffCommand {
     friday: boolean;
     saturday: boolean;
     sunday: boolean;
-    dayIntervals: TariffDayIntervalDto[]
+    dayIntervals: TariffDayIntervalDto[],
+    promoCodes: PromoCodeDto[]
 }

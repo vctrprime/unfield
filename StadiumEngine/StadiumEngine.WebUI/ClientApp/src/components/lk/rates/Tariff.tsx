@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
-import {TariffDayIntervalDto, TariffDto} from "../../../models/dto/rates/TariffDto";
+import {PromoCodeDto, TariffDayIntervalDto, TariffDto} from "../../../models/dto/rates/TariffDto";
 import {useInject} from "inversify-hooks";
 import {IRatesService} from "../../../services/RatesService";
 import {getDataTitle, getTitle, StringFormat, validateInputs} from "../../../helpers/utils";
@@ -13,6 +13,12 @@ import {TariffInterval} from "./TariffInterval";
 import {AddTariffCommand} from "../../../models/command/rates/AddTariffCommand";
 import {UpdateTariffCommand} from "../../../models/command/rates/UpdateTariffCommand";
 import {ISettingsService} from "../../../services/SettingsService";
+import {PromoCodeType} from "../../../models/dto/rates/enums/PromoCodeType";
+import {TariffPromoCode} from "./TariffPromoCode";
+import {Sa} from "react-flags-select";
+
+const ReactNotifications = require('react-notifications');
+const {NotificationManager} = ReactNotifications;
 
 
 export const Tariff = () => {
@@ -77,7 +83,7 @@ export const Tariff = () => {
 
 
     const saveTariff = () => {
-        if (validateInputs([nameInput])) {
+        if (validateInputs([nameInput]) && validate()) {
             const command: AddTariffCommand = {
                 name: nameInput.current?.value,
                 description: descriptionInput.current?.value,
@@ -91,7 +97,8 @@ export const Tariff = () => {
                 friday: data.friday,
                 saturday: data.saturday,
                 sunday: data.sunday,
-                dayIntervals: data.dayIntervals
+                dayIntervals: data.dayIntervals,
+                promoCodes: data.promoCodes
             }
             ratesService.addTariff(command).then(() => {
                 navigate("/lk/rates/tariffs");
@@ -100,7 +107,7 @@ export const Tariff = () => {
     }
 
     const updateTariff = () => {
-        if (validateInputs([nameInput])) {
+        if (validateInputs([nameInput]) && validate()) {
             const command: UpdateTariffCommand = {
                 id: tariffId,
                 name: nameInput.current?.value,
@@ -115,12 +122,40 @@ export const Tariff = () => {
                 friday: data.friday,
                 saturday: data.saturday,
                 sunday: data.sunday,
-                dayIntervals: data.dayIntervals
+                dayIntervals: data.dayIntervals,
+                promoCodes: data.promoCodes
             }
             ratesService.updateTariff(command).then(() => {
                 navigate("/lk/rates/tariffs");
             })
         }
+    }
+    
+    const validate = (): boolean => {
+        const sameCodes: string[] = [];
+        let result = true;
+        data.promoCodes.forEach((p) => {
+            if (p.code.length < 3) {
+                NotificationManager.error(t('rates:tariffs_grid:validate_errors:promocode_min_length'), t('common:error_request_title'), 5000);
+                result = false;
+            }
+            if (p.value <= 0) {
+                NotificationManager.error(t('rates:tariffs_grid:validate_errors:promocode_min_value'), t('common:error_request_title'), 5000);
+                result = false;
+            }
+            if (p.type === PromoCodeType.Percent && p.value > 99) {
+                NotificationManager.error(t('rates:tariffs_grid:validate_errors:promocode_max_value'), t('common:error_request_title'), 5000);
+                result = false;
+            }
+            const sameCode = data.promoCodes.find(c => c !== p && c.code.toLowerCase() === p.code.toLowerCase());
+            if (sameCode !== undefined && sameCodes.indexOf(sameCode.code.toLowerCase()) === -1) {
+                sameCodes.push(sameCode.code.toLowerCase());
+                NotificationManager.error(t('rates:tariffs_grid:validate_errors:promocode_same_codes'), t('common:error_request_title'), 5000);
+                result = false;
+            }
+        })
+        
+        return result;
     }
 
     const deleteTariff = () => {
@@ -196,6 +231,30 @@ export const Tariff = () => {
             dayIntervals: newIntervals
         });
     }
+
+    
+    const setPromoCode = (changedPromoCode: PromoCodeDto, currentPromoCode: PromoCodeDto|null = null, isRemove: boolean = false) => {
+        const newPromoCodes: PromoCodeDto[] = [];
+        data?.promoCodes?.forEach((p) => {
+            if (p !== currentPromoCode) {
+                newPromoCodes.push(p);
+            }
+            else {
+                if (!isRemove) {
+                    newPromoCodes.push(changedPromoCode);
+                }
+            }
+        })
+
+        if (currentPromoCode === null) {
+            newPromoCodes.push(changedPromoCode);
+        }
+
+        setData({
+            ...data,
+            promoCodes: newPromoCodes
+        });
+    }
     
     return isError ? <span/> : (<div>
         <ActionButtons
@@ -249,6 +308,19 @@ export const Tariff = () => {
                                            index={i}
                                            points={intervalPoints}
                                            setInterval={setInterval}/>
+                    }
+                )}
+            </Form.Field>
+            <Form.Field>
+                <label>{t("rates:tariffs_grid:promo_codes")}</label>
+                <div style={{fontSize: '12px', lineHeight: '12px'}}>{t("rates:tariffs_grid:promo_codes_hint")}</div>
+                <Button style={{marginTop: "10px"}} onClick={() => setPromoCode({
+                    code: 'NEWPROMO' + (data.promoCodes.length + 1),
+                    type: PromoCodeType.Percent,
+                    value: 10
+                })}>{t('rates:tariffs_grid:add_promo_code')}</Button>
+                {data?.promoCodes?.map((p, i) => {
+                    return <TariffPromoCode key={i} promoCode={p} setPromoCode={setPromoCode} />
                     }
                 )}
             </Form.Field>
