@@ -1,5 +1,9 @@
+using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
 using StadiumEngine.Domain;
+using StadiumEngine.Domain.Entities;
 using StadiumEngine.Repositories.Infrastructure.Contexts;
 
 namespace StadiumEngine.Repositories.Infrastructure;
@@ -36,7 +40,7 @@ internal class UnitOfWork : IUnitOfWork
         }
     }
 
-    public async Task RollbackTransaction()
+    private async Task RollbackTransaction()
     {
         try
         {
@@ -50,4 +54,27 @@ internal class UnitOfWork : IUnitOfWork
     }
 
     public async Task SaveChanges() => await _context.SaveChangesAsync();
+
+    public bool PropertyWasChanged<T>( T obj, string propertyName ) where T : BaseEntity
+    {
+        IEnumerable<EntityEntry> changedEntities =
+            _context.ChangeTracker.Entries().Where( entity => entity.State == EntityState.Modified );
+        
+        foreach ( EntityEntry entry in changedEntities )
+        {
+            if ( entry.Entity.GetType() != obj.GetType() )
+            {
+                continue;
+            }
+
+            if ( ( int )( entry.Property( "Id" ).CurrentValue ?? 0 ) != obj.Id )
+            {
+                continue;
+            }
+
+            return entry.Property( propertyName ).CurrentValue != entry.Property( propertyName ).OriginalValue;
+        }
+
+        return false;
+    }
 }

@@ -12,7 +12,9 @@ using StadiumEngine.Services.Facades.Accounts;
 using StadiumEngine.Services.Facades.Offers;
 using StadiumEngine.Services.Facades.Rates;
 using StadiumEngine.Services.Facades.Services.Accounts;
+using StadiumEngine.Services.Facades.Services.Offers;
 using StadiumEngine.Services.Facades.Settings;
+using StadiumEngine.Services.Handlers.Offers;
 using StadiumEngine.Services.Identity;
 using StadiumEngine.Services.Infrastructure;
 
@@ -45,6 +47,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRoleCommandFacade, RoleCommandFacade>();
         services.AddScoped<IPermissionCommandFacade, PermissionCommandFacade>();
 
+        services.AddScoped<IFieldServiceFacade, FieldServiceFacade>();
         services.AddScoped<IFieldQueryFacade, FieldQueryFacade>();
         services.AddScoped<IFieldCommandFacade, FieldCommandFacade>();
         services.AddScoped<ILockerRoomQueryFacade, LockerRoomQueryFacade>();
@@ -74,6 +77,12 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IAccountsAccessChecker, AccountsAccessChecker>();
 
+        #endregion
+
+        #region handlers
+        
+        services.AddScoped<IFieldPriceGroupHandler, FieldPriceGroupHandler>();
+        
         #endregion
     }
 }

@@ -1,5 +1,6 @@
 using StadiumEngine.Common.Enums.Offers;
 using StadiumEngine.Common.Models;
+using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Repositories.Offers;
 using StadiumEngine.Domain.Services.Infrastructure;
@@ -54,14 +55,14 @@ internal abstract class BaseOfferCommandFacade<T> where T : BaseOfferEntity
                 } );
         }
 
-        AddOffer( offer );
+        await AddOffer( offer );
     }
 
     protected async Task UpdateOffer( T offer, List<ImageFile> images, List<SportKind> sportKinds )
     {
         int userId = offer.UserModifiedId ?? 0;
 
-        UpdateOffer( offer );
+        await UpdateOffer( offer );
 
         List<string> pathsToDelete = await ProcessImages( images, offer, userId );
         ProcessSportKinds( sportKinds, offer, userId );
@@ -172,8 +173,8 @@ internal abstract class BaseOfferCommandFacade<T> where T : BaseOfferEntity
         }
     }
 
-    protected abstract void AddOffer( T offer );
-    protected abstract void UpdateOffer( T offer );
+    protected abstract Task AddOffer( T offer );
+    protected abstract Task UpdateOffer( T offer );
     protected abstract OffersSportKind CreateSportKind( int offerId, int userId, SportKind sportKind );
     protected abstract OffersImage CreateImage( int offerId, int userId, string path, int order );
 }

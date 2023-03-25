@@ -2,6 +2,7 @@ using StadiumEngine.Common;
 using StadiumEngine.Common.Enums.Offers;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Common.Models;
+using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Repositories.Offers;
 using StadiumEngine.Domain.Services.Facades.Offers;
@@ -45,9 +46,9 @@ internal class InventoryCommandFacade : BaseOfferCommandFacade<Inventory>, IInve
         DeleteAllImagesAndSportKinds( inventory );
     }
 
-    protected override void AddOffer( Inventory inventory ) => _inventoryRepository.Add( inventory );
+    protected override async Task AddOffer( Inventory inventory ) => await Task.Run( () => _inventoryRepository.Add( inventory ) );
 
-    protected override void UpdateOffer( Inventory inventory ) => _inventoryRepository.Update( inventory );
+    protected override async Task UpdateOffer( Inventory inventory ) => await Task.Run( () => _inventoryRepository.Update( inventory ) );
 
     protected override OffersSportKind CreateSportKind( int inventoryId, int userId, SportKind sportKind ) =>
         new()

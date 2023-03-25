@@ -2,24 +2,26 @@ using StadiumEngine.Common;
 using StadiumEngine.Common.Enums.Offers;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Common.Models;
+using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Repositories.Offers;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Infrastructure;
+using StadiumEngine.Services.Facades.Services.Offers;
 
 namespace StadiumEngine.Services.Facades.Offers;
 
 internal class FieldCommandFacade : BaseOfferCommandFacade<Field>, IFieldCommandFacade
 {
-    private readonly IFieldRepository _fieldRepository;
+    private readonly IFieldServiceFacade _fieldServiceFacade;
 
     public FieldCommandFacade(
-        IFieldRepository fieldRepository,
+        IFieldServiceFacade fieldServiceFacade,
         IOffersImageRepository imageRepository,
         IOffersSportKindRepository offersSportKindRepository,
         IImageService imageService ) : base( imageRepository, imageService, offersSportKindRepository )
     {
-        _fieldRepository = fieldRepository;
+        _fieldServiceFacade = fieldServiceFacade;
     }
 
     protected override string ImageFolder => "fields";
@@ -32,7 +34,7 @@ internal class FieldCommandFacade : BaseOfferCommandFacade<Field>, IFieldCommand
 
     public async Task DeleteField( int fieldId, int stadiumId )
     {
-        Field? field = await _fieldRepository.Get( fieldId, stadiumId );
+        Field? field = await _fieldServiceFacade.GetField( fieldId, stadiumId );
 
         if ( field == null )
         {
@@ -44,14 +46,14 @@ internal class FieldCommandFacade : BaseOfferCommandFacade<Field>, IFieldCommand
             throw new DomainException( ErrorsKeys.FieldHasChildrenFields );
         }
 
-        _fieldRepository.Remove( field );
+        _fieldServiceFacade.RemoveField( field );
 
         DeleteAllImagesAndSportKinds( field );
     }
 
-    protected override void AddOffer( Field field ) => _fieldRepository.Add( field );
+    protected override async Task AddOffer( Field field ) => await _fieldServiceFacade.AddField( field );
 
-    protected override void UpdateOffer( Field field ) => _fieldRepository.Update( field );
+    protected override async Task UpdateOffer( Field field ) => await _fieldServiceFacade.UpdateField( field );
 
     protected override OffersSportKind CreateSportKind( int fieldId, int userId, SportKind sportKind ) =>
         new()
