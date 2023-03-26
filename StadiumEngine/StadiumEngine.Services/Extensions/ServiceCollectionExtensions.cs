@@ -13,6 +13,7 @@ using StadiumEngine.Services.Facades.Offers;
 using StadiumEngine.Services.Facades.Rates;
 using StadiumEngine.Services.Facades.Services.Accounts;
 using StadiumEngine.Services.Facades.Services.Offers;
+using StadiumEngine.Services.Facades.Services.Rates;
 using StadiumEngine.Services.Facades.Settings;
 using StadiumEngine.Services.Handlers.Offers;
 using StadiumEngine.Services.Identity;
@@ -61,6 +62,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ITariffCommandFacade, TariffCommandFacade>();
         services.AddScoped<IPriceQueryFacade, PriceQueryFacade>();
         services.AddScoped<IPriceCommandFacade, PriceCommandFacade>();
+        services.AddScoped<ITariffRepositoryFacade, TariffRepositoryFacade>();
         
         services.AddScoped<IStadiumMainSettingsQueryFacade, StadiumMainSettingsQueryFacade>();
         services.AddScoped<IStadiumMainSettingsCommandFacade, StadiumMainSettingsCommandFacade>();

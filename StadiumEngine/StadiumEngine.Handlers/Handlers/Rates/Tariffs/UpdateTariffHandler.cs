@@ -27,6 +27,5 @@ internal sealed class UpdateTariffHandler : BaseCommandHandler<UpdateTariffComma
             request,
             Mapper.Map<List<PromoCode>>( request.PromoCodes ),
             _currentStadiumId,
-            _userId,
-            UnitOfWork );
+            _userId );
 }

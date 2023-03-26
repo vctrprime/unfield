@@ -23,8 +23,7 @@ internal class UpdateTariffFacade : IUpdateTariffFacade
         UpdateTariffCommand request,
         List<PromoCode> promoCodes,
         int stadiumId,
-        int userId,
-        IUnitOfWork unitOfWork )
+        int userId )
     {
         Tariff? tariff = await _queryFacade.GetByTariffIdAsync( request.Id, stadiumId );
 
@@ -50,8 +49,7 @@ internal class UpdateTariffFacade : IUpdateTariffFacade
         await _commandFacade.UpdateTariffAsync(
             tariff,
             request.DayIntervals.Select( x => x.Interval ).ToList(),
-            promoCodes,
-            unitOfWork );
+            promoCodes );
 
         return new UpdateTariffDto();
     }

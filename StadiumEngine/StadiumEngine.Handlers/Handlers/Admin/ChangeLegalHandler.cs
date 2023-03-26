@@ -28,7 +28,7 @@ internal sealed class ChangeLegalHandler : BaseCommandHandler<ChangeLegalCommand
     protected override async ValueTask<AuthorizeUserDto?> HandleCommandAsync( ChangeLegalCommand request,
         CancellationToken cancellationToken )
     {
-        User? user = await _facade.ChangeAsync( request, _userId, UnitOfWork );
+        User? user = await _facade.ChangeAsync( request, _userId );
         AuthorizeUserDto? userDto = Mapper.Map<AuthorizeUserDto>( user );
 
         return userDto;

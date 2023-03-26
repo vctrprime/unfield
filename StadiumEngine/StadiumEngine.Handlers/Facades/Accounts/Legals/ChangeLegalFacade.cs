@@ -9,18 +9,20 @@ internal class ChangeLegalFacade : IChangeLegalFacade
 {
     private readonly IUserCommandFacade _commandFacade;
     private readonly IUserQueryFacade _queryFacade;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public ChangeLegalFacade( IUserQueryFacade queryFacade, IUserCommandFacade commandFacade )
+    public ChangeLegalFacade( IUserCommandFacade commandFacade, IUserQueryFacade queryFacade, IUnitOfWork unitOfWork )
     {
-        _queryFacade = queryFacade;
         _commandFacade = commandFacade;
+        _queryFacade = queryFacade;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task<User?> ChangeAsync( ChangeLegalCommand request, int userId, IUnitOfWork unitOfWork )
+    public async Task<User?> ChangeAsync( ChangeLegalCommand request, int userId )
     {
         await _commandFacade.ChangeLegalAsync( userId, request.LegalId );
 
-        await unitOfWork.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
         User? user = await _queryFacade.GetUserAsync( userId );
 

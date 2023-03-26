@@ -10,19 +10,16 @@ internal class PermissionCommandFacade : IPermissionCommandFacade
 {
     private readonly IPermissionGroupRepository _permissionGroupRepository;
     private readonly IPermissionRepository _permissionRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public PermissionCommandFacade(
-        IPermissionRepository permissionRepository,
-        IPermissionGroupRepository permissionGroupRepository )
+    public PermissionCommandFacade( IPermissionGroupRepository permissionGroupRepository, IPermissionRepository permissionRepository, IUnitOfWork unitOfWork )
     {
-        _permissionRepository = permissionRepository;
         _permissionGroupRepository = permissionGroupRepository;
+        _permissionRepository = permissionRepository;
+        _unitOfWork = unitOfWork;
     }
-
-
-    public async Task SyncPermissionsAsync( IUnitOfWork unitOfWork ) => await SyncPermissionsAndGroupsAsync( unitOfWork );
-
-    private async Task SyncPermissionsAndGroupsAsync( IUnitOfWork unitOfWork )
+    
+    public async Task SyncPermissionsAsync()
     {
         List<Permission> storedPermissions = await _permissionRepository.GetAllAsync();
         List<PermissionGroup> storedPermissionsGroups = storedPermissions
@@ -57,17 +54,16 @@ internal class PermissionCommandFacade : IPermissionCommandFacade
                 _permissionGroupRepository.Add( copyPermissionGroup );
             }
 
-            await unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
 
-            await SyncPermissions(
-                unitOfWork,
+            await SyncPermissionsAsync(
                 permissionGroup,
                 copyPermissionGroup.Id,
                 storedPermissions );
         }
     }
 
-    private async Task SyncPermissions( IUnitOfWork unitOfWork, PermissionGroup permissionGroup, int permissionGroupId,
+    private async Task SyncPermissionsAsync( PermissionGroup permissionGroup, int permissionGroupId,
         List<Permission> storedPermissions )
     {
         foreach ( Permission? permission in permissionGroup.Permissions )
@@ -99,7 +95,7 @@ internal class PermissionCommandFacade : IPermissionCommandFacade
                 _permissionRepository.Add( copyPermission );
             }
 
-            await unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

@@ -15,7 +15,6 @@ import {UpdateTariffCommand} from "../../../models/command/rates/UpdateTariffCom
 import {ISettingsService} from "../../../services/SettingsService";
 import {PromoCodeType} from "../../../models/dto/rates/enums/PromoCodeType";
 import {TariffPromoCode} from "./TariffPromoCode";
-import {Sa} from "react-flags-select";
 
 const ReactNotifications = require('react-notifications');
 const {NotificationManager} = ReactNotifications;
@@ -26,7 +25,9 @@ export const Tariff = () => {
 
     const [data, setData] = useState<TariffDto>({
         isActive: true,
-        dateStart: new Date()
+        dateStart: new Date(),
+        dayIntervals: [] as TariffDayIntervalDto[],
+        promoCodes: [] as PromoCodeDto[]
     } as TariffDto);
     const [isError, setIsError] = useState<boolean>(false);
     const [tariffId, setTariffId] = useState(parseInt(id || "0"))

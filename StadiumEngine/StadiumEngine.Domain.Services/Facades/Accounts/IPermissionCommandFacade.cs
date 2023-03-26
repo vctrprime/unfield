@@ -2,5 +2,5 @@ namespace StadiumEngine.Domain.Services.Facades.Accounts;
 
 public interface IPermissionCommandFacade
 {
-    Task SyncPermissionsAsync( IUnitOfWork unitOfWork );
+    Task SyncPermissionsAsync();
 }

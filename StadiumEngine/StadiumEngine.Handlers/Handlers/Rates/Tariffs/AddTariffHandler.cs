@@ -28,7 +28,7 @@ internal sealed class AddTariffHandler : BaseCommandHandler<AddTariffCommand, Ad
         tariff.StadiumId = _currentStadiumId;
         tariff.UserCreatedId = _userId;
 
-        await _tariffFacade.AddTariffAsync( tariff, request.DayIntervals.Select( x => x.Interval ).ToList(), UnitOfWork );
+        await _tariffFacade.AddTariffAsync( tariff, request.DayIntervals.Select( x => x.Interval ).ToList() );
 
         return await Task.Run( () => new AddTariffDto(), cancellationToken );
     }

@@ -3,59 +3,52 @@ using StadiumEngine.Common.Enums.Rates;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Rates;
-using StadiumEngine.Domain.Repositories.Rates;
 using StadiumEngine.Domain.Services.Facades.Rates;
+using StadiumEngine.Services.Facades.Services.Rates;
 
 namespace StadiumEngine.Services.Facades.Rates;
 
 internal class TariffCommandFacade : ITariffCommandFacade
 {
-    private readonly IDayIntervalRepository _dayIntervalRepository;
-    private readonly ITariffDayIntervalRepository _tariffDayIntervalRepository;
-    private readonly ITariffRepository _tariffRepository;
-    private readonly IPromoCodeRepository _promoCodeRepository;
+    private readonly ITariffRepositoryFacade _tariffRepositoryFacade;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public TariffCommandFacade( IDayIntervalRepository dayIntervalRepository,
-        ITariffDayIntervalRepository tariffDayIntervalRepository, ITariffRepository tariffRepository,
-        IPromoCodeRepository promoCodeRepository )
+    public TariffCommandFacade( ITariffRepositoryFacade tariffRepositoryFacade, IUnitOfWork unitOfWork )
     {
-        _dayIntervalRepository = dayIntervalRepository;
-        _tariffDayIntervalRepository = tariffDayIntervalRepository;
-        _tariffRepository = tariffRepository;
-        _promoCodeRepository = promoCodeRepository;
+        _tariffRepositoryFacade = tariffRepositoryFacade;
+        _unitOfWork = unitOfWork;
+    }
+    
+    public async Task AddTariffAsync( Tariff tariff, List<string[]> intervals )
+    {
+        _tariffRepositoryFacade.AddTariff( tariff );
+        await _unitOfWork.SaveChangesAsync();
+
+        await AddIntervalsAsync( tariff, intervals );
     }
 
-    public async Task AddTariffAsync( Tariff tariff, List<string[]> intervals, IUnitOfWork unitOfWork )
+    public async Task UpdateTariffAsync( Tariff tariff, List<string[]> intervals, List<PromoCode> promoCodes )
     {
-        _tariffRepository.Add( tariff );
-        await unitOfWork.SaveChangesAsync();
-
-        await AddIntervalsAsync( tariff, intervals, unitOfWork );
-    }
-
-    public async Task UpdateTariffAsync( Tariff tariff, List<string[]> intervals, List<PromoCode> promoCodes,
-        IUnitOfWork unitOfWork )
-    {
-        _tariffRepository.Update( tariff );
-        await ProcessIntervalsAsync( tariff, intervals, unitOfWork );
+        _tariffRepositoryFacade.UpdateTariff( tariff );
+        await ProcessIntervalsAsync( tariff, intervals );
         ProcessPromoCodes( tariff, promoCodes );
     }
 
     public async Task DeleteTariffAsync( int tariffId, int stadiumId )
     {
-        Tariff? tariff = await _tariffRepository.GetAsync( tariffId, stadiumId );
+        Tariff? tariff = await _tariffRepositoryFacade.GetTariffAsync( tariffId, stadiumId );
 
         if ( tariff == null )
         {
             throw new DomainException( ErrorsKeys.TariffNotFound );
         }
 
-        _tariffDayIntervalRepository.Remove( tariff.TariffDayIntervals );
-        _promoCodeRepository.Remove( tariff.PromoCodes );
-        _tariffRepository.Remove( tariff );
+        _tariffRepositoryFacade.RemoveTariffDayIntervals( tariff.TariffDayIntervals );
+        _tariffRepositoryFacade.RemovePromoCodes( tariff.PromoCodes );
+        _tariffRepositoryFacade.RemoveTariff( tariff );
     }
 
-    private async Task ProcessIntervalsAsync( Tariff tariff, List<string[]> intervals, IUnitOfWork unitOfWork )
+    private async Task ProcessIntervalsAsync( Tariff tariff, List<string[]> intervals )
     {
         List<TariffDayInterval> intervalsToRemove = tariff.TariffDayIntervals
             .Where( k => !intervals.Exists( p => p[ 0 ] == k.DayInterval.Start && p[ 1 ] == k.DayInterval.End ) )
@@ -63,7 +56,7 @@ internal class TariffCommandFacade : ITariffCommandFacade
 
         if ( intervalsToRemove.Any() )
         {
-            _tariffDayIntervalRepository.Remove( intervalsToRemove );
+            _tariffRepositoryFacade.RemoveTariffDayIntervals( intervalsToRemove );
         }
 
         List<TariffDayInterval> tariffDayIntervals = tariff.TariffDayIntervals.ToList();
@@ -72,7 +65,7 @@ internal class TariffCommandFacade : ITariffCommandFacade
                 k => !tariffDayIntervals.Exists( x => x.DayInterval.Start == k[ 0 ] && x.DayInterval.End == k[ 1 ] ) )
             .ToList();
 
-        await AddIntervalsAsync( tariff, intervalsToAdd, unitOfWork );
+        await AddIntervalsAsync( tariff, intervalsToAdd );
     }
 
     private void ProcessPromoCodes( Tariff tariff, List<PromoCode> promoCodes )
@@ -85,7 +78,7 @@ internal class TariffCommandFacade : ITariffCommandFacade
 
         if ( promoCodesToRemove.Any() )
         {
-            _promoCodeRepository.Remove( promoCodesToRemove );
+            _tariffRepositoryFacade.RemovePromoCodes( promoCodesToRemove );
         }
 
         foreach ( PromoCode promoCode in promoCodes )
@@ -95,7 +88,7 @@ internal class TariffCommandFacade : ITariffCommandFacade
             if ( entityPromoCode == null )
             {
                 promoCode.UserCreatedId = tariff.UserModifiedId;
-                _promoCodeRepository.Add( promoCode );
+                _tariffRepositoryFacade.AddPromoCode( promoCode );
             }
             else
             {
@@ -104,19 +97,19 @@ internal class TariffCommandFacade : ITariffCommandFacade
                 entityPromoCode.Value = promoCode.Value;
                 entityPromoCode.UserModifiedId = tariff.UserModifiedId;
 
-                _promoCodeRepository.Update( entityPromoCode );
+                _tariffRepositoryFacade.UpdatePromoCode( entityPromoCode );
             }
         }
     }
 
-    private async Task AddIntervalsAsync( Tariff tariff, List<string[]> intervals, IUnitOfWork unitOfWork )
+    private async Task AddIntervalsAsync( Tariff tariff, List<string[]> intervals )
     {
         foreach ( string[] interval in intervals )
         {
             string start = interval[ 0 ];
             string end = interval[ 1 ];
 
-            DayInterval? dayInterval = await _dayIntervalRepository.GetAsync( start, end );
+            DayInterval? dayInterval = await _tariffRepositoryFacade.GetDayIntervalAsync( start, end );
             if ( dayInterval is null )
             {
                 dayInterval = new DayInterval
@@ -124,11 +117,11 @@ internal class TariffCommandFacade : ITariffCommandFacade
                     Start = start,
                     End = end
                 };
-                _dayIntervalRepository.Add( dayInterval );
-                await unitOfWork.SaveChangesAsync();
+                _tariffRepositoryFacade.AddDayInterval( dayInterval );
+                await _unitOfWork.SaveChangesAsync();
             }
 
-            _tariffDayIntervalRepository.Add(
+            _tariffRepositoryFacade.AddTariffDayInterval(
                 new TariffDayInterval
                 {
                     DayIntervalId = dayInterval.Id,

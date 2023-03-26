@@ -32,8 +32,6 @@ internal sealed class AddUserHandler : BaseCommandHandler<AddUserCommand, AddUse
         user.LegalId = _legalId;
         user.UserCreatedId = _userId;
 
-        return await _facade.AddAsync(
-            user,
-            UnitOfWork );
+        return await _facade.AddAsync( user );
     }
 }
