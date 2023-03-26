@@ -1,10 +1,10 @@
 using StadiumEngine.Common;
-using StadiumEngine.Common.Enums.Rates;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Services.Facades.Rates;
 using StadiumEngine.Services.Facades.Services.Rates;
+using StadiumEngine.Services.Validators.Rates;
 
 namespace StadiumEngine.Services.Facades.Rates;
 
@@ -12,23 +12,28 @@ internal class TariffCommandFacade : ITariffCommandFacade
 {
     private readonly ITariffRepositoryFacade _tariffRepositoryFacade;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ITariffValidator _validator;
 
-    public TariffCommandFacade( ITariffRepositoryFacade tariffRepositoryFacade, IUnitOfWork unitOfWork )
+    public TariffCommandFacade( ITariffRepositoryFacade tariffRepositoryFacade, IUnitOfWork unitOfWork, ITariffValidator validator )
     {
         _tariffRepositoryFacade = tariffRepositoryFacade;
         _unitOfWork = unitOfWork;
+        _validator = validator;
     }
-    
+
     public async Task AddTariffAsync( Tariff tariff, List<string[]> intervals )
     {
+        await _validator.ValidateAsync( tariff.StadiumId, intervals, tariff.PromoCodes.ToList() );
+        
         _tariffRepositoryFacade.AddTariff( tariff );
         await _unitOfWork.SaveChangesAsync();
-
         await AddIntervalsAsync( tariff, intervals );
     }
 
     public async Task UpdateTariffAsync( Tariff tariff, List<string[]> intervals, List<PromoCode> promoCodes )
     {
+        await _validator.ValidateAsync( tariff.StadiumId, intervals, promoCodes );
+        
         _tariffRepositoryFacade.UpdateTariff( tariff );
         await ProcessIntervalsAsync( tariff, intervals );
         ProcessPromoCodes( tariff, promoCodes );
@@ -70,7 +75,6 @@ internal class TariffCommandFacade : ITariffCommandFacade
 
     private void ProcessPromoCodes( Tariff tariff, List<PromoCode> promoCodes )
     {
-        ValidatePromoCodes( promoCodes );
         promoCodes.ForEach( p => p.TariffId = tariff.Id );
         List<PromoCode> promoCodesToRemove = tariff.PromoCodes
             .Where( x => !promoCodes.Exists( y => x.Code == y.Code && x.TariffId == y.TariffId ) )
@@ -128,26 +132,6 @@ internal class TariffCommandFacade : ITariffCommandFacade
                     TariffId = tariff.Id,
                     UserCreatedId = tariff.UserCreatedId
                 } );
-        }
-    }
-
-    private void ValidatePromoCodes( List<PromoCode> promoCodes )
-    {
-        foreach ( PromoCode promoCode in promoCodes )
-        {
-            if (promoCode.Code.Length < 3) {
-                throw new DomainException(ErrorsKeys.PromoCodeMinLength);
-            }
-            if (promoCode.Value <= 0) {
-                throw new DomainException(ErrorsKeys.PromoCodeMinValue);
-            }
-            if (promoCode.Type == PromoCodeType.Percent && promoCode.Value > 99) {
-                throw new DomainException(ErrorsKeys.PromoCodeMaxValue);
-            }
-            PromoCode? sameCode = promoCodes.FirstOrDefault(c => c != promoCode && String.Equals( c.Code, promoCode.Code, StringComparison.CurrentCultureIgnoreCase ));
-            if (sameCode != null) {
-                throw new DomainException(ErrorsKeys.PromoCodeSameCode);
-            }
         }
     }
 }

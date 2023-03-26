@@ -52,11 +52,8 @@ export const Tariff = () => {
         settingsService.getStadiumMainSettings().then((result) => {
             const points: string[] = [];
             for (let i = result.openTime; i <= result.closeTime; i++) {
-                if (i === result.closeTime) {
-                    points.push(i.toString().length === 1 ? `0${i}:00`: `${i}:00`);
-                }
-                else {
-                    points.push(i.toString().length === 1 ? `0${i}:00`: `${i}:00`);
+                points.push(i.toString().length === 1 ? `0${i}:00`: `${i}:00`);
+                if (i < result.closeTime) {
                     points.push(i.toString().length === 1 ? `0${i}:30`: `${i}:30`);
                 }
             }
@@ -177,10 +174,22 @@ export const Tariff = () => {
     
     const validateIntervalsAndSaveTariff = () => {
         const indexes: any = {};
+        let lastEndIndex : number|null = null;
+        
         data.dayIntervals.forEach((int) => {
             const startIndex = intervalPoints.indexOf(int.interval[0]);
             const endIndex = intervalPoints.indexOf(int.interval[1]);
+            
+            if (lastEndIndex === null) {
+                lastEndIndex = endIndex;
+            }
+            
             for (let i = startIndex; i <= endIndex; i++) {
+                if (startIndex == lastEndIndex) {
+                    lastEndIndex = endIndex;
+                    continue;
+                }
+                
                 const val = indexes[i];
                 if (val === undefined) {
                     indexes[`${i}`] = 1
@@ -192,7 +201,7 @@ export const Tariff = () => {
         })
         
         if (indexes['0'] > 1 || indexes[`${intervalPoints.length - 1}`] > 1 
-            || Object.keys(indexes).find(a => indexes[a] > 2)) {
+            || Object.keys(indexes).find(a => indexes[a] > 1)) {
             NotificationManager.error(t('errors:rates:cross_intervals'), t('common:error_request_title'), 5000);
             return;
         }

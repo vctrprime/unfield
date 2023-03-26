@@ -96,7 +96,7 @@ public class TariffDayIntervalDto
     /// <summary>
     /// Интервал
     /// </summary>
-    public string[] Interval { get; set; }
+    public string[] Interval { get; set; } = null!;
 }
 
 /// <summary>
@@ -107,7 +107,7 @@ public class PromoCodeDto
     /// <summary>
     /// Код
     /// </summary>
-    public string Code { get; set; }
+    public string Code { get; set; } = null!;
     
     /// <summary>
     /// Тип

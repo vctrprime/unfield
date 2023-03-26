@@ -18,6 +18,7 @@ using StadiumEngine.Services.Facades.Settings;
 using StadiumEngine.Services.Handlers.Offers;
 using StadiumEngine.Services.Identity;
 using StadiumEngine.Services.Infrastructure;
+using StadiumEngine.Services.Validators.Rates;
 
 namespace StadiumEngine.Services.Extensions;
 
@@ -85,6 +86,12 @@ public static class ServiceCollectionExtensions
         
         services.AddScoped<IFieldPriceGroupHandler, FieldPriceGroupHandler>();
         
+        #endregion
+
+        #region validators
+
+        services.AddScoped<ITariffValidator, TariffValidator>();
+
         #endregion
     }
 }

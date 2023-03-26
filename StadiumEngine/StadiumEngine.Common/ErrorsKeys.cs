@@ -46,6 +46,7 @@ public static class ErrorsKeys
     public const string PromoCodeMinValue = "rates:promocode_min_value";
     public const string PromoCodeMaxValue = "rates:promocode_max_value";
     public const string PromoCodeSameCode = "rates:promocode_same_codes";
+    public const string CrossIntervals = "rates:cross_intervals";
 
     #endregion
 
