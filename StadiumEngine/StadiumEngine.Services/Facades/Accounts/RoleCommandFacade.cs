@@ -29,21 +29,21 @@ internal class RoleCommandFacade : IRoleCommandFacade
 
     public void AddRole( Role role ) => _roleRepositoryFacade.AddRole( role );
 
-    public async Task UpdateRole(
+    public async Task UpdateRoleAsync(
         int roleId,
         int legalId,
         int userId,
         string name,
         string? description )
     {
-        User? user = await _userRepository.Get( roleId );
+        User? user = await _userRepository.GetAsync( roleId );
 
         if ( user?.RoleId == roleId )
         {
             throw new DomainException( ErrorsKeys.ModifyCurrentRole );
         }
 
-        Role? role = await _roleRepositoryFacade.GetRole( roleId );
+        Role? role = await _roleRepositoryFacade.GetRoleAsync( roleId );
         _accountsAccessChecker.CheckRoleAccess( role, legalId );
 
         role!.Name = name;
@@ -53,9 +53,9 @@ internal class RoleCommandFacade : IRoleCommandFacade
         _roleRepositoryFacade.UpdateRole( role );
     }
 
-    public async Task DeleteRole( int roleId, int legalId, int userModifiedId )
+    public async Task DeleteRoleAsync( int roleId, int legalId, int userModifiedId )
     {
-        Role? role = await _roleRepositoryFacade.GetRole( roleId );
+        Role? role = await _roleRepositoryFacade.GetRoleAsync( roleId );
         _accountsAccessChecker.CheckRoleAccess( role, legalId );
 
         if ( role!.RoleStadiums.Any() || role.Users.Any() )
@@ -68,19 +68,19 @@ internal class RoleCommandFacade : IRoleCommandFacade
         _roleRepositoryFacade.RemoveRole( role );
     }
 
-    public async Task ToggleRolePermission( int roleId, int permissionId, int legalId, int userId )
+    public async Task ToggleRolePermissionAsync( int roleId, int permissionId, int legalId, int userId )
     {
-        User? user = await _userRepository.Get( userId );
+        User? user = await _userRepository.GetAsync( userId );
 
         if ( user?.RoleId == roleId )
         {
             throw new DomainException( ErrorsKeys.ModifyPermissionsCurrentRole );
         }
 
-        Role? role = await _roleRepositoryFacade.GetRole( roleId );
+        Role? role = await _roleRepositoryFacade.GetRoleAsync( roleId );
         _accountsAccessChecker.CheckRoleAccess( role, legalId );
 
-        RolePermission? rolePermission = await _roleRepositoryFacade.GetRolePermission( roleId, permissionId );
+        RolePermission? rolePermission = await _roleRepositoryFacade.GetRolePermissionAsync( roleId, permissionId );
         if ( rolePermission == null )
         {
             rolePermission = new RolePermission
@@ -97,19 +97,19 @@ internal class RoleCommandFacade : IRoleCommandFacade
         }
     }
 
-    public async Task ToggleRoleStadium( int roleId, int stadiumId, int legalId, int userId )
+    public async Task ToggleRoleStadiumAsync( int roleId, int stadiumId, int legalId, int userId )
     {
-        User? user = await _userRepository.Get( userId );
+        User? user = await _userRepository.GetAsync( userId );
 
         if ( user?.RoleId == roleId )
         {
             throw new DomainException( ErrorsKeys.ModifyStadiumsCurrentRole );
         }
 
-        Role? role = await _roleRepositoryFacade.GetRole( roleId );
+        Role? role = await _roleRepositoryFacade.GetRoleAsync( roleId );
         _accountsAccessChecker.CheckRoleAccess( role, legalId );
 
-        List<Stadium> stadiums = await _stadiumRepository.GetForLegal( legalId );
+        List<Stadium> stadiums = await _stadiumRepository.GetForLegalAsync( legalId );
         Stadium? stadium = stadiums.FirstOrDefault( s => s.Id == stadiumId );
 
         if ( stadium == null )
@@ -117,7 +117,7 @@ internal class RoleCommandFacade : IRoleCommandFacade
             throw new DomainException( ErrorsKeys.StadiumNotFound );
         }
 
-        RoleStadium? roleStadium = await _roleRepositoryFacade.GetRoleStadium( roleId, stadiumId );
+        RoleStadium? roleStadium = await _roleRepositoryFacade.GetRoleStadiumAsync( roleId, stadiumId );
         if ( roleStadium == null )
         {
             roleStadium = new RoleStadium

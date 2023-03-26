@@ -12,7 +12,7 @@ internal class UserRepository : BaseRepository<User>, IUserRepository
     {
     }
 
-    public async Task<List<User>> GetAll( int legalId ) =>
+    public async Task<List<User>> GetAllAsync( int legalId ) =>
         await Entities
             .Where( u => u.LegalId == legalId && !u.IsDeleted && !u.IsSuperuser && !u.IsAdmin )
             .Include( u => u.Role )
@@ -20,9 +20,9 @@ internal class UserRepository : BaseRepository<User>, IUserRepository
             .Include( u => u.UserModified )
             .ToListAsync();
 
-    public async Task<User?> Get( string login ) => await Get( u => u.PhoneNumber == login && !u.IsDeleted );
+    public async Task<User?> GetAsync( string login ) => await GetAsync( u => u.PhoneNumber == login && !u.IsDeleted );
 
-    public async Task<User?> Get( int id ) => await Get( u => u.Id == id && !u.IsDeleted );
+    public async Task<User?> GetAsync( int id ) => await GetAsync( u => u.Id == id && !u.IsDeleted );
 
     public new void Add( User user ) => base.Add( user );
 
@@ -34,7 +34,7 @@ internal class UserRepository : BaseRepository<User>, IUserRepository
         base.Update( user );
     }
 
-    private async Task<User?> Get( Expression<Func<User, bool>> predicate ) =>
+    private async Task<User?> GetAsync( Expression<Func<User, bool>> predicate ) =>
         await Entities
             .Include( u => u.Role )
             .ThenInclude( r => r.RoleStadiums.Where( rs => !rs.Stadium.IsDeleted ) )

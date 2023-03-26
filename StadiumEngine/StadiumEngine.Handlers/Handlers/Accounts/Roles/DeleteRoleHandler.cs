@@ -21,10 +21,10 @@ internal sealed class DeleteRoleHandler : BaseCommandHandler<DeleteRoleCommand, 
     }
 
 
-    protected override async ValueTask<DeleteRoleDto> HandleCommand( DeleteRoleCommand request,
+    protected override async ValueTask<DeleteRoleDto> HandleCommandAsync( DeleteRoleCommand request,
         CancellationToken cancellationToken )
     {
-        await _roleFacade.DeleteRole( request.RoleId, _legalId, _userId );
+        await _roleFacade.DeleteRoleAsync( request.RoleId, _legalId, _userId );
 
         return new DeleteRoleDto();
     }

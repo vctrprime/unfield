@@ -22,7 +22,7 @@ internal sealed class GetTariffsHandler : BaseRequestHandler<GetTariffsQuery, Li
     public override async ValueTask<List<TariffDto>> Handle( GetTariffsQuery request,
         CancellationToken cancellationToken )
     {
-        List<Tariff> tariffs = await _tariffFacade.GetByStadiumId( _currentStadiumId );
+        List<Tariff> tariffs = await _tariffFacade.GetByStadiumIdAsync( _currentStadiumId );
 
         List<TariffDto> tariffsDto = Mapper.Map<List<TariffDto>>( tariffs );
         tariffsDto.ForEach(

@@ -4,8 +4,8 @@ namespace StadiumEngine.Services.Facades.Services.Offers;
 
 internal interface IFieldServiceFacade
 {
-    Task<Field?> GetField( int fieldId, int stadiumId );
-    Task AddField( Field field );
-    Task UpdateField( Field field );
+    Task<Field?> GetFieldAsync( int fieldId, int stadiumId );
+    Task AddFieldAsync( Field field );
+    Task UpdateFieldAsync( Field field );
     void RemoveField( Field field );
 }

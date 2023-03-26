@@ -11,7 +11,7 @@ internal class StadiumMainSettingsRepository : BaseRepository<StadiumMainSetting
     {
     }
 
-    public async Task<StadiumMainSettings> Get( int stadiumId )
+    public async Task<StadiumMainSettings> GetAsync( int stadiumId )
     {
         StadiumMainSettings? settings = await Entities.FirstOrDefaultAsync( x => x.StadiumId == stadiumId );
 

@@ -22,7 +22,7 @@ internal sealed class GetUserStadiumsHandler : BaseRequestHandler<GetUserStadium
     public override async ValueTask<List<UserStadiumDto>> Handle( GetUserStadiumsQuery request,
         CancellationToken cancellationToken )
     {
-        List<Stadium> stadiums = await _userFacade.GetUserStadiums( _userId, _legalId );
+        List<Stadium> stadiums = await _userFacade.GetUserStadiumsAsync( _userId, _legalId );
 
         List<UserStadiumDto>? stadiumsDto = Mapper.Map<List<UserStadiumDto>>( stadiums );
 

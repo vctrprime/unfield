@@ -24,13 +24,13 @@ internal class SetPricesFacade : ISetPricesFacade
         _fieldQueryFacade = fieldQueryFacade;
     }
 
-    public async Task<SetPricesDto> SetPrices( IEnumerable<Price> prices, int stadiumId, int userId )
+    public async Task<SetPricesDto> SetPricesAsync( IEnumerable<Price> prices, int stadiumId, int userId )
     {
-        List<Price> currentPrices = await _priceQueryFacade.GetByStadiumId( stadiumId );
+        List<Price> currentPrices = await _priceQueryFacade.GetByStadiumIdAsync( stadiumId );
         _priceCommandFacade.DeletePrices( currentPrices );
 
-        List<Field> fields = await _fieldQueryFacade.GetByStadiumId( stadiumId );
-        List<Tariff> tariffs = await _tariffQueryFacade.GetByStadiumId( stadiumId );
+        List<Field> fields = await _fieldQueryFacade.GetByStadiumIdAsync( stadiumId );
+        List<Tariff> tariffs = await _tariffQueryFacade.GetByStadiumIdAsync( stadiumId );
 
         List<Price> newPrices = new();
         foreach ( Price price in prices )

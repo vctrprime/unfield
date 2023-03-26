@@ -5,8 +5,8 @@ namespace StadiumEngine.Domain.Repositories.Offers;
 
 public interface ILockerRoomRepository
 {
-    Task<List<LockerRoom>> GetAll( int stadiumId );
-    Task<LockerRoom?> Get( int lockerRoomId, int stadiumId );
+    Task<List<LockerRoom>> GetAllAsync( int stadiumId );
+    Task<LockerRoom?> GetAsync( int lockerRoomId, int stadiumId );
     void Add( LockerRoom lockerRoom );
     void Update( LockerRoom lockerRoom );
     void Remove( LockerRoom lockerRoom );

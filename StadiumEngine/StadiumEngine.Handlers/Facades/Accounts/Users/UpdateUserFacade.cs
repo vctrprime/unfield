@@ -18,14 +18,14 @@ internal class UpdateUserFacade : IUpdateUserFacade
         _commandFacade = commandFacade;
     }
 
-    public async Task<UpdateUserDto> Update( UpdateUserCommand request, int userId, int legalId )
+    public async Task<UpdateUserDto> UpdateAsync( UpdateUserCommand request, int userId, int legalId )
     {
         if ( request.Id == userId )
         {
             throw new DomainException( ErrorsKeys.ModifyCurrentUser );
         }
 
-        User? user = await _queryFacade.GetUser( request.Id );
+        User? user = await _queryFacade.GetUserAsync( request.Id );
         if ( user == null || legalId != user.LegalId )
         {
             throw new DomainException( ErrorsKeys.UserNotFound );
@@ -38,7 +38,7 @@ internal class UpdateUserFacade : IUpdateUserFacade
         user.UserModifiedId = userId;
 
 
-        await _commandFacade.UpdateUser( user, legalId );
+        await _commandFacade.UpdateUserAsync( user, legalId );
 
         return new UpdateUserDto();
     }

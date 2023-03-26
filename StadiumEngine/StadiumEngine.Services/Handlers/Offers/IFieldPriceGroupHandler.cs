@@ -4,5 +4,5 @@ namespace StadiumEngine.Services.Handlers.Offers;
 
 internal interface IFieldPriceGroupHandler
 {
-    Task Handle( Field field, int? userId );
+    Task HandleAsync( Field field, int? userId );
 }

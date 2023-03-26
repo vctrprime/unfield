@@ -18,9 +18,9 @@ internal class UpdatePriceGroupFacade : IUpdatePriceGroupFacade
         _commandFacade = commandFacade;
     }
 
-    public async Task<UpdatePriceGroupDto> Update( UpdatePriceGroupCommand request, int stadiumId, int userId )
+    public async Task<UpdatePriceGroupDto> UpdateAsync( UpdatePriceGroupCommand request, int stadiumId, int userId )
     {
-        PriceGroup? priceGroup = await _queryFacade.GetByPriceGroupId( request.Id, stadiumId );
+        PriceGroup? priceGroup = await _queryFacade.GetByPriceGroupIdAsync( request.Id, stadiumId );
 
         if ( priceGroup == null )
         {

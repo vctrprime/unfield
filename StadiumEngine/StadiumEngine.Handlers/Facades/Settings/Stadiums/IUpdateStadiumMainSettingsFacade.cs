@@ -5,5 +5,5 @@ namespace StadiumEngine.Handlers.Facades.Settings.Stadiums;
 
 internal interface IUpdateStadiumMainSettingsFacade
 {
-    Task<UpdateStadiumMainSettingsDto> Update( UpdateStadiumMainSettingsCommand request, int stadiumId, int userId );
+    Task<UpdateStadiumMainSettingsDto> UpdateAsync( UpdateStadiumMainSettingsCommand request, int stadiumId, int userId );
 }

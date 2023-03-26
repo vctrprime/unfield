@@ -11,14 +11,14 @@ internal class InventoryRepository : BaseRepository<Inventory>, IInventoryReposi
     {
     }
 
-    public async Task<List<Inventory>> GetAll( int stadiumId ) =>
+    public async Task<List<Inventory>> GetAllAsync( int stadiumId ) =>
         await Entities
             .Where( f => f.StadiumId == stadiumId && !f.IsDeleted )
             .Include( f => f.SportKinds )
             .Include( f => f.Images )
             .ToListAsync();
 
-    public async Task<Inventory?> Get( int inventoryId, int stadiumId ) =>
+    public async Task<Inventory?> GetAsync( int inventoryId, int stadiumId ) =>
         await Entities
             .Include( f => f.Stadium )
             .Include( f => f.SportKinds )

@@ -16,29 +16,29 @@ internal class UserQueryFacade : IUserQueryFacade
     }
 
 
-    public async Task<User?> GetUser( int userId ) => await _userRepositoryFacade.GetUser( userId );
+    public async Task<User?> GetUserAsync( int userId ) => await _userRepositoryFacade.GetUserAsync( userId );
 
-    public async Task<List<User>> GetUsersByLegalId( int legalId ) => await _userRepositoryFacade.GetUsers( legalId );
+    public async Task<List<User>> GetUsersByLegalIdAsync( int legalId ) => await _userRepositoryFacade.GetUsersAsync( legalId );
 
-    public async Task<List<Permission>> GetUserPermissions( int userId )
+    public async Task<List<Permission>> GetUserPermissionsAsync( int userId )
     {
-        User? user = await _userRepositoryFacade.GetUser( userId );
+        User? user = await _userRepositoryFacade.GetUserAsync( userId );
 
         return user switch
         {
-            { Role: { } } => await _userRepositoryFacade.GetPermissions( user.Role.Id ),
-            _ => await _userRepositoryFacade.GetPermissions()
+            { Role: { } } => await _userRepositoryFacade.GetPermissionsAsync( user.Role.Id ),
+            _ => await _userRepositoryFacade.GetPermissionsAsync()
         };
     }
 
-    public async Task<List<Stadium>> GetUserStadiums( int userId, int legalId )
+    public async Task<List<Stadium>> GetUserStadiumsAsync( int userId, int legalId )
     {
-        User? user = await _userRepositoryFacade.GetUser( userId );
+        User? user = await _userRepositoryFacade.GetUserAsync( userId );
 
         return user switch
         {
-            { Role: { } } => await _userRepositoryFacade.GetStadiumsForRole( user.Role.Id ),
-            _ => await _userRepositoryFacade.GetStadiumsForLegal( legalId )
+            { Role: { } } => await _userRepositoryFacade.GetStadiumsForRoleAsync( user.Role.Id ),
+            _ => await _userRepositoryFacade.GetStadiumsForLegalAsync( legalId )
         };
     }
 }

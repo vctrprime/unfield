@@ -4,20 +4,20 @@ namespace StadiumEngine.Services.Facades.Services.Accounts;
 
 internal interface IUserRepositoryFacade
 {
-    Task<User?> GetUser( string login );
-    Task<User?> GetUser( int userId );
-    Task<List<User>> GetUsers( int legalId );
+    Task<User?> GetUserAsync( string login );
+    Task<User?> GetUserAsync( int userId );
+    Task<List<User>> GetUsersAsync( int legalId );
     void AddUser( User user );
     void UpdateUser( User user );
     void RemoveUser( User user );
 
-    Task<List<Legal>> GetLegals( string searchString );
+    Task<List<Legal>> GetLegalsAsync( string searchString );
 
-    Task<Role?> GetRole( int roleId );
+    Task<Role?> GetRoleAsync( int roleId );
 
-    Task<List<Permission>> GetPermissions();
-    Task<List<Permission>> GetPermissions( int roleId );
+    Task<List<Permission>> GetPermissionsAsync();
+    Task<List<Permission>> GetPermissionsAsync( int roleId );
 
-    Task<List<Stadium>> GetStadiumsForLegal( int legalId );
-    Task<List<Stadium>> GetStadiumsForRole( int roleId );
+    Task<List<Stadium>> GetStadiumsForLegalAsync( int legalId );
+    Task<List<Stadium>> GetStadiumsForRoleAsync( int roleId );
 }

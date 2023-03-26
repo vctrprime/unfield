@@ -22,7 +22,7 @@ internal sealed class GetFieldsHandler : BaseRequestHandler<GetFieldsQuery, List
     public override async ValueTask<List<FieldDto>> Handle( GetFieldsQuery request,
         CancellationToken cancellationToken )
     {
-        List<Field> fields = await _fieldFacade.GetByStadiumId( _currentStadiumId );
+        List<Field> fields = await _fieldFacade.GetByStadiumIdAsync( _currentStadiumId );
 
         List<FieldDto>? fieldsDto = Mapper.Map<List<FieldDto>>( fields );
 

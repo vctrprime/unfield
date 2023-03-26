@@ -5,8 +5,8 @@ namespace StadiumEngine.Domain.Repositories.Accounts;
 
 public interface IRoleRepository
 {
-    Task<List<Role>> GetAll( int legalId );
-    Task<Role?> Get( int roleId );
+    Task<List<Role>> GetAllAsync( int legalId );
+    Task<Role?> GetAsync( int roleId );
     void Add( Role role );
     void Update( Role role );
     void Remove( Role role );

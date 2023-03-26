@@ -4,5 +4,5 @@ namespace StadiumEngine.Domain.Services.Facades.Rates;
 
 public interface IPriceQueryFacade
 {
-    Task<List<Price>> GetByStadiumId( int stadiumId );
+    Task<List<Price>> GetByStadiumIdAsync( int stadiumId );
 }

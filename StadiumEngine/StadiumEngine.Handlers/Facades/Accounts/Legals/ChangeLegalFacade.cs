@@ -16,13 +16,13 @@ internal class ChangeLegalFacade : IChangeLegalFacade
         _commandFacade = commandFacade;
     }
 
-    public async Task<User?> Change( ChangeLegalCommand request, int userId, IUnitOfWork unitOfWork )
+    public async Task<User?> ChangeAsync( ChangeLegalCommand request, int userId, IUnitOfWork unitOfWork )
     {
-        await _commandFacade.ChangeLegal( userId, request.LegalId );
+        await _commandFacade.ChangeLegalAsync( userId, request.LegalId );
 
-        await unitOfWork.SaveChanges();
+        await unitOfWork.SaveChangesAsync();
 
-        User? user = await _queryFacade.GetUser( userId );
+        User? user = await _queryFacade.GetUserAsync( userId );
 
         return user;
     }

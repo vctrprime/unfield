@@ -22,10 +22,10 @@ internal sealed class SyncPermissionsHandler : BaseCommandHandler<SyncPermission
         _permissionFacade = permissionFacade;
     }
 
-    protected override async ValueTask<SyncPermissionsDto> HandleCommand( SyncPermissionsCommand request,
+    protected override async ValueTask<SyncPermissionsDto> HandleCommandAsync( SyncPermissionsCommand request,
         CancellationToken cancellationToken )
     {
-        await _permissionFacade.Sync( UnitOfWork );
+        await _permissionFacade.SyncPermissionsAsync( UnitOfWork );
         return new SyncPermissionsDto();
     }
 }

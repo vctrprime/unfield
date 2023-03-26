@@ -12,5 +12,5 @@ internal class PriceQueryFacade : IPriceQueryFacade
     {
         _repository = repository;
     }
-    public Task<List<Price>> GetByStadiumId( int stadiumId ) => _repository.GetAll( stadiumId );
+    public Task<List<Price>> GetByStadiumIdAsync( int stadiumId ) => _repository.GetAllAsync( stadiumId );
 }

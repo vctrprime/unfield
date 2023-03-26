@@ -11,7 +11,7 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
     {
     }
 
-    public async Task<List<Field>> GetAll( int stadiumId ) =>
+    public async Task<List<Field>> GetAllAsync( int stadiumId ) =>
         await Entities
             .Where( f => f.StadiumId == stadiumId && !f.IsDeleted )
             .Include( f => f.SportKinds )
@@ -20,7 +20,7 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
             .Include( f => f.PriceGroup )
             .ToListAsync();
 
-    public async Task<Field?> Get( int fieldId, int stadiumId ) =>
+    public async Task<Field?> GetAsync( int fieldId, int stadiumId ) =>
         await Entities
             .Include( f => f.Stadium )
             .Include( f => f.SportKinds )

@@ -20,10 +20,10 @@ internal sealed class DeleteFieldHandler : BaseCommandHandler<DeleteFieldCommand
         _fieldFacade = fieldFacade;
     }
 
-    protected override async ValueTask<DeleteFieldDto> HandleCommand( DeleteFieldCommand request,
+    protected override async ValueTask<DeleteFieldDto> HandleCommandAsync( DeleteFieldCommand request,
         CancellationToken cancellationToken )
     {
-        await _fieldFacade.DeleteField( request.FieldId, _currentStadiumId );
+        await _fieldFacade.DeleteFieldAsync( request.FieldId, _currentStadiumId );
         return new DeleteFieldDto();
     }
 }

@@ -25,7 +25,7 @@ internal abstract class BaseOfferCommandFacade<T> where T : BaseOfferEntity
 
     protected abstract string ImageFolder { get; }
 
-    protected async Task AddOffer( T offer, List<ImageFile> images, int legalId )
+    protected async Task AddOfferAsync( T offer, List<ImageFile> images, int legalId )
     {
         foreach ( OffersSportKind? offersSportKind in offer.SportKinds )
         {
@@ -55,16 +55,16 @@ internal abstract class BaseOfferCommandFacade<T> where T : BaseOfferEntity
                 } );
         }
 
-        await AddOffer( offer );
+        await AddOfferAsync( offer );
     }
 
-    protected async Task UpdateOffer( T offer, List<ImageFile> images, List<SportKind> sportKinds )
+    protected async Task UpdateOfferAsync( T offer, List<ImageFile> images, List<SportKind> sportKinds )
     {
         int userId = offer.UserModifiedId ?? 0;
 
-        await UpdateOffer( offer );
+        await UpdateOfferAsync( offer );
 
-        List<string> pathsToDelete = await ProcessImages( images, offer, userId );
+        List<string> pathsToDelete = await ProcessImagesAsync( images, offer, userId );
         ProcessSportKinds( sportKinds, offer, userId );
 
         foreach ( string path in pathsToDelete )
@@ -104,7 +104,7 @@ internal abstract class BaseOfferCommandFacade<T> where T : BaseOfferEntity
         }
     }
 
-    private async Task<List<string>> ProcessImages( List<ImageFile> passedImage, T offer, int userId )
+    private async Task<List<string>> ProcessImagesAsync( List<ImageFile> passedImage, T offer, int userId )
     {
         List<OffersImage> imagesToRemove = offer.Images
             .Where( k => !passedImage.Exists( p => p.Path == k.Path ) )
@@ -173,8 +173,8 @@ internal abstract class BaseOfferCommandFacade<T> where T : BaseOfferEntity
         }
     }
 
-    protected abstract Task AddOffer( T offer );
-    protected abstract Task UpdateOffer( T offer );
+    protected abstract Task AddOfferAsync( T offer );
+    protected abstract Task UpdateOfferAsync( T offer );
     protected abstract OffersSportKind CreateSportKind( int offerId, int userId, SportKind sportKind );
     protected abstract OffersImage CreateImage( int offerId, int userId, string path, int order );
 }

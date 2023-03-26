@@ -19,14 +19,14 @@ internal class UpdateTariffFacade : IUpdateTariffFacade
         _commandFacade = commandFacade;
     }
 
-    public async Task<UpdateTariffDto> Update(
+    public async Task<UpdateTariffDto> UpdateAsync(
         UpdateTariffCommand request,
         List<PromoCode> promoCodes,
         int stadiumId,
         int userId,
         IUnitOfWork unitOfWork )
     {
-        Tariff? tariff = await _queryFacade.GetByTariffId( request.Id, stadiumId );
+        Tariff? tariff = await _queryFacade.GetByTariffIdAsync( request.Id, stadiumId );
 
         if ( tariff == null )
         {
@@ -47,7 +47,7 @@ internal class UpdateTariffFacade : IUpdateTariffFacade
         tariff.Saturday = request.Saturday;
         tariff.Sunday = request.Sunday;
 
-        await _commandFacade.UpdateTariff(
+        await _commandFacade.UpdateTariffAsync(
             tariff,
             request.DayIntervals.Select( x => x.Interval ).ToList(),
             promoCodes,

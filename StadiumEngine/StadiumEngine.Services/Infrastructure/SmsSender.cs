@@ -5,7 +5,7 @@ namespace StadiumEngine.Services.Infrastructure;
 
 internal class SmsSender : ISmsSender
 {
-    public async Task SendPassword( string phoneNumber, string password, string language )
+    public async Task SendPasswordAsync( string phoneNumber, string password, string language )
     {
         switch ( language )
         {

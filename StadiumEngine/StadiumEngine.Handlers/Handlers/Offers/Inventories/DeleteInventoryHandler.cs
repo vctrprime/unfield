@@ -20,10 +20,10 @@ internal sealed class DeleteInventoryHandler : BaseCommandHandler<DeleteInventor
         _inventoryFacade = inventoryFacade;
     }
 
-    protected override async ValueTask<DeleteInventoryDto> HandleCommand( DeleteInventoryCommand request,
+    protected override async ValueTask<DeleteInventoryDto> HandleCommandAsync( DeleteInventoryCommand request,
         CancellationToken cancellationToken )
     {
-        await _inventoryFacade.DeleteInventory( request.InventoryId, _currentStadiumId );
+        await _inventoryFacade.DeleteInventoryAsync( request.InventoryId, _currentStadiumId );
         return new DeleteInventoryDto();
     }
 }

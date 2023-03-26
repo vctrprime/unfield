@@ -21,11 +21,11 @@ internal sealed class SetPricesHandler : BaseCommandHandler<SetPricesCommand, Se
         _facade = facade;
     }
 
-    protected override async ValueTask<SetPricesDto> HandleCommand( SetPricesCommand request,
+    protected override async ValueTask<SetPricesDto> HandleCommandAsync( SetPricesCommand request,
         CancellationToken cancellationToken )
     {
         IEnumerable<Price>? prices = Mapper.Map<IEnumerable<Price>>( request.Prices );
-        return await _facade.SetPrices( prices, _currentStadiumId, _userId );
+        return await _facade.SetPricesAsync( prices, _currentStadiumId, _userId );
     }
         
 }

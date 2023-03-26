@@ -30,9 +30,9 @@ internal class PriceGroupCommandFacade : IPriceGroupCommandFacade
         }
     }
 
-    public async Task DeletePriceGroup( int priceGroupId, int stadiumId )
+    public async Task DeletePriceGroupAsync( int priceGroupId, int stadiumId )
     {
-        PriceGroup? priceGroup = await _priceGroupRepository.Get( priceGroupId, stadiumId );
+        PriceGroup? priceGroup = await _priceGroupRepository.GetAsync( priceGroupId, stadiumId );
 
         if ( priceGroup == null )
         {

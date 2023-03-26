@@ -27,10 +27,10 @@ internal sealed class ChangeStadiumHandler : BaseCommandHandler<ChangeStadiumCom
         _userFacade = userFacade;
     }
 
-    protected override async ValueTask<AuthorizeUserDto?> HandleCommand( ChangeStadiumCommand request,
+    protected override async ValueTask<AuthorizeUserDto?> HandleCommandAsync( ChangeStadiumCommand request,
         CancellationToken cancellationToken )
     {
-        User user = await _userFacade.ChangeStadium( _userId, request.StadiumId );
+        User user = await _userFacade.ChangeStadiumAsync( _userId, request.StadiumId );
 
         AuthorizeUserDto? userDto = Mapper.Map<AuthorizeUserDto>( user );
         Claim? stadiumClaim = userDto.Claims.FirstOrDefault( s => s.Type == "stadiumId" );

@@ -21,7 +21,7 @@ internal sealed class GetUsersHandler : BaseRequestHandler<GetUsersQuery, List<U
 
     public override async ValueTask<List<UserDto>> Handle( GetUsersQuery request, CancellationToken cancellationToken )
     {
-        List<User> users = await _userFacade.GetUsersByLegalId( _legalId );
+        List<User> users = await _userFacade.GetUsersByLegalIdAsync( _legalId );
 
         List<UserDto>? usersDto = Mapper.Map<List<UserDto>>( users );
 

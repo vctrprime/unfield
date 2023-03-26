@@ -7,7 +7,7 @@ namespace StadiumEngine.Domain.Services.Facades.Offers;
 
 public interface IFieldCommandFacade
 {
-    Task AddField( Field field, List<ImageFile> images, int legalId );
-    Task UpdateField( Field field, List<ImageFile> images, List<SportKind> sportKinds );
-    Task DeleteField( int fieldId, int stadiumId );
+    Task AddFieldAsync( Field field, List<ImageFile> images, int legalId );
+    Task UpdateFieldAsync( Field field, List<ImageFile> images, List<SportKind> sportKinds );
+    Task DeleteFieldAsync( int fieldId, int stadiumId );
 }

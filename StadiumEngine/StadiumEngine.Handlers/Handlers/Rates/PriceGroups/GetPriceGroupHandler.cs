@@ -24,7 +24,7 @@ internal sealed class GetPriceGroupHandler : BaseRequestHandler<GetPriceGroupQue
     public override async ValueTask<PriceGroupDto> Handle( GetPriceGroupQuery request,
         CancellationToken cancellationToken )
     {
-        PriceGroup? priceGroup = await _priceGroupFacade.GetByPriceGroupId( request.PriceGroupId, _currentStadiumId );
+        PriceGroup? priceGroup = await _priceGroupFacade.GetByPriceGroupIdAsync( request.PriceGroupId, _currentStadiumId );
 
         if ( priceGroup == null )
         {

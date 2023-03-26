@@ -4,5 +4,5 @@ namespace StadiumEngine.Domain.Services.Facades.Accounts;
 
 public interface ILegalQueryFacade
 {
-    Task<List<Legal>> GetLegalsByFilter( string searchString );
+    Task<List<Legal>> GetLegalsByFilterAsync( string searchString );
 }

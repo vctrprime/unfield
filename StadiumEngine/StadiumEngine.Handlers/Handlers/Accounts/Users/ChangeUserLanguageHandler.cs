@@ -21,10 +21,10 @@ internal class ChangeUserLanguageHandler : BaseCommandHandler<ChangeUserLanguage
     }
 
 
-    protected override async ValueTask<ChangeUserLanguageDto> HandleCommand( ChangeUserLanguageCommand request,
+    protected override async ValueTask<ChangeUserLanguageDto> HandleCommandAsync( ChangeUserLanguageCommand request,
         CancellationToken cancellationToken )
     {
-        await _userFacade.ChangeLanguage( _userId, request.Language );
+        await _userFacade.ChangeLanguageAsync( _userId, request.Language );
         return new ChangeUserLanguageDto();
     }
 }

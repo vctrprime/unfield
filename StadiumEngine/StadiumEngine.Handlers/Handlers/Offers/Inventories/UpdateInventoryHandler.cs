@@ -20,7 +20,7 @@ internal sealed class UpdateInventoryHandler : BaseCommandHandler<UpdateInventor
         _facade = facade;
     }
 
-    protected override async ValueTask<UpdateInventoryDto> HandleCommand( UpdateInventoryCommand request,
+    protected override async ValueTask<UpdateInventoryDto> HandleCommandAsync( UpdateInventoryCommand request,
         CancellationToken cancellationToken ) =>
-        await _facade.Update( request, _currentStadiumId, _userId );
+        await _facade.UpdateAsync( request, _currentStadiumId, _userId );
 }

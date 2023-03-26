@@ -11,7 +11,7 @@ internal class RolePermissionRepository : BaseRepository<RolePermission>, IRoleP
     {
     }
 
-    public async Task<RolePermission?> Get( int roleId, int permissionId ) =>
+    public async Task<RolePermission?> GetAsync( int roleId, int permissionId ) =>
         await Entities.FirstOrDefaultAsync( rp => rp.RoleId == roleId && rp.PermissionId == permissionId );
 
     public new void Add( RolePermission rolePermission ) => base.Add( rolePermission );

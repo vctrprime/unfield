@@ -18,14 +18,14 @@ internal class FieldPriceGroupHandler : IFieldPriceGroupHandler
     }
 
 
-    public async Task Handle( Field field, int? userId )
+    public async Task HandleAsync( Field field, int? userId )
     {
         if ( !field.PriceGroupId.HasValue )
         {
             return;
         }
         
-        PriceGroup? priceGroup = await _priceGroupRepository.Get( field.PriceGroupId.Value, field.StadiumId );
+        PriceGroup? priceGroup = await _priceGroupRepository.GetAsync( field.PriceGroupId.Value, field.StadiumId );
         
         if ( priceGroup == null )
         {
@@ -40,7 +40,7 @@ internal class FieldPriceGroupHandler : IFieldPriceGroupHandler
         
         int priceGroupFirstFieldId = fields.First().Id;
 
-        List<Price> prices = await _priceRepository.GetAll( field.StadiumId );
+        List<Price> prices = await _priceRepository.GetAllAsync( field.StadiumId );
 
         List<Price> currentPrices = prices.Where( p => p.FieldId == field.Id ).ToList();
         if ( currentPrices.Any() )

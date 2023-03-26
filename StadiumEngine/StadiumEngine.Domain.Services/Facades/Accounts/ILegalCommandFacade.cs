@@ -4,5 +4,5 @@ namespace StadiumEngine.Domain.Services.Facades.Accounts;
 
 public interface ILegalCommandFacade
 {
-    Task<string> AddLegal( Legal legal, User superuser );
+    Task<string> AddLegalAsync( Legal legal, User superuser );
 }

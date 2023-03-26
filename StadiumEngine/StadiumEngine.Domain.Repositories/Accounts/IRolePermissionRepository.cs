@@ -5,7 +5,7 @@ namespace StadiumEngine.Domain.Repositories.Accounts;
 
 public interface IRolePermissionRepository
 {
-    Task<RolePermission?> Get( int roleId, int permissionId );
+    Task<RolePermission?> GetAsync( int roleId, int permissionId );
     void Add( RolePermission rolePermission );
     void Remove( RolePermission rolePermission );
 }

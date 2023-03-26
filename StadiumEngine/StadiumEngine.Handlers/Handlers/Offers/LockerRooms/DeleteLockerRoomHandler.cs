@@ -20,10 +20,10 @@ internal sealed class DeleteLockerRoomHandler : BaseCommandHandler<DeleteLockerR
         _lockerRoomFacade = lockerRoomFacade;
     }
 
-    protected override async ValueTask<DeleteLockerRoomDto> HandleCommand( DeleteLockerRoomCommand request,
+    protected override async ValueTask<DeleteLockerRoomDto> HandleCommandAsync( DeleteLockerRoomCommand request,
         CancellationToken cancellationToken )
     {
-        await _lockerRoomFacade.DeleteLockerRoom( request.LockerRoomId, _currentStadiumId );
+        await _lockerRoomFacade.DeleteLockerRoomAsync( request.LockerRoomId, _currentStadiumId );
         return new DeleteLockerRoomDto();
     }
 }

@@ -21,7 +21,7 @@ internal sealed class AddRoleHandler : BaseCommandHandler<AddRoleCommand, AddRol
         _roleFacade = roleFacade;
     }
 
-    protected override async ValueTask<AddRoleDto> HandleCommand( AddRoleCommand request,
+    protected override async ValueTask<AddRoleDto> HandleCommandAsync( AddRoleCommand request,
         CancellationToken cancellationToken )
     {
         Role? role = Mapper.Map<Role>( request );

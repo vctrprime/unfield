@@ -53,13 +53,7 @@
         "add_promo_code": "Добавить промокод",
         "promo_code_title": "Код",
         "promo_code_type": "Тип",
-        "promo_code_value": "Значение",
-        "validate_errors": {
-            "promocode_min_length": "Промокод не может быть меньше 3 символов",
-            "promocode_same_codes": "Создано несколько промокодов с одинаковым кодом",
-            "promocode_min_value": "Значение скидки по промокоду не может быть меньше 1",
-            "promocode_max_value": "Значение скидки по промокоду для типа \"Процент от цены\" не может быть больше 99"
-        }
+        "promo_code_value": "Значение"
     },
     "promo_code_types": {
         "fixed": "Фиксированное значение скидки",

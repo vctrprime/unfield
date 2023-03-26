@@ -136,21 +136,21 @@ export const Tariff = () => {
         let result = true;
         data.promoCodes.forEach((p) => {
             if (p.code.length < 3) {
-                NotificationManager.error(t('rates:tariffs_grid:validate_errors:promocode_min_length'), t('common:error_request_title'), 5000);
+                NotificationManager.error(t('errors:rates:promocode_min_length'), t('common:error_request_title'), 5000);
                 result = false;
             }
             if (p.value <= 0) {
-                NotificationManager.error(t('rates:tariffs_grid:validate_errors:promocode_min_value'), t('common:error_request_title'), 5000);
+                NotificationManager.error(t('errors:rates:promocode_min_value'), t('common:error_request_title'), 5000);
                 result = false;
             }
             if (p.type === PromoCodeType.Percent && p.value > 99) {
-                NotificationManager.error(t('rates:tariffs_grid:validate_errors:promocode_max_value'), t('common:error_request_title'), 5000);
+                NotificationManager.error(t('errors:rates:promocode_max_value'), t('common:error_request_title'), 5000);
                 result = false;
             }
             const sameCode = data.promoCodes.find(c => c !== p && c.code.toLowerCase() === p.code.toLowerCase());
             if (sameCode !== undefined && sameCodes.indexOf(sameCode.code.toLowerCase()) === -1) {
                 sameCodes.push(sameCode.code.toLowerCase());
-                NotificationManager.error(t('rates:tariffs_grid:validate_errors:promocode_same_codes'), t('common:error_request_title'), 5000);
+                NotificationManager.error(t('errors:rates:promocode_same_codes'), t('common:error_request_title'), 5000);
                 result = false;
             }
         })

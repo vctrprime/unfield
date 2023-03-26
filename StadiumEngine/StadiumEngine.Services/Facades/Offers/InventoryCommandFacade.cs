@@ -25,16 +25,16 @@ internal class InventoryCommandFacade : BaseOfferCommandFacade<Inventory>, IInve
 
     protected override string ImageFolder => "inventories";
 
-    public async Task AddInventory( Inventory inventory, List<ImageFile> images, int legalId ) =>
-        await base.AddOffer( inventory, images, legalId );
+    public async Task AddInventoryAsync( Inventory inventory, List<ImageFile> images, int legalId ) =>
+        await base.AddOfferAsync( inventory, images, legalId );
 
 
-    public async Task UpdateInventory( Inventory inventory, List<ImageFile> images, List<SportKind> sportKinds ) =>
-        await base.UpdateOffer( inventory, images, sportKinds );
+    public async Task UpdateInventoryAsync( Inventory inventory, List<ImageFile> images, List<SportKind> sportKinds ) =>
+        await base.UpdateOfferAsync( inventory, images, sportKinds );
 
-    public async Task DeleteInventory( int inventoryId, int stadiumId )
+    public async Task DeleteInventoryAsync( int inventoryId, int stadiumId )
     {
-        Inventory? inventory = await _inventoryRepository.Get( inventoryId, stadiumId );
+        Inventory? inventory = await _inventoryRepository.GetAsync( inventoryId, stadiumId );
 
         if ( inventory == null )
         {
@@ -46,9 +46,9 @@ internal class InventoryCommandFacade : BaseOfferCommandFacade<Inventory>, IInve
         DeleteAllImagesAndSportKinds( inventory );
     }
 
-    protected override async Task AddOffer( Inventory inventory ) => await Task.Run( () => _inventoryRepository.Add( inventory ) );
+    protected override async Task AddOfferAsync( Inventory inventory ) => await Task.Run( () => _inventoryRepository.Add( inventory ) );
 
-    protected override async Task UpdateOffer( Inventory inventory ) => await Task.Run( () => _inventoryRepository.Update( inventory ) );
+    protected override async Task UpdateOfferAsync( Inventory inventory ) => await Task.Run( () => _inventoryRepository.Update( inventory ) );
 
     protected override OffersSportKind CreateSportKind( int inventoryId, int userId, SportKind sportKind ) =>
         new()

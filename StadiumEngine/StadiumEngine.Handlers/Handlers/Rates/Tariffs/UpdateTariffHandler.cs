@@ -21,9 +21,9 @@ internal sealed class UpdateTariffHandler : BaseCommandHandler<UpdateTariffComma
         _facade = facade;
     }
 
-    protected override async ValueTask<UpdateTariffDto> HandleCommand( UpdateTariffCommand request,
+    protected override async ValueTask<UpdateTariffDto> HandleCommandAsync( UpdateTariffCommand request,
         CancellationToken cancellationToken ) =>
-        await _facade.Update(
+        await _facade.UpdateAsync(
             request,
             Mapper.Map<List<PromoCode>>( request.PromoCodes ),
             _currentStadiumId,

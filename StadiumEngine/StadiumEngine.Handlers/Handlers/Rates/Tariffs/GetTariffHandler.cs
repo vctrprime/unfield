@@ -24,7 +24,7 @@ internal sealed class GetTariffHandler : BaseRequestHandler<GetTariffQuery, Tari
     public override async ValueTask<TariffDto> Handle( GetTariffQuery request,
         CancellationToken cancellationToken )
     {
-        Tariff? tariff = await _tariffFacade.GetByTariffId( request.TariffId, _currentStadiumId );
+        Tariff? tariff = await _tariffFacade.GetByTariffIdAsync( request.TariffId, _currentStadiumId );
 
         if ( tariff == null )
         {

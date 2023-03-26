@@ -5,5 +5,5 @@ namespace StadiumEngine.Handlers.Facades.Rates.Prices;
 
 internal interface ISetPricesFacade
 {
-    Task<SetPricesDto> SetPrices( IEnumerable<Price> prices, int stadiumId, int userId );
+    Task<SetPricesDto> SetPricesAsync( IEnumerable<Price> prices, int stadiumId, int userId );
 }

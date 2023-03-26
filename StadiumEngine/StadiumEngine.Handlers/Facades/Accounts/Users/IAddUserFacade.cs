@@ -6,5 +6,5 @@ namespace StadiumEngine.Handlers.Facades.Accounts.Users;
 
 internal interface IAddUserFacade
 {
-    Task<AddUserDto> Add( User user, IUnitOfWork unitOfWork );
+    Task<AddUserDto> AddAsync( User user, IUnitOfWork unitOfWork );
 }

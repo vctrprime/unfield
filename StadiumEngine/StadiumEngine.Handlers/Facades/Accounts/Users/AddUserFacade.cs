@@ -17,12 +17,12 @@ internal class AddUserFacade : IAddUserFacade
         _smsSender = smsSender;
     }
 
-    public async Task<AddUserDto> Add( User user, IUnitOfWork unitOfWork )
+    public async Task<AddUserDto> AddAsync( User user, IUnitOfWork unitOfWork )
     {
-        string password = await _commandFacade.AddUser( user );
-        await unitOfWork.SaveChanges();
+        string password = await _commandFacade.AddUserAsync( user );
+        await unitOfWork.SaveChangesAsync();
 
-        await _smsSender.SendPassword( user.PhoneNumber, password, user.Language );
+        await _smsSender.SendPasswordAsync( user.PhoneNumber, password, user.Language );
 
         return new AddUserDto();
     }

@@ -22,7 +22,7 @@ internal sealed class GetStadiumMainSettingsHandler : BaseRequestHandler<GetStad
     public override async ValueTask<StadiumMainSettingsDto> Handle( GetStadiumMainSettingsQuery request,
         CancellationToken cancellationToken )
     {
-        StadiumMainSettings mainSettings = await _mainSettingsFacade.GetByStadiumId( _currentStadiumId );
+        StadiumMainSettings mainSettings = await _mainSettingsFacade.GetByStadiumIdAsync( _currentStadiumId );
         
         StadiumMainSettingsDto mainSettingsDto = Mapper.Map<StadiumMainSettingsDto>( mainSettings );
 

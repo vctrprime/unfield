@@ -22,7 +22,7 @@ internal sealed class GetLockerRoomsHandler : BaseRequestHandler<GetLockerRoomsQ
     public override async ValueTask<List<LockerRoomDto>> Handle( GetLockerRoomsQuery request,
         CancellationToken cancellationToken )
     {
-        List<LockerRoom> lockerRooms = await _lockerRoomFacade.GetByStadiumId( _currentStadiumId );
+        List<LockerRoom> lockerRooms = await _lockerRoomFacade.GetByStadiumIdAsync( _currentStadiumId );
 
         List<LockerRoomDto>? lockerRoomsDto = Mapper.Map<List<LockerRoomDto>>( lockerRooms );
 

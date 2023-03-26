@@ -22,7 +22,7 @@ internal sealed class GetUserPermissionsHandler : BaseRequestHandler<GetUserPerm
     public override async ValueTask<List<UserPermissionDto>> Handle( GetUserPermissionsQuery request,
         CancellationToken cancellationToken )
     {
-        List<Permission> permissions = await _userFacade.GetUserPermissions( _userId );
+        List<Permission> permissions = await _userFacade.GetUserPermissionsAsync( _userId );
 
         List<UserPermissionDto>? permissionsDto = Mapper.Map<List<UserPermissionDto>>( permissions );
 

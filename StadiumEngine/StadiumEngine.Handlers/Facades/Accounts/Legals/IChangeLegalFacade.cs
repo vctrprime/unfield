@@ -6,5 +6,5 @@ namespace StadiumEngine.Handlers.Facades.Accounts.Legals;
 
 internal interface IChangeLegalFacade
 {
-    Task<User?> Change( ChangeLegalCommand request, int userId, IUnitOfWork unitOfWork );
+    Task<User?> ChangeAsync( ChangeLegalCommand request, int userId, IUnitOfWork unitOfWork );
 }

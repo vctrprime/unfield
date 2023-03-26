@@ -5,11 +5,11 @@ namespace StadiumEngine.Domain;
 
 public interface IUnitOfWork
 {
-    Task BeginTransaction();
+    Task BeginTransactionAsync();
 
-    Task CommitTransaction();
+    Task CommitTransactionAsync();
     
-    Task SaveChanges();
+    Task SaveChangesAsync();
 
     bool PropertyWasChanged<T>( T obj, string propertyName ) where T : BaseEntity;
 }

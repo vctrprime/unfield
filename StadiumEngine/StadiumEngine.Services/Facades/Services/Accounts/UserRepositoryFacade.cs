@@ -22,11 +22,11 @@ internal class UserRepositoryFacade : IUserRepositoryFacade
         _roleRepositoryFacade = roleRepositoryFacade;
     }
 
-    public async Task<User?> GetUser( string login ) => await _userRepository.Get( login );
+    public async Task<User?> GetUserAsync( string login ) => await _userRepository.GetAsync( login );
 
-    public async Task<User?> GetUser( int userId ) => await _userRepository.Get( userId );
+    public async Task<User?> GetUserAsync( int userId ) => await _userRepository.GetAsync( userId );
 
-    public async Task<List<User>> GetUsers( int legalId ) => await _userRepository.GetAll( legalId );
+    public async Task<List<User>> GetUsersAsync( int legalId ) => await _userRepository.GetAllAsync( legalId );
 
     public void AddUser( User user ) => _userRepository.Add( user );
 
@@ -34,18 +34,18 @@ internal class UserRepositoryFacade : IUserRepositoryFacade
 
     public void RemoveUser( User user ) => _userRepository.Remove( user );
 
-    public async Task<List<Legal>> GetLegals( string searchString ) =>
-        await _legalRepository.GetByFilter( searchString );
+    public async Task<List<Legal>> GetLegalsAsync( string searchString ) =>
+        await _legalRepository.GetByFilterAsync( searchString );
 
-    public async Task<Role?> GetRole( int roleId ) => await _roleRepositoryFacade.GetRole( roleId );
+    public async Task<Role?> GetRoleAsync( int roleId ) => await _roleRepositoryFacade.GetRoleAsync( roleId );
 
-    public async Task<List<Permission>> GetPermissions() => await _roleRepositoryFacade.GetPermissions();
+    public async Task<List<Permission>> GetPermissionsAsync() => await _roleRepositoryFacade.GetPermissionsAsync();
 
-    public async Task<List<Permission>> GetPermissions( int roleId ) =>
-        await _roleRepositoryFacade.GetPermissions( roleId );
+    public async Task<List<Permission>> GetPermissionsAsync( int roleId ) =>
+        await _roleRepositoryFacade.GetPermissionsAsync( roleId );
 
-    public async Task<List<Stadium>> GetStadiumsForLegal( int legalId ) =>
-        await _stadiumRepository.GetForLegal( legalId );
+    public async Task<List<Stadium>> GetStadiumsForLegalAsync( int legalId ) =>
+        await _stadiumRepository.GetForLegalAsync( legalId );
 
-    public async Task<List<Stadium>> GetStadiumsForRole( int roleId ) => await _stadiumRepository.GetForRole( roleId );
+    public async Task<List<Stadium>> GetStadiumsForRoleAsync( int roleId ) => await _stadiumRepository.GetForRoleAsync( roleId );
 }

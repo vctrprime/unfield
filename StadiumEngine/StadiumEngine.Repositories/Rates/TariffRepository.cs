@@ -11,14 +11,14 @@ internal class TariffRepository : BaseRepository<Tariff>, ITariffRepository
     {
     }
 
-    public async Task<List<Tariff>> GetAll( int stadiumId ) =>
+    public async Task<List<Tariff>> GetAllAsync( int stadiumId ) =>
         await Entities
             .Include( t => t.PromoCodes )
             .Include( t => t.TariffDayIntervals )
             .ThenInclude( tdi => tdi.DayInterval )
             .Where( t => t.StadiumId == stadiumId && !t.IsDeleted ).ToListAsync();
 
-    public async Task<Tariff?> Get( int tariffId, int stadiumId ) =>
+    public async Task<Tariff?> GetAsync( int tariffId, int stadiumId ) =>
         await Entities
             .Include( t => t.PromoCodes )
             .Include( t => t.TariffDayIntervals )

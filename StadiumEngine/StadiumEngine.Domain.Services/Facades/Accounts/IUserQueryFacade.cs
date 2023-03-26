@@ -5,8 +5,8 @@ namespace StadiumEngine.Domain.Services.Facades.Accounts;
 
 public interface IUserQueryFacade
 {
-    Task<User?> GetUser( int userId );
-    Task<List<User>> GetUsersByLegalId( int legalId );
-    Task<List<Permission>> GetUserPermissions( int userId );
-    Task<List<Stadium>> GetUserStadiums( int userId, int legalId );
+    Task<User?> GetUserAsync( int userId );
+    Task<List<User>> GetUsersByLegalIdAsync( int legalId );
+    Task<List<Permission>> GetUserPermissionsAsync( int userId );
+    Task<List<Stadium>> GetUserStadiumsAsync( int userId, int legalId );
 }

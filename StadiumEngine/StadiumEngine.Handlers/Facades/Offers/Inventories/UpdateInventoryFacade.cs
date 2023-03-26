@@ -18,9 +18,9 @@ internal class UpdateInventoryFacade : IUpdateInventoryFacade
         _commandFacade = commandFacade;
     }
 
-    public async Task<UpdateInventoryDto> Update( UpdateInventoryCommand request, int stadiumId, int userId )
+    public async Task<UpdateInventoryDto> UpdateAsync( UpdateInventoryCommand request, int stadiumId, int userId )
     {
-        Inventory? inventory = await _queryFacade.GetByInventoryId( request.Id, stadiumId );
+        Inventory? inventory = await _queryFacade.GetByInventoryIdAsync( request.Id, stadiumId );
 
         if ( inventory == null )
         {
@@ -35,7 +35,7 @@ internal class UpdateInventoryFacade : IUpdateInventoryFacade
         inventory.IsActive = request.IsActive;
         inventory.UserModifiedId = userId;
 
-        await _commandFacade.UpdateInventory( inventory, request.Images, request.SportKinds );
+        await _commandFacade.UpdateInventoryAsync( inventory, request.Images, request.SportKinds );
 
         return new UpdateInventoryDto();
     }

@@ -13,8 +13,8 @@ internal class TariffQueryFacade : ITariffQueryFacade
         _tariffRepository = tariffRepository;
     }
 
-    public async Task<List<Tariff>> GetByStadiumId( int stadiumId ) => await _tariffRepository.GetAll( stadiumId );
+    public async Task<List<Tariff>> GetByStadiumIdAsync( int stadiumId ) => await _tariffRepository.GetAllAsync( stadiumId );
 
-    public async Task<Tariff?> GetByTariffId( int tariffId, int stadiumId ) =>
-        await _tariffRepository.Get( tariffId, stadiumId );
+    public async Task<Tariff?> GetByTariffIdAsync( int tariffId, int stadiumId ) =>
+        await _tariffRepository.GetAsync( tariffId, stadiumId );
 }

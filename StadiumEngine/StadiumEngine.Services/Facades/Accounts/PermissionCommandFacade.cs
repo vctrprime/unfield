@@ -20,11 +20,11 @@ internal class PermissionCommandFacade : IPermissionCommandFacade
     }
 
 
-    public async Task Sync( IUnitOfWork unitOfWork ) => await SyncPermissionsAndGroups( unitOfWork );
+    public async Task SyncPermissionsAsync( IUnitOfWork unitOfWork ) => await SyncPermissionsAndGroupsAsync( unitOfWork );
 
-    private async Task SyncPermissionsAndGroups( IUnitOfWork unitOfWork )
+    private async Task SyncPermissionsAndGroupsAsync( IUnitOfWork unitOfWork )
     {
-        List<Permission> storedPermissions = await _permissionRepository.GetAll();
+        List<Permission> storedPermissions = await _permissionRepository.GetAllAsync();
         List<PermissionGroup> storedPermissionsGroups = storedPermissions
             .Select( p => p.PermissionGroup )
             .GroupBy( pg => pg.Id )
@@ -57,7 +57,7 @@ internal class PermissionCommandFacade : IPermissionCommandFacade
                 _permissionGroupRepository.Add( copyPermissionGroup );
             }
 
-            await unitOfWork.SaveChanges();
+            await unitOfWork.SaveChangesAsync();
 
             await SyncPermissions(
                 unitOfWork,
@@ -99,7 +99,7 @@ internal class PermissionCommandFacade : IPermissionCommandFacade
                 _permissionRepository.Add( copyPermission );
             }
 
-            await unitOfWork.SaveChanges();
+            await unitOfWork.SaveChangesAsync();
         }
     }
 }

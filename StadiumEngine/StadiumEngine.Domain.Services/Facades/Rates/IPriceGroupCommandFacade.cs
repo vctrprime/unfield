@@ -6,5 +6,5 @@ public interface IPriceGroupCommandFacade
 {
     void AddPriceGroup( PriceGroup priceGroup );
     void UpdatePriceGroup( PriceGroup priceGroup );
-    Task DeletePriceGroup( int priceGroupId, int stadiumId );
+    Task DeletePriceGroupAsync( int priceGroupId, int stadiumId );
 }

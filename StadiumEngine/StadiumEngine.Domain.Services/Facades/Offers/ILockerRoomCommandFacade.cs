@@ -7,5 +7,5 @@ public interface ILockerRoomCommandFacade
 {
     void AddLockerRoom( LockerRoom lockerRoom );
     void UpdateLockerRoom( LockerRoom lockerRoom );
-    Task DeleteLockerRoom( int lockerRoomId, int stadiumId );
+    Task DeleteLockerRoomAsync( int lockerRoomId, int stadiumId );
 }

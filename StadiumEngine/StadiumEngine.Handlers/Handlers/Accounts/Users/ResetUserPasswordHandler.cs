@@ -27,13 +27,13 @@ internal sealed class ResetUserPasswordHandler : BaseCommandHandler<ResetUserPas
         _smsSender = smsSender;
     }
 
-    protected override async ValueTask<ResetUserPasswordDto> HandleCommand( ResetUserPasswordCommand request,
+    protected override async ValueTask<ResetUserPasswordDto> HandleCommandAsync( ResetUserPasswordCommand request,
         CancellationToken cancellationToken )
     {
-        ( User user, string password ) = await _userFacade.ResetPassword( request.PhoneNumber );
-        await UnitOfWork.SaveChanges();
+        ( User user, string password ) = await _userFacade.ResetPasswordAsync( request.PhoneNumber );
+        await UnitOfWork.SaveChangesAsync();
 
-        await _smsSender.SendPassword( user.PhoneNumber, password, user.Language );
+        await _smsSender.SendPasswordAsync( user.PhoneNumber, password, user.Language );
 
         return new ResetUserPasswordDto();
     }

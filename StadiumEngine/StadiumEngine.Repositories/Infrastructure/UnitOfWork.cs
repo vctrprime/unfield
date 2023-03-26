@@ -1,4 +1,3 @@
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -19,18 +18,18 @@ internal class UnitOfWork : IUnitOfWork
         _context = context;
     }
 
-    public async Task BeginTransaction() => _transaction = await _context.Database.BeginTransactionAsync();
+    public async Task BeginTransactionAsync() => _transaction = await _context.Database.BeginTransactionAsync();
 
-    public async Task CommitTransaction()
+    public async Task CommitTransactionAsync()
     {
         try
         {
-            await SaveChanges();
+            await SaveChangesAsync();
             await _transaction?.CommitAsync()!;
         }
         catch
         {
-            await RollbackTransaction();
+            await RollbackTransactionAsync();
             throw;
         }
         finally
@@ -40,7 +39,7 @@ internal class UnitOfWork : IUnitOfWork
         }
     }
 
-    private async Task RollbackTransaction()
+    private async Task RollbackTransactionAsync()
     {
         try
         {
@@ -53,7 +52,7 @@ internal class UnitOfWork : IUnitOfWork
         }
     }
 
-    public async Task SaveChanges() => await _context.SaveChangesAsync();
+    public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
 
     public bool PropertyWasChanged<T>( T obj, string propertyName ) where T : BaseEntity
     {

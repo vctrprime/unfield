@@ -20,10 +20,10 @@ internal sealed class DeleteTariffHandler : BaseCommandHandler<DeleteTariffComma
         _tariffFacade = tariffFacade;
     }
 
-    protected override async ValueTask<DeleteTariffDto> HandleCommand( DeleteTariffCommand request,
+    protected override async ValueTask<DeleteTariffDto> HandleCommandAsync( DeleteTariffCommand request,
         CancellationToken cancellationToken )
     {
-        await _tariffFacade.DeleteTariff( request.TariffId, _currentStadiumId );
+        await _tariffFacade.DeleteTariffAsync( request.TariffId, _currentStadiumId );
         return new DeleteTariffDto();
     }
 }

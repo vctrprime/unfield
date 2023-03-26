@@ -26,15 +26,15 @@ internal class FieldCommandFacade : BaseOfferCommandFacade<Field>, IFieldCommand
 
     protected override string ImageFolder => "fields";
 
-    public async Task AddField( Field field, List<ImageFile> images, int legalId ) =>
-        await base.AddOffer( field, images, legalId );
+    public async Task AddFieldAsync( Field field, List<ImageFile> images, int legalId ) =>
+        await base.AddOfferAsync( field, images, legalId );
 
-    public async Task UpdateField( Field field, List<ImageFile> images, List<SportKind> sportKinds ) =>
-        await base.UpdateOffer( field, images, sportKinds );
+    public async Task UpdateFieldAsync( Field field, List<ImageFile> images, List<SportKind> sportKinds ) =>
+        await base.UpdateOfferAsync( field, images, sportKinds );
 
-    public async Task DeleteField( int fieldId, int stadiumId )
+    public async Task DeleteFieldAsync( int fieldId, int stadiumId )
     {
-        Field? field = await _fieldServiceFacade.GetField( fieldId, stadiumId );
+        Field? field = await _fieldServiceFacade.GetFieldAsync( fieldId, stadiumId );
 
         if ( field == null )
         {
@@ -51,9 +51,9 @@ internal class FieldCommandFacade : BaseOfferCommandFacade<Field>, IFieldCommand
         DeleteAllImagesAndSportKinds( field );
     }
 
-    protected override async Task AddOffer( Field field ) => await _fieldServiceFacade.AddField( field );
+    protected override async Task AddOfferAsync( Field field ) => await _fieldServiceFacade.AddFieldAsync( field );
 
-    protected override async Task UpdateOffer( Field field ) => await _fieldServiceFacade.UpdateField( field );
+    protected override async Task UpdateOfferAsync( Field field ) => await _fieldServiceFacade.UpdateFieldAsync( field );
 
     protected override OffersSportKind CreateSportKind( int fieldId, int userId, SportKind sportKind ) =>
         new()

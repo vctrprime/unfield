@@ -21,7 +21,7 @@ internal sealed class AddPriceGroupHandler : BaseCommandHandler<AddPriceGroupCom
         _priceGroupFacade = priceGroupFacade;
     }
 
-    protected override async ValueTask<AddPriceGroupDto> HandleCommand( AddPriceGroupCommand request,
+    protected override async ValueTask<AddPriceGroupDto> HandleCommandAsync( AddPriceGroupCommand request,
         CancellationToken cancellationToken )
     {
         PriceGroup? priceGroup = Mapper.Map<PriceGroup>( request );

@@ -5,18 +5,18 @@ namespace StadiumEngine.Domain.Services.Facades.Accounts;
 
 public interface IUserCommandFacade
 {
-    Task<User> AuthorizeUser( string login, string password );
-    Task<User> ChangeStadium( int userId, int stadiumId );
-    Task ChangeLegal( int userId, int legalId );
-    Task<string> AddUser( User user, bool isAdminUser = false );
-    Task ChangeLanguage( int userId, string language );
+    Task<User> AuthorizeUserAsync( string login, string password );
+    Task<User> ChangeStadiumAsync( int userId, int stadiumId );
+    Task ChangeLegalAsync( int userId, int legalId );
+    Task<string> AddUserAsync( User user, bool isAdminUser = false );
+    Task ChangeLanguageAsync( int userId, string language );
 
-    Task ChangePassword(
+    Task ChangePasswordAsync(
         int userId,
         string newPassword,
         string oldPassword );
 
-    Task<(User, string)> ResetPassword( string phoneNumber );
-    Task UpdateUser( User user, int legalId );
-    Task DeleteUser( int userId, int legalId, int userModifiedId );
+    Task<(User, string)> ResetPasswordAsync( string phoneNumber );
+    Task UpdateUserAsync( User user, int legalId );
+    Task DeleteUserAsync( int userId, int legalId, int userModifiedId );
 }

@@ -21,7 +21,7 @@ internal sealed class AddLockerRoomHandler : BaseCommandHandler<AddLockerRoomCom
         _lockerRoomFacade = lockerRoomFacade;
     }
 
-    protected override async ValueTask<AddLockerRoomDto> HandleCommand( AddLockerRoomCommand request,
+    protected override async ValueTask<AddLockerRoomDto> HandleCommandAsync( AddLockerRoomCommand request,
         CancellationToken cancellationToken )
     {
         LockerRoom? lockerRoom = Mapper.Map<LockerRoom>( request );

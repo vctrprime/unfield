@@ -11,13 +11,13 @@ internal class PermissionRepository : BaseRepository<Permission>, IPermissionRep
     {
     }
 
-    public async Task<List<Permission>> GetAll() =>
+    public async Task<List<Permission>> GetAllAsync() =>
         await Entities.Include( p => p.PermissionGroup )
             .OrderBy( p => p.PermissionGroup.Sort )
             .ThenBy( p => p.Sort )
             .ToListAsync();
 
-    public async Task<List<Permission>> GetForRole( int roleId ) =>
+    public async Task<List<Permission>> GetForRoleAsync( int roleId ) =>
         await Entities
             .Include( p => p.PermissionGroup )
             .Include( rp => rp.RolePermissions )

@@ -23,7 +23,7 @@ internal sealed class GetFieldHandler : BaseRequestHandler<GetFieldQuery, FieldD
 
     public override async ValueTask<FieldDto> Handle( GetFieldQuery request, CancellationToken cancellationToken )
     {
-        Field? field = await _fieldFacade.GetByFieldId( request.FieldId, _currentStadiumId );
+        Field? field = await _fieldFacade.GetByFieldIdAsync( request.FieldId, _currentStadiumId );
 
         if ( field == null )
         {

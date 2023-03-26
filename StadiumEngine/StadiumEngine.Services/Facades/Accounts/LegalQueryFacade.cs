@@ -14,6 +14,6 @@ internal class LegalQueryFacade : ILegalQueryFacade
         _legalRepository = legalRepository;
     }
 
-    public async Task<List<Legal>> GetLegalsByFilter( string searchString ) =>
-        await _legalRepository.GetByFilter( searchString );
+    public async Task<List<Legal>> GetLegalsByFilterAsync( string searchString ) =>
+        await _legalRepository.GetByFilterAsync( searchString );
 }

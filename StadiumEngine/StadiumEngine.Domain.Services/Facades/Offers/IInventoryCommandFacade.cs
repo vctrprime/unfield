@@ -7,7 +7,7 @@ namespace StadiumEngine.Domain.Services.Facades.Offers;
 
 public interface IInventoryCommandFacade
 {
-    Task AddInventory( Inventory inventory, List<ImageFile> images, int legalId );
-    Task UpdateInventory( Inventory inventory, List<ImageFile> images, List<SportKind> sportKinds );
-    Task DeleteInventory( int inventoryId, int stadiumId );
+    Task AddInventoryAsync( Inventory inventory, List<ImageFile> images, int legalId );
+    Task UpdateInventoryAsync( Inventory inventory, List<ImageFile> images, List<SportKind> sportKinds );
+    Task DeleteInventoryAsync( int inventoryId, int stadiumId );
 }

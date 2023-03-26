@@ -13,6 +13,6 @@ internal class StadiumMainSettingsQueryFacade : IStadiumMainSettingsQueryFacade
         _mainSettingsRepository = mainSettingsRepository;
     }
     
-    public async Task<StadiumMainSettings> GetByStadiumId( int stadiumId ) =>
-        await _mainSettingsRepository.Get( stadiumId );
+    public async Task<StadiumMainSettings> GetByStadiumIdAsync( int stadiumId ) =>
+        await _mainSettingsRepository.GetAsync( stadiumId );
 }

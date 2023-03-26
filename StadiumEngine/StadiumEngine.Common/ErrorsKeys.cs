@@ -42,6 +42,11 @@ public static class ErrorsKeys
     public const string PriceGroupNotFound = "rates:price_group_not_found";
     public const string TariffNotFound = "rates:tariff_not_found";
 
+    public const string PromoCodeMinLength = "rates:promocode_min_length";
+    public const string PromoCodeMinValue = "rates:promocode_min_value";
+    public const string PromoCodeMaxValue = "rates:promocode_max_value";
+    public const string PromoCodeSameCode = "rates:promocode_same_codes";
+
     #endregion
 
     #region settings

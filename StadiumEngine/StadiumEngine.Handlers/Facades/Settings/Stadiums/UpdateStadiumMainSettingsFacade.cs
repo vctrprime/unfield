@@ -19,12 +19,12 @@ internal class UpdateStadiumMainSettingsFacade : IUpdateStadiumMainSettingsFacad
         _commandFacade = commandFacade;
     }
 
-    public async Task<UpdateStadiumMainSettingsDto> Update( UpdateStadiumMainSettingsCommand request, int stadiumId,
+    public async Task<UpdateStadiumMainSettingsDto> UpdateAsync( UpdateStadiumMainSettingsCommand request, int stadiumId,
         int userId )
     {
         Validate( request );
 
-        StadiumMainSettings mainSettings = await _queryFacade.GetByStadiumId( stadiumId );
+        StadiumMainSettings mainSettings = await _queryFacade.GetByStadiumIdAsync( stadiumId );
 
         mainSettings.Name = request.Name;
         mainSettings.Description = request.Description;

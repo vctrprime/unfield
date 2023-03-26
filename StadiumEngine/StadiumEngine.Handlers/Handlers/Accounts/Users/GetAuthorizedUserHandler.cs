@@ -22,7 +22,7 @@ internal sealed class GetAuthorizedUserHandler : BaseRequestHandler<GetAuthorize
     public override async ValueTask<AuthorizedUserDto> Handle( GetAuthorizedUserQuery request,
         CancellationToken cancellationToken )
     {
-        User? user = await _userFacade.GetUser( _userId );
+        User? user = await _userFacade.GetUserAsync( _userId );
 
         AuthorizedUserDto? userDto = Mapper.Map<AuthorizedUserDto>( user );
 

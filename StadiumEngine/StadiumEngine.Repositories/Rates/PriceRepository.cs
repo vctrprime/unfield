@@ -11,7 +11,7 @@ internal class PriceRepository : BaseRepository<Price>, IPriceRepository
     {
     }
 
-    public async Task<List<Price>> GetAll( int stadiumId ) =>
+    public async Task<List<Price>> GetAllAsync( int stadiumId ) =>
         await Entities
             .Include( p => p.Field )
             .Include( p => p.TariffDayInterval )

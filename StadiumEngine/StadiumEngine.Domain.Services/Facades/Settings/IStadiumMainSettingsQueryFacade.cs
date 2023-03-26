@@ -4,5 +4,5 @@ namespace StadiumEngine.Domain.Services.Facades.Settings;
 
 public interface IStadiumMainSettingsQueryFacade
 {
-    Task<StadiumMainSettings> GetByStadiumId( int stadiumId );
+    Task<StadiumMainSettings> GetByStadiumIdAsync( int stadiumId );
 }

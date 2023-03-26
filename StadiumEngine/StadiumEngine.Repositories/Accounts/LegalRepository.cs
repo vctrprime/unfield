@@ -11,7 +11,7 @@ internal class LegalRepository : BaseRepository<Legal>, ILegalRepository
     {
     }
 
-    public async Task<List<Legal>> GetByFilter( string searchString )
+    public async Task<List<Legal>> GetByFilterAsync( string searchString )
     {
         string searchStringLower = searchString.ToLower();
 

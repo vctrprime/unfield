@@ -23,7 +23,7 @@ internal class LegalCommandFacade : ILegalCommandFacade
         _newLegalBuilder = newLegalBuilder;
     }
 
-    public async Task<string> AddLegal( Legal legal, User superuser )
+    public async Task<string> AddLegalAsync( Legal legal, User superuser )
     {
         if ( !legal.Stadiums.Any() )
         {
@@ -32,7 +32,7 @@ internal class LegalCommandFacade : ILegalCommandFacade
 
         superuser.PhoneNumber = _userServiceFacade.CheckPhoneNumber( superuser.PhoneNumber );
 
-        string password = await _newLegalBuilder.Build( legal, superuser );
+        string password = await _newLegalBuilder.BuildAsync( legal, superuser );
 
         _legalRepository.Add( legal );
 

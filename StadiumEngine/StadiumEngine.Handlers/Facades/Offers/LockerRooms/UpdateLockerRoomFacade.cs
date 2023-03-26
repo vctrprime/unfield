@@ -18,9 +18,9 @@ internal class UpdateLockerRoomFacade : IUpdateLockerRoomFacade
         _commandFacade = commandFacade;
     }
 
-    public async Task<UpdateLockerRoomDto> Update( UpdateLockerRoomCommand request, int stadiumId, int userId )
+    public async Task<UpdateLockerRoomDto> UpdateAsync( UpdateLockerRoomCommand request, int stadiumId, int userId )
     {
-        LockerRoom? lockerRoom = await _queryFacade.GetByLockerRoomId( request.Id, stadiumId );
+        LockerRoom? lockerRoom = await _queryFacade.GetByLockerRoomIdAsync( request.Id, stadiumId );
 
         if ( lockerRoom == null )
         {

@@ -4,6 +4,6 @@ namespace StadiumEngine.Domain.Repositories.Settings;
 
 public interface IStadiumMainSettingsRepository
 {
-    Task<StadiumMainSettings> Get( int stadiumId );
+    Task<StadiumMainSettings> GetAsync( int stadiumId );
     void Update( StadiumMainSettings mainSettings );
 }

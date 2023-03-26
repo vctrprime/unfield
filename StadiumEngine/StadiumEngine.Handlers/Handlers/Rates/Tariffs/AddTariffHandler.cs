@@ -21,14 +21,14 @@ internal sealed class AddTariffHandler : BaseCommandHandler<AddTariffCommand, Ad
         _tariffFacade = tariffFacade;
     }
 
-    protected override async ValueTask<AddTariffDto> HandleCommand( AddTariffCommand request,
+    protected override async ValueTask<AddTariffDto> HandleCommandAsync( AddTariffCommand request,
         CancellationToken cancellationToken )
     {
         Tariff? tariff = Mapper.Map<Tariff>( request );
         tariff.StadiumId = _currentStadiumId;
         tariff.UserCreatedId = _userId;
 
-        await _tariffFacade.AddTariff( tariff, request.DayIntervals.Select( x => x.Interval ).ToList(), UnitOfWork );
+        await _tariffFacade.AddTariffAsync( tariff, request.DayIntervals.Select( x => x.Interval ).ToList(), UnitOfWork );
 
         return await Task.Run( () => new AddTariffDto(), cancellationToken );
     }

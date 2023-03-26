@@ -21,7 +21,7 @@ internal sealed class AuthorizeUserHandler : BaseCommandHandler<AuthorizeUserCom
         _userFacade = userFacade;
     }
 
-    protected override async ValueTask<AuthorizeUserDto?> HandleCommand( AuthorizeUserCommand request,
+    protected override async ValueTask<AuthorizeUserDto?> HandleCommandAsync( AuthorizeUserCommand request,
         CancellationToken cancellationToken )
     {
         if ( request.Login == null || request.Password == null )
@@ -29,7 +29,7 @@ internal sealed class AuthorizeUserHandler : BaseCommandHandler<AuthorizeUserCom
             return null;
         }
 
-        User user = await _userFacade.AuthorizeUser( request.Login, request.Password );
+        User user = await _userFacade.AuthorizeUserAsync( request.Login, request.Password );
 
         AuthorizeUserDto? userDto = Mapper.Map<AuthorizeUserDto>( user );
 

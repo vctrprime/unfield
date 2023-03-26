@@ -22,10 +22,10 @@ internal sealed class ToggleRoleStadiumHandler : BaseCommandHandler<ToggleRoleSt
     }
 
 
-    protected override async ValueTask<ToggleRoleStadiumDto> HandleCommand( ToggleRoleStadiumCommand request,
+    protected override async ValueTask<ToggleRoleStadiumDto> HandleCommandAsync( ToggleRoleStadiumCommand request,
         CancellationToken cancellationToken )
     {
-        await _roleFacade.ToggleRoleStadium(
+        await _roleFacade.ToggleRoleStadiumAsync(
             request.RoleId,
             request.StadiumId,
             _legalId,

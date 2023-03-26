@@ -11,7 +11,7 @@ internal class RoleStadiumRepository : BaseRepository<RoleStadium>, IRoleStadium
     {
     }
 
-    public async Task<RoleStadium?> Get( int roleId, int stadiumId ) =>
+    public async Task<RoleStadium?> GetAsync( int roleId, int stadiumId ) =>
         await Entities.FirstOrDefaultAsync( rs => rs.RoleId == roleId && rs.StadiumId == stadiumId );
 
     public new void Add( RoleStadium roleStadium ) => base.Add( roleStadium );

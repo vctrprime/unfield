@@ -47,7 +47,7 @@ export const NavMenu = () => {
     const getNavLinkClassName = ({isActive}: any) => {
         return isActive ? "activeClicked" : undefined;
     }
-
+    
     return (
 
         <CDBSidebar textColor="#fff" backgroundColor="#354650">

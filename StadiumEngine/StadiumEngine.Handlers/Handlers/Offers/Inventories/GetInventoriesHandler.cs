@@ -22,7 +22,7 @@ internal sealed class GetInventoriesHandler : BaseRequestHandler<GetInventoriesQ
     public override async ValueTask<List<InventoryDto>> Handle( GetInventoriesQuery request,
         CancellationToken cancellationToken )
     {
-        List<Inventory> inventories = await _inventoryFacade.GetByStadiumId( _currentStadiumId );
+        List<Inventory> inventories = await _inventoryFacade.GetByStadiumIdAsync( _currentStadiumId );
 
         List<InventoryDto>? inventoriesDto = Mapper.Map<List<InventoryDto>>( inventories );
 

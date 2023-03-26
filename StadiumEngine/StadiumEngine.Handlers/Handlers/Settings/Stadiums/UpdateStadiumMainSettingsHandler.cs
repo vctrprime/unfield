@@ -20,7 +20,7 @@ internal sealed class UpdateStadiumMainSettingsHandler : BaseCommandHandler<Upda
         _facade = facade;
     }
 
-    protected override async ValueTask<UpdateStadiumMainSettingsDto> HandleCommand( UpdateStadiumMainSettingsCommand request,
+    protected override async ValueTask<UpdateStadiumMainSettingsDto> HandleCommandAsync( UpdateStadiumMainSettingsCommand request,
         CancellationToken cancellationToken ) =>
-        await _facade.Update( request, _currentStadiumId, _userId );
+        await _facade.UpdateAsync( request, _currentStadiumId, _userId );
 }

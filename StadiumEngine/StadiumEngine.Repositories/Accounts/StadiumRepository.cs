@@ -11,7 +11,7 @@ internal class StadiumRepository : BaseRepository<Stadium>, IStadiumRepository
     {
     }
 
-    public async Task<List<Stadium>> GetForLegal( int legalId ) =>
+    public async Task<List<Stadium>> GetForLegalAsync( int legalId ) =>
         await Entities
             .Where( s => s.LegalId == legalId && !s.IsDeleted )
             .Include( s => s.City )
@@ -19,7 +19,7 @@ internal class StadiumRepository : BaseRepository<Stadium>, IStadiumRepository
             .ThenInclude( r => r.Country )
             .ToListAsync();
 
-    public async Task<List<Stadium>> GetForRole( int roleId ) =>
+    public async Task<List<Stadium>> GetForRoleAsync( int roleId ) =>
         await Entities
             .Where( s => s.RoleStadiums.Select( rs => rs.RoleId ).Contains( roleId ) && !s.IsDeleted )
             .Include( s => s.City )

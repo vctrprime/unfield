@@ -19,9 +19,9 @@ internal class LockerRoomCommandFacade : ILockerRoomCommandFacade
 
     public void UpdateLockerRoom( LockerRoom lockerRoom ) => _lockerRoomRepository.Update( lockerRoom );
 
-    public async Task DeleteLockerRoom( int lockerRoomId, int stadiumId )
+    public async Task DeleteLockerRoomAsync( int lockerRoomId, int stadiumId )
     {
-        LockerRoom? lockerRoom = await _lockerRoomRepository.Get( lockerRoomId, stadiumId );
+        LockerRoom? lockerRoom = await _lockerRoomRepository.GetAsync( lockerRoomId, stadiumId );
 
         if ( lockerRoom == null )
         {

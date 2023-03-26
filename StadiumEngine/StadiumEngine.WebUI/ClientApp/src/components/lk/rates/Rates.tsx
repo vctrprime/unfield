@@ -10,10 +10,6 @@ export const Rates = () => {
 
     const tabs: TabData[] = []
 
-    if (permissions.filter(p => p.name === PermissionsKeys.GetPriceGroups).length > 0) {
-        tabs.push({route: 'price-groups', resourcePath: 'rates:price_groups_tab'});
-    }
-
     if (permissions.filter(p => p.name === PermissionsKeys.GetTariffs).length > 0) {
         tabs.push({route: 'tariffs', resourcePath: 'rates:tariffs_tab'});
     }
@@ -21,7 +17,11 @@ export const Rates = () => {
     if (permissions.filter(p => p.name === PermissionsKeys.GetPrices).length > 0) {
         tabs.push({route: 'prices', resourcePath: 'rates:prices_tab'});
     }
-
+    
+    if (permissions.filter(p => p.name === PermissionsKeys.GetPriceGroups).length > 0) {
+        tabs.push({route: 'price-groups', resourcePath: 'rates:price_groups_tab'});
+    }
+    
     return (tabs.length > 0 ?
         <Tabs tabsData={tabs} leftNavRoute={"/lk/rates"}/> :
         <ForbiddenMessage/>)

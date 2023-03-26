@@ -21,7 +21,7 @@ internal class NewLegalBuilder : INewLegalBuilder
         _hasher = hasher;
     }
 
-    public async Task<string> Build( Legal legal, User superuser )
+    public async Task<string> BuildAsync( Legal legal, User superuser )
     {
         string superuserPassword = _passwordGenerator.Generate( 8 );
         superuser.Password = _hasher.Crypt( superuserPassword );
@@ -48,7 +48,7 @@ internal class NewLegalBuilder : INewLegalBuilder
 
     private async Task<List<RolePermission>> GetRolePermissions()
     {
-        List<Permission> permissions = await _permissionRepository.GetAll();
+        List<Permission> permissions = await _permissionRepository.GetAllAsync();
         List<string> permissionsKeys = new()
         {
             "schedule",

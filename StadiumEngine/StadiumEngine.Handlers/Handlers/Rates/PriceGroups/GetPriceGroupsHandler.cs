@@ -22,7 +22,7 @@ internal sealed class GetPriceGroupsHandler : BaseRequestHandler<GetPriceGroupsQ
     public override async ValueTask<List<PriceGroupDto>> Handle( GetPriceGroupsQuery request,
         CancellationToken cancellationToken )
     {
-        List<PriceGroup> priceGroups = await _priceGroupFacade.GetByStadiumId( _currentStadiumId );
+        List<PriceGroup> priceGroups = await _priceGroupFacade.GetByStadiumIdAsync( _currentStadiumId );
 
         List<PriceGroupDto>? priceGroupsDto = Mapper.Map<List<PriceGroupDto>>( priceGroups );
 

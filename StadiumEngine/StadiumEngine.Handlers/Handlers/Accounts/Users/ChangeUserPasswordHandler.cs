@@ -22,7 +22,7 @@ internal sealed class ChangeUserPasswordHandler : BaseCommandHandler<ChangeUserP
         _userFacade = userFacade;
     }
 
-    protected override async ValueTask<ChangeUserPasswordDto> HandleCommand( ChangeUserPasswordCommand request,
+    protected override async ValueTask<ChangeUserPasswordDto> HandleCommandAsync( ChangeUserPasswordCommand request,
         CancellationToken cancellationToken )
     {
         if ( request.NewPassword != request.NewPasswordRepeat )
@@ -30,7 +30,7 @@ internal sealed class ChangeUserPasswordHandler : BaseCommandHandler<ChangeUserP
             throw new DomainException( ErrorsKeys.PasswordsNotEqual );
         }
 
-        await _userFacade.ChangePassword( _userId, request.NewPassword, request.OldPassword );
+        await _userFacade.ChangePasswordAsync( _userId, request.NewPassword, request.OldPassword );
 
         return new ChangeUserPasswordDto();
     }

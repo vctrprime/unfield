@@ -7,5 +7,5 @@ namespace StadiumEngine.Handlers.Facades.Rates.Tariffs;
 
 internal interface IUpdateTariffFacade
 {
-    Task<UpdateTariffDto> Update( UpdateTariffCommand request, List<PromoCode> promoCodes, int stadiumId, int userId, IUnitOfWork unitOfWork );
+    Task<UpdateTariffDto> UpdateAsync( UpdateTariffCommand request, List<PromoCode> promoCodes, int stadiumId, int userId, IUnitOfWork unitOfWork );
 }

@@ -22,9 +22,9 @@ internal class RoleRepositoryFacade : IRoleRepositoryFacade
         _roleStadiumRepository = roleStadiumRepository;
     }
 
-    public async Task<List<Role>> GetRoles( int legalId ) => await _roleRepository.GetAll( legalId );
+    public async Task<List<Role>> GetRolesAsync( int legalId ) => await _roleRepository.GetAllAsync( legalId );
 
-    public async Task<Role?> GetRole( int roleId ) => await _roleRepository.Get( roleId );
+    public async Task<Role?> GetRoleAsync( int roleId ) => await _roleRepository.GetAsync( roleId );
 
     public void AddRole( Role role ) => _roleRepository.Add( role );
 
@@ -32,21 +32,21 @@ internal class RoleRepositoryFacade : IRoleRepositoryFacade
 
     public void RemoveRole( Role role ) => _roleRepository.Remove( role );
 
-    public async Task<List<Permission>> GetPermissions() => await _permissionRepository.GetAll();
+    public async Task<List<Permission>> GetPermissionsAsync() => await _permissionRepository.GetAllAsync();
 
-    public async Task<List<Permission>> GetPermissions( int roleId ) =>
-        await _permissionRepository.GetForRole( roleId );
+    public async Task<List<Permission>> GetPermissionsAsync( int roleId ) =>
+        await _permissionRepository.GetForRoleAsync( roleId );
 
-    public async Task<RolePermission?> GetRolePermission( int roleId, int permissionId ) =>
-        await _rolePermissionRepository.Get( roleId, permissionId );
+    public async Task<RolePermission?> GetRolePermissionAsync( int roleId, int permissionId ) =>
+        await _rolePermissionRepository.GetAsync( roleId, permissionId );
 
     public void AddRolePermission( RolePermission rolePermission ) => _rolePermissionRepository.Add( rolePermission );
 
     public void RemoveRolePermission( RolePermission rolePermission ) =>
         _rolePermissionRepository.Remove( rolePermission );
 
-    public async Task<RoleStadium?> GetRoleStadium( int roleId, int stadiumId ) =>
-        await _roleStadiumRepository.Get( roleId, stadiumId );
+    public async Task<RoleStadium?> GetRoleStadiumAsync( int roleId, int stadiumId ) =>
+        await _roleStadiumRepository.GetAsync( roleId, stadiumId );
 
     public void AddRoleStadium( RoleStadium roleStadium ) => _roleStadiumRepository.Add( roleStadium );
 

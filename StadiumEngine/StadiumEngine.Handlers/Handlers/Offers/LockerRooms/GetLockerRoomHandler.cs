@@ -24,7 +24,7 @@ internal sealed class GetLockerRoomHandler : BaseRequestHandler<GetLockerRoomQue
     public override async ValueTask<LockerRoomDto> Handle( GetLockerRoomQuery request,
         CancellationToken cancellationToken )
     {
-        LockerRoom? lockerRoom = await _lockerRoomFacade.GetByLockerRoomId( request.LockerRoomId, _currentStadiumId );
+        LockerRoom? lockerRoom = await _lockerRoomFacade.GetByLockerRoomIdAsync( request.LockerRoomId, _currentStadiumId );
 
         if ( lockerRoom == null )
         {

@@ -5,5 +5,5 @@ namespace StadiumEngine.Handlers.Facades.Rates.PriceGroups;
 
 internal interface IUpdatePriceGroupFacade
 {
-    Task<UpdatePriceGroupDto> Update( UpdatePriceGroupCommand request, int stadiumId, int userId );
+    Task<UpdatePriceGroupDto> UpdateAsync( UpdatePriceGroupCommand request, int stadiumId, int userId );
 }

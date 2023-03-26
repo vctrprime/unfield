@@ -20,10 +20,10 @@ internal sealed class DeletePriceGroupHandler : BaseCommandHandler<DeletePriceGr
         _priceGroupFacade = priceGroupFacade;
     }
 
-    protected override async ValueTask<DeletePriceGroupDto> HandleCommand( DeletePriceGroupCommand request,
+    protected override async ValueTask<DeletePriceGroupDto> HandleCommandAsync( DeletePriceGroupCommand request,
         CancellationToken cancellationToken )
     {
-        await _priceGroupFacade.DeletePriceGroup( request.PriceGroupId, _currentStadiumId );
+        await _priceGroupFacade.DeletePriceGroupAsync( request.PriceGroupId, _currentStadiumId );
         return new DeletePriceGroupDto();
     }
 }

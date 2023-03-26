@@ -18,9 +18,9 @@ internal class UpdateFieldFacade : IUpdateFieldFacade
         _commandFacade = commandFacade;
     }
 
-    public async Task<UpdateFieldDto> Update( UpdateFieldCommand request, int stadiumId, int userId )
+    public async Task<UpdateFieldDto> UpdateAsync( UpdateFieldCommand request, int stadiumId, int userId )
     {
-        Field? field = await _queryFacade.GetByFieldId( request.Id, stadiumId );
+        Field? field = await _queryFacade.GetByFieldIdAsync( request.Id, stadiumId );
 
         if ( field == null )
         {
@@ -37,7 +37,7 @@ internal class UpdateFieldFacade : IUpdateFieldFacade
         field.PriceGroupId = request.PriceGroupId;
         field.UserModifiedId = userId;
 
-        await _commandFacade.UpdateField( field, request.Images, request.SportKinds );
+        await _commandFacade.UpdateFieldAsync( field, request.Images, request.SportKinds );
 
         return new UpdateFieldDto();
     }

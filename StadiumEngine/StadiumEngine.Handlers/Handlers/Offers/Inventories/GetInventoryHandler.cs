@@ -24,7 +24,7 @@ internal sealed class GetInventoryHandler : BaseRequestHandler<GetInventoryQuery
     public override async ValueTask<InventoryDto> Handle( GetInventoryQuery request,
         CancellationToken cancellationToken )
     {
-        Inventory? inventory = await _inventoryFacade.GetByInventoryId( request.InventoryId, _currentStadiumId );
+        Inventory? inventory = await _inventoryFacade.GetByInventoryIdAsync( request.InventoryId, _currentStadiumId );
 
         if ( inventory == null )
         {

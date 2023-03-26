@@ -27,7 +27,7 @@ internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddL
         _smsSender = smsSender;
     }
 
-    protected override async ValueTask<AddLegalDto> HandleCommand( AddLegalCommand request,
+    protected override async ValueTask<AddLegalDto> HandleCommandAsync( AddLegalCommand request,
         CancellationToken cancellationToken )
     {
         Legal? legal = Mapper.Map<Legal>( request );
@@ -35,11 +35,11 @@ internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddL
 
         superuser.Language = request.Language;
 
-        string password = await _legalFacade.AddLegal( legal, superuser );
+        string password = await _legalFacade.AddLegalAsync( legal, superuser );
 
-        await UnitOfWork.SaveChanges();
+        await UnitOfWork.SaveChangesAsync();
 
-        await _smsSender.SendPassword(
+        await _smsSender.SendPasswordAsync(
             superuser.PhoneNumber,
             password,
             superuser.Language );

@@ -25,17 +25,17 @@ internal abstract class BaseCommandHandler<TRequest, TResponse> : BaseRequestHan
     {
         if ( !_transactional )
         {
-            return await HandleCommand( request, cancellationToken );
+            return await HandleCommandAsync( request, cancellationToken );
         }
 
-        await UnitOfWork.BeginTransaction();
+        await UnitOfWork.BeginTransactionAsync();
 
-        TResponse result = await HandleCommand( request, cancellationToken );
+        TResponse result = await HandleCommandAsync( request, cancellationToken );
 
-        await UnitOfWork.CommitTransaction();
+        await UnitOfWork.CommitTransactionAsync();
 
         return result;
     }
 
-    protected abstract ValueTask<TResponse> HandleCommand( TRequest request, CancellationToken cancellationToken );
+    protected abstract ValueTask<TResponse> HandleCommandAsync( TRequest request, CancellationToken cancellationToken );
 }

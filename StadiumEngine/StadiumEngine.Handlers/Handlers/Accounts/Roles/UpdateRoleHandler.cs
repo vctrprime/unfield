@@ -20,10 +20,10 @@ internal sealed class UpdateRoleHandler : BaseCommandHandler<UpdateRoleCommand, 
         _roleFacade = roleFacade;
     }
 
-    protected override async ValueTask<UpdateRoleDto> HandleCommand( UpdateRoleCommand request,
+    protected override async ValueTask<UpdateRoleDto> HandleCommandAsync( UpdateRoleCommand request,
         CancellationToken cancellationToken )
     {
-        await _roleFacade.UpdateRole(
+        await _roleFacade.UpdateRoleAsync(
             request.Id,
             _legalId,
             _userId,

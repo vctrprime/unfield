@@ -6,22 +6,22 @@ public interface IRoleCommandFacade
 {
     void AddRole( Role role );
 
-    Task UpdateRole(
+    Task UpdateRoleAsync(
         int roleId,
         int legalId,
         int userId,
         string name,
         string? description );
 
-    Task DeleteRole( int roleId, int legalId, int userModifiedId );
+    Task DeleteRoleAsync( int roleId, int legalId, int userModifiedId );
 
-    Task ToggleRolePermission(
+    Task ToggleRolePermissionAsync(
         int roleId,
         int permissionId,
         int legalId,
         int userId );
 
-    Task ToggleRoleStadium(
+    Task ToggleRoleStadiumAsync(
         int roleId,
         int stadiumId,
         int legalId,

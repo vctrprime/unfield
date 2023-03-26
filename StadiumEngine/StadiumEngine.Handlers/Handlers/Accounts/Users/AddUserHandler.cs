@@ -25,14 +25,14 @@ internal sealed class AddUserHandler : BaseCommandHandler<AddUserCommand, AddUse
         _facade = facade;
     }
 
-    protected override async ValueTask<AddUserDto> HandleCommand( AddUserCommand request,
+    protected override async ValueTask<AddUserDto> HandleCommandAsync( AddUserCommand request,
         CancellationToken cancellationToken )
     {
         User? user = Mapper.Map<User>( request );
         user.LegalId = _legalId;
         user.UserCreatedId = _userId;
 
-        return await _facade.Add(
+        return await _facade.AddAsync(
             user,
             UnitOfWork );
     }
