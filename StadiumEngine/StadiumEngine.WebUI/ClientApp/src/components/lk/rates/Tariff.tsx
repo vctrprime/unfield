@@ -7,7 +7,7 @@ import {getDataTitle, getTitle, StringFormat, validateInputs} from "../../../hel
 import {ActionButtons} from "../../common/actions/ActionButtons";
 import {PermissionsKeys} from "../../../static/PermissionsKeys";
 import {t} from "i18next";
-import {Button, Checkbox, Form} from "semantic-ui-react";
+import {Button, Checkbox, Form, Modal} from "semantic-ui-react";
 import {DateRangeSelect} from "../common/DateRangeSelect";
 import {TariffInterval} from "./TariffInterval";
 import {AddTariffCommand} from "../../../models/command/rates/AddTariffCommand";
@@ -33,6 +33,7 @@ export const Tariff = () => {
     const [tariffId, setTariffId] = useState(parseInt(id || "0"))
     
     const [intervalPoints, setIntervalPoints] = useState<string[]>([]);
+    const [validateIntervalModal, setValidateIntervalModal] = useState<boolean>();
     
     const [ratesService] = useInject<IRatesService>('RatesService');
     const [settingsService] = useInject<ISettingsService>('SettingsService');
@@ -82,9 +83,24 @@ export const Tariff = () => {
     const nameInput = useRef<any>();
     const descriptionInput = useRef<any>();
 
-
     const saveTariff = () => {
-        if (validateInputs([nameInput]) && validate()) {
+        if (validateInputs([nameInput]) && validatePromoCodes()) {
+            validateIntervalsAndSaveTariff();
+        }
+    }
+    
+    const sendSaveTariffRequest = () => {
+        if (id === "new") {
+            addTariff();
+        }
+        else {
+            updateTariff();
+        }
+        setValidateIntervalModal(false);
+    }
+
+    const addTariff = () => {
+        if (validateInputs([nameInput]) && validatePromoCodes()) {
             const command: AddTariffCommand = {
                 name: nameInput.current?.value,
                 description: descriptionInput.current?.value,
@@ -108,7 +124,7 @@ export const Tariff = () => {
     }
 
     const updateTariff = () => {
-        if (validateInputs([nameInput]) && validate()) {
+        if (validateInputs([nameInput]) && validatePromoCodes()) {
             const command: UpdateTariffCommand = {
                 id: tariffId,
                 name: nameInput.current?.value,
@@ -132,7 +148,7 @@ export const Tariff = () => {
         }
     }
     
-    const validate = (): boolean => {
+    const validatePromoCodes = (): boolean => {
         const sameCodes: string[] = [];
         let result = true;
         data.promoCodes.forEach((p) => {
@@ -157,6 +173,36 @@ export const Tariff = () => {
         })
         
         return result;
+    }
+    
+    const validateIntervalsAndSaveTariff = () => {
+        const indexes: any = {};
+        data.dayIntervals.forEach((int) => {
+            const startIndex = intervalPoints.indexOf(int.interval[0]);
+            const endIndex = intervalPoints.indexOf(int.interval[1]);
+            for (let i = startIndex; i <= endIndex; i++) {
+                const val = indexes[i];
+                if (val === undefined) {
+                    indexes[`${i}`] = 1
+                }
+                else {
+                    indexes[`${i}`] = indexes[`${i}`] + 1;
+                }
+            }
+        })
+        
+        if (indexes['0'] > 1 || indexes[`${intervalPoints.length - 1}`] > 1 
+            || Object.keys(indexes).find(a => indexes[a] > 2)) {
+            NotificationManager.error(t('errors:rates:cross_intervals'), t('common:error_request_title'), 5000);
+            return;
+        }
+        
+        if (Object.keys(indexes).length < intervalPoints.length) {
+            setValidateIntervalModal(true);
+            return;
+        }
+        
+        sendSaveTariffRequest();
     }
 
     const deleteTariff = () => {
@@ -258,11 +304,26 @@ export const Tariff = () => {
     }
     
     return isError ? <span/> : (<div>
+        <Modal
+            dimmer='blurring'
+            size='small'
+            open={validateIntervalModal}>
+            <Modal.Header>{t('rates:tariffs_grid:tariff_intervals_warning_header')}</Modal.Header>
+            <Modal.Content>
+                <p>{t('rates:tariffs_grid:tariff_intervals_warning')}</p>
+            </Modal.Content>
+            <Modal.Actions>
+                <Button style={{backgroundColor: '#CD5C5C', color: 'white'}}
+                        onClick={() => setValidateIntervalModal(false)}>{t('common:no_button')}</Button>
+                <Button style={{backgroundColor: '#3CB371', color: 'white'}}
+                        onClick={sendSaveTariffRequest}>{t('common:yes_button')}</Button>
+            </Modal.Actions>
+        </Modal>
         <ActionButtons
             savePermission={id === "new" ? PermissionsKeys.InsertTariff : PermissionsKeys.UpdateTariff}
             deletePermission={PermissionsKeys.DeleteTariff}
             title={id === "new" ? t('rates:tariffs_grid:adding') : t('rates:tariffs_grid:editing')}
-            saveAction={id === "new" ? saveTariff : updateTariff}
+            saveAction={saveTariff}
             deleteAction={id === "new" ? null : deleteTariff}
             deleteHeader={id === "new" ? null : t('rates:tariffs_grid:delete:header')}
             deleteQuestion={id === "new" ? null : StringFormat(t('rates:tariffs_grid:delete:question'), data?.name || '')}

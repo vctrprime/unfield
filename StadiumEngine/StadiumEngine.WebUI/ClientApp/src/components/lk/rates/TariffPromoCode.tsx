@@ -2,7 +2,6 @@ import React from 'react';
 import {PromoCodeDto} from "../../../models/dto/rates/TariffDto";
 import {t} from "i18next";
 import {Dropdown, Icon} from "semantic-ui-react";
-import {FieldCoveringType} from "../../../models/dto/offers/enums/FieldCoveringType";
 import {PromoCodeType} from "../../../models/dto/rates/enums/PromoCodeType";
 
 export interface TariffPromoCodeProps {

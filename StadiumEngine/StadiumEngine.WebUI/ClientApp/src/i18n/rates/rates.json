@@ -53,7 +53,9 @@
         "add_promo_code": "Добавить промокод",
         "promo_code_title": "Код",
         "promo_code_type": "Тип",
-        "promo_code_value": "Значение"
+        "promo_code_value": "Значение",
+        "tariff_intervals_warning_header": "Пропущены интервалы",
+        "tariff_intervals_warning": "Указанные интервалы не покрывают весь режим работы объекта. Пропущенные интервалы будут недоступны для выставления цен и бронирования. Уверены, что хотите продолжить?"
     },
     "promo_code_types": {
         "fixed": "Фиксированное значение скидки",
