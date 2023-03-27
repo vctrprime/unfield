@@ -34,12 +34,15 @@ internal class UnitOfWork : IUnitOfWork
         }
         finally
         {
-            _transaction?.Dispose();
-            _transaction = null;
+            if ( _transaction != null )
+            {
+                _transaction?.Dispose();
+                _transaction = null;
+            }
         }
     }
 
-    private async Task RollbackTransactionAsync()
+    public async Task RollbackTransactionAsync()
     {
         try
         {
@@ -47,8 +50,11 @@ internal class UnitOfWork : IUnitOfWork
         }
         finally
         {
-            _transaction?.Dispose();
-            _transaction = null;
+            if ( _transaction != null )
+            {
+                _transaction?.Dispose();
+                _transaction = null;
+            }
         }
     }
 

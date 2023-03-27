@@ -28,13 +28,21 @@ internal abstract class BaseCommandHandler<TRequest, TResponse> : BaseRequestHan
             return await HandleCommandAsync( request, cancellationToken );
         }
 
-        await UnitOfWork.BeginTransactionAsync();
+        try
+        {
+            await UnitOfWork.BeginTransactionAsync();
 
-        TResponse result = await HandleCommandAsync( request, cancellationToken );
+            TResponse result = await HandleCommandAsync( request, cancellationToken );
 
-        await UnitOfWork.CommitTransactionAsync();
-
-        return result;
+            await UnitOfWork.CommitTransactionAsync();
+            
+            return result;
+        }
+        catch
+        {
+            await UnitOfWork.RollbackTransactionAsync();
+            throw;
+        }
     }
 
     protected abstract ValueTask<TResponse> HandleCommandAsync( TRequest request, CancellationToken cancellationToken );

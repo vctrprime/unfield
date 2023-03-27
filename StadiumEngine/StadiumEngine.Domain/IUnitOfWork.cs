@@ -11,5 +11,7 @@ public interface IUnitOfWork
     
     Task SaveChangesAsync();
 
+    Task RollbackTransactionAsync();
+
     bool PropertyWasChanged<T>( T obj, string propertyName ) where T : BaseEntity;
 }
