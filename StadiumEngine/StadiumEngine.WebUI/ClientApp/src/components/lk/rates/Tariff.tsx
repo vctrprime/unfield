@@ -200,8 +200,7 @@ export const Tariff = () => {
             }
         })
         
-        if (indexes['0'] > 1 || indexes[`${intervalPoints.length - 1}`] > 1 
-            || Object.keys(indexes).find(a => indexes[a] > 1)) {
+        if (Object.keys(indexes).find(a => indexes[a] > 1)) {
             NotificationManager.error(t('errors:rates:cross_intervals'), t('common:error_request_title'), 5000);
             return;
         }
