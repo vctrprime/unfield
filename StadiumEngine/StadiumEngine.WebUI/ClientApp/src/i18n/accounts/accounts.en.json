@@ -87,14 +87,15 @@
         "offers": "Actives",
         "employees": "Employees",
         "reports": "Reports",
-        "accounts": "Accounts"
+        "accounts": "Accounts",
+        "rates": "Tariffs and prices"
     },
     "permissions": {
         "get_bookings": "View bookings",
         "get_bookings_description": "View schedule and booked slots",
         "get_fields": "View fields",
         "get_fields_description": "Viewing the list of fields",
-        "insert_field": "Adding fields",
+        "insert_field": "Adding field",
         "insert_field_description": "Ability to add a field",
         "update_field": "Field update",
         "update_field_description": "Ability to change field details",
@@ -145,6 +146,26 @@
         "toggle_role_stadium": "Role-stadium association",
         "toggle_role_stadium_description": "Ability to add or remove a role association to an stadium",
         "update_main_settings": "Update main settings",
-        "update_main_settings_description": "Ability to change the main data for an object"
+        "update_main_settings_description": "Ability to change the main data for an object",
+        "get_price_groups": "View price groups",
+        "get_price_groups_description": "View the list of price groups",
+        "insert_price_group": "Adding price group",
+        "insert_price_group_description": "Ability to add a price group",
+        "update_price_group": "Price group update",
+        "update_price_group_description": "Ability to change details of price group",
+        "delete_price_group": "Delete price group",
+        "delete_price_group_description": "Ability to delete price group",
+        "get_tariffs": "View tariffs",
+        "get_tariffs_description": "View the list of tariffs",
+        "insert_tariff": "Adding a tariff",
+        "insert_tariff_description": "Ability to add a tariff",
+        "update_tariff": "Tariff update",
+        "update_tariff_description": "Ability to change tariff details",
+        "delete_tariff": "Delete tariff",
+        "delete_tariff_description": "Ability to delete tariff",
+        "get_prices": "View prices",
+        "get_prices_description": "Viewing the price grid",
+        "set_prices": "Set prices",
+        "set_prices_description": "Ability to change prices"
     }
 }

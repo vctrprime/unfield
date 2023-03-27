@@ -24,5 +24,17 @@
         "field_not_found": "Field not found",
         "field_has_children_fields": "You cannot delete a field that has associated fields",
         "inventory_not_found": "Inventory not found"
+    },
+    "rates": {
+        "price_group_not_found": "Price group not found",
+        "tariff_not_found": "Tariff not found",
+        "promocode_min_length": "Promo code cannot be less than 3 characters",
+        "promocode_same_codes": "Multiple promo codes created with the same code",
+        "promocode_min_value": "The discount value for the promo code cannot be less than 1",
+        "promocode_max_value": "The discount value for the promotional code for the \"Percentage of price\" type cannot be more than 99",
+        "cross_intervals": "You cannot save a tariff with overlapping time intervals"
+    },
+    "settings": {
+        "main_invalid_open_close": "Incorrect operating mode specified"
     }
 }

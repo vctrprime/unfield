@@ -2,11 +2,6 @@
     "locker_rooms_tab": "Locker rooms",
     "fields_tab": "Fields",
     "inventories_tab": "Inventory",
-    "back_buttons": {
-        "locker_rooms": "Back to locker rooms list",
-        "fields": "Back to fields list",
-        "inventories": "Back to inventory list"
-    },
     "locker_rooms_grid": {
         "name": "Name",
         "is_active": "Activity",
@@ -33,6 +28,8 @@
         "covering": "Covering",
         "parent_field": "Parent field",
         "parent_field_hint": "Specify a different field here if the current field is part of it. For example, half of a football field is part of the whole field, but is available for booking as a separate field. Booking the current field will block the associated field for booking at the same time.",
+        "price_group": "Price group",
+        "price_group_hint": "Specify a price group for faster filling of information on prices. Fields with the same price group will be assigned the same prices in tariffs",
         "child_fields_list": "Other fields associated with this field",
         "date_created": "Date Of Creation",
         "user_created": "Created By",

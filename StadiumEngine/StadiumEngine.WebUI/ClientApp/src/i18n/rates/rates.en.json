@@ -1,2 +1,78 @@
 {
+    "price_groups_tab": "Price groups",
+    "tariffs_tab": "Tariffs",
+    "prices_tab": "Pricing",
+    "price_groups_grid": {
+        "name": "Name",
+        "is_active": "Activity",
+        "description": "Description",
+        "fields": "Fields",
+        "date_created": "Date Of Creation",
+        "user_created": "Created By",
+        "fields_list": "The following fields are linked to this price group",
+        "no_rows": "Price groups not found",
+        "add": "Add price group",
+        "adding": "Adding price group",
+        "editing": "Editing price group",
+        "delete": {
+            "header": "Delete price group",
+            "question": "Are you sure you want to remove the price group \"{0}\"?"
+        }
+    },
+    "tariffs_grid": {
+        "name": "Name",
+        "is_active": "Activity",
+        "description": "Description",
+        "intervals": "Day intervals",
+        "interval": "Interval",
+        "add_interval": "Add Interval",
+        "remove_interval": "Delete interval",
+        "intervals_hint": "For more flexible pricing, you can specify time intervals for the tariff. Each interval will need to specify its own price according to the tariff (for example, during peak hours, you can set the price higher). If your pricing does not depend on the time of day, specify one interval equal to the operation mode of the facility.",
+        "period": "Validity",
+        "days": "Days of action",
+        "no_date_end": "Unspecified",
+        "monday": "Mon",
+        "tuesday": "Tue",
+        "wednesday": "Wed",
+        "thursday": "Thu",
+        "friday": "Fri",
+        "saturday": "Sat",
+        "sunday": "Sun",
+        "date_created": "Date Of Creation",
+        "user_created": "Created By",
+        "no_rows": "Tariffs not found",
+        "add": "Add tariff",
+        "adding": "Adding a tariff",
+        "editing": "Editing tariff",
+        "delete": {
+            "header": "Delete tariff",
+            "question": "Are you sure you want to remove the tariff \"{0}\"?"
+        },
+        "promo_codes": "Promotion codes",
+        "promo_codes_hint": "You can add promotional codes to the tariff that will allow to get a discount on booking fields. The discount value can be fixed and relative (% of the price).",
+        "add_promo_code": "Add promo code",
+        "promo_code_title": "Code",
+        "promo_code_type": "Type",
+        "promo_code_value": "Value",
+        "tariff_intervals_warning_header": "Missed intervals",
+        "tariff_intervals_warning": "The specified intervals do not cover the entire operating mode of the object. Missed slots will not be available for pricing and bookings. Are you sure you want to continue?"
+    },
+    "promo_code_types": {
+        "fixed": "Fixed discount value",
+        "percent": "Percentage of price"
+    },
+    "prices": {
+        "message_line1": "Here you can set the price values for each time interval for active tariffs and fields.",
+        "message_line2": "Please note that some fields may be grouped into price groups (the set price will apply to all fields with the specified price group)",
+        "message_line3": "Links with empty prices will not be displayed in the booking module.",
+        "price_group_short": "PG",
+        "price_group_hint": "This price group includes fields:",
+        "save": "Save",
+        "initial": "Initial value",
+        "reset": "Reset changes",
+        "promo_code_title": "Promo code",
+        "promo_code_hint": "Enter promo code to view prices with promo code",
+        "promocode_value": "Price by promo code",
+        "promocodes_for_tariff": "Promotional codes for the tariff"
+    }
 }

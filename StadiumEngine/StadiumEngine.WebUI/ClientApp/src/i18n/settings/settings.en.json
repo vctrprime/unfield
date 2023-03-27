@@ -1,2 +1,10 @@
 {
+    "main": {
+        "editing": "Editing the main settings",
+        "name": "Display name",
+        "description": "Description",
+        "working_mode": "Working mode",
+        "open_time": "Opening hour",
+        "close_time": "Closing hour"
+    }
 }
