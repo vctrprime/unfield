@@ -67,8 +67,7 @@ export const Header = () => {
     const routesWithBackButton = ["locker-rooms", "fields", "inventories", "price-groups", "tariffs"];
 
     const routeWithoutStadiumList = (): boolean => {
-        return routesWithBackButton.filter(r => window.location.pathname.indexOf(r + "/") !== -1).length > 0
-            || window.location.pathname.startsWith("/lk/accounts");
+        return routesWithBackButton.filter(r => window.location.pathname.indexOf(r + "/") !== -1).length > 0;
     }
 
     return (
@@ -76,7 +75,7 @@ export const Header = () => {
             <ProfileModal open={profileModal} setOpen={setProfileModal}/>
             {stadium !== null &&
                 <div className="stadium-list">
-                    <div style={routeWithoutStadiumList() ? {display: "none"} : {}}>
+                    <div style={routeWithoutStadiumList() || window.location.pathname.startsWith("/lk/accounts") ? {display: "none"} : {}}>
                         {t("common:lk_header:current_stadium_title")}:  &nbsp;
                         <Dropdown
                             onChange={changeStadium}
