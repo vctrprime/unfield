@@ -56,14 +56,6 @@ import {BookingForm} from "./components/booking/BookingForm";
 const ReactNotifications = require('react-notifications');
 const {NotificationContainer} = ReactNotifications;
 
-/*NotificationManager.info('Info message');
-NotificationManager.success('Success message', 'Title here');
-NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
-NotificationManager.error('Error message', 'Click me!', 5000, () => {
-    alert('callback');
-});*/
-
-
 const App = () => {
     const [user, setUser] = useLocalStorage<AuthorizeUserDto | null>('user', null);
     const prevUserRef = useRef<AuthorizeUserDto | null>(user);

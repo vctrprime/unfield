@@ -69,12 +69,15 @@
     "coverings": {
         "natural": "Натуральный газон",
         "synthetic": "Искусственный газон",
-        "parquet": "Паркет"
+        "parquet": "Паркет",
+        "rubber": "Резина"
     },
     "sports": {
         "title": "Виды спорта",
         "football": "Футбол",
-        "basketball": "Баскетбол"
+        "basketball": "Баскетбол",
+        "tennis": "Теннис",
+        "badminton": "Бадминтон"
     },
     "currencies": {
         "title": "Валюта",

@@ -4,5 +4,6 @@ public enum CoveringType : byte
 {
     Natural = 1,
     Synthetic,
-    Parquet
+    Parquet,
+    Rubber
 }
