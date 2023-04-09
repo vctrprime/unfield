@@ -14,16 +14,18 @@ internal abstract class BaseRequestHandler<TRequest, TResponse> : IRequestHandle
     protected readonly IMapper Mapper;
 
 
-    protected BaseRequestHandler( IMapper mapper, IClaimsIdentityService? claimsIdentityService )
+    protected BaseRequestHandler( IMapper mapper, IClaimsIdentityService? claimsIdentityService = null )
     {
         Mapper = mapper;
 
-        if ( claimsIdentityService != null )
+        if ( claimsIdentityService == null )
         {
-            _userId = claimsIdentityService.GetUserId();
-            _legalId = claimsIdentityService.GetLegalId();
-            _currentStadiumId = claimsIdentityService.GetCurrentStadiumId();
+            return;
         }
+
+        _userId = claimsIdentityService.GetUserId();
+        _legalId = claimsIdentityService.GetLegalId();
+        _currentStadiumId = claimsIdentityService.GetCurrentStadiumId();
     }
 
     public abstract ValueTask<TResponse> Handle( TRequest request, CancellationToken cancellationToken );

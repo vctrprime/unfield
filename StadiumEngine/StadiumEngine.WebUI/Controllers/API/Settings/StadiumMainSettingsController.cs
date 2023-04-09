@@ -21,8 +21,8 @@ public class StadiumMainSettingsController : BaseApiController
     [HttpGet]
     public async Task<StadiumMainSettingsDto> Get()
     {
-        StadiumMainSettingsDto priceGroup = await Mediator.Send( new GetStadiumMainSettingsQuery() );
-        return priceGroup;
+        StadiumMainSettingsDto settings = await Mediator.Send( new GetStadiumMainSettingsQuery() );
+        return settings;
     }
     
     /// <summary>
