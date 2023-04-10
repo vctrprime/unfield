@@ -5,25 +5,44 @@ import {Carousel} from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {SportKind} from "../../models/dto/offers/enums/SportKind";
 import {t} from "i18next";
-import {Button} from "semantic-ui-react";
+import {Button, Grid, Header, Popup, SemanticWIDTHS} from "semantic-ui-react";
 import {FieldCoveringType} from "../../models/dto/offers/enums/FieldCoveringType";
 
 export interface FieldCardProps {
-    field: BookingFormFieldDto,
-    selectedSlot: BookingFormFieldSlotDto|null,
-    setSelectedSlot: any
+    field: BookingFormFieldDto
 }
 
+interface PopupSlotProps {
+    slot: BookingFormFieldSlotDto
+}
+
+const PopupSlot = (props: PopupSlotProps) => (
+    <Popup
+        trigger={<div className="field-slot">{props.slot.name}</div>} flowing hoverable>
+        <Grid centered divided columns={props.slot.prices.length as SemanticWIDTHS}>
+            {props.slot.prices.map((p, i) => {
+                return <Grid.Column key={i} textAlign='center'>
+                    <Header as='h6' className="slot-popup-header">{p.tariffName}</Header>
+                    <span style={{fontWeight: 'bold'}}>{props.slot.name}</span>
+                    <p className="slot-popup-value">
+                        {p.value}/час
+                    </p>
+                    <Button style={{backgroundColor: '#354650', color: 'white'}}>Забронировать</Button>
+                </Grid.Column>
+            })}
+        </Grid>
+    </Popup>
+)
+
 export const FieldCard = (props: FieldCardProps) => {
-    
-    
-    
-    return <Col xs={12} sm={6} md={4} lg={3} style={{float: 'left'}}>
+        return <Col xs={12} sm={12} md={6} lg={3} style={{float: 'left'}}>
         <div className="booking-form-field-card">
             <div className="field-covering">{t("offers:coverings:" + FieldCoveringType[props.field.data.coveringType].toLowerCase())}</div>
+            {props.field.stadiumName !== null && <div className="field-stadium">{props.field.stadiumName}</div>}
+            <div className="field-min-price">от {props.field.minPrice}/час</div>
             {props.field.data.images.length === 0 ? 
                 <div className="field-carousel"></div> :
-            <Carousel showThumbs={false} showStatus={false} className="field-carousel">
+            <Carousel autoPlay={true} infiniteLoop={true} showThumbs={false} showStatus={false} className="field-carousel">
                 {props.field.data.images.map((img, i) => {
                     return <img key={i} src={"/legal-images/" + img} />
                 })}
@@ -44,19 +63,8 @@ export const FieldCard = (props: FieldCardProps) => {
             </div>
             <div className="field-slots">
                 {props.field.slots.map((s, i) => {
-                    const titles = s.prices.map((p, i) => {
-                        return `${p.tariffName}: ${p.value}/час`
-                    })
-                    const title = titles.join('\r\n')
-                    
-                    return <div 
-                        onClick={() => props.setSelectedSlot(s)}
-                        style={ props.selectedSlot === s ? { backgroundColor: '#3CB371'} : {}} key={i} title={title} className="field-slot">{s.name}</div>;
+                    return <PopupSlot slot={s} key={i} />;
                 })}
-            </div>
-            <div className="field-buttons">
-                <div className="field-min-price">от {props.field.minPrice}/час</div>
-                <Button disabled={props.selectedSlot === null || props.field.slots.indexOf(props.selectedSlot) === -1} style={{backgroundColor: '#3CB371', color: 'white'}}>Забронировать</Button>
             </div>
         </div>
     </Col>

@@ -23,11 +23,12 @@ internal sealed class GetBookingFormHandler : BaseRequestHandler<GetBookingFormQ
         List<Field> fields = await _fieldQueryFacade.GetByStadiumIdAsync( 1 );
         BookingFormDto result = new BookingFormDto
         {
-            Fields = fields.Select(
+            Fields = fields.Where( x => x.IsActive ).Select(
                 x => new BookingFormFieldDto
                 {
                     Data = Mapper.Map<FieldDto>( x ),
                     MinPrice = 3000,
+                    StadiumName = String.IsNullOrEmpty( request.StadiumToken ) ? "Андреевская 2, ФЦ" : null,
                     Slots = new List<BookingFormFieldSlotDto>
                     {
                         new BookingFormFieldSlotDto
@@ -39,12 +40,113 @@ internal sealed class GetBookingFormHandler : BaseRequestHandler<GetBookingFormQ
                                 {
                                     TariffName = "Тариф \"Выходные дни\"",
                                     Value = 3000
+                                },
+                                new BookingFormFieldSlotPriceDto
+                                {
+                                    TariffName = "Тариф \"Будние дни\"",
+                                    Value = 3200
                                 }
                             }
                         },
                         new BookingFormFieldSlotDto
                         {
                             Name = "12:00",
+                            Prices = new List<BookingFormFieldSlotPriceDto>
+                            {
+                                new BookingFormFieldSlotPriceDto
+                                {
+                                    TariffName = "Тариф \"Выходные дни\"",
+                                    Value = 3200
+                                }
+                            }
+                        },
+                        new BookingFormFieldSlotDto
+                        {
+                            Name = "13:00",
+                            Prices = new List<BookingFormFieldSlotPriceDto>
+                            {
+                                new BookingFormFieldSlotPriceDto
+                                {
+                                    TariffName = "Тариф \"Выходные дни\"",
+                                    Value = 3200
+                                }
+                            }
+                        },
+                        new BookingFormFieldSlotDto
+                        {
+                            Name = "14:00",
+                            Prices = new List<BookingFormFieldSlotPriceDto>
+                            {
+                                new BookingFormFieldSlotPriceDto
+                                {
+                                    TariffName = "Тариф \"Выходные дни\"",
+                                    Value = 3200
+                                }
+                            }
+                        },
+                        new BookingFormFieldSlotDto
+                        {
+                            Name = "15:00",
+                            Prices = new List<BookingFormFieldSlotPriceDto>
+                            {
+                                new BookingFormFieldSlotPriceDto
+                                {
+                                    TariffName = "Тариф \"Выходные дни\"",
+                                    Value = 3200
+                                }
+                            }
+                        },
+                        new BookingFormFieldSlotDto
+                        {
+                            Name = "16:00",
+                            Prices = new List<BookingFormFieldSlotPriceDto>
+                            {
+                                new BookingFormFieldSlotPriceDto
+                                {
+                                    TariffName = "Тариф \"Выходные дни\"",
+                                    Value = 3200
+                                }
+                            }
+                        },
+                        new BookingFormFieldSlotDto
+                        {
+                            Name = "17:00",
+                            Prices = new List<BookingFormFieldSlotPriceDto>
+                            {
+                                new BookingFormFieldSlotPriceDto
+                                {
+                                    TariffName = "Тариф \"Выходные дни\"",
+                                    Value = 3200
+                                }
+                            }
+                        },
+                        new BookingFormFieldSlotDto
+                        {
+                            Name = "18:00",
+                            Prices = new List<BookingFormFieldSlotPriceDto>
+                            {
+                                new BookingFormFieldSlotPriceDto
+                                {
+                                    TariffName = "Тариф \"Выходные дни\"",
+                                    Value = 3200
+                                }
+                            }
+                        },
+                        new BookingFormFieldSlotDto
+                        {
+                            Name = "19:00",
+                            Prices = new List<BookingFormFieldSlotPriceDto>
+                            {
+                                new BookingFormFieldSlotPriceDto
+                                {
+                                    TariffName = "Тариф \"Выходные дни\"",
+                                    Value = 3200
+                                }
+                            }
+                        },
+                        new BookingFormFieldSlotDto
+                        {
+                            Name = "20:00",
                             Prices = new List<BookingFormFieldSlotPriceDto>
                             {
                                 new BookingFormFieldSlotPriceDto

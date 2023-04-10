@@ -1,118 +1,143 @@
 @import "src/css/const.scss";
 
-.booking-form-field-card {
-  border: 1px solid #eee;
-  border-radius: 3px;
-  margin-top: 5px;
+.booking-form-container {
+  background-color: #eee;
+  overflow: hidden;
+  min-height: 100vh;
   
-  .field-carousel {
-    height: 150px;
-    
-    .carousel {
-      height: 100%;
-      
-      .slider-wrapper {
+  .booking-form-field-card {
+    background-color: white;
+    margin-top: 10px;
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    .field-carousel {
+      height: 150px;
+
+      .carousel {
         height: 100%;
-        
-        .slider {
+
+        .slider-wrapper {
           height: 100%;
+
+          .slider {
+            height: 100%;
+          }
+        }
+
+      }
+
+      img {
+        object-fit: cover;
+        height: 100%;
+      }
+    }
+
+    .field-name {
+      height: 20px;
+      width: 100%;
+      position: relative;
+      padding-left: 10px;
+      padding-top: 5px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .field-description {
+      height: 36px;
+      padding: 5px 15px;
+      font-size: 12px;
+      line-height: 13px;
+    }
+
+    .field-covering {
+      padding-left: 5px;
+      padding-right: 5px;
+      font-weight: bold;
+      font-size: 9px;
+      position: absolute;
+      z-index: 100;
+      top: 130px;
+      color: white;
+      background-color: rgba(0,0,0,0.5);
+      left: 0;
+    }
+    
+    .field-stadium {
+      padding-left: 5px;
+      padding-right: 5px;
+      font-weight: bold;
+      font-size: 12px;
+      position: absolute;
+      z-index: 100;
+      top: 0;
+      color: white;
+      background-color: rgba(0,0,0,0.5);
+      right: 0;
+    }
+
+    .field-min-price {
+      padding-left: 5px;
+      padding-right: 5px;
+      font-weight: bold;
+      font-size: 14px;
+      position: absolute;
+      z-index: 100;
+      bottom: 5px;
+      color: $dark-color;
+      right: 5px;
+    }
+
+    .field-sports {
+      height: 30px;
+
+      .field-sport {
+        float: left;
+        margin-left: 5px;
+        border-radius: 5px;
+        background-color: $dark-color;
+        color: white;
+        text-align: center;
+        font-size: 12px;
+        padding-left: 5px;
+        padding-right: 5px;
+        justify-content: center;
+        display: flex;
+        align-content: center;
+      }
+    }
+
+    .field-slots {
+      height: 90px;
+      width: calc(100% - 10px);
+      margin-left: 5px;
+      border-top: 1px solid #eee;
+      padding-top: 5px;
+
+      .field-slot {
+        float: left;
+        margin-top: 8px;
+        margin-left: 5px;
+        border-radius: 5px;
+        width: 42px;
+        background-color: #eee;
+        cursor: pointer;
+        text-align: center;
+        font-size: 12px;
+        
+        &:hover {
+          background-color: $dark-color;
+          color: white;
         }
       }
       
     }
-    
-    img {
-      object-fit: cover;
-      height: 100%;
-    }
   }
-  
-  .field-name {
-    height: 20px;
-    width: 100%;
-    position: relative;
-    padding-left: 5px;
-    padding-top: 5px;
-    font-size: 15px;
-    font-weight: bold;
-  }
-  
-  .field-description {
-    height: 40px;
-    padding: 5px;
-    font-size: 12px;
-    line-height: 12px;
-  }
-  
-  .field-covering {
-    padding-left: 5px;
-    padding-right: 5px;
-    font-weight: bold;
-    font-size: 9px;
-    position: absolute;
-    z-index: 100;
-    top: 136px;
-    color: white;
-    background-color: rgba(0,0,0,0.5);
-    left: 16px;
-  }
-  
-  .field-sports {
-    height: 30px;
-    
-    .field-sport {
-      float: left;
-      margin-left: 5px;
-      border-radius: 5px;
-      background-color: #eee;
-      cursor: pointer;
-      text-align: center;
-      font-size: 12px;
-      padding-left: 5px;
-      padding-right: 5px;
-      justify-content: center;
-      display: flex;
-      align-content: center;
-    }
-  }
-  
-  .field-slots {
-    height: 70px;
-    width: calc(100% - 10px);
-    margin-left: 5px;
-    border-top: 1px solid #eee;
-    padding-top: 10px;
-    
-    .field-slot {
-      float: left;
-      margin-left: 5px;
-      border-radius: 5px;
-      width: 35px;
-      background-color: #eee;
-      cursor: pointer;
-      text-align: center;
-      font-size: 12px;
-    }
-  }
-  
-  .field-buttons {
-    display: flex;
-    justify-content: flex-end;
-    padding: 5px;
-    position: relative;
-    
-    button {
-      width: 50%;
-    }
+}
 
-    .field-min-price {
-      font-weight: bold;
-      font-size: 15px;
-      color: #333;
-      width: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
+.slot-popup-header {
+  font-size: 12px;
+}
+.slot-popup-value {
+  font-size: 18px;
 }

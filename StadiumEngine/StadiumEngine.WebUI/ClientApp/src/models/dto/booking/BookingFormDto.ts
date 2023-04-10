@@ -7,6 +7,7 @@ export interface BookingFormDto {
 export interface BookingFormFieldDto {
     data: FieldDto;
     minPrice: number;
+    stadiumName: string|null;
     slots: BookingFormFieldSlotDto[];
 }
 

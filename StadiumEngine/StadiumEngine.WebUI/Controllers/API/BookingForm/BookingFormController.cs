@@ -1,3 +1,4 @@
+#nullable enable
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,12 @@ public class BookingFormController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public async Task<BookingFormDto> Get()
+    public async Task<BookingFormDto> Get(string? token = null)
     {
-        BookingFormDto bookingForm = await Mediator.Send( new GetBookingFormQuery() );
+        BookingFormDto bookingForm = await Mediator.Send( new GetBookingFormQuery
+        {
+            StadiumToken = token
+        } );
         return bookingForm;
     }
     

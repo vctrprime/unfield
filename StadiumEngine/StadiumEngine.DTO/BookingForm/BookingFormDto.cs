@@ -29,6 +29,11 @@ public class BookingFormFieldDto
     public decimal MinPrice { get; set; }
     
     /// <summary>
+    /// Название и адрес стадиона
+    /// </summary>
+    public string? StadiumName { get; set; }
+    
+    /// <summary>
     /// Свободные слоты
     /// </summary>
     public List<BookingFormFieldSlotDto> Slots { get; set; } = new();

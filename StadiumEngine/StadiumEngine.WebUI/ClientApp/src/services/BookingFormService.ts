@@ -2,7 +2,7 @@ import {BookingFormDto} from "../models/dto/booking/BookingFormDto";
 import {BaseService} from "./BaseService";
 
 export interface IBookingFormService {
-    getBookingForm(): Promise<BookingFormDto>;
+    getBookingForm(token: string|null): Promise<BookingFormDto>;
 }
 
 export class BookingFormService extends BaseService implements IBookingFormService {
@@ -10,9 +10,20 @@ export class BookingFormService extends BaseService implements IBookingFormServi
         super("api/booking");
     }
 
-    getBookingForm(): Promise<BookingFormDto> {
+    getBookingForm(token: string|null): Promise<BookingFormDto> {
+        let params = '';
+        if (token !== null) {
+            if (params.length === 0) {
+                params += "?"
+            }
+            else {
+                params += "&"
+            }
+            params += `token=${token}`
+        }
+        
         return this.fetchWrapper.get({
-            url: `${this.baseUrl}/form`,
+            url: `${this.baseUrl}/form${params}`,
         })
     }
 }
