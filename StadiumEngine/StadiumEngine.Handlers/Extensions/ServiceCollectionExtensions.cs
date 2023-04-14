@@ -37,6 +37,7 @@ public static class ServiceCollectionExtensions
                     cfg.AddProfile( new OffersProfile() );
                     cfg.AddProfile( new RatesProfile() );
                     cfg.AddProfile( new SettingsProfile() );
+                    cfg.AddProfile( new GeoProfile() );
                 } ).CreateMapper() );
 
         services.AddScoped<IAddUserFacade, AddUserFacade>();

@@ -4,6 +4,25 @@
   background-color: #eee;
   overflow: hidden;
   min-height: 100vh;
+
+  .booking-form-header {
+    padding-top: 9px;
+    display: flex;
+    
+    &-left {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      float: left;
+    }
+
+    &-right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      float: left;
+    }
+  }
   
   .booking-form-field-card {
     background-color: white;
@@ -34,18 +53,18 @@
     }
 
     .field-name {
-      height: 20px;
+      height: 25px;
       width: 100%;
       position: relative;
-      padding-left: 10px;
-      padding-top: 5px;
+      padding-left: 15px;
+      padding-top: 10px;
       font-size: 14px;
       font-weight: bold;
     }
 
     .field-description {
-      height: 36px;
-      padding: 5px 15px;
+      height: 46px;
+      padding: 10px 15px;
       font-size: 12px;
       line-height: 13px;
     }
@@ -56,7 +75,7 @@
       font-weight: bold;
       font-size: 9px;
       position: absolute;
-      z-index: 100;
+      z-index: 3;
       top: 130px;
       color: white;
       background-color: rgba(0,0,0,0.5);
@@ -69,7 +88,7 @@
       font-weight: bold;
       font-size: 12px;
       position: absolute;
-      z-index: 100;
+      z-index: 3;
       top: 0;
       color: white;
       background-color: rgba(0,0,0,0.5);
@@ -80,16 +99,17 @@
       padding-left: 5px;
       padding-right: 5px;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 15px;
       position: absolute;
       z-index: 100;
-      bottom: 5px;
+      bottom: 8px;
       color: $dark-color;
-      right: 5px;
+      right: 12px;
     }
 
     .field-sports {
       height: 30px;
+      padding: 0 10px;
 
       .field-sport {
         float: left;
@@ -108,18 +128,17 @@
     }
 
     .field-slots {
-      height: 90px;
+      height: 120px;
       width: calc(100% - 10px);
-      margin-left: 5px;
+      padding: 5px 15px;
       border-top: 1px solid #eee;
-      padding-top: 5px;
 
       .field-slot {
         float: left;
         margin-top: 8px;
         margin-left: 5px;
         border-radius: 5px;
-        width: 42px;
+        width: calc(20% - 5px);
         background-color: #eee;
         cursor: pointer;
         text-align: center;
@@ -137,7 +156,20 @@
 
 .slot-popup-header {
   font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .slot-popup-value {
   font-size: 18px;
+}
+
+@media (max-width: 576px) {
+  .booking-form-header {
+    flex-direction: column;
+  }
+  .booking-form-header-right {
+    justify-content: space-between !important;
+    margin-top: 5px;
+  }
 }

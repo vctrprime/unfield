@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Domain.Services.Facades.Accounts;
+using StadiumEngine.Domain.Services.Facades.Geo;
 using StadiumEngine.Domain.Services.Facades.Offers;
 using StadiumEngine.Domain.Services.Facades.Rates;
 using StadiumEngine.Domain.Services.Facades.Settings;
@@ -9,6 +10,7 @@ using StadiumEngine.Repositories.Infrastructure.Extensions;
 using StadiumEngine.Services.Builders.Utils;
 using StadiumEngine.Services.Checkers;
 using StadiumEngine.Services.Facades.Accounts;
+using StadiumEngine.Services.Facades.Geo;
 using StadiumEngine.Services.Facades.Offers;
 using StadiumEngine.Services.Facades.Rates;
 using StadiumEngine.Services.Facades.Services.Accounts;
@@ -67,6 +69,8 @@ public static class ServiceCollectionExtensions
         
         services.AddScoped<IStadiumMainSettingsQueryFacade, StadiumMainSettingsQueryFacade>();
         services.AddScoped<IStadiumMainSettingsCommandFacade, StadiumMainSettingsCommandFacade>();
+
+        services.AddScoped<ICityQueryFacade, CityQueryFacade>();
 
         #endregion
 

@@ -29,6 +29,9 @@ import ratesEN from '../i18n/rates/rates.en.json';
 import settingsRU from '../i18n/settings/settings.json';
 import settingsEN from '../i18n/settings/settings.en.json';
 
+import bookingRU from '../i18n/booking/booking.json';
+import bookingEN from '../i18n/booking/booking.en.json';
+
 import {LocaleOptions} from "react-semantic-ui-datepickers/dist/types";
 
 
@@ -41,7 +44,8 @@ const resources = {
         errors: errorsRU,
         offers: offersRU,
         rates: ratesRU,
-        settings: settingsRU
+        settings: settingsRU,
+        booking: bookingRU
     },
     en: {
         accounts: accountsEN,
@@ -51,7 +55,8 @@ const resources = {
         errors: errorsEN,
         offers: offersEN,
         rates: ratesEN,
-        settings: settingsEN
+        settings: settingsEN,
+        booking: bookingEN
     }
 };
 
@@ -60,7 +65,7 @@ i18next
     .use(reactI18nextModule) // passes i18n down to react-i18next
     .init({
         fallbackLng: "ru",
-        ns: ['portal', 'common', 'accounts', 'admin', 'errors', 'offers', 'rates', 'settings'],
+        ns: ['portal', 'common', 'accounts', 'admin', 'errors', 'offers', 'rates', 'settings', 'booking'],
         resources,
         lng: localStorage.getItem('language') || 'ru',
         keySeparator: false, // we do not use keys in form messages.welcome

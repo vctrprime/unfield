@@ -25,9 +25,9 @@ const PopupSlot = (props: PopupSlotProps) => (
                     <Header as='h6' className="slot-popup-header">{p.tariffName}</Header>
                     <span style={{fontWeight: 'bold'}}>{props.slot.name}</span>
                     <p className="slot-popup-value">
-                        {p.value}/час
+                        {p.value}{t("booking:field_card:per_hour")}
                     </p>
-                    <Button style={{backgroundColor: '#354650', color: 'white'}}>Забронировать</Button>
+                    <Button style={{backgroundColor: '#354650', color: 'white'}}>{t("booking:field_card:book")}</Button>
                 </Grid.Column>
             })}
         </Grid>
@@ -39,7 +39,7 @@ export const FieldCard = (props: FieldCardProps) => {
         <div className="booking-form-field-card">
             <div className="field-covering">{t("offers:coverings:" + FieldCoveringType[props.field.data.coveringType].toLowerCase())}</div>
             {props.field.stadiumName !== null && <div className="field-stadium">{props.field.stadiumName}</div>}
-            <div className="field-min-price">от {props.field.minPrice}/час</div>
+            <div className="field-min-price">{t("booking:field_card:from")} {props.field.minPrice}{t("booking:field_card:per_hour")}</div>
             {props.field.data.images.length === 0 ? 
                 <div className="field-carousel"></div> :
             <Carousel autoPlay={true} infiniteLoop={true} showThumbs={false} showStatus={false} className="field-carousel">
@@ -53,7 +53,7 @@ export const FieldCard = (props: FieldCardProps) => {
             <div className="field-description">{props.field.data.description}</div>
             <div className="field-sports">
                 {props.field.data.sportKinds.length === 0 ? 
-                <span style={{paddingLeft: '10px'}}>Виды спорта не указаны</span> :
+                <span style={{paddingLeft: '10px', fontSize: '12px', fontWeight: "bold"}}>{t("booking:field_card:no_sports")}</span> :
                     props.field.data.sportKinds.map((s, i) => {
                         const value = SportKind[s];
                         const text = t("offers:sports:" + value.toLowerCase());

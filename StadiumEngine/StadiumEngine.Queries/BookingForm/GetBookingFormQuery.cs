@@ -5,7 +5,13 @@ namespace StadiumEngine.Queries.BookingForm;
 
 public sealed class GetBookingFormQuery : IRequest<BookingFormDto>
 {
-    public DateTime Day { get; set; }
-    public string? StadiumToken { get; set; }
-    public int? CityId { get; set; }
+    public GetBookingFormQuery( DateTime day, string? stadiumToken, int? cityId )
+    {
+        Day = day;
+        StadiumToken = stadiumToken;
+        CityId = cityId;
+    }
+    public DateTime Day { get; }
+    public string? StadiumToken { get; }
+    public int? CityId { get; }
 }

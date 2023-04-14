@@ -2,10 +2,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain.Repositories.Geo;
 using StadiumEngine.Domain.Repositories.Offers;
 using StadiumEngine.Domain.Repositories.Rates;
 using StadiumEngine.Domain.Repositories.Settings;
 using StadiumEngine.Repositories.Accounts;
+using StadiumEngine.Repositories.Geo;
 using StadiumEngine.Repositories.Infrastructure.Contexts;
 using StadiumEngine.Repositories.Offers;
 using StadiumEngine.Repositories.Rates;
@@ -68,6 +70,12 @@ public static class ServiceCollectionExtensions
         #region settings
 
         services.AddScoped<IStadiumMainSettingsRepository, StadiumMainSettingsRepository>();
+
+        #endregion
+
+        #region geo
+
+        services.AddScoped<ICityRepository, CityRepository>();
 
         #endregion
 

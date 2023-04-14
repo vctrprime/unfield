@@ -35,6 +35,8 @@
         <Content Include="ClientApp\src\i18n\accounts\accounts.json" />
         <Content Include="ClientApp\src\i18n\admin\admin.en.json" />
         <Content Include="ClientApp\src\i18n\admin\admin.json" />
+        <Content Include="ClientApp\src\i18n\booking\booking.en.json" />
+        <Content Include="ClientApp\src\i18n\booking\booking.json" />
         <Content Include="ClientApp\src\i18n\common\common.en.json" />
         <Content Include="ClientApp\src\i18n\common\common.json" />
         <Content Include="ClientApp\src\i18n\errors\errors.en.json" />
