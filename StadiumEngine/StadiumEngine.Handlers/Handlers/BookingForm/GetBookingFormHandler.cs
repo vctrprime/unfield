@@ -1,6 +1,8 @@
 using AutoMapper;
 using StadiumEngine.Domain.Entities.Offers;
+using StadiumEngine.Domain.Services.Facades.BookingForm;
 using StadiumEngine.Domain.Services.Facades.Offers;
+using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.BookingForm;
 using StadiumEngine.DTO.Offers.Fields;
 using StadiumEngine.Queries.BookingForm;
@@ -9,26 +11,29 @@ namespace StadiumEngine.Handlers.Handlers.BookingForm;
 
 internal sealed class GetBookingFormHandler : BaseRequestHandler<GetBookingFormQuery, BookingFormDto>
 {
-    private readonly IFieldQueryFacade _fieldQueryFacade;
+    private readonly IBookingFormQueryFacade _bookingFormQueryFacade;
 
-    public GetBookingFormHandler( 
-        IMapper mapper, 
-        IFieldQueryFacade fieldQueryFacade ) : base( mapper )
+    public GetBookingFormHandler( IBookingFormQueryFacade bookingFormQueryFacade, IMapper mapper ) : base( mapper )
     {
-        _fieldQueryFacade = fieldQueryFacade;
+        _bookingFormQueryFacade = bookingFormQueryFacade;
     }
 
-    public override async ValueTask<BookingFormDto> Handle( GetBookingFormQuery request, CancellationToken cancellationToken )
+    public override async ValueTask<BookingFormDto> Handle( GetBookingFormQuery request,
+        CancellationToken cancellationToken )
     {
-        List<Field> fields = await _fieldQueryFacade.GetByStadiumIdAsync( 1 );
+        List<Field> fields = await _bookingFormQueryFacade.GetFieldsForBookingFormAsync(
+            request.StadiumToken,
+            request.CityId,
+            request.Q );
+
         BookingFormDto result = new BookingFormDto
         {
-            Fields = fields.Where( x => x.IsActive ).Select(
+            Fields = fields.Select(
                 x => new BookingFormFieldDto
                 {
                     Data = Mapper.Map<FieldDto>( x ),
                     MinPrice = 3000,
-                    StadiumName = String.IsNullOrEmpty( request.StadiumToken ) ? "Андреевская 2, ФЦ" : null,
+                    StadiumName = String.IsNullOrEmpty( request.StadiumToken ) ? x.Stadium.Name : null,
                     Slots = new List<BookingFormFieldSlotDto>
                     {
                         new BookingFormFieldSlotDto

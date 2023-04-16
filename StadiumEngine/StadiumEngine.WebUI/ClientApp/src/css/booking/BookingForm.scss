@@ -169,6 +169,13 @@
   .booking-form-search-input {
     width: calc(100% - 51px);
   }
+  
+  .booking-form-no-fields {
+    height: calc(100vh - 80px);
+    display: flex;
+    padding-top: 20vh;
+    justify-content: center;
+  }
 }
 
 .slot-popup-header {

@@ -145,7 +145,7 @@ export const BookingForm = () => {
                     
                 </div>
                 <div className="booking-form-cards">
-                    {data.fields.map((f, i) => {
+                    {data.fields.length === 0 ? <div className="booking-form-no-fields">{t('booking:no_fields')}</div> : data.fields.map((f, i) => {
                         return <FieldCard
                             key={i}
                             field={f}/>

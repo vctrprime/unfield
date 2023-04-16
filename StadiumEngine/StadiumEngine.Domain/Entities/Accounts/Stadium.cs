@@ -27,7 +27,11 @@ public class Stadium : BaseEntity
     [ForeignKey( "LegalId" )]
     public virtual Legal Legal { get; set; }
 
+    [Column( "address" )]
     public string Address { get; set; }
+    
+    [Column( "token" )]
+    public string Token { get; set; }
 
     public virtual ICollection<RoleStadium> RoleStadiums { get; set; }
     public virtual ICollection<LockerRoom> LockerRooms { get; set; }

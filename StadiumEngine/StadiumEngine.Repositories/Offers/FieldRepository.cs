@@ -20,6 +20,20 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
             .Include( f => f.PriceGroup )
             .ToListAsync();
 
+    public async Task<List<Field>> GetForCityAsync( int cityId, string? q ) =>
+        await Entities
+            .Include( f => f.SportKinds )
+            .Include( f => f.Images )
+            .Include( f => f.Stadium )
+            .Where( f => 
+                f.Stadium.CityId == cityId 
+                && f.IsActive
+                && !f.IsDeleted 
+                && f.Stadium.Name.ToLower().Contains( (q ?? String.Empty).ToLower() )
+                && f.Stadium.Address.ToLower().Contains( (q ?? String.Empty).ToLower() )
+                )
+            .ToListAsync();
+
     public async Task<Field?> GetAsync( int fieldId, int stadiumId ) =>
         await Entities
             .Include( f => f.Stadium )

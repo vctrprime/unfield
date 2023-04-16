@@ -26,4 +26,8 @@ internal class StadiumRepository : BaseRepository<Stadium>, IStadiumRepository
             .ThenInclude( c => c.Region )
             .ThenInclude( r => r.Country )
             .ToListAsync();
+
+    public async Task<Stadium?> GetByTokenAsync( string token ) => 
+        await Entities
+            .FirstOrDefaultAsync( s => s.Token == token );
 }

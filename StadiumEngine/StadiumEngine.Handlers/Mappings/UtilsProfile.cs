@@ -34,7 +34,8 @@ internal class UtilsProfile : Profile
                 {
                     OpenTime = 8,
                     CloseTime = 23
-                }
+                },
+                Token = Guid.NewGuid().ToString()
             } ).ToList();
 
         return stadiums;
