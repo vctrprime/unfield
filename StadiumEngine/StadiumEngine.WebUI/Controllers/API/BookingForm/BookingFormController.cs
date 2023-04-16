@@ -20,9 +20,9 @@ public class BookingFormController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public async Task<BookingFormDto> Get( DateTime date, string? token = null, int? cityId = null )
+    public async Task<BookingFormDto> Get( DateTime date, string? token = null, int? cityId = null, string? q = null )
     {
-        BookingFormDto bookingForm = await Mediator.Send( new GetBookingFormQuery( date, token, cityId ) );
+        BookingFormDto bookingForm = await Mediator.Send( new GetBookingFormQuery( date, token, cityId, q ) );
         return bookingForm;
     }
 }

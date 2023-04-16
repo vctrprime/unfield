@@ -14,7 +14,8 @@ import {CityDto} from "../../models/dto/geo/CityDto";
 import {IGeoService} from "../../services/GeoService";
 import {useSetRecoilState} from "recoil";
 import {loadingAtom} from "../../state/loading";
-import {Dropdown} from "semantic-ui-react";
+import {Button, Dropdown, Icon, Input} from "semantic-ui-react";
+import {t} from "i18next";
 
 
 export const BookingForm = () => {
@@ -42,6 +43,8 @@ export const BookingForm = () => {
         setCitySearch(null);
     }
 
+    const [searchString, setSearchString] = useState<string|null>(null);
+    
     const [bookingFormService] = useInject<IBookingFormService>('BookingFormService');
     const [geoService] = useInject<IGeoService>('GeoService');
     
@@ -78,19 +81,19 @@ export const BookingForm = () => {
     }, [citySearch])
     
     const fetchData = () => {
-        bookingFormService.getBookingForm(currentDate, token === undefined ? null : token, cityId)
+        bookingFormService.getBookingForm(currentDate, token === undefined ? null : token, cityId, searchString)
             .then((result: BookingFormDto) => {
                 setData(result);
             })
     }
     
 
-    return <div>{data === null ? <span/> : 
+    return <div>{data === null ? <span/> :
             <Container className="booking-form-container">
                 <div className="booking-form-header">
-                    <Col sm={6} xs={12} className="booking-form-header-left">
+                    <Col sm={7} xs={12} className="booking-form-header-left">
                         {token === undefined && cityId !== null &&
-                            <Col style={{ padding: 0}} lg={6} md={12} sm={12} xs={12}>
+                            <Col style={{ padding: 0}} lg={5} md={5} sm={5} xs={12}>
                                 <Dropdown
                                     fluid
                                     options={cities.map((c) => {
@@ -109,28 +112,48 @@ export const BookingForm = () => {
                                 />
                             </Col>
                         }
+                        {token === undefined &&
+                            <Col className="booking-form-search-input-container" style={{ padding: 0}} lg={7} md={7} sm={7} xs={12}>
+                                <Input
+                                    className="booking-form-search-input"
+                                    style={{ marginLeft: '5px'}}
+                                    value={searchString}
+                                    placeholder={t('booking:search_placeholder')}
+                                    onChange={(e) => setSearchString(e.target.value)}
+                                />
+                                <Button style={{ marginLeft: '5px', padding: '11px 10px'}} onClick={fetchData}>
+                                    <Icon style={{margin: 0}} className='search'/>
+                                </Button>
+                            </Col>}
                     </Col>
-                    <Col sm={6} xs={12} className="booking-form-header-right">
+                    <Col sm={5} xs={12} className="booking-form-header-right">
                         <LanguageSelect withRequest={false} style={{marginRight: '10px'}}/>
-                        <SemanticDatepicker firstDayOfWeek={1}
-                                            datePickerOnly={true}
-                                            locale={getLocale()}
-                                            value={currentDate}
-                                            format={'DD.MM.YYYY'}
-                                            minDate={new Date()}
-                                            onChange={onChange}
-                                            clearable={false}
-                                            pointing="right"
+                        <SemanticDatepicker
+                            className="booking-form-date-picker"
+                            firstDayOfWeek={1}
+                            datePickerOnly={true}
+                            locale={getLocale()}
+                            value={currentDate}
+                            format={'DD.MM.YYYY'}
+                            minDate={new Date()}
+                            onChange={onChange}
+                            clearable={false}
+                            pointing="right"
                         />
+                        
                     </Col>
                     
                 </div>
-                {data.fields.map((f, i) => {
-                return <FieldCard 
-                    key={i}
-                    field={f}/>
-            })}
+                <div className="booking-form-cards">
+                    {data.fields.map((f, i) => {
+                        return <FieldCard
+                            key={i}
+                            field={f}/>
+                    })}
+                </div>
+                <div className="booking-form-footer">{t('common:footer')}</div>
             </Container>
         }
+        
     </div>
 }

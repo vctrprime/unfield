@@ -23,134 +23,151 @@
       float: left;
     }
   }
-  
-  .booking-form-field-card {
-    background-color: white;
-    margin-top: 10px;
-    position: relative;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
-    .field-carousel {
-      height: 150px;
+  .booking-form-cards {
+    overflow: auto;
+    
+    .booking-form-field-card {
+      background-color: white;
+      margin-top: 10px;
+      position: relative;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
-      .carousel {
-        height: 100%;
+      .field-carousel {
+        height: 150px;
 
-        .slider-wrapper {
+        .carousel {
           height: 100%;
 
-          .slider {
+          .slider-wrapper {
             height: 100%;
+
+            .slider {
+              height: 100%;
+            }
+          }
+
+        }
+
+        img {
+          object-fit: cover;
+          height: 100%;
+        }
+      }
+
+      .field-name {
+        height: 25px;
+        width: 100%;
+        position: relative;
+        padding-left: 15px;
+        padding-top: 10px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .field-description {
+        height: 46px;
+        padding: 10px 15px;
+        font-size: 12px;
+        line-height: 13px;
+      }
+
+      .field-covering {
+        padding-left: 5px;
+        padding-right: 5px;
+        font-weight: bold;
+        font-size: 9px;
+        position: absolute;
+        z-index: 3;
+        top: 130px;
+        color: white;
+        background-color: rgba(0,0,0,0.5);
+        left: 0;
+      }
+
+      .field-stadium {
+        padding-left: 5px;
+        padding-right: 5px;
+        font-weight: bold;
+        font-size: 12px;
+        position: absolute;
+        z-index: 3;
+        top: 0;
+        color: white;
+        background-color: rgba(0,0,0,0.5);
+        right: 0;
+      }
+
+      .field-min-price {
+        padding-left: 5px;
+        padding-right: 5px;
+        font-weight: bold;
+        font-size: 15px;
+        position: absolute;
+        z-index: 100;
+        bottom: 8px;
+        color: $dark-color;
+        right: 12px;
+      }
+
+      .field-sports {
+        height: 30px;
+        padding: 0 10px;
+
+        .field-sport {
+          float: left;
+          margin-left: 5px;
+          border-radius: 5px;
+          background-color: $dark-color;
+          color: white;
+          text-align: center;
+          font-size: 12px;
+          padding-left: 5px;
+          padding-right: 5px;
+          justify-content: center;
+          display: flex;
+          align-content: center;
+        }
+      }
+
+      .field-slots {
+        height: 120px;
+        width: calc(100% - 10px);
+        padding: 5px 15px;
+        border-top: 1px solid #eee;
+
+        .field-slot {
+          float: left;
+          margin-top: 8px;
+          margin-left: 5px;
+          border-radius: 5px;
+          width: calc(20% - 5px);
+          background-color: #eee;
+          cursor: pointer;
+          text-align: center;
+          font-size: 12px;
+
+          &:hover {
+            background-color: $dark-color;
+            color: white;
           }
         }
 
       }
-
-      img {
-        object-fit: cover;
-        height: 100%;
-      }
     }
-
-    .field-name {
-      height: 25px;
-      width: 100%;
-      position: relative;
-      padding-left: 15px;
-      padding-top: 10px;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .field-description {
-      height: 46px;
-      padding: 10px 15px;
-      font-size: 12px;
-      line-height: 13px;
-    }
-
-    .field-covering {
-      padding-left: 5px;
-      padding-right: 5px;
-      font-weight: bold;
-      font-size: 9px;
-      position: absolute;
-      z-index: 3;
-      top: 130px;
-      color: white;
-      background-color: rgba(0,0,0,0.5);
-      left: 0;
-    }
-    
-    .field-stadium {
-      padding-left: 5px;
-      padding-right: 5px;
-      font-weight: bold;
-      font-size: 12px;
-      position: absolute;
-      z-index: 3;
-      top: 0;
-      color: white;
-      background-color: rgba(0,0,0,0.5);
-      right: 0;
-    }
-
-    .field-min-price {
-      padding-left: 5px;
-      padding-right: 5px;
-      font-weight: bold;
-      font-size: 15px;
-      position: absolute;
-      z-index: 100;
-      bottom: 8px;
-      color: $dark-color;
-      right: 12px;
-    }
-
-    .field-sports {
-      height: 30px;
-      padding: 0 10px;
-
-      .field-sport {
-        float: left;
-        margin-left: 5px;
-        border-radius: 5px;
-        background-color: $dark-color;
-        color: white;
-        text-align: center;
-        font-size: 12px;
-        padding-left: 5px;
-        padding-right: 5px;
-        justify-content: center;
-        display: flex;
-        align-content: center;
-      }
-    }
-
-    .field-slots {
-      height: 120px;
-      width: calc(100% - 10px);
-      padding: 5px 15px;
-      border-top: 1px solid #eee;
-
-      .field-slot {
-        float: left;
-        margin-top: 8px;
-        margin-left: 5px;
-        border-radius: 5px;
-        width: calc(20% - 5px);
-        background-color: #eee;
-        cursor: pointer;
-        text-align: center;
-        font-size: 12px;
-        
-        &:hover {
-          background-color: $dark-color;
-          color: white;
-        }
-      }
-      
-    }
+  }
+  
+  .booking-form-footer {
+    color: #aaa;
+    padding: 5px;
+  }
+  
+  .booking-form-date-picker {
+    width: 150px;
+  }
+  
+  .booking-form-search-input {
+    width: calc(100% - 51px);
   }
 }
 
@@ -171,5 +188,20 @@
   .booking-form-header-right {
     justify-content: space-between !important;
     margin-top: 5px;
+  }
+  .booking-form-header-left {
+    flex-direction: column;
+  }
+  .booking-form-search-input-container {
+    display: flex;
+    margin-top: 5px;
+
+    .booking-form-search-input {
+      margin-left: 0 !important;
+      width: 100% !important;
+    }
+    button {
+      margin-right: 0 !important;
+    }
   }
 }
