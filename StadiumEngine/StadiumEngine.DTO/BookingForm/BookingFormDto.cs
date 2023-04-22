@@ -22,11 +22,11 @@ public class BookingFormFieldDto
     /// Данные площадки
     /// </summary>
     public FieldDto Data { get; set; } = null!;
-    
+
     /// <summary>
     /// Минимальная цена
     /// </summary>
-    public decimal MinPrice { get; set; }
+    public decimal MinPrice => Slots.SelectMany( x => x.Prices ).Min( p => p.Value );
     
     /// <summary>
     /// Название и адрес стадиона

@@ -25,7 +25,8 @@ export const Field = () => {
         isActive: true,
         coveringType: FieldCoveringType.Natural,
         sportKinds: [] as SportKind[],
-        parentFieldId: null
+        parentFieldId: null,
+        priceGroupId: null
     } as FieldDto);
 
     const [passedImages, setPassedImages] = useState<ImageFile[]>([])

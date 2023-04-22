@@ -12,13 +12,18 @@ internal class PriceRepository : BaseRepository<Price>, IPriceRepository
     }
 
     public async Task<List<Price>> GetAllAsync( int stadiumId ) =>
+        await GetAllAsync( new List<int> { stadiumId } );
+    
+    public async Task<List<Price>> GetAllAsync( List<int> stadiumsIds ) =>
         await Entities
             .Include( p => p.Field )
             .Include( p => p.TariffDayInterval )
             .ThenInclude( i => i.Tariff )
+            .Include( p => p.TariffDayInterval )
+            .ThenInclude( i => i.DayInterval )
             .Where(
                 p => !p.IsObsolete
-                     && p.Field.StadiumId == stadiumId
+                     && stadiumsIds.Contains( p.Field.StadiumId )
                      && p.Field.IsActive
                      && !p.Field.IsDeleted
                      && p.TariffDayInterval.Tariff.IsActive

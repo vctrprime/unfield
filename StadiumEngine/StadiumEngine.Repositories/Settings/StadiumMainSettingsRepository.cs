@@ -33,5 +33,7 @@ internal class StadiumMainSettingsRepository : BaseRepository<StadiumMainSetting
 
     }
 
+    public async Task<List<StadiumMainSettings>> GetAsync( List<int> stadiumsIds ) => await Entities.Where( x => stadiumsIds.Contains(x.StadiumId) ).ToListAsync();
+
     public new void Update( StadiumMainSettings mainSettings ) => base.Update( mainSettings );
 }
