@@ -1,60 +1,59 @@
-using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Entities.BookingForm;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Entities.Settings;
-using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Repositories.BookingForm;
-using StadiumEngine.Domain.Repositories.Offers;
 using StadiumEngine.Domain.Repositories.Rates;
 using StadiumEngine.Domain.Repositories.Settings;
 using StadiumEngine.Domain.Services.Facades.BookingForm;
+using StadiumEngine.Domain.Services.Models.BookingForm;
+using StadiumEngine.Services.Facades.Services.BookingForm;
 
 namespace StadiumEngine.Services.Facades.BookingForm;
 
 internal class BookingFormQueryFacade : IBookingFormQueryFacade
 {
-    private readonly IFieldRepository _fieldRepository;
-    private readonly IStadiumRepository _stadiumRepository;
+    private readonly IBookingFormFieldRepositoryFacade _fieldRepositoryFacade;
     private readonly IStadiumMainSettingsRepository _stadiumMainSettingsRepository;
     private readonly IPriceRepository _priceRepository;
     private readonly IBookingRepository _bookingRepository;
 
-    public BookingFormQueryFacade( IFieldRepository fieldRepository, IStadiumRepository stadiumRepository,
+    public BookingFormQueryFacade( IBookingFormFieldRepositoryFacade fieldRepositoryFacade,
         IStadiumMainSettingsRepository stadiumMainSettingsRepository, IPriceRepository priceRepository,
         IBookingRepository bookingRepository )
     {
-        _fieldRepository = fieldRepository;
-        _stadiumRepository = stadiumRepository;
+        _fieldRepositoryFacade = fieldRepositoryFacade;
         _stadiumMainSettingsRepository = stadiumMainSettingsRepository;
         _priceRepository = priceRepository;
         _bookingRepository = bookingRepository;
     }
 
-    public async Task<List<Field>> GetFieldsForBookingFormAsync( string? token, int? cityId, string? q )
+    public async Task<BookingFormData> GetBookingFormDataAsync( string? token, int? cityId, string? q, DateTime day )
     {
-        List<Field> fields = new List<Field>();
-        if ( String.IsNullOrEmpty( token ) )
-        {
-            if ( cityId.HasValue )
-            {
-                fields = await _fieldRepository.GetForCityAsync( cityId.Value, q );
-            }
-        }
-        else
-        {
-            Stadium? stadium = await _stadiumRepository.GetByTokenAsync( token );
+        List<Field> fields = await GetFieldsForBookingFormAsync( token, cityId, q );
 
-            if ( stadium != null )
-            {
-                fields = await _fieldRepository.GetAllAsync( stadium.Id );
-            }
+        if ( !fields.Any() )
+        {
+            return new BookingFormData();
         }
+        
+        List<int> stadiumIds = fields.Select( x => x.StadiumId ).ToList();
 
-        return fields;
+        return new BookingFormData
+        {
+            IsForCity = String.IsNullOrEmpty( token ),
+            Day = day,
+            Fields = fields,
+            Slots = await GetSlotsAsync( stadiumIds ),
+            Prices = await GetPricesAsync( stadiumIds ),
+            Bookings = await GetBookingsAsync( day, stadiumIds )
+        };
     }
+    
+    private async Task<List<Field>> GetFieldsForBookingFormAsync( string? token, int? cityId, string? q ) =>
+        await _fieldRepositoryFacade.GetFieldsForBookingFormAsync( token, cityId, q );
 
-    public async Task<Dictionary<int, List<decimal>>> GetSlotsAsync( List<int> stadiumsIds )
+    private async Task<Dictionary<int, List<decimal>>> GetSlotsAsync( List<int> stadiumsIds )
     {
         List<StadiumMainSettings> settings = await _stadiumMainSettingsRepository.GetAsync( stadiumsIds );
         Dictionary<int, List<decimal>> result = new Dictionary<int, List<decimal>>();
@@ -69,7 +68,6 @@ internal class BookingFormQueryFacade : IBookingFormQueryFacade
                 {
                     slots.Add( ( decimal )( i + 0.5 ) );
                 }
-                
             }
 
             result.Add( setting.StadiumId, slots );
@@ -78,9 +76,10 @@ internal class BookingFormQueryFacade : IBookingFormQueryFacade
         return result;
     }
 
-    public async Task<List<Price>> GetPricesAsync( List<int> stadiumsIds ) =>
+    private async Task<List<Price>> GetPricesAsync( List<int> stadiumsIds ) =>
         await _priceRepository.GetAllAsync( stadiumsIds );
 
-    public async Task<List<Booking>> GetBookingsAsync( DateTime day, List<int> stadiumsIds ) =>
+    private async Task<List<Booking>> GetBookingsAsync( DateTime day, List<int> stadiumsIds ) =>
         await _bookingRepository.GetAsync( day, stadiumsIds );
+    
 }

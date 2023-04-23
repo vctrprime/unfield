@@ -26,19 +26,21 @@ public static class ServiceCollectionExtensions
     {
         services.RegisterServices();
         services.AddMediator( options => options.ServiceLifetime = ServiceLifetime.Scoped );
-        services.AddSingleton(
-            provider => new MapperConfiguration(
-                cfg =>
-                {
-                    cfg.AddProfile( new CommonProfile() );
-                    cfg.AddProfile( new UtilsProfile() );
-                    cfg.AddProfile( new AccountsProfile() );
-                    cfg.AddProfile( new AdminProfile() );
-                    cfg.AddProfile( new OffersProfile() );
-                    cfg.AddProfile( new RatesProfile() );
-                    cfg.AddProfile( new SettingsProfile() );
-                    cfg.AddProfile( new GeoProfile() );
-                } ).CreateMapper() );
+
+        MapperConfiguration mappingConfig = new MapperConfiguration(
+            cfg =>
+            {
+                cfg.AddProfile( new CommonProfile() );
+                cfg.AddProfile( new UtilsProfile() );
+                cfg.AddProfile( new AccountsProfile() );
+                cfg.AddProfile( new AdminProfile() );
+                cfg.AddProfile( new OffersProfile() );
+                cfg.AddProfile( new RatesProfile() );
+                cfg.AddProfile( new SettingsProfile() );
+                cfg.AddProfile( new GeoProfile() );
+                cfg.AddProfile( new BookingFormProfile() );
+            } );
+        services.AddSingleton( provider => mappingConfig.CreateMapper());
 
         services.AddScoped<IAddUserFacade, AddUserFacade>();
         services.AddScoped<IUpdateUserFacade, UpdateUserFacade>();
