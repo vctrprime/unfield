@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using StadiumEngine.Domain.Entities;
 using StadiumEngine.Domain.Entities.Accounts;
+using StadiumEngine.Domain.Entities.BookingForm;
 using StadiumEngine.Domain.Entities.Geo;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
@@ -81,6 +82,15 @@ internal class MainDbContext : DbContext
     #region settings
 
     public DbSet<StadiumMainSettings> MainSettings { get; set; }
+
+    #endregion
+
+    #region booking
+    
+    public DbSet<Booking> Bookings { get; set; }
+    public DbSet<BookingCost> BookingCosts { get; set; }
+    public DbSet<BookingCustomer> BookingCustomers { get; set; }
+    public DbSet<BookingInventory> BookingInventories { get; set; }
 
     #endregion
 }

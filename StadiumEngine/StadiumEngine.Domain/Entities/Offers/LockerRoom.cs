@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using StadiumEngine.Common.Enums.Offers;
 using StadiumEngine.Domain.Entities.Accounts;
+using StadiumEngine.Domain.Entities.BookingForm;
 
 namespace StadiumEngine.Domain.Entities.Offers;
 
@@ -21,4 +23,6 @@ public class LockerRoom : BaseUserEntity
 
     [ForeignKey( "StadiumId" )]
     public virtual Stadium Stadium { get; set; }
+
+    public virtual ICollection<Booking> Bookings { get; set; }
 }

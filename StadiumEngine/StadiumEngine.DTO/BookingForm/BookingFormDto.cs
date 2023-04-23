@@ -61,6 +61,11 @@ public class BookingFormFieldSlotDto
 public class BookingFormFieldSlotPriceDto
 {
     /// <summary>
+    /// Id тарифа
+    /// </summary>
+    public int TariffId { get; set; }
+    
+    /// <summary>
     /// Название тарифа
     /// </summary>
     public string TariffName { get; set; } = null!;

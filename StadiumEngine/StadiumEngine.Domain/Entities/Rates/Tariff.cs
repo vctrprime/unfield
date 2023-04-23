@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using StadiumEngine.Domain.Entities.BookingForm;
 
 namespace StadiumEngine.Domain.Entities.Rates;
 
@@ -36,4 +37,5 @@ public class Tariff : BaseRateEntity
 
     public virtual ICollection<TariffDayInterval> TariffDayIntervals { get; set; }
     public virtual ICollection<PromoCode> PromoCodes { get; set; }
+    public virtual ICollection<Booking> Bookings { get; set; }
 }

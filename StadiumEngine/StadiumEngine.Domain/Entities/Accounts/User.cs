@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using StadiumEngine.Domain.Entities.BookingForm;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Entities.Settings;
@@ -131,4 +132,28 @@ public class User : BaseUserEntity
 
     [InverseProperty( "UserModified" )]
     public virtual ICollection<PromoCode> LastModifiedPromoCodes { get; set; }
+    
+    [InverseProperty( "UserCreated" )]
+    public virtual ICollection<Booking> CreatedBookings { get; set; }
+
+    [InverseProperty( "UserModified" )]
+    public virtual ICollection<Booking> LastModifiedBookings { get; set; }
+    
+    [InverseProperty( "UserCreated" )]
+    public virtual ICollection<BookingCustomer> CreatedBookingsCustomers { get; set; }
+
+    [InverseProperty( "UserModified" )]
+    public virtual ICollection<BookingCustomer> LastModifiedBookingsCustomers { get; set; }
+    
+    [InverseProperty( "UserCreated" )]
+    public virtual ICollection<BookingCost> CreatedBookingsCosts { get; set; }
+
+    [InverseProperty( "UserModified" )]
+    public virtual ICollection<BookingCost> LastModifiedBookingCosts { get; set; }
+    
+    [InverseProperty( "UserCreated" )]
+    public virtual ICollection<BookingInventory> CreatedBookingsInventories { get; set; }
+
+    [InverseProperty( "UserModified" )]
+    public virtual ICollection<BookingInventory> LastModifiedBookingsInventories { get; set; }
 }

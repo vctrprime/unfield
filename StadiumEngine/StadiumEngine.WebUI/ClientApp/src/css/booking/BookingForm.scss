@@ -26,6 +26,7 @@
 
   .booking-form-cards {
     overflow: auto;
+    padding-bottom: 10px;
     
     .booking-form-field-card {
       background-color: white;
@@ -131,7 +132,7 @@
       }
 
       .field-slots {
-        height: 125px;
+        height: 210px;
         width: calc(100% - 10px);
         padding: 5px 15px;
         border-top: 1px solid #eee;
@@ -159,7 +160,7 @@
   
   .booking-form-footer {
     color: #aaa;
-    padding: 5px;
+    padding: 0 5px 5px;
   }
   
   .booking-form-date-picker {

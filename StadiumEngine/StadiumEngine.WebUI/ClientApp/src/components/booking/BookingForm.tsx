@@ -31,14 +31,20 @@ export const BookingForm = () => {
     
     const [data, setData] = useState<BookingFormDto|null>(null);
     
-    const [cities, setCities] = useState<CityDto[]>([]);
-    const [cityId, setCityId] = useState<number|null>(null);
+    const storedCity = localStorage.getItem('booking-form-city');
+    
+    const [cities, setCities] = useState<CityDto[]>(storedCity && token === undefined ? [JSON.parse(storedCity)] : []);
+    const [cityId, setCityId] = useState<number|null>(storedCity && token === undefined ? JSON.parse(storedCity).id : null);
     const [citySearch, setCitySearch] = useState<string|null>(null);
     const handleSearchChange = (e: any, { searchQuery }: any) => {
         setCitySearch(searchQuery);
     }
     const handleChange = (e: any, { value }: any) => {
-        setCities(cities.filter(c => c.id == value));
+        const chosenCity = cities.find(c => c.id == value);
+        if (chosenCity) {
+            setCities([chosenCity]);
+            localStorage.setItem('booking-form-city', JSON.stringify(chosenCity))
+        }
         setCityId(value);
         setCitySearch(null);
     }
@@ -127,7 +133,6 @@ export const BookingForm = () => {
                             </Col>}
                     </Col>
                     <Col sm={5} xs={12} className="booking-form-header-right">
-                        <LanguageSelect withRequest={false} style={{marginRight: '10px'}}/>
                         <SemanticDatepicker
                             className="booking-form-date-picker"
                             firstDayOfWeek={1}
@@ -140,7 +145,7 @@ export const BookingForm = () => {
                             clearable={false}
                             pointing="right"
                         />
-                        
+                        <LanguageSelect withRequest={false} style={{marginLeft: '10px'}}/>
                     </Col>
                     
                 </div>

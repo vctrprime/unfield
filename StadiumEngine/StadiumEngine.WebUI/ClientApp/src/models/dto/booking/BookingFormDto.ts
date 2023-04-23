@@ -17,6 +17,7 @@ export interface BookingFormFieldSlotDto {
 }
 
 export interface BookingFormFieldSlotPriceDto {
+    tariffId: number;
     tariffName: string;
     value: number;
 }

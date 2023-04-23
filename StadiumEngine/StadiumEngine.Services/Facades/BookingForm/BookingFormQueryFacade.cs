@@ -1,8 +1,10 @@
 using StadiumEngine.Domain.Entities.Accounts;
+using StadiumEngine.Domain.Entities.BookingForm;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Entities.Settings;
 using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain.Repositories.BookingForm;
 using StadiumEngine.Domain.Repositories.Offers;
 using StadiumEngine.Domain.Repositories.Rates;
 using StadiumEngine.Domain.Repositories.Settings;
@@ -16,14 +18,17 @@ internal class BookingFormQueryFacade : IBookingFormQueryFacade
     private readonly IStadiumRepository _stadiumRepository;
     private readonly IStadiumMainSettingsRepository _stadiumMainSettingsRepository;
     private readonly IPriceRepository _priceRepository;
+    private readonly IBookingRepository _bookingRepository;
 
     public BookingFormQueryFacade( IFieldRepository fieldRepository, IStadiumRepository stadiumRepository,
-        IStadiumMainSettingsRepository stadiumMainSettingsRepository, IPriceRepository priceRepository )
+        IStadiumMainSettingsRepository stadiumMainSettingsRepository, IPriceRepository priceRepository,
+        IBookingRepository bookingRepository )
     {
         _fieldRepository = fieldRepository;
         _stadiumRepository = stadiumRepository;
         _stadiumMainSettingsRepository = stadiumMainSettingsRepository;
         _priceRepository = priceRepository;
+        _bookingRepository = bookingRepository;
     }
 
     public async Task<List<Field>> GetFieldsForBookingFormAsync( string? token, int? cityId, string? q )
@@ -49,17 +54,22 @@ internal class BookingFormQueryFacade : IBookingFormQueryFacade
         return fields;
     }
 
-    public async Task<Dictionary<int, List<int>>> GetSlotsAsync( List<int> stadiumsIds )
+    public async Task<Dictionary<int, List<decimal>>> GetSlotsAsync( List<int> stadiumsIds )
     {
         List<StadiumMainSettings> settings = await _stadiumMainSettingsRepository.GetAsync( stadiumsIds );
-        Dictionary<int, List<int>> result = new Dictionary<int, List<int>>();
+        Dictionary<int, List<decimal>> result = new Dictionary<int, List<decimal>>();
 
         foreach ( StadiumMainSettings setting in settings )
         {
-            List<int> slots = new List<int>();
-            for ( int i = setting.OpenTime; i < setting.CloseTime; i++ )
+            List<decimal> slots = new List<decimal>();
+            for ( int i = setting.OpenTime; i <= setting.CloseTime; i++ )
             {
                 slots.Add( i );
+                if ( i < setting.CloseTime )
+                {
+                    slots.Add( ( decimal )( i + 0.5 ) );
+                }
+                
             }
 
             result.Add( setting.StadiumId, slots );
@@ -68,5 +78,9 @@ internal class BookingFormQueryFacade : IBookingFormQueryFacade
         return result;
     }
 
-    public Task<List<Price>> GetPrices( List<int> stadiumsIds ) => _priceRepository.GetAllAsync( stadiumsIds );
+    public async Task<List<Price>> GetPricesAsync( List<int> stadiumsIds ) =>
+        await _priceRepository.GetAllAsync( stadiumsIds );
+
+    public async Task<List<Booking>> GetBookingsAsync( DateTime day, List<int> stadiumsIds ) =>
+        await _bookingRepository.GetAsync( day, stadiumsIds );
 }

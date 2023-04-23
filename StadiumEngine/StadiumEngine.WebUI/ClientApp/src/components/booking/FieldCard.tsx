@@ -22,7 +22,7 @@ const PopupSlot = (props: PopupSlotProps) => (
         <Grid centered divided columns={props.slot.prices.length as SemanticWIDTHS}>
             {props.slot.prices.map((p, i) => {
                 return <Grid.Column key={i} textAlign='center'>
-                    <Header as='h6' className="slot-popup-header">{p.tariffName}</Header>
+                    <Header as='h6' className="slot-popup-header">{t("booking:field_card:tariff")} "{p.tariffName}"</Header>
                     <span style={{fontWeight: 'bold'}}>{props.slot.name}</span>
                     <p className="slot-popup-value">
                         {p.value}{t("booking:field_card:per_hour")}

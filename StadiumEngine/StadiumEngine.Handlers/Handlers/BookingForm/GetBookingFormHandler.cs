@@ -1,4 +1,7 @@
+using System.Globalization;
 using AutoMapper;
+using StadiumEngine.Common.Static;
+using StadiumEngine.Domain.Entities.BookingForm;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Services.Facades.BookingForm;
@@ -25,72 +28,90 @@ internal sealed class GetBookingFormHandler : BaseRequestHandler<GetBookingFormQ
             request.CityId,
             request.Q );
 
+        if ( !fields.Any() )
+        {
+            return new BookingFormDto();
+        }
+
         List<int> stadiumIds = fields.Select( x => x.StadiumId ).ToList();
 
-        Dictionary<int, List<int>> slots =
+        Dictionary<int, List<decimal>> slots =
             await _bookingFormQueryFacade.GetSlotsAsync( stadiumIds );
-        List<Price> prices = await _bookingFormQueryFacade.GetPrices( stadiumIds );
+        List<Price> prices = await _bookingFormQueryFacade.GetPricesAsync( stadiumIds );
+
+        List<Booking> bookings = await _bookingFormQueryFacade.GetBookingsAsync( request.Day, stadiumIds );
 
         IEnumerable<BookingFormFieldDto> bookingFormFields = fields.Select(
-            x => new BookingFormFieldDto
+            x =>
             {
-                Data = Mapper.Map<FieldDto>( x ),
-                StadiumName = String.IsNullOrEmpty( request.StadiumToken ) ? $"{x.Stadium.Name}, {x.Stadium.Address}" : null,
-                Slots = GetSlots(
+                List<BookingFormFieldSlotDto> bookingFormSlots = GetSlots(
                     x.Id,
                     slots[ x.StadiumId ],
                     prices,
-                    request.Day )
+                    request.Day,
+                    bookings );
+
+                List<BookingFormFieldSlotDto> resultSlots = ( from bookingFormSlot in bookingFormSlots
+                    let nextSlotAfterHour =
+                        bookingFormSlots.FirstOrDefault(
+                            s => TimePointParser.Parse( s.Name ) >= TimePointParser.Parse( bookingFormSlot.Name ) + 1 )
+                    where nextSlotAfterHour != null
+                    select bookingFormSlot ).ToList();
+
+                return new BookingFormFieldDto
+                {
+                    Data = Mapper.Map<FieldDto>( x ),
+                    StadiumName =
+                        String.IsNullOrEmpty( request.StadiumToken ) ? $"{x.Stadium.Name}, {x.Stadium.Address}" : null,
+                    Slots = resultSlots
+                };
             } );
         BookingFormDto result = new BookingFormDto { Fields = bookingFormFields.Where( x => x.Slots.Any() ).ToList() };
 
         return result;
     }
 
-    private List<BookingFormFieldSlotDto> GetSlots( int fieldId, List<int> slots, List<Price> prices, DateTime day ) =>
+    private List<BookingFormFieldSlotDto> GetSlots( int fieldId, List<decimal> slots, List<Price> prices, DateTime day,
+        List<Booking> bookings ) =>
         ( from slot in slots
             let bookingFormPrices = GetPrices(
                 fieldId,
                 slot,
                 prices,
-                day )
-            //анализ на бронирования
-            where bookingFormPrices.Any()
+                day,
+                slots.Max() )
+            let booking = bookings.FirstOrDefault(
+                x => x.FieldId == fieldId
+                     && x.StartHour - ( decimal )0.5 <= slot
+                     && x.StartHour + x.HoursCount > slot )
+            where bookingFormPrices.Any() && booking == null
             select new BookingFormFieldSlotDto
             {
-                Name = $"{slot:D2}:00",
+                Name = TimePointParser.Parse( slot ),
                 Prices = bookingFormPrices
             } ).ToList();
 
-    private static List<BookingFormFieldSlotPriceDto> GetPrices( int fieldId, int slot, List<Price> prices,
-        DateTime day )
+    private static List<BookingFormFieldSlotPriceDto> GetPrices( int fieldId, decimal slot, List<Price> prices,
+        DateTime day, decimal lastSlot )
     {
         List<Price> slotPrices = prices.Where(
             x => x.FieldId == fieldId
-                 && ParseDayIntervalPoint( x.TariffDayInterval.DayInterval.Start ) <= slot
-                 && ParseDayIntervalPoint( x.TariffDayInterval.DayInterval.End ) > slot
+                 && TimePointParser.Parse( x.TariffDayInterval.DayInterval.Start ) <= slot
+                 && TimePointParser.Parse( x.TariffDayInterval.DayInterval.End ) >
+                 ( slot == lastSlot ? lastSlot - ( decimal )0.1 : slot )
                  && CompareDay( day, x.TariffDayInterval.Tariff )
-                 && x.TariffDayInterval.Tariff.DateStart.Date <= day.Date
-                 && (x.TariffDayInterval.Tariff.DateEnd?.Date ?? new DateTime( 3000, 1, 1 )) >= day.Date
+                 && x.TariffDayInterval.Tariff.DateStart.Date <= day.Date.ToUniversalTime()
+                 && ( x.TariffDayInterval.Tariff.DateEnd?.Date ?? new DateTime( 3000, 1, 1 ) ).ToUniversalTime() >=
+                 day.Date
                  && x.Value > 0 ).ToList();
 
         return slotPrices.Select(
             x => new BookingFormFieldSlotPriceDto
             {
+                TariffId = x.TariffDayInterval.TariffId,
                 TariffName = x.TariffDayInterval.Tariff.Name,
                 Value = x.Value
             } ).ToList();
-    }
-
-    private static decimal ParseDayIntervalPoint( string point )
-    {
-        string[] parts = point.Split( ":" );
-        if ( parts[ 1 ] == "30" )
-        {
-            return ( decimal )( Int32.Parse( parts[ 0 ] ) + 0.5 );
-        }
-
-        return Int32.Parse( parts[ 0 ] );
     }
 
     private static bool CompareDay( DateTime day, Tariff tariff )
