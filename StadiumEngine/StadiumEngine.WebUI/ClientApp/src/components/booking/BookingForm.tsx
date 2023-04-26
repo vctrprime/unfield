@@ -16,6 +16,7 @@ import {useSetRecoilState} from "recoil";
 import {loadingAtom} from "../../state/loading";
 import {Button, Dropdown, Icon, Input} from "semantic-ui-react";
 import {t} from "i18next";
+import {AddBookingDraftCommand} from "../../models/command/booking/AddBookingDraftCommand";
 
 
 export const BookingForm = () => {
@@ -53,6 +54,17 @@ export const BookingForm = () => {
     
     const [bookingFormService] = useInject<IBookingFormService>('BookingFormService');
     const [geoService] = useInject<IGeoService>('GeoService');
+    
+    const addBookingDraft = (fieldId: number, tariffId: number, slot: string) => {
+        bookingFormService.addBookingDraft({
+            fieldId: fieldId,
+            tariffId: tariffId,
+            slot: slot,
+            day: currentDate
+        } as AddBookingDraftCommand).then((response) => {
+            console.log(response);
+        })
+    }
     
     useEffect(() => {
         if (token === undefined) {
@@ -153,6 +165,7 @@ export const BookingForm = () => {
                     {data.fields.length === 0 ? <div className="booking-form-no-fields">{t('booking:no_fields')}</div> : data.fields.map((f, i) => {
                         return <FieldCard
                             key={i}
+                            addBookingDraft={addBookingDraft}
                             field={f}/>
                     })}
                 </div>

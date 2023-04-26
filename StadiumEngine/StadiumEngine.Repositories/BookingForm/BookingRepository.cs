@@ -16,4 +16,6 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
             .Include( x => x.Field )
             .Where( x => x.Day == day.ToUniversalTime() && stadiumsIds.Contains( x.Field.StadiumId ) && !x.IsCanceled )
             .ToListAsync();
+    
+    public new void Add( Booking booking ) => base.Add( booking );
 }

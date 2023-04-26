@@ -42,6 +42,13 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
             .Include( f => f.ChildFields.Where( cf => !cf.IsDeleted ) )
             .Include( f => f.PriceGroup )
             .FirstOrDefaultAsync( f => f.Id == fieldId && f.StadiumId == stadiumId && !f.IsDeleted );
+    
+    public async Task<Field?> GetAsync( int fieldId ) =>
+        await Entities
+            .Include( f => f.Stadium )
+            .Include( f => f.SportKinds )
+            .Include( f => f.Images )
+            .FirstOrDefaultAsync( f => f.Id == fieldId && !f.IsDeleted && f.IsActive );
 
     public new void Add( Field field ) => base.Add( field );
 

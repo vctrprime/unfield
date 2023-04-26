@@ -1,4 +1,6 @@
 using AutoMapper;
+using StadiumEngine.Commands.BookingForm;
+using StadiumEngine.Common.Enums.BookingForm;
 using StadiumEngine.Common.Static;
 using StadiumEngine.Domain.Entities.BookingForm;
 using StadiumEngine.Domain.Entities.Offers;
@@ -14,11 +16,19 @@ internal class BookingFormProfile : Profile
 {
     public BookingFormProfile()
     {
-        
         CreateMap<BookingFormData, BookingFormDto>()
             .ForMember(
                 dest => dest.Fields,
                 act => act.MapFrom( s => MapBookingFormData( s ) ) );
+
+        CreateMap<AddBookingDraftCommand, Booking>()
+            .ForMember( dest => dest.Day, act => act.MapFrom( s => s.Day.Date ) )
+            .ForMember( dest => dest.StartHour, act => act.MapFrom( s => TimePointParser.Parse( s.Slot ) ) )
+            .ForMember( dest => dest.IsDraft, act => act.MapFrom( s => true ) )
+            .ForMember( dest => dest.HoursCount, act => act.MapFrom( s => 1 ) )
+            .ForMember(
+                dest => dest.Source,
+                act => act.MapFrom( s => BookingSource.Form ) );
     }
 
     private List<BookingFormFieldDto> MapBookingFormData( BookingFormData bookingFormData )
@@ -32,7 +42,7 @@ internal class BookingFormProfile : Profile
                     bookingFormData.Prices,
                     bookingFormData.Day,
                     bookingFormData.Bookings );
-                
+
                 //убираем те слоты у которых до закрытия полчаса (бронирование минимум на час)
                 List<BookingFormFieldSlotDto> resultSlots = ( from bookingFormSlot in bookingFormSlots
                     let nextSlotAfterHour =
@@ -52,8 +62,12 @@ internal class BookingFormProfile : Profile
 
         return bookingFormFields.Where( x => x.Slots.Any() ).ToList();
     }
-    
-    private List<BookingFormFieldSlotDto> GetSlots( int fieldId, List<decimal> slots, List<Price> prices, DateTime day,
+
+    private List<BookingFormFieldSlotDto> GetSlots(
+        int fieldId,
+        List<decimal> slots,
+        List<Price> prices,
+        DateTime day,
         List<Booking> bookings ) =>
         ( from slot in slots
             let bookingFormPrices = GetPrices(
@@ -73,9 +87,13 @@ internal class BookingFormProfile : Profile
                 Name = TimePointParser.Parse( slot ),
                 Prices = bookingFormPrices
             } ).ToList();
-    
-    private static List<BookingFormFieldSlotPriceDto> GetPrices( int fieldId, decimal slot, List<Price> prices,
-        DateTime day, decimal lastSlot )
+
+    private static List<BookingFormFieldSlotPriceDto> GetPrices(
+        int fieldId,
+        decimal slot,
+        List<Price> prices,
+        DateTime day,
+        decimal lastSlot )
     {
         List<Price> slotPrices = prices.Where(
             x => x.FieldId == fieldId
@@ -84,7 +102,8 @@ internal class BookingFormProfile : Profile
                  ( slot == lastSlot ? lastSlot - ( decimal )0.1 : slot )
                  && x.TariffDayInterval.Tariff.HasDayOfWeek( day )
                  && x.TariffDayInterval.Tariff.DateStart.Date <= day.Date.ToUniversalTime()
-                 && ( x.TariffDayInterval.Tariff.DateEnd?.Date ?? new DateTime( 3000, 1, 1 ) ).ToUniversalTime() >= day.Date
+                 && ( x.TariffDayInterval.Tariff.DateEnd?.Date ?? new DateTime( 3000, 1, 1 ) ).ToUniversalTime() >=
+                 day.Date
                  && x.Value > 0 ).ToList();
 
         return slotPrices.Select(

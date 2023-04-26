@@ -5,4 +5,5 @@ namespace StadiumEngine.Domain.Repositories.BookingForm;
 public interface IBookingRepository
 {
     Task<List<Booking>> GetAsync( DateTime day, List<int> stadiumsIds );
+    void Add( Booking booking );
 }

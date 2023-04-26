@@ -9,11 +9,13 @@ import {Button, Grid, Header, Popup, SemanticWIDTHS} from "semantic-ui-react";
 import {FieldCoveringType} from "../../models/dto/offers/enums/FieldCoveringType";
 
 export interface FieldCardProps {
-    field: BookingFormFieldDto
+    field: BookingFormFieldDto,
+    addBookingDraft: any
 }
 
 interface PopupSlotProps {
-    slot: BookingFormFieldSlotDto
+    slot: BookingFormFieldSlotDto,
+    addBookingDraft: any
 }
 
 const PopupSlot = (props: PopupSlotProps) => (
@@ -27,7 +29,10 @@ const PopupSlot = (props: PopupSlotProps) => (
                     <p className="slot-popup-value">
                         {p.value}{t("booking:field_card:per_hour")}
                     </p>
-                    <Button style={{backgroundColor: '#354650', color: 'white'}}>{t("booking:field_card:book")}</Button>
+                    <Button 
+                        onClick={() => props.addBookingDraft(p.tariffId, props.slot.name)}
+                        style={{backgroundColor: '#354650', color: 'white'}}>{t("booking:field_card:book")}
+                    </Button>
                 </Grid.Column>
             })}
         </Grid>
@@ -63,7 +68,7 @@ export const FieldCard = (props: FieldCardProps) => {
             </div>
             <div className="field-slots">
                 {props.field.slots.map((s, i) => {
-                    return <PopupSlot slot={s} key={i} />;
+                    return <PopupSlot slot={s} key={i} addBookingDraft={(tariffId: number, slot: string) => props.addBookingDraft(props.field.data.id, tariffId, slot)} />;
                 })}
             </div>
         </div>
