@@ -26,8 +26,12 @@ export const BookingForm = () => {
     document.title = getTitle("booking:title");
 
     const [currentDate, setNewDate] = useState(new Date());
+    
     const onChange = (event: any, data: any) => {
-        setNewDate(data.value);
+        if (currentDate.toDateString() !== data.value.toDateString()) {
+            setNewDate(data.value);
+            fetchData(data.value);
+        }
     }
     
     const [data, setData] = useState<BookingFormDto|null>(null);
@@ -75,15 +79,13 @@ export const BookingForm = () => {
                     setCityId(result[0].id);
                 })
             }
-            else {
-                fetchData();
-            }
         }
         else {
             fetchData();
         }
-    }, [currentDate])
-
+    }, [])
+    
+    
     useEffect(() => {
         if (cityId !== null) {
             fetchData();
@@ -98,8 +100,8 @@ export const BookingForm = () => {
         }
     }, [citySearch])
     
-    const fetchData = () => {
-        bookingFormService.getBookingForm(currentDate, token === undefined ? null : token, cityId, searchString)
+    const fetchData = (date: Date|null = null) => {
+        bookingFormService.getBookingForm(date === null ? currentDate : date, token === undefined ? null : token, cityId, searchString)
             .then((result: BookingFormDto) => {
                 setData(result);
             })
@@ -139,7 +141,7 @@ export const BookingForm = () => {
                                     placeholder={t('booking:search_placeholder')}
                                     onChange={(e) => setSearchString(e.target.value)}
                                 />
-                                <Button style={{ marginLeft: '5px', padding: '11px 10px'}} onClick={fetchData}>
+                                <Button style={{ marginLeft: '5px', padding: '11px 10px'}} onClick={() => fetchData()}>
                                     <Icon style={{margin: 0}} className='search'/>
                                 </Button>
                             </Col>}

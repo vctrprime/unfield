@@ -15,15 +15,17 @@ internal sealed class GetBookingFormHandler : BaseRequestHandler<GetBookingFormQ
         _bookingFormQueryFacade = bookingFormQueryFacade;
     }
 
-    public override async ValueTask<BookingFormDto> Handle( GetBookingFormQuery request,
+    public override async ValueTask<BookingFormDto> Handle(
+        GetBookingFormQuery request,
         CancellationToken cancellationToken )
     {
         BookingFormData bookingFormData = await _bookingFormQueryFacade.GetBookingFormDataAsync(
             request.StadiumToken,
             request.CityId,
             request.Q,
-            request.Day );
-        
+            request.Day,
+            request.CurrentHour );
+
         if ( !bookingFormData.Fields.Any() )
         {
             return new BookingFormDto();

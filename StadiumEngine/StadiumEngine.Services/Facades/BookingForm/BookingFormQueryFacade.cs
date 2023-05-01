@@ -28,7 +28,7 @@ internal class BookingFormQueryFacade : IBookingFormQueryFacade
         _bookingRepository = bookingRepository;
     }
 
-    public async Task<BookingFormData> GetBookingFormDataAsync( string? token, int? cityId, string? q, DateTime day )
+    public async Task<BookingFormData> GetBookingFormDataAsync( string? token, int? cityId, string? q, DateTime day, int currentHour )
     {
         List<Field> fields = await GetFieldsForBookingFormAsync( token, cityId, q );
 
@@ -44,7 +44,7 @@ internal class BookingFormQueryFacade : IBookingFormQueryFacade
             IsForCity = String.IsNullOrEmpty( token ),
             Day = day,
             Fields = fields,
-            Slots = await GetSlotsAsync( stadiumIds ),
+            Slots = await GetSlotsAsync( stadiumIds, currentHour, DateTime.Today.ToUniversalTime().Date == day.ToUniversalTime().Date ),
             Prices = await GetPricesAsync( stadiumIds ),
             Bookings = await GetBookingsAsync( day, stadiumIds )
         };
@@ -53,7 +53,7 @@ internal class BookingFormQueryFacade : IBookingFormQueryFacade
     private async Task<List<Field>> GetFieldsForBookingFormAsync( string? token, int? cityId, string? q ) =>
         await _fieldRepositoryFacade.GetFieldsForBookingFormAsync( token, cityId, q );
 
-    private async Task<Dictionary<int, List<decimal>>> GetSlotsAsync( List<int> stadiumsIds )
+    private async Task<Dictionary<int, List<decimal>>> GetSlotsAsync( List<int> stadiumsIds, int currentHour, bool isToday )
     {
         List<StadiumMainSettings> settings = await _stadiumMainSettingsRepository.GetAsync( stadiumsIds );
         Dictionary<int, List<decimal>> result = new Dictionary<int, List<decimal>>();
@@ -61,7 +61,15 @@ internal class BookingFormQueryFacade : IBookingFormQueryFacade
         foreach ( StadiumMainSettings setting in settings )
         {
             List<decimal> slots = new List<decimal>();
-            for ( int i = setting.OpenTime; i <= setting.CloseTime; i++ )
+
+            int start = isToday && currentHour > setting.OpenTime ? currentHour + 1 : setting.OpenTime;
+
+            if ( start > setting.CloseTime )
+            {
+                return result;
+            }
+
+            for ( int i = start; i <= setting.CloseTime; i++ )
             {
                 slots.Add( i );
                 if ( i < setting.CloseTime )

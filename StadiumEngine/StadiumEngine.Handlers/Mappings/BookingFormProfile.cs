@@ -22,7 +22,7 @@ internal class BookingFormProfile : Profile
                 act => act.MapFrom( s => MapBookingFormData( s ) ) );
 
         CreateMap<AddBookingDraftCommand, Booking>()
-            .ForMember( dest => dest.Day, act => act.MapFrom( s => s.Day.Date ) )
+            .ForMember( dest => dest.Day, act => act.MapFrom( s => s.Day ) )
             .ForMember( dest => dest.StartHour, act => act.MapFrom( s => TimePointParser.Parse( s.Slot ) ) )
             .ForMember( dest => dest.IsDraft, act => act.MapFrom( s => true ) )
             .ForMember( dest => dest.HoursCount, act => act.MapFrom( s => 1 ) )
