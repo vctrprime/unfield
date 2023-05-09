@@ -64,7 +64,7 @@ export const BookingForm = () => {
             fieldId: fieldId,
             tariffId: tariffId,
             slot: slot,
-            day: currentDate
+            day: currentDate?.toDateString()
         } as AddBookingDraftCommand).then((response) => {
             console.log(response);
         })

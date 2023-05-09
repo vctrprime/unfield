@@ -14,9 +14,10 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
     public async Task<List<Booking>> GetAsync( DateTime day, List<int> stadiumsIds ) =>
         await Entities
             .Include( x => x.Field )
-            .Where( x => x.Day.Date == day.ToUniversalTime().Date
-                         && stadiumsIds.Contains( x.Field.StadiumId ) && !x.IsCanceled )
+            .Where(
+                x => x.Day.Date == day.Date
+                     && stadiumsIds.Contains( x.Field.StadiumId ) && !x.IsCanceled )
             .ToListAsync();
-    
+
     public new void Add( Booking booking ) => base.Add( booking );
 }

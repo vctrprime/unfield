@@ -17,7 +17,7 @@ public class Booking : BaseBookingEntity
     [Column( "source" )]
     public BookingSource Source { get; set; }
     
-    [Column( "day" )]
+    [Column( "day", TypeName = "timestamp without time zone")]
     public DateTime Day { get; set; }
     
     [Column( "amount" )]

@@ -20,6 +20,7 @@ public class Program
     /// </summary>
     public static void Main( string[] args )
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         JsonConvert.DefaultSettings = () => new JsonSerializerSettings
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver()

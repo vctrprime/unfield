@@ -1,5 +1,5 @@
 export interface AddBookingDraftCommand {
-    day: Date;
+    day: string;
     slot: string;
     fieldId: number;
     tariffId: number;
