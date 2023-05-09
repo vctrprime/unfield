@@ -53,14 +53,14 @@ internal class BookingFormQueryFacade : IBookingFormQueryFacade
     private async Task<List<Field>> GetFieldsForBookingFormAsync( string? token, int? cityId, string? q ) =>
         await _fieldRepositoryFacade.GetFieldsForBookingFormAsync( token, cityId, q );
 
-    private async Task<Dictionary<int, List<decimal>>> GetSlotsAsync( List<int> stadiumsIds, int currentHour, bool isToday )
+    private async Task<Dictionary<int, List<(decimal, bool)>>> GetSlotsAsync( List<int> stadiumsIds, int currentHour, bool isToday )
     {
         List<StadiumMainSettings> settings = await _stadiumMainSettingsRepository.GetAsync( stadiumsIds );
-        Dictionary<int, List<decimal>> result = new Dictionary<int, List<decimal>>();
+        Dictionary<int, List<(decimal, bool)>> result = new Dictionary<int, List<(decimal, bool)>>();
 
         foreach ( StadiumMainSettings setting in settings )
         {
-            List<decimal> slots = new List<decimal>();
+            List<(decimal, bool)> slots = new List<(decimal, bool)>();
 
             int start = isToday && currentHour > setting.OpenTime ? currentHour + 1 : setting.OpenTime;
 
@@ -69,12 +69,12 @@ internal class BookingFormQueryFacade : IBookingFormQueryFacade
                 return result;
             }
 
-            for ( int i = start; i <= setting.CloseTime; i++ )
+            for ( int i = setting.OpenTime; i <= setting.CloseTime; i++ )
             {
-                slots.Add( i );
-                if ( i < setting.CloseTime )
+                slots.Add( (i, i >= start) );
+                if ( i < setting.CloseTime  )
                 {
-                    slots.Add( ( decimal )( i + 0.5 ) );
+                    slots.Add( (( decimal )( i + 0.5 ), i + 0.5 >= start) );
                 }
             }
 

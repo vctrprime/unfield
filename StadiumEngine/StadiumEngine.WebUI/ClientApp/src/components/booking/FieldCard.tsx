@@ -20,7 +20,7 @@ interface PopupSlotProps {
 
 const PopupSlot = (props: PopupSlotProps) => (
     <Popup
-        trigger={<div className="field-slot">{props.slot.name}</div>} flowing hoverable>
+        trigger={<div className="field-slot" style={props.slot.enabled ? {} : { opacity: 0.4, pointerEvents: 'none'}}>{props.slot.name}</div>} flowing hoverable>
         <Grid centered divided columns={props.slot.prices.length as SemanticWIDTHS}>
             {props.slot.prices.map((p, i) => {
                 return <Grid.Column key={i} textAlign='center'>
@@ -41,7 +41,7 @@ const PopupSlot = (props: PopupSlotProps) => (
 
 export const FieldCard = (props: FieldCardProps) => {
         return <Col xs={12} sm={12} md={6} lg={3} style={{float: 'left'}}>
-        <div className="booking-form-field-card">
+        <div className="booking-form-field-card" style={props.field.slots.filter(x => x.enabled).length === 0 ? { filter: 'grayscale(1)' } : {}}>
             <div className="field-covering">{t("offers:coverings:" + FieldCoveringType[props.field.data.coveringType].toLowerCase())}</div>
             {props.field.stadiumName !== null && <div className="field-stadium">{props.field.stadiumName}</div>}
             <div className="field-min-price">{t("booking:field_card:from")} {props.field.minPrice}{t("booking:field_card:per_hour")}</div>
@@ -67,9 +67,16 @@ export const FieldCard = (props: FieldCardProps) => {
                     })}
             </div>
             <div className="field-slots">
-                {props.field.slots.map((s, i) => {
-                    return <PopupSlot slot={s} key={i} addBookingDraft={(tariffId: number, slot: string) => props.addBookingDraft(props.field.data.id, tariffId, slot)} />;
-                })}
+                {props.field.slots.filter(x => x.enabled).length === 0 ? <div className="no-slots">
+                    {t("booking:field_card:no_slots")}
+                    </div> :
+                    <div>{
+                        props.field.slots.map((s, i) => {
+                            return <PopupSlot slot={s} key={i}
+                                              addBookingDraft={(tariffId: number, slot: string) => props.addBookingDraft(props.field.data.id, tariffId, slot)}/>;
+                        })
+                    }</div>
+                }
             </div>
         </div>
     </Col>

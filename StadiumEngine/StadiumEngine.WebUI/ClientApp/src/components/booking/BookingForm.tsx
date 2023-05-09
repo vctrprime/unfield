@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useInject} from "inversify-hooks";
 import {IBookingFormService} from "../../services/BookingFormService";
 import {BookingFormDto} from "../../models/dto/booking/BookingFormDto";
@@ -24,7 +24,9 @@ export const BookingForm = () => {
     const setLoading = useSetRecoilState(loadingAtom);
     
     document.title = getTitle("booking:title");
-
+    
+    const navigate = useNavigate();
+    
     const [currentDate, setNewDate] = useState(new Date());
     
     const onChange = (event: any, data: any) => {
@@ -59,13 +61,14 @@ export const BookingForm = () => {
     const [bookingFormService] = useInject<IBookingFormService>('BookingFormService');
     const [geoService] = useInject<IGeoService>('GeoService');
     
-    const addBookingDraft = (fieldId: number, tariffId: number, slot: string) => {
+    const goToCheckout = (fieldId: number, tariffId: number, slot: string) => {
         bookingFormService.addBookingDraft({
             fieldId: fieldId,
             tariffId: tariffId,
             slot: slot,
             day: currentDate?.toDateString()
         } as AddBookingDraftCommand).then((response) => {
+            navigate("/booking-checkout/" + response.bookingNumber);
             console.log(response);
         })
     }
@@ -167,7 +170,7 @@ export const BookingForm = () => {
                     {data.fields.length === 0 ? <div className="booking-form-no-fields">{t('booking:no_fields')}</div> : data.fields.map((f, i) => {
                         return <FieldCard
                             key={i}
-                            addBookingDraft={addBookingDraft}
+                            addBookingDraft={goToCheckout}
                             field={f}/>
                     })}
                 </div>

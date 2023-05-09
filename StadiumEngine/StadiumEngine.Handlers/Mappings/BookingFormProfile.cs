@@ -44,19 +44,20 @@ internal class BookingFormProfile : Profile
                     bookingFormData.Bookings );
 
                 //убираем те слоты у которых до закрытия полчаса (бронирование минимум на час)
-                List<BookingFormFieldSlotDto> resultSlots = ( from bookingFormSlot in bookingFormSlots
-                    let nextSlotAfterHour =
+                foreach ( BookingFormFieldSlotDto bookingFormSlot in bookingFormSlots )
+                {
+                    BookingFormFieldSlotDto? nextSlotAfterHour =
                         bookingFormSlots.FirstOrDefault(
-                            s => TimePointParser.Parse( s.Name ) >= TimePointParser.Parse( bookingFormSlot.Name ) + 1 )
-                    where nextSlotAfterHour != null
-                    select bookingFormSlot ).ToList();
-
+                            s => TimePointParser.Parse( s.Name ) >= TimePointParser.Parse( bookingFormSlot.Name ) + 1 && s.Enabled );
+                    bookingFormSlot.Enabled = bookingFormSlot.Enabled && nextSlotAfterHour != null;
+                }
+                
                 return new BookingFormFieldDto
                 {
                     Data = MapField( x ),
                     StadiumName =
                         bookingFormData.IsForCity ? $"{x.Stadium.Name}, {x.Stadium.Address}" : null,
-                    Slots = resultSlots
+                    Slots = bookingFormSlots.Take( bookingFormSlots.Count - 2 ).ToList()
                 };
             } );
 
@@ -65,27 +66,23 @@ internal class BookingFormProfile : Profile
 
     private List<BookingFormFieldSlotDto> GetSlots(
         int fieldId,
-        List<decimal> slots,
+        List<(decimal, bool)> slots,
         List<Price> prices,
         DateTime day,
         List<Booking> bookings ) =>
         ( from slot in slots
             let bookingFormPrices = GetPrices(
                 fieldId,
-                slot,
+                slot.Item1,
                 prices,
                 day,
-                slots.Max() )
-            //смотрим также на предудыщие полчаса от бронирований, на полчаса нельзя бронировать
-            let booking = bookings.FirstOrDefault(
-                x => x.FieldId == fieldId
-                     && x.StartHour - ( decimal )0.5 <= slot
-                     && x.StartHour + x.HoursCount > slot )
-            where bookingFormPrices.Any() && booking == null
+                slots.Select( x => x.Item1 ).Max() )
+            let booking = bookings.FirstOrDefault( x => x.FieldId == fieldId && x.StartHour - ( decimal )0.5 <= slot.Item1 && x.StartHour + x.HoursCount > slot.Item1 )
             select new BookingFormFieldSlotDto
             {
-                Name = TimePointParser.Parse( slot ),
-                Prices = bookingFormPrices
+                Name = TimePointParser.Parse( slot.Item1 ),
+                Prices = bookingFormPrices,
+                Enabled = slot.Item2 && bookingFormPrices.Any() && booking == null
             } ).ToList();
 
     private static List<BookingFormFieldSlotPriceDto> GetPrices(

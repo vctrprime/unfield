@@ -50,6 +50,11 @@ public class BookingFormFieldSlotDto
     public string Name { get; set; } = null!;
     
     /// <summary>
+    /// Доступен
+    /// </summary>
+    public bool Enabled { get; set; }
+    
+    /// <summary>
     /// Цены
     /// </summary>
     public List<BookingFormFieldSlotPriceDto> Prices { get; set; } = null!;
