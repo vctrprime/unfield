@@ -14,6 +14,7 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
     public async Task<List<Booking>> GetAsync( DateTime day, List<int> stadiumsIds ) =>
         await Entities
             .Include( x => x.Field )
+            .ThenInclude( x => x.ChildFields )
             .Where(
                 x => x.Day.Date == day.Date
                      && stadiumsIds.Contains( x.Field.StadiumId ) && !x.IsCanceled )

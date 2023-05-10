@@ -48,10 +48,11 @@ internal class BookingFormProfile : Profile
                 {
                     BookingFormFieldSlotDto? nextSlotAfterHour =
                         bookingFormSlots.FirstOrDefault(
-                            s => TimePointParser.Parse( s.Name ) >= TimePointParser.Parse( bookingFormSlot.Name ) + 1 && s.Enabled );
+                            s => TimePointParser.Parse( s.Name ) >= TimePointParser.Parse( bookingFormSlot.Name ) + 1 &&
+                                 s.Enabled );
                     bookingFormSlot.Enabled = bookingFormSlot.Enabled && nextSlotAfterHour != null;
                 }
-                
+
                 return new BookingFormFieldDto
                 {
                     Data = MapField( x ),
@@ -77,7 +78,11 @@ internal class BookingFormProfile : Profile
                 prices,
                 day,
                 slots.Select( x => x.Item1 ).Max() )
-            let booking = bookings.FirstOrDefault( x => x.FieldId == fieldId && x.StartHour - ( decimal )0.5 <= slot.Item1 && x.StartHour + x.HoursCount > slot.Item1 )
+            let booking = bookings.FirstOrDefault(
+                x =>
+                    ( x.FieldId == fieldId || x.Field.ParentFieldId == fieldId ||
+                      x.Field.ChildFields.Any( cf => cf.Id == fieldId ) )
+                    && x.StartHour - ( decimal )0.5 <= slot.Item1 && x.StartHour + x.HoursCount > slot.Item1 )
             select new BookingFormFieldSlotDto
             {
                 Name = TimePointParser.Parse( slot.Item1 ),
