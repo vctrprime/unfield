@@ -78,7 +78,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IBookingFormQueryFacade, BookingFormQueryFacade>();
         services.AddScoped<IBookingFormCommandFacade, BookingFormCommandFacade>();
         services.AddScoped<IBookingFormFieldRepositoryFacade, BookingFormFieldRepositoryFacade>();
-
+        services.AddScoped<IBookingCheckoutQueryFacade, BookingCheckoutQueryFacade>();
+        
         #endregion
 
         #region builders

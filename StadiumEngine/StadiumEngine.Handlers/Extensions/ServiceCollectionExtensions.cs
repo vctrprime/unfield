@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using StadiumEngine.Handlers.Builders.BookingForm;
 using StadiumEngine.Handlers.Facades.Accounts.Legals;
 using StadiumEngine.Handlers.Facades.Accounts.Users;
 using StadiumEngine.Handlers.Facades.Offers.Fields;
@@ -52,5 +53,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISetPricesFacade, SetPricesFacade>();
 
         services.AddScoped<IUpdateStadiumMainSettingsFacade, UpdateStadiumMainSettingsFacade>();
+
+        services.AddScoped<IBookingFormDtoBuilder, BookingFormDtoBuilder>();
+        services.AddScoped<IBookingCheckoutDtoBuilder, BookingCheckoutDtoBuilder>();
     }
 }

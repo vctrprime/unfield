@@ -20,5 +20,11 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
                      && stadiumsIds.Contains( x.Field.StadiumId ) && !x.IsCanceled )
             .ToListAsync();
 
+    public async Task<Booking?> GetByNumberAsync( string bookingNumber ) =>
+        await Entities
+            .Include( x => x.Field )
+            .ThenInclude( x => x.SportKinds )
+            .SingleOrDefaultAsync( x => x.Number == bookingNumber );
+
     public new void Add( Booking booking ) => base.Add( booking );
 }

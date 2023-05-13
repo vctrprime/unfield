@@ -55,6 +55,11 @@ public class BookingFormFieldSlotDto
     public bool Enabled { get; set; }
     
     /// <summary>
+    /// Заблокрован условием, что минимальное бронирование = 1 час
+    /// </summary>
+    public bool DisabledByMinDuration { get; set; }
+    
+    /// <summary>
     /// Цены
     /// </summary>
     public List<BookingFormFieldSlotPriceDto> Prices { get; set; } = null!;

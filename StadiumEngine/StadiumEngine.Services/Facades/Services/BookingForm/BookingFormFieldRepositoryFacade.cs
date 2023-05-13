@@ -17,9 +17,25 @@ internal class BookingFormFieldRepositoryFacade : IBookingFormFieldRepositoryFac
     }
 
 
-    public async Task<List<Field>> GetFieldsForBookingFormAsync( string? token, int? cityId, string? q )
+    public async Task<List<Field>> GetFieldsForBookingFormAsync(
+        string? token,
+        int? cityId,
+        string? q,
+        int? fieldId )
     {
         List<Field> fields = new List<Field>();
+
+        if ( fieldId.HasValue )
+        {
+            Field? field = await _fieldRepository.GetAsync( fieldId.Value );
+            if ( field != null )
+            {
+                fields.Add( field );
+            }
+            
+            return fields;
+        }
+
         if ( String.IsNullOrEmpty( token ) )
         {
             if ( cityId.HasValue )

@@ -55,4 +55,11 @@ public static class ErrorsKeys
     public const string MainSettingsInvalidOpenClosePeriod = "settings:main_invalid_open_close";
 
     #endregion
+
+    #region booking
+
+    public const string BookingNotFound = "booking:booking_not_found";
+    public const string BookingError = "booking:booking_error";
+
+    #endregion
 }

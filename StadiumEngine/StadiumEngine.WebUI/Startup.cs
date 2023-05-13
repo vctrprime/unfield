@@ -70,6 +70,7 @@ public class Startup
             services.AddSwaggerGen(
                 c =>
                 {
+                    c.DescribeAllParametersInCamelCase();
                     c.SwaggerDoc(
                         "v1",
                         new OpenApiInfo

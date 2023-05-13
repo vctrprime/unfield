@@ -72,7 +72,7 @@ export const FieldCard = (props: FieldCardProps) => {
                     </div> :
                     <div>{
                         props.field.slots.map((s, i) => {
-                            return <PopupSlot slot={s} key={i}
+                            return i + 1 === props.field.slots.length ? null : <PopupSlot slot={s} key={i}
                                               addBookingDraft={(tariffId: number, slot: string) => props.addBookingDraft(props.field.data.id, tariffId, slot)}/>;
                         })
                     }</div>

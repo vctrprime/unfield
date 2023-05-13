@@ -29,6 +29,11 @@ internal class BookingFormProfile : Profile
             .ForMember(
                 dest => dest.Source,
                 act => act.MapFrom( s => BookingSource.Form ) );
+
+        CreateMap<BookingCheckoutData, BookingCheckoutDto>();
+        CreateMap<BookingCheckoutDataDurationAmount, BookingCheckoutDurationAmountDto>();
+        CreateMap<BookingCheckoutDataPointPrice, BookingCheckoutPointPriceDto>()
+            .ForMember( dest => dest.End, act => act.Ignore() );
     }
 
     private List<BookingFormFieldDto> MapBookingFormData( BookingFormData bookingFormData )
@@ -38,19 +43,23 @@ internal class BookingFormProfile : Profile
             {
                 List<BookingFormFieldSlotDto> bookingFormSlots = GetSlots(
                     x.Id,
-                    bookingFormData.Slots[ x.StadiumId ],
+                    bookingFormData.Slots.ContainsKey( x.StadiumId )
+                        ? bookingFormData.Slots[ x.StadiumId ]
+                        : new List<(decimal, bool)>(),
                     bookingFormData.Prices,
                     bookingFormData.Day,
                     bookingFormData.Bookings );
 
-                //убираем те слоты у которых до закрытия полчаса (бронирование минимум на час)
+
                 foreach ( BookingFormFieldSlotDto bookingFormSlot in bookingFormSlots )
                 {
                     BookingFormFieldSlotDto? nextSlotAfterHour =
                         bookingFormSlots.FirstOrDefault(
                             s => TimePointParser.Parse( s.Name ) >= TimePointParser.Parse( bookingFormSlot.Name ) + 1 &&
                                  s.Enabled );
+
                     bookingFormSlot.Enabled = bookingFormSlot.Enabled && nextSlotAfterHour != null;
+                    bookingFormSlot.DisabledByMinDuration = bookingFormSlot.DisabledByMinDuration || nextSlotAfterHour == null;
                 }
 
                 return new BookingFormFieldDto
@@ -58,7 +67,7 @@ internal class BookingFormProfile : Profile
                     Data = MapField( x ),
                     StadiumName =
                         bookingFormData.IsForCity ? $"{x.Stadium.Name}, {x.Stadium.Address}" : null,
-                    Slots = bookingFormSlots.Take( bookingFormSlots.Count - 2 ).ToList()
+                    Slots = bookingFormSlots.Take( bookingFormSlots.Count - 1 ).ToList()
                 };
             } );
 
@@ -70,25 +79,36 @@ internal class BookingFormProfile : Profile
         List<(decimal, bool)> slots,
         List<Price> prices,
         DateTime day,
-        List<Booking> bookings ) =>
-        ( from slot in slots
-            let bookingFormPrices = GetPrices(
+        List<Booking> bookings )
+    {
+        List<BookingFormFieldSlotDto> result = new List<BookingFormFieldSlotDto>();
+        foreach ( (decimal, bool) slot in slots )
+        {
+            List<BookingFormFieldSlotPriceDto> bookingFormPrices = GetPrices(
                 fieldId,
                 slot.Item1,
                 prices,
                 day,
-                slots.Select( x => x.Item1 ).Max() )
-            let booking = bookings.FirstOrDefault(
+                slots.Select( x => x.Item1 ).Max() );
+
+            Booking? booking = bookings.FirstOrDefault(
                 x =>
                     ( x.FieldId == fieldId || x.Field.ParentFieldId == fieldId ||
                       x.Field.ChildFields.Any( cf => cf.Id == fieldId ) )
-                    && x.StartHour - ( decimal )0.5 <= slot.Item1 && x.StartHour + x.HoursCount > slot.Item1 )
-            select new BookingFormFieldSlotDto
+                    && x.StartHour - ( decimal )0.5 <= slot.Item1 && x.StartHour + x.HoursCount > slot.Item1 );
+            
+            result.Add( new BookingFormFieldSlotDto
             {
                 Name = TimePointParser.Parse( slot.Item1 ),
                 Prices = bookingFormPrices,
-                Enabled = slot.Item2 && bookingFormPrices.Any() && booking == null
-            } ).ToList();
+                Enabled = slot.Item2 && bookingFormPrices.Any() && booking == null,
+                DisabledByMinDuration = booking != null && bookingFormPrices.Any() && slot.Item2 &&
+                                        booking.StartHour - ( decimal )0.5 == slot.Item1
+            } );
+        }
+        
+        return result;
+    }
 
     private static List<BookingFormFieldSlotPriceDto> GetPrices(
         int fieldId,

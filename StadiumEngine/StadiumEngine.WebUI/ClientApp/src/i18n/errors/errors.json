@@ -36,5 +36,9 @@
     },
     "settings": {
         "main_invalid_open_close": "Указан некорректный режим работы"
+    },
+    "booking": {
+        "booking_not_found": "Бронирование не найдено",
+        "booking_error": "Ошибка при бронировании"
     }
 }
