@@ -59,7 +59,8 @@ internal class BookingFormProfile : Profile
                                  s.Enabled );
 
                     bookingFormSlot.Enabled = bookingFormSlot.Enabled && nextSlotAfterHour != null;
-                    bookingFormSlot.DisabledByMinDuration = bookingFormSlot.DisabledByMinDuration || nextSlotAfterHour == null;
+                    bookingFormSlot.DisabledByMinDuration =
+                        bookingFormSlot.DisabledByMinDuration || nextSlotAfterHour == null;
                 }
 
                 return new BookingFormFieldDto
@@ -91,24 +92,41 @@ internal class BookingFormProfile : Profile
                 day,
                 slots.Select( x => x.Item1 ).Max() );
 
-            Booking? booking = bookings.FirstOrDefault(
-                x =>
-                    ( x.FieldId == fieldId || x.Field.ParentFieldId == fieldId ||
-                      x.Field.ChildFields.Any( cf => cf.Id == fieldId ) )
-                    && x.StartHour - ( decimal )0.5 <= slot.Item1 && x.StartHour + x.HoursCount > slot.Item1 );
-            
-            result.Add( new BookingFormFieldSlotDto
-            {
-                Name = TimePointParser.Parse( slot.Item1 ),
-                Prices = bookingFormPrices,
-                Enabled = slot.Item2 && bookingFormPrices.Any() && booking == null,
-                DisabledByMinDuration = booking != null && bookingFormPrices.Any() && slot.Item2 &&
-                                        booking.StartHour - ( decimal )0.5 == slot.Item1
-            } );
+            Booking? booking = FindBooking(
+                bookings,
+                fieldId,
+                slot,
+                ( decimal )0.5 );
+
+            result.Add(
+                new BookingFormFieldSlotDto
+                {
+                    Name = TimePointParser.Parse( slot.Item1 ),
+                    Prices = bookingFormPrices,
+                    Enabled = slot.Item2 && bookingFormPrices.Any() && booking == null,
+                    DisabledByMinDuration = booking != null && bookingFormPrices.Any() && slot.Item2 &&
+                                            booking.StartHour - ( decimal )0.5 == slot.Item1
+                                            && FindBooking(
+                                                bookings,
+                                                fieldId,
+                                                slot,
+                                                0 ) == null
+                } );
         }
-        
+
         return result;
     }
+
+    private Booking? FindBooking(
+        List<Booking> bookings,
+        int fieldId,
+        (decimal, bool) slot,
+        decimal offset ) =>
+        bookings.FirstOrDefault(
+            x =>
+                ( x.FieldId == fieldId || x.Field.ParentFieldId == fieldId ||
+                  x.Field.ChildFields.Any( cf => cf.Id == fieldId ) )
+                && x.StartHour - offset <= slot.Item1 && x.StartHour + x.HoursCount > slot.Item1 );
 
     private static List<BookingFormFieldSlotPriceDto> GetPrices(
         int fieldId,
