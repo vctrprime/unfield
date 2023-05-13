@@ -5,10 +5,5 @@ namespace StadiumEngine.Queries.Admin;
 
 public sealed class GetLegalsByFilterQuery : IRequest<List<LegalDto>>
 {
-    public GetLegalsByFilterQuery( string searchString )
-    {
-        SearchString = searchString;
-    }
-
-    public string SearchString { get; set; }
+    public string? Q { get; set; }
 }

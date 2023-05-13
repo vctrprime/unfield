@@ -20,9 +20,9 @@ public class StadiumController : BaseApiController
     /// <returns></returns>
     [HttpGet( "{roleId}" )]
     [HasPermission( PermissionsKeys.GetStadiums )]
-    public async Task<List<StadiumDto>> Get( int roleId )
+    public async Task<List<StadiumDto>> Get( [FromRoute] GetStadiumsForRoleQuery query )
     {
-        List<StadiumDto> stadiums = await Mediator.Send( new GetStadiumsForRoleQuery( roleId ) );
+        List<StadiumDto> stadiums = await Mediator.Send( query );
         return stadiums;
     }
 }

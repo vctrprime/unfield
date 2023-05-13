@@ -33,9 +33,9 @@ public class FieldController : BaseApiController
     /// <returns></returns>
     [HttpGet( "{fieldId}" )]
     [HasPermission( PermissionsKeys.GetFields )]
-    public async Task<FieldDto> Get( int fieldId )
+    public async Task<FieldDto> Get( [FromRoute] GetFieldQuery query )
     {
-        FieldDto field = await Mediator.Send( new GetFieldQuery( fieldId ) );
+        FieldDto field = await Mediator.Send( query );
         return field;
     }
 

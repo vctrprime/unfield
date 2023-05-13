@@ -33,9 +33,9 @@ public class TariffController : BaseApiController
     /// <returns></returns>
     [HttpGet( "{tariffId}" )]
     [HasPermission( PermissionsKeys.GetTariffs )]
-    public async Task<TariffDto> Get( int tariffId )
+    public async Task<TariffDto> Get( [FromRoute] GetTariffQuery query )
     {
-        TariffDto tariff = await Mediator.Send( new GetTariffQuery( tariffId ) );
+        TariffDto tariff = await Mediator.Send( query );
         return tariff;
     }
 

@@ -20,10 +20,10 @@ public class CityController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public async Task<List<CityDto>> Get( string q )
+    public async Task<List<CityDto>> Get( [FromQuery] GetCitiesQuery query )
     {
-        List<CityDto> cities = await Mediator.Send( new GetCitiesQuery( q ?? String.Empty ));
-        
+        List<CityDto> cities = await Mediator.Send( query );
+
         return cities;
     }
 }

@@ -5,10 +5,5 @@ namespace StadiumEngine.Queries.Offers.LockerRooms;
 
 public sealed class GetLockerRoomQuery : IRequest<LockerRoomDto>
 {
-    public GetLockerRoomQuery( int lockerRoomId )
-    {
-        LockerRoomId = lockerRoomId;
-    }
-
-    public int LockerRoomId { get; }
+    public int LockerRoomId { get; set; }
 }

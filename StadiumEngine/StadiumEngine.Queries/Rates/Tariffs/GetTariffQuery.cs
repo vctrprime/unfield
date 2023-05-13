@@ -5,10 +5,5 @@ namespace StadiumEngine.Queries.Rates.Tariffs;
 
 public sealed class GetTariffQuery : IRequest<TariffDto>
 {
-    public GetTariffQuery( int tariffId )
-    {
-        TariffId = tariffId;
-    }
-
-    public int TariffId { get; }
+    public int TariffId { get; set; }
 }

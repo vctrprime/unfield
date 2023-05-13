@@ -22,7 +22,7 @@ internal sealed class GetLegalsByFilterHandler : BaseRequestHandler<GetLegalsByF
     public override async ValueTask<List<LegalDto>> Handle( GetLegalsByFilterQuery request,
         CancellationToken cancellationToken )
     {
-        List<Legal> legals = await _legalFacade.GetLegalsByFilterAsync( request.SearchString );
+        List<Legal> legals = await _legalFacade.GetLegalsByFilterAsync( request.Q ?? String.Empty );
 
         List<LegalDto>? legalsDto = Mapper.Map<List<LegalDto>>( legals );
 

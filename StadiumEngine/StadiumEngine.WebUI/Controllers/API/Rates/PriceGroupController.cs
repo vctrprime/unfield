@@ -33,9 +33,9 @@ public class PriceGroupController : BaseApiController
     /// <returns></returns>
     [HttpGet( "{priceGroupId}" )]
     [HasPermission( PermissionsKeys.GetPriceGroups )]
-    public async Task<PriceGroupDto> Get( int priceGroupId )
+    public async Task<PriceGroupDto> Get( [FromRoute] GetPriceGroupQuery query )
     {
-        PriceGroupDto priceGroup = await Mediator.Send( new GetPriceGroupQuery( priceGroupId ) );
+        PriceGroupDto priceGroup = await Mediator.Send( query );
         return priceGroup;
     }
 

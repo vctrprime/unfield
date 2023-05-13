@@ -20,9 +20,9 @@ public class LegalController : BaseApiController
     /// <returns></returns>
     [AdminFeature]
     [HttpGet]
-    public async Task<List<LegalDto>> Get( string q )
+    public async Task<List<LegalDto>> Get( [FromQuery] GetLegalsByFilterQuery query )
     {
-        List<LegalDto> legals = await Mediator.Send( new GetLegalsByFilterQuery( q ?? String.Empty ) );
+        List<LegalDto> legals = await Mediator.Send( query );
         return legals;
     }
 }

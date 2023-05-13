@@ -5,10 +5,5 @@ namespace StadiumEngine.Queries.Offers.Fields;
 
 public sealed class GetFieldQuery : IRequest<FieldDto>
 {
-    public GetFieldQuery( int fieldId )
-    {
-        FieldId = fieldId;
-    }
-
-    public int FieldId { get; }
+    public int FieldId { get; set; }
 }

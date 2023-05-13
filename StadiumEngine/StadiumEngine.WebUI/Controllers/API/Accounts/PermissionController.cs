@@ -20,9 +20,9 @@ public class PermissionController : BaseApiController
     /// <returns></returns>
     [HttpGet( "{roleId}" )]
     [HasPermission( PermissionsKeys.GetPermissions )]
-    public async Task<List<PermissionDto>> Get( int roleId )
+    public async Task<List<PermissionDto>> Get( [FromRoute] GetPermissionsForRoleQuery query )
     {
-        List<PermissionDto> permissions = await Mediator.Send( new GetPermissionsForRoleQuery( roleId ) );
+        List<PermissionDto> permissions = await Mediator.Send( query );
         return permissions;
     }
 }
