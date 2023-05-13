@@ -15,6 +15,7 @@ export interface BookingFormFieldSlotDto {
     name: string;
     prices: BookingFormFieldSlotPriceDto[];
     enabled: boolean;
+    disabledByMinDuration: boolean;
 }
 
 export interface BookingFormFieldSlotPriceDto {
