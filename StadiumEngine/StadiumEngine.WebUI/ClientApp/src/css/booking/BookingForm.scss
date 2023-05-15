@@ -157,6 +157,22 @@
           cursor: pointer;
           text-align: center;
           font-size: 12px;
+          position: relative;
+          
+          .one-hour-label {
+            position: absolute;
+            background-color: #CD5C5C;
+            padding: 1px 3px;
+            top: -5px;
+            font-size: 6px;
+            height: auto;
+            line-height: 8px;
+            font-weight: bold;
+            text-align: center;
+            right: -2px;
+            color: white;
+            border-radius: 3px;
+          }
 
           &:hover {
             background-color: $dark-color;

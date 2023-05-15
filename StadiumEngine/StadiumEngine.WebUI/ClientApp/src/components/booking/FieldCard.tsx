@@ -15,12 +15,16 @@ export interface FieldCardProps {
 
 interface PopupSlotProps {
     slot: BookingFormFieldSlotDto,
-    addBookingDraft: any
+    addBookingDraft: any,
+    withOneHourLabel: boolean;
 }
 
 const PopupSlot = (props: PopupSlotProps) => (
     <Popup
-        trigger={<div className="field-slot" style={props.slot.enabled ? {} : { opacity: 0.4, pointerEvents: 'none'}}>{props.slot.name}</div>} flowing hoverable>
+        trigger={<div className="field-slot" style={props.slot.enabled ? {} : { opacity: 0.4, pointerEvents: 'none'}}>
+            {props.slot.name}
+            {props.withOneHourLabel && <div className="one-hour-label" title={t("booking:field_card:slots:max_one_hour_description")||''}>{t("booking:field_card:slots:max_one_hour_label")}</div>}
+    </div>} flowing hoverable>
         <Grid centered divided columns={props.slot.prices.length as SemanticWIDTHS}>
             {props.slot.prices.map((p, i) => {
                 return <Grid.Column key={i} textAlign='center'>
@@ -72,7 +76,8 @@ export const FieldCard = (props: FieldCardProps) => {
                     </div> :
                     <div>{
                         props.field.slots.map((s, i) => {
-                            return i + 1 === props.field.slots.length ? null : <PopupSlot slot={s} key={i}
+                            const withOneHourLabel = s.enabled && props.field.slots[i + 1]?.disabledByMinDuration;
+                            return i + 1 === props.field.slots.length ? null : <PopupSlot withOneHourLabel={withOneHourLabel} slot={s} key={i}
                                               addBookingDraft={(tariffId: number, slot: string) => props.addBookingDraft(props.field.data.id, tariffId, slot)}/>;
                         })
                     }</div>
