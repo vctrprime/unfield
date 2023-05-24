@@ -166,6 +166,7 @@ export const BookingForm = () => {
                     </Col>
                     
                 </div>
+                <div className="booking-form-min-time">{t('booking:min_time')}</div>
                 <div className="booking-form-cards">
                     {data.fields.length === 0 ? <div className="booking-form-no-fields">{t('booking:no_fields')}</div> : data.fields.map((f, i) => {
                         return <FieldCard

@@ -16,24 +16,41 @@ export interface FieldCardProps {
 interface PopupSlotProps {
     slot: BookingFormFieldSlotDto,
     addBookingDraft: any,
-    withOneHourLabel: boolean;
+    maxDuration: number;
 }
 
-const PopupSlot = (props: PopupSlotProps) => (
-    <Popup
-        trigger={<div className="field-slot" style={props.slot.enabled ? {} : { opacity: 0.4, pointerEvents: 'none'}}>
+const PopupSlot = (props: PopupSlotProps) => {
+    const getMaxTimeText = () => {
+        let result = t("booking:field_card:slots:max_time");
+        const str = props.maxDuration.toString().replaceAll(",", ".");
+        if (str.indexOf(".5") !== -1) {
+            result += ` - ${str.split(".")[0]} ${t("booking:field_card:slots:max_time_hour")} 30 ${t("booking:field_card:slots:max_time_minute")}`;
+        }
+        else {
+            result += ` - ${str.split(".")[0]} ${t("booking:field_card:slots:max_time_hour")}`;
+        }
+        
+        return result;
+    }
+
+
+    return <Popup
+        trigger={<div className="field-slot" style={props.slot.enabled ? {} : {opacity: 0.4, pointerEvents: 'none'}}>
             {props.slot.name}
-            {props.withOneHourLabel && <div className="one-hour-label" title={t("booking:field_card:slots:max_one_hour_description")||''}>{t("booking:field_card:slots:max_one_hour_label")}</div>}
-    </div>} flowing hoverable>
+            {props.maxDuration === 1 && props.slot.enabled && <div className="one-hour-label"
+                                                                   title={t("booking:field_card:slots:max_one_hour_description") || ''}>{t("booking:field_card:slots:max_one_hour_label")}</div>}
+        </div>} flowing hoverable>
         <Grid centered divided columns={props.slot.prices.length as SemanticWIDTHS}>
             {props.slot.prices.map((p, i) => {
                 return <Grid.Column key={i} textAlign='center'>
-                    <Header as='h6' className="slot-popup-header">{t("booking:field_card:tariff")} "{p.tariffName}"</Header>
-                    <span style={{fontWeight: 'bold'}}>{props.slot.name}</span>
+                    <Header as='h6'
+                            className="slot-popup-header">{t("booking:field_card:tariff")} "{p.tariffName}"</Header>
+                    <span style={{fontWeight: 'bold'}}>{props.slot.name}</span> <br/>
+                    <span style={{ fontSize: '10px'}}>{getMaxTimeText()}</span>
                     <p className="slot-popup-value">
                         {p.value}{t("booking:field_card:per_hour")}
                     </p>
-                    <Button 
+                    <Button
                         onClick={() => props.addBookingDraft(p.tariffId, props.slot.name)}
                         style={{backgroundColor: '#354650', color: 'white'}}>{t("booking:field_card:book")}
                     </Button>
@@ -41,10 +58,35 @@ const PopupSlot = (props: PopupSlotProps) => (
             })}
         </Grid>
     </Popup>
-)
+}
 
 export const FieldCard = (props: FieldCardProps) => {
-        return <Col xs={12} sm={12} md={6} lg={3} style={{float: 'left'}}>
+    
+    const getMaxDuration = (i: number) => {
+        let nextSlotIndex = i+1;
+        let maxDuration = 0.5;
+
+        if (nextSlotIndex == props.field.slots.length) {
+            maxDuration = 1;
+        }
+        else {
+            let nextSlot = props.field.slots[nextSlotIndex];
+            while (nextSlotIndex < props.field.slots.length) {
+                if ( !nextSlot.enabled && !nextSlot.disabledByMinDuration ) {
+                    nextSlotIndex = props.field.slots.length;
+                }
+                else {
+                    maxDuration += 0.5;
+                    nextSlotIndex++;
+                    nextSlot = props.field.slots[nextSlotIndex];
+                }
+            }
+        }
+        return maxDuration;
+    }
+    
+    
+   return <Col xs={12} sm={12} md={6} lg={3} style={{float: 'left'}}>
         <div className="booking-form-field-card" style={props.field.slots.filter(x => x.enabled).length === 0 ? { filter: 'grayscale(1)' } : {}}>
             <div className="field-covering">{t("offers:coverings:" + FieldCoveringType[props.field.data.coveringType].toLowerCase())}</div>
             {props.field.stadiumName !== null && <div className="field-stadium">{props.field.stadiumName}</div>}
@@ -76,8 +118,7 @@ export const FieldCard = (props: FieldCardProps) => {
                     </div> :
                     <div>{
                         props.field.slots.map((s, i) => {
-                            const withOneHourLabel = s.enabled && props.field.slots[i + 1]?.disabledByMinDuration;
-                            return i + 1 === props.field.slots.length ? null : <PopupSlot withOneHourLabel={withOneHourLabel} slot={s} key={i}
+                            return i + 1 === props.field.slots.length ? null : <PopupSlot maxDuration={getMaxDuration(i)} slot={s} key={i}
                                               addBookingDraft={(tariffId: number, slot: string) => props.addBookingDraft(props.field.data.id, tariffId, slot)}/>;
                         })
                     }</div>
