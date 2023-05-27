@@ -1,13 +1,22 @@
 import React, {useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {BookingCheckoutDto} from "../../models/dto/booking/BookingCheckoutDto";
 import {useInject} from "inversify-hooks";
 import {IBookingFormService} from "../../services/BookingFormService";
 import {Container} from "reactstrap";
 import '../../css/booking/BookingCheckout.scss';
 
+type CheckoutLocationState = {
+    bookingNumber: string;
+}
+
 export const BookingCheckout = () => {
-    let {bookingNumber} = useParams();
+    const location = useLocation();
+    const params = useParams();
+    
+    let bookingNumber = (location.state as CheckoutLocationState)?.bookingNumber || params["bookingNumber"]
+    
+    //let {bookingNumber} = (location.state as CheckoutLocationState).bookingNumber || useParams();
     
     const [bookingFormService] = useInject<IBookingFormService>('BookingFormService');
     

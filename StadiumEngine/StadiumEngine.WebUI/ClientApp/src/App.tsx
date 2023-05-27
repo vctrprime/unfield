@@ -146,7 +146,7 @@ const App = () => {
                         </Route>
                     </Route>
                     <Route path="booking/:token?" element={<BookingForm/>}/>
-                    <Route path="booking-checkout/:bookingNumber" element={<BookingCheckout/>}/>
+                    <Route path="booking-checkout/:bookingNumber?" element={<BookingCheckout/>}/>
                 </Routes>
             </Layout>
             <Modal

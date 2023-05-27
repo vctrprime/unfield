@@ -68,7 +68,11 @@ export const BookingForm = () => {
             slot: slot,
             day: currentDate?.toDateString()
         } as AddBookingDraftCommand).then((response) => {
-            navigate("/booking-checkout/" + response.bookingNumber);
+            navigate("/booking-checkout", {
+                state: {
+                    bookingNumber: response.bookingNumber
+                }
+            });
             console.log(response);
         })
     }

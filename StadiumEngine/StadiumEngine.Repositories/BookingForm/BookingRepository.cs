@@ -17,7 +17,7 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
             .ThenInclude( x => x.ChildFields )
             .Where(
                 x => x.Day.Date == day.Date
-                     && stadiumsIds.Contains( x.Field.StadiumId ) && !x.IsCanceled )
+                     && stadiumsIds.Contains( x.Field.StadiumId ) )
             .ToListAsync();
 
     public async Task<Booking?> GetByNumberAsync( string bookingNumber ) =>

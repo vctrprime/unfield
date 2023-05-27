@@ -87,7 +87,12 @@ internal class BookingFormQueryFacade : IBookingFormQueryFacade
     private async Task<List<Price>> GetPricesAsync( List<int> stadiumsIds ) =>
         await _priceRepository.GetAllAsync( stadiumsIds );
 
-    private async Task<List<Booking>> GetBookingsAsync( DateTime day, List<int> stadiumsIds ) =>
-        await _bookingRepository.GetAsync( day, stadiumsIds );
+    private async Task<List<Booking>> GetBookingsAsync( DateTime day, List<int> stadiumsIds )
+    {
+        List<Booking> bookings = await _bookingRepository.GetAsync( day, stadiumsIds );
+
+        return bookings.Where( x => !x.IsCanceled & x.IsConfirmed ).ToList();
+    }
+    
     
 }
