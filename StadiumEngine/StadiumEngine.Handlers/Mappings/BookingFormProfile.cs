@@ -30,7 +30,8 @@ internal class BookingFormProfile : Profile
                 dest => dest.Source,
                 act => act.MapFrom( s => BookingSource.Form ) );
 
-        CreateMap<BookingCheckoutData, BookingCheckoutDto>();
+        CreateMap<BookingCheckoutData, BookingCheckoutDto>()
+            .ForMember( dest => dest.StadiumName, act => act.MapFrom( s => $"{s.Field.Stadium.Name}, {s.Field.Stadium.City.Name}" ) );
         CreateMap<BookingCheckoutDataDurationAmount, BookingCheckoutDurationAmountDto>();
         CreateMap<BookingCheckoutDataPointPrice, BookingCheckoutPointPriceDto>()
             .ForMember( dest => dest.End, act => act.Ignore() );

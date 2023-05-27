@@ -5,6 +5,8 @@ import {InventoryDto} from "../offers/InventoryDto";
 
 export interface BookingCheckoutDto {
     bookingNumber: string;
+    day: string;
+    stadiumName: string;
     tariff: TariffDto;
     field: FieldDto;
     inventories: InventoryDto[];
@@ -19,6 +21,8 @@ export interface BookingCheckoutDurationAmountDto {
 
 export interface BookingCheckoutPointPriceDto {
     start: number;
+    displayStart: string;
     end: number;
+    displayEnd: string;
     value: number;
 }

@@ -26,11 +26,14 @@ export const BookingForm = () => {
     document.title = getTitle("booking:title");
     
     const navigate = useNavigate();
+
+    const storedDate = localStorage.getItem('booking-form-date');
     
-    const [currentDate, setNewDate] = useState(new Date());
+    const [currentDate, setNewDate] = useState(storedDate ? new Date(storedDate) : new Date());
     
     const onChange = (event: any, data: any) => {
         if (currentDate.toDateString() !== data.value.toDateString()) {
+            localStorage.setItem('booking-form-date', data.value.toDateString());
             setNewDate(data.value);
             fetchData(data.value);
         }

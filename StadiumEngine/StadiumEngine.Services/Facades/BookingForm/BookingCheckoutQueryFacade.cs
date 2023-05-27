@@ -80,6 +80,7 @@ internal class BookingCheckoutQueryFacade : IBookingCheckoutQueryFacade
         return new BookingCheckoutData
         {
             BookingNumber = booking.Number,
+            Day = booking.Day.ToString("dd.MM.yyyy"),
             Field = booking.Field,
             Tariff = booking.Tariff,
             Inventories = inventories,

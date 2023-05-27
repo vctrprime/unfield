@@ -53,6 +53,9 @@ public class Booking : BaseBookingEntity
     [Column( "promo_code" )]
     public string? PromoCode { get; set; }
     
+    [Column( "discount" )]
+    public decimal? Discount { get; set; }
+    
     [Column( "note" )]
     public string? Note { get; set; }
     

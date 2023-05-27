@@ -6,6 +6,7 @@ namespace StadiumEngine.Domain.Services.Models.BookingForm;
 public class BookingCheckoutData
 {
     public string BookingNumber { get; set; } = null!;
+    public string Day { get; set; } = null!;
     public Field Field { get; set; } = null!;
     public Tariff Tariff { get; set; } = null!;
     public List<Inventory> Inventories { get; set; } = null!;

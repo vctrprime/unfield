@@ -19,6 +19,7 @@ internal class PriceRepository : BaseRepository<Price>, IPriceRepository
             .Include( p => p.Field )
             .Include( p => p.TariffDayInterval )
             .ThenInclude( i => i.Tariff )
+            .ThenInclude( t => t.PromoCodes )
             .Include( p => p.TariffDayInterval )
             .ThenInclude( i => i.DayInterval )
             .Where(

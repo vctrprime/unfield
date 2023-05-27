@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {BookingFormFieldDto, BookingFormFieldSlotDto} from "../../models/dto/booking/BookingFormDto";
 import {Col} from "reactstrap";
 import {Carousel} from "react-responsive-carousel";
@@ -7,6 +7,7 @@ import {SportKind} from "../../models/dto/offers/enums/SportKind";
 import {t} from "i18next";
 import {Button, Grid, Header, Popup, SemanticWIDTHS} from "semantic-ui-react";
 import {FieldCoveringType} from "../../models/dto/offers/enums/FieldCoveringType";
+import {getDurationText} from "../../helpers/utils";
 
 export interface FieldCardProps {
     field: BookingFormFieldDto,
@@ -21,16 +22,7 @@ interface PopupSlotProps {
 
 const PopupSlot = (props: PopupSlotProps) => {
     const getMaxTimeText = () => {
-        let result = t("booking:field_card:slots:max_time");
-        const str = props.maxDuration.toString().replaceAll(",", ".");
-        if (str.indexOf(".5") !== -1) {
-            result += ` - ${str.split(".")[0]} ${t("booking:field_card:slots:max_time_hour")} 30 ${t("booking:field_card:slots:max_time_minute")}`;
-        }
-        else {
-            result += ` - ${str.split(".")[0]} ${t("booking:field_card:slots:max_time_hour")}`;
-        }
-        
-        return result;
+        return t("booking:field_card:slots:max_time") + ` - ${getDurationText(props.maxDuration)}`;
     }
 
 

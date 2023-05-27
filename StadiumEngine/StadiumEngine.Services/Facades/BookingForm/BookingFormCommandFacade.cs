@@ -36,7 +36,7 @@ internal class BookingFormCommandFacade : IBookingFormCommandFacade
             } );
         
         booking.AccessCode = new Random().Next(1000, 9999).ToString();
-        booking.Number = $"{booking.Day.ToString("yyyyMMdd")}{TimePointParser.Parse( booking.StartHour ).Replace( ":", "" )}-{field.StadiumId}-{bookings.Count + 1}";
+        booking.Number = $"{booking.Day.ToString("yyyyMMdd")}-{TimePointParser.Parse( booking.StartHour ).Replace( ":", "" )}-{field.StadiumId}-{bookings.Count + 1}";
         
         _bookingRepository.Add( booking );
     }

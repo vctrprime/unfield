@@ -25,6 +25,7 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
             .Include( f => f.SportKinds )
             .Include( f => f.Images )
             .Include( f => f.Stadium )
+            .ThenInclude( s => s.City )
             .Where( f => 
                 f.Stadium.CityId == cityId 
                 && f.IsActive
@@ -46,6 +47,7 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
     public async Task<Field?> GetAsync( int fieldId ) =>
         await Entities
             .Include( f => f.Stadium )
+            .ThenInclude( s => s.City )
             .Include( f => f.SportKinds )
             .Include( f => f.Images )
             .FirstOrDefaultAsync( f => f.Id == fieldId && !f.IsDeleted && f.IsActive );

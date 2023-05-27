@@ -104,9 +104,7 @@ const App = () => {
     }
 
     return (
-        <div>
-
-
+        <>
             <Layout>
                 <NotificationContainer/>
                 <Routes>
@@ -165,7 +163,7 @@ const App = () => {
                             onClick={logout}>{t('common:yes_button')}</Button>
                 </Modal.Actions>
             </Modal>
-        </div>
+        </>
     );
 }
 

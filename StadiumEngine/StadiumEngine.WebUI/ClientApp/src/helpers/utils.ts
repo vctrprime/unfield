@@ -68,3 +68,17 @@ export const validateInputs = (inputs: any[]) => {
     })
     return !hasErrors;
 }
+
+export const getDurationText = (duration: number) => {
+    let result = '';
+    
+    const str = duration.toString().replaceAll(",", ".");
+    if (str.indexOf(".5") !== -1) {
+        result += `${str.split(".")[0]} ${t("common:hour_short")} 30 ${t("common:minute_short")}`;
+    }
+    else {
+        result += `${str.split(".")[0]} ${t("common:hour_short")}`;
+    }
+
+    return result;
+}

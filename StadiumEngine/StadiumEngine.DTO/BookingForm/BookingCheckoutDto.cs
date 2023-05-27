@@ -1,3 +1,4 @@
+using StadiumEngine.Common.Static;
 using StadiumEngine.DTO.Offers.Fields;
 using StadiumEngine.DTO.Offers.Inventories;
 using StadiumEngine.DTO.Rates.Tariffs;
@@ -13,6 +14,16 @@ public class BookingCheckoutDto
     /// Номер бронирования
     /// </summary>
     public string BookingNumber { get; set; } = null!;
+    
+    /// <summary>
+    /// День
+    /// </summary>
+    public string Day { get; set; } = null!;
+    
+    /// <summary>
+    /// Стадион
+    /// </summary>
+    public string StadiumName { get; set; } = null!;
 
     /// <summary>
     /// Данные тарифа
@@ -67,9 +78,19 @@ public class BookingCheckoutPointPriceDto
     public decimal Start { get; set; }
 
     /// <summary>
+    /// Начало интервала (строка)
+    /// </summary>
+    public string DisplayStart => TimePointParser.Parse( Start );
+
+    /// <summary>
     /// Окончание интервала
     /// </summary>
     public decimal End => Start + ( decimal )0.5;
+    
+    /// <summary>
+    /// Окончание интервала (строка)
+    /// </summary>
+    public string DisplayEnd => TimePointParser.Parse( End );
     
     /// <summary>
     /// Значение цены

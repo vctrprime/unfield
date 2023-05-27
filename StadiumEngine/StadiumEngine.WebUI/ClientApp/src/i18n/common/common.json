@@ -32,5 +32,7 @@
     "save_button": "Сохранить",
     "close_button": "Закрыть",
     "apply_button": "Применить",
-    "footer": "Онлайн-сервисы для спортивных объектов - Stadium Engine"
+    "footer": "Онлайн-сервисы для спортивных объектов - Stadium Engine",
+    "hour_short": "ч",
+    "minute_short": "мин"
 }
