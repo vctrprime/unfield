@@ -27,4 +27,5 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
             .SingleOrDefaultAsync( x => x.Number == bookingNumber );
 
     public new void Add( Booking booking ) => base.Add( booking );
+    public new void Update( Booking booking ) => base.Update( booking );
 }

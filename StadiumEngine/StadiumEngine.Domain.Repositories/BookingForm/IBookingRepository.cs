@@ -7,4 +7,5 @@ public interface IBookingRepository
     Task<List<Booking>> GetAsync( DateTime day, List<int> stadiumsIds );
     Task<Booking?> GetByNumberAsync( string bookingNumber );
     void Add( Booking booking );
+    void Update( Booking booking );
 }

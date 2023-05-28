@@ -39,6 +39,7 @@
     },
     "booking": {
         "booking_not_found": "Бронирование не найдено",
-        "booking_error": "Ошибка при бронировании"
+        "booking_error": "Ошибка при бронировании",
+        "invalid_access_code": "Неверный код подтверждения"
     }
 }

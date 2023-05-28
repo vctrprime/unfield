@@ -1,4 +1,5 @@
 using StadiumEngine.Common;
+using StadiumEngine.Domain.Entities.BookingForm;
 using StadiumEngine.Domain.Services.Infrastructure;
 
 namespace StadiumEngine.Services.Infrastructure;
@@ -10,14 +11,16 @@ internal class SmsSender : ISmsSender
         switch ( language )
         {
             case "en":
-                await Send( phoneNumber, String.Format( SmsTemplates.SendPasswordEn, password ) );
+                await SendAsync( phoneNumber, String.Format( SmsTemplates.SendPasswordEn, password ) );
                 break;
             default:
-                await Send( phoneNumber, String.Format( SmsTemplates.SendPasswordRu, password ) );
+                await SendAsync( phoneNumber, String.Format( SmsTemplates.SendPasswordRu, password ) );
                 break;
         }
     }
 
-    private static async Task Send( string phoneNumber, string message ) =>
+    public Task SendBookingNotificationAsync( Booking booking ) => SendAsync( booking.Customer.PhoneNumber, "test" );
+
+    private static async Task SendAsync( string phoneNumber, string message ) =>
         await Task.Run( () => Console.WriteLine( message ) );
 }

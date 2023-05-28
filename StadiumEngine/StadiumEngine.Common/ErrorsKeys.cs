@@ -60,6 +60,7 @@ public static class ErrorsKeys
 
     public const string BookingNotFound = "booking:booking_not_found";
     public const string BookingError = "booking:booking_error";
+    public const string InvalidAccessCode = "booking:invalid_access_code";
 
     #endregion
 }

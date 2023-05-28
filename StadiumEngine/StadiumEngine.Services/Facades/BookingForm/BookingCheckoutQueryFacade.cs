@@ -20,7 +20,7 @@ internal class BookingCheckoutQueryFacade : IBookingCheckoutQueryFacade
         _inventoryRepository = inventoryRepository;
     }
 
-    public async Task<Booking> GetBookingDraft( string bookingNumber )
+    public async Task<Booking> GetBookingDraftAsync( string bookingNumber )
     {
         Booking? booking = await _bookingRepository.GetByNumberAsync( bookingNumber );
 

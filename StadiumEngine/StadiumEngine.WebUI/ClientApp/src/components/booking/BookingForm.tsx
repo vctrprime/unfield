@@ -29,7 +29,7 @@ export const BookingForm = () => {
 
     const storedDate = localStorage.getItem('booking-form-date');
     
-    const [currentDate, setNewDate] = useState(storedDate ? new Date(storedDate) : new Date());
+    const [currentDate, setNewDate] = useState(storedDate && new Date(storedDate) >= new Date() ? new Date(storedDate) : new Date());
     
     const onChange = (event: any, data: any) => {
         if (currentDate.toDateString() !== data.value.toDateString()) {

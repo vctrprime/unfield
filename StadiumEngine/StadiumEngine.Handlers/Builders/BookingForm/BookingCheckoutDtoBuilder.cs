@@ -28,7 +28,7 @@ internal class BookingCheckoutDtoBuilder : IBookingCheckoutDtoBuilder
 
     public async Task<BookingCheckoutDto> BuildAsync( GetBookingCheckoutQuery query )
     {
-        Booking booking = await _facade.GetBookingDraft( query.BookingNumber );
+        Booking booking = await _facade.GetBookingDraftAsync( query.BookingNumber );
 
         BookingFormDto? bookingFormDto =
             await _bookingFormDtoBuilder.BuildAsync( booking.FieldId, booking.Day, query.CurrentHour );

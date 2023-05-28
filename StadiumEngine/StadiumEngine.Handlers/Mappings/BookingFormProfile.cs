@@ -35,6 +35,11 @@ internal class BookingFormProfile : Profile
         CreateMap<BookingCheckoutDataDurationAmount, BookingCheckoutDurationAmountDto>();
         CreateMap<BookingCheckoutDataPointPrice, BookingCheckoutPointPriceDto>()
             .ForMember( dest => dest.End, act => act.Ignore() );
+
+
+        CreateMap<FillBookingDataCommandCost, BookingCost>();
+        CreateMap<FillBookingDataCommandInventory, BookingInventory>();
+        CreateMap<FillBookingDataCommandCustomer, BookingCustomer>();
     }
 
     private List<BookingFormFieldDto> MapBookingFormData( BookingFormData bookingFormData )
