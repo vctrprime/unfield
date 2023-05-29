@@ -12,7 +12,7 @@ public class BookingCost : BaseBookingEntity
     public decimal StartHour { get; set; }
     
     [Column( "end_hour" )]
-    public decimal StartEnd { get; set; }
+    public decimal EndHour { get; set; }
     
     [Column( "cost" )]
     public decimal Cost { get; set; }

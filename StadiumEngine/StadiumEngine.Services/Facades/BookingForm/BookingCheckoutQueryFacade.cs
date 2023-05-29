@@ -24,7 +24,7 @@ internal class BookingCheckoutQueryFacade : IBookingCheckoutQueryFacade
     {
         Booking? booking = await _bookingRepository.GetByNumberAsync( bookingNumber );
 
-        if ( booking == null || booking.IsCanceled || !booking.IsDraft || booking.IsConfirmed )
+        if ( booking == null || booking.IsCanceled || !booking.IsDraft || booking.IsConfirmed || booking.Customer != null )
         {
             throw new DomainException( ErrorsKeys.BookingNotFound );
         }

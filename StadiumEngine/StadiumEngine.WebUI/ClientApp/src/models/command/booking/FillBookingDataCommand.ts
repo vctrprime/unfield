@@ -11,7 +11,7 @@ export interface FillBookingDataCommand {
 
 export interface FillBookingDataCommandCost {
     startHour: number;
-    startEnd: number;
+    endHour: number;
     cost: number;
 }
 

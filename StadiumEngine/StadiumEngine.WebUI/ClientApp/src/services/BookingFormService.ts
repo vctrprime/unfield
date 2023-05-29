@@ -6,6 +6,7 @@ import {BookingCheckoutDto} from "../models/dto/booking/BookingCheckoutDto";
 import {FillBookingDataCommand} from "../models/command/booking/FillBookingDataCommand";
 import {CancelBookingCommand} from "../models/command/booking/CancelBookingCommand";
 import {ConfirmBookingCommand} from "../models/command/booking/ConfirmBookingCommand";
+import {t} from "i18next";
 
 export interface IBookingFormService {
     getBookingForm(date: Date, token: string|null, cityId: number|null, q: string|null): Promise<BookingFormDto>;
@@ -56,14 +57,16 @@ export class BookingFormService extends BaseService implements IBookingFormServi
     cancelBooking(command: CancelBookingCommand): Promise<void> {
         return this.fetchWrapper.delete({
             url: `${this.baseUrl}`,
-            body: command
+            body: command,
+            successMessage: t('booking:success_cancel')
         })
     }
 
     confirmBooking(command: ConfirmBookingCommand): Promise<void> {
         return this.fetchWrapper.put({
             url: `${this.baseUrl}/confirm`,
-            body: command
+            body: command,
+            successMessage: t('booking:success_confirm')
         })
     }
 

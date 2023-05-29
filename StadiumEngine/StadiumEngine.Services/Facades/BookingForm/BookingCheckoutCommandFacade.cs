@@ -65,7 +65,7 @@ internal class BookingCheckoutCommandFacade : IBookingCheckoutCommandFacade
     {
         Booking? booking = await _bookingRepository.GetByNumberAsync( bookingNumber );
 
-        if ( booking == null )
+        if ( booking == null || booking.IsConfirmed )
         {
             throw new DomainException( ErrorsKeys.BookingNotFound );
         }

@@ -13,6 +13,10 @@ import {t} from "i18next";
 import {InventoryDto} from "../../models/dto/offers/InventoryDto";
 import {SportKind} from "../../models/dto/offers/enums/SportKind";
 import noImage from "../../img/no-image.png";
+import {
+    FillBookingDataCommandCost,
+    FillBookingDataCommandInventory
+} from "../../models/command/booking/FillBookingDataCommand";
 
 type CheckoutLocationState = {
     bookingNumber: string;
@@ -72,7 +76,7 @@ export const BookingCheckout = () => {
 
     const promoInput = useRef<any>();
     
-    const [selectedDuration, setSelectedDuration] = useState<number|null>(null);
+    const [selectedDuration, setSelectedDuration] = useState<number>(1);
     const [selectedInventories, setSelectedInventories] = useState<InventoryDto[]>([]);
     
     const navigate = useNavigate();
@@ -80,7 +84,6 @@ export const BookingCheckout = () => {
     useEffect(() => {
         bookingFormService.getBookingCheckout(bookingNumber as string).then((response: BookingCheckoutDto) => {
             setData(response);
-            setSelectedDuration(response.durationAmounts[0].duration);
         })
             .catch((error) => {
                 navigate("/booking");
@@ -169,7 +172,7 @@ export const BookingCheckout = () => {
     const getInventoryAmount = () => {
         let result = 0;
         selectedInventories.map((inv) => {
-            result += inv.price * (selectedDuration||0);
+            result += inv.price * (selectedDuration);
         });
         
         return result;
@@ -180,7 +183,7 @@ export const BookingCheckout = () => {
     }
     
     
-    return data === null ? null :  <Container className="booking-checkout-container">
+    return data === null  ? null :  <Container className="booking-checkout-container">
         <Form>
             <div className="booking-checkout-header">
                 <span>№ {data.bookingNumber}</span>
@@ -214,7 +217,7 @@ export const BookingCheckout = () => {
                     style={{width: "115px"}}
                     selection
                     onChange={(e: any, {value}: any) => setSelectedDuration(value)}
-                    value={selectedDuration||0}
+                    value={selectedDuration}
                     options={data ? data.durationAmounts.map((a) => {
                         return {
                             key: a.duration,
@@ -291,10 +294,45 @@ export const BookingCheckout = () => {
             </div>
             <div className="booking-checkout-buttons">
                 <Button style={{backgroundColor: '#3CB371', color: 'white'}} onClick={() => {
-
+                    bookingFormService.fillBookingData({
+                        bookingNumber: bookingNumber||'',
+                        hoursCount: selectedDuration,
+                        amount: getTotalAmount(),
+                        promoCode: promo?.code || null,
+                        discount: discounts.find(x => x.duration == selectedDuration)?.value || null,
+                        customer: {
+                            name: 'name',
+                            phoneNumber: 'number'
+                        },
+                        costs: data.pointPrices.slice(0, selectedDuration/0.5).map((p) => {
+                            return {
+                                startHour: p.start,
+                                endHour: p.end,
+                                cost: p.value
+                            } as FillBookingDataCommandCost
+                        }),
+                        inventories: selectedInventories.map((inv, i) => {
+                            return {
+                                inventoryId: inv.id,
+                                price: inv.price,
+                                quantity: 1,
+                                amount: inv.price * selectedDuration
+                            } as FillBookingDataCommandInventory
+                        })
+                    }).then(() => {
+                        navigate("/booking/confirm",  {
+                            state: {
+                                bookingNumber: bookingNumber
+                            }
+                        });
+                    })
                 }}>Забронировать</Button>
                 <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
-
+                    bookingFormService.cancelBooking({
+                        bookingNumber: bookingNumber||''
+                    }).finally(() => {
+                        navigate("/booking");
+                    });
                 }}>Отменить</Button>
             </div>
         </Form>

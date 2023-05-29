@@ -53,6 +53,7 @@ import {Tariff} from "./components/lk/rates/Tariff";
 import {Prices} from "./components/lk/rates/Prices";
 import {BookingForm} from "./components/booking/BookingForm";
 import {BookingCheckout} from "./components/booking/BookingCheckout";
+import {BookingConfirm} from "./components/booking/BookingConfirm";
 
 const ReactNotifications = require('react-notifications');
 const {NotificationContainer} = ReactNotifications;
@@ -144,7 +145,8 @@ const App = () => {
                         </Route>
                     </Route>
                     <Route path="booking/:token?" element={<BookingForm/>}/>
-                    <Route path="booking-checkout/:bookingNumber?" element={<BookingCheckout/>}/>
+                    <Route path="booking/checkout/:bookingNumber?" element={<BookingCheckout/>}/>
+                    <Route path="booking/confirm/:bookingNumber?" element={<BookingConfirm/>}/>
                 </Routes>
             </Layout>
             <Modal

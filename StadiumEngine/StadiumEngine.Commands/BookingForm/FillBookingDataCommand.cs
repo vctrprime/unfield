@@ -24,7 +24,7 @@ public sealed class FillBookingDataCommandCost
 {
     public decimal StartHour { get; set; }
     
-    public decimal StartEnd { get; set; }
+    public decimal EndHour { get; set; }
     
     public decimal Cost { get; set; }
 }
