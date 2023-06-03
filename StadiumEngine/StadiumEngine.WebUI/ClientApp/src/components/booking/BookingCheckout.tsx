@@ -3,7 +3,7 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {BookingCheckoutDto, BookingCheckoutDurationAmountDto} from "../../models/dto/booking/BookingCheckoutDto";
 import {useInject} from "inversify-hooks";
 import {IBookingFormService} from "../../services/BookingFormService";
-import {Container} from "reactstrap";
+import {Col, Container} from "reactstrap";
 import '../../css/booking/BookingCheckout.scss';
 import {PromoCodeDto} from "../../models/dto/rates/TariffDto";
 import {PromoCodeType} from "../../models/dto/rates/enums/PromoCodeType";
@@ -17,6 +17,9 @@ import {
     FillBookingDataCommandCost,
     FillBookingDataCommandInventory
 } from "../../models/command/booking/FillBookingDataCommand";
+import i18n from "../../i18n/i18n";
+import PhoneInput from "react-phone-input-2";
+import ru from 'react-phone-input-2/lang/ru.json'
 
 type CheckoutLocationState = {
     bookingNumber: string;
@@ -181,6 +184,9 @@ export const BookingCheckout = () => {
     const getTotalAmount = () => {
         return getFieldAmountValue() + getInventoryAmount();
     }
+
+    const [phoneNumber, setPhoneNumber] = useState<string | undefined>();
+    const nameInput = useRef<any>();
     
     
     return data === null  ? null :  <Container className="booking-checkout-container">
@@ -283,17 +289,33 @@ export const BookingCheckout = () => {
             Общая стоимость: &nbsp;<span style={{fontWeight: 'bold'}}>{getTotalAmount()} руб.</span>
         </div>
             <div className="booking-checkout-inputs">
-                <Form.Field >
-                    <input
-                        placeholder='ФИО...'/>
-                </Form.Field>
-                <Form.Field style={{marginLeft: '10px'}}>
-                    <input
-                        placeholder='Номер телефона...'/>
-                </Form.Field>
+                <label>Введите свои данные для продолжения бронирования:</label>
+                <Col xs={12} sm={7} md={7} lg={7} style={{float: 'left', padding: '0 5px'}}>
+                    <Form.Field style={{width: '100%'}}>
+                        <input
+                            ref={nameInput}
+                            placeholder='Фамилия...'/>
+                    </Form.Field>
+                </Col>
+                <Col xs={12} sm={5} md={5} lg={5} style={{float: 'left', padding: '0 5px'}}>
+                    <Form.Field style={{width: '100%'}}>
+                        <PhoneInput
+                            onlyCountries={['ru']}
+                            country='ru'
+                            containerStyle={{width: '100%'}}
+                            inputStyle={{width: '100%', height: 38, paddingLeft: '42px', fontFamily: 'inherit'}}
+                            placeholder={'+7 (123) 456-78-90'}
+                            value={phoneNumber}
+                            onChange={(phone) => setPhoneNumber(phone)}
+                            localization={i18n.language === 'ru' ? ru : undefined}
+                            countryCodeEditable={false}
+                        />
+                    </Form.Field>
+                </Col>
             </div>
             <div className="booking-checkout-buttons">
-                <Button style={{backgroundColor: '#3CB371', color: 'white'}} onClick={() => {
+                <Button 
+                    style={{backgroundColor: '#3CB371', color: 'white'}} onClick={() => {
                     bookingFormService.fillBookingData({
                         bookingNumber: bookingNumber||'',
                         hoursCount: selectedDuration,
@@ -301,8 +323,8 @@ export const BookingCheckout = () => {
                         promoCode: promo?.code || null,
                         discount: discounts.find(x => x.duration == selectedDuration)?.value || null,
                         customer: {
-                            name: 'name',
-                            phoneNumber: 'number'
+                            name: nameInput.current.value,
+                            phoneNumber: phoneNumber||''
                         },
                         costs: data.pointPrices.slice(0, selectedDuration/0.5).map((p) => {
                             return {

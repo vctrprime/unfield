@@ -5,8 +5,8 @@
   overflow: auto;
   min-height: 100vh;
   max-width: 600px;
-  padding:  0 20px;
-  
+  padding: 0 20px 30px;
+
   .booking-checkout-header {
     font-weight: bold;
     font-size: 16px;
@@ -148,19 +148,25 @@
   }
 
   .booking-checkout-inputs {
-    margin-top: 10px;
-    justify-content: center;
-    display: flex;
     width: 100%;
+    display: block;
+    overflow: auto;
+    padding-top: 25px;
+    
+    label {
+      width: 100%;
+      margin-bottom: 5px;
+    }
     
     .field {
-      width: calc(50% - 5px) !important;
+      margin-top: 10px !important;
     }
   }
   
   .booking-checkout-buttons {
-    margin-top: 5px;
+    margin-top: 15px;
     justify-content: flex-end;
     display: flex;
+    width: 100%;
   }
 }
