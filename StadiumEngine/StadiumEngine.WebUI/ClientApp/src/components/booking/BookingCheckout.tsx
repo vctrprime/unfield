@@ -53,7 +53,7 @@ const InventoryRow = (props: InventoryRowProps) => {
             <div className="booking-checkout-inventory-row-name">{props.inventory.name}</div>
         </div>
         <div className="booking-checkout-inventory-row-block" style={{justifyContent: 'flex-end'}}>
-            <div className="booking-checkout-inventory-row-price">{props.inventory.price} руб./час</div>
+            <div className="booking-checkout-inventory-row-price">{props.inventory.price} {t("booking:checkout:rub")}/{t("common:hour_long")}</div>
             <div className="booking-checkout-inventory-row-button" onClick={() => props.action(props.inventory)}>
                 {props.added ? <Icon name='remove circle' style={{ color: '#CD5C5C'}} /> : <Icon name='add circle' style={{ color: '#3CB371'}} />}
             </div>
@@ -186,11 +186,15 @@ export const BookingCheckout = () => {
     }
 
     const [phoneNumber, setPhoneNumber] = useState<string | undefined>();
-    const nameInput = useRef<any>();
+    const [name, setName] = useState<string | undefined>();
+    
+    const confirmButtonDisabled = () => {
+        return !((name?.length || 0 ) > 1 && phoneNumber?.length === 11);
+    }
     
     
     return data === null  ? null :  <Container className="booking-checkout-container">
-        <Form>
+        <Form style={{paddingBottom: '10px'}}>
             <div className="booking-checkout-header">
                 <span>№ {data.bookingNumber}</span>
                 <span>{data.day}</span>
@@ -218,7 +222,7 @@ export const BookingCheckout = () => {
                 </div>
             </div>
             <div className="booking-checkout-durations">
-                <span style={{ fontSize: '16px'}}>c <span style={{fontWeight: 'bold'}}>{data.pointPrices[0].displayStart}</span> на  &nbsp;</span> <Dropdown
+                <span style={{ fontSize: '16px'}}>c <span style={{fontWeight: 'bold'}}>{data.pointPrices[0].displayStart}</span> {t("booking:checkout:at")}  &nbsp;</span> <Dropdown
                     fluid
                     style={{width: "115px"}}
                     selection
@@ -234,11 +238,11 @@ export const BookingCheckout = () => {
                 />
             </div>
         <div className="booking-checkout-amount">
-            За аренду площадки:&nbsp; {getFieldAmount()}
+            {t("booking:checkout:amount_field")}&nbsp; {getFieldAmount()}
         </div>
         <Form.Field className="booking-checkout-promo">
                 <input
-                    placeholder='Введите промокод...'
+                    placeholder={t("booking:checkout:promo_placeholder")||''}
                     disabled={promo !== null}
                     ref={promoInput}/>
                 <Icon
@@ -248,7 +252,7 @@ export const BookingCheckout = () => {
 
                         if (promoInput.current?.value?.length === 0) {
                             setPromoMessage({
-                                message: 'Введите промокод',
+                                message: t("booking:checkout:promo_need"),
                                 success: false
                             });
                             return;
@@ -257,10 +261,10 @@ export const BookingCheckout = () => {
                         const tariffPromo = data?.tariff.promoCodes.find( x => x.code.toLowerCase() === promoInput.current?.value.toLowerCase()) || null;
 
                         setPromoMessage(tariffPromo ? {
-                            message: 'Промокод применен',
+                            message: t("booking:checkout:promo_success"),
                             success: true
                         }: {
-                            message: 'Промокод не найден',
+                            message: t("booking:checkout:promo_not_found"),
                             success: false
                         });
 
@@ -279,22 +283,23 @@ export const BookingCheckout = () => {
             {promoMessage && <label className="booking-checkout-promo-message" style={promoMessage.success ? { color: '#3CB371'} : {color: '#CD5C5C'}}>{promoMessage.message}</label>}
             {data.inventories.length > 0 && 
                 <div className="booking-checkout-inventories">
-                    <div className="booking-checkout-inventories-title">Вы можете добавить аренду инвентаря в заказ:</div>
+                    <div className="booking-checkout-inventories-title">{t("booking:checkout:inventory_header")}</div>
                     {data.inventories.map((inv, i) => {
                         return <InventoryRow added={selectedInventories.filter(x => x.id === inv.id).length > 0} key={i}  inventory={inv} action={addOrRemoveInventory}/>
                         })}
-                    <div className="booking-checkout-amount">За аренду инвентаря: &nbsp;<span style={{fontWeight: 'bold'}}>{getInventoryAmount()} руб.</span></div>
+                    <div className="booking-checkout-amount">{t("booking:checkout:amount_inventory")} &nbsp;<span style={{fontWeight: 'bold'}}>{getInventoryAmount()} {t("booking:checkout:rub")}</span></div>
             </div>}
         <div className="booking-checkout-amount" style={{ marginTop: '20px', borderTop: '1px solid #eee'}} >
-            Общая стоимость: &nbsp;<span style={{fontWeight: 'bold'}}>{getTotalAmount()} руб.</span>
+            {t("booking:checkout:amount_total")} &nbsp;<span style={{fontWeight: 'bold'}}>{getTotalAmount()} {t("booking:checkout:rub")}</span>
         </div>
             <div className="booking-checkout-inputs">
-                <label>Введите свои данные для продолжения бронирования:</label>
+                <label>{t("booking:checkout:inputs_header")}</label>
                 <Col xs={12} sm={7} md={7} lg={7} style={{float: 'left', padding: '0 5px'}}>
                     <Form.Field style={{width: '100%'}}>
                         <input
-                            ref={nameInput}
-                            placeholder='Фамилия...'/>
+                            value={name||''}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder={t("booking:checkout:surname")||''}/>
                     </Form.Field>
                 </Col>
                 <Col xs={12} sm={5} md={5} lg={5} style={{float: 'left', padding: '0 5px'}}>
@@ -315,6 +320,7 @@ export const BookingCheckout = () => {
             </div>
             <div className="booking-checkout-buttons">
                 <Button 
+                    disabled={confirmButtonDisabled()}
                     style={{backgroundColor: '#3CB371', color: 'white'}} onClick={() => {
                     bookingFormService.fillBookingData({
                         bookingNumber: bookingNumber||'',
@@ -323,7 +329,7 @@ export const BookingCheckout = () => {
                         promoCode: promo?.code || null,
                         discount: discounts.find(x => x.duration == selectedDuration)?.value || null,
                         customer: {
-                            name: nameInput.current.value,
+                            name: name||'',
                             phoneNumber: phoneNumber||''
                         },
                         costs: data.pointPrices.slice(0, selectedDuration/0.5).map((p) => {
@@ -348,15 +354,16 @@ export const BookingCheckout = () => {
                             }
                         });
                     })
-                }}>Забронировать</Button>
+                }}>{t("booking:checkout:booking_button")}</Button>
                 <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
                     bookingFormService.cancelBooking({
                         bookingNumber: bookingNumber||''
                     }).finally(() => {
                         navigate("/booking");
                     });
-                }}>Отменить</Button>
+                }}>{t("booking:checkout:cancel_button")}</Button>
             </div>
         </Form>
+        <div className="booking-form-footer">{t('common:footer')}</div>
     </Container>
 }
