@@ -1,4 +1,5 @@
 using StadiumEngine.Common;
+using StadiumEngine.Common.Static;
 using StadiumEngine.Domain.Entities.BookingForm;
 using StadiumEngine.Domain.Services.Infrastructure;
 
@@ -8,18 +9,25 @@ internal class SmsSender : ISmsSender
 {
     public async Task SendPasswordAsync( string phoneNumber, string password, string language )
     {
-        switch ( language )
+        string template = language switch
         {
-            case "en":
-                await SendAsync( phoneNumber, String.Format( SmsTemplates.SendPasswordEn, password ) );
-                break;
-            default:
-                await SendAsync( phoneNumber, String.Format( SmsTemplates.SendPasswordRu, password ) );
-                break;
-        }
+            "en" => SmsTemplates.SendPasswordEn,
+            _ => SmsTemplates.SendPasswordRu
+        };
+        
+        await SendAsync( phoneNumber, String.Format( template, password ) );
     }
 
-    public Task SendBookingNotificationAsync( Booking booking ) => SendAsync( booking.Customer.PhoneNumber, "test" );
+    public async Task SendBookingAccessCodeAsync( Booking booking, string language )
+    {
+        string template = language switch
+        {
+            "en" => SmsTemplates.SendAccessCodeEn,
+            _ => SmsTemplates.SendAccessCodeRu
+        };
+
+        await SendAsync( booking.Customer.PhoneNumber, String.Format( template, booking.Number, $"{booking.Day:dd.MM.yyyy} {TimePointParser.Parse( booking.StartHour )}", booking.AccessCode ) );
+    }
 
     private static async Task SendAsync( string phoneNumber, string message ) =>
         await Task.Run( () => Console.WriteLine( message ) );

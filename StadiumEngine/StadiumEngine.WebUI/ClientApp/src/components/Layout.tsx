@@ -13,8 +13,10 @@ export const Layout = (props: LayoutProps) => {
     const loading = useRecoilValue(loadingAtom)
 
     return (
-        <div style={{height: '100%',
-            background: `linear-gradient( rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9) ), no-repeat center / cover url(${cells})`}}>
+        <div style={{
+            height: '100%',
+            overflow: "auto",
+            background: `linear-gradient( rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9) ), repeat center / cover url(${cells})`}}>
             {props.children}
             {loading && <div className="d-flex justify-content-center align-items-center"
                              style={{

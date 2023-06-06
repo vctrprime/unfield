@@ -73,10 +73,10 @@ export const BookingForm = () => {
         } as AddBookingDraftCommand).then((response) => {
             navigate("/booking/checkout", {
                 state: {
+                    backPath: window.location.pathname,
                     bookingNumber: response.bookingNumber
                 }
             });
-            console.log(response);
         })
     }
     
@@ -171,8 +171,9 @@ export const BookingForm = () => {
                         />
                         <LanguageSelect withRequest={false} style={{marginLeft: '10px'}}/>
                     </Col>
-                    
+
                 </div>
+                
                 <div className="booking-form-min-time">{t('booking:min_time')}</div>
                 <div className="booking-form-cards">
                     {data.fields.length === 0 ? <div className="booking-form-no-fields">{t('booking:no_fields')}</div> : data.fields.map((f, i) => {

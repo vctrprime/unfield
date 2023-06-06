@@ -25,7 +25,7 @@ export class BookingFormService extends BaseService implements IBookingFormServi
     getBookingForm(date: Date, token: string|null, cityId: number|null, q: string|null): Promise<BookingFormDto> {
         let params = `?day=${date.toDateString()}&currentHour=${new Date().getHours()}`;
         if (token !== null) {
-            params += `&token=${token}`
+            params += `&stadiumToken=${token}`
         }
         if (cityId !== null) {
             params += `&cityId=${cityId}`

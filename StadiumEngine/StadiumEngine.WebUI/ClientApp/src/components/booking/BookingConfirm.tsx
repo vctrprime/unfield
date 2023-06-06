@@ -7,9 +7,11 @@ import {Container} from "reactstrap";
 import '../../css/booking/BookingCheckout.scss';
 import { Button, Form } from "semantic-ui-react";
 import {t} from "i18next";
+import {BookingCancelModal} from "./BookingCancelModal";
 
 type ConfirmLocationState = {
     bookingNumber: string;
+    backPath: string;
 }
 
 export const BookingConfirm = () => {
@@ -20,6 +22,7 @@ export const BookingConfirm = () => {
     const navigate = useNavigate();
     
     let bookingNumber = (location.state as ConfirmLocationState)?.bookingNumber  || params["bookingNumber"];
+    let backPath = (location.state as ConfirmLocationState)?.backPath || '/booking';
 
     const [bookingFormService] = useInject<IBookingFormService>('BookingFormService');
     
@@ -28,8 +31,11 @@ export const BookingConfirm = () => {
     const confirmButtonDisabled = () => {
         return !(code?.length === 4);
     }
+
+    const [cancelModal, setCancelModal] = useState<boolean>(false)
     
     return <Container className="booking-checkout-container" style={{paddingTop: '50px'}}>
+        <BookingCancelModal backPath={backPath} openModal={cancelModal} setOpenModal={setCancelModal} bookingNumber={bookingNumber} />
         <Form>
             <div className="booking-checkout-header" style={{width: '100%', justifyContent: 'center'}}>
                 <span>{t("booking:checkout:confirm_header")} {bookingNumber}</span>
@@ -57,15 +63,11 @@ export const BookingConfirm = () => {
                         bookingNumber: bookingNumber||'',
                         accessCode: code||''
                     }).then(() => {
-                        navigate("/booking");
+                        navigate(backPath);
                     })
                 }}>{t("booking:checkout:confirm_button")}</Button>
                 <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
-                    bookingFormService.cancelBooking({
-                        bookingNumber: bookingNumber||''
-                    }).finally(() => {
-                        navigate("/booking");
-                    });
+                    setCancelModal(true);
                 }}>{t("booking:checkout:cancel_button")}</Button>
             </div>
         </Form>

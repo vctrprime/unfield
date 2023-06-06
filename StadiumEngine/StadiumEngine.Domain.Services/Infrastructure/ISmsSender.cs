@@ -6,5 +6,5 @@ public interface ISmsSender
 {
     Task SendPasswordAsync( string phoneNumber, string password, string language );
 
-    Task SendBookingNotificationAsync( Booking booking );
+    Task SendBookingAccessCodeAsync( Booking booking, string language );
 }

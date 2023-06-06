@@ -15,6 +15,8 @@ public sealed class FillBookingDataCommand : IRequest<FillBookingDataDto>
     
     public decimal? Discount { get; set; }
 
+    public string Language { get; set; } = "ru";
+
     public FillBookingDataCommandCustomer Customer { get; set; } = null!;
     public List<FillBookingDataCommandCost> Costs { get; set; } = null!;
     public List<FillBookingDataCommandInventory> Inventories { get; set; } = new();

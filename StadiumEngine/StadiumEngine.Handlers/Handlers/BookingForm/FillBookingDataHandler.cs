@@ -43,7 +43,7 @@ internal sealed class FillBookingDataHandler : BaseCommandHandler<FillBookingDat
         
         _commandFacade.FillBookingData( booking );
 
-        await _smsSender.SendBookingNotificationAsync( booking );
+        await _smsSender.SendBookingAccessCodeAsync( booking, request.Language );
 
         return new FillBookingDataDto();
     }

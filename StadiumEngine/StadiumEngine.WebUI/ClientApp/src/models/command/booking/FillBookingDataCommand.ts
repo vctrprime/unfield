@@ -4,6 +4,7 @@ export interface FillBookingDataCommand {
     amount: number;
     promoCode: string | null;
     discount: number | null;
+    language: string;
     customer: FillBookingDataCommandCustomer;
     costs: FillBookingDataCommandCost[];
     inventories: FillBookingDataCommandInventory[];

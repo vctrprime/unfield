@@ -6,7 +6,7 @@ import {loadingAtom} from "../../state/loading";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../services/AccountsService";
 
-export const LanguageSelect = ({withRequest = true, style}: any) => {
+export const LanguageSelect = ({withRequest = true, style, alignOptionsToRight = true}: any) => {
     const setLoading = useSetRecoilState(loadingAtom);
 
     const [accountsService] = useInject<IAccountsService>('AccountsService');
@@ -51,6 +51,7 @@ export const LanguageSelect = ({withRequest = true, style}: any) => {
                 showSelectedLabel={false}
                 customLabels={customLabelsLanguages}
                 fullWidth={false}
+                alignOptionsToRight={alignOptionsToRight}
                 countries={["US", "RU"]}
             />
         </div>)

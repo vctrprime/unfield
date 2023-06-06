@@ -20,9 +20,11 @@ import {
 import i18n from "../../i18n/i18n";
 import PhoneInput from "react-phone-input-2";
 import ru from 'react-phone-input-2/lang/ru.json'
+import {BookingCancelModal} from "./BookingCancelModal";
 
 type CheckoutLocationState = {
     bookingNumber: string;
+    backPath: string;
 }
 
 type CheckoutDiscount = {
@@ -68,6 +70,7 @@ export const BookingCheckout = () => {
     const params = useParams();
     
     let bookingNumber = (location.state as CheckoutLocationState)?.bookingNumber || params["bookingNumber"]
+    let backPath = (location.state as CheckoutLocationState)?.backPath || '/booking';
     
     const [bookingFormService] = useInject<IBookingFormService>('BookingFormService');
     
@@ -89,7 +92,7 @@ export const BookingCheckout = () => {
             setData(response);
         })
             .catch((error) => {
-                navigate("/booking");
+                navigate(backPath);
             })
     }, [])
     
@@ -191,10 +194,13 @@ export const BookingCheckout = () => {
     const confirmButtonDisabled = () => {
         return !((name?.length || 0 ) > 1 && phoneNumber?.length === 11);
     }
+
+    const [cancelModal, setCancelModal] = useState<boolean>(false)
     
     
     return data === null  ? null :  <Container className="booking-checkout-container">
-        <Form style={{paddingBottom: '10px'}}>
+        <BookingCancelModal backPath={backPath} openModal={cancelModal} setOpenModal={setCancelModal} bookingNumber={bookingNumber} />
+        <Form style={{paddingBottom: '10px', minHeight: 'calc(100vh - 30px)'}}>
             <div className="booking-checkout-header">
                 <span>№ {data.bookingNumber}</span>
                 <span>{data.day}</span>
@@ -332,6 +338,7 @@ export const BookingCheckout = () => {
                             name: name||'',
                             phoneNumber: phoneNumber||''
                         },
+                        language: localStorage.getItem('language') || 'ru',
                         costs: data.pointPrices.slice(0, selectedDuration/0.5).map((p) => {
                             return {
                                 startHour: p.start,
@@ -344,23 +351,20 @@ export const BookingCheckout = () => {
                                 inventoryId: inv.id,
                                 price: inv.price,
                                 quantity: 1,
-                                amount: inv.price * selectedDuration
+                                amount: inv.price * selectedDuration,
                             } as FillBookingDataCommandInventory
                         })
                     }).then(() => {
                         navigate("/booking/confirm",  {
                             state: {
-                                bookingNumber: bookingNumber
+                                bookingNumber: bookingNumber,
+                                backPath: backPath
                             }
                         });
                     })
                 }}>{t("booking:checkout:booking_button")}</Button>
                 <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
-                    bookingFormService.cancelBooking({
-                        bookingNumber: bookingNumber||''
-                    }).finally(() => {
-                        navigate("/booking");
-                    });
+                    setCancelModal(true);
                 }}>{t("booking:checkout:cancel_button")}</Button>
             </div>
         </Form>

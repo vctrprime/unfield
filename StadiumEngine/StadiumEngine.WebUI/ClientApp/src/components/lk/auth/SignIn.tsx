@@ -13,9 +13,7 @@ import i18n from "../../../i18n/i18n";
 import PhoneInput from 'react-phone-input-2'
 import ru from 'react-phone-input-2/lang/ru.json'
 import 'react-phone-input-2/lib/style.css'
-
 import back_balls from "../../../img/back-balls.png";
-import cells from "../../../img/cells.jpeg";
 import {loadingAtom} from "../../../state/loading";
 import {LanguageSelect} from "../../common/LanguageSelect";
 import {getTitle} from "../../../helpers/utils";
@@ -192,7 +190,7 @@ export const SignIn = () => {
 
             </div>
 
-            <LanguageSelect withRequest={false} style={{position: 'absolute', top: 10, left: 20}}/>
+            <LanguageSelect alignOptionsToRight={false} withRequest={false} style={{position: 'absolute', top: 10, left: 20}}/>
 
             <div className="sign-in-right-container">
 

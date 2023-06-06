@@ -17,7 +17,7 @@ internal class GetCitiesHandler : BaseRequestHandler<GetCitiesQuery, List<CityDt
 
     public override async ValueTask<List<CityDto>> Handle( GetCitiesQuery request, CancellationToken cancellationToken )
     {
-        List<City> cities = await _facade.GetCitiesByFilterAsync( request.Q );
+        List<City> cities = await _facade.GetCitiesByFilterAsync( request.Q ?? String.Empty );
 
         List<CityDto>? result = Mapper.Map<List<CityDto>>( cities );
 

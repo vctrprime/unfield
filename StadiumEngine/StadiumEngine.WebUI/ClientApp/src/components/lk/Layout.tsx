@@ -13,6 +13,7 @@ import {stadiumAtom} from "../../state/stadium";
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import {MobileNotification} from "../common/MobileNotification";
+import {t} from "i18next";
 
 export const Layout = () => {
     const stadium = useRecoilValue(stadiumAtom);
@@ -34,6 +35,7 @@ export const Layout = () => {
                 {stadium !== null && <div className="content-container">
                     <Outlet/>
                 </div>}
+                <div className="lk-footer">{t('common:footer')}</div>
             </div>
 
         </div>
