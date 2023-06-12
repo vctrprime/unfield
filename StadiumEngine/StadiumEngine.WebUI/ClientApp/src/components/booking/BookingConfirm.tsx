@@ -64,6 +64,10 @@ export const BookingConfirm = () => {
                         accessCode: code||''
                     }).then(() => {
                         navigate(backPath);
+                    }).catch((error) => {
+                        if (error === 'booking:booking_intersection') {
+                            navigate(backPath);
+                        }
                     })
                 }}>{t("booking:checkout:confirm_button")}</Button>
                 <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {

@@ -9,6 +9,7 @@ using StadiumEngine.Domain.Extensions;
 using StadiumEngine.Domain.Services.Models.BookingForm;
 using StadiumEngine.DTO.BookingForm;
 using StadiumEngine.DTO.Offers.Fields;
+using StadiumEngine.Services;
 
 namespace StadiumEngine.Handlers.Mappings;
 
@@ -130,8 +131,7 @@ internal class BookingFormProfile : Profile
         decimal offset ) =>
         bookings.FirstOrDefault(
             x =>
-                ( x.FieldId == fieldId || x.Field.ParentFieldId == fieldId ||
-                  x.Field.ChildFields.Any( cf => cf.Id == fieldId ) )
+                Predicates.RelatedBookingField(x, fieldId)
                 && x.StartHour - offset <= slot.Item1 && x.StartHour + x.HoursCount > slot.Item1 );
 
     private static List<BookingFormFieldSlotPriceDto> GetPrices(

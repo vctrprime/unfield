@@ -76,7 +76,7 @@ function useFetchWrapper() {
                 }
 
 
-                return Promise.reject(error);
+                return Promise.reject(errorKey === 'booking:booking_intersection' ? errorKey : error);
             }
 
             if (successMessage) NotificationManager.success(successMessage, t('common:success_request_title'), 2000);

@@ -1,33 +1,28 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.BookingForm;
-using StadiumEngine.Domain.Repositories.BookingForm;
 using StadiumEngine.Domain.Services.Facades.BookingForm;
+using StadiumEngine.Services.Facades.Services.BookingForm;
+using StadiumEngine.Services.Validators.Bookings;
 
 namespace StadiumEngine.Services.Facades.BookingForm;
 
 internal class BookingCheckoutCommandFacade : IBookingCheckoutCommandFacade
 {
-    private readonly IBookingRepository _bookingRepository;
-    private readonly IBookingCostRepository _bookingCostRepository;
-    private readonly IBookingCustomerRepository _bookingCustomerRepository;
-    private readonly IBookingInventoryRepository _bookingInventoryRepository;
+    private readonly IBookingRepositoriesFacade _repositoriesFacade;
+    private readonly IBookingIntersectionValidator _intersectionValidator;
 
     public BookingCheckoutCommandFacade(
-        IBookingRepository bookingRepository,
-        IBookingCostRepository bookingCostRepository,
-        IBookingCustomerRepository bookingCustomerRepository,
-        IBookingInventoryRepository bookingInventoryRepository )
+        IBookingRepositoriesFacade repositoriesFacade,
+        IBookingIntersectionValidator intersectionValidator )
     {
-        _bookingRepository = bookingRepository;
-        _bookingCostRepository = bookingCostRepository;
-        _bookingCustomerRepository = bookingCustomerRepository;
-        _bookingInventoryRepository = bookingInventoryRepository;
+        _repositoriesFacade = repositoriesFacade;
+        _intersectionValidator = intersectionValidator;
     }
 
     public async Task CancelBookingAsync( string bookingNumber )
     {
-        Booking? booking = await _bookingRepository.GetByNumberAsync( bookingNumber );
+        Booking? booking = await _repositoriesFacade.GetBookingByNumberAsync( bookingNumber );
 
         if ( booking == null )
         {
@@ -35,19 +30,24 @@ internal class BookingCheckoutCommandFacade : IBookingCheckoutCommandFacade
         }
 
         booking.IsCanceled = true;
-        _bookingRepository.Update( booking );
+        _repositoriesFacade.UpdateBooking( booking );
     }
 
-    public void FillBookingData( Booking booking )
+    public async Task FillBookingDataAsync( Booking booking )
     {
+        if ( !await _intersectionValidator.Validate( booking ) )
+        {
+            throw new DomainException( ErrorsKeys.BookingIntersection );
+        }
+        
         booking.Customer.BookingId = booking.Id;
-        _bookingCustomerRepository.Add( booking.Customer );
+        _repositoriesFacade.AddBookingCustomer( booking.Customer );
 
         foreach ( BookingCost cost in booking.Costs )
         {
             cost.BookingId = booking.Id;
         }
-        _bookingCostRepository.Add( booking.Costs );
+        _repositoriesFacade.AddBookingCosts( booking.Costs );
         
         if ( booking.Inventories.Any() )
         {
@@ -55,16 +55,16 @@ internal class BookingCheckoutCommandFacade : IBookingCheckoutCommandFacade
             {
                 inventory.BookingId = booking.Id;
             }
-            _bookingInventoryRepository.Add( booking.Inventories );
+            _repositoriesFacade.AddBookingInventories( booking.Inventories );
         }
 
-        _bookingRepository.Update( booking );
+        _repositoriesFacade.UpdateBooking( booking );
     }
 
     public async Task ConfirmBookingAsync( string bookingNumber, string accessCode )
     {
-        Booking? booking = await _bookingRepository.GetByNumberAsync( bookingNumber );
-
+        Booking? booking = await _repositoriesFacade.GetBookingByNumberAsync( bookingNumber );
+        
         if ( booking == null || booking.IsConfirmed )
         {
             throw new DomainException( ErrorsKeys.BookingNotFound );
@@ -74,10 +74,15 @@ internal class BookingCheckoutCommandFacade : IBookingCheckoutCommandFacade
         {
             throw new DomainException( ErrorsKeys.InvalidAccessCode );
         }
-
+        
+        if ( !await _intersectionValidator.Validate( booking ) )
+        {
+            throw new DomainException( ErrorsKeys.BookingIntersection );
+        }
+        
         booking.IsDraft = false;
         booking.IsConfirmed = true;
 
-        _bookingRepository.Update( booking );
+        _repositoriesFacade.UpdateBooking( booking );
     }
 }

@@ -41,7 +41,7 @@ internal sealed class FillBookingDataHandler : BaseCommandHandler<FillBookingDat
         booking.Inventories = Mapper.Map<List<BookingInventory>>( request.Inventories );
         booking.Customer = Mapper.Map<BookingCustomer>( request.Customer );
         
-        _commandFacade.FillBookingData( booking );
+        await _commandFacade.FillBookingDataAsync( booking );
 
         await _smsSender.SendBookingAccessCodeAsync( booking, request.Language );
 

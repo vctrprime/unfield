@@ -91,7 +91,7 @@ internal class BookingFormQueryFacade : IBookingFormQueryFacade
     {
         List<Booking> bookings = await _bookingRepository.GetAsync( day, stadiumsIds );
 
-        return bookings.Where( x => !x.IsCanceled & x.IsConfirmed ).ToList();
+        return bookings.Where( x => !x.IsCanceled && x.IsConfirmed ).ToList();
     }
     
     
