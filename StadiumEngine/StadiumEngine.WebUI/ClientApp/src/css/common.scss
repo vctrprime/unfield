@@ -316,3 +316,27 @@
   padding-bottom: 10px;
 }
 
+.css-96e9fn > div:first-child {
+  position: sticky;
+  top: 36px;
+  z-index: 20000;
+  background-color: white;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+}
+.css-1ujnqem-MuiTabs-root {
+  position: sticky;
+  top: 68px;
+  z-index: 20000;
+  background-color: white;
+}
+
+.css-12aktbw {
+  .css-xkctyi {
+    top: 141px !important;
+    background-color: white;
+  }
+}
+
+.css-1c41lei-MuiListItem-root {
+  background-color: white;
+}

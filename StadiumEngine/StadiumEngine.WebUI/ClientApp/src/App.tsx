@@ -130,7 +130,7 @@ const App = () => {
                         <Route path="rates/price-groups/:id" element={<PriceGroup/>}/>
                         <Route path="rates/tariffs/:id" element={<Tariff/>}/>
 
-                        <Route path="schedule" element={<Schedule/>}/>
+                        <Route path="schedule/:viewMode?" element={<Schedule/>}/>
                         <Route path="employees" element={<Employees/>}/>
                         <Route path="reports" element={<Reports/>}/>
                         <Route path="accounts" element={<Accounts/>}>
