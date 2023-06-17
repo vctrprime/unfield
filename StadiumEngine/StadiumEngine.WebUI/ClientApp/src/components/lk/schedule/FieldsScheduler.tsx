@@ -3,10 +3,8 @@ import { Fragment, useRef, useState } from "react";
 import {Button} from "semantic-ui-react";
 import { Scheduler } from "react-scheduler";
 import {SchedulerHelpers, SchedulerRef} from "react-scheduler/types";
-import {getDateFnsLocale, getLocale} from "../../../i18n/i18n";
-import {useRecoilState, useRecoilValue} from "recoil";
-import {rolesAtom} from "../../../state/roles";
-import {PermissionsRoleDropDownData} from "../accounts/Permissions";
+import {getDateFnsLocale} from "../../../i18n/i18n";
+import {useRecoilValue} from "recoil";
 import {languageAtom} from "../../../state/language";
 import {t} from "i18next";
 
@@ -110,7 +108,7 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
                 idField: "admin_id",
                 textField: "title",
                 subTextField: "mobile",
-                avatarField: "title",
+                avatarField: "avatar",
                 colorField: "color"
             }}
             fields={[
