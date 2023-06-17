@@ -32,7 +32,13 @@ import settingsEN from '../i18n/settings/settings.en.json';
 import bookingRU from '../i18n/booking/booking.json';
 import bookingEN from '../i18n/booking/booking.en.json';
 
+import scheduleRU from '../i18n/schedule/schedule.json';
+import scheduleEN from '../i18n/schedule/schedule.en.json';
+
 import {LocaleOptions} from "react-semantic-ui-datepickers/dist/types";
+
+import fnsRu from "date-fns/locale/ru";
+import fnsEn from "date-fns/locale/en-US";
 
 
 const resources = {
@@ -45,7 +51,8 @@ const resources = {
         offers: offersRU,
         rates: ratesRU,
         settings: settingsRU,
-        booking: bookingRU
+        booking: bookingRU,
+        schedule: scheduleRU
     },
     en: {
         accounts: accountsEN,
@@ -56,7 +63,8 @@ const resources = {
         offers: offersEN,
         rates: ratesEN,
         settings: settingsEN,
-        booking: bookingEN
+        booking: bookingEN,
+        schedule: scheduleEN
     }
 };
 
@@ -65,7 +73,7 @@ i18next
     .use(reactI18nextModule) // passes i18n down to react-i18next
     .init({
         fallbackLng: "ru",
-        ns: ['portal', 'common', 'accounts', 'admin', 'errors', 'offers', 'rates', 'settings', 'booking'],
+        ns: ['portal', 'common', 'accounts', 'admin', 'errors', 'offers', 'rates', 'settings', 'booking', 'schedule'],
         resources,
         lng: localStorage.getItem('language') || 'ru',
         keySeparator: false, // we do not use keys in form messages.welcome
@@ -84,8 +92,18 @@ const locales : Locales = {
     en: "en-US"
 }
 
+
 export const getLocale = (): LocaleOptions => {
     return locales[i18next.language as keyof Locales];
+}
+
+export const getDateFnsLocale = () : Locale => {
+    switch (i18next.language) {
+        case "en":
+            return fnsEn;
+        default:
+            return fnsRu
+    }
 }
 
 export default i18next;

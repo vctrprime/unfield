@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Dropdown} from "semantic-ui-react";
-import {useRecoilState} from "recoil";
+import {useRecoilState, useSetRecoilState} from "recoil";
 import {stadiumAtom} from "../../state/stadium";
 import {UserStadiumDto} from "../../models/dto/accounts/UserStadiumDto";
 import {useInject} from "inversify-hooks";
@@ -13,6 +13,7 @@ import {useNavigate} from "react-router-dom";
 import {AuthorizeUserDto} from "../../models/dto/accounts/AuthorizeUserDto";
 import {ProfileModal} from "./accounts/ProfileModal";
 import {HeaderNavigation} from "./common/HeaderNavigation";
+import {languageAtom} from "../../state/language";
 
 interface StadiumDropDownData {
     key: number,
@@ -23,6 +24,8 @@ interface StadiumDropDownData {
 export const Header = () => {
     const [stadiums, setStadiums] = useState<StadiumDropDownData[]>([])
     const [stadium, setStadium] = useRecoilState<number | null>(stadiumAtom);
+    
+    const setLanguage = useSetRecoilState<string>(languageAtom);
 
     const [profileModal, setProfileModal] = useState(false)
 
@@ -57,6 +60,7 @@ export const Header = () => {
                 setStadium(value);
                 localStorage.setItem('user', JSON.stringify(result));
                 localStorage.setItem('language', result.language);
+                setLanguage(result.language);
             })
     }
 

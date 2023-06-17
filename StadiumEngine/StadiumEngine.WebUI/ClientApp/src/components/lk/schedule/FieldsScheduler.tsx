@@ -2,14 +2,46 @@ import React, {useEffect} from 'react';
 import { Fragment, useRef, useState } from "react";
 import {Button} from "semantic-ui-react";
 import { Scheduler } from "react-scheduler";
-import { SchedulerRef } from "react-scheduler/types";
-import {getLocale} from "../../../i18n/i18n";
+import {SchedulerHelpers, SchedulerRef} from "react-scheduler/types";
+import {getDateFnsLocale, getLocale} from "../../../i18n/i18n";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {rolesAtom} from "../../../state/roles";
+import {PermissionsRoleDropDownData} from "../accounts/Permissions";
+import {languageAtom} from "../../../state/language";
+import {t} from "i18next";
 
 export interface FieldsSchedulerProps {
     mode: string
 }
 
+interface CustomEditorProps {
+    scheduler: SchedulerHelpers;
+}
+export const CustomEditor = ({ scheduler }: CustomEditorProps) => {
+    const event = scheduler.edited;
+
+    // Make your own form/state
+    const [state, setState] = useState({
+        event_id: event?.event_id || 0,
+        title: event?.title || "",
+        description: event?.description || ""
+    });
+
+    return (
+        <div>
+            <div style={{ padding: "1rem" }}>
+                <p>Load your custom form/fields</p>
+                {state.event_id}
+            </div>
+            <Button onClick={scheduler.close}>Cancel</Button>
+        </div>
+    );
+}
+
 export const FieldsScheduler = (props: FieldsSchedulerProps) => {
+    const language = useRecoilValue<string>(languageAtom);
+    const isInitialMount = useRef(true);
+    const [locale, setLocale] = useState<Locale>(getDateFnsLocale());
     
     const calendarRef = useRef<SchedulerRef>(null);
     
@@ -19,6 +51,14 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
             "resourceViewMode"
         );
     }, [props.mode])
+
+    useEffect(() => {
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+        } else {
+            window.location.reload();
+        }
+    }, [language])
     
     return <Fragment>
         <Scheduler
@@ -32,10 +72,36 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
                 startHour: 8,
                 endHour: 23,
                 step: 30,
-                weekDays: [0, 1, 2, 3, 4, 5],
-                weekStartOn: 1
+                weekDays: [0, 1, 2, 3, 4, 5, 6],
+                weekStartOn: 1,
             }}
+            customEditor={(scheduler) => <CustomEditor scheduler={scheduler} />}
+            locale={locale}
             month={null}
+            draggable={false}
+            translations={{
+                navigation: {
+                    month: t('schedule:scheduler:month'),
+                    week: t('schedule:scheduler:week'),
+                    day: t('schedule:scheduler:day'),
+                    today: t('schedule:scheduler:today')
+                },
+                form: {
+                    addTitle: "Add Event",
+                    editTitle: "Edit Event",
+                    confirm: "Confirm",
+                    delete: "Delete",
+                    cancel: "Cancel"
+                },
+                event: {
+                    title: "Title",
+                    start: "Start",
+                    end: "End",
+                    allDay: "All Day"
+                },
+                moreEvents: "More...",
+                loading: "Loading..."
+            }}
             view={"day"}
             hourFormat={"24"}
             events={EVENTS}

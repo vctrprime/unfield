@@ -5,10 +5,12 @@ import {useSetRecoilState} from "recoil";
 import {loadingAtom} from "../../state/loading";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../services/AccountsService";
+import {languageAtom} from "../../state/language";
 
 export const LanguageSelect = ({withRequest = true, style, alignOptionsToRight = true}: any) => {
     const setLoading = useSetRecoilState(loadingAtom);
-
+    const setLanguage = useSetRecoilState<string>(languageAtom);
+    
     const [accountsService] = useInject<IAccountsService>('AccountsService');
 
     const customLabelsLanguages = {
@@ -28,6 +30,8 @@ export const LanguageSelect = ({withRequest = true, style, alignOptionsToRight =
 
         if (currentLanguage !== code) {
             localStorage.setItem('language', code);
+            setLanguage(code);
+            
             if (withRequest) {
                 accountsService.changeLanguage(code).then(() => {
                     i18n.changeLanguage(code).then(() => {

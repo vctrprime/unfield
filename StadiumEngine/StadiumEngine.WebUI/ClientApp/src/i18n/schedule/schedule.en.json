@@ -1,0 +1,13 @@
+{
+    "tabs": {
+        "all": "All fields",
+        "one": "One field",
+        "list": "List of bookings"
+    },
+    "scheduler": {
+        "month": "Month",
+        "week": "Week",
+        "day": "Day",
+        "today": "Today"
+    }
+}

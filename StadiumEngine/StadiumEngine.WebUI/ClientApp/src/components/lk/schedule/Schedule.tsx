@@ -12,13 +12,13 @@ export const Schedule = () => {
 
     return (
         <div className="tabs-container">
-            <div className="tabs-links box-shadow" style={{zIndex: 20001}}>
+            <div className="tabs-links box-shadow" style={{zIndex: 1001, cursor: 'pointer'}}>
                 <a className={ mode === "default" ? "active": "" } onClick={() => {
                     window.history.pushState(null, '', "lk/schedule");
                     setMode("default")
                 }}>
                     <div className="tabs-link">
-                        Default
+                        {t('schedule:tabs:all')}
                     </div>
                 </a>
                 <a className={ mode === "tabs" ? "active": "" } onClick={() => {
@@ -26,7 +26,7 @@ export const Schedule = () => {
                     setMode("tabs")
                 }}>
                     <div className="tabs-link">
-                        Tabs
+                        {t('schedule:tabs:one')}
                     </div>
                 </a>
                 <a className={ mode === "list" ? "active": "" } onClick={() => {
@@ -34,7 +34,7 @@ export const Schedule = () => {
                     setMode("list")
                 }}>
                     <div className="tabs-link">
-                        List
+                        {t('schedule:tabs:list')}
                     </div>
                 </a>
             </div>
