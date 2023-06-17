@@ -2,7 +2,7 @@ using AutoMapper;
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Common.Static;
-using StadiumEngine.Domain.Entities.BookingForm;
+using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Services.Facades.BookingForm;
 using StadiumEngine.Domain.Services.Models.BookingForm;
 using StadiumEngine.DTO.BookingForm;

@@ -1,4 +1,4 @@
-using StadiumEngine.Domain.Entities.BookingForm;
+using StadiumEngine.Domain.Entities.Bookings;
 
 namespace StadiumEngine.Domain.Repositories.BookingForm;
 

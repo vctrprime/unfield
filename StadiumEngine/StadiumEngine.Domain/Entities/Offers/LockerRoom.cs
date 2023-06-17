@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using StadiumEngine.Common.Enums.Offers;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Entities.BookingForm;
+using StadiumEngine.Domain.Entities.Bookings;
 
 namespace StadiumEngine.Domain.Entities.Offers;
 

@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using StadiumEngine.Domain.Entities;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Entities.BookingForm;
+using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Entities.Geo;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;

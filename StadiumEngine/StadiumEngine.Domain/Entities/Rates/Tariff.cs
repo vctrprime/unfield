@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using StadiumEngine.Domain.Entities.BookingForm;
+using StadiumEngine.Domain.Entities.Bookings;
 
 namespace StadiumEngine.Domain.Entities.Rates;
 

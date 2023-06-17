@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace StadiumEngine.Domain.Entities.BookingForm;
+namespace StadiumEngine.Domain.Entities.Bookings;
 
 [Table( "booking_customer", Schema = "bookings" )]
 public class BookingCustomer : BaseBookingEntity

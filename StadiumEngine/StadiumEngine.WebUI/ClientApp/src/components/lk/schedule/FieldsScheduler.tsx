@@ -2,14 +2,19 @@ import React, {useEffect} from 'react';
 import { Fragment, useRef, useState } from "react";
 import {Button} from "semantic-ui-react";
 import { Scheduler } from "react-scheduler";
-import {SchedulerHelpers, SchedulerRef} from "react-scheduler/types";
+import {ProcessedEvent, SchedulerHelpers, SchedulerRef, ViewEvent} from "react-scheduler/types";
 import {getDateFnsLocale} from "../../../i18n/i18n";
 import {useRecoilValue} from "recoil";
 import {languageAtom} from "../../../state/language";
 import {t} from "i18next";
+import {useInject} from "inversify-hooks";
+import {IScheduleService} from "../../../services/ScheduleService";
+import {ScheduleFieldDto} from "../../../models/dto/schedule/ScheduleFieldDto";
+import {SportKind} from "../../../models/dto/offers/enums/SportKind";
 
 export interface FieldsSchedulerProps {
-    mode: string
+    mode: string,
+    setView: any
 }
 
 interface CustomEditorProps {
@@ -39,16 +44,25 @@ export const CustomEditor = ({ scheduler }: CustomEditorProps) => {
 export const FieldsScheduler = (props: FieldsSchedulerProps) => {
     const language = useRecoilValue<string>(languageAtom);
     const isInitialMount = useRef(true);
-    const [locale, setLocale] = useState<Locale>(getDateFnsLocale());
+    
+    const [scheduleService] = useInject<IScheduleService>('ScheduleService');
+    
+    const [fields, setFields] = useState<ScheduleFieldDto[]>([]);
     
     const calendarRef = useRef<SchedulerRef>(null);
+    
+    useEffect(() => {
+        scheduleService.getFields().then((response) => {
+            setFields(response);
+        })
+    }, [])
     
     useEffect(() => {
         calendarRef.current?.scheduler?.handleState(
             props.mode,
             "resourceViewMode"
         );
-    }, [props.mode])
+    }, [props.mode, fields])
 
     useEffect(() => {
         if (isInitialMount.current) {
@@ -58,8 +72,20 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
         }
     }, [language])
     
+    
+
+    const fetchEvents = async (query: ViewEvent): Promise<ProcessedEvent[]> => {
+        console.log({ query });
+        /**Simulate fetchin remote data */
+        return new Promise((res) => {
+            setTimeout(() => {
+                res(EVENTS);
+            }, 3000);
+        });
+    };
+    
     return <Fragment>
-        <Scheduler
+        {fields.length > 0 && <Scheduler
             ref={calendarRef}
             day={{
                 startHour: 8,
@@ -74,7 +100,8 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
                 weekStartOn: 1,
             }}
             customEditor={(scheduler) => <CustomEditor scheduler={scheduler} />}
-            locale={locale}
+            locale={getDateFnsLocale()}
+            onViewChange={(v) => props.setView(v)}
             month={null}
             draggable={false}
             translations={{
@@ -102,66 +129,61 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
             }}
             view={"day"}
             hourFormat={"24"}
-            events={EVENTS}
-            resources={RESOURCES}
+            loading={false}
+            //events={EVENTS}
+            getRemoteEvents={fetchEvents}
+            resources={fields}
             resourceFields={{
-                idField: "admin_id",
-                textField: "title",
-                subTextField: "mobile",
-                avatarField: "avatar",
-                colorField: "color"
+                idField: "field_id",
+                textField: "name",
+                subTextField: "",
+                avatarField: "",
+                colorField: "",
             }}
-            fields={[
-                {
-                    name: "admin_id",
-                    type: "select",
-                    default: RESOURCES[0].admin_id,
-                    options: RESOURCES.map((res) => {
-                        return {
-                            id: res.admin_id,
-                            text: `${res.title} (${res.mobile})`,
-                            value: res.admin_id //Should match "name" property
-                        };
-                    }),
-                    config: { label: "Assignee", required: true }
-                }
-            ]}
             viewerExtraComponent={(fields, event) => {
-                return (
-                    <div>
-                        {fields.map((field, i) => {
-                            if (field.name === "admin_id") {
-                                const admin = field.options?.find(
-                                    (fe) => fe.id === event.admin_id
-                                );
-                                return (
-                                    <span>{admin?.text}</span>
-                                );
-                            } else {
-                                return "";
-                            }
-                        })}
-                    </div>
-                );
+                return <div style={{marginTop: '20px'}}>{event?.data?.number}</div>
             }}
-        />
+            recourseHeaderComponent={(field : ScheduleFieldDto) => {
+                return <div className="scheduler-field">
+                    {field.data.images.length ?
+                        <img src={"/legal-images/" + field.data.images[0]}/>  : <span/>
+                    }
+                    <div className="scheduler-field-text">
+                        <div className="scheduler-field-name">{field.data.name}</div>
+                        <div className="scheduler-field-sports">
+                            {field.data.sportKinds.length === 0 ?
+                                <span style={{paddingLeft: '10px', fontSize: '12px', fontWeight: "bold"}}>{t("booking:field_card:no_sports")}</span> :
+                                field.data.sportKinds.map((s, i) => {
+                                    const value = SportKind[s];
+                                    const text = t("offers:sports:" + value.toLowerCase());
+    
+                                    return <div style={ i === 0 ? { marginLeft: 0} : {}} key={i} className="field-sport">{text}</div>;
+                                })}
+                        </div>
+                    </div>
+                </div>
+            }}
+        />}
     </Fragment>
 }
 
 export const EVENTS = [
     {
         event_id: 1,
-        title: "Event 1",
+        title: "20230607-1100-1-5 | Ковальчук",
         start: new Date(new Date(new Date().setHours(9)).setMinutes(30)),
         end: new Date(new Date(new Date().setHours(10)).setMinutes(30)),
-        admin_id: 1
+        field_id: 1,
+        data: {
+            number: '123456'
+        }
     },
     {
         event_id: 2,
         title: "Event 2",
         start: new Date(new Date(new Date().setHours(10)).setMinutes(0)),
         end: new Date(new Date(new Date().setHours(11)).setMinutes(0)),
-        admin_id: 2
+        field_id: 2
     },
     {
         event_id: 4,
@@ -176,14 +198,15 @@ export const EVENTS = [
                 new Date().getDate() - 2
             )
         ),
-        admin_id: 2
+        field_id: 2
     },
     {
-        event_id: 6,
+        event_id: 4,
         title: "Event 6",
+        disabled: true,
         start: new Date(new Date(new Date().setHours(11)).setMinutes(0)),
         end: new Date(new Date(new Date().setHours(12)).setMinutes(0)),
-        admin_id: 2
+        field_id: 2
     },
     {
         event_id: 7,
@@ -198,7 +221,7 @@ export const EVENTS = [
                 new Date().getDate() - 1
             )
         ),
-        admin_id: 3
+        field_id: 3
     },
     {
         event_id: 8,
@@ -213,7 +236,7 @@ export const EVENTS = [
                 new Date().getDate() - 1
             )
         ),
-        admin_id: 4
+        field_id: 4
     },
     {
         event_id: 9,
@@ -228,7 +251,7 @@ export const EVENTS = [
                 new Date().getDate() + 1
             )
         ),
-        admin_id: 1
+        field_id: 1
     },
     {
         event_id: 10,
@@ -243,7 +266,7 @@ export const EVENTS = [
                 new Date().getDate() + 1
             )
         ),
-        admin_id: 2
+        field_id: 2
     },
     {
         event_id: 11,
@@ -258,38 +281,7 @@ export const EVENTS = [
                 new Date().getDate() - 1
             )
         ),
-        admin_id: 1
-    }
-];
-
-export const RESOURCES = [
-    {
-        admin_id: 1,
-        title: "John",
-        mobile: "555666777",
-        avatar: "https://picsum.photos/200/300",
-        color: "#ab2d2d"
-    },
-    {
-        admin_id: 2,
-        title: "Sarah",
-        mobile: "545678354",
-        avatar: "https://picsum.photos/200/300",
-        color: "#58ab2d"
-    },
-    {
-        admin_id: 3,
-        title: "Joseph",
-        mobile: "543678433",
-        avatar: "https://picsum.photos/200/300",
-        color: "#a001a2"
-    },
-    {
-        admin_id: 4,
-        title: "Mera",
-        mobile: "507487620",
-        avatar: "https://picsum.photos/200/300",
-        color: "#08c5bd"
+        field_id: 1
     }
 ];
 

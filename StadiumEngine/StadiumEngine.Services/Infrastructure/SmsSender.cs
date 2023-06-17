@@ -1,6 +1,6 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Static;
-using StadiumEngine.Domain.Entities.BookingForm;
+using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Services.Infrastructure;
 
 namespace StadiumEngine.Services.Infrastructure;

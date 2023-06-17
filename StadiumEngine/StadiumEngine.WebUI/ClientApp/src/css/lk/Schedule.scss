@@ -1,3 +1,5 @@
+@import "src/css/const.scss";
+
 .css-96e9fn > div:first-child {
   position: sticky;
   top: 36px;
@@ -20,13 +22,22 @@
 }*/
 .css-73xuqe {
   .css-1j5p8wz {
-    top: 141px !important;
+    top: 135px !important;
   }
 }
 
-.css-1mrufi > div {
-  width: 515px;
+.week {
+  .css-1mrufi > div {
+    width: 515px;
+  }
 }
+
+.day {
+  .css-1mrufi > div {
+    width: 340px;
+  }
+}
+
 
 .css-1c41lei-MuiListItem-root {
   background-color: white;
@@ -36,4 +47,64 @@
 }
 .MuiButton-text {
   font-family: "Stadium Engine Sans Pro" !important;
+}
+
+.scheduler-field {
+  font-size: 14px !important;
+  padding: 15px;
+  display: flex;
+  background-color: white;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  font-family: "Stadium Engine Sans Pro" !important;
+  text-transform: initial !important;
+
+  img {
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  .scheduler-field-text {
+
+    .scheduler-field-name {
+      font-weight: bold;
+    }
+
+    .scheduler-field-sports {
+      height: 20px;
+
+      .field-sport {
+        float: left;
+        margin-left: 5px;
+        border-radius: 5px;
+        background-color: $dark-color;
+        color: white;
+        text-align: center;
+        font-size: 12px;
+        padding-left: 5px;
+        padding-right: 5px;
+        justify-content: center;
+        display: flex;
+        align-content: center;
+      }
+    }
+  }
+}
+
+button {
+  .scheduler-field {
+    padding: 0 !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    
+    .scheduler-field-sports {
+      margin-top: 5px;
+    }
+  }
+}
+
+.css-s22wio {
+  svg[data-testid="SupervisorAccountRoundedIcon"] {
+    display: none;
+  }
 }

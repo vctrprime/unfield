@@ -9,6 +9,7 @@ export const Schedule = () => {
     const params = useParams();
     
     const [mode, setMode] = useState<string>(params["viewMode"] || "default");
+    const [view, setView] = useState<string>("day");
 
     return (
         <div className="tabs-container">
@@ -38,8 +39,8 @@ export const Schedule = () => {
                     </div>
                 </a>
             </div>
-            <div className="tabs-content">
-                {mode !== 'list' && <FieldsScheduler mode={mode}/>}
+            <div className={"tabs-content " + view}>
+                {mode !== 'list' && <FieldsScheduler setView={setView} mode={mode}/>}
                 {mode === 'list' && <span>Список</span>}
             </div>
         </div>);

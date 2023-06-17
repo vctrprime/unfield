@@ -1,6 +1,6 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
-using StadiumEngine.Domain.Entities.BookingForm;
+using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Repositories.BookingForm;
 using StadiumEngine.Domain.Repositories.Offers;

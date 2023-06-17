@@ -6,7 +6,7 @@ using StadiumEngine.Common.Enums.BookingForm;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
 
-namespace StadiumEngine.Domain.Entities.BookingForm;
+namespace StadiumEngine.Domain.Entities.Bookings;
 
 [Table( "booking", Schema = "bookings" )]
 public class Booking : BaseBookingEntity

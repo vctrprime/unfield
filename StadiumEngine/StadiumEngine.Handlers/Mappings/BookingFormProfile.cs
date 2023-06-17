@@ -2,7 +2,7 @@ using AutoMapper;
 using StadiumEngine.Commands.BookingForm;
 using StadiumEngine.Common.Enums.BookingForm;
 using StadiumEngine.Common.Static;
-using StadiumEngine.Domain.Entities.BookingForm;
+using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Extensions;
