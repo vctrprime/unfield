@@ -13,7 +13,7 @@ export const Accounts = () => {
 
 
     if (permissions.filter(p => p.name === PermissionsKeys.GetUsers).length > 0) {
-        tabs.push({route: '', resourcePath: 'accounts:users_tab'});
+        tabs.push({route: 'users', resourcePath: 'accounts:users_tab'});
     }
     if (permissions.filter(p => p.name === PermissionsKeys.GetRoles).length > 0) {
         tabs.push({route: 'roles', resourcePath: 'accounts:roles_tab'});

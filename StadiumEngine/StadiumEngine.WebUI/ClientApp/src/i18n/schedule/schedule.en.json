@@ -8,6 +8,8 @@
         "month": "Month",
         "week": "Week",
         "day": "Day",
-        "today": "Today"
+        "today": "Today",
+        "delete": "Cancel booking",
+        "cancel": "Back"
     }
 }

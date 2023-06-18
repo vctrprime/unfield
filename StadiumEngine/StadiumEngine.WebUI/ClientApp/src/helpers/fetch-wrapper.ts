@@ -46,11 +46,13 @@ function useFetchWrapper() {
                 }
 
             }
-            return fetch(url, requestOptions).then((response) => handleResponse(response, successMessage, hideSpinner, withSpinner, showErrorAlert));
+            return fetch(url, requestOptions).then((response) => handleResponse(url, response, successMessage, hideSpinner, withSpinner, showErrorAlert));
         }
     }
 
-    function handleResponse(response: Response,
+    function handleResponse(
+                            url: string,
+                            response: Response,
                             successMessage?: string,
                             hideSpinner?: boolean,
                             withSpinner?: boolean,
@@ -71,6 +73,13 @@ function useFetchWrapper() {
                     navigate("/lk/sign-in");
                     return Promise.reject(error);
                 }
+                
+                console.log(url);
+                if ([403].includes(response.status) && url.startsWith("api/schedule")) {
+                    navigate("/lk/forbidden");
+                    return Promise.reject(error);
+                }
+                
                 if (showErrorAlert) {
                     NotificationManager.error(error, t('common:error_request_title'), 5000);
                 }

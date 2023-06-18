@@ -1,5 +1,9 @@
 @import "src/css/const.scss";
 
+.css-1mrufi {
+  min-height: calc(100vh - 138px);
+  background-color: white;
+}
 .css-96e9fn > div:first-child {
   position: sticky;
   top: 36px;
@@ -107,4 +111,31 @@ button {
   svg[data-testid="SupervisorAccountRoundedIcon"] {
     display: none;
   }
+}
+
+.css-nl6has {
+  .cancel {
+    color: white !important;
+  }
+  .delete {
+    color: white !important;
+    font-weight: bold;
+  }
+}
+
+.scheduler-legend-row {
+  display: flex;
+  margin-top: 5px;
+  
+  .scheduler-legend-square {
+    width: 20px;
+    height: 20px;
+  }
+}
+.css-z0slbs-MuiTypography-root {
+  font-family: "Stadium Engine Sans Pro" !important;
+}
+.event-extra-row {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
 }

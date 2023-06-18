@@ -54,6 +54,7 @@ import {Prices} from "./components/lk/rates/Prices";
 import {BookingForm} from "./components/booking/BookingForm";
 import {BookingCheckout} from "./components/booking/BookingCheckout";
 import {BookingConfirm} from "./components/booking/BookingConfirm";
+import {Forbidden} from "./components/lk/Forbidden";
 
 const ReactNotifications = require('react-notifications');
 const {NotificationContainer} = ReactNotifications;
@@ -112,6 +113,7 @@ const App = () => {
                     <Route path="/" element={<Home/>}/>
                     <Route path="/lk/sign-in" element={<SignIn/>}/>
                     <Route path="/lk" element={<ProtectedRoute component={LkLayout}/>}>
+                        <Route path="forbidden" element={<Forbidden/>}/>
                         <Route path="" element={<Main/>}/>
                         <Route path="offers" element={<Offers/>}>
                             <Route path="fields" element={<Fields/>}/>
@@ -134,7 +136,7 @@ const App = () => {
                         <Route path="employees" element={<Employees/>}/>
                         <Route path="reports" element={<Reports/>}/>
                         <Route path="accounts" element={<Accounts/>}>
-                            <Route path="" element={<Users/>}/>
+                            <Route path="users" element={<Users/>}/>
                             <Route path="roles" element={<Roles/>}/>
                             <Route path="permissions" element={<Permissions/>}/>
                         </Route>
