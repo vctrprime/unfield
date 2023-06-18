@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using StadiumEngine.Common.Enums.BookingForm;
 
 namespace StadiumEngine.DTO.Schedule;
 
@@ -12,82 +11,62 @@ public class SchedulerEventDto
     /// Id
     /// </summary>
     [JsonProperty( "event_id" )]
-    public int EventId { get; }
+    public int EventId { get; set; }
 
     /// <summary>
     /// Id поля
     /// </summary>
     [JsonProperty( "field_id" )]
-    public int FieldId { get; }
+    public int FieldId { get; set; }
 
     /// <summary>
     /// Название
     /// </summary>
-    public string Title { get; }
+    public string Title { get; set; } = null!;
 
     /// <summary>
     /// Дата/время начала
     /// </summary>
-    public DateTime Start { get; }
+    public DateTime Start { get; set; }
 
     /// <summary>
     /// Дата/время окончания
     /// </summary>
-    public DateTime End { get; }
+    public DateTime End { get; set; }
 
     /// <summary>
     /// Выключено
     /// </summary>
-    public bool Disabled => Data == null;
+    public bool Disabled { get; set; }
 
     /// <summary>
     /// Цвет
     /// </summary>
-    public string? Color { get; }
+    public string? Color { get; set; }
 
     /// <summary>
     /// Редактируемое
     /// </summary>
-    public bool Editable { get; }
+    public bool Editable { get; set; }
 
     /// <summary>
     /// Удаляемое
     /// </summary>
-    public bool Deletable { get; }
+    public bool Deletable { get; set; }
 
     /// <summary>
     /// Перетаскиваемое
     /// </summary>
-    public bool Draggable => false;
+    public bool Draggable { get; set; }
 
     /// <summary>
     /// На весь день
     /// </summary>
-    public bool AllDay => false;
+    public bool AllDay { get; set; }
 
     /// <summary>
     /// Данные о бронировании
     /// </summary>
-    public BookingDto? Data { get; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="data"></param>
-    /// <param name="withData"></param>
-    public SchedulerEventDto( BookingDto data, bool withData = true )
-    {
-        EventId = data.Id;
-        Start = data.Day.AddHours( ( double )data.StartHour );
-        End = Start.AddHours( ( double )data.HoursCount );
-        Title = $"{data.Number} | {data.Customer.Name}";
-        Color = data.Source == BookingSource.Form ? "green" : "blue";
-        Editable = End > DateTime.Now;
-        Deletable = End > DateTime.Now;
-
-        if ( withData )
-        {
-            Data = data;
-        }
-    }
+    public BookingDto? Data { get; set; }
+    
 }

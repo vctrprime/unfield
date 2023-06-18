@@ -1,8 +1,10 @@
-import {ScheduleFieldDto} from "../models/dto/schedule/ScheduleFieldDto";
 import {BaseService} from "./BaseService";
+import {SchedulerEventDto} from "../models/dto/schedule/SchedulerEventDto";
+import {SchedulerFieldsDto} from "../models/dto/schedule/SchedulerFieldsDto";
 
 export interface IScheduleService {
-    getFields(): Promise<ScheduleFieldDto[]>;
+    getFields(): Promise<SchedulerFieldsDto>;
+    getEvents(start: Date, end: Date): Promise<SchedulerEventDto[]>;
 }
 
 export class ScheduleService extends BaseService implements IScheduleService {
@@ -10,9 +12,15 @@ export class ScheduleService extends BaseService implements IScheduleService {
         super("api/schedule");
     }
 
-    getFields(): Promise<ScheduleFieldDto[]> {
+    getFields(): Promise<SchedulerFieldsDto> {
         return this.fetchWrapper.get({
             url: `${this.baseUrl}/fields`
+        })
+    }
+
+    getEvents(start: Date, end: Date): Promise<SchedulerEventDto[]> {
+        return this.fetchWrapper.get({
+            url: `${this.baseUrl}/events?start=${start.toJSON()}&end=${end.toJSON()}`
         })
     }
 }

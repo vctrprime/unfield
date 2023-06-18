@@ -1,0 +1,48 @@
+import {FieldDto} from "../offers/FieldDto";
+import {TariffDto} from "../rates/TariffDto";
+import {LockerRoomDto} from "../offers/LockerRoomDto";
+import {BookingSource} from "./enums/BookingSource";
+import {InventoryDto} from "../offers/InventoryDto";
+
+export interface BookingDto {
+    id: number;
+    number: string;
+    source: BookingSource;
+    day: string;
+    amount: number;
+    startHour: number;
+    hoursCount: number;
+    isDraft: boolean;
+    isConfirmed: boolean;
+    isCanceled: boolean;
+    promoCode: string | null;
+    discount: number | null;
+    note: string | null;
+    field: FieldDto;
+    tariff: TariffDto;
+    lockerRoom?: LockerRoomDto | null;
+    customer: BookingCustomerDto;
+    costs: BookingCostDto[];
+    inventories: BookingInventoryDto[];
+}
+
+export interface BookingCustomerDto {
+    id: number;
+    name: string | null;
+    phoneNumber: string | null;
+}
+
+export interface BookingCostDto {
+    id: number;
+    startHour: number;
+    endHour: number;
+    cost: number;
+}
+
+export interface BookingInventoryDto {
+    id: number;
+    price: number;
+    quantity: number;
+    amount: number;
+    inventory: InventoryDto;
+}

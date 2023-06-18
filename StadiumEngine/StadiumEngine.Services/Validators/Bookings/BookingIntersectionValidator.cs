@@ -1,5 +1,5 @@
 using StadiumEngine.Domain.Entities.Bookings;
-using StadiumEngine.Domain.Repositories.BookingForm;
+using StadiumEngine.Domain.Repositories.Bookings;
 
 namespace StadiumEngine.Services.Validators.Bookings;
 

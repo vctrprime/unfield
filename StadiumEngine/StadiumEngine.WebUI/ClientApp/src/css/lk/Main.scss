@@ -26,6 +26,7 @@
     background-color: white;
 
     .stadium-list {
+      z-index: 2002;
       margin-left: 16px;
       color: $dark-color !important;
       max-width: calc(100% - 200px);

@@ -4,6 +4,28 @@ using StadiumEngine.DTO.Offers.Fields;
 namespace StadiumEngine.DTO.Schedule;
 
 /// <summary>
+/// Площадки для расписания
+/// </summary>
+public class SchedulerFieldsDto
+{
+    /// <summary>
+    /// Час открытия
+    /// </summary>
+    public int StartHour { get; set; }
+    
+    /// <summary>
+    /// Час закрытия
+    /// </summary>
+    public int EndHour { get; set; }
+
+    /// <summary>
+    /// Площадки
+    /// </summary>
+    public List<SchedulerFieldDto> Data { get; set; } = new();
+}
+
+
+/// <summary>
 /// Площадка для расписания
 /// </summary>
 public class SchedulerFieldDto

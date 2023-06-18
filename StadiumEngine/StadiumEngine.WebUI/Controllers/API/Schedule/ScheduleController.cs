@@ -1,12 +1,9 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Constant;
-using StadiumEngine.DTO.Offers.Fields;
-using StadiumEngine.Commands.Offers.Fields;
 using StadiumEngine.DTO.Schedule;
-using StadiumEngine.Queries.Offers.Fields;
+using StadiumEngine.Queries.Schedule;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 
 namespace StadiumEngine.WebUI.Controllers.API.Schedule;
@@ -23,9 +20,21 @@ public class ScheduleController : BaseApiController
     /// <returns></returns>
     [HttpGet( "fields" )]
     [HasPermission( $"{PermissionsKeys.GetBookings}" )]
-    public async Task<List<SchedulerFieldDto>> GetFields()
+    public async Task<SchedulerFieldsDto> GetFields()
     {
-        List<FieldDto> fields = await Mediator.Send( new GetFieldsQuery() );
-        return fields.Where( x => x.IsActive ).Select( x => new SchedulerFieldDto( x ) ).ToList();
+        SchedulerFieldsDto fields = await Mediator.Send( new GetSchedulerFieldsQuery() );
+        return fields;
+    }
+
+    /// <summary>
+    ///     Получить события
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet( "events" )]
+    [HasPermission( $"{PermissionsKeys.GetBookings}" )]
+    public async Task<List<SchedulerEventDto>> GetEvents( [FromQuery] GetSchedulerEventsQuery query )
+    {
+        List<SchedulerEventDto> events = await Mediator.Send( query );
+        return events;
     }
 }

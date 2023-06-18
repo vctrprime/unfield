@@ -3,7 +3,7 @@ using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Common.Static;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Entities.Offers;
-using StadiumEngine.Domain.Repositories.BookingForm;
+using StadiumEngine.Domain.Repositories.Bookings;
 using StadiumEngine.Domain.Repositories.Offers;
 using StadiumEngine.Domain.Services.Facades.BookingForm;
 

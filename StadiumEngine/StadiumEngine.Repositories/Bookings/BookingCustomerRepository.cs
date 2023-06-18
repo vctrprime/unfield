@@ -1,8 +1,8 @@
 using StadiumEngine.Domain.Entities.Bookings;
-using StadiumEngine.Domain.Repositories.BookingForm;
+using StadiumEngine.Domain.Repositories.Bookings;
 using StadiumEngine.Repositories.Infrastructure.Contexts;
 
-namespace StadiumEngine.Repositories.BookingForm;
+namespace StadiumEngine.Repositories.Bookings;
 
 internal class BookingCustomerRepository : BaseRepository<BookingCustomer>, IBookingCustomerRepository
 {
