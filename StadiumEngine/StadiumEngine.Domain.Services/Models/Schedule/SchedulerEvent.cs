@@ -34,7 +34,7 @@ public class SchedulerEvent
         Start = data.Day.AddHours( ( double )data.StartHour );
         End = Start.AddHours( ( double )data.HoursCount );
         Title = $"{data.Number} | {data.Customer.Name} | {data.Amount}";
-        Color = data.Source == BookingSource.Form ? "#3CB371" : "#4682B4";
+        Color = data.IsWeekly ? "#20B2AA" : data.Source == BookingSource.Form ? "#3CB371" : "#4682B4";
         Editable = End > DateTime.Now;
         Deletable = End > DateTime.Now;
 

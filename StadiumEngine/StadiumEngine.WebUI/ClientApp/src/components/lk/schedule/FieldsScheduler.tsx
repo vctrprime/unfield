@@ -143,6 +143,7 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
             view={"day"}
             hourFormat={"24"}
             loading={false}
+            //timeZone={"UTC"}
             //events={EVENTS}
             getRemoteEvents={fetchEvents}
             resources={fields.data}

@@ -56,6 +56,9 @@ export const Schedule = () => {
                             <div className="scheduler-legend-square" style={{backgroundColor: "#4682B4"}} /> <span>&nbsp;  {t('schedule:scheduler:legend:schedule')}</span>
                         </div>
                         <div className="scheduler-legend-row">
+                            <div className="scheduler-legend-square" style={{backgroundColor: "#20B2AA"}} /> <span>&nbsp;  {t('schedule:scheduler:legend:weekly')}</span>
+                        </div>
+                        <div className="scheduler-legend-row">
                             <div className="scheduler-legend-square" style={{backgroundColor: "#d0d0d0"}} /> <span>&nbsp;  {t('schedule:scheduler:legend:disabled')}</span>
                         </div>
                     </Popup.Content>

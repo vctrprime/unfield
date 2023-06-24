@@ -19,6 +19,7 @@ using StadiumEngine.Services.Facades.Rates;
 using StadiumEngine.Services.Facades.Schedule;
 using StadiumEngine.Services.Facades.Services.Accounts;
 using StadiumEngine.Services.Facades.Services.BookingForm;
+using StadiumEngine.Services.Facades.Services.Bookings;
 using StadiumEngine.Services.Facades.Services.Offers;
 using StadiumEngine.Services.Facades.Services.Rates;
 using StadiumEngine.Services.Facades.Settings;
@@ -77,7 +78,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IStadiumMainSettingsCommandFacade, StadiumMainSettingsCommandFacade>();
 
         services.AddScoped<ICityQueryFacade, CityQueryFacade>();
-
+        
         services.AddScoped<IBookingFormQueryFacade, BookingFormQueryFacade>();
         services.AddScoped<IBookingFormCommandFacade, BookingFormCommandFacade>();
         services.AddScoped<IBookingFormFieldRepositoryFacade, BookingFormFieldRepositoryFacade>();
@@ -85,6 +86,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IBookingCheckoutCommandFacade, BookingCheckoutCommandFacade>();
         services.AddScoped<IBookingRepositoriesFacade, BookingRepositoriesFacade>();
 
+        services.AddScoped<IBookingFacade, BookingFacade>();
         services.AddScoped<ISchedulerQueryFacade, SchedulerQueryFacade>();
         
         #endregion

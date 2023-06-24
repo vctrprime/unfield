@@ -1,23 +1,22 @@
 using StadiumEngine.Domain.Entities.Bookings;
-using StadiumEngine.Domain.Repositories.Bookings;
 using StadiumEngine.Domain.Services.Facades.Schedule;
 using StadiumEngine.Domain.Services.Models.Schedule;
+using StadiumEngine.Services.Facades.Services.Bookings;
 
 namespace StadiumEngine.Services.Facades.Schedule;
 
 internal class SchedulerQueryFacade : ISchedulerQueryFacade
 {
-    private readonly IBookingRepository _bookingRepository;
+    private readonly IBookingFacade _bookingFacade;
 
-    public SchedulerQueryFacade( IBookingRepository bookingRepository )
+    public SchedulerQueryFacade( IBookingFacade bookingFacade )
     {
-        _bookingRepository = bookingRepository;
+        _bookingFacade = bookingFacade;
     }
 
     public async Task<List<SchedulerEvent>> GetEventsAsync( DateTime from, DateTime to, int stadiumId )
     {
-        List<Booking> bookings = ( await _bookingRepository.GetAsync( from, to, stadiumId ) )
-            .Where( x => x.IsConfirmed && !x.IsCanceled ).ToList();
+        List<Booking> bookings = await _bookingFacade.GetAsync( from, to, stadiumId );
 
         List<SchedulerEvent> events = bookings.Where( x => x.IsConfirmed && !x.IsCanceled )
             .Select( x => new SchedulerEvent( x ) ).ToList();

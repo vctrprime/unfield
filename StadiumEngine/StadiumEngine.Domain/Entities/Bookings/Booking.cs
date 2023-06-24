@@ -58,6 +58,12 @@ public class Booking : BaseBookingEntity
     
     [Column( "note" )]
     public string? Note { get; set; }
+
+    [Column( "is_weekly" )]
+    public bool IsWeekly { get; set; } = false;
+    
+    [Column( "is_weekly_stopped_date" )]
+    public DateTime? IsWeeklyStoppedDate { get; set; }
     
     [ForeignKey( "FieldId" )]
     public virtual Field Field { get; set; } = null!;
@@ -67,6 +73,7 @@ public class Booking : BaseBookingEntity
 
     [ForeignKey( "LockerRoomId" )]
     public virtual LockerRoom? LockerRoom { get; set; }
+    
     
     public virtual BookingCustomer Customer { get; set; } = null!;
     public virtual ICollection<BookingCost> Costs { get; set; } = null!;
