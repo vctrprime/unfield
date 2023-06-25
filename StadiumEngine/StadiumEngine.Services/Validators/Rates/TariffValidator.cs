@@ -9,9 +9,9 @@ namespace StadiumEngine.Services.Validators.Rates;
 
 internal class TariffValidator : ITariffValidator
 {
-    private readonly IStadiumMainSettingsRepository _repository;
+    private readonly IMainSettingsRepository _repository;
 
-    public TariffValidator( IStadiumMainSettingsRepository repository )
+    public TariffValidator( IMainSettingsRepository repository )
     {
         _repository = repository;
     }
@@ -24,7 +24,7 @@ internal class TariffValidator : ITariffValidator
 
     private async Task ValidateIntervalsAsync( int stadiumId, List<string[]> intervals )
     {
-        StadiumMainSettings mainSettings = await _repository.GetAsync( stadiumId );
+        MainSettings mainSettings = await _repository.GetAsync( stadiumId );
         List<string> points = new();
         for ( int i = mainSettings.OpenTime; i <= mainSettings.CloseTime; i++ )
         {

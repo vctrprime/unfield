@@ -9,7 +9,7 @@ using StadiumEngine.Handlers.Facades.Offers.LockerRooms;
 using StadiumEngine.Handlers.Facades.Rates.PriceGroups;
 using StadiumEngine.Handlers.Facades.Rates.Prices;
 using StadiumEngine.Handlers.Facades.Rates.Tariffs;
-using StadiumEngine.Handlers.Facades.Settings.Stadiums;
+using StadiumEngine.Handlers.Facades.Settings.Main;
 using StadiumEngine.Handlers.Mappings;
 using StadiumEngine.Services.Extensions;
 
@@ -53,7 +53,7 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<ISetPricesFacade, SetPricesFacade>();
 
-        services.AddScoped<IUpdateStadiumMainSettingsFacade, UpdateStadiumMainSettingsFacade>();
+        services.AddScoped<IUpdateMainSettingsFacade, UpdateMainSettingsFacade>();
 
         services.AddScoped<IBookingFormDtoBuilder, BookingFormDtoBuilder>();
         services.AddScoped<IBookingCheckoutDtoBuilder, BookingCheckoutDtoBuilder>();

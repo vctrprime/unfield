@@ -1,11 +1,15 @@
-import {StadiumMainSettingsDto} from "../models/dto/settings/StadiumMainSettingsDto";
-import {UpdateStadiumMainSettingsCommand} from "../models/command/settings/UpdateStadiumMainSettingsCommand";
+import {MainSettingsDto} from "../models/dto/settings/MainSettingsDto";
+import {UpdateMainSettingsCommand} from "../models/command/settings/UpdateMainSettingsCommand";
 import {BaseService} from "./BaseService";
 import {t} from "i18next";
+import {BreakDto} from "../models/dto/settings/BreakDto";
+import {TariffDto} from "../models/dto/rates/TariffDto";
 
 export interface ISettingsService {
-    getStadiumMainSettings(): Promise<StadiumMainSettingsDto>;
-    updateStadiumMainSettings(command: UpdateStadiumMainSettingsCommand): Promise<void>;
+    getMainSettings(): Promise<MainSettingsDto>;
+    updateMainSettings(command: UpdateMainSettingsCommand): Promise<void>;
+    
+    getBreaks(): Promise<BreakDto[]>;
 }
 
 export class SettingsService extends BaseService implements ISettingsService {
@@ -13,17 +17,25 @@ export class SettingsService extends BaseService implements ISettingsService {
         super("api/settings");
     }
 
-    getStadiumMainSettings(): Promise<StadiumMainSettingsDto> {
+    getMainSettings(): Promise<MainSettingsDto> {
         return this.fetchWrapper.get({
             url: `${this.baseUrl}/main`,
         })
     }
 
-    updateStadiumMainSettings(command: UpdateStadiumMainSettingsCommand): Promise<void> {
+    updateMainSettings(command: UpdateMainSettingsCommand): Promise<void> {
         return this.fetchWrapper.put({
             url: `${this.baseUrl}/main`,
             body: command,
             successMessage: t('common:success_request')
+        })
+    }
+
+    getBreaks(): Promise<BreakDto[]> {
+        return this.fetchWrapper.get({
+            url: `${this.baseUrl}/breaks`,
+            withSpinner: false,
+            hideSpinner: false
         })
     }
 }

@@ -15,5 +15,6 @@ internal class BreakRepository : BaseRepository<Break>, IBreakRepository
         await Entities
             .Where( x => x.StadiumId == stadiumId && !x.IsDeleted )
             .Include( x => x.BreakFields )
+            .ThenInclude( bf => bf.Field )
             .ToListAsync();
 }

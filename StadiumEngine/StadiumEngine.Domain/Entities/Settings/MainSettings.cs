@@ -3,8 +3,8 @@ using StadiumEngine.Domain.Entities.Accounts;
 
 namespace StadiumEngine.Domain.Entities.Settings;
 
-[Table( "stadium_main_settings", Schema = "settings" )]
-public class StadiumMainSettings : BaseUserEntity
+[Table( "main_settings", Schema = "settings" )]
+public class MainSettings : BaseUserEntity
 {
     [Column( "stadium_id" )]
     public int StadiumId { get; set; }

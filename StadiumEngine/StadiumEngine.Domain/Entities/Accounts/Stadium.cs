@@ -40,5 +40,5 @@ public class Stadium : BaseEntity
     public virtual ICollection<PriceGroup> PriceGroups { get; set; }
     public virtual ICollection<Break> Breaks { get; set; }
     
-    public virtual StadiumMainSettings MainSettings { get; set; }
+    public virtual MainSettings MainSettings { get; set; }
 }

@@ -49,7 +49,7 @@ export const Tariff = () => {
     }
     
     useEffect(() => {
-        settingsService.getStadiumMainSettings().then((result) => {
+        settingsService.getMainSettings().then((result) => {
             const points: string[] = [];
             for (let i = result.openTime; i <= result.closeTime; i++) {
                 points.push(i.toString().length === 1 ? `0${i}:00`: `${i}:00`);

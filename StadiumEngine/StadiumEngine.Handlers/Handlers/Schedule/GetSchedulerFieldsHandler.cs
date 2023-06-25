@@ -13,11 +13,11 @@ namespace StadiumEngine.Handlers.Handlers.Schedule;
 internal sealed class GetSchedulerFieldsHandler : BaseRequestHandler<GetSchedulerFieldsQuery, SchedulerFieldsDto>
 {
     private readonly IMediator _mediator;
-    private readonly IStadiumMainSettingsQueryFacade _settingsQueryFacade;
+    private readonly IMainSettingsQueryFacade _settingsQueryFacade;
 
     public GetSchedulerFieldsHandler(
         IMediator mediator,
-        IStadiumMainSettingsQueryFacade settingsQueryFacade,
+        IMainSettingsQueryFacade settingsQueryFacade,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService) : base( mapper, claimsIdentityService )
     {
@@ -30,7 +30,7 @@ internal sealed class GetSchedulerFieldsHandler : BaseRequestHandler<GetSchedule
         CancellationToken cancellationToken )
     {
         List<FieldDto> fields = await _mediator.Send( new GetFieldsQuery(), cancellationToken );
-        StadiumMainSettings settings = await _settingsQueryFacade.GetByStadiumIdAsync( _currentStadiumId );
+        MainSettings settings = await _settingsQueryFacade.GetByStadiumIdAsync( _currentStadiumId );
 
         return new SchedulerFieldsDto
         {

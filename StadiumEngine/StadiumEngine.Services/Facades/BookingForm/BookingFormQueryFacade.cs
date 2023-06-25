@@ -15,18 +15,18 @@ namespace StadiumEngine.Services.Facades.BookingForm;
 internal class BookingFormQueryFacade : IBookingFormQueryFacade
 {
     private readonly IBookingFormFieldRepositoryFacade _fieldRepositoryFacade;
-    private readonly IStadiumMainSettingsRepository _stadiumMainSettingsRepository;
+    private readonly IMainSettingsRepository _mainSettingsRepository;
     private readonly IPriceRepository _priceRepository;
     private readonly IBookingFacade _bookingFacade;
 
     public BookingFormQueryFacade(
         IBookingFormFieldRepositoryFacade fieldRepositoryFacade,
-        IStadiumMainSettingsRepository stadiumMainSettingsRepository,
+        IMainSettingsRepository mainSettingsRepository,
         IPriceRepository priceRepository,
         IBookingFacade bookingFacade )
     {
         _fieldRepositoryFacade = fieldRepositoryFacade;
-        _stadiumMainSettingsRepository = stadiumMainSettingsRepository;
+        _mainSettingsRepository = mainSettingsRepository;
         _priceRepository = priceRepository;
         _bookingFacade = bookingFacade;
     }
@@ -82,10 +82,10 @@ internal class BookingFormQueryFacade : IBookingFormQueryFacade
         int currentHour,
         bool isToday )
     {
-        List<StadiumMainSettings> settings = await _stadiumMainSettingsRepository.GetAsync( stadiumsIds );
+        List<MainSettings> settings = await _mainSettingsRepository.GetAsync( stadiumsIds );
         Dictionary<int, List<(decimal, bool)>> result = new Dictionary<int, List<(decimal, bool)>>();
 
-        foreach ( StadiumMainSettings setting in settings )
+        foreach ( MainSettings setting in settings )
         {
             List<(decimal, bool)> slots = new List<(decimal, bool)>();
 

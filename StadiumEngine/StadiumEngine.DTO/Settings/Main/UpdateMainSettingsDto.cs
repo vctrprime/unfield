@@ -1,8 +1,8 @@
-namespace StadiumEngine.DTO.Settings.Stadiums;
+namespace StadiumEngine.DTO.Settings.Main;
 
 /// <summary>
 /// ДТО после обновления основных настроек стадиона
 /// </summary>
-public class UpdateStadiumMainSettingsDto : BaseEmptySuccessDto
+public class UpdateMainSettingsDto : BaseEmptySuccessDto
 {
 }

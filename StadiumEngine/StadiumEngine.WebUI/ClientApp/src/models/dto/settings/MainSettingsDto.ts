@@ -1,4 +1,4 @@
-export interface UpdateStadiumMainSettingsCommand {
+export interface MainSettingsDto {
     name?: string,
     description?: string,
     openTime: number,

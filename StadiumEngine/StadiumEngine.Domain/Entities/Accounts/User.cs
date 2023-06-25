@@ -125,7 +125,7 @@ public class User : BaseUserEntity
     public virtual ICollection<PriceGroup> LastModifiedPriceGroups { get; set; }
     
     [InverseProperty( "UserModified" )]
-    public virtual ICollection<StadiumMainSettings> LastModifiedStadiumMainSettings { get; set; }
+    public virtual ICollection<MainSettings> LastModifiedMainSettings { get; set; }
     
     [InverseProperty( "UserCreated" )]
     public virtual ICollection<PromoCode> CreatedPromoCodes { get; set; }

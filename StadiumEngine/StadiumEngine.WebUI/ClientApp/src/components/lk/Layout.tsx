@@ -7,6 +7,7 @@ import '../../css/lk/Accounts.scss';
 import '../../css/lk/Offers.scss';
 import '../../css/lk/Rates.scss';
 import '../../css/lk/Schedule.scss';
+import '../../css/lk/Settings.scss';
 import {isMobile} from 'react-device-detect';
 import {useRecoilValue} from "recoil";
 import {stadiumAtom} from "../../state/stadium";

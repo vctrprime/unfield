@@ -30,7 +30,7 @@ internal class UtilsProfile : Profile
                 Address = s.Address,
                 Description = s.Description,
                 CityId = source.CityId,
-                MainSettings = new StadiumMainSettings
+                MainSettings = new MainSettings
                 {
                     OpenTime = 8,
                     CloseTime = 23

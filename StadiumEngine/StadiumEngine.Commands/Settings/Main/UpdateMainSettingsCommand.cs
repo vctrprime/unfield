@@ -1,9 +1,9 @@
 using Mediator;
-using StadiumEngine.DTO.Settings.Stadiums;
+using StadiumEngine.DTO.Settings.Main;
 
-namespace StadiumEngine.Commands.Settings.Stadiums;
+namespace StadiumEngine.Commands.Settings.Main;
 
-public class UpdateStadiumMainSettingsCommand: IRequest<UpdateStadiumMainSettingsDto>
+public class UpdateMainSettingsCommand: IRequest<UpdateMainSettingsDto>
 {
     public string? Name { get; set; }
     public string? Description { get; set; }

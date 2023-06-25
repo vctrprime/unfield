@@ -5,9 +5,9 @@ import {Button, Checkbox, Dropdown, Form, Icon} from "semantic-ui-react";
 import {t} from "i18next";
 import {getTitle} from "../../../helpers/utils";
 import {stadiumAtom} from "../../../state/stadium";
-import {StadiumMainSettingsDto} from "../../../models/dto/settings/StadiumMainSettingsDto";
+import {MainSettingsDto} from "../../../models/dto/settings/MainSettingsDto";
 import {ISettingsService} from "../../../services/SettingsService";
-import {UpdateStadiumMainSettingsCommand} from "../../../models/command/settings/UpdateStadiumMainSettingsCommand";
+import {UpdateMainSettingsCommand} from "../../../models/command/settings/UpdateMainSettingsCommand";
 import {ActionButtons} from "../../common/actions/ActionButtons";
 import {PermissionsKeys} from "../../../static/PermissionsKeys";
 
@@ -16,16 +16,16 @@ export const MainSettings = () => {
 
     const stadium = useRecoilValue(stadiumAtom);
 
-    const [data, setData] = useState<StadiumMainSettingsDto>({
+    const [data, setData] = useState<MainSettingsDto>({
         openTime: 8,
         closeTime: 23
-    } as StadiumMainSettingsDto);
+    } as MainSettingsDto);
     const [isError, setIsError] = useState<boolean>(false);
 
     const [settingsService] = useInject<ISettingsService>('SettingsService');
 
     const fetchMainSettings = () => {
-        settingsService.getStadiumMainSettings().then((result) => {
+        settingsService.getMainSettings().then((result) => {
             setData(result);
         }).catch(() => setIsError(true));
     }
@@ -66,13 +66,13 @@ export const MainSettings = () => {
     }
 
     const updateMainSettings = () => {
-        const command: UpdateStadiumMainSettingsCommand = {
+        const command: UpdateMainSettingsCommand = {
             name: nameInput.current?.value,
             description: descriptionInput.current?.value,
             closeTime: data.closeTime,
             openTime: data.openTime
         }
-        settingsService.updateStadiumMainSettings(command).then(() => {
+        settingsService.updateMainSettings(command).then(() => {
             
         })
     }

@@ -71,7 +71,7 @@ public static class ServiceCollectionExtensions
 
         #region settings
 
-        services.AddScoped<IStadiumMainSettingsRepository, StadiumMainSettingsRepository>();
+        services.AddScoped<IMainSettingsRepository, MainSettingsRepository>();
         services.AddScoped<IBreakRepository, BreakRepository>();
 
         #endregion

@@ -74,9 +74,10 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPriceCommandFacade, PriceCommandFacade>();
         services.AddScoped<ITariffRepositoryFacade, TariffRepositoryFacade>();
         
-        services.AddScoped<IStadiumMainSettingsQueryFacade, StadiumMainSettingsQueryFacade>();
-        services.AddScoped<IStadiumMainSettingsCommandFacade, StadiumMainSettingsCommandFacade>();
-
+        services.AddScoped<IMainSettingsQueryFacade, MainSettingsQueryFacade>();
+        services.AddScoped<IMainSettingsCommandFacade, MainSettingsCommandFacade>();
+        services.AddScoped<IBreakQueryFacade, BreakQueryFacade>();
+        
         services.AddScoped<ICityQueryFacade, CityQueryFacade>();
         
         services.AddScoped<IBookingFormQueryFacade, BookingFormQueryFacade>();

@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StadiumEngine.Commands.Settings.Main;
 using StadiumEngine.Common.Constant;
-using StadiumEngine.DTO.Settings.Stadiums;
-using StadiumEngine.Commands.Settings.Stadiums;
-using StadiumEngine.Queries.Settings.Stadiums;
+using StadiumEngine.DTO.Settings.Main;
+using StadiumEngine.Queries.Settings.Main;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 
 namespace StadiumEngine.WebUI.Controllers.API.Settings;
@@ -12,16 +12,16 @@ namespace StadiumEngine.WebUI.Controllers.API.Settings;
 ///     Основные настройки
 /// </summary>
 [Route( "api/settings/main" )]
-public class StadiumMainSettingsController : BaseApiController
+public class MainSettingsController : BaseApiController
 {
     /// <summary>
     ///     Получить основные настройки
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public async Task<StadiumMainSettingsDto> Get()
+    public async Task<MainSettingsDto> Get()
     {
-        StadiumMainSettingsDto settings = await Mediator.Send( new GetStadiumMainSettingsQuery() );
+        MainSettingsDto settings = await Mediator.Send( new GetMainSettingsQuery() );
         return settings;
     }
     
@@ -31,9 +31,9 @@ public class StadiumMainSettingsController : BaseApiController
     /// <returns></returns>
     [HttpPut]
     [HasPermission( PermissionsKeys.UpdateMainSettings )]
-    public async Task<UpdateStadiumMainSettingsDto> Put( UpdateStadiumMainSettingsCommand command )
+    public async Task<UpdateMainSettingsDto> Put( UpdateMainSettingsCommand command )
     {
-        UpdateStadiumMainSettingsDto dto = await Mediator.Send( command );
+        UpdateMainSettingsDto dto = await Mediator.Send( command );
         return dto;
     }
     

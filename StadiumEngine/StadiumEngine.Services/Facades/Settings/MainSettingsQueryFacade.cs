@@ -4,15 +4,15 @@ using StadiumEngine.Domain.Services.Facades.Settings;
 
 namespace StadiumEngine.Services.Facades.Settings;
 
-internal class StadiumMainSettingsQueryFacade : IStadiumMainSettingsQueryFacade
+internal class MainSettingsQueryFacade : IMainSettingsQueryFacade
 {
-    private readonly IStadiumMainSettingsRepository _mainSettingsRepository;
+    private readonly IMainSettingsRepository _mainSettingsRepository;
 
-    public StadiumMainSettingsQueryFacade( IStadiumMainSettingsRepository mainSettingsRepository )
+    public MainSettingsQueryFacade( IMainSettingsRepository mainSettingsRepository )
     {
         _mainSettingsRepository = mainSettingsRepository;
     }
     
-    public async Task<StadiumMainSettings> GetByStadiumIdAsync( int stadiumId ) =>
+    public async Task<MainSettings> GetByStadiumIdAsync( int stadiumId ) =>
         await _mainSettingsRepository.GetAsync( stadiumId );
 }

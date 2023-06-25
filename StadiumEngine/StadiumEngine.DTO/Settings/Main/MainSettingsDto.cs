@@ -1,9 +1,9 @@
-namespace StadiumEngine.DTO.Settings.Stadiums;
+namespace StadiumEngine.DTO.Settings.Main;
 
 /// <summary>
 /// ДТО основных настроек
 /// </summary>
-public class StadiumMainSettingsDto
+public class MainSettingsDto
 {
     /// <summary>
     /// Отображаемое имя
