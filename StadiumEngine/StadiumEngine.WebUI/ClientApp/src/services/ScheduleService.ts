@@ -20,7 +20,7 @@ export class ScheduleService extends BaseService implements IScheduleService {
 
     getEvents(start: Date, end: Date): Promise<SchedulerEventDto[]> {
         return this.fetchWrapper.get({
-            url: `${this.baseUrl}/events?start=${start.toJSON()}&end=${end.toJSON()}`
+            url: `${this.baseUrl}/events?start=${start.toJSON()}&end=${end.toJSON()}&language=${localStorage.getItem('language') || 'ru'}`
         })
     }
 }

@@ -5,6 +5,7 @@ using StadiumEngine.Common.Static;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
+using StadiumEngine.Domain.Entities.Settings;
 using StadiumEngine.Domain.Extensions;
 using StadiumEngine.Domain.Services.Models.BookingForm;
 using StadiumEngine.DTO.BookingForm;
@@ -32,7 +33,9 @@ internal class BookingFormProfile : Profile
                 act => act.MapFrom( s => BookingSource.Form ) );
 
         CreateMap<BookingCheckoutData, BookingCheckoutDto>()
-            .ForMember( dest => dest.StadiumName, act => act.MapFrom( s => $"{s.Field.Stadium.Name}, {s.Field.Stadium.City.Name}" ) );
+            .ForMember(
+                dest => dest.StadiumName,
+                act => act.MapFrom( s => $"{s.Field.Stadium.Name}, {s.Field.Stadium.City.Name}" ) );
         CreateMap<BookingCheckoutDataDurationAmount, BookingCheckoutDurationAmountDto>();
         CreateMap<BookingCheckoutDataPointPrice, BookingCheckoutPointPriceDto>()
             .ForMember( dest => dest.End, act => act.Ignore() );
@@ -49,7 +52,7 @@ internal class BookingFormProfile : Profile
             x =>
             {
                 List<BookingFormFieldSlotDto> bookingFormSlots = GetSlots(
-                    x.Id,
+                    x,
                     bookingFormData.Slots.ContainsKey( x.StadiumId )
                         ? bookingFormData.Slots[ x.StadiumId ]
                         : new List<(decimal, bool)>(),
@@ -83,7 +86,7 @@ internal class BookingFormProfile : Profile
     }
 
     private List<BookingFormFieldSlotDto> GetSlots(
-        int fieldId,
+        Field field,
         List<(decimal, bool)> slots,
         List<Price> prices,
         DateTime day,
@@ -93,7 +96,7 @@ internal class BookingFormProfile : Profile
         foreach ( (decimal, bool) slot in slots )
         {
             List<BookingFormFieldSlotPriceDto> bookingFormPrices = GetPrices(
-                fieldId,
+                field.Id,
                 slot.Item1,
                 prices,
                 day,
@@ -101,7 +104,14 @@ internal class BookingFormProfile : Profile
 
             Booking? booking = FindBooking(
                 bookings,
-                fieldId,
+                field.Id,
+                slot,
+                ( decimal )0.5 );
+
+            List<Break> breaks = field.BreakFields.Select( x => x.Break ).ToList();
+            Break? fieldBreak = FindBreak(
+                breaks,
+                day,
                 slot,
                 ( decimal )0.5 );
 
@@ -110,14 +120,22 @@ internal class BookingFormProfile : Profile
                 {
                     Name = TimePointParser.Parse( slot.Item1 ),
                     Prices = bookingFormPrices,
-                    Enabled = slot.Item2 && bookingFormPrices.Any() && booking == null,
-                    DisabledByMinDuration = booking != null && bookingFormPrices.Any() && slot.Item2 &&
-                                            booking.StartHour - ( decimal )0.5 == slot.Item1
-                                            && FindBooking(
-                                                bookings,
-                                                fieldId,
-                                                slot,
-                                                0 ) == null
+                    Enabled = slot.Item2 && bookingFormPrices.Any() && booking == null && fieldBreak == null,
+                    DisabledByMinDuration = bookingFormPrices.Any()
+                                            && slot.Item2
+                                            &&
+                                            ( ( booking != null
+                                                && booking.StartHour - ( decimal )0.5 == slot.Item1
+                                                && FindBooking(
+                                                    bookings,
+                                                    field.Id,
+                                                    slot,
+                                                    0 ) == null ) ||
+                                              (
+                                                  fieldBreak != null
+                                                  && fieldBreak.StartHour - ( decimal )0.5 == slot.Item1
+                                                  && FindBreak( breaks, day, slot, 0 ) == null
+                                              ) )
                 } );
         }
 
@@ -131,8 +149,18 @@ internal class BookingFormProfile : Profile
         decimal offset ) =>
         bookings.FirstOrDefault(
             x =>
-                Predicates.RelatedBookingField(x, fieldId)
+                Predicates.RelatedBookingField( x, fieldId )
                 && x.StartHour - offset <= slot.Item1 && x.StartHour + x.HoursCount > slot.Item1 );
+
+    private Break? FindBreak(
+        List<Break> breaks,
+        DateTime day,
+        (decimal, bool) slot,
+        decimal offset ) =>
+        breaks.FirstOrDefault(
+            x => x.IsActive && !x.IsDeleted && x.DateStart.ToUniversalTime() <= day.ToUniversalTime() &&
+                 ( !x.DateEnd.HasValue || x.DateEnd.Value.ToUniversalTime() >= day.ToUniversalTime() ) &&
+                 x.StartHour - offset <= slot.Item1 && x.EndHour > slot.Item1 );
 
     private static List<BookingFormFieldSlotPriceDto> GetPrices(
         int fieldId,

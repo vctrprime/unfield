@@ -1,4 +1,6 @@
 using StadiumEngine.Domain.Entities.Bookings;
+using StadiumEngine.Domain.Entities.Settings;
+using StadiumEngine.Domain.Repositories.Settings;
 using StadiumEngine.Domain.Services.Facades.Schedule;
 using StadiumEngine.Domain.Services.Models.Schedule;
 using StadiumEngine.Services.Facades.Services.Bookings;
@@ -8,15 +10,18 @@ namespace StadiumEngine.Services.Facades.Schedule;
 internal class SchedulerQueryFacade : ISchedulerQueryFacade
 {
     private readonly IBookingFacade _bookingFacade;
+    private readonly IBreakRepository _breakRepository;
 
-    public SchedulerQueryFacade( IBookingFacade bookingFacade )
+    public SchedulerQueryFacade( IBookingFacade bookingFacade, IBreakRepository breakRepository )
     {
         _bookingFacade = bookingFacade;
+        _breakRepository = breakRepository;
     }
 
-    public async Task<List<SchedulerEvent>> GetEventsAsync( DateTime from, DateTime to, int stadiumId )
+    public async Task<List<SchedulerEvent>> GetEventsAsync( DateTime from, DateTime to, int stadiumId, string language )
     {
         List<Booking> bookings = await _bookingFacade.GetAsync( from, to, stadiumId );
+        List<Break> breaks = ( await _breakRepository.GetAllAsync( stadiumId ) ).Where( x => x.IsActive ).ToList();
 
         List<SchedulerEvent> events = bookings.Where( x => x.IsConfirmed && !x.IsCanceled )
             .Select( x => new SchedulerEvent( x ) ).ToList();
@@ -32,6 +37,23 @@ internal class SchedulerQueryFacade : ISchedulerQueryFacade
             if ( booking.Field.ChildFields.Any() )
             {
                 disabledEvents.AddRange( booking.Field.ChildFields.Select( x => new SchedulerEvent( booking, x.Id ) ) );
+            }
+        }
+
+        foreach ( Break @break in breaks )
+        {
+            DateTime date = from.Date;
+
+            while ( date <= to.Date )
+            {
+                if ( @break.DateStart <= date && ( !@break.DateEnd.HasValue || @break.DateEnd.Value >= date.Date ) )
+                {
+                    TimeSpan diff = date - @break.DateStart;
+                    events.AddRange(
+                        @break.BreakFields.Select( x => new SchedulerEvent( x, @break.DateStart.Add( diff ), language ) ) );
+                }
+
+                date = date.AddDays( 1 );
             }
         }
 

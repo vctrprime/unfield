@@ -4,5 +4,5 @@ namespace StadiumEngine.Domain.Services.Facades.Schedule;
 
 public interface ISchedulerQueryFacade
 {
-    Task<List<SchedulerEvent>> GetEventsAsync( DateTime from, DateTime to, int stadiumId );
+    Task<List<SchedulerEvent>> GetEventsAsync( DateTime from, DateTime to, int stadiumId, string language );
 }

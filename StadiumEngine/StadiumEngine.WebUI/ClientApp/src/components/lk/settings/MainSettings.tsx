@@ -1,22 +1,18 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useRecoilValue} from "recoil";
-import {stadiumAtom} from "../../state/stadium";
-import {getTitle, StringFormat, validateInputs} from "../../helpers/utils";
-import {TariffDto} from "../../models/dto/rates/TariffDto";
-import {StadiumMainSettingsDto} from "../../models/dto/settings/StadiumMainSettingsDto";
 import {useInject} from "inversify-hooks";
-import {ISettingsService} from "../../services/SettingsService";
 import {Button, Checkbox, Dropdown, Form, Icon} from "semantic-ui-react";
 import {t} from "i18next";
-import {DateRangeSelect} from "./common/DateRangeSelect";
-import {TariffInterval} from "./rates/TariffInterval";
-import {PermissionsKeys} from "../../static/PermissionsKeys";
-import {ActionButtons} from "../common/actions/ActionButtons";
-import {UpdateTariffCommand} from "../../models/command/rates/UpdateTariffCommand";
-import {UpdateStadiumMainSettingsCommand} from "../../models/command/settings/UpdateStadiumMainSettingsCommand";
+import {getTitle} from "../../../helpers/utils";
+import {stadiumAtom} from "../../../state/stadium";
+import {StadiumMainSettingsDto} from "../../../models/dto/settings/StadiumMainSettingsDto";
+import {ISettingsService} from "../../../services/SettingsService";
+import {UpdateStadiumMainSettingsCommand} from "../../../models/command/settings/UpdateStadiumMainSettingsCommand";
+import {ActionButtons} from "../../common/actions/ActionButtons";
+import {PermissionsKeys} from "../../../static/PermissionsKeys";
 
-export const Main = () => {
-    document.title = getTitle("common:lk_navbar:main_settings")
+export const MainSettings = () => {
+    document.title = getTitle("settings:main_tab")
 
     const stadium = useRecoilValue(stadiumAtom);
 
@@ -81,7 +77,7 @@ export const Main = () => {
         })
     }
 
-    return isError ? <span/> : (<div>
+    return isError ? <span/> : (<div style={{marginTop: '-3px'}}>
         <ActionButtons
             savePermission={PermissionsKeys.UpdateMainSettings}
             deletePermission={''}

@@ -18,6 +18,8 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
             .Include( f => f.Images )
             .Include( f => f.ChildFields.Where( cf => !cf.IsDeleted ) )
             .Include( f => f.PriceGroup )
+            .Include( f => f.BreakFields )
+            .ThenInclude( bf => bf.Break )
             .ToListAsync();
 
     public async Task<List<Field>> GetForCityAsync( int cityId, string? q ) =>
@@ -26,6 +28,8 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
             .Include( f => f.Images )
             .Include( f => f.Stadium )
             .ThenInclude( s => s.City )
+            .Include( f => f.BreakFields )
+            .ThenInclude( bf => bf.Break )
             .Where( f => 
                 f.Stadium.CityId == cityId 
                 && f.IsActive
@@ -50,6 +54,8 @@ internal class FieldRepository : BaseRepository<Field>, IFieldRepository
             .ThenInclude( s => s.City )
             .Include( f => f.SportKinds )
             .Include( f => f.Images )
+            .Include( f => f.BreakFields )
+            .ThenInclude( bf => bf.Break )
             .FirstOrDefaultAsync( f => f.Id == fieldId && !f.IsDeleted && f.IsActive );
 
     public new void Add( Field field ) => base.Add( field );

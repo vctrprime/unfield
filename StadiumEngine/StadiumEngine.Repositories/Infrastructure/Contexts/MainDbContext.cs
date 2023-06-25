@@ -82,6 +82,8 @@ internal class MainDbContext : DbContext
     #region settings
 
     public DbSet<StadiumMainSettings> MainSettings { get; set; }
+    public DbSet<Break> Breaks { get; set; }
+    public DbSet<BreakField> BreakFields { get; set; }
 
     #endregion
 

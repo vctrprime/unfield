@@ -152,8 +152,20 @@ public class User : BaseUserEntity
     public virtual ICollection<BookingCost> LastModifiedBookingCosts { get; set; }
     
     [InverseProperty( "UserCreated" )]
-    public virtual ICollection<BookingInventory> CreatedBookingsInventories { get; set; }
+    public virtual ICollection<BookingInventory> CreatedBookingInventories { get; set; }
 
     [InverseProperty( "UserModified" )]
-    public virtual ICollection<BookingInventory> LastModifiedBookingsInventories { get; set; }
+    public virtual ICollection<BookingInventory> LastModifiedBookingInventories { get; set; }
+    
+    [InverseProperty( "UserCreated" )]
+    public virtual ICollection<Break> CreatedBreaks { get; set; }
+
+    [InverseProperty( "UserModified" )]
+    public virtual ICollection<Break> LastModifiedBreaks { get; set; }
+    
+    [InverseProperty( "UserCreated" )]
+    public virtual ICollection<BreakField> CreatedBreakFields { get; set; }
+
+    [InverseProperty( "UserModified" )]
+    public virtual ICollection<BreakField> LastModifiedBreakFields { get; set; }
 }

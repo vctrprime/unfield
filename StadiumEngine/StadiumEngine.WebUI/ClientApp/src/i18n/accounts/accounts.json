@@ -82,7 +82,7 @@
         "is_role_unbound": "Объект не связан с выбранной ролью"
     },
     "permissions_groups": {
-        "main_settings": "Основные настройки",
+        "main_settings": "Управление объектом",
         "schedule": "Расписание и брони",
         "offers": "Активы",
         "employees": "Персонал",
@@ -145,8 +145,8 @@
         "toggle_role_permission_description": "Возможность добавить или удалить связь роли с разрешением",
         "toggle_role_stadium": "Связь \"роль-объект\"",
         "toggle_role_stadium_description": "Возможность добавить или удалить связь роли с объектом",
-        "update_main_settings": "Обновление основных настроек",
-        "update_main_settings_description": "Возможность изменить основные данные по объекту",
+        "update_main_settings": "Обновление настроек объекта",
+        "update_main_settings_description": "Возможность изменить основные данные по объекту, управление перерывами",
         "get_price_groups": "Просмотр ценовых групп",
         "get_price_groups_description": "Просмотр списка ценовых групп",
         "insert_price_group": "Добавление ценовой группы",

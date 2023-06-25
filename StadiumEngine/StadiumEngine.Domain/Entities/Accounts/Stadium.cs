@@ -38,6 +38,7 @@ public class Stadium : BaseEntity
     public virtual ICollection<Field> Fields { get; set; }
     public virtual ICollection<Tariff> Tariffs { get; set; }
     public virtual ICollection<PriceGroup> PriceGroups { get; set; }
+    public virtual ICollection<Break> Breaks { get; set; }
     
     public virtual StadiumMainSettings MainSettings { get; set; }
 }

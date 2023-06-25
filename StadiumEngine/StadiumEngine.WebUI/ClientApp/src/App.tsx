@@ -6,7 +6,6 @@ import {Layout as LkLayout} from "./components/lk/Layout";
 import {Layout as AdminLayout} from "./components/admin/Layout";
 import {Offers} from "./components/lk/offers/Offers";
 import {Schedule} from "./components/lk/schedule/Schedule";
-import {Main} from "./components/lk/Main";
 import {SignIn} from "./components/lk/auth/SignIn";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 
@@ -55,6 +54,10 @@ import {BookingForm} from "./components/booking/BookingForm";
 import {BookingCheckout} from "./components/booking/BookingCheckout";
 import {BookingConfirm} from "./components/booking/BookingConfirm";
 import {Forbidden} from "./components/lk/Forbidden";
+import {MainSettings} from "./components/lk/settings/MainSettings";
+import {Settings} from "./components/lk/settings/Settings";
+import {Breaks} from "./components/lk/settings/Breaks";
+import {getStartLkRoute} from "./helpers/utils";
 
 const ReactNotifications = require('react-notifications');
 const {NotificationContainer} = ReactNotifications;
@@ -81,7 +84,7 @@ const App = () => {
                 if (window.location.pathname === "/lk/sign-in" && user?.isAdmin) {
                     window.location.href = `/admin`;
                 } else {
-                    window.location.href = `/lk`;
+                    window.location.href = getStartLkRoute();
                 }
             }
             if (window.location.pathname.startsWith("/admin")) {
@@ -114,7 +117,10 @@ const App = () => {
                     <Route path="/lk/sign-in" element={<SignIn/>}/>
                     <Route path="/lk" element={<ProtectedRoute component={LkLayout}/>}>
                         <Route path="forbidden" element={<Forbidden/>}/>
-                        <Route path="" element={<Main/>}/>
+                        <Route path="settings" element={<Settings/>}>
+                            <Route path="main" element={<MainSettings/>}/>
+                            <Route path="breaks" element={<Breaks/>}/>
+                        </Route>
                         <Route path="offers" element={<Offers/>}>
                             <Route path="fields" element={<Fields/>}/>
                             <Route path="locker-rooms" element={<LockerRooms/>}/>

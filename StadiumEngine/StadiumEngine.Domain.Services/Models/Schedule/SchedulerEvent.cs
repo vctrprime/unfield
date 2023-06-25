@@ -1,5 +1,6 @@
 using StadiumEngine.Common.Enums.BookingForm;
 using StadiumEngine.Domain.Entities.Bookings;
+using StadiumEngine.Domain.Entities.Settings;
 
 namespace StadiumEngine.Domain.Services.Models.Schedule;
 
@@ -48,4 +49,23 @@ public class SchedulerEvent
             FieldId = fieldId.Value;
         }
     }
+    
+    public SchedulerEvent( BreakField breakField, DateTime date, string language )
+    {
+        EventId = 0;
+        Start = date.AddHours( ( double )breakField.Break.StartHour );
+        End = date.AddHours( ( double ) breakField.Break.EndHour );
+        Title = GetBreakTitle( language );
+        Color = "";
+        Editable = false;
+        Deletable = false;
+        FieldId = breakField.FieldId;
+    }
+
+    private string GetBreakTitle(string language) =>
+        language switch
+        {
+            "en" => "Break",
+            _ => "Перерыв"
+        };
 }

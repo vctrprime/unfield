@@ -8,6 +8,7 @@ import {LanguageSelect} from "../common/LanguageSelect";
 import {useRecoilValue} from "recoil";
 import {AuthorizeUserDto} from "../../models/dto/accounts/AuthorizeUserDto";
 import {authAtom} from "../../state/auth";
+import {getStartLkRoute} from "../../helpers/utils";
 
 
 export const NavMenu = () => {
@@ -34,7 +35,7 @@ export const NavMenu = () => {
                             <ul className="navbar-nav flex-grow">
                                 <NavItem>
                                     <NavLink tag={Link} className="btn btn-default lk-button"
-                                             to={auth?.fullName === undefined ? "/lk/sign-in" : auth.isAdmin ? "/admin" : "/lk"}>
+                                             to={auth?.fullName === undefined ? "/lk/sign-in" : auth.isAdmin ? "/admin" : getStartLkRoute()}>
                                         {auth?.fullName === undefined ? t("portal:header:lk_button") : auth.isAdmin ? t("portal:header:admin_button") : t("portal:header:lk_button")}
                                     </NavLink>
                                 </NavItem>

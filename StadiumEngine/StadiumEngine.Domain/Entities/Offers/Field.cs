@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using StadiumEngine.Common.Enums.Offers;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Entities.Rates;
+using StadiumEngine.Domain.Entities.Settings;
 
 namespace StadiumEngine.Domain.Entities.Offers;
 
@@ -35,4 +36,5 @@ public class Field : BaseOfferEntity
 
     public virtual ICollection<Price>? Prices { get; set; }
     public virtual ICollection<Booking>? Bookings { get; set; }
+    public virtual ICollection<BreakField> BreakFields { get; set; } = null!;
 }

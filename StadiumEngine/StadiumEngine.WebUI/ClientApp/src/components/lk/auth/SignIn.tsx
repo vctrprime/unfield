@@ -16,7 +16,7 @@ import 'react-phone-input-2/lib/style.css'
 import back_balls from "../../../img/back-balls.png";
 import {loadingAtom} from "../../../state/loading";
 import {LanguageSelect} from "../../common/LanguageSelect";
-import {getTitle} from "../../../helpers/utils";
+import {getStartLkRoute, getTitle} from "../../../helpers/utils";
 import {Button, Form, Modal} from "semantic-ui-react";
 import {ContainerLoading} from "../../common/ContainerLoading";
 
@@ -56,7 +56,7 @@ export const SignIn = () => {
                         setLoading(false);
                         navigate("/admin");
                     } else {
-                        navigate("/lk");
+                        navigate(getStartLkRoute());
                     }
 
                 });

@@ -48,7 +48,7 @@ export const Schedule = () => {
                         <Icon style={{ fontSize: '18px', marginRight: '10px'}} name='question circle outline'/>
                     }
                 >
-                    <Popup.Content style={{width: '260px'}}>
+                    <Popup.Content style={{width: '310px'}}>
                        <div className="scheduler-legend-row">
                            <div className="scheduler-legend-square" style={{backgroundColor: "#3CB371"}}/> <span>&nbsp;  {t('schedule:scheduler:legend:form')}</span>
                        </div>

@@ -1,4 +1,6 @@
 using AutoMapper;
+using StadiumEngine.Domain.Entities.Accounts;
+using StadiumEngine.Domain.Services.Facades.Accounts;
 using StadiumEngine.Domain.Services.Facades.Schedule;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.Domain.Services.Models.Schedule;
@@ -23,7 +25,7 @@ internal sealed class GetSchedulerEventsHandler : BaseRequestHandler<GetSchedule
         GetSchedulerEventsQuery request,
         CancellationToken cancellationToken )
     {
-        List<SchedulerEvent> events = await _schedulerQueryFacade.GetEventsAsync( request.Start, request.End, _currentStadiumId );
+        List<SchedulerEvent> events = await _schedulerQueryFacade.GetEventsAsync( request.Start, request.End, _currentStadiumId, request.Language ?? "ru" );
 
         List<SchedulerEventDto> eventsDto = Mapper.Map<List<SchedulerEventDto>>( events );
 

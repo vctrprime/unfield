@@ -14,7 +14,7 @@ import {UserPermissionDto} from "../../../models/dto/accounts/UserPermissionDto"
 import {permissionsAtom} from "../../../state/permissions";
 import {legalsSearchValue} from "../../../state/admin/legalsSearchValue";
 import {useLocalStorage} from "usehooks-ts";
-import {getOverlayNoRowsTemplate} from "../../../helpers/utils";
+import {getOverlayNoRowsTemplate, getStartLkRoute} from "../../../helpers/utils";
 import {GridCellWithTitleRenderer} from "../../common/GridCellWithTitleRenderer";
 
 const AgGrid = require('ag-grid-react');
@@ -42,7 +42,7 @@ export const LegalsGrid = () => {
             setPermissions([]);
             setAuth(result);
             setUser(result);
-            window.open(`${window.location.origin}/lk`);
+            window.open(`${window.location.origin}${getStartLkRoute()}`);
         })
     }
 

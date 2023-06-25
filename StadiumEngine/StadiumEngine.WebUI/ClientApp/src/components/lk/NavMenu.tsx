@@ -59,9 +59,9 @@ export const NavMenu = () => {
             <CDBSidebarContent className="sidebar-content">
                 <CDBSidebarMenu>
 
-                    {permissions.length > 0 ? <NavLink to="/lk" end className={getNavLinkClassName}>
-                        <CDBSidebarMenuItem title={t('common:lk_navbar:main_settings')}
-                                            icon="columns">{t('common:lk_navbar:main_settings')}</CDBSidebarMenuItem>
+                    {permissions.length > 0 ? <NavLink to="/lk/settings" className={getNavLinkClassName}>
+                        <CDBSidebarMenuItem title={t('common:lk_navbar:settings')}
+                                            icon="columns">{t('common:lk_navbar:settings')}</CDBSidebarMenuItem>
                     </NavLink> : <span/>}
 
                     {viewNavLink(PermissionsKeys.ScheduleGroup) ?
