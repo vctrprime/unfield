@@ -53,6 +53,8 @@ public static class ErrorsKeys
     #region settings
 
     public const string MainSettingsInvalidOpenClosePeriod = "settings:main_invalid_open_close";
+    public const string BreakNotFound = "settings:break_not_found";
+    public const string InvalidBreakPeriod = "settings:invalid_break_period";
 
     #endregion
 

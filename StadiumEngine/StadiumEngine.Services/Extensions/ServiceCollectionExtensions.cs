@@ -28,6 +28,7 @@ using StadiumEngine.Services.Identity;
 using StadiumEngine.Services.Infrastructure;
 using StadiumEngine.Services.Validators.Bookings;
 using StadiumEngine.Services.Validators.Rates;
+using StadiumEngine.Services.Validators.Settings;
 
 namespace StadiumEngine.Services.Extensions;
 
@@ -77,6 +78,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IMainSettingsQueryFacade, MainSettingsQueryFacade>();
         services.AddScoped<IMainSettingsCommandFacade, MainSettingsCommandFacade>();
         services.AddScoped<IBreakQueryFacade, BreakQueryFacade>();
+        services.AddScoped<IBreakCommandFacade, BreakCommandFacade>();
         
         services.AddScoped<ICityQueryFacade, CityQueryFacade>();
         
@@ -114,6 +116,7 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<ITariffValidator, TariffValidator>();
         services.AddScoped<IBookingIntersectionValidator, BookingIntersectionValidator>();
+        services.AddScoped<IBreakValidator, BreakValidator>();
 
         #endregion
         

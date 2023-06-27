@@ -69,9 +69,9 @@ public class InventoryController : BaseApiController
     /// <returns></returns>
     [HttpDelete( "{inventoryId}" )]
     [HasPermission( PermissionsKeys.DeleteInventory )]
-    public async Task<DeleteInventoryDto> Delete( int inventoryId )
+    public async Task<DeleteInventoryDto> Delete( [FromRoute] DeleteInventoryCommand command )
     {
-        DeleteInventoryDto dto = await Mediator.Send( new DeleteInventoryCommand( inventoryId ) );
+        DeleteInventoryDto dto = await Mediator.Send( command );
         return dto;
     }
 }

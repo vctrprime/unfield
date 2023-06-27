@@ -13,5 +13,9 @@ internal class BreakQueryFacade : IBreakQueryFacade
         _breakRepository = breakRepository;
     }
 
-    public async Task<List<Break>> GetByStadiumIdAsync( int stadiumId ) => await _breakRepository.GetAllAsync( stadiumId );
+    public async Task<List<Break>> GetByStadiumIdAsync( int stadiumId ) =>
+        await _breakRepository.GetAllAsync( stadiumId );
+
+    public async Task<Break?> GetByBreakIdAsync( int breakId, int stadiumId ) =>
+        await _breakRepository.GetAsync( breakId, stadiumId );
 }

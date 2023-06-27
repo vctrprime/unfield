@@ -46,12 +46,12 @@ public class AuthorizeController : BaseApiController
     /// <summary>
     ///     Сменить стадион
     /// </summary>
-    /// <param name="stadiumId"></param>
+    /// <param name="command"></param>
     /// <returns></returns>
     [HttpPut( "change-stadium/{stadiumId}" )]
-    public async Task<AuthorizeUserDto> ChangeStadium( int stadiumId )
+    public async Task<AuthorizeUserDto> ChangeStadium( [FromRoute] ChangeStadiumCommand command )
     {
-        AuthorizeUserDto user = await Mediator.Send( new ChangeStadiumCommand( stadiumId ) );
+        AuthorizeUserDto user = await Mediator.Send( command );
 
         return await Authorize( user, "Forbidden" );
     }
@@ -59,13 +59,13 @@ public class AuthorizeController : BaseApiController
     /// <summary>
     ///     Сменить орагнизацию (админ)
     /// </summary>
-    /// <param name="legalId"></param>
+    /// <param name="command"></param>
     /// <returns></returns>
     [AdminFeature]
     [HttpPut( "/api/admin/change-legal/{legalId}" )]
-    public async Task<AuthorizeUserDto> ChangeLegal( int legalId )
+    public async Task<AuthorizeUserDto> ChangeLegal( [FromRoute] ChangeLegalCommand command )
     {
-        AuthorizeUserDto user = await Mediator.Send( new ChangeLegalCommand( legalId ) );
+        AuthorizeUserDto user = await Mediator.Send( command );
 
         return await Authorize( user, "Forbidden" );
     }

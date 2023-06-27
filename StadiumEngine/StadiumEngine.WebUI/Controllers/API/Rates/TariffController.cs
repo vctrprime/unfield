@@ -45,7 +45,7 @@ public class TariffController : BaseApiController
     /// <returns></returns>
     [HttpPost]
     [HasPermission( PermissionsKeys.InsertTariff )]
-    public async Task<AddTariffDto> Post( AddTariffCommand command )
+    public async Task<AddTariffDto> Post( [FromBody] AddTariffCommand command )
     {
         AddTariffDto dto = await Mediator.Send( command );
         return dto;
@@ -57,7 +57,7 @@ public class TariffController : BaseApiController
     /// <returns></returns>
     [HttpPut]
     [HasPermission( PermissionsKeys.UpdateTariff )]
-    public async Task<UpdateTariffDto> Put( UpdateTariffCommand command )
+    public async Task<UpdateTariffDto> Put( [FromBody] UpdateTariffCommand command )
     {
         UpdateTariffDto dto = await Mediator.Send( command );
         return dto;
@@ -69,9 +69,9 @@ public class TariffController : BaseApiController
     /// <returns></returns>
     [HttpDelete( "{tariffId}" )]
     [HasPermission( PermissionsKeys.DeleteTariff )]
-    public async Task<DeleteTariffDto> Delete( int tariffId )
+    public async Task<DeleteTariffDto> Delete( [FromRoute] DeleteTariffCommand command )
     {
-        DeleteTariffDto dto = await Mediator.Send( new DeleteTariffCommand( tariffId ) );
+        DeleteTariffDto dto = await Mediator.Send( command );
         return dto;
     }
 }

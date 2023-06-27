@@ -5,10 +5,5 @@ namespace StadiumEngine.Commands.Offers.LockerRooms;
 
 public sealed class DeleteLockerRoomCommand : IRequest<DeleteLockerRoomDto>
 {
-    public DeleteLockerRoomCommand( int lockerRoomId )
-    {
-        LockerRoomId = lockerRoomId;
-    }
-
-    public int LockerRoomId { get; }
+    public int LockerRoomId { get; set; }
 }

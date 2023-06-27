@@ -35,7 +35,8 @@
         "cross_intervals": "Нельзя сохранить тариф с пересекающимися временными интервалами"
     },
     "settings": {
-        "main_invalid_open_close": "Указан некорректный режим работы"
+        "main_invalid_open_close": "Указан некорректный режим работы",
+        "break_not_found": "Перерыв не найден"
     },
     "booking": {
         "booking_not_found": "Бронирование не найдено",

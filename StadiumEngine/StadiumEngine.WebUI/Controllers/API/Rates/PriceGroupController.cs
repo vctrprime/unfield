@@ -45,7 +45,7 @@ public class PriceGroupController : BaseApiController
     /// <returns></returns>
     [HttpPost]
     [HasPermission( PermissionsKeys.InsertPriceGroup )]
-    public async Task<AddPriceGroupDto> Post( AddPriceGroupCommand command )
+    public async Task<AddPriceGroupDto> Post( [FromBody] AddPriceGroupCommand command )
     {
         AddPriceGroupDto dto = await Mediator.Send( command );
         return dto;
@@ -57,7 +57,7 @@ public class PriceGroupController : BaseApiController
     /// <returns></returns>
     [HttpPut]
     [HasPermission( PermissionsKeys.UpdatePriceGroup )]
-    public async Task<UpdatePriceGroupDto> Put( UpdatePriceGroupCommand command )
+    public async Task<UpdatePriceGroupDto> Put( [FromBody] UpdatePriceGroupCommand command )
     {
         UpdatePriceGroupDto dto = await Mediator.Send( command );
         return dto;
@@ -69,9 +69,9 @@ public class PriceGroupController : BaseApiController
     /// <returns></returns>
     [HttpDelete( "{priceGroupId}" )]
     [HasPermission( PermissionsKeys.DeletePriceGroup )]
-    public async Task<DeletePriceGroupDto> Delete( int priceGroupId )
+    public async Task<DeletePriceGroupDto> Delete( [FromRoute] DeletePriceGroupCommand command )
     {
-        DeletePriceGroupDto dto = await Mediator.Send( new DeletePriceGroupCommand( priceGroupId ) );
+        DeletePriceGroupDto dto = await Mediator.Send( command );
         return dto;
     }
 }

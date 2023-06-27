@@ -30,6 +30,6 @@ internal sealed class AddTariffHandler : BaseCommandHandler<AddTariffCommand, Ad
 
         await _tariffFacade.AddTariffAsync( tariff, request.DayIntervals.Select( x => x.Interval ).ToList() );
 
-        return await Task.Run( () => new AddTariffDto(), cancellationToken );
+        return new AddTariffDto();
     }
 }

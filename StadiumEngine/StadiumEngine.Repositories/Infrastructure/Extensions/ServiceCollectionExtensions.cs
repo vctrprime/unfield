@@ -73,6 +73,7 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IMainSettingsRepository, MainSettingsRepository>();
         services.AddScoped<IBreakRepository, BreakRepository>();
+        services.AddScoped<IBreakFieldRepository, BreakFieldRepository>();
 
         #endregion
 

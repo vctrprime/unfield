@@ -5,10 +5,5 @@ namespace StadiumEngine.Commands.Offers.Fields;
 
 public sealed class DeleteFieldCommand : IRequest<DeleteFieldDto>
 {
-    public DeleteFieldCommand( int fieldId )
-    {
-        FieldId = fieldId;
-    }
-
-    public int FieldId { get; }
+    public int FieldId { get; set; }
 }

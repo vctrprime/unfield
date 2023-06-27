@@ -5,10 +5,5 @@ namespace StadiumEngine.Commands.Offers.Inventories;
 
 public sealed class DeleteInventoryCommand : IRequest<DeleteInventoryDto>
 {
-    public DeleteInventoryCommand( int inventoryId )
-    {
-        InventoryId = inventoryId;
-    }
-
-    public int InventoryId { get; }
+    public int InventoryId { get; set; }
 }

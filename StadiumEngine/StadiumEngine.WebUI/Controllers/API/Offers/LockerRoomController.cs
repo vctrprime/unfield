@@ -45,7 +45,7 @@ public class LockerRoomController : BaseApiController
     /// <returns></returns>
     [HttpPost]
     [HasPermission( PermissionsKeys.InsertLockerRoom )]
-    public async Task<AddLockerRoomDto> Post( AddLockerRoomCommand command )
+    public async Task<AddLockerRoomDto> Post( [FromBody] AddLockerRoomCommand command )
     {
         AddLockerRoomDto dto = await Mediator.Send( command );
         return dto;
@@ -57,7 +57,7 @@ public class LockerRoomController : BaseApiController
     /// <returns></returns>
     [HttpPut]
     [HasPermission( PermissionsKeys.UpdateLockerRoom )]
-    public async Task<UpdateLockerRoomDto> Put( UpdateLockerRoomCommand command )
+    public async Task<UpdateLockerRoomDto> Put( [FromBody] UpdateLockerRoomCommand command )
     {
         UpdateLockerRoomDto dto = await Mediator.Send( command );
         return dto;
@@ -69,9 +69,9 @@ public class LockerRoomController : BaseApiController
     /// <returns></returns>
     [HttpDelete( "{lockerRoomId}" )]
     [HasPermission( PermissionsKeys.DeleteLockerRoom )]
-    public async Task<DeleteLockerRoomDto> Delete( int lockerRoomId )
+    public async Task<DeleteLockerRoomDto> Delete( [FromRoute] DeleteLockerRoomCommand command )
     {
-        DeleteLockerRoomDto dto = await Mediator.Send( new DeleteLockerRoomCommand( lockerRoomId ) );
+        DeleteLockerRoomDto dto = await Mediator.Send( command );
         return dto;
     }
 }

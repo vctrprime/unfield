@@ -33,7 +33,7 @@ public class RoleController : BaseApiController
     /// <returns></returns>
     [HttpPost]
     [HasPermission( PermissionsKeys.InsertRole )]
-    public async Task<AddRoleDto> Post( AddRoleCommand command )
+    public async Task<AddRoleDto> Post( [FromBody] AddRoleCommand command )
     {
         AddRoleDto dto = await Mediator.Send( command );
         return dto;
@@ -45,7 +45,7 @@ public class RoleController : BaseApiController
     /// <returns></returns>
     [HttpPut]
     [HasPermission( PermissionsKeys.UpdateRole )]
-    public async Task<UpdateRoleDto> Put( UpdateRoleCommand command )
+    public async Task<UpdateRoleDto> Put( [FromBody] UpdateRoleCommand command )
     {
         UpdateRoleDto dto = await Mediator.Send( command );
         return dto;
@@ -57,9 +57,9 @@ public class RoleController : BaseApiController
     /// <returns></returns>
     [HttpDelete( "{roleId}" )]
     [HasPermission( PermissionsKeys.DeleteRole )]
-    public async Task<DeleteRoleDto> Delete( int roleId )
+    public async Task<DeleteRoleDto> Delete( [FromRoute] DeleteRoleCommand command )
     {
-        DeleteRoleDto dto = await Mediator.Send( new DeleteRoleCommand( roleId ) );
+        DeleteRoleDto dto = await Mediator.Send( command );
         return dto;
     }
 }

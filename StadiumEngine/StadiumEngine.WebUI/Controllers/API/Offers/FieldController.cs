@@ -20,7 +20,7 @@ public class FieldController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [HasPermission( $"{PermissionsKeys.GetFields},{PermissionsKeys.GetPrices}" )]
+    [HasPermission( $"{PermissionsKeys.GetFields},{PermissionsKeys.GetPrices},{PermissionsKeys.UpdateMainSettings}" )]
     public async Task<List<FieldDto>> GetAll()
     {
         List<FieldDto> fields = await Mediator.Send( new GetFieldsQuery() );
@@ -69,9 +69,9 @@ public class FieldController : BaseApiController
     /// <returns></returns>
     [HttpDelete( "{fieldId}" )]
     [HasPermission( PermissionsKeys.DeleteField )]
-    public async Task<DeleteFieldDto> Delete( int fieldId )
+    public async Task<DeleteFieldDto> Delete( [FromRoute] DeleteFieldCommand command )
     {
-        DeleteFieldDto dto = await Mediator.Send( new DeleteFieldCommand( fieldId ) );
+        DeleteFieldDto dto = await Mediator.Send( command );
         return dto;
     }
 }

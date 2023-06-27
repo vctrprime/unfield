@@ -50,10 +50,10 @@ public class BreakDto : BaseEntityDto
     /// <summary>
     /// Площадки
     /// </summary>
-    public List<FieldDto> Fields { get; set; } = new List<FieldDto>();
+    public List<int> SelectedFields { get; set; } = new List<int>();
 
     /// <summary>
     ///  Количество площадок
     /// </summary>
-    public int FieldsCount => Fields.Count;
+    public int FieldsCount => SelectedFields.Count;
 }

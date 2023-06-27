@@ -34,7 +34,7 @@ public class UserController : BaseApiController
     /// <returns></returns>
     [HttpPost]
     [HasPermission( PermissionsKeys.InsertUser )]
-    public async Task<AddUserDto> Post( AddUserCommand command )
+    public async Task<AddUserDto> Post( [FromBody] AddUserCommand command )
     {
         AddUserDto dto = await Mediator.Send( command );
         return dto;
@@ -47,7 +47,7 @@ public class UserController : BaseApiController
     /// <returns></returns>
     [HttpPut]
     [HasPermission( PermissionsKeys.UpdateUser )]
-    public async Task<UpdateUserDto> Put( UpdateUserCommand command )
+    public async Task<UpdateUserDto> Put( [FromBody] UpdateUserCommand command )
     {
         UpdateUserDto dto = await Mediator.Send( command );
         return dto;
@@ -56,13 +56,13 @@ public class UserController : BaseApiController
     /// <summary>
     ///     Удалить пользователя
     /// </summary>
-    /// <param name="userId"></param>
+    /// <param name="command"></param>
     /// <returns></returns>
     [HttpDelete( "{userId}" )]
     [HasPermission( PermissionsKeys.DeleteUser )]
-    public async Task<DeleteUserDto> Delete( int userId )
+    public async Task<DeleteUserDto> Delete( [FromRoute] DeleteUserCommand command )
     {
-        DeleteUserDto dto = await Mediator.Send( new DeleteUserCommand( userId ) );
+        DeleteUserDto dto = await Mediator.Send( command );
         return dto;
     }
 }
