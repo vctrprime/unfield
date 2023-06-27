@@ -3,25 +3,25 @@ using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Common.Static;
 using StadiumEngine.Domain.Entities.Settings;
-using StadiumEngine.Domain.Services.Facades.Settings;
+using StadiumEngine.Domain.Services.Application.Settings;
 using StadiumEngine.DTO.Settings.Breaks;
 
 namespace StadiumEngine.Handlers.Facades.Settings.Breaks;
 
 internal class UpdateBreakFacade : IUpdateBreakFacade
 {
-    private readonly IBreakQueryFacade _queryFacade;
-    private readonly IBreakCommandFacade _commandFacade;
+    private readonly IBreakQueryService _queryService;
+    private readonly IBreakCommandService _commandService;
 
-    public UpdateBreakFacade( IBreakQueryFacade queryFacade, IBreakCommandFacade commandFacade )
+    public UpdateBreakFacade( IBreakQueryService queryService, IBreakCommandService commandService )
     {
-        _queryFacade = queryFacade;
-        _commandFacade = commandFacade;
+        _queryService = queryService;
+        _commandService = commandService;
     }
 
     public async Task<UpdateBreakDto> UpdateAsync( UpdateBreakCommand request, int stadiumId, int userId )
     {
-        Break? @break = await _queryFacade.GetByBreakIdAsync( request.Id, stadiumId );
+        Break? @break = await _queryService.GetByBreakIdAsync( request.Id, stadiumId );
 
         if ( @break == null )
         {
@@ -37,7 +37,7 @@ internal class UpdateBreakFacade : IUpdateBreakFacade
         @break.StartHour = TimePointParser.Parse( request.StartHour );
         @break.EndHour = TimePointParser.Parse( request.EndHour );
         
-        _commandFacade.UpdateBreak( @break, request.SelectedFields );
+        _commandService.UpdateBreak( @break, request.SelectedFields );
 
         return new UpdateBreakDto();
     }

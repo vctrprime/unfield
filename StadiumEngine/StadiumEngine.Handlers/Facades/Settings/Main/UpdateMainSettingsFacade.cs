@@ -2,21 +2,21 @@ using StadiumEngine.Commands.Settings.Main;
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Settings;
-using StadiumEngine.Domain.Services.Facades.Settings;
+using StadiumEngine.Domain.Services.Application.Settings;
 using StadiumEngine.DTO.Settings.Main;
 
 namespace StadiumEngine.Handlers.Facades.Settings.Main;
 
 internal class UpdateMainSettingsFacade : IUpdateMainSettingsFacade
 {
-    private readonly IMainSettingsCommandFacade _commandFacade;
-    private readonly IMainSettingsQueryFacade _queryFacade;
+    private readonly IMainSettingsCommandService _commandService;
+    private readonly IMainSettingsQueryService _queryService;
 
-    public UpdateMainSettingsFacade( IMainSettingsQueryFacade queryFacade,
-        IMainSettingsCommandFacade commandFacade )
+    public UpdateMainSettingsFacade( IMainSettingsQueryService queryService,
+        IMainSettingsCommandService commandService )
     {
-        _queryFacade = queryFacade;
-        _commandFacade = commandFacade;
+        _queryService = queryService;
+        _commandService = commandService;
     }
 
     public async Task<UpdateMainSettingsDto> UpdateAsync( UpdateMainSettingsCommand request, int stadiumId,
@@ -24,7 +24,7 @@ internal class UpdateMainSettingsFacade : IUpdateMainSettingsFacade
     {
         Validate( request );
 
-        MainSettings mainSettings = await _queryFacade.GetByStadiumIdAsync( stadiumId );
+        MainSettings mainSettings = await _queryService.GetByStadiumIdAsync( stadiumId );
 
         mainSettings.Name = request.Name;
         mainSettings.Description = request.Description;
@@ -32,7 +32,7 @@ internal class UpdateMainSettingsFacade : IUpdateMainSettingsFacade
         mainSettings.CloseTime = request.CloseTime;
         mainSettings.UserModifiedId = userId;
 
-        _commandFacade.UpdateMainSettings( mainSettings );
+        _commandService.UpdateMainSettings( mainSettings );
 
         return new UpdateMainSettingsDto();
     }

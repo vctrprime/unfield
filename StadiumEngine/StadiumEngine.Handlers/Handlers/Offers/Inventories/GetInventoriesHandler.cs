@@ -1,6 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain.Entities.Offers;
-using StadiumEngine.Domain.Services.Facades.Offers;
+using StadiumEngine.Domain.Services.Application.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Inventories;
 using StadiumEngine.Queries.Offers.Inventories;
@@ -9,20 +9,20 @@ namespace StadiumEngine.Handlers.Handlers.Offers.Inventories;
 
 internal sealed class GetInventoriesHandler : BaseRequestHandler<GetInventoriesQuery, List<InventoryDto>>
 {
-    private readonly IInventoryQueryFacade _inventoryFacade;
+    private readonly IInventoryQueryService _queryService;
 
     public GetInventoriesHandler(
-        IInventoryQueryFacade inventoryFacade,
+        IInventoryQueryService queryService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
-        _inventoryFacade = inventoryFacade;
+        _queryService = queryService;
     }
 
     public override async ValueTask<List<InventoryDto>> Handle( GetInventoriesQuery request,
         CancellationToken cancellationToken )
     {
-        List<Inventory> inventories = await _inventoryFacade.GetByStadiumIdAsync( _currentStadiumId );
+        List<Inventory> inventories = await _queryService.GetByStadiumIdAsync( _currentStadiumId );
 
         List<InventoryDto>? inventoriesDto = Mapper.Map<List<InventoryDto>>( inventories );
 

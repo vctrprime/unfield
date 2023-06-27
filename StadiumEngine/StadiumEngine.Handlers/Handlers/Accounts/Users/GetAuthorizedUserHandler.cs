@@ -1,6 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Services.Facades.Accounts;
+using StadiumEngine.Domain.Services.Application.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts.Users;
 using StadiumEngine.Queries.Accounts.Users;
@@ -9,20 +9,20 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
 internal sealed class GetAuthorizedUserHandler : BaseRequestHandler<GetAuthorizedUserQuery, AuthorizedUserDto>
 {
-    private readonly IUserQueryFacade _userFacade;
+    private readonly IUserQueryService _queryService;
 
     public GetAuthorizedUserHandler(
-        IUserQueryFacade userFacade,
+        IUserQueryService queryService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
-        _userFacade = userFacade;
+        _queryService = queryService;
     }
 
     public override async ValueTask<AuthorizedUserDto> Handle( GetAuthorizedUserQuery request,
         CancellationToken cancellationToken )
     {
-        User? user = await _userFacade.GetUserAsync( _userId );
+        User? user = await _queryService.GetUserAsync( _userId );
 
         AuthorizedUserDto? userDto = Mapper.Map<AuthorizedUserDto>( user );
 

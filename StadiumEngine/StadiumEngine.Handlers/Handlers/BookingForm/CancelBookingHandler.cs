@@ -1,28 +1,28 @@
 using AutoMapper;
 using StadiumEngine.Commands.BookingForm;
 using StadiumEngine.Domain;
-using StadiumEngine.Domain.Services.Facades.BookingForm;
+using StadiumEngine.Domain.Services.Application.BookingForm;
 using StadiumEngine.DTO.BookingForm;
 
 namespace StadiumEngine.Handlers.Handlers.BookingForm;
 
 internal sealed class CancelBookingHandler : BaseCommandHandler<CancelBookingCommand, CancelBookingDto>
 {
-    private readonly IBookingCheckoutCommandFacade _facade;
+    private readonly IBookingCheckoutCommandService _commandService;
 
     public CancelBookingHandler(
-        IBookingCheckoutCommandFacade facade,
+        IBookingCheckoutCommandService commandService,
         IMapper mapper,
         IUnitOfWork unitOfWork ) : base( mapper, null, unitOfWork )
     {
-        _facade = facade;
+        _commandService = commandService;
     }
 
     protected override async ValueTask<CancelBookingDto> HandleCommandAsync(
         CancelBookingCommand request,
         CancellationToken cancellationToken )
     {
-        await _facade.CancelBookingAsync( request.BookingNumber );
+        await _commandService.CancelBookingAsync( request.BookingNumber );
         return new CancelBookingDto();
     }
 }

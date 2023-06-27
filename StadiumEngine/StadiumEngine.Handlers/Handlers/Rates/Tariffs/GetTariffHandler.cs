@@ -2,7 +2,7 @@ using AutoMapper;
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Rates;
-using StadiumEngine.Domain.Services.Facades.Rates;
+using StadiumEngine.Domain.Services.Application.Rates;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Rates.Tariffs;
 using StadiumEngine.Queries.Rates.Tariffs;
@@ -11,20 +11,20 @@ namespace StadiumEngine.Handlers.Handlers.Rates.Tariffs;
 
 internal sealed class GetTariffHandler : BaseRequestHandler<GetTariffQuery, TariffDto>
 {
-    private readonly ITariffQueryFacade _tariffFacade;
+    private readonly ITariffQueryService _queryService;
 
     public GetTariffHandler(
-        ITariffQueryFacade tariffFacade,
+        ITariffQueryService queryService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
-        _tariffFacade = tariffFacade;
+        _queryService = queryService;
     }
 
     public override async ValueTask<TariffDto> Handle( GetTariffQuery request,
         CancellationToken cancellationToken )
     {
-        Tariff? tariff = await _tariffFacade.GetByTariffIdAsync( request.TariffId, _currentStadiumId );
+        Tariff? tariff = await _queryService.GetByTariffIdAsync( request.TariffId, _currentStadiumId );
 
         if ( tariff == null )
         {

@@ -1,6 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Services.Facades.Accounts;
+using StadiumEngine.Domain.Services.Application.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts.Users;
 using StadiumEngine.Queries.Accounts.Users;
@@ -9,20 +9,20 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
 internal sealed class GetUserPermissionsHandler : BaseRequestHandler<GetUserPermissionsQuery, List<UserPermissionDto>>
 {
-    private readonly IUserQueryFacade _userFacade;
+    private readonly IUserQueryService _queryService;
 
     public GetUserPermissionsHandler(
-        IUserQueryFacade userFacade,
+        IUserQueryService queryService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
-        _userFacade = userFacade;
+        _queryService = queryService;
     }
 
     public override async ValueTask<List<UserPermissionDto>> Handle( GetUserPermissionsQuery request,
         CancellationToken cancellationToken )
     {
-        List<Permission> permissions = await _userFacade.GetUserPermissionsAsync( _userId );
+        List<Permission> permissions = await _queryService.GetUserPermissionsAsync( _userId );
 
         List<UserPermissionDto>? permissionsDto = Mapper.Map<List<UserPermissionDto>>( permissions );
 

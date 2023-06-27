@@ -1,7 +1,7 @@
 using AutoMapper;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Services.Facades.Accounts;
+using StadiumEngine.Domain.Services.Application.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts.Roles;
 using StadiumEngine.Commands.Accounts.Roles;
@@ -10,15 +10,15 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Roles;
 
 internal sealed class AddRoleHandler : BaseCommandHandler<AddRoleCommand, AddRoleDto>
 {
-    private readonly IRoleCommandFacade _roleFacade;
+    private readonly IRoleCommandService _commandService;
 
     public AddRoleHandler(
-        IRoleCommandFacade roleFacade,
+        IRoleCommandService commandService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService,
         IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
-        _roleFacade = roleFacade;
+        _commandService = commandService;
     }
 
     protected override async ValueTask<AddRoleDto> HandleCommandAsync( AddRoleCommand request,
@@ -28,7 +28,7 @@ internal sealed class AddRoleHandler : BaseCommandHandler<AddRoleCommand, AddRol
         role.LegalId = _legalId;
         role.UserCreatedId = _userId;
 
-        _roleFacade.AddRole( role );
+        _commandService.AddRole( role );
 
         return await Task.Run( () => new AddRoleDto(), cancellationToken );
     }

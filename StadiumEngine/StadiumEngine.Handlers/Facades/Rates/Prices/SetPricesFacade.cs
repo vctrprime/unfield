@@ -2,35 +2,35 @@ using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
-using StadiumEngine.Domain.Services.Facades.Offers;
-using StadiumEngine.Domain.Services.Facades.Rates;
+using StadiumEngine.Domain.Services.Application.Offers;
+using StadiumEngine.Domain.Services.Application.Rates;
 using StadiumEngine.DTO.Rates.Prices;
 
 namespace StadiumEngine.Handlers.Facades.Rates.Prices;
 
 internal class SetPricesFacade : ISetPricesFacade
 {
-    private readonly IPriceCommandFacade _priceCommandFacade;
-    private readonly IPriceQueryFacade _priceQueryFacade;
-    private readonly ITariffQueryFacade _tariffQueryFacade;
-    private readonly IFieldQueryFacade _fieldQueryFacade;
+    private readonly IPriceCommandService _priceCommandService;
+    private readonly IPriceQueryService _priceQueryService;
+    private readonly ITariffQueryService _tariffQueryService;
+    private readonly IFieldQueryService _fieldQueryService;
 
-    public SetPricesFacade( IPriceCommandFacade priceCommandFacade, IPriceQueryFacade priceQueryFacade,
-        ITariffQueryFacade tariffQueryFacade, IFieldQueryFacade fieldQueryFacade )
+    public SetPricesFacade( IPriceCommandService priceCommandService, IPriceQueryService priceQueryService,
+        ITariffQueryService tariffQueryService, IFieldQueryService fieldQueryService )
     {
-        _priceCommandFacade = priceCommandFacade;
-        _priceQueryFacade = priceQueryFacade;
-        _tariffQueryFacade = tariffQueryFacade;
-        _fieldQueryFacade = fieldQueryFacade;
+        _priceCommandService = priceCommandService;
+        _priceQueryService = priceQueryService;
+        _tariffQueryService = tariffQueryService;
+        _fieldQueryService = fieldQueryService;
     }
 
     public async Task<SetPricesDto> SetPricesAsync( IEnumerable<Price> prices, int stadiumId, int userId )
     {
-        List<Price> currentPrices = await _priceQueryFacade.GetByStadiumIdAsync( stadiumId );
-        _priceCommandFacade.DeletePrices( currentPrices );
+        List<Price> currentPrices = await _priceQueryService.GetByStadiumIdAsync( stadiumId );
+        _priceCommandService.DeletePrices( currentPrices );
 
-        List<Field> fields = await _fieldQueryFacade.GetByStadiumIdAsync( stadiumId );
-        List<Tariff> tariffs = await _tariffQueryFacade.GetByStadiumIdAsync( stadiumId );
+        List<Field> fields = await _fieldQueryService.GetByStadiumIdAsync( stadiumId );
+        List<Tariff> tariffs = await _tariffQueryService.GetByStadiumIdAsync( stadiumId );
 
         List<Price> newPrices = new();
         foreach ( Price price in prices )
@@ -79,7 +79,7 @@ internal class SetPricesFacade : ISetPricesFacade
             newPrices.Add( price );
         }
 
-        _priceCommandFacade.AddPrices( newPrices );
+        _priceCommandService.AddPrices( newPrices );
 
         return new SetPricesDto();
     }

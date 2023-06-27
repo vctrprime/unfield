@@ -2,7 +2,7 @@ using AutoMapper;
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Rates;
-using StadiumEngine.Domain.Services.Facades.Rates;
+using StadiumEngine.Domain.Services.Application.Rates;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Rates.PriceGroups;
 using StadiumEngine.Queries.Rates.PriceGroups;
@@ -11,20 +11,20 @@ namespace StadiumEngine.Handlers.Handlers.Rates.PriceGroups;
 
 internal sealed class GetPriceGroupHandler : BaseRequestHandler<GetPriceGroupQuery, PriceGroupDto>
 {
-    private readonly IPriceGroupQueryFacade _priceGroupFacade;
+    private readonly IPriceGroupQueryService _queryService;
 
     public GetPriceGroupHandler(
-        IPriceGroupQueryFacade priceGroupFacade,
+        IPriceGroupQueryService queryService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
-        _priceGroupFacade = priceGroupFacade;
+        _queryService = queryService;
     }
 
     public override async ValueTask<PriceGroupDto> Handle( GetPriceGroupQuery request,
         CancellationToken cancellationToken )
     {
-        PriceGroup? priceGroup = await _priceGroupFacade.GetByPriceGroupIdAsync( request.PriceGroupId, _currentStadiumId );
+        PriceGroup? priceGroup = await _queryService.GetByPriceGroupIdAsync( request.PriceGroupId, _currentStadiumId );
 
         if ( priceGroup == null )
         {

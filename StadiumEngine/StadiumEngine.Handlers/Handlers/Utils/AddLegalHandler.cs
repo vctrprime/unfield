@@ -1,7 +1,7 @@
 using AutoMapper;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Services.Facades.Accounts;
+using StadiumEngine.Domain.Services.Application.Accounts;
 using StadiumEngine.Domain.Services.Infrastructure;
 using StadiumEngine.DTO.Utils;
 using StadiumEngine.Commands.Utils;
@@ -10,11 +10,11 @@ namespace StadiumEngine.Handlers.Handlers.Utils;
 
 internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddLegalDto>
 {
-    private readonly ILegalCommandFacade _legalFacade;
+    private readonly ILegalCommandService _commandService;
     private readonly ISmsSender _smsSender;
 
     public AddLegalHandler(
-        ILegalCommandFacade legalFacade,
+        ILegalCommandService commandService,
         ISmsSender smsSender,
         IMapper mapper,
         IUnitOfWork unitOfWork ) : base(
@@ -23,7 +23,7 @@ internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddL
         unitOfWork,
         false )
     {
-        _legalFacade = legalFacade;
+        _commandService = commandService;
         _smsSender = smsSender;
     }
 
@@ -35,7 +35,7 @@ internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddL
 
         superuser.Language = request.Language;
 
-        string password = await _legalFacade.AddLegalAsync( legal, superuser );
+        string password = await _commandService.AddLegalAsync( legal, superuser );
 
         await UnitOfWork.SaveChangesAsync();
 

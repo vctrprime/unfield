@@ -1,6 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain;
-using StadiumEngine.Domain.Services.Facades.Rates;
+using StadiumEngine.Domain.Services.Application.Rates;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Rates.PriceGroups;
 using StadiumEngine.Commands.Rates.PriceGroups;
@@ -9,21 +9,21 @@ namespace StadiumEngine.Handlers.Handlers.Rates.PriceGroups;
 
 internal sealed class DeletePriceGroupHandler : BaseCommandHandler<DeletePriceGroupCommand, DeletePriceGroupDto>
 {
-    private readonly IPriceGroupCommandFacade _priceGroupFacade;
+    private readonly IPriceGroupCommandService _commandService;
 
     public DeletePriceGroupHandler(
-        IPriceGroupCommandFacade priceGroupFacade,
+        IPriceGroupCommandService commandService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService,
         IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
-        _priceGroupFacade = priceGroupFacade;
+        _commandService = commandService;
     }
 
     protected override async ValueTask<DeletePriceGroupDto> HandleCommandAsync( DeletePriceGroupCommand request,
         CancellationToken cancellationToken )
     {
-        await _priceGroupFacade.DeletePriceGroupAsync( request.PriceGroupId, _currentStadiumId );
+        await _commandService.DeletePriceGroupAsync( request.PriceGroupId, _currentStadiumId );
         return new DeletePriceGroupDto();
     }
 }

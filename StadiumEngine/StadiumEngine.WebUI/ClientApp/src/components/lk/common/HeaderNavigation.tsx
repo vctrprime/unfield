@@ -16,6 +16,9 @@ import {priceGroupsAtom} from "../../../state/rates/priceGroups";
 import {IRatesService} from "../../../services/RatesService";
 import {TariffDto} from "../../../models/dto/rates/TariffDto";
 import {tariffsAtom} from "../../../state/rates/tariffs";
+import {BreakDto} from "../../../models/dto/settings/BreakDto";
+import {breaksAtom} from "../../../state/settings/breaks";
+import {ISettingsService} from "../../../services/SettingsService";
 
 export interface HeaderNavigationProps {
     routesWithBackButton: string[]
@@ -29,6 +32,8 @@ export const HeaderNavigation = (props: HeaderNavigationProps) => {
     const [priceGroups, setPriceGroups] = useRecoilState<PriceGroupDto[]>(priceGroupsAtom);
     const [tariffs, setTariffs] = useRecoilState<TariffDto[]>(tariffsAtom);
 
+    const [breaks, setBreaks] = useRecoilState<BreakDto[]>(breaksAtom);
+
     const [data, setData] = useState<any[]>([])
 
     const navigate = useNavigate();
@@ -39,6 +44,7 @@ export const HeaderNavigation = (props: HeaderNavigationProps) => {
 
     const [offersService] = useInject<IOffersService>('OffersService');
     const [ratesService] = useInject<IRatesService>('RatesService');
+    const [settingsService] = useInject<ISettingsService>('SettingsService');
 
     const BackButton = () => {
         return props.routesWithBackButton.find(r => r == route) !== undefined ?
@@ -81,6 +87,9 @@ export const HeaderNavigation = (props: HeaderNavigationProps) => {
                     break;
                 case "tariffs":
                     fetch(tariffs, setTariffs, () => ratesService.getTariffs());
+                    break;
+                case "breaks":
+                    fetch(breaks, setBreaks, () => settingsService.getBreaks());
                     break;
             }
         }

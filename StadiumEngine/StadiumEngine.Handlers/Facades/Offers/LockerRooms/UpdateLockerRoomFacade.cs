@@ -1,7 +1,7 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Offers;
-using StadiumEngine.Domain.Services.Facades.Offers;
+using StadiumEngine.Domain.Services.Application.Offers;
 using StadiumEngine.DTO.Offers.LockerRooms;
 using StadiumEngine.Commands.Offers.LockerRooms;
 
@@ -9,18 +9,18 @@ namespace StadiumEngine.Handlers.Facades.Offers.LockerRooms;
 
 internal class UpdateLockerRoomFacade : IUpdateLockerRoomFacade
 {
-    private readonly ILockerRoomCommandFacade _commandFacade;
-    private readonly ILockerRoomQueryFacade _queryFacade;
+    private readonly ILockerRoomCommandService _commandService;
+    private readonly ILockerRoomQueryService _queryService;
 
-    public UpdateLockerRoomFacade( ILockerRoomQueryFacade queryFacade, ILockerRoomCommandFacade commandFacade )
+    public UpdateLockerRoomFacade( ILockerRoomQueryService queryService, ILockerRoomCommandService commandService )
     {
-        _queryFacade = queryFacade;
-        _commandFacade = commandFacade;
+        _queryService = queryService;
+        _commandService = commandService;
     }
 
     public async Task<UpdateLockerRoomDto> UpdateAsync( UpdateLockerRoomCommand request, int stadiumId, int userId )
     {
-        LockerRoom? lockerRoom = await _queryFacade.GetByLockerRoomIdAsync( request.Id, stadiumId );
+        LockerRoom? lockerRoom = await _queryService.GetByLockerRoomIdAsync( request.Id, stadiumId );
 
         if ( lockerRoom == null )
         {
@@ -33,7 +33,7 @@ internal class UpdateLockerRoomFacade : IUpdateLockerRoomFacade
         lockerRoom.IsActive = request.IsActive;
         lockerRoom.UserModifiedId = userId;
 
-        _commandFacade.UpdateLockerRoom( lockerRoom );
+        _commandService.UpdateLockerRoom( lockerRoom );
 
         return new UpdateLockerRoomDto();
     }

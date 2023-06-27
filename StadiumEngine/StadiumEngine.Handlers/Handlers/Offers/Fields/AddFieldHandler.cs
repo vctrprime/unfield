@@ -1,7 +1,7 @@
 using AutoMapper;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Offers;
-using StadiumEngine.Domain.Services.Facades.Offers;
+using StadiumEngine.Domain.Services.Application.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Fields;
 using StadiumEngine.Commands.Offers.Fields;
@@ -10,15 +10,15 @@ namespace StadiumEngine.Handlers.Handlers.Offers.Fields;
 
 internal sealed class AddFieldHandler : BaseCommandHandler<AddFieldCommand, AddFieldDto>
 {
-    private readonly IFieldCommandFacade _fieldFacade;
+    private readonly IFieldCommandService _commandService;
 
     public AddFieldHandler(
-        IFieldCommandFacade fieldFacade,
+        IFieldCommandService commandService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService,
         IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
-        _fieldFacade = fieldFacade;
+        _commandService = commandService;
     }
 
     protected override async ValueTask<AddFieldDto> HandleCommandAsync( AddFieldCommand request,
@@ -28,7 +28,7 @@ internal sealed class AddFieldHandler : BaseCommandHandler<AddFieldCommand, AddF
         field.StadiumId = _currentStadiumId;
         field.UserCreatedId = _userId;
 
-        await _fieldFacade.AddFieldAsync( field, request.Images, _legalId );
+        await _commandService.AddFieldAsync( field, request.Images, _legalId );
 
         return new AddFieldDto();
     }

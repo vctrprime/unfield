@@ -7,11 +7,13 @@ import {Button, Checkbox} from "semantic-ui-react";
 import {useNavigate} from "react-router-dom";
 import {useInject} from "inversify-hooks";
 import {ISettingsService} from "../../../services/SettingsService";
-import {useRecoilValue} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {stadiumAtom} from "../../../state/stadium";
 import {PermissionsKeys} from "../../../static/PermissionsKeys";
 import {GridLoading} from "../common/GridLoading";
 import {permissionsAtom} from "../../../state/permissions";
+import {UpdateBreakCommand} from "../../../models/command/settings/UpdateBreakCommand";
+import {breaksAtom} from "../../../state/settings/breaks";
 
 const AgGrid = require('ag-grid-react');
 const {AgGridReact} = AgGrid;
@@ -21,6 +23,7 @@ export const Breaks = () => {
 
     const stadium = useRecoilValue(stadiumAtom);
     const permissions = useRecoilValue(permissionsAtom);
+    const setBreaks = useSetRecoilState<BreakDto[]>(breaksAtom);
 
     const [data, setData] = useState<BreakDto[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -36,9 +39,24 @@ export const Breaks = () => {
     }
 
     const toggleIsActive = (nodeId: number, data: BreakDto) => {
-        
+        const command: UpdateBreakCommand = {
+            id: data.id,
+            name: data.name,
+            description: data.description,
+            isActive: !data.isActive,
+            dateStart: data.dateStart,
+            dateEnd: data.dateEnd,
+            startHour: data.startHour,
+            endHour: data.endHour,
+            selectedFields: data.selectedFields,
+        }
+        settingsService.updateBreak(command).then(() => {
+            const rowNode = gridRef.current.api.getRowNode(nodeId);
+            rowNode.setDataValue('isActive', command.isActive);
+        });
     }
-    
+
+
     const NameRenderer = (obj: any) => {
         return <span className="link-cell" onClick={() => onNameClick(obj.data.id)}>{obj.data.name}</span>;
     }
@@ -110,6 +128,7 @@ export const Breaks = () => {
         settingsService.getBreaks().then((result: BreakDto[]) => {
             setTimeout(() => {
                 setData(result);
+                setBreaks(result);
                 setIsLoading(false);
             }, 500);
         })

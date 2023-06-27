@@ -1,7 +1,7 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Offers;
-using StadiumEngine.Domain.Services.Facades.Offers;
+using StadiumEngine.Domain.Services.Application.Offers;
 using StadiumEngine.DTO.Offers.Inventories;
 using StadiumEngine.Commands.Offers.Inventories;
 
@@ -9,18 +9,18 @@ namespace StadiumEngine.Handlers.Facades.Offers.Inventories;
 
 internal class UpdateInventoryFacade : IUpdateInventoryFacade
 {
-    private readonly IInventoryCommandFacade _commandFacade;
-    private readonly IInventoryQueryFacade _queryFacade;
+    private readonly IInventoryCommandService _commandService;
+    private readonly IInventoryQueryService _queryService;
 
-    public UpdateInventoryFacade( IInventoryQueryFacade queryFacade, IInventoryCommandFacade commandFacade )
+    public UpdateInventoryFacade( IInventoryQueryService queryService, IInventoryCommandService commandService )
     {
-        _queryFacade = queryFacade;
-        _commandFacade = commandFacade;
+        _queryService = queryService;
+        _commandService = commandService;
     }
 
     public async Task<UpdateInventoryDto> UpdateAsync( UpdateInventoryCommand request, int stadiumId, int userId )
     {
-        Inventory? inventory = await _queryFacade.GetByInventoryIdAsync( request.Id, stadiumId );
+        Inventory? inventory = await _queryService.GetByInventoryIdAsync( request.Id, stadiumId );
 
         if ( inventory == null )
         {
@@ -35,7 +35,7 @@ internal class UpdateInventoryFacade : IUpdateInventoryFacade
         inventory.IsActive = request.IsActive;
         inventory.UserModifiedId = userId;
 
-        await _commandFacade.UpdateInventoryAsync( inventory, request.Images, request.SportKinds );
+        await _commandService.UpdateInventoryAsync( inventory, request.Images, request.SportKinds );
 
         return new UpdateInventoryDto();
     }

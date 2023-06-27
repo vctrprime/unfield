@@ -2,7 +2,7 @@ using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Rates;
-using StadiumEngine.Domain.Services.Facades.Rates;
+using StadiumEngine.Domain.Services.Application.Rates;
 using StadiumEngine.DTO.Rates.Tariffs;
 using StadiumEngine.Commands.Rates.Tariffs;
 
@@ -10,13 +10,13 @@ namespace StadiumEngine.Handlers.Facades.Rates.Tariffs;
 
 internal class UpdateTariffFacade : IUpdateTariffFacade
 {
-    private readonly ITariffCommandFacade _commandFacade;
-    private readonly ITariffQueryFacade _queryFacade;
+    private readonly ITariffCommandService _commandService;
+    private readonly ITariffQueryService _queryService;
 
-    public UpdateTariffFacade( ITariffQueryFacade queryFacade, ITariffCommandFacade commandFacade )
+    public UpdateTariffFacade( ITariffQueryService queryService, ITariffCommandService commandService )
     {
-        _queryFacade = queryFacade;
-        _commandFacade = commandFacade;
+        _queryService = queryService;
+        _commandService = commandService;
     }
 
     public async Task<UpdateTariffDto> UpdateAsync(
@@ -25,7 +25,7 @@ internal class UpdateTariffFacade : IUpdateTariffFacade
         int stadiumId,
         int userId )
     {
-        Tariff? tariff = await _queryFacade.GetByTariffIdAsync( request.Id, stadiumId );
+        Tariff? tariff = await _queryService.GetByTariffIdAsync( request.Id, stadiumId );
 
         if ( tariff == null )
         {
@@ -46,7 +46,7 @@ internal class UpdateTariffFacade : IUpdateTariffFacade
         tariff.Saturday = request.Saturday;
         tariff.Sunday = request.Sunday;
 
-        await _commandFacade.UpdateTariffAsync(
+        await _commandService.UpdateTariffAsync(
             tariff,
             request.DayIntervals.Select( x => x.Interval ).ToList(),
             promoCodes );

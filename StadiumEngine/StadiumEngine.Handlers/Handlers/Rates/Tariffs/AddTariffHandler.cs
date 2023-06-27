@@ -1,7 +1,7 @@
 using AutoMapper;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Rates;
-using StadiumEngine.Domain.Services.Facades.Rates;
+using StadiumEngine.Domain.Services.Application.Rates;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Rates.Tariffs;
 using StadiumEngine.Commands.Rates.Tariffs;
@@ -10,15 +10,15 @@ namespace StadiumEngine.Handlers.Handlers.Rates.Tariffs;
 
 internal sealed class AddTariffHandler : BaseCommandHandler<AddTariffCommand, AddTariffDto>
 {
-    private readonly ITariffCommandFacade _tariffFacade;
+    private readonly ITariffCommandService _commandService;
 
     public AddTariffHandler(
-        ITariffCommandFacade tariffFacade,
+        ITariffCommandService commandService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService,
         IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
-        _tariffFacade = tariffFacade;
+        _commandService = commandService;
     }
 
     protected override async ValueTask<AddTariffDto> HandleCommandAsync( AddTariffCommand request,
@@ -28,7 +28,7 @@ internal sealed class AddTariffHandler : BaseCommandHandler<AddTariffCommand, Ad
         tariff.StadiumId = _currentStadiumId;
         tariff.UserCreatedId = _userId;
 
-        await _tariffFacade.AddTariffAsync( tariff, request.DayIntervals.Select( x => x.Interval ).ToList() );
+        await _commandService.AddTariffAsync( tariff, request.DayIntervals.Select( x => x.Interval ).ToList() );
 
         return new AddTariffDto();
     }

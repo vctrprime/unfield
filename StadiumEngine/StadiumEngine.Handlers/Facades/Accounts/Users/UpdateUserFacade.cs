@@ -1,7 +1,7 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Services.Facades.Accounts;
+using StadiumEngine.Domain.Services.Application.Accounts;
 using StadiumEngine.DTO.Accounts.Users;
 using StadiumEngine.Commands.Accounts.Users;
 
@@ -9,13 +9,13 @@ namespace StadiumEngine.Handlers.Facades.Accounts.Users;
 
 internal class UpdateUserFacade : IUpdateUserFacade
 {
-    private readonly IUserCommandFacade _commandFacade;
-    private readonly IUserQueryFacade _queryFacade;
+    private readonly IUserCommandService _commandService;
+    private readonly IUserQueryService _queryService;
 
-    public UpdateUserFacade( IUserQueryFacade queryFacade, IUserCommandFacade commandFacade )
+    public UpdateUserFacade( IUserQueryService queryService, IUserCommandService commandService )
     {
-        _queryFacade = queryFacade;
-        _commandFacade = commandFacade;
+        _queryService = queryService;
+        _commandService = commandService;
     }
 
     public async Task<UpdateUserDto> UpdateAsync( UpdateUserCommand request, int userId, int legalId )
@@ -25,7 +25,7 @@ internal class UpdateUserFacade : IUpdateUserFacade
             throw new DomainException( ErrorsKeys.ModifyCurrentUser );
         }
 
-        User? user = await _queryFacade.GetUserAsync( request.Id );
+        User? user = await _queryService.GetUserAsync( request.Id );
         if ( user == null || legalId != user.LegalId )
         {
             throw new DomainException( ErrorsKeys.UserNotFound );
@@ -38,7 +38,7 @@ internal class UpdateUserFacade : IUpdateUserFacade
         user.UserModifiedId = userId;
 
 
-        await _commandFacade.UpdateUserAsync( user, legalId );
+        await _commandService.UpdateUserAsync( user, legalId );
 
         return new UpdateUserDto();
     }

@@ -1,7 +1,7 @@
 using AutoMapper;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Offers;
-using StadiumEngine.Domain.Services.Facades.Offers;
+using StadiumEngine.Domain.Services.Application.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.LockerRooms;
 using StadiumEngine.Commands.Offers.LockerRooms;
@@ -10,15 +10,15 @@ namespace StadiumEngine.Handlers.Handlers.Offers.LockerRooms;
 
 internal sealed class AddLockerRoomHandler : BaseCommandHandler<AddLockerRoomCommand, AddLockerRoomDto>
 {
-    private readonly ILockerRoomCommandFacade _lockerRoomFacade;
+    private readonly ILockerRoomCommandService _commandService;
 
     public AddLockerRoomHandler(
-        ILockerRoomCommandFacade lockerRoomFacade,
+        ILockerRoomCommandService commandService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService,
         IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
-        _lockerRoomFacade = lockerRoomFacade;
+        _commandService = commandService;
     }
 
     protected override async ValueTask<AddLockerRoomDto> HandleCommandAsync( AddLockerRoomCommand request,
@@ -28,7 +28,7 @@ internal sealed class AddLockerRoomHandler : BaseCommandHandler<AddLockerRoomCom
         lockerRoom.StadiumId = _currentStadiumId;
         lockerRoom.UserCreatedId = _userId;
 
-        _lockerRoomFacade.AddLockerRoom( lockerRoom );
+        _commandService.AddLockerRoom( lockerRoom );
 
         return await Task.Run( () => new AddLockerRoomDto(), cancellationToken );
     }

@@ -1,6 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain;
-using StadiumEngine.Domain.Services.Facades.Accounts;
+using StadiumEngine.Domain.Services.Application.Accounts;
 using StadiumEngine.DTO.Utils;
 using StadiumEngine.Commands.Utils;
 
@@ -8,10 +8,10 @@ namespace StadiumEngine.Handlers.Handlers.Utils;
 
 internal sealed class SyncPermissionsHandler : BaseCommandHandler<SyncPermissionsCommand, SyncPermissionsDto>
 {
-    private readonly IPermissionCommandFacade _permissionFacade;
+    private readonly IPermissionCommandService _commandService;
 
     public SyncPermissionsHandler(
-        IPermissionCommandFacade permissionFacade,
+        IPermissionCommandService commandService,
         IMapper mapper,
         IUnitOfWork unitOfWork ) : base(
         mapper,
@@ -19,13 +19,13 @@ internal sealed class SyncPermissionsHandler : BaseCommandHandler<SyncPermission
         unitOfWork,
         false )
     {
-        _permissionFacade = permissionFacade;
+        _commandService = commandService;
     }
 
     protected override async ValueTask<SyncPermissionsDto> HandleCommandAsync( SyncPermissionsCommand request,
         CancellationToken cancellationToken )
     {
-        await _permissionFacade.SyncPermissionsAsync();
+        await _commandService.SyncPermissionsAsync();
         return new SyncPermissionsDto();
     }
 }

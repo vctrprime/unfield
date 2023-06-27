@@ -1,6 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain.Entities.Rates;
-using StadiumEngine.Domain.Services.Facades.Rates;
+using StadiumEngine.Domain.Services.Application.Rates;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Rates.Prices;
 using StadiumEngine.Queries.Rates.Prices;
@@ -9,20 +9,20 @@ namespace StadiumEngine.Handlers.Handlers.Rates.Prices;
 
 internal sealed class GetPricesHandler : BaseRequestHandler<GetPricesQuery, List<PriceDto>>
 {
-    private readonly IPriceQueryFacade _priceFacade;
+    private readonly IPriceQueryService _queryService;
 
     public GetPricesHandler(
-        IPriceQueryFacade priceFacade,
+        IPriceQueryService queryService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
-        _priceFacade = priceFacade;
+        _queryService = queryService;
     }
 
     public override async ValueTask<List<PriceDto>> Handle( GetPricesQuery request,
         CancellationToken cancellationToken )
     {
-        List<Price> prices = await _priceFacade.GetByStadiumIdAsync( _currentStadiumId );
+        List<Price> prices = await _queryService.GetByStadiumIdAsync( _currentStadiumId );
 
         List<PriceDto> pricesDto = Mapper.Map<List<PriceDto>>( prices );
 

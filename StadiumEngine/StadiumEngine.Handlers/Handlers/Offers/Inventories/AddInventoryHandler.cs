@@ -1,7 +1,7 @@
 using AutoMapper;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Offers;
-using StadiumEngine.Domain.Services.Facades.Offers;
+using StadiumEngine.Domain.Services.Application.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Inventories;
 using StadiumEngine.Commands.Offers.Inventories;
@@ -10,15 +10,15 @@ namespace StadiumEngine.Handlers.Handlers.Offers.Inventories;
 
 internal sealed class AddInventoryHandler : BaseCommandHandler<AddInventoryCommand, AddInventoryDto>
 {
-    private readonly IInventoryCommandFacade _inventoryFacade;
+    private readonly IInventoryCommandService _commandService;
 
     public AddInventoryHandler(
-        IInventoryCommandFacade inventoryFacade,
+        IInventoryCommandService commandService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService,
         IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
-        _inventoryFacade = inventoryFacade;
+        _commandService = commandService;
     }
 
     protected override async ValueTask<AddInventoryDto> HandleCommandAsync( AddInventoryCommand request,
@@ -28,7 +28,7 @@ internal sealed class AddInventoryHandler : BaseCommandHandler<AddInventoryComma
         inventory.StadiumId = _currentStadiumId;
         inventory.UserCreatedId = _userId;
 
-        await _inventoryFacade.AddInventoryAsync( inventory, request.Images, _legalId );
+        await _commandService.AddInventoryAsync( inventory, request.Images, _legalId );
 
         return new AddInventoryDto();
     }

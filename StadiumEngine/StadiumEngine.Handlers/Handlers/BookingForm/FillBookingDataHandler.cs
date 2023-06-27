@@ -2,7 +2,7 @@ using AutoMapper;
 using StadiumEngine.Commands.BookingForm;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Bookings;
-using StadiumEngine.Domain.Services.Facades.BookingForm;
+using StadiumEngine.Domain.Services.Application.BookingForm;
 using StadiumEngine.Domain.Services.Infrastructure;
 using StadiumEngine.DTO.BookingForm;
 
@@ -10,19 +10,19 @@ namespace StadiumEngine.Handlers.Handlers.BookingForm;
 
 internal sealed class FillBookingDataHandler : BaseCommandHandler<FillBookingDataCommand, FillBookingDataDto>
 {
-    private readonly IBookingCheckoutQueryFacade _queryFacade;
-    private readonly IBookingCheckoutCommandFacade _commandFacade;
+    private readonly IBookingCheckoutQueryService _queryService;
+    private readonly IBookingCheckoutCommandService _commandService;
     private readonly ISmsSender _smsSender;
 
     public FillBookingDataHandler(
-        IBookingCheckoutQueryFacade queryFacade,
-        IBookingCheckoutCommandFacade commandFacade,
+        IBookingCheckoutQueryService queryService,
+        IBookingCheckoutCommandService commandService,
         ISmsSender smsSender,
         IMapper mapper,
         IUnitOfWork unitOfWork ) : base( mapper, null, unitOfWork )
     {
-        _queryFacade = queryFacade;
-        _commandFacade = commandFacade;
+        _queryService = queryService;
+        _commandService = commandService;
         _smsSender = smsSender;
     }
 
@@ -30,7 +30,7 @@ internal sealed class FillBookingDataHandler : BaseCommandHandler<FillBookingDat
         FillBookingDataCommand request,
         CancellationToken cancellationToken )
     {
-        Booking booking = await _queryFacade.GetBookingDraftAsync( request.BookingNumber );
+        Booking booking = await _queryService.GetBookingDraftAsync( request.BookingNumber );
 
         booking.Amount = request.Amount;
         booking.Discount = request.Discount;
@@ -41,7 +41,7 @@ internal sealed class FillBookingDataHandler : BaseCommandHandler<FillBookingDat
         booking.Inventories = Mapper.Map<List<BookingInventory>>( request.Inventories );
         booking.Customer = Mapper.Map<BookingCustomer>( request.Customer );
         
-        await _commandFacade.FillBookingDataAsync( booking );
+        await _commandService.FillBookingDataAsync( booking );
 
         await _smsSender.SendBookingAccessCodeAsync( booking, request.Language );
 

@@ -58,6 +58,7 @@ import {MainSettings} from "./components/lk/settings/MainSettings";
 import {Settings} from "./components/lk/settings/Settings";
 import {Breaks} from "./components/lk/settings/Breaks";
 import {getStartLkRoute} from "./helpers/utils";
+import {Break} from "./components/lk/settings/Break";
 
 const ReactNotifications = require('react-notifications');
 const {NotificationContainer} = ReactNotifications;
@@ -121,6 +122,8 @@ const App = () => {
                             <Route path="main" element={<MainSettings/>}/>
                             <Route path="breaks" element={<Breaks/>}/>
                         </Route>
+                        <Route path="settings/breaks/:id" element={<Break/>}/>
+                        
                         <Route path="offers" element={<Offers/>}>
                             <Route path="fields" element={<Fields/>}/>
                             <Route path="locker-rooms" element={<LockerRooms/>}/>

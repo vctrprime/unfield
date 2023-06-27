@@ -2,7 +2,7 @@ using AutoMapper;
 using StadiumEngine.Commands.Settings.Breaks;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Settings;
-using StadiumEngine.Domain.Services.Facades.Settings;
+using StadiumEngine.Domain.Services.Application.Settings;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Settings.Breaks;
 
@@ -10,15 +10,15 @@ namespace StadiumEngine.Handlers.Handlers.Settings.Breaks;
 
 internal sealed class AddBreakHandler : BaseCommandHandler<AddBreakCommand, AddBreakDto>
 {
-    private readonly IBreakCommandFacade _breakFacade;
+    private readonly IBreakCommandService _commandService;
 
     public AddBreakHandler(
-        IBreakCommandFacade breakFacade,
+        IBreakCommandService commandService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService,
         IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
-        _breakFacade = breakFacade;
+        _commandService = commandService;
     }
 
     protected override async ValueTask<AddBreakDto> HandleCommandAsync( AddBreakCommand request,
@@ -32,7 +32,7 @@ internal sealed class AddBreakHandler : BaseCommandHandler<AddBreakCommand, AddB
             breakField.UserCreatedId = _userId;
         }
 
-        _breakFacade.AddBreak( @break );
+        _commandService.AddBreak( @break );
         
         return await Task.Run( () => new AddBreakDto(), cancellationToken );
     }

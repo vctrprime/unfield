@@ -3,7 +3,7 @@ using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Common.Static;
 using StadiumEngine.Domain.Entities.Bookings;
-using StadiumEngine.Domain.Services.Facades.BookingForm;
+using StadiumEngine.Domain.Services.Application.BookingForm;
 using StadiumEngine.Domain.Services.Models.BookingForm;
 using StadiumEngine.DTO.BookingForm;
 using StadiumEngine.Queries.BookingForm;
@@ -12,23 +12,23 @@ namespace StadiumEngine.Handlers.Builders.BookingForm;
 
 internal class BookingCheckoutDtoBuilder : IBookingCheckoutDtoBuilder
 {
-    private readonly IBookingCheckoutQueryFacade _facade;
+    private readonly IBookingCheckoutQueryService _service;
     private readonly IBookingFormDtoBuilder _bookingFormDtoBuilder;
     private readonly IMapper _mapper;
 
     public BookingCheckoutDtoBuilder(
-        IBookingCheckoutQueryFacade facade,
+        IBookingCheckoutQueryService service,
         IBookingFormDtoBuilder bookingFormDtoBuilder,
         IMapper mapper )
     {
-        _facade = facade;
+        _service = service;
         _bookingFormDtoBuilder = bookingFormDtoBuilder;
         _mapper = mapper;
     }
 
     public async Task<BookingCheckoutDto> BuildAsync( GetBookingCheckoutQuery query )
     {
-        Booking booking = await _facade.GetBookingDraftAsync( query.BookingNumber );
+        Booking booking = await _service.GetBookingDraftAsync( query.BookingNumber );
 
         BookingFormDto? bookingFormDto =
             await _bookingFormDtoBuilder.BuildAsync( booking.FieldId, booking.Day, query.CurrentHour );
@@ -58,7 +58,7 @@ internal class BookingCheckoutDtoBuilder : IBookingCheckoutDtoBuilder
                         } ).ToList()
                 } ).ToList();
         BookingCheckoutData bookingCheckoutData =
-            await _facade.GetBookingCheckoutDataAsync( booking, slots );
+            await _service.GetBookingCheckoutDataAsync( booking, slots );
 
         BookingCheckoutDto? result = _mapper.Map<BookingCheckoutDto>( bookingCheckoutData );
 

@@ -1,7 +1,7 @@
 using AutoMapper;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Services.Facades.Accounts;
+using StadiumEngine.Domain.Services.Application.Accounts;
 using StadiumEngine.Domain.Services.Infrastructure;
 using StadiumEngine.DTO.Utils;
 using StadiumEngine.Commands.Utils;
@@ -11,10 +11,10 @@ namespace StadiumEngine.Handlers.Handlers.Utils;
 internal sealed class AddAdminUserHandler : BaseCommandHandler<AddAdminUserCommand, AddAdminUserDto>
 {
     private readonly ISmsSender _smsSender;
-    private readonly IUserCommandFacade _userFacade;
+    private readonly IUserCommandService _commandService;
 
     public AddAdminUserHandler(
-        IUserCommandFacade userFacade,
+        IUserCommandService commandService,
         ISmsSender smsSender,
         IMapper mapper,
         IUnitOfWork unitOfWork ) : base(
@@ -23,7 +23,7 @@ internal sealed class AddAdminUserHandler : BaseCommandHandler<AddAdminUserComma
         unitOfWork,
         false )
     {
-        _userFacade = userFacade;
+        _commandService = commandService;
         _smsSender = smsSender;
     }
 
@@ -32,7 +32,7 @@ internal sealed class AddAdminUserHandler : BaseCommandHandler<AddAdminUserComma
     {
         User? user = Mapper.Map<User>( request );
 
-        string password = await _userFacade.AddUserAsync( user, true );
+        string password = await _commandService.AddUserAsync( user, true );
         await UnitOfWork.SaveChangesAsync();
 
         await _smsSender.SendPasswordAsync( user.PhoneNumber, password, user.Language );

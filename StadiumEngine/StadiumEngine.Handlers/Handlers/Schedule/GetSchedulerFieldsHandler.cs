@@ -1,7 +1,7 @@
 using AutoMapper;
 using Mediator;
 using StadiumEngine.Domain.Entities.Settings;
-using StadiumEngine.Domain.Services.Facades.Settings;
+using StadiumEngine.Domain.Services.Application.Settings;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Fields;
 using StadiumEngine.DTO.Schedule;
@@ -13,16 +13,16 @@ namespace StadiumEngine.Handlers.Handlers.Schedule;
 internal sealed class GetSchedulerFieldsHandler : BaseRequestHandler<GetSchedulerFieldsQuery, SchedulerFieldsDto>
 {
     private readonly IMediator _mediator;
-    private readonly IMainSettingsQueryFacade _settingsQueryFacade;
+    private readonly IMainSettingsQueryService _mainSettingsQueryService;
 
     public GetSchedulerFieldsHandler(
         IMediator mediator,
-        IMainSettingsQueryFacade settingsQueryFacade,
+        IMainSettingsQueryService mainSettingsQueryService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService) : base( mapper, claimsIdentityService )
     {
         _mediator = mediator;
-        _settingsQueryFacade = settingsQueryFacade;
+        _mainSettingsQueryService = mainSettingsQueryService;
     }
 
     public override async ValueTask<SchedulerFieldsDto> Handle(
@@ -30,7 +30,7 @@ internal sealed class GetSchedulerFieldsHandler : BaseRequestHandler<GetSchedule
         CancellationToken cancellationToken )
     {
         List<FieldDto> fields = await _mediator.Send( new GetFieldsQuery(), cancellationToken );
-        MainSettings settings = await _settingsQueryFacade.GetByStadiumIdAsync( _currentStadiumId );
+        MainSettings settings = await _mainSettingsQueryService.GetByStadiumIdAsync( _currentStadiumId );
 
         return new SchedulerFieldsDto
         {

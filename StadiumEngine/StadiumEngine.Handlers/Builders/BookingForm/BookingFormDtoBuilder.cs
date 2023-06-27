@@ -1,5 +1,5 @@
 using AutoMapper;
-using StadiumEngine.Domain.Services.Facades.BookingForm;
+using StadiumEngine.Domain.Services.Application.BookingForm;
 using StadiumEngine.Domain.Services.Models.BookingForm;
 using StadiumEngine.DTO.BookingForm;
 using StadiumEngine.Queries.BookingForm;
@@ -8,12 +8,12 @@ namespace StadiumEngine.Handlers.Builders.BookingForm;
 
 internal class BookingFormDtoBuilder : IBookingFormDtoBuilder
 {
-    private readonly IBookingFormQueryFacade _bookingFormQueryFacade;
+    private readonly IBookingFormQueryService _bookingFormQueryService;
     private readonly IMapper _mapper;
 
-    public BookingFormDtoBuilder( IBookingFormQueryFacade bookingFormQueryFacade, IMapper mapper )
+    public BookingFormDtoBuilder( IBookingFormQueryService bookingFormQueryService, IMapper mapper )
     {
-        _bookingFormQueryFacade = bookingFormQueryFacade;
+        _bookingFormQueryService = bookingFormQueryService;
         _mapper = mapper;
     }
 
@@ -43,7 +43,7 @@ internal class BookingFormDtoBuilder : IBookingFormDtoBuilder
         DateTime day,
         int currentHour )
     {
-        BookingFormData bookingFormData = await _bookingFormQueryFacade.GetBookingFormDataAsync(
+        BookingFormData bookingFormData = await _bookingFormQueryService.GetBookingFormDataAsync(
             stadiumToken,
             cityId,
             fieldId,

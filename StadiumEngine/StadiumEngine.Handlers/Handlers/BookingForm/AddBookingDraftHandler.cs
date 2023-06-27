@@ -2,24 +2,24 @@ using AutoMapper;
 using StadiumEngine.Commands.BookingForm;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Bookings;
-using StadiumEngine.Domain.Services.Facades.BookingForm;
+using StadiumEngine.Domain.Services.Application.BookingForm;
 using StadiumEngine.DTO.BookingForm;
 
 namespace StadiumEngine.Handlers.Handlers.BookingForm;
 
 internal sealed class AddBookingDraftHandler : BaseCommandHandler<AddBookingDraftCommand, AddBookingDraftDto>
 {
-    private readonly IBookingFormCommandFacade _commandFacade;
+    private readonly IBookingFormCommandService _commandService;
 
     public AddBookingDraftHandler(
-        IBookingFormCommandFacade commandFacade,
+        IBookingFormCommandService commandService,
         IMapper mapper,
         IUnitOfWork unitOfWork ) : base(
         mapper,
         null,
         unitOfWork )
     {
-        _commandFacade = commandFacade;
+        _commandService = commandService;
     }
 
     protected override async ValueTask<AddBookingDraftDto> HandleCommandAsync(
@@ -28,7 +28,7 @@ internal sealed class AddBookingDraftHandler : BaseCommandHandler<AddBookingDraf
     {
         Booking booking = Mapper.Map<Booking>( request );
 
-        await _commandFacade.CreateBookingAsync( booking );
+        await _commandService.CreateBookingAsync( booking );
 
         return new AddBookingDraftDto
         {

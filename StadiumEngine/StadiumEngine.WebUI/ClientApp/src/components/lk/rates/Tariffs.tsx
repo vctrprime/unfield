@@ -157,7 +157,7 @@ export const Tariffs = () => {
         ratesService.getTariffs().then((result: TariffDto[]) => {
             setTimeout(() => {
                 setData(result);
-                setTariffs(JSON.parse(JSON.stringify(result)));
+                setTariffs(result);
                 setIsLoading(false);
             }, 500);
         })

@@ -68,7 +68,7 @@ export const Header = () => {
         navigate("/admin")
     }
 
-    const routesWithBackButton = ["locker-rooms", "fields", "inventories", "price-groups", "tariffs"];
+    const routesWithBackButton = ["locker-rooms", "fields", "inventories", "price-groups", "tariffs", "breaks"];
 
     const routeWithoutStadiumList = (): boolean => {
         return routesWithBackButton.filter(r => window.location.pathname.indexOf(r + "/") !== -1).length > 0;

@@ -1,7 +1,7 @@
 using AutoMapper;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Services.Facades.Accounts;
-using StadiumEngine.Domain.Services.Facades.Schedule;
+using StadiumEngine.Domain.Services.Application.Accounts;
+using StadiumEngine.Domain.Services.Application.Schedule;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.Domain.Services.Models.Schedule;
 using StadiumEngine.DTO.Schedule;
@@ -11,21 +11,21 @@ namespace StadiumEngine.Handlers.Handlers.Schedule;
 
 internal sealed class GetSchedulerEventsHandler : BaseRequestHandler<GetSchedulerEventsQuery, List<SchedulerEventDto>>
 {
-    private readonly ISchedulerQueryFacade _schedulerQueryFacade;
+    private readonly ISchedulerQueryService _queryService;
 
     public GetSchedulerEventsHandler(
-        ISchedulerQueryFacade schedulerQueryFacade,
+        ISchedulerQueryService queryService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService) : base( mapper, claimsIdentityService )
     {
-        _schedulerQueryFacade = schedulerQueryFacade;
+        _queryService = queryService;
     }
 
     public override async ValueTask<List<SchedulerEventDto>> Handle(
         GetSchedulerEventsQuery request,
         CancellationToken cancellationToken )
     {
-        List<SchedulerEvent> events = await _schedulerQueryFacade.GetEventsAsync( request.Start, request.End, _currentStadiumId, request.Language ?? "ru" );
+        List<SchedulerEvent> events = await _queryService.GetEventsAsync( request.Start, request.End, _currentStadiumId, request.Language ?? "ru" );
 
         List<SchedulerEventDto> eventsDto = Mapper.Map<List<SchedulerEventDto>>( events );
 

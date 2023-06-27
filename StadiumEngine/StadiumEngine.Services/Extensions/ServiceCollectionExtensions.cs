@@ -1,28 +1,28 @@
 using Microsoft.Extensions.DependencyInjection;
-using StadiumEngine.Domain.Services.Facades.Accounts;
-using StadiumEngine.Domain.Services.Facades.BookingForm;
-using StadiumEngine.Domain.Services.Facades.Geo;
-using StadiumEngine.Domain.Services.Facades.Offers;
-using StadiumEngine.Domain.Services.Facades.Rates;
-using StadiumEngine.Domain.Services.Facades.Schedule;
-using StadiumEngine.Domain.Services.Facades.Settings;
+using StadiumEngine.Domain.Services.Application.Accounts;
+using StadiumEngine.Domain.Services.Application.BookingForm;
+using StadiumEngine.Domain.Services.Application.Geo;
+using StadiumEngine.Domain.Services.Application.Offers;
+using StadiumEngine.Domain.Services.Application.Rates;
+using StadiumEngine.Domain.Services.Application.Schedule;
+using StadiumEngine.Domain.Services.Application.Settings;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.Domain.Services.Infrastructure;
 using StadiumEngine.Repositories.Infrastructure.Extensions;
 using StadiumEngine.Services.Builders.Utils;
 using StadiumEngine.Services.Checkers;
+using StadiumEngine.Services.Application.Accounts;
+using StadiumEngine.Services.Application.BookingForm;
 using StadiumEngine.Services.Facades.Accounts;
+using StadiumEngine.Services.Application.Geo;
+using StadiumEngine.Services.Application.Offers;
+using StadiumEngine.Services.Application.Rates;
+using StadiumEngine.Services.Application.Schedule;
 using StadiumEngine.Services.Facades.BookingForm;
-using StadiumEngine.Services.Facades.Geo;
+using StadiumEngine.Services.Facades.Bookings;
 using StadiumEngine.Services.Facades.Offers;
 using StadiumEngine.Services.Facades.Rates;
-using StadiumEngine.Services.Facades.Schedule;
-using StadiumEngine.Services.Facades.Services.Accounts;
-using StadiumEngine.Services.Facades.Services.BookingForm;
-using StadiumEngine.Services.Facades.Services.Bookings;
-using StadiumEngine.Services.Facades.Services.Offers;
-using StadiumEngine.Services.Facades.Services.Rates;
-using StadiumEngine.Services.Facades.Settings;
+using StadiumEngine.Services.Application.Settings;
 using StadiumEngine.Services.Handlers.Offers;
 using StadiumEngine.Services.Identity;
 using StadiumEngine.Services.Infrastructure;
@@ -46,51 +46,51 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPasswordValidator, PasswordValidator>();
         services.AddScoped<IImageService, ImageService>();
 
-        #region facades
+        #region application
 
         services.AddScoped<IUserServiceFacade, UserServiceFacade>();
         services.AddScoped<IUserRepositoryFacade, UserRepositoryFacade>();
         services.AddScoped<IRoleRepositoryFacade, RoleRepositoryFacade>();
-        services.AddScoped<IUserQueryFacade, UserQueryFacade>();
-        services.AddScoped<IUserCommandFacade, UserCommandFacade>();
-        services.AddScoped<ILegalQueryFacade, LegalQueryFacade>();
-        services.AddScoped<ILegalCommandFacade, LegalCommandFacade>();
-        services.AddScoped<IRoleQueryFacade, RoleQueryFacade>();
-        services.AddScoped<IRoleCommandFacade, RoleCommandFacade>();
-        services.AddScoped<IPermissionCommandFacade, PermissionCommandFacade>();
+        services.AddScoped<IUserQueryService, UserQueryService>();
+        services.AddScoped<IUserCommandService, UserCommandService>();
+        services.AddScoped<ILegalQueryService, LegalQueryService>();
+        services.AddScoped<ILegalCommandService, LegalCommandService>();
+        services.AddScoped<IRoleQueryService, RoleQueryService>();
+        services.AddScoped<IRoleCommandService, RoleCommandService>();
+        services.AddScoped<IPermissionCommandService, PermissionCommandService>();
 
         services.AddScoped<IFieldServiceFacade, FieldServiceFacade>();
-        services.AddScoped<IFieldQueryFacade, FieldQueryFacade>();
-        services.AddScoped<IFieldCommandFacade, FieldCommandFacade>();
-        services.AddScoped<ILockerRoomQueryFacade, LockerRoomQueryFacade>();
-        services.AddScoped<ILockerRoomCommandFacade, LockerRoomCommandFacade>();
-        services.AddScoped<IInventoryQueryFacade, InventoryQueryFacade>();
-        services.AddScoped<IInventoryCommandFacade, InventoryCommandFacade>();
+        services.AddScoped<IFieldQueryService, FieldQueryService>();
+        services.AddScoped<IFieldCommandService, FieldCommandService>();
+        services.AddScoped<ILockerRoomQueryService, LockerRoomQueryService>();
+        services.AddScoped<ILockerRoomCommandService, LockerRoomCommandService>();
+        services.AddScoped<IInventoryQueryService, InventoryQueryService>();
+        services.AddScoped<IInventoryCommandService, InventoryCommandService>();
 
-        services.AddScoped<IPriceGroupQueryFacade, PriceGroupQueryFacade>();
-        services.AddScoped<IPriceGroupCommandFacade, PriceGroupCommandFacade>();
-        services.AddScoped<ITariffQueryFacade, TariffQueryFacade>();
-        services.AddScoped<ITariffCommandFacade, TariffCommandFacade>();
-        services.AddScoped<IPriceQueryFacade, PriceQueryFacade>();
-        services.AddScoped<IPriceCommandFacade, PriceCommandFacade>();
+        services.AddScoped<IPriceGroupQueryService, PriceGroupQueryService>();
+        services.AddScoped<IPriceGroupCommandService, PriceGroupCommandService>();
+        services.AddScoped<ITariffQueryService, TariffQueryService>();
+        services.AddScoped<ITariffCommandService, TariffCommandService>();
+        services.AddScoped<IPriceQueryService, PriceQueryService>();
+        services.AddScoped<IPriceCommandService, PriceCommandService>();
         services.AddScoped<ITariffRepositoryFacade, TariffRepositoryFacade>();
         
-        services.AddScoped<IMainSettingsQueryFacade, MainSettingsQueryFacade>();
-        services.AddScoped<IMainSettingsCommandFacade, MainSettingsCommandFacade>();
-        services.AddScoped<IBreakQueryFacade, BreakQueryFacade>();
-        services.AddScoped<IBreakCommandFacade, BreakCommandFacade>();
+        services.AddScoped<IMainSettingsQueryService, MainSettingsQueryService>();
+        services.AddScoped<IMainSettingsCommandService, MainSettingsCommandService>();
+        services.AddScoped<IBreakQueryService, BreakQueryService>();
+        services.AddScoped<IBreakCommandService, BreakCommandService>();
         
-        services.AddScoped<ICityQueryFacade, CityQueryFacade>();
+        services.AddScoped<ICityQueryService, CityQueryService>();
         
-        services.AddScoped<IBookingFormQueryFacade, BookingFormQueryFacade>();
-        services.AddScoped<IBookingFormCommandFacade, BookingFormCommandFacade>();
+        services.AddScoped<IBookingFormQueryService, BookingFormQueryService>();
+        services.AddScoped<IBookingFormCommandService, BookingFormCommandService>();
         services.AddScoped<IBookingFormFieldRepositoryFacade, BookingFormFieldRepositoryFacade>();
-        services.AddScoped<IBookingCheckoutQueryFacade, BookingCheckoutQueryFacade>();
-        services.AddScoped<IBookingCheckoutCommandFacade, BookingCheckoutCommandFacade>();
+        services.AddScoped<IBookingCheckoutQueryService, BookingCheckoutQueryService>();
+        services.AddScoped<IBookingCheckoutCommandService, BookingCheckoutCommandService>();
         services.AddScoped<IBookingRepositoriesFacade, BookingRepositoriesFacade>();
 
         services.AddScoped<IBookingFacade, BookingFacade>();
-        services.AddScoped<ISchedulerQueryFacade, SchedulerQueryFacade>();
+        services.AddScoped<ISchedulerQueryService, SchedulerQueryService>();
         
         #endregion
 

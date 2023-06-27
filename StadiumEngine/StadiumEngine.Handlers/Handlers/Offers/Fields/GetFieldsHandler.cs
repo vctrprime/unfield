@@ -1,6 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain.Entities.Offers;
-using StadiumEngine.Domain.Services.Facades.Offers;
+using StadiumEngine.Domain.Services.Application.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Fields;
 using StadiumEngine.Queries.Offers.Fields;
@@ -9,20 +9,20 @@ namespace StadiumEngine.Handlers.Handlers.Offers.Fields;
 
 internal sealed class GetFieldsHandler : BaseRequestHandler<GetFieldsQuery, List<FieldDto>>
 {
-    private readonly IFieldQueryFacade _fieldFacade;
+    private readonly IFieldQueryService _queryService;
 
     public GetFieldsHandler(
-        IFieldQueryFacade fieldFacade,
+        IFieldQueryService queryService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
-        _fieldFacade = fieldFacade;
+        _queryService = queryService;
     }
 
     public override async ValueTask<List<FieldDto>> Handle( GetFieldsQuery request,
         CancellationToken cancellationToken )
     {
-        List<Field> fields = await _fieldFacade.GetByStadiumIdAsync( _currentStadiumId );
+        List<Field> fields = await _queryService.GetByStadiumIdAsync( _currentStadiumId );
 
         List<FieldDto>? fieldsDto = Mapper.Map<List<FieldDto>>( fields );
 

@@ -1,5 +1,4 @@
 import {BaseEntityDto} from "../BaseEntityDto";
-import {FieldDto} from "../offers/FieldDto";
 
 export interface BreakDto extends BaseEntityDto {
     id: number,
@@ -10,6 +9,6 @@ export interface BreakDto extends BaseEntityDto {
     dateEnd: Date | null,
     startHour: string,
     endHour: string,
-    fields: FieldDto[],
+    selectedFields: number[],
     fieldsCount: number
 }

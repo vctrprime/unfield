@@ -1,7 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Commands.Settings.Breaks;
 using StadiumEngine.Domain;
-using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Settings.Breaks;
 using StadiumEngine.Handlers.Facades.Settings.Breaks;
