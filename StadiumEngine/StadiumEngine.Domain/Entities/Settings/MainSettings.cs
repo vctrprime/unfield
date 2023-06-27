@@ -20,4 +20,7 @@ public class MainSettings : BaseUserEntity
     
     [NotMapped]
     public new int? UserCreatedId { get; set; }
+    
+    [NotMapped]
+    public new virtual User UserCreated { get; set; }
 }

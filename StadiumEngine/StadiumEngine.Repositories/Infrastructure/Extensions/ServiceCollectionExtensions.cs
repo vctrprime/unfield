@@ -27,7 +27,13 @@ public static class ServiceCollectionExtensions
     private static IServiceCollection RegisterContexts( this IServiceCollection services )
     {
         string? connectionString = Environment.GetEnvironmentVariable( "DB_CONNECTION_STRING" );
-        services.AddDbContext<MainDbContext>( options => { options.UseNpgsql( connectionString ); } );
+        services.AddDbContext<MainDbContext>(
+            options =>
+            {
+                options.UseNpgsql(
+                    connectionString,
+                    o => o.UseQuerySplittingBehavior( QuerySplittingBehavior.SplitQuery ) );
+            } );
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
@@ -84,7 +90,7 @@ public static class ServiceCollectionExtensions
         #endregion
 
         #region booking
-        
+
         services.AddScoped<IBookingRepository, BookingRepository>();
         services.AddScoped<IBookingCostRepository, BookingCostRepository>();
         services.AddScoped<IBookingCustomerRepository, BookingCustomerRepository>();

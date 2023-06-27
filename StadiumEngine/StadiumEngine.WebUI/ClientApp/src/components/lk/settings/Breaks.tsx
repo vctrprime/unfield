@@ -128,7 +128,7 @@ export const Breaks = () => {
         settingsService.getBreaks().then((result: BreakDto[]) => {
             setTimeout(() => {
                 setData(result);
-                setBreaks(result);
+                setBreaks(JSON.parse(JSON.stringify(result)));
                 setIsLoading(false);
             }, 500);
         })
