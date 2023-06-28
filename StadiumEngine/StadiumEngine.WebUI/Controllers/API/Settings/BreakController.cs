@@ -20,6 +20,7 @@ public class BreakController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
+    [HasPermission( PermissionsKeys.GetBreaks )]
     public async Task<List<BreakDto>> GetAll()
     {
         List<BreakDto> breaks = await Mediator.Send( new GetBreaksQuery() );
@@ -31,6 +32,7 @@ public class BreakController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet( "{breakId}" )]
+    [HasPermission( PermissionsKeys.GetBreaks )]
     public async Task<BreakDto> Get( [FromRoute] GetBreakQuery query )
     {
         BreakDto @break = await Mediator.Send( query );
@@ -42,7 +44,7 @@ public class BreakController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    [HasPermission( PermissionsKeys.UpdateMainSettings )]
+    [HasPermission( PermissionsKeys.InsertBreak )]
     public async Task<AddBreakDto> Post( [FromBody] AddBreakCommand command )
     {
         AddBreakDto dto = await Mediator.Send( command );
@@ -54,7 +56,7 @@ public class BreakController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPut]
-    [HasPermission( PermissionsKeys.UpdateMainSettings )]
+    [HasPermission( PermissionsKeys.UpdateBreak )]
     public async Task<UpdateBreakDto> Put( [FromBody] UpdateBreakCommand command )
     {
         UpdateBreakDto dto = await Mediator.Send( command );
@@ -66,7 +68,7 @@ public class BreakController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpDelete( "{breakId}" )]
-    [HasPermission( PermissionsKeys.UpdateMainSettings )]
+    [HasPermission( PermissionsKeys.DeleteBreak )]
     public async Task<DeleteBreakDto> Delete( [FromRoute] DeleteBreakCommand command )
     {
         DeleteBreakDto dto = await Mediator.Send( command );

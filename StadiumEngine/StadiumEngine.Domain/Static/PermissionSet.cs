@@ -324,10 +324,10 @@ public static class PermissionSet
         },
         new PermissionGroup
         {
-            Key = PermissionsKeys.MainSettingsGroup,
+            Key = PermissionsKeys.SettingsGroup,
             Sort = 1,
-            Name = "Основные настройки",
-            Description = "Управление основными настройками объекта",
+            Name = "Управление объектом",
+            Description = "Управление настройками объекта",
             Permissions = new List<Permission>
             {
                 new()
@@ -335,8 +335,36 @@ public static class PermissionSet
                     Name = PermissionsKeys.UpdateMainSettings,
                     DisplayName = "Обновление основных настроек",
                     Description = "Возможность изменить основные данные по объекту",
+                    Sort = 5
+                },
+                new()
+                {
+                    Name = PermissionsKeys.GetBreaks,
+                    DisplayName = "Просмотр перерывов",
+                    Description = "Просмотр списка перерывов",
                     Sort = 1
-                }
+                },
+                new()
+                {
+                    Name = PermissionsKeys.InsertBreak,
+                    DisplayName = "Добавление перерыва",
+                    Description = "Возможность добавить перерыв",
+                    Sort = 2
+                },
+                new()
+                {
+                    Name = PermissionsKeys.UpdateBreak,
+                    DisplayName = "Обновление перерыва",
+                    Description = "Возможность изменить данные перерыва",
+                    Sort = 3
+                },
+                new()
+                {
+                    Name = PermissionsKeys.DeleteBreak,
+                    DisplayName = "Удаление перерыва",
+                    Description = "Возможность удалить перерыв",
+                    Sort = 4
+                },
             }
         }
     };

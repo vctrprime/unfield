@@ -43,6 +43,10 @@ export class PermissionsKeys {
     public static readonly GetBookings = "get-bookings";
 
     public static readonly UpdateMainSettings = "update-main-settings";
+    public static readonly GetBreaks = "get-breaks";
+    public static readonly InsertBreak = "insert-break";
+    public static readonly UpdateBreak = "update-break";
+    public static readonly DeleteBreak = "delete-break";
 
     public static readonly ScheduleGroup = "schedule";
     public static readonly OffersGroup = "offers";
@@ -50,5 +54,5 @@ export class PermissionsKeys {
     public static readonly EmployeesGroup = "employees";
     public static readonly ReportsGroup = "reports";
     public static readonly AccountsGroup = "accounts";
-    public static readonly MainSettingsGroup = "main-settings";
+    public static readonly SettingsGroup = "settings";
 }

@@ -20,7 +20,7 @@ public class FieldController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [HasPermission( $"{PermissionsKeys.GetFields},{PermissionsKeys.GetPrices},{PermissionsKeys.UpdateMainSettings}" )]
+    [HasPermission( $"{PermissionsKeys.GetFields},{PermissionsKeys.GetPrices},{PermissionsKeys.GetBreaks}" )]
     public async Task<List<FieldDto>> GetAll()
     {
         List<FieldDto> fields = await Mediator.Send( new GetFieldsQuery() );

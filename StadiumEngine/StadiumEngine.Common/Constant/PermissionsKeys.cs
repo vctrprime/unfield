@@ -46,6 +46,10 @@ public static class PermissionsKeys
     public const string GetBookings = "get-bookings";
 
     public const string UpdateMainSettings = "update-main-settings";
+    public const string GetBreaks = "get-breaks";
+    public const string InsertBreak = "insert-break";
+    public const string UpdateBreak = "update-break";
+    public const string DeleteBreak = "delete-break";
 
     public const string ScheduleGroup = "schedule";
     public const string OffersGroup = "offers";
@@ -53,5 +57,5 @@ public static class PermissionsKeys
     public const string EmployeesGroup = "employees";
     public const string ReportsGroup = "reports";
     public const string AccountsGroup = "accounts";
-    public const string MainSettingsGroup = "main-settings";
+    public const string SettingsGroup = "settings";
 }
