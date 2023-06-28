@@ -35,5 +35,7 @@
     "footer": "Онлайн-сервисы для спортивных объектов - Stadium Engine",
     "hour_short": "ч",
     "hour_long": "час",
-    "minute_short": "мин"
+    "minute_short": "мин",
+    "from": "с",
+    "to": "до"
 }

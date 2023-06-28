@@ -40,12 +40,12 @@ public class BreakDto : BaseEntityDto
     /// <summary>
     /// Час начала
     /// </summary>
-    public string StartHour { get; set; } = null!;
+    public decimal StartHour { get; set; }
     
     /// <summary>
     /// Час окончания
     /// </summary>
-    public string EndHour { get; set; } = null!;
+    public decimal EndHour { get; set; }
 
     /// <summary>
     /// Площадки

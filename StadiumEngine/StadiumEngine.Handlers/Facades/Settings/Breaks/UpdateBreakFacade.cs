@@ -34,8 +34,8 @@ internal class UpdateBreakFacade : IUpdateBreakFacade
         @break.UserModifiedId = userId;
         @break.Name = request.Name;
         @break.Description = request.Description;
-        @break.StartHour = TimePointParser.Parse( request.StartHour );
-        @break.EndHour = TimePointParser.Parse( request.EndHour );
+        @break.StartHour = request.StartHour;
+        @break.EndHour = request.EndHour;
         
         _commandService.UpdateBreak( @break, request.SelectedFields );
 

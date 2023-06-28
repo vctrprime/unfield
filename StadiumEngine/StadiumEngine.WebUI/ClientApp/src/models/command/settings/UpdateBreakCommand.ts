@@ -5,7 +5,7 @@ export interface UpdateBreakCommand {
     isActive: boolean,
     dateStart: Date,
     dateEnd: Date | null,
-    startHour: string,
-    endHour: string,
+    startHour: number,
+    endHour: number,
     selectedFields: number[]
 }

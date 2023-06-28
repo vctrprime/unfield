@@ -9,5 +9,11 @@ export interface DateRangeSelectProps {
 }
 
 export const DateRangeSelect = (props: DateRangeSelectProps) => {
-    return <SemanticDatepicker className="date-range-picker" firstDayOfWeek={1} datePickerOnly={true} value={props.value} locale={getLocale()} onChange={props.onChange} type="range" />;
+    return <SemanticDatepicker 
+        className="date-range-picker" 
+        firstDayOfWeek={1} 
+        datePickerOnly={true} 
+        format={"DD.MM.YYYY"}
+        value={props.value} 
+        locale={getLocale()} onChange={props.onChange} type="range" />;
 };

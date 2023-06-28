@@ -47,6 +47,7 @@ export class SettingsService extends BaseService implements ISettingsService {
     getBreak(id: number): Promise<BreakDto> {
         return this.fetchWrapper.get({
             url: `${this.baseUrl}/breaks/${id}`,
+            hideSpinner: false
         })
     }
 

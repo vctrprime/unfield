@@ -14,6 +14,7 @@ import {GridLoading} from "../common/GridLoading";
 import {permissionsAtom} from "../../../state/permissions";
 import {UpdateBreakCommand} from "../../../models/command/settings/UpdateBreakCommand";
 import {breaksAtom} from "../../../state/settings/breaks";
+import {parse} from "../../../helpers/time-point-parser";
 
 const AgGrid = require('ag-grid-react');
 const {AgGridReact} = AgGrid;
@@ -77,7 +78,7 @@ export const Breaks = () => {
 
     const HoursPeriodRenderer = (obj: any) => {
         const row = obj.data as BreakDto;
-        return <span>{row.startHour} - {row.endHour}</span>;
+        return <span>{parse(row.startHour)} - {parse(row.endHour)}</span>;
     }
 
     const columnDefs = [
@@ -141,7 +142,7 @@ export const Breaks = () => {
     return (<div className="breaks-container">
         <div className="breaks-btns">
             <Button
-                disabled={permissions.filter(p => p.name === PermissionsKeys.UpdateMainSettings).length === 0}
+                disabled={permissions.filter(p => p.name === PermissionsKeys.InsertBreak).length === 0}
                 onClick={() => navigate("/lk/settings/breaks/new")}>{t('settings:breaks_grid:add')}</Button>
             {data.length === 0 && !isLoading && <span>{t('settings:breaks_grid:no_rows')}</span>}
         </div>
