@@ -9,7 +9,7 @@ public class BookingCheckoutData
     public string Day { get; set; } = null!;
     public Field Field { get; set; } = null!;
     public Tariff Tariff { get; set; } = null!;
-    public List<Inventory> Inventories { get; set; } = null!;
+    public Dictionary<Inventory, decimal> Inventories { get; set; } = null!;
 
     public List<BookingCheckoutDataDurationAmount> DurationAmounts { get; set; } = null!;
     

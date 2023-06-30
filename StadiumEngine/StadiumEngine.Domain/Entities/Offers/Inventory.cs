@@ -17,5 +17,5 @@ public class Inventory : BaseOfferEntity
     [Column( "quantity" )]
     public decimal Quantity { get; set; }
     
-    public virtual ICollection<BookingInventory> Inventories { get; set; }
+    public virtual ICollection<BookingInventory> BookingInventories { get; set; }
 }

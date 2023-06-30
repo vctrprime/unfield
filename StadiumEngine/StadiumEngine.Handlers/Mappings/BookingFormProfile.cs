@@ -10,6 +10,7 @@ using StadiumEngine.Domain.Extensions;
 using StadiumEngine.Domain.Services.Models.BookingForm;
 using StadiumEngine.DTO.BookingForm;
 using StadiumEngine.DTO.Offers.Fields;
+using StadiumEngine.DTO.Offers.Inventories;
 using StadiumEngine.Services;
 
 namespace StadiumEngine.Handlers.Mappings;
@@ -33,6 +34,9 @@ internal class BookingFormProfile : Profile
                 act => act.MapFrom( s => BookingSource.Form ) );
 
         CreateMap<BookingCheckoutData, BookingCheckoutDto>()
+            .ForMember(
+                dest => dest.Inventories,
+                act => act.MapFrom( s => MapInventories( s.Inventories ) ) )
             .ForMember(
                 dest => dest.StadiumName,
                 act => act.MapFrom( s => $"{s.Field.Stadium.Name}, {s.Field.Stadium.City.Name}" ) );
@@ -134,7 +138,11 @@ internal class BookingFormProfile : Profile
                                               (
                                                   fieldBreak != null
                                                   && fieldBreak.StartHour - ( decimal )0.5 == slot.Item1
-                                                  && FindBreak( breaks, day, slot, 0 ) == null
+                                                  && FindBreak(
+                                                      breaks,
+                                                      day,
+                                                      slot,
+                                                      0 ) == null
                                               ) )
                 } );
         }
@@ -201,4 +209,16 @@ internal class BookingFormProfile : Profile
             Width = field.Width,
             Length = field.Length
         };
+
+    private List<InventoryDto> MapInventories( Dictionary<Inventory, decimal> source ) =>
+        source.Select(
+            x => new InventoryDto
+            {
+                Id = x.Key.Id,
+                Currency = x.Key.Currency,
+                Name = x.Key.Name,
+                Price = x.Key.Price,
+                Quantity = x.Value,
+                Images = x.Key.Images.OrderBy( i => i.Order ).Select( i => i.Path ).ToList()
+            } ).ToList();
 }

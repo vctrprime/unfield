@@ -56,6 +56,7 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
             .ThenInclude( x => x.ChildFields )
             .Include( x => x.Tariff )
             .Include( x => x.Costs )
+            .Include( x => x.Inventories )
             .Where( clause )
             .ToListAsync();
 

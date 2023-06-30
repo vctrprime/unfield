@@ -9,12 +9,14 @@ public class SchedulerEvent
     public int EventId { get; }
     
     public int FieldId { get; }
+
+    public string Title => BookingsCount <= 1 ? _title : GetMoreThanOneTitle();
     
-    public string Title { get; }
+    private string _title { get; }
     
     public DateTime Start { get; }
     
-    public DateTime End { get; }
+    public DateTime End { get; set; }
     
     public bool Disabled => Data == null;
     
@@ -29,15 +31,23 @@ public class SchedulerEvent
     public bool AllDay => false;
     public Booking? Data { get; }
     
-    public SchedulerEvent( Booking data, int? fieldId = null )
+    public int BookingsCount { get; set; }
+    private string Language { get; }
+    
+    public SchedulerEvent( Booking data, string language, 
+        int? fieldId = null,
+        DateTime? start = null,
+        DateTime? end = null)
     {
+        Language = language;
         EventId = data.Id;
-        Start = data.Day.AddHours( ( double )data.StartHour );
-        End = Start.AddHours( ( double )data.HoursCount );
-        Title = $"{data.Number} | {data.Customer.Name} | {data.Amount}";
+        Start = start ?? data.Day.AddHours( ( double )data.StartHour );
+        End = end ?? Start.AddHours( ( double )data.HoursCount );
+        _title = $"{data.Number} | {data.Customer.Name} | {data.Amount}";
         Color = data.IsWeekly ? "#20B2AA" : data.Source == BookingSource.Form ? "#3CB371" : "#4682B4";
         Editable = End > DateTime.Now;
         Deletable = End > DateTime.Now;
+        BookingsCount = 1;
 
         if ( !fieldId.HasValue )
         {
@@ -52,20 +62,28 @@ public class SchedulerEvent
     
     public SchedulerEvent( BreakField breakField, DateTime date, string language )
     {
+        Language = language;
         EventId = 0;
         Start = date.AddHours( ( double )breakField.Break.StartHour );
         End = date.AddHours( ( double ) breakField.Break.EndHour );
-        Title = GetBreakTitle( language );
+        _title = GetBreakTitle();
         Color = "";
         Editable = false;
         Deletable = false;
         FieldId = breakField.FieldId;
     }
 
-    private string GetBreakTitle(string language) =>
-        language switch
+    private string GetBreakTitle() =>
+        Language switch
         {
             "en" => "Break",
             _ => "Перерыв"
+        };
+    
+    private string GetMoreThanOneTitle() =>
+        Language switch
+        {
+            "en" => "Multiple bookings",
+            _ => "Несколько броней"
         };
 }
