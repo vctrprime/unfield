@@ -37,5 +37,6 @@
     "hour_long": "час",
     "minute_short": "мин",
     "from": "с",
-    "to": "до"
+    "to": "до",
+    "available_qty": "Доступное количество"
 }

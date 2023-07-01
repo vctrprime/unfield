@@ -14,7 +14,6 @@ import {PromoCodeType} from "../../models/dto/rates/enums/PromoCodeType";
 import {getDurationText, getTitle} from "../../helpers/utils";
 import {Button, Dropdown, Form, Icon, Input} from "semantic-ui-react";
 import {t} from "i18next";
-import {InventoryDto} from "../../models/dto/offers/InventoryDto";
 import {SportKind} from "../../models/dto/offers/enums/SportKind";
 import noImage from "../../img/no-image.png";
 import {
@@ -25,7 +24,6 @@ import i18n from "../../i18n/i18n";
 import PhoneInput from "react-phone-input-2";
 import ru from 'react-phone-input-2/lang/ru.json'
 import {BookingCancelModal} from "./BookingCancelModal";
-import {Nu} from "react-flags-select";
 
 type CheckoutLocationState = {
     bookingNumber: string;
@@ -43,9 +41,10 @@ type PromoMessage = {
 }
 
 interface InventoryRowProps {
-    inventory: BookingCheckoutInventoryDto
-    action: any;
-    added: boolean;
+    inventory: BookingCheckoutInventoryDto;
+    selectedInventories: SelectedInventory[];
+    setSelectedInventories: any;
+    
 }
 
 interface SelectedInventory {
@@ -55,20 +54,61 @@ interface SelectedInventory {
 }
 
 const InventoryRow = (props: InventoryRowProps) => {
+    let selectedInventory = props.selectedInventories.find( x => x.id === props.inventory.id);
+    
+    const addInventory = () => {
+        let copy: SelectedInventory[] = [];
+        
+        if ( selectedInventory) {
+            if (selectedInventory.quantity < props.inventory.quantity) {
+                selectedInventory.quantity++;
+                copy = [...props.selectedInventories.filter( i => i !== selectedInventory)]
+            }
+            else {
+                return;
+            }
+        }
+        else {
+            selectedInventory = {
+                id: props.inventory.id,
+                quantity: 1,
+                price: props.inventory.price
+            }
+            copy = [...props.selectedInventories];
+        }
+        
+        copy.push(selectedInventory);
+        props.setSelectedInventories(copy);
+    }
+    
+    const removeInventory = () => {
+        if (selectedInventory) {
+            selectedInventory.quantity -= 1;
+            const copy = [...props.selectedInventories.filter( i => i !== selectedInventory)]
+            if (selectedInventory.quantity > 0) {
+                copy.push(selectedInventory);
+            }
+            props.setSelectedInventories(copy);
+        }
+    }
+    
     return <div
-        style={props.added ? {backgroundColor: 'rgba(245, 245, 245, 1)'} : {} }
+        style={selectedInventory ? {backgroundColor: 'rgba(245, 245, 245, 1)'} : {} }
         className="booking-checkout-inventory-row">
         <div className="booking-checkout-inventory-row-block" style={{justifyContent: 'flex-start'}}>
             {props.inventory.image ?
                 <img src={"/legal-images/" + props.inventory.image}/> :
                 <img src={noImage}/>
             }
-            <div className="booking-checkout-inventory-row-name">{props.inventory.name} - {props.inventory.quantity}</div>
+            <div className="booking-checkout-inventory-row-name" title={t("common:available_qty")||''}>{props.inventory.name} ({props.inventory.quantity})</div>
         </div>
         <div className="booking-checkout-inventory-row-block" style={{justifyContent: 'flex-end'}}>
             <div className="booking-checkout-inventory-row-price">{props.inventory.price} {t("booking:checkout:rub")}/{t("common:hour_long")}</div>
-            <div className="booking-checkout-inventory-row-button" onClick={() => props.action(props.inventory)}>
-                {props.added ? <Icon name='remove circle' style={{ color: '#CD5C5C'}} /> : <Icon name='add circle' style={{ color: '#3CB371'}} />}
+            
+            <div className="booking-checkout-inventory-row-button">
+                <Icon onClick={() => removeInventory()} name='minus circle' style={{ color: '#CD5C5C', opacity: selectedInventory ? 1 : 0.5}} /> 
+                <span>{selectedInventory?.quantity || 0}</span>
+                <Icon onClick={() => addInventory()} name='add circle' style={{ color: '#3CB371', marginLeft: '5px', opacity: (selectedInventory?.quantity||0) < props.inventory.quantity ? 1 : 0.5}} />
             </div>
         </div>
     </div>
@@ -138,17 +178,6 @@ export const BookingCheckout = () => {
         setDiscounts(calculatedDiscounts);
     }
     
-    const addOrRemoveInventory = (inventory: InventoryDto) => {
-        if (selectedInventories.find(x => x.id === inventory.id)) {
-            setSelectedInventories(selectedInventories.filter( x => x.id !== inventory.id));
-        }
-        else {
-            const copy = [...selectedInventories];
-            copy.push(inventory);
-            setSelectedInventories(copy);
-        }
-    }
-    
     const getFieldAmountValue = () => {
         if (data) {
             const discount = discounts.find( x=> x.duration == selectedDuration);
@@ -209,6 +238,20 @@ export const BookingCheckout = () => {
     const [cancelModal, setCancelModal] = useState<boolean>(false)
     
     const inventories = data?.durationInventories.find( x => x.duration === selectedDuration)?.inventories || [];
+    
+    useEffect(() => {
+        const copySelectedInventories: SelectedInventory[] = [];
+        selectedInventories.forEach((i) => {
+            const inventory = inventories.find( x => x.id === i.id);
+            if (inventory) {
+                if (i.quantity > inventory.quantity) {
+                    i.quantity = inventory.quantity;
+                }
+                copySelectedInventories.push(i);
+            }
+        })
+        setSelectedInventories(copySelectedInventories);
+    }, [selectedDuration])
     
     return data === null  ? null :  <Container className="booking-checkout-container">
         <BookingCancelModal backPath={backPath} openModal={cancelModal} setOpenModal={setCancelModal} bookingNumber={bookingNumber} />
@@ -303,7 +346,7 @@ export const BookingCheckout = () => {
                 <div className="booking-checkout-inventories">
                     <div className="booking-checkout-inventories-title">{t("booking:checkout:inventory_header")}</div>
                     {inventories.map((inv, i) => {
-                        return <InventoryRow added={selectedInventories.filter(x => x.id === inv.id).length > 0} key={i}  inventory={inv} action={addOrRemoveInventory}/>
+                        return <InventoryRow selectedInventories={selectedInventories} key={i}  inventory={inv} setSelectedInventories={setSelectedInventories}/>
                         })}
                     <div className="booking-checkout-amount">{t("booking:checkout:amount_inventory")} &nbsp;<span style={{fontWeight: 'bold'}}>{getInventoryAmount()} {t("booking:checkout:rub")}</span></div>
             </div>}
@@ -362,8 +405,8 @@ export const BookingCheckout = () => {
                             return {
                                 inventoryId: inv.id,
                                 price: inv.price,
-                                quantity: 1,
-                                amount: inv.price * selectedDuration,
+                                quantity: inv.quantity,
+                                amount: inv.price * inv.quantity * selectedDuration,
                             } as FillBookingDataCommandInventory
                         })
                     }).then(() => {

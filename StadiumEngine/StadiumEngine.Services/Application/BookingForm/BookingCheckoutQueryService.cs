@@ -89,7 +89,9 @@ internal class BookingCheckoutQueryService : IBookingCheckoutQueryService
         };
     }
 
-    private async Task<List<BookingCheckoutDataDurationInventory>> GetInventories( Booking booking, IEnumerable<decimal> durations )
+    private async Task<List<BookingCheckoutDataDurationInventory>> GetInventories(
+        Booking booking,
+        IEnumerable<decimal> durations )
     {
         List<BookingCheckoutDataDurationInventory> result = new List<BookingCheckoutDataDurationInventory>();
 
@@ -111,6 +113,9 @@ internal class BookingCheckoutQueryService : IBookingCheckoutQueryService
             x => x.IsActive && booking.Field.SportKinds.Select( s => s.SportKind )
                 .Intersect( x.SportKinds.Select( s => s.SportKind ) ).Any() ).ToList();
 
+        List<int> notAvailableInventoriesIds = new List<int>();
+        Dictionary<Inventory, List<int>> alreadyAnalyzeBookingsIds = new Dictionary<Inventory, List<int>>();
+
         foreach ( decimal duration in durations )
         {
             BookingCheckoutDataDurationInventory durationInventory = new BookingCheckoutDataDurationInventory
@@ -118,27 +123,56 @@ internal class BookingCheckoutQueryService : IBookingCheckoutQueryService
                 Duration = duration,
                 Inventories = new List<BookingCheckoutDataInventory>()
             };
-            
+
             foreach ( Inventory inventory in inventories )
             {
+                if ( notAvailableInventoriesIds.Contains( inventory.Id ) )
+                {
+                    continue;
+                }
+
                 BookingCheckoutDataInventory checkoutInventory = new BookingCheckoutDataInventory
                 {
                     Id = inventory.Id,
                     Name = inventory.Name,
-                    Quantity = inventory.Quantity,
+                    Quantity =
+                        result.LastOrDefault()?.Inventories.SingleOrDefault( x => x.Id == inventory.Id )?.Quantity ??
+                        inventory.Quantity,
                     Price = inventory.Price,
                     Image = inventory.Images.Any() ? inventory.Images.OrderBy( i => i.Order ).First().Path : null
                 };
 
                 foreach ( Booking dayBooking in dayBookings )
                 {
-                    if ( !dayBooking.Costs.Any(
-                            x => (x.StartHour <= booking.StartHour
-                                  && booking.StartHour < x.EndHour)
-                                 || (x.StartHour < booking.StartHour + duration
-                                     && booking.StartHour + duration <= x.EndHour)) )
+                    if ( alreadyAnalyzeBookingsIds.ContainsKey( inventory ) &&
+                         alreadyAnalyzeBookingsIds[ inventory ].Contains( dayBooking.Id ) )
                     {
                         continue;
+                    }
+
+                    bool intersected = dayBooking.StartHour == booking.StartHour ||
+                                       dayBooking.StartHour + dayBooking.HoursCount == booking.StartHour + duration ||
+                                       ( booking.StartHour > dayBooking.StartHour && booking.StartHour <
+                                           dayBooking.StartHour + dayBooking.HoursCount ) ||
+                                       ( booking.StartHour + duration > dayBooking.StartHour &&
+                                         booking.StartHour + duration <
+                                         dayBooking.StartHour + dayBooking.HoursCount );
+
+                    if ( !intersected )
+                    {
+                        continue;
+                    }
+
+                    if ( alreadyAnalyzeBookingsIds.ContainsKey( inventory ) )
+                    {
+                        alreadyAnalyzeBookingsIds[ inventory ].Add( dayBooking.Id );
+                    }
+                    else
+                    {
+                        alreadyAnalyzeBookingsIds[ inventory ] = new List<int>
+                        {
+                            dayBooking.Id
+                        };
                     }
 
                     BookingInventory? dayBookingInventory =
@@ -149,18 +183,22 @@ internal class BookingCheckoutQueryService : IBookingCheckoutQueryService
                     }
 
                     checkoutInventory.Quantity -= dayBookingInventory.Quantity;
+                    if ( checkoutInventory.Quantity < 1 )
+                    {
+                        notAvailableInventoriesIds.Add( inventory.Id );
+                        break;
+                    }
                 }
 
                 if ( checkoutInventory.Quantity > 0 )
                 {
                     durationInventory.Inventories.Add( checkoutInventory );
                 }
-                
             }
-            
+
             result.Add( durationInventory );
         }
-        
+
         return result;
     }
 }
