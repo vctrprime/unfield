@@ -1,13 +1,10 @@
-import {TariffDto} from "../rates/TariffDto";
 import {FieldDto} from "../offers/FieldDto";
-import {InventoryDto} from "../offers/InventoryDto";
-
 
 export interface BookingCheckoutDto {
     bookingNumber: string;
     day: string;
     stadiumName: string;
-    tariff: TariffDto;
+    tariffId: number;
     field: FieldDto;
     durationInventories: BookingCheckoutDurationInventoryDto[];
     durationAmounts: BookingCheckoutDurationAmountDto[];

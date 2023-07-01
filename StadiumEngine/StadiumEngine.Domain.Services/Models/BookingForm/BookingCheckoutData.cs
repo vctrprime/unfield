@@ -8,7 +8,7 @@ public class BookingCheckoutData
     public string BookingNumber { get; set; } = null!;
     public string Day { get; set; } = null!;
     public Field Field { get; set; } = null!;
-    public Tariff Tariff { get; set; } = null!;
+    public int TariffId { get; set; }
     public List<BookingCheckoutDataDurationInventory> DurationInventories { get; set; } = null!;
 
     public List<BookingCheckoutDataDurationAmount> DurationAmounts { get; set; } = null!;

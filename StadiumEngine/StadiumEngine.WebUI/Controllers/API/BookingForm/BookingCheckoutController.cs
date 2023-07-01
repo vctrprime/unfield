@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.DTO.BookingForm;
+using StadiumEngine.DTO.Rates.Tariffs;
 using StadiumEngine.Queries.BookingForm;
 
 namespace StadiumEngine.WebUI.Controllers.API.BookingForm;
@@ -23,6 +24,18 @@ public class BookingCheckoutController : BaseApiController
     {
         BookingCheckoutDto bookingCheckout = await Mediator.Send( query );
         return bookingCheckout;
+    }
+    
+    /// <summary>
+    /// Проверить промокд
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpGet("promo/check")]
+    public async Task<PromoCodeDto?> CheckPromoCode( [FromQuery] BookingCheckoutCheckPromoCodeQuery query )
+    {
+        PromoCodeDto? promoCodeDto = await Mediator.Send( query );
+        return promoCodeDto;
     }
 
 }

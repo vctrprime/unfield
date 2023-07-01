@@ -319,18 +319,20 @@ export const BookingCheckout = () => {
                             return;
                         }
 
-                        const tariffPromo = data?.tariff.promoCodes.find( x => x.code.toLowerCase() === promoInput.current?.value.toLowerCase()) || null;
+                        bookingFormService.checkPromoCode( data?.tariffId, promoInput.current?.value).then((result) => {
+                            const tariffPromo = result;
+                            setPromoMessage(tariffPromo ? {
+                                message: t("booking:checkout:promo_success"),
+                                success: true
+                            }: {
+                                message: t("booking:checkout:promo_not_found"),
+                                success: false
+                            });
 
-                        setPromoMessage(tariffPromo ? {
-                            message: t("booking:checkout:promo_success"),
-                            success: true
-                        }: {
-                            message: t("booking:checkout:promo_not_found"),
-                            success: false
-                        });
-
-                        setPromo(tariffPromo);
-
+                            setPromo(tariffPromo ? tariffPromo : null);
+                        }).catch(() => {
+                            setPromo(null);
+                        })
                     }} />
                 <Icon
                     name='repeat'

@@ -26,9 +26,9 @@ public class BookingCheckoutDto
     public string StadiumName { get; set; } = null!;
 
     /// <summary>
-    /// Данные тарифа
+    /// id тарифа
     /// </summary>
-    public TariffDto Tariff { get; set; } = null!;
+    public int TariffId { get; set; }
     
     /// <summary>
     /// Данные площадки

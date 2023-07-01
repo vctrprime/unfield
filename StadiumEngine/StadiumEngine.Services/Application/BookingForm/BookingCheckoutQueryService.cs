@@ -2,8 +2,10 @@ using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Entities.Offers;
+using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Repositories.Bookings;
 using StadiumEngine.Domain.Repositories.Offers;
+using StadiumEngine.Domain.Repositories.Rates;
 using StadiumEngine.Domain.Services.Application.BookingForm;
 using StadiumEngine.Domain.Services.Models.BookingForm;
 
@@ -13,11 +15,13 @@ internal class BookingCheckoutQueryService : IBookingCheckoutQueryService
 {
     private readonly IBookingRepository _bookingRepository;
     private readonly IInventoryRepository _inventoryRepository;
+    private readonly IPromoCodeRepository _promoCodeRepository;
 
-    public BookingCheckoutQueryService( IBookingRepository bookingRepository, IInventoryRepository inventoryRepository )
+    public BookingCheckoutQueryService( IBookingRepository bookingRepository, IInventoryRepository inventoryRepository, IPromoCodeRepository promoCodeRepository )
     {
         _bookingRepository = bookingRepository;
         _inventoryRepository = inventoryRepository;
+        _promoCodeRepository = promoCodeRepository;
     }
 
     public async Task<Booking> GetBookingDraftAsync( string bookingNumber )
@@ -82,12 +86,15 @@ internal class BookingCheckoutQueryService : IBookingCheckoutQueryService
             BookingNumber = booking.Number,
             Day = booking.Day.ToString( "dd.MM.yyyy" ),
             Field = booking.Field,
-            Tariff = booking.Tariff,
+            TariffId = booking.TariffId,
             DurationInventories = await GetInventories( booking, durationAmounts.Select( x => x.Duration ) ),
             DurationAmounts = durationAmounts,
             PointPrices = pointPrices
         };
     }
+
+    public async Task<PromoCode?> CheckPromoAsync( int tariffId, string code ) =>
+        await _promoCodeRepository.Get( tariffId, code );
 
     private async Task<List<BookingCheckoutDataDurationInventory>> GetInventories(
         Booking booking,

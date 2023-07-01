@@ -7,6 +7,7 @@ import {FillBookingDataCommand} from "../models/command/booking/FillBookingDataC
 import {CancelBookingCommand} from "../models/command/booking/CancelBookingCommand";
 import {ConfirmBookingCommand} from "../models/command/booking/ConfirmBookingCommand";
 import {t} from "i18next";
+import {PromoCodeDto} from "../models/dto/rates/TariffDto";
 
 export interface IBookingFormService {
     getBookingForm(date: Date, token: string|null, cityId: number|null, q: string|null): Promise<BookingFormDto>;
@@ -15,6 +16,7 @@ export interface IBookingFormService {
     fillBookingData(command: FillBookingDataCommand) : Promise<void>;
     cancelBooking(command: CancelBookingCommand) : Promise<void>;
     confirmBooking(command: ConfirmBookingCommand) : Promise<void>;
+    checkPromoCode(tariffId: number, code: string): Promise<PromoCodeDto|null>;
 }
 
 export class BookingFormService extends BaseService implements IBookingFormService {
@@ -74,6 +76,12 @@ export class BookingFormService extends BaseService implements IBookingFormServi
         return this.fetchWrapper.put({
             url: `${this.baseUrl}`,
             body: command
+        })
+    }
+
+    checkPromoCode(tariffId: number, code: string): Promise<PromoCodeDto | null> {
+        return this.fetchWrapper.get({
+            url: `${this.baseUrl}/checkout/promo/check?tariffId=${tariffId}&code=${code}`,
         })
     }
 }
