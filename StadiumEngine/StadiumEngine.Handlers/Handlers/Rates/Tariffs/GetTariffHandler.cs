@@ -2,7 +2,7 @@ using AutoMapper;
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Rates;
-using StadiumEngine.Domain.Services.Application.Rates;
+using StadiumEngine.Domain.Services.Core.Rates;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Rates.Tariffs;
 using StadiumEngine.Queries.Rates.Tariffs;

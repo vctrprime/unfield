@@ -1,5 +1,5 @@
 using AutoMapper;
-using StadiumEngine.Domain.Services.Application.BookingForm;
+using StadiumEngine.Domain.Services.Core.BookingForm;
 using StadiumEngine.Domain.Services.Models.BookingForm;
 using StadiumEngine.DTO.BookingForm;
 using StadiumEngine.Queries.BookingForm;

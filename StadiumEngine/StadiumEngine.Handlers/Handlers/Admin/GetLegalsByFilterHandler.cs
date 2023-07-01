@@ -1,6 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Services.Application.Accounts;
+using StadiumEngine.Domain.Services.Core.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Admin;
 using StadiumEngine.Queries.Admin;

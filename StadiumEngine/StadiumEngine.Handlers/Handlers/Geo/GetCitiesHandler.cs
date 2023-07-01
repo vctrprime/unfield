@@ -1,6 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain.Entities.Geo;
-using StadiumEngine.Domain.Services.Application.Geo;
+using StadiumEngine.Domain.Services.Core.Geo;
 using StadiumEngine.DTO.Geo;
 using StadiumEngine.Queries.Geo;
 

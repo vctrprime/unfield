@@ -1,7 +1,7 @@
 using AutoMapper;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Services.Application.Accounts;
-using StadiumEngine.Domain.Services.Application.Schedule;
+using StadiumEngine.Domain.Services.Core.Accounts;
+using StadiumEngine.Domain.Services.Core.Schedule;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.Domain.Services.Models.Schedule;
 using StadiumEngine.DTO.Schedule;

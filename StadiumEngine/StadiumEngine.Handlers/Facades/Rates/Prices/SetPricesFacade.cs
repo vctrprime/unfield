@@ -2,8 +2,8 @@ using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
-using StadiumEngine.Domain.Services.Application.Offers;
-using StadiumEngine.Domain.Services.Application.Rates;
+using StadiumEngine.Domain.Services.Core.Offers;
+using StadiumEngine.Domain.Services.Core.Rates;
 using StadiumEngine.DTO.Rates.Prices;
 
 namespace StadiumEngine.Handlers.Facades.Rates.Prices;

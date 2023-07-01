@@ -90,7 +90,7 @@ public class AuthorizeController : BaseApiController
             throw new DomainException( exceptionMessage );
         }
 
-        ClaimsIdentity claimsIdentity = new( user.Claims, "Identity.Application" );
+        ClaimsIdentity claimsIdentity = new( user.Claims, "Identity.Core" );
 
         if ( User.Identity is { IsAuthenticated: true } )
         {
@@ -98,7 +98,7 @@ public class AuthorizeController : BaseApiController
         }
 
         await HttpContext.SignInAsync(
-            "Identity.Application",
+            "Identity.Core",
             new ClaimsPrincipal( claimsIdentity ),
             new AuthenticationProperties { IsPersistent = true } );
 

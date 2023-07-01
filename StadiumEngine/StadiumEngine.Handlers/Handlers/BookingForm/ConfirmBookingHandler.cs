@@ -1,7 +1,7 @@
 using AutoMapper;
 using StadiumEngine.Commands.BookingForm;
 using StadiumEngine.Domain;
-using StadiumEngine.Domain.Services.Application.BookingForm;
+using StadiumEngine.Domain.Services.Core.BookingForm;
 using StadiumEngine.DTO.BookingForm;
 
 namespace StadiumEngine.Handlers.Handlers.BookingForm;

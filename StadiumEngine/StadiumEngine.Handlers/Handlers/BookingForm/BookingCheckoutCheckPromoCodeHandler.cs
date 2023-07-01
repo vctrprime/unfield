@@ -1,6 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain.Entities.Rates;
-using StadiumEngine.Domain.Services.Application.BookingForm;
+using StadiumEngine.Domain.Services.Core.BookingForm;
 using StadiumEngine.DTO.Rates.Tariffs;
 using StadiumEngine.Queries.BookingForm;
 

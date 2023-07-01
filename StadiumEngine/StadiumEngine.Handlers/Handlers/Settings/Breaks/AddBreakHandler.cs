@@ -2,7 +2,7 @@ using AutoMapper;
 using StadiumEngine.Commands.Settings.Breaks;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Settings;
-using StadiumEngine.Domain.Services.Application.Settings;
+using StadiumEngine.Domain.Services.Core.Settings;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Settings.Breaks;
 

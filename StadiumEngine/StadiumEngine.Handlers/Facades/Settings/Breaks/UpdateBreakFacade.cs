@@ -3,7 +3,7 @@ using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Common.Static;
 using StadiumEngine.Domain.Entities.Settings;
-using StadiumEngine.Domain.Services.Application.Settings;
+using StadiumEngine.Domain.Services.Core.Settings;
 using StadiumEngine.DTO.Settings.Breaks;
 
 namespace StadiumEngine.Handlers.Facades.Settings.Breaks;

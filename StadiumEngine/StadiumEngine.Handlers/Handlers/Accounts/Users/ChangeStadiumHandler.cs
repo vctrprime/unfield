@@ -3,7 +3,7 @@ using AutoMapper;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Extensions;
-using StadiumEngine.Domain.Services.Application.Accounts;
+using StadiumEngine.Domain.Services.Core.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts.Users;
 using StadiumEngine.Commands.Accounts.Users;

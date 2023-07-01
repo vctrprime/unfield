@@ -1,6 +1,6 @@
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Services.Application.Accounts;
+using StadiumEngine.Domain.Services.Core.Accounts;
 using StadiumEngine.Domain.Services.Infrastructure;
 using StadiumEngine.DTO.Accounts.Users;
 

@@ -1,7 +1,7 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Offers;
-using StadiumEngine.Domain.Services.Application.Offers;
+using StadiumEngine.Domain.Services.Core.Offers;
 using StadiumEngine.DTO.Offers.Inventories;
 using StadiumEngine.Commands.Offers.Inventories;
 

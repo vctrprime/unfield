@@ -2,7 +2,7 @@ using AutoMapper;
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Offers;
-using StadiumEngine.Domain.Services.Application.Offers;
+using StadiumEngine.Domain.Services.Core.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.LockerRooms;
 using StadiumEngine.Queries.Offers.LockerRooms;

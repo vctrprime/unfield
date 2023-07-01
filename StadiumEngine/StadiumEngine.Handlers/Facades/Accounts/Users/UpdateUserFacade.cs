@@ -1,7 +1,7 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Services.Application.Accounts;
+using StadiumEngine.Domain.Services.Core.Accounts;
 using StadiumEngine.DTO.Accounts.Users;
 using StadiumEngine.Commands.Accounts.Users;
 

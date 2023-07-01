@@ -2,7 +2,7 @@ using StadiumEngine.Commands.Settings.Main;
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Settings;
-using StadiumEngine.Domain.Services.Application.Settings;
+using StadiumEngine.Domain.Services.Core.Settings;
 using StadiumEngine.DTO.Settings.Main;
 
 namespace StadiumEngine.Handlers.Facades.Settings.Main;

@@ -1,7 +1,7 @@
 using AutoMapper;
 using Mediator;
 using StadiumEngine.Domain.Entities.Settings;
-using StadiumEngine.Domain.Services.Application.Settings;
+using StadiumEngine.Domain.Services.Core.Settings;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Fields;
 using StadiumEngine.DTO.Schedule;

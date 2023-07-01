@@ -86,9 +86,9 @@ public class Startup
                 } );
         }
 
-        services.AddAuthentication( "Identity.Application" )
+        services.AddAuthentication( "Identity.Core" )
             .AddCookie(
-                "Identity.Application",
+                "Identity.Core",
                 options =>
                 {
                     // Unauthorized return 401.

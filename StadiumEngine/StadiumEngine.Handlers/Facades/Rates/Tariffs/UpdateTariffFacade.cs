@@ -2,7 +2,7 @@ using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Rates;
-using StadiumEngine.Domain.Services.Application.Rates;
+using StadiumEngine.Domain.Services.Core.Rates;
 using StadiumEngine.DTO.Rates.Tariffs;
 using StadiumEngine.Commands.Rates.Tariffs;
 

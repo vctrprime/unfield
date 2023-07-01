@@ -1,6 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain;
-using StadiumEngine.Domain.Services.Application.Rates;
+using StadiumEngine.Domain.Services.Core.Rates;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Rates.Tariffs;
 using StadiumEngine.Commands.Rates.Tariffs;

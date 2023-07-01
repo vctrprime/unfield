@@ -1,7 +1,7 @@
 using AutoMapper;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Offers;
-using StadiumEngine.Domain.Services.Application.Offers;
+using StadiumEngine.Domain.Services.Core.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Fields;
 using StadiumEngine.Commands.Offers.Fields;

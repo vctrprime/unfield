@@ -1,6 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Domain.Entities.Offers;
-using StadiumEngine.Domain.Services.Application.Offers;
+using StadiumEngine.Domain.Services.Core.Offers;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Offers.Inventories;
 using StadiumEngine.Queries.Offers.Inventories;
