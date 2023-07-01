@@ -9,6 +9,7 @@ using StadiumEngine.DTO.Offers.LockerRooms;
 using StadiumEngine.Commands.Offers.Fields;
 using StadiumEngine.Commands.Offers.Inventories;
 using StadiumEngine.Commands.Offers.LockerRooms;
+using StadiumEngine.Handlers.Resolvers.Offers;
 
 namespace StadiumEngine.Handlers.Mappings;
 
@@ -17,7 +18,9 @@ internal class OffersProfile : Profile
     public OffersProfile()
     {
         CreateMap<LockerRoom, LockerRoomDto>()
-            .IncludeBase<BaseUserEntity, BaseEntityDto>();
+            .IncludeBase<BaseUserEntity, BaseEntityDto>()
+            .ForMember( dest => dest.Status, 
+                act => act.MapFrom<LockerRoomStatusResolver>() );
         CreateMap<AddLockerRoomCommand, LockerRoom>();
 
         CreateMap<Field, FieldDto>()

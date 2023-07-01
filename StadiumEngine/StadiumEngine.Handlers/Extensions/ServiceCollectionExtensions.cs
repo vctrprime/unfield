@@ -24,23 +24,7 @@ public static class ServiceCollectionExtensions
     {
         services.RegisterServices();
         services.AddMediator( options => options.ServiceLifetime = ServiceLifetime.Scoped );
-
-        MapperConfiguration mappingConfig = new MapperConfiguration(
-            cfg =>
-            {
-                cfg.AddProfile( new CommonProfile() );
-                cfg.AddProfile( new UtilsProfile() );
-                cfg.AddProfile( new AccountsProfile() );
-                cfg.AddProfile( new AdminProfile() );
-                cfg.AddProfile( new OffersProfile() );
-                cfg.AddProfile( new RatesProfile() );
-                cfg.AddProfile( new SettingsProfile() );
-                cfg.AddProfile( new GeoProfile() );
-                cfg.AddProfile( new BookingFormProfile() );
-                cfg.AddProfile( new SchedulerProfile() );
-            } );
-        services.AddSingleton( provider => mappingConfig.CreateMapper());
-
+        
         services.AddScoped<IAddUserFacade, AddUserFacade>();
         services.AddScoped<IUpdateUserFacade, UpdateUserFacade>();
         services.AddScoped<IChangeLegalFacade, ChangeLegalFacade>();
@@ -59,5 +43,21 @@ public static class ServiceCollectionExtensions
         
         services.AddScoped<IBookingFormDtoBuilder, BookingFormDtoBuilder>();
         services.AddScoped<IBookingCheckoutDtoBuilder, BookingCheckoutDtoBuilder>();
+        
+        MapperConfiguration mappingConfig = new MapperConfiguration(
+            cfg =>
+            {
+                cfg.AddProfile( new CommonProfile() );
+                cfg.AddProfile( new UtilsProfile() );
+                cfg.AddProfile( new AccountsProfile() );
+                cfg.AddProfile( new AdminProfile() );
+                cfg.AddProfile( new OffersProfile() );
+                cfg.AddProfile( new RatesProfile() );
+                cfg.AddProfile( new SettingsProfile() );
+                cfg.AddProfile( new GeoProfile() );
+                cfg.AddProfile( new BookingFormProfile() );
+                cfg.AddProfile( new SchedulerProfile() );
+            } );
+        services.AddSingleton( provider => mappingConfig.CreateMapper());
     }
 }

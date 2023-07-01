@@ -31,4 +31,9 @@ public class LockerRoomDto : BaseEntityDto
     ///     Активность
     /// </summary>
     public bool IsActive { get; set; }
+    
+    /// <summary>
+    /// Статус
+    /// </summary>
+    public LockerRoomStatus Status { get; set; }
 }

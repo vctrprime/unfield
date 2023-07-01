@@ -24,5 +24,5 @@ public class LockerRoom : BaseUserEntity
     [ForeignKey( "StadiumId" )]
     public virtual Stadium Stadium { get; set; }
 
-    public virtual ICollection<Booking> Bookings { get; set; }
+    public virtual ICollection<BookingLockerRoom> BookingLockerRooms { get; set; }
 }

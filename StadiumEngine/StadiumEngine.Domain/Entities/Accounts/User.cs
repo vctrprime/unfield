@@ -168,4 +168,10 @@ public class User : BaseUserEntity
 
     [InverseProperty( "UserModified" )]
     public virtual ICollection<BreakField> LastModifiedBreakFields { get; set; }
+    
+    [InverseProperty( "UserCreated" )]
+    public virtual ICollection<BookingLockerRoom> CreatedBookingLockerRooms { get; set; }
+
+    [InverseProperty( "UserModified" )]
+    public virtual ICollection<BookingLockerRoom> LastModifiedBookingLockerRooms { get; set; }
 }

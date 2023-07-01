@@ -2,6 +2,28 @@
 
 .locker-rooms-container, .fields-container, .inventories-container {
   height: 100%;
+  
+  .locker-room-status {
+    position: absolute;
+    width: 100%;
+    
+    &.unknown {
+      background-color: #eee;
+    }
+    
+    &.busy {
+      background-color: lightgoldenrodyellow;
+    }
+    &.ready {
+      background-color: #3CB371;
+      color: white;
+    }
+    
+    &.need-cleaning {
+      background-color: #CD5C5C;
+      color: white;
+    }
+  }
 }
 
 .locker-room-form, .field-form, .inventory-form {

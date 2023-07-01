@@ -35,9 +35,6 @@ public class Booking : BaseBookingEntity
     [Column( "tariff_id" )]
     public int TariffId { get; set; }
     
-    [Column( "locker_room_id" )]
-    public int? LockerRoomId { get; set; }
-    
     [Column( "is_draft" )]
     public bool IsDraft { get; set; }
     
@@ -71,10 +68,7 @@ public class Booking : BaseBookingEntity
     [ForeignKey( "TariffId" )]
     public virtual Tariff Tariff { get; set; } = null!;
 
-    [ForeignKey( "LockerRoomId" )]
-    public virtual LockerRoom? LockerRoom { get; set; }
-    
-    
+    public virtual BookingLockerRoom? BookingLockerRoom { get; set; }
     public virtual BookingCustomer Customer { get; set; } = null!;
     public virtual ICollection<BookingCost> Costs { get; set; } = null!;
     public virtual ICollection<BookingInventory> Inventories { get; set; } = null!;

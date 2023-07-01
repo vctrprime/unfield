@@ -16,6 +16,7 @@ import {LockerRoomGender} from "../../../models/dto/offers/enums/LockerRoomGende
 import {PermissionsKeys} from "../../../static/PermissionsKeys";
 import {permissionsAtom} from "../../../state/permissions";
 import {lockerRoomsAtom} from "../../../state/offers/lockerRooms";
+import {LockerRoomStatus} from "../../../models/dto/offers/enums/LockerRoomStatus";
 
 const AgGrid = require('ag-grid-react');
 const {AgGridReact} = AgGrid;
@@ -62,6 +63,19 @@ export const LockerRooms = () => {
         }
     }
 
+    const StatusRenderer = (obj: any) => {
+        switch (obj.data.status) {
+            case LockerRoomStatus.Unknown:
+                return <div className="locker-room-status unknown">{t("offers:locker_rooms_grid:statuses:unknown")}</div>;
+            case LockerRoomStatus.Ready:
+                return <div className="locker-room-status ready">{t("offers:locker_rooms_grid:statuses:ready")}</div>;
+            case LockerRoomStatus.Busy:
+                return <div className="locker-room-status busy">{t("offers:locker_rooms_grid:statuses:busy")}</div>;
+            case LockerRoomStatus.NeedCleaning:
+                return <div className="locker-room-status need-cleaning">{t("offers:locker_rooms_grid:statuses:need_cleaning")}</div>;
+        }
+    }
+
     const toggleIsActive = (nodeId: number, data: LockerRoomDto) => {
         const command: UpdateLockerRoomCommand = {
             id: data.id,
@@ -83,6 +97,13 @@ export const LockerRooms = () => {
             headerName: '',
             width: 90,
             cellRenderer: IsActiveRenderer
+        },
+        {
+            field: 'status',
+            cellClass: "grid-center-cell grid-vcenter-cell",
+            headerName: t("offers:locker_rooms_grid:status"),
+            width: 130,
+            cellRenderer: StatusRenderer
         },
         {field: 'name', headerName: t("offers:locker_rooms_grid:name"), width: 200, cellRenderer: NameRenderer},
         {
