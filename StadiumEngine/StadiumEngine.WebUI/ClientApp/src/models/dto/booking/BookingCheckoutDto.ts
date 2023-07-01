@@ -9,7 +9,7 @@ export interface BookingCheckoutDto {
     stadiumName: string;
     tariff: TariffDto;
     field: FieldDto;
-    inventories: InventoryDto[];
+    durationInventories: BookingCheckoutDurationInventoryDto[];
     durationAmounts: BookingCheckoutDurationAmountDto[];
     pointPrices: BookingCheckoutPointPriceDto[];
 }
@@ -25,4 +25,17 @@ export interface BookingCheckoutPointPriceDto {
     end: number;
     displayEnd: string;
     value: number;
+}
+
+export interface BookingCheckoutDurationInventoryDto {
+    duration: number;
+    inventories: BookingCheckoutInventoryDto[];
+}
+
+export interface BookingCheckoutInventoryDto {
+    id: number;
+    name: string;
+    quantity: number;
+    price: number;
+    image: string | null;
 }

@@ -35,14 +35,13 @@ internal class BookingFormProfile : Profile
 
         CreateMap<BookingCheckoutData, BookingCheckoutDto>()
             .ForMember(
-                dest => dest.Inventories,
-                act => act.MapFrom( s => MapInventories( s.Inventories ) ) )
-            .ForMember(
                 dest => dest.StadiumName,
                 act => act.MapFrom( s => $"{s.Field.Stadium.Name}, {s.Field.Stadium.City.Name}" ) );
         CreateMap<BookingCheckoutDataDurationAmount, BookingCheckoutDurationAmountDto>();
         CreateMap<BookingCheckoutDataPointPrice, BookingCheckoutPointPriceDto>()
             .ForMember( dest => dest.End, act => act.Ignore() );
+        CreateMap<BookingCheckoutDataDurationInventory, BookingCheckoutDurationInventoryDto>();
+        CreateMap<BookingCheckoutDataInventory, BookingCheckoutInventoryDto>();
 
 
         CreateMap<FillBookingDataCommandCost, BookingCost>();
@@ -209,16 +208,4 @@ internal class BookingFormProfile : Profile
             Width = field.Width,
             Length = field.Length
         };
-
-    private List<InventoryDto> MapInventories( Dictionary<Inventory, decimal> source ) =>
-        source.Select(
-            x => new InventoryDto
-            {
-                Id = x.Key.Id,
-                Currency = x.Key.Currency,
-                Name = x.Key.Name,
-                Price = x.Key.Price,
-                Quantity = x.Value,
-                Images = x.Key.Images.OrderBy( i => i.Order ).Select( i => i.Path ).ToList()
-            } ).ToList();
 }

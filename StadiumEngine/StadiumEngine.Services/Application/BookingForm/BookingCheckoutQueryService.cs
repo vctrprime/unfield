@@ -83,15 +83,15 @@ internal class BookingCheckoutQueryService : IBookingCheckoutQueryService
             Day = booking.Day.ToString( "dd.MM.yyyy" ),
             Field = booking.Field,
             Tariff = booking.Tariff,
-            Inventories = await GetInventory( booking ),
+            DurationInventories = await GetInventories( booking, durationAmounts.Select( x => x.Duration ) ),
             DurationAmounts = durationAmounts,
             PointPrices = pointPrices
         };
     }
 
-    private async Task<Dictionary<Inventory, decimal>> GetInventory( Booking booking )
+    private async Task<List<BookingCheckoutDataDurationInventory>> GetInventories( Booking booking, IEnumerable<decimal> durations )
     {
-        Dictionary<Inventory, decimal> result = new Dictionary<Inventory, decimal>();
+        List<BookingCheckoutDataDurationInventory> result = new List<BookingCheckoutDataDurationInventory>();
 
         List<Inventory> inventories = await _inventoryRepository.GetAllAsync( booking.Field.StadiumId );
         List<Booking> dayBookings = await _bookingRepository.GetAsync(
@@ -111,32 +111,56 @@ internal class BookingCheckoutQueryService : IBookingCheckoutQueryService
             x => x.IsActive && booking.Field.SportKinds.Select( s => s.SportKind )
                 .Intersect( x.SportKinds.Select( s => s.SportKind ) ).Any() ).ToList();
 
-        foreach ( Inventory inventory in inventories )
+        foreach ( decimal duration in durations )
         {
-            result.Add( inventory, inventory.Quantity );
-
-            foreach ( Booking dayBooking in dayBookings )
+            BookingCheckoutDataDurationInventory durationInventory = new BookingCheckoutDataDurationInventory
             {
-                if ( !dayBooking.Costs.Any(
-                        x => (x.StartHour <= booking.StartHour
-                             && booking.StartHour < x.EndHour)
-                        || (x.StartHour <= booking.StartHour + 1
-                            && booking.StartHour + 1 < x.EndHour)) )
+                Duration = duration,
+                Inventories = new List<BookingCheckoutDataInventory>()
+            };
+            
+            foreach ( Inventory inventory in inventories )
+            {
+                BookingCheckoutDataInventory checkoutInventory = new BookingCheckoutDataInventory
                 {
-                    continue;
+                    Id = inventory.Id,
+                    Name = inventory.Name,
+                    Quantity = inventory.Quantity,
+                    Price = inventory.Price,
+                    Image = inventory.Images.Any() ? inventory.Images.OrderBy( i => i.Order ).First().Path : null
+                };
+
+                foreach ( Booking dayBooking in dayBookings )
+                {
+                    if ( !dayBooking.Costs.Any(
+                            x => (x.StartHour <= booking.StartHour
+                                  && booking.StartHour < x.EndHour)
+                                 || (x.StartHour < booking.StartHour + duration
+                                     && booking.StartHour + duration <= x.EndHour)) )
+                    {
+                        continue;
+                    }
+
+                    BookingInventory? dayBookingInventory =
+                        dayBooking.Inventories.FirstOrDefault( x => x.InventoryId == inventory.Id );
+                    if ( dayBookingInventory == null )
+                    {
+                        continue;
+                    }
+
+                    checkoutInventory.Quantity -= dayBookingInventory.Quantity;
                 }
 
-                BookingInventory? dayBookingInventory =
-                    dayBooking.Inventories.FirstOrDefault( x => x.InventoryId == inventory.Id );
-                if ( dayBookingInventory == null )
+                if ( checkoutInventory.Quantity > 0 )
                 {
-                    continue;
+                    durationInventory.Inventories.Add( checkoutInventory );
                 }
-
-                result[ inventory ] -= dayBookingInventory.Quantity;
+                
             }
+            
+            result.Add( durationInventory );
         }
-
-        return result.Where( x => x.Value > 0 ).ToDictionary( k => k.Key, v => v.Value );
+        
+        return result;
     }
 }

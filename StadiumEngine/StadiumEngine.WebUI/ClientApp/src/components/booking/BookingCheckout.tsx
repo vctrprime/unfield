@@ -1,6 +1,10 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {BookingCheckoutDto, BookingCheckoutDurationAmountDto} from "../../models/dto/booking/BookingCheckoutDto";
+import {
+    BookingCheckoutDto,
+    BookingCheckoutDurationAmountDto,
+    BookingCheckoutInventoryDto
+} from "../../models/dto/booking/BookingCheckoutDto";
 import {useInject} from "inversify-hooks";
 import {IBookingFormService} from "../../services/BookingFormService";
 import {Col, Container} from "reactstrap";
@@ -21,6 +25,7 @@ import i18n from "../../i18n/i18n";
 import PhoneInput from "react-phone-input-2";
 import ru from 'react-phone-input-2/lang/ru.json'
 import {BookingCancelModal} from "./BookingCancelModal";
+import {Nu} from "react-flags-select";
 
 type CheckoutLocationState = {
     bookingNumber: string;
@@ -38,9 +43,15 @@ type PromoMessage = {
 }
 
 interface InventoryRowProps {
-    inventory: InventoryDto
+    inventory: BookingCheckoutInventoryDto
     action: any;
     added: boolean;
+}
+
+interface SelectedInventory {
+    id: number;
+    quantity: number;
+    price: number;
 }
 
 const InventoryRow = (props: InventoryRowProps) => {
@@ -48,11 +59,11 @@ const InventoryRow = (props: InventoryRowProps) => {
         style={props.added ? {backgroundColor: 'rgba(245, 245, 245, 1)'} : {} }
         className="booking-checkout-inventory-row">
         <div className="booking-checkout-inventory-row-block" style={{justifyContent: 'flex-start'}}>
-            {props.inventory.images.length ?
-                <img src={"/legal-images/" + props.inventory.images[0]}/> :
+            {props.inventory.image ?
+                <img src={"/legal-images/" + props.inventory.image}/> :
                 <img src={noImage}/>
             }
-            <div className="booking-checkout-inventory-row-name">{props.inventory.name}</div>
+            <div className="booking-checkout-inventory-row-name">{props.inventory.name} - {props.inventory.quantity}</div>
         </div>
         <div className="booking-checkout-inventory-row-block" style={{justifyContent: 'flex-end'}}>
             <div className="booking-checkout-inventory-row-price">{props.inventory.price} {t("booking:checkout:rub")}/{t("common:hour_long")}</div>
@@ -83,7 +94,7 @@ export const BookingCheckout = () => {
     const promoInput = useRef<any>();
     
     const [selectedDuration, setSelectedDuration] = useState<number>(1);
-    const [selectedInventories, setSelectedInventories] = useState<InventoryDto[]>([]);
+    const [selectedInventories, setSelectedInventories] = useState<SelectedInventory[]>([]);
     
     const navigate = useNavigate();
     
@@ -178,7 +189,7 @@ export const BookingCheckout = () => {
     const getInventoryAmount = () => {
         let result = 0;
         selectedInventories.map((inv) => {
-            result += inv.price * (selectedDuration);
+            result += (inv.price * inv.quantity * selectedDuration);
         });
         
         return result;
@@ -197,6 +208,7 @@ export const BookingCheckout = () => {
 
     const [cancelModal, setCancelModal] = useState<boolean>(false)
     
+    const inventories = data?.durationInventories.find( x => x.duration === selectedDuration)?.inventories || [];
     
     return data === null  ? null :  <Container className="booking-checkout-container">
         <BookingCancelModal backPath={backPath} openModal={cancelModal} setOpenModal={setCancelModal} bookingNumber={bookingNumber} />
@@ -287,10 +299,10 @@ export const BookingCheckout = () => {
                     }} />
             </Form.Field>
             {promoMessage && <label className="booking-checkout-promo-message" style={promoMessage.success ? { color: '#3CB371'} : {color: '#CD5C5C'}}>{promoMessage.message}</label>}
-            {data.inventories.length > 0 && 
+            {inventories.length > 0 && 
                 <div className="booking-checkout-inventories">
                     <div className="booking-checkout-inventories-title">{t("booking:checkout:inventory_header")}</div>
-                    {data.inventories.map((inv, i) => {
+                    {inventories.map((inv, i) => {
                         return <InventoryRow added={selectedInventories.filter(x => x.id === inv.id).length > 0} key={i}  inventory={inv} action={addOrRemoveInventory}/>
                         })}
                     <div className="booking-checkout-amount">{t("booking:checkout:amount_inventory")} &nbsp;<span style={{fontWeight: 'bold'}}>{getInventoryAmount()} {t("booking:checkout:rub")}</span></div>
