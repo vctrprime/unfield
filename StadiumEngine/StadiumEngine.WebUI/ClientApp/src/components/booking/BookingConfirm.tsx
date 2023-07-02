@@ -61,7 +61,8 @@ export const BookingConfirm = () => {
                     style={{backgroundColor: '#3CB371', color: 'white'}} onClick={() => {
                     bookingFormService.confirmBooking({
                         bookingNumber: bookingNumber||'',
-                        accessCode: code||''
+                        accessCode: code||'',
+                        language: localStorage.getItem('language') || 'ru',
                     }).then(() => {
                         navigate(backPath);
                     }).catch((error) => {

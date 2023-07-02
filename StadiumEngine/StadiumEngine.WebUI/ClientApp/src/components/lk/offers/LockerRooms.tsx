@@ -106,13 +106,13 @@ export const LockerRooms = () => {
             cellRenderer: StatusRenderer
         },
         {field: 'name', headerName: t("offers:locker_rooms_grid:name"), width: 200, cellRenderer: NameRenderer},
-        {
+        /*{
             field: 'gender',
             cellClass: "grid-center-cell",
             headerName: t("offers:locker_rooms_grid:gender"),
             width: 90,
             cellRenderer: GenderRenderer
-        },
+        },*/
         {
             field: 'description',
             headerName: t("offers:locker_rooms_grid:description"),

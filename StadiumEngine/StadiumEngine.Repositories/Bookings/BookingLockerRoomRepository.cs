@@ -15,13 +15,11 @@ internal class BookingLockerRoomRepository : BaseRepository<BookingLockerRoom>, 
         await Entities
             .Include( x => x.LockerRoom )
             .Where(
-            x => (
-                ( x.Start > from && x.Start < to )
-                ||
-                ( x.End > from && x.End < to ) ) && x.LockerRoom.StadiumId == stadiumId ).ToListAsync();
-
-    public new void Add( BookingLockerRoom bookingLockerRoom ) => base.Add( bookingLockerRoom );
-
+                x => (x.Start == from
+                      || x.End == to
+                      || ( x.Start > from && x.Start < to )
+                      || ( x.End > from && x.End < to ) ) && x.LockerRoom.StadiumId == stadiumId ).ToListAsync();
+    
     public new void Update( BookingLockerRoom bookingLockerRoom ) => base.Update( bookingLockerRoom );
 
     public new void Remove( IEnumerable<BookingLockerRoom> bookingLockerRooms ) => base.Remove( bookingLockerRooms );

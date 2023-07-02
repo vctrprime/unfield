@@ -60,7 +60,7 @@ export const LockerRoom = () => {
                 name: nameInput.current?.value,
                 description: descriptionInput.current?.value,
                 isActive: data.isActive,
-                gender: data.gender
+                gender: LockerRoomGender.All//data.gender
             }
             offersService.addLockerRoom(command).then(() => {
                 navigate("/lk/offers/locker-rooms");
@@ -75,7 +75,7 @@ export const LockerRoom = () => {
                 name: nameInput.current?.value,
                 description: descriptionInput.current?.value,
                 isActive: data.isActive,
-                gender: data.gender
+                gender: LockerRoomGender.All//data.gender
             }
             offersService.updateLockerRoom(command).then(() => {
                 navigate("/lk/offers/locker-rooms");
@@ -123,7 +123,7 @@ export const LockerRoom = () => {
                 <input id="name-input" ref={nameInput} placeholder={t("offers:locker_rooms_grid:name") || ''}
                        defaultValue={data?.name || ''}/>
             </Form.Field>
-            <Form.Field>
+            {/*<Form.Field>
                 <label>{t("offers:locker_rooms_grid:gender")}</label>
                 <div className="gender-radio-container">
                     <div className="gender-radio">
@@ -161,7 +161,7 @@ export const LockerRoom = () => {
                         <i style={{marginLeft: 0}} className="fa fa-female" aria-hidden="true"/>
                     </div>
                 </div>
-            </Form.Field>
+            </Form.Field>*/}
             <Form.Field>
                 <label>{t("offers:locker_rooms_grid:description")}</label>
                 <textarea id="description-input" ref={descriptionInput} rows={4}

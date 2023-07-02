@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Domain.Services.Core.Accounts;
 using StadiumEngine.Domain.Services.Core.BookingForm;
+using StadiumEngine.Domain.Services.Core.BookingForm.Distributors;
 using StadiumEngine.Domain.Services.Core.Geo;
 using StadiumEngine.Domain.Services.Core.Offers;
 using StadiumEngine.Domain.Services.Core.Rates;
@@ -13,6 +14,7 @@ using StadiumEngine.Services.Builders.Utils;
 using StadiumEngine.Services.Checkers;
 using StadiumEngine.Services.Core.Accounts;
 using StadiumEngine.Services.Core.BookingForm;
+using StadiumEngine.Services.Core.BookingForm.Distributors;
 using StadiumEngine.Services.Facades.Accounts;
 using StadiumEngine.Services.Core.Geo;
 using StadiumEngine.Services.Core.Offers;
@@ -124,6 +126,12 @@ public static class ServiceCollectionExtensions
         #region resolvers
 
         services.AddScoped<ILockerRoomStatusResolver, LockerRoomStatusResolver>();
+
+        #endregion
+
+        #region distributors
+
+        services.AddScoped<IBookingLockerRoomDistributor, BookingLockerRoomDistributor>();
 
         #endregion
 
