@@ -5,7 +5,7 @@ using StadiumEngine.DTO.Offers.Inventories;
 
 namespace StadiumEngine.Commands.Offers.Inventories;
 
-public sealed class AddInventoryCommand : IRequest<AddInventoryDto>
+public sealed class AddInventoryCommand : BaseCommand, IRequest<AddInventoryDto>
 {
     public string Name { get; set; } = null!;
     public string? Description { get; set; }

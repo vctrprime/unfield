@@ -5,7 +5,7 @@ using StadiumEngine.DTO.Offers.Fields;
 
 namespace StadiumEngine.Commands.Offers.Fields;
 
-public sealed class AddFieldCommand : IRequest<AddFieldDto>
+public sealed class AddFieldCommand : BaseCommand, IRequest<AddFieldDto>
 {
     public string Name { get; set; } = null!;
     public string? Description { get; set; }

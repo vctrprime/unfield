@@ -3,7 +3,7 @@ using StadiumEngine.DTO.Geo;
 
 namespace StadiumEngine.Queries.Geo;
 
-public class GetCitiesQuery  : IRequest<List<CityDto>>
+public class GetCitiesQuery : BaseQuery, IRequest<List<CityDto>>
 {
     public string? Q { get; set; }
 }

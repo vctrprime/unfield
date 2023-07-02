@@ -21,9 +21,9 @@ public class LockerRoomController : BaseApiController
     /// <returns></returns>
     [HttpGet]
     [HasPermission( PermissionsKeys.GetLockerRooms )]
-    public async Task<List<LockerRoomDto>> GetAll()
+    public async Task<List<LockerRoomDto>> GetAll( [FromRoute] GetLockerRoomsQuery query )
     {
-        List<LockerRoomDto> lockerRooms = await Mediator.Send( new GetLockerRoomsQuery() );
+        List<LockerRoomDto> lockerRooms = await Mediator.Send( query );
         return lockerRooms;
     }
 

@@ -26,6 +26,7 @@ using StadiumEngine.Services.Core.Settings;
 using StadiumEngine.Services.Handlers.Offers;
 using StadiumEngine.Services.Identity;
 using StadiumEngine.Services.Infrastructure;
+using StadiumEngine.Services.Resolvers.Offers;
 using StadiumEngine.Services.Validators.Bookings;
 using StadiumEngine.Services.Validators.Rates;
 using StadiumEngine.Services.Validators.Settings;
@@ -119,7 +120,13 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IBreakValidator, BreakValidator>();
 
         #endregion
-        
-        
+
+        #region resolvers
+
+        services.AddScoped<ILockerRoomStatusResolver, LockerRoomStatusResolver>();
+
+        #endregion
+
+
     }
 }

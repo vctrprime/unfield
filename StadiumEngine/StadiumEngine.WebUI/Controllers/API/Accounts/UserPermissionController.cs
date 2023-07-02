@@ -17,9 +17,9 @@ public class UserPermissionController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public async Task<List<UserPermissionDto>> Get()
+    public async Task<List<UserPermissionDto>> Get( [FromRoute] GetUserPermissionsQuery query )
     {
-        List<UserPermissionDto> permissions = await Mediator.Send( new GetUserPermissionsQuery() );
+        List<UserPermissionDto> permissions = await Mediator.Send( query );
         return permissions;
     }
 }

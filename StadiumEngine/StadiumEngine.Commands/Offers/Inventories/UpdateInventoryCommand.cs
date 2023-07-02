@@ -5,7 +5,7 @@ using StadiumEngine.DTO.Offers.Inventories;
 
 namespace StadiumEngine.Commands.Offers.Inventories;
 
-public sealed class UpdateInventoryCommand : IRequest<UpdateInventoryDto>
+public sealed class UpdateInventoryCommand : BaseCommand, IRequest<UpdateInventoryDto>
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;

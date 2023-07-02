@@ -32,10 +32,17 @@ function useFetchWrapper() {
                     contentType = 'application/json'
                 } = {}) => {
             if (withSpinner) setLoading(true);
+
+            const date = new Date();
+            const dateHeader = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON();
+            
             const requestOptions: RequestInit = {
                 method,
-                headers: contentType === null ? {} : {
-                    'Content-Type': contentType
+                headers: contentType === null ? {
+                    'Client-Date': dateHeader
+                } : {
+                    'Content-Type': contentType,
+                    'Client-Date': dateHeader
                 }
             };
             if (body) {

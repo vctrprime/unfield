@@ -3,7 +3,7 @@ using StadiumEngine.DTO.Rates.PriceGroups;
 
 namespace StadiumEngine.Commands.Rates.PriceGroups;
 
-public sealed class UpdatePriceGroupCommand : IRequest<UpdatePriceGroupDto>
+public sealed class UpdatePriceGroupCommand : BaseCommand, IRequest<UpdatePriceGroupDto>
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;

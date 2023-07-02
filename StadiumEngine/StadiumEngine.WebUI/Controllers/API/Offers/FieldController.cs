@@ -21,9 +21,9 @@ public class FieldController : BaseApiController
     /// <returns></returns>
     [HttpGet]
     [HasPermission( $"{PermissionsKeys.GetFields},{PermissionsKeys.GetPrices},{PermissionsKeys.GetBreaks}" )]
-    public async Task<List<FieldDto>> GetAll()
+    public async Task<List<FieldDto>> GetAll( [FromRoute] GetFieldsQuery query )
     {
-        List<FieldDto> fields = await Mediator.Send( new GetFieldsQuery() );
+        List<FieldDto> fields = await Mediator.Send( query );
         return fields;
     }
 

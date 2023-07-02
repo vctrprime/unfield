@@ -24,9 +24,9 @@ public class PriceController : BaseApiController
     /// <returns></returns>
     [HttpGet]
     [HasPermission( $"{PermissionsKeys.GetPrices}" )]
-    public async Task<List<PriceDto>> GetAll()
+    public async Task<List<PriceDto>> GetAll( [FromRoute] GetPricesQuery query)
     {
-        List<PriceDto> prices = await Mediator.Send( new GetPricesQuery() );
+        List<PriceDto> prices = await Mediator.Send( query );
         return prices;
     }
     

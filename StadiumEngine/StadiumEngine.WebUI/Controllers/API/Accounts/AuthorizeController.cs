@@ -23,9 +23,9 @@ public class AuthorizeController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public async Task<AuthorizedUserDto> Get()
+    public async Task<AuthorizedUserDto> Get( [FromRoute] GetAuthorizedUserQuery query )
     {
-        AuthorizedUserDto user = await Mediator.Send( new GetAuthorizedUserQuery() );
+        AuthorizedUserDto user = await Mediator.Send( query );
         return user;
     }
 

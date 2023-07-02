@@ -21,9 +21,9 @@ public class TariffController : BaseApiController
     /// <returns></returns>
     [HttpGet]
     [HasPermission( $"{PermissionsKeys.GetTariffs},{PermissionsKeys.GetPrices}" )]
-    public async Task<List<TariffDto>> GetAll()
+    public async Task<List<TariffDto>> GetAll( [FromRoute] GetTariffsQuery query )
     {
-        List<TariffDto> tariffs = await Mediator.Send( new GetTariffsQuery() );
+        List<TariffDto> tariffs = await Mediator.Send( query );
         return tariffs;
     }
 

@@ -24,7 +24,7 @@ internal class BookingFormDtoBuilder : IBookingFormDtoBuilder
             null,
             query.Q,
             query.Day,
-            query.CurrentHour );
+            query.ClientDate.Hour );
 
     public async Task<BookingFormDto> BuildAsync( int fieldId, DateTime day, int currentHour ) =>
         await BuildAsync(

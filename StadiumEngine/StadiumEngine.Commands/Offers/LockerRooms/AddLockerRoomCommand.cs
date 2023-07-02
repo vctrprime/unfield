@@ -4,7 +4,7 @@ using StadiumEngine.DTO.Offers.LockerRooms;
 
 namespace StadiumEngine.Commands.Offers.LockerRooms;
 
-public sealed class AddLockerRoomCommand : IRequest<AddLockerRoomDto>
+public sealed class AddLockerRoomCommand : BaseCommand, IRequest<AddLockerRoomDto>
 {
     public string Name { get; set; } = null!;
     public string? Description { get; set; }

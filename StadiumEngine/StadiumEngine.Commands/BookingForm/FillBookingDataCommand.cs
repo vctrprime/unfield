@@ -3,7 +3,7 @@ using StadiumEngine.DTO.BookingForm;
 
 namespace StadiumEngine.Commands.BookingForm;
 
-public sealed class FillBookingDataCommand : IRequest<FillBookingDataDto>
+public sealed class FillBookingDataCommand : BaseCommand, IRequest<FillBookingDataDto>
 {
     public string BookingNumber { get; set; } = null!;
     

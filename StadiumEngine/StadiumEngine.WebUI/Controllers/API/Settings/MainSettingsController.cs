@@ -19,9 +19,9 @@ public class MainSettingsController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public async Task<MainSettingsDto> Get()
+    public async Task<MainSettingsDto> Get( [FromQuery]GetMainSettingsQuery query )
     {
-        MainSettingsDto settings = await Mediator.Send( new GetMainSettingsQuery() );
+        MainSettingsDto settings = await Mediator.Send( query );
         return settings;
     }
     

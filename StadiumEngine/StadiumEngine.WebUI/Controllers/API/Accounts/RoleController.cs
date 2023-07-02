@@ -21,9 +21,9 @@ public class RoleController : BaseApiController
     /// <returns></returns>
     [HttpGet]
     [HasPermission( $"{PermissionsKeys.GetRoles},{PermissionsKeys.GetPermissions},{PermissionsKeys.GetUsers}" )]
-    public async Task<List<RoleDto>> Get()
+    public async Task<List<RoleDto>> Get( [FromRoute] GetRolesQuery query)
     {
-        List<RoleDto> roles = await Mediator.Send( new GetRolesQuery() );
+        List<RoleDto> roles = await Mediator.Send( query );
         return roles;
     }
 

@@ -3,7 +3,7 @@ using StadiumEngine.DTO.Utils;
 
 namespace StadiumEngine.Commands.Utils;
 
-public sealed class AddLegalCommand : IRequest<AddLegalDto>
+public sealed class AddLegalCommand : BaseCommand, IRequest<AddLegalDto>
 {
     public string Inn { get; set; } = null!;
 

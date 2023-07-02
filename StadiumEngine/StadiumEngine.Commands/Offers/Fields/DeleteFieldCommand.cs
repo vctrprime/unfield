@@ -3,7 +3,7 @@ using StadiumEngine.DTO.Offers.Fields;
 
 namespace StadiumEngine.Commands.Offers.Fields;
 
-public sealed class DeleteFieldCommand : IRequest<DeleteFieldDto>
+public sealed class DeleteFieldCommand : BaseCommand, IRequest<DeleteFieldDto>
 {
     public int FieldId { get; set; }
 }

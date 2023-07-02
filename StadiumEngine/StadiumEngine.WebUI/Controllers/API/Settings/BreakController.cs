@@ -21,9 +21,9 @@ public class BreakController : BaseApiController
     /// <returns></returns>
     [HttpGet]
     [HasPermission( PermissionsKeys.GetBreaks )]
-    public async Task<List<BreakDto>> GetAll()
+    public async Task<List<BreakDto>> GetAll( [FromQuery] GetBreaksQuery query )
     {
-        List<BreakDto> breaks = await Mediator.Send( new GetBreaksQuery() );
+        List<BreakDto> breaks = await Mediator.Send( query );
         return breaks;
     }
     

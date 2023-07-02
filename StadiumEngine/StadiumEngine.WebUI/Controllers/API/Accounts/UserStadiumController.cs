@@ -17,9 +17,9 @@ public class UserStadiumController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public async Task<List<UserStadiumDto>> Get()
+    public async Task<List<UserStadiumDto>> Get( [FromRoute] GetUserStadiumsQuery query )
     {
-        List<UserStadiumDto> stadiums = await Mediator.Send( new GetUserStadiumsQuery() );
+        List<UserStadiumDto> stadiums = await Mediator.Send( query );
         return stadiums;
     }
 }

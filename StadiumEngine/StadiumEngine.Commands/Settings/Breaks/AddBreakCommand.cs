@@ -3,7 +3,7 @@ using StadiumEngine.DTO.Settings.Breaks;
 
 namespace StadiumEngine.Commands.Settings.Breaks;
 
-public sealed class AddBreakCommand : IRequest<AddBreakDto>
+public sealed class AddBreakCommand : BaseCommand, IRequest<AddBreakDto>
 {
     public string Name { get; set; } = null!;
     public string? Description { get; set; }

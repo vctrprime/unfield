@@ -25,7 +25,7 @@ export class BookingFormService extends BaseService implements IBookingFormServi
     }
 
     getBookingForm(date: Date, token: string|null, cityId: number|null, q: string|null): Promise<BookingFormDto> {
-        let params = `?day=${date.toDateString()}&currentHour=${new Date().getHours()}`;
+        let params = `?day=${date.toDateString()}`;
         if (token !== null) {
             params += `&stadiumToken=${token}`
         }
@@ -49,7 +49,7 @@ export class BookingFormService extends BaseService implements IBookingFormServi
     }
 
     getBookingCheckout(bookingNumber: string): Promise<BookingCheckoutDto> {
-        let params = `?bookingNumber=${bookingNumber}&currentHour=${new Date().getHours()}`;
+        let params = `?bookingNumber=${bookingNumber}`;
         
         return this.fetchWrapper.get({
             url: `${this.baseUrl}/checkout${params}`,

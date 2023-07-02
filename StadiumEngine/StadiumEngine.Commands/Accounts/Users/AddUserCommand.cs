@@ -3,7 +3,7 @@ using StadiumEngine.DTO.Accounts.Users;
 
 namespace StadiumEngine.Commands.Accounts.Users;
 
-public class AddUserCommand : IRequest<AddUserDto>
+public class AddUserCommand : BaseCommand, IRequest<AddUserDto>
 {
     public string Name { get; set; } = null!;
     public string? LastName { get; set; }

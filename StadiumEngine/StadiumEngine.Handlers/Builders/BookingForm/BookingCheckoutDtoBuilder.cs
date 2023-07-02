@@ -31,7 +31,7 @@ internal class BookingCheckoutDtoBuilder : IBookingCheckoutDtoBuilder
         Booking booking = await _service.GetBookingDraftAsync( query.BookingNumber );
 
         BookingFormDto? bookingFormDto =
-            await _bookingFormDtoBuilder.BuildAsync( booking.FieldId, booking.Day, query.CurrentHour );
+            await _bookingFormDtoBuilder.BuildAsync( booking.FieldId, booking.Day, query.ClientDate.Hour );
 
         if ( bookingFormDto == null || !bookingFormDto.Fields.Any() )
         {

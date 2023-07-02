@@ -3,7 +3,7 @@ using StadiumEngine.DTO.Offers.Fields;
 
 namespace StadiumEngine.Queries.Offers.Fields;
 
-public sealed class GetFieldQuery : IRequest<FieldDto>
+public sealed class GetFieldQuery : BaseQuery, IRequest<FieldDto>
 {
     public int FieldId { get; set; }
 }

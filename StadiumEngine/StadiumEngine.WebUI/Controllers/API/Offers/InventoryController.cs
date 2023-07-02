@@ -21,9 +21,9 @@ public class InventoryController : BaseApiController
     /// <returns></returns>
     [HttpGet]
     [HasPermission( PermissionsKeys.GetInventories )]
-    public async Task<List<InventoryDto>> GetAll()
+    public async Task<List<InventoryDto>> GetAll( [FromRoute] GetInventoriesQuery query )
     {
-        List<InventoryDto> inventories = await Mediator.Send( new GetInventoriesQuery() );
+        List<InventoryDto> inventories = await Mediator.Send( query );
         return inventories;
     }
 

@@ -3,7 +3,7 @@ using StadiumEngine.DTO.Accounts.Users;
 
 namespace StadiumEngine.Commands.Accounts.Users;
 
-public sealed class UpdateUserCommand : IRequest<UpdateUserDto>
+public sealed class UpdateUserCommand : BaseCommand, IRequest<UpdateUserDto>
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;

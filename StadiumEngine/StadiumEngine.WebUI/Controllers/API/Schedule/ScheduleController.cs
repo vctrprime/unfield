@@ -20,9 +20,9 @@ public class ScheduleController : BaseApiController
     /// <returns></returns>
     [HttpGet( "fields" )]
     [HasPermission( $"{PermissionsKeys.GetBookings}" )]
-    public async Task<SchedulerFieldsDto> GetFields()
+    public async Task<SchedulerFieldsDto> GetFields( [FromRoute] GetSchedulerFieldsQuery query )
     {
-        SchedulerFieldsDto fields = await Mediator.Send( new GetSchedulerFieldsQuery() );
+        SchedulerFieldsDto fields = await Mediator.Send( query );
         return fields;
     }
 

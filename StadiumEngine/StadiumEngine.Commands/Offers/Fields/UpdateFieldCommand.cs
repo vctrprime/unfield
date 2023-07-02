@@ -5,7 +5,7 @@ using StadiumEngine.DTO.Offers.Fields;
 
 namespace StadiumEngine.Commands.Offers.Fields;
 
-public sealed class UpdateFieldCommand : IRequest<UpdateFieldDto>
+public sealed class UpdateFieldCommand : BaseCommand, IRequest<UpdateFieldDto>
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
