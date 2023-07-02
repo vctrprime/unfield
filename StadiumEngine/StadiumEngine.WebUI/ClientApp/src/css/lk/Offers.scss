@@ -2,28 +2,6 @@
 
 .locker-rooms-container, .fields-container, .inventories-container {
   height: 100%;
-  
-  .locker-room-status {
-    position: absolute;
-    width: 100%;
-    
-    &.unknown {
-      background-color: #eee;
-    }
-    
-    &.busy {
-      background-color: lightgoldenrodyellow;
-    }
-    &.ready {
-      background-color: #3CB371;
-      color: white;
-    }
-    
-    &.need-cleaning {
-      background-color: #CD5C5C;
-      color: white;
-    }
-  }
 }
 
 .locker-room-form, .field-form, .inventory-form {
@@ -51,6 +29,11 @@
       }
 
     }
+  }
+
+  .locker-room-status {
+    text-align: center;
+    padding: 8px 8px;
   }
 }
 
@@ -134,5 +117,27 @@
       height: calc(100% - 32px);
       max-width: 400px;
     }
+  }
+}
+
+.locker-room-status {
+  width: 100%;
+  cursor: pointer;
+
+  &.unknown {
+    background-color: #eee;
+  }
+
+  &.busy {
+    background-color: lightgoldenrodyellow;
+  }
+  &.ready {
+    background-color: #3CB371;
+    color: white;
+  }
+
+  &.need-cleaning {
+    background-color: #CD5C5C;
+    color: white;
   }
 }

@@ -20,7 +20,5 @@ internal class BookingLockerRoomRepository : BaseRepository<BookingLockerRoom>, 
                       || ( x.Start > from && x.Start < to )
                       || ( x.End > from && x.End < to ) ) && x.LockerRoom.StadiumId == stadiumId ).ToListAsync();
     
-    public new void Update( BookingLockerRoom bookingLockerRoom ) => base.Update( bookingLockerRoom );
-
     public new void Remove( IEnumerable<BookingLockerRoom> bookingLockerRooms ) => base.Remove( bookingLockerRooms );
 }

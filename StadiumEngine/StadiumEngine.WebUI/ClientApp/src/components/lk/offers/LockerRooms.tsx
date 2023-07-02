@@ -8,7 +8,7 @@ import {dateFormatter} from "../../../helpers/date-formatter";
 import {useNavigate} from "react-router-dom";
 import {LockerRoomDto} from "../../../models/dto/offers/LockerRoomDto";
 import {GridLoading} from "../common/GridLoading";
-import {Button, Checkbox} from "semantic-ui-react";
+import {Button, Checkbox, Popup} from "semantic-ui-react";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {stadiumAtom} from "../../../state/stadium";
 import {UpdateLockerRoomCommand} from "../../../models/command/offers/UpdateLockerRoomCommand";
@@ -17,6 +17,7 @@ import {PermissionsKeys} from "../../../static/PermissionsKeys";
 import {permissionsAtom} from "../../../state/permissions";
 import {lockerRoomsAtom} from "../../../state/offers/lockerRooms";
 import {LockerRoomStatus} from "../../../models/dto/offers/enums/LockerRoomStatus";
+import {StatusRenderer} from "./LockerRoomStatus";
 
 const AgGrid = require('ag-grid-react');
 const {AgGridReact} = AgGrid;
@@ -63,19 +64,16 @@ export const LockerRooms = () => {
         }
     }
 
-    const StatusRenderer = (obj: any) => {
-        switch (obj.data.status) {
-            case LockerRoomStatus.Unknown:
-                return <div className="locker-room-status unknown">{t("offers:locker_rooms_grid:statuses:unknown")}</div>;
-            case LockerRoomStatus.Ready:
-                return <div className="locker-room-status ready">{t("offers:locker_rooms_grid:statuses:ready")}</div>;
-            case LockerRoomStatus.Busy:
-                return <div className="locker-room-status busy">{t("offers:locker_rooms_grid:statuses:busy")}</div>;
-            case LockerRoomStatus.NeedCleaning:
-                return <div className="locker-room-status need-cleaning">{t("offers:locker_rooms_grid:statuses:need_cleaning")}</div>;
-        }
+    const syncStatus = (obj: any) => {
+        const nodeId = obj.node.id;
+        const id = obj.data.id;
+        
+        offersService.syncLockerRoomStatus(id).then((result) => {
+            const rowNode = gridRef.current.api.getRowNode(nodeId);
+            rowNode.setDataValue('status', result.status);
+        })
     }
-
+    
     const toggleIsActive = (nodeId: number, data: LockerRoomDto) => {
         const command: UpdateLockerRoomCommand = {
             id: data.id,
@@ -103,7 +101,7 @@ export const LockerRooms = () => {
             cellClass: "grid-center-cell grid-vcenter-cell",
             headerName: t("offers:locker_rooms_grid:status"),
             width: 130,
-            cellRenderer: StatusRenderer
+            cellRenderer: (obj: any) => <StatusRenderer status={obj.data.status} syncAction={() => syncStatus(obj)} />
         },
         {field: 'name', headerName: t("offers:locker_rooms_grid:name"), width: 200, cellRenderer: NameRenderer},
         /*{

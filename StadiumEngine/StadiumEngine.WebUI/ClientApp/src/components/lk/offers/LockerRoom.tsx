@@ -11,6 +11,7 @@ import {UpdateLockerRoomCommand} from "../../../models/command/offers/UpdateLock
 import {LockerRoomGender} from "../../../models/dto/offers/enums/LockerRoomGender";
 import {AddLockerRoomCommand} from "../../../models/command/offers/AddLockerRoomCommand";
 import {PermissionsKeys} from "../../../static/PermissionsKeys";
+import {StatusRenderer} from "./LockerRoomStatus";
 
 export const LockerRoom = () => {
     let {id} = useParams();
@@ -103,6 +104,15 @@ export const LockerRoom = () => {
         });
     }
 
+    const syncStatus = () => {
+        offersService.syncLockerRoomStatus(data.id).then((result) => {
+            setData({
+                ...data,
+                status: result.status
+            });
+        })
+    }
+
     return isError ? <span/> : (<div>
         <ActionButtons
             savePermission={id === "new" ? PermissionsKeys.InsertLockerRoom : PermissionsKeys.UpdateLockerRoom}
@@ -114,6 +124,9 @@ export const LockerRoom = () => {
             deleteQuestion={id === "new" ? null : StringFormat(t('offers:locker_rooms_grid:delete:question'), data?.name || '')}
         />
         <Form className="locker-room-form">
+            {id !== "new" && <div style={{position: "absolute", width: '130px', right: '20px'}}>
+                <StatusRenderer position='top left' status={data.status} syncAction={syncStatus}/>
+            </div>}
             <Form.Field style={{marginBottom: 0}}>
                 <label>{t("offers:locker_rooms_grid:is_active")}</label>
                 <Checkbox toggle checked={data.isActive} onChange={() => changeIsActive()}/>

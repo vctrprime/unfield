@@ -28,7 +28,9 @@ internal sealed class ConfirmBookingHandler : BaseCommandHandler<ConfirmBookingC
         CancellationToken cancellationToken )
     {
         Booking booking = await _commandService.ConfirmBookingAsync( request.BookingNumber, request.AccessCode );
-        await _smsSender.SendBookingConfirmation( booking, request.Language );
+        
+        //пока закомментим, непонятно надо ли отсылать инфу о раздевалке, если бронируют сильно заранее
+        //await _smsSender.SendBookingConfirmation( booking, request.Language );
         
         return new ConfirmBookingDto();
     }
