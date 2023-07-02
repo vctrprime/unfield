@@ -5,6 +5,7 @@ import {t} from "i18next";
 import {AddLockerRoomCommand} from "../models/command/offers/AddLockerRoomCommand";
 import {FieldDto} from "../models/dto/offers/FieldDto";
 import {InventoryDto} from "../models/dto/offers/InventoryDto";
+import {SyncLockerRoomStatusDto} from "../models/dto/offers/SyncLockerRoomStatusDto";
 
 export interface IOffersService {
     getLockerRooms(): Promise<LockerRoomDto[]>;
@@ -16,6 +17,7 @@ export interface IOffersService {
     addLockerRoom(command: AddLockerRoomCommand): Promise<void>;
 
     deleteLockerRoom(lockerRoomId: number): Promise<void>;
+    syncLockerRoomStatus(lockerRoomId: number): Promise<SyncLockerRoomStatusDto>;
 
     getFields(): Promise<FieldDto[]>;
 
@@ -76,6 +78,13 @@ export class OffersService extends BaseService implements IOffersService {
     deleteLockerRoom(lockerRoomId: number): Promise<void> {
         return this.fetchWrapper.delete({
             url: `${this.baseUrl}/locker-rooms/${lockerRoomId}`,
+            successMessage: t('common:success_request'),
+        })
+    }
+
+    syncLockerRoomStatus(lockerRoomId: number): Promise<SyncLockerRoomStatusDto> {
+        return this.fetchWrapper.put({
+            url: `${this.baseUrl}/locker-rooms/${lockerRoomId}/status/sync`,
             successMessage: t('common:success_request'),
         })
     }

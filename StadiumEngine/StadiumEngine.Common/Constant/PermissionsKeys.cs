@@ -50,6 +50,7 @@ public static class PermissionsKeys
     public const string InsertBreak = "insert-break";
     public const string UpdateBreak = "update-break";
     public const string DeleteBreak = "delete-break";
+    public const string SyncLockerRoomStatus = "sync-locker-room-status";
 
     public const string ScheduleGroup = "schedule";
     public const string OffersGroup = "offers";

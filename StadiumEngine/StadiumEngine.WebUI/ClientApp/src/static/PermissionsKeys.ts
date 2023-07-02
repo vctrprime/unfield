@@ -47,6 +47,7 @@ export class PermissionsKeys {
     public static readonly InsertBreak = "insert-break";
     public static readonly UpdateBreak = "update-break";
     public static readonly DeleteBreak = "delete-break";
+    public static readonly SyncLockerRoomStatus = "sync-locker-room-status";
 
     public static readonly ScheduleGroup = "schedule";
     public static readonly OffersGroup = "offers";

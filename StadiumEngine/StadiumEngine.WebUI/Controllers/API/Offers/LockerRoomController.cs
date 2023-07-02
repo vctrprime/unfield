@@ -62,6 +62,18 @@ public class LockerRoomController : BaseApiController
         UpdateLockerRoomDto dto = await Mediator.Send( command );
         return dto;
     }
+    
+    /// <summary>
+    ///     Синхронизировать статус раздевалки
+    /// </summary>
+    /// <returns></returns>
+    [HttpPut("{lockerRoomId}/status/sync")]
+    [HasPermission( PermissionsKeys.SyncLockerRoomStatus )]
+    public async Task<SyncLockerRoomStatusDto> SyncStatus( [FromRoute] SyncLockerRoomStatusCommand command )
+    {
+        SyncLockerRoomStatusDto dto = await Mediator.Send( command );
+        return dto;
+    }
 
     /// <summary>
     ///     Удалить раздевалку

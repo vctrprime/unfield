@@ -339,6 +339,13 @@ public static class PermissionSet
                 },
                 new()
                 {
+                    Name = PermissionsKeys.SyncLockerRoomStatus,
+                    DisplayName = "Cинхронизация статуса раздевалки",
+                    Description = "Возможность запустить синхронизацию статуса (после уборки, либо принудительная синхронизация)",
+                    Sort = 6
+                },
+                new()
+                {
                     Name = PermissionsKeys.GetBreaks,
                     DisplayName = "Просмотр перерывов",
                     Description = "Просмотр списка перерывов",
