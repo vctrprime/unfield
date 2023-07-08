@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useInject} from "inversify-hooks";
 import {IBookingFormService} from "../../services/BookingFormService";
 import {BookingFormDto} from "../../models/dto/booking/BookingFormDto";
-import {FieldCard} from "./FieldCard";
+import {BookingFormFieldCard} from "./BookingFormFieldCard";
 import {Col, Container} from "reactstrap";
 import '../../css/booking/BookingForm.scss';
 import {LanguageSelect} from "../common/LanguageSelect";
@@ -177,7 +177,7 @@ export const BookingForm = () => {
                 <div className="booking-form-min-time">{t('booking:min_time')}</div>
                 <div className="booking-form-cards">
                     {data.fields.length === 0 ? <div className="booking-form-no-fields">{t('booking:no_fields')}</div> : data.fields.map((f, i) => {
-                        return <FieldCard
+                        return <BookingFormFieldCard
                             key={i}
                             addBookingDraft={goToCheckout}
                             field={f}/>

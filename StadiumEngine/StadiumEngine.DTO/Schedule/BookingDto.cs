@@ -1,4 +1,6 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using StadiumEngine.Common.Enums.BookingForm;
+using StadiumEngine.Common.Enums.Rates;
 using StadiumEngine.DTO.Offers.Fields;
 using StadiumEngine.DTO.Offers.Inventories;
 using StadiumEngine.DTO.Offers.LockerRooms;
@@ -62,11 +64,6 @@ public class BookingDto
     public bool IsCanceled { get; set; }
     
     /// <summary>
-    /// Промокод
-    /// </summary>
-    public string? PromoCode { get; set; }
-    
-    /// <summary>
     /// Скидка
     /// </summary>
     public decimal? Discount { get; set; }
@@ -95,6 +92,11 @@ public class BookingDto
     /// Заказчик
     /// </summary>
     public BookingCustomerDto Customer { get; set; } = null!;
+    
+    /// <summary>
+    /// Промокод
+    /// </summary>
+    public BookingPromoDto? Promo { get; set; }
     
     /// <summary>
     /// Цена по периодам
@@ -183,4 +185,30 @@ public class BookingInventoryDto
     /// Данные инвентаря
     /// </summary>
     public InventoryDto Inventory { get; set; } = null!;
+}
+
+/// <summary>
+/// Промокод в бронировании
+/// </summary>
+public class BookingPromoDto
+{
+    /// <summary>
+    /// Id
+    /// </summary>
+    public int Id { get; set; }
+    
+    /// <summary>
+    /// Код
+    /// </summary>
+    public string Code { get; set; } = null!;
+    
+    /// <summary>
+    /// Тип
+    /// </summary>
+    public PromoCodeType Type { get; set; }
+    
+    /// <summary>
+    /// Значение 
+    /// </summary>
+    public decimal Value { get; set; }
 }

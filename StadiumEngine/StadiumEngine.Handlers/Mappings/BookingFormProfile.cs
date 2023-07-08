@@ -47,6 +47,7 @@ internal class BookingFormProfile : Profile
         CreateMap<FillBookingDataCommandCost, BookingCost>();
         CreateMap<FillBookingDataCommandInventory, BookingInventory>();
         CreateMap<FillBookingDataCommandCustomer, BookingCustomer>();
+        CreateMap<FillBookingDataCommandPromo, BookingPromo>();
     }
 
     private List<BookingFormFieldDto> MapBookingFormData( BookingFormData bookingFormData )

@@ -44,6 +44,7 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
             .Include( x => x.Field )
             .ThenInclude( x => x.SportKinds )
             .Include( x => x.Customer )
+            .Include( x => x.Promo )
             .Include( x => x.Costs )
             .SingleOrDefaultAsync( x => x.Number == bookingNumber );
 
@@ -69,6 +70,7 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
             .Include( x => x.Inventories )
             .ThenInclude( x => x.Inventory )
             .Include( x => x.Customer )
+            .Include( x => x.Promo )
             .Where( clause )
             .ToListAsync();
 }

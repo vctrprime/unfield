@@ -6,5 +6,10 @@ namespace StadiumEngine.Handlers.Builders.BookingForm;
 internal interface IBookingFormDtoBuilder
 {
     Task<BookingFormDto> BuildAsync( GetBookingFormQuery query );
-    Task<BookingFormDto> BuildAsync( int fieldId, DateTime day, int currentHour );
+
+    Task<BookingFormDto> BuildAsync(
+        int fieldId,
+        DateTime day,
+        int currentHour,
+        int currentBookingId );
 }

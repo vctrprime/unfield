@@ -36,6 +36,18 @@ internal class BookingCheckoutQueryService : IBookingCheckoutQueryService
 
         return booking;
     }
+    
+    public async Task<Booking> GetConfirmedBookingAsync( string bookingNumber )
+    {
+        Booking? booking = await _bookingRepository.GetByNumberAsync( bookingNumber );
+
+        if ( booking == null || booking.IsCanceled || !booking.IsConfirmed )
+        {
+            throw new DomainException( ErrorsKeys.BookingNotFound );
+        }
+
+        return booking;
+    }
 
     public async Task<BookingCheckoutData> GetBookingCheckoutDataAsync(
         Booking booking,

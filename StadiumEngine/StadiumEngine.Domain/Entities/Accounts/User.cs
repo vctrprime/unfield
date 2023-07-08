@@ -146,6 +146,12 @@ public class User : BaseUserEntity
     public virtual ICollection<BookingCustomer> LastModifiedBookingsCustomers { get; set; }
     
     [InverseProperty( "UserCreated" )]
+    public virtual ICollection<BookingPromo> CreatedBookingsPromos { get; set; }
+
+    [InverseProperty( "UserModified" )]
+    public virtual ICollection<BookingPromo> LastModifiedBookingsPromos { get; set; }
+    
+    [InverseProperty( "UserCreated" )]
     public virtual ICollection<BookingCost> CreatedBookingsCosts { get; set; }
 
     [InverseProperty( "UserModified" )]

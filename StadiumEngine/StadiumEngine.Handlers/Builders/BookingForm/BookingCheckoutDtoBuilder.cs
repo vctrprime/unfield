@@ -28,10 +28,12 @@ internal class BookingCheckoutDtoBuilder : IBookingCheckoutDtoBuilder
 
     public async Task<BookingCheckoutDto> BuildAsync( GetBookingCheckoutQuery query )
     {
-        Booking booking = await _service.GetBookingDraftAsync( query.BookingNumber );
+        Booking booking = query.IsConfirmed ? 
+            await _service.GetConfirmedBookingAsync(query.BookingNumber) :
+            await _service.GetBookingDraftAsync( query.BookingNumber );
 
         BookingFormDto? bookingFormDto =
-            await _bookingFormDtoBuilder.BuildAsync( booking.FieldId, booking.Day, query.ClientDate.Hour );
+            await _bookingFormDtoBuilder.BuildAsync( booking.FieldId, booking.Day, query.ClientDate.Hour, booking.Id );
 
         if ( bookingFormDto == null || !bookingFormDto.Fields.Any() )
         {

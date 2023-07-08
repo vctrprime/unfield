@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useInject} from "inversify-hooks";
-import {IBookingFormService} from "../../services/BookingFormService";
+import {IBookingFormService} from "../../../services/BookingFormService";
 import {Button, Modal} from "semantic-ui-react";
 import {t} from "i18next";
 import {useNavigate} from "react-router-dom";

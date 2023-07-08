@@ -49,7 +49,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPasswordValidator, PasswordValidator>();
         services.AddScoped<IImageService, ImageService>();
 
-        #region application
+        #region core
 
         services.AddScoped<IUserServiceFacade, UserServiceFacade>();
         services.AddScoped<IUserRepositoryFacade, UserRepositoryFacade>();
@@ -90,7 +90,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IBookingFormFieldRepositoryFacade, BookingFormFieldRepositoryFacade>();
         services.AddScoped<IBookingCheckoutQueryService, BookingCheckoutQueryService>();
         services.AddScoped<IBookingCheckoutCommandService, BookingCheckoutCommandService>();
-        services.AddScoped<IBookingRepositoriesFacade, BookingRepositoriesFacade>();
 
         services.AddScoped<IBookingFacade, BookingFacade>();
         services.AddScoped<ISchedulerQueryService, SchedulerQueryService>();

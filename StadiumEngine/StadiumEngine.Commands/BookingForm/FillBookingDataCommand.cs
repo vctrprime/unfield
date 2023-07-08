@@ -1,4 +1,5 @@
 using Mediator;
+using StadiumEngine.Common.Enums.Rates;
 using StadiumEngine.DTO.BookingForm;
 
 namespace StadiumEngine.Commands.BookingForm;
@@ -10,14 +11,13 @@ public sealed class FillBookingDataCommand : BaseCommand, IRequest<FillBookingDa
     public decimal HoursCount { get; set; }
     
     public decimal Amount { get; set; }
-    
-    public string? PromoCode { get; set; }
-    
+
     public decimal? Discount { get; set; }
 
     public string Language { get; set; } = "ru";
 
     public FillBookingDataCommandCustomer Customer { get; set; } = null!;
+    public FillBookingDataCommandPromo? Promo { get; set; }
     public List<FillBookingDataCommandCost> Costs { get; set; } = null!;
     public List<FillBookingDataCommandInventory> Inventories { get; set; } = new();
 }
@@ -47,4 +47,13 @@ public sealed class FillBookingDataCommandCustomer
     public string Name { get; set; } = null!;
 
     public string PhoneNumber { get; set; } = null!;
+}
+
+public sealed class FillBookingDataCommandPromo
+{
+    public string Code { get; set; } = null!;
+
+    public PromoCodeType Type { get; set; }
+    
+    public decimal Value { get; set; }
 }

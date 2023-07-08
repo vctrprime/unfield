@@ -47,9 +47,6 @@ public class Booking : BaseBookingEntity
     [Column( "access_code" )]
     public string AccessCode { get; set; } = null!;
     
-    [Column( "promo_code" )]
-    public string? PromoCode { get; set; }
-    
     [Column( "discount" )]
     public decimal? Discount { get; set; }
     
@@ -70,6 +67,7 @@ public class Booking : BaseBookingEntity
 
     public virtual BookingLockerRoom? BookingLockerRoom { get; set; }
     public virtual BookingCustomer Customer { get; set; } = null!;
+    public virtual BookingPromo? Promo { get; set; }
     public virtual ICollection<BookingCost> Costs { get; set; } = null!;
     public virtual ICollection<BookingInventory> Inventories { get; set; } = null!;
 }

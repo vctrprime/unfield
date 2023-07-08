@@ -51,8 +51,8 @@ import {Tariffs} from "./components/lk/rates/Tariffs";
 import {Tariff} from "./components/lk/rates/Tariff";
 import {Prices} from "./components/lk/rates/Prices";
 import {BookingForm} from "./components/booking/BookingForm";
-import {BookingCheckout} from "./components/booking/BookingCheckout";
-import {BookingConfirm} from "./components/booking/BookingConfirm";
+import {BookingCheckout} from "./components/booking/checkout/BookingCheckout";
+import {BookingCheckoutConfirm} from "./components/booking/checkout/BookingCheckoutConfirm";
 import {Forbidden} from "./components/lk/Forbidden";
 import {MainSettings} from "./components/lk/settings/MainSettings";
 import {Settings} from "./components/lk/settings/Settings";
@@ -157,7 +157,7 @@ const App = () => {
                     </Route>
                     <Route path="booking/:token?" element={<BookingForm/>}/>
                     <Route path="booking/checkout/:bookingNumber?" element={<BookingCheckout/>}/>
-                    <Route path="booking/confirm/:bookingNumber?" element={<BookingConfirm/>}/>
+                    <Route path="booking/confirm/:bookingNumber?" element={<BookingCheckoutConfirm/>}/>
                 </Routes>
             </Layout>
             <Modal

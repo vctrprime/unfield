@@ -34,12 +34,16 @@ internal sealed class FillBookingDataHandler : BaseCommandHandler<FillBookingDat
 
         booking.Amount = request.Amount;
         booking.Discount = request.Discount;
-        booking.PromoCode = request.PromoCode;
         booking.HoursCount = request.HoursCount;
 
         booking.Costs = Mapper.Map<List<BookingCost>>( request.Costs );
         booking.Inventories = Mapper.Map<List<BookingInventory>>( request.Inventories );
         booking.Customer = Mapper.Map<BookingCustomer>( request.Customer );
+
+        if ( request.Promo != null )
+        {
+            booking.Promo = Mapper.Map<BookingPromo>( request.Promo );
+        }
         
         await _commandService.FillBookingDataAsync( booking );
 

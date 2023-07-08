@@ -94,6 +94,7 @@ internal class MainDbContext : DbContext
     public DbSet<BookingCustomer> BookingCustomers { get; set; }
     public DbSet<BookingInventory> BookingInventories { get; set; }
     public DbSet<BookingLockerRoom> BookingLockerRooms { get; set; }
+    public DbSet<BookingPromo> BookingPromos { get; set; }
 
     #endregion
 }

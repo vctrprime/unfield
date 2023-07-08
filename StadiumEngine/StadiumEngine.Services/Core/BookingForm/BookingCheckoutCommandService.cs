@@ -1,6 +1,7 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Bookings;
+using StadiumEngine.Domain.Repositories.Bookings;
 using StadiumEngine.Domain.Services.Core.BookingForm;
 using StadiumEngine.Domain.Services.Core.BookingForm.Distributors;
 using StadiumEngine.Services.Facades.BookingForm;
@@ -10,23 +11,23 @@ namespace StadiumEngine.Services.Core.BookingForm;
 
 internal class BookingCheckoutCommandService : IBookingCheckoutCommandService
 {
-    private readonly IBookingRepositoriesFacade _repositoriesFacade;
+    private readonly IBookingRepository _bookingRepository;
     private readonly IBookingIntersectionValidator _intersectionValidator;
     private readonly IBookingLockerRoomDistributor _lockerRoomDistributor;
 
     public BookingCheckoutCommandService(
-        IBookingRepositoriesFacade repositoriesFacade,
+        IBookingRepository bookingRepository,
         IBookingIntersectionValidator intersectionValidator,
         IBookingLockerRoomDistributor lockerRoomDistributor )
     {
-        _repositoriesFacade = repositoriesFacade;
+        _bookingRepository = bookingRepository;
         _intersectionValidator = intersectionValidator;
         _lockerRoomDistributor = lockerRoomDistributor;
     }
 
     public async Task CancelBookingAsync( string bookingNumber )
     {
-        Booking? booking = await _repositoriesFacade.GetBookingByNumberAsync( bookingNumber );
+        Booking? booking = await _bookingRepository.GetByNumberAsync( bookingNumber );
 
         if ( booking == null )
         {
@@ -34,7 +35,7 @@ internal class BookingCheckoutCommandService : IBookingCheckoutCommandService
         }
 
         booking.IsCanceled = true;
-        _repositoriesFacade.UpdateBooking( booking );
+        _bookingRepository.Update( booking );
     }
 
     public async Task FillBookingDataAsync( Booking booking )
@@ -44,30 +45,12 @@ internal class BookingCheckoutCommandService : IBookingCheckoutCommandService
             throw new DomainException( ErrorsKeys.BookingIntersection );
         }
         
-        booking.Customer.BookingId = booking.Id;
-        _repositoriesFacade.AddBookingCustomer( booking.Customer );
-
-        foreach ( BookingCost cost in booking.Costs )
-        {
-            cost.BookingId = booking.Id;
-        }
-        _repositoriesFacade.AddBookingCosts( booking.Costs );
-        
-        if ( booking.Inventories.Any() )
-        {
-            foreach ( BookingInventory inventory in booking.Inventories )
-            {
-                inventory.BookingId = booking.Id;
-            }
-            _repositoriesFacade.AddBookingInventories( booking.Inventories );
-        }
-
-        _repositoriesFacade.UpdateBooking( booking );
+        _bookingRepository.Update( booking );
     }
 
     public async Task<Booking> ConfirmBookingAsync( string bookingNumber, string accessCode )
     {
-        Booking? booking = await _repositoriesFacade.GetBookingByNumberAsync( bookingNumber );
+        Booking? booking = await _bookingRepository.GetByNumberAsync( bookingNumber );
         
         if ( booking == null || booking.IsConfirmed )
         {
@@ -87,7 +70,7 @@ internal class BookingCheckoutCommandService : IBookingCheckoutCommandService
         booking.IsDraft = false;
         booking.IsConfirmed = true;
 
-        _repositoriesFacade.UpdateBooking( booking );
+        _bookingRepository.Update( booking );
 
         await _lockerRoomDistributor.DistributeAsync( booking );
         

@@ -9,7 +9,7 @@ import {Button, Grid, Header, Popup, SemanticWIDTHS} from "semantic-ui-react";
 import {FieldCoveringType} from "../../models/dto/offers/enums/FieldCoveringType";
 import {getDurationText} from "../../helpers/utils";
 
-export interface FieldCardProps {
+export interface BookingFormFieldCardProps {
     field: BookingFormFieldDto,
     addBookingDraft: any
 }
@@ -52,7 +52,7 @@ const PopupSlot = (props: PopupSlotProps) => {
     </Popup>
 }
 
-export const FieldCard = (props: FieldCardProps) => {
+export const BookingFormFieldCard = (props: BookingFormFieldCardProps) => {
     
     const getMaxDuration = (i: number) => {
         let nextSlotIndex = i+1;

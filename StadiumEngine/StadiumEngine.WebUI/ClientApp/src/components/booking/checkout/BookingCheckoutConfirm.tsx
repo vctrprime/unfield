@@ -1,20 +1,20 @@
-import React, {useRef, useState} from "react";
+import React, {useState} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {getTitle} from "../../helpers/utils";
+import {getTitle} from "../../../helpers/utils";
 import {useInject} from "inversify-hooks";
-import {IBookingFormService} from "../../services/BookingFormService";
+import {IBookingFormService} from "../../../services/BookingFormService";
 import {Container} from "reactstrap";
-import '../../css/booking/BookingCheckout.scss';
+import '../../../css/booking/BookingCheckout.scss';
 import { Button, Form } from "semantic-ui-react";
 import {t} from "i18next";
-import {BookingCancelModal} from "./BookingCancelModal";
+import {BookingCancelModal} from "../common/BookingCancelModal";
 
 type ConfirmLocationState = {
     bookingNumber: string;
     backPath: string;
 }
 
-export const BookingConfirm = () => {
+export const BookingCheckoutConfirm = () => {
     document.title = getTitle("booking:confirm_title");
     
     const location = useLocation();

@@ -1,11 +1,13 @@
+import {PromoCodeType} from "../../dto/rates/enums/PromoCodeType";
+
 export interface FillBookingDataCommand {
     bookingNumber: string;
     hoursCount: number;
     amount: number;
-    promoCode: string | null;
     discount: number | null;
     language: string;
     customer: FillBookingDataCommandCustomer;
+    promo: FillBookingDataCommandPromo|null;
     costs: FillBookingDataCommandCost[];
     inventories: FillBookingDataCommandInventory[];
 }
@@ -26,4 +28,10 @@ export interface FillBookingDataCommandInventory {
 export interface FillBookingDataCommandCustomer {
     name: string;
     phoneNumber: string;
+}
+
+export interface FillBookingDataCommandPromo {
+    code: string;
+    type: PromoCodeType;
+    value: number;
 }

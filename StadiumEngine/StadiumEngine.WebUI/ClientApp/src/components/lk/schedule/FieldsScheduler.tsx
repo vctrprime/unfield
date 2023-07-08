@@ -12,6 +12,7 @@ import {IScheduleService} from "../../../services/ScheduleService";
 import {SportKind} from "../../../models/dto/offers/enums/SportKind";
 import {stadiumAtom} from "../../../state/stadium";
 import {SchedulerFieldDto, SchedulerFieldsDto} from "../../../models/dto/schedule/SchedulerFieldsDto";
+import {SchedulerBooking} from "../../booking/scheduler/SchedulerBooking";
 
 export interface FieldsSchedulerProps {
     mode: string,
@@ -23,21 +24,9 @@ interface CustomEditorProps {
 }
 export const CustomEditor = ({ scheduler }: CustomEditorProps) => {
     const event = scheduler.edited;
-
-    // Make your own form/state
-    const [state, setState] = useState({
-        event_id: event?.event_id || 0,
-        title: event?.title || "",
-        description: event?.description || ""
-    });
-
     return (
         <div>
-            <div style={{ padding: "1rem" }}>
-                <p>Load your custom form/fields</p>
-                {state.event_id} /
-                {event?.data.number}
-            </div>
+            <SchedulerBooking bookingData={event?.data} />
             <Button onClick={scheduler.close}>Cancel</Button>
         </div>
     );

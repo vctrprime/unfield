@@ -3,6 +3,7 @@ import {TariffDto} from "../rates/TariffDto";
 import {LockerRoomDto} from "../offers/LockerRoomDto";
 import {BookingSource} from "./enums/BookingSource";
 import {InventoryDto} from "../offers/InventoryDto";
+import {PromoCodeType} from "../rates/enums/PromoCodeType";
 
 export interface BookingDto {
     id: number;
@@ -15,7 +16,7 @@ export interface BookingDto {
     isDraft: boolean;
     isConfirmed: boolean;
     isCanceled: boolean;
-    promoCode: string | null;
+    promo: BookingPromoDto | null;
     discount: number | null;
     note: string | null;
     field: FieldDto;
@@ -45,4 +46,11 @@ export interface BookingInventoryDto {
     quantity: number;
     amount: number;
     inventory: InventoryDto;
+}
+
+export interface BookingPromoDto {
+    id: number;
+    code: string;
+    type: PromoCodeType;
+    value: number;
 }

@@ -35,7 +35,8 @@ internal class BookingFormQueryService : IBookingFormQueryService
         int? fieldId,
         string? q,
         DateTime day,
-        int currentHour )
+        int currentHour,
+        int currentBookingId )
     {
         List<Field> fields = await GetFieldsForBookingFormAsync(
             token,
@@ -60,7 +61,8 @@ internal class BookingFormQueryService : IBookingFormQueryService
                 currentHour,
                 DateTime.Today.ToUniversalTime().Date == day.ToUniversalTime().Date ),
             Prices = await GetPricesAsync( stadiumIds ),
-            Bookings = await _bookingFacade.GetAsync( day, stadiumIds )
+            Bookings = ( await _bookingFacade.GetAsync( day, stadiumIds ) ).Where( x => x.Id != currentBookingId )
+                .ToList()
         };
     }
 
@@ -111,5 +113,4 @@ internal class BookingFormQueryService : IBookingFormQueryService
 
     private async Task<List<Price>> GetPricesAsync( List<int> stadiumsIds ) =>
         await _priceRepository.GetAllAsync( stadiumsIds );
-    
 }

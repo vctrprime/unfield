@@ -12,7 +12,7 @@ import {PromoCodeDto} from "../models/dto/rates/TariffDto";
 export interface IBookingFormService {
     getBookingForm(date: Date, token: string|null, cityId: number|null, q: string|null): Promise<BookingFormDto>;
     addBookingDraft(command: AddBookingDraftCommand): Promise<AddBookingDraftDto>;
-    getBookingCheckout(bookingNumber: string): Promise<BookingCheckoutDto>;
+    getBookingCheckout(bookingNumber: string, isConfirmed: boolean): Promise<BookingCheckoutDto>;
     fillBookingData(command: FillBookingDataCommand) : Promise<void>;
     cancelBooking(command: CancelBookingCommand) : Promise<void>;
     confirmBooking(command: ConfirmBookingCommand) : Promise<void>;
@@ -48,8 +48,8 @@ export class BookingFormService extends BaseService implements IBookingFormServi
         })
     }
 
-    getBookingCheckout(bookingNumber: string): Promise<BookingCheckoutDto> {
-        let params = `?bookingNumber=${bookingNumber}`;
+    getBookingCheckout(bookingNumber: string, isConfirmed: boolean): Promise<BookingCheckoutDto> {
+        let params = `?bookingNumber=${bookingNumber}&isConfirmed=${isConfirmed}`;
         
         return this.fetchWrapper.get({
             url: `${this.baseUrl}/checkout${params}`,

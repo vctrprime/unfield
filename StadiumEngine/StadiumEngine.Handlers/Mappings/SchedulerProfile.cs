@@ -12,6 +12,7 @@ public class SchedulerProfile : Profile
         CreateMap<BookingCustomer, BookingCustomerDto>();
         CreateMap<BookingInventory, BookingInventoryDto>();
         CreateMap<BookingCost, BookingCostDto>();
+        CreateMap<BookingPromo, BookingPromoDto>();
         CreateMap<Booking, BookingDto>();
         CreateMap<SchedulerEvent, SchedulerEventDto>();
     }

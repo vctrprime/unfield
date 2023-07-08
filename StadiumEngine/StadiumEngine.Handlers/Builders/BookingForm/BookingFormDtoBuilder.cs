@@ -24,16 +24,22 @@ internal class BookingFormDtoBuilder : IBookingFormDtoBuilder
             null,
             query.Q,
             query.Day,
-            query.ClientDate.Hour );
+            query.ClientDate.Hour,
+            0 );
 
-    public async Task<BookingFormDto> BuildAsync( int fieldId, DateTime day, int currentHour ) =>
+    public async Task<BookingFormDto> BuildAsync(
+        int fieldId,
+        DateTime day,
+        int currentHour,
+        int currentBookingId ) =>
         await BuildAsync(
             null,
             null,
             fieldId,
             null,
             day,
-            currentHour );
+            currentHour,
+            currentBookingId );
 
     private async Task<BookingFormDto> BuildAsync(
         string? stadiumToken,
@@ -41,7 +47,8 @@ internal class BookingFormDtoBuilder : IBookingFormDtoBuilder
         int? fieldId,
         string? q,
         DateTime day,
-        int currentHour )
+        int currentHour,
+        int currentBookingId )
     {
         BookingFormData bookingFormData = await _bookingFormQueryService.GetBookingFormDataAsync(
             stadiumToken,
@@ -49,7 +56,8 @@ internal class BookingFormDtoBuilder : IBookingFormDtoBuilder
             fieldId,
             q,
             day,
-            currentHour );
+            currentHour,
+            currentBookingId );
 
         if ( !bookingFormData.Fields.Any() )
         {
