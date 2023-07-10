@@ -59,6 +59,7 @@ import {Settings} from "./components/lk/settings/Settings";
 import {Breaks} from "./components/lk/settings/Breaks";
 import {getStartLkRoute} from "./helpers/utils";
 import {Break} from "./components/lk/settings/Break";
+import {UserStadiumDto} from "./models/dto/accounts/UserStadiumDto";
 
 const ReactNotifications = require('react-notifications');
 const {NotificationContainer} = ReactNotifications;
@@ -69,7 +70,7 @@ const App = () => {
 
     const [logoutModal, setLogoutModal] = useRecoilState<boolean>(logoutModalAtom);
 
-    const setStadium = useSetRecoilState<number | null>(stadiumAtom);
+    const setStadium = useSetRecoilState<UserStadiumDto | null>(stadiumAtom);
     const setPermissions = useSetRecoilState<UserPermissionDto[]>(permissionsAtom);
     const setAuth = useSetRecoilState(authAtom);
 

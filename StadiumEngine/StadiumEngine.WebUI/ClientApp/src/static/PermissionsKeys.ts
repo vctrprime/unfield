@@ -41,6 +41,9 @@ export class PermissionsKeys {
     public static readonly GetReports = "get-reports";
 
     public static readonly GetBookings = "get-bookings";
+    public static readonly InsertBooking = "insert-booking";
+    public static readonly UpdateBooking = "update-booking";
+    public static readonly DeleteBooking = "delete-booking";
 
     public static readonly UpdateMainSettings = "update-main-settings";
     public static readonly GetBreaks = "get-breaks";

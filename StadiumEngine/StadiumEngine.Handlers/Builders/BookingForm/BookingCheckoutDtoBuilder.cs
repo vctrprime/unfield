@@ -44,14 +44,14 @@ internal class BookingCheckoutDtoBuilder : IBookingCheckoutDtoBuilder
             .Slots
             .Where(
                 x => ( x.Enabled ||
-                       TimePointParser.Parse( x.Name ) == booking.StartHour ||
-                       TimePointParser.Parse( x.Name ) == booking.StartHour + ( decimal )0.5 ||
+                       x.Hour == booking.StartHour ||
+                       x.Hour == booking.StartHour + ( decimal )0.5 ||
                        ( !x.Enabled && x.DisabledByMinDuration )
                      ) &&
-                     TimePointParser.Parse( x.Name ) >= booking.StartHour ).Select(
+                     x.Hour >= booking.StartHour ).Select(
                 x => new BookingCheckoutSlot
                 {
-                    Hour = TimePointParser.Parse( x.Name ),
+                    Hour = x.Hour,
                     Prices = x.Prices.Select(
                         p => new BookingCheckoutSlotPrice
                         {

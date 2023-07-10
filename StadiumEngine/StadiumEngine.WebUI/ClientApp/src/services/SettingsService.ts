@@ -24,7 +24,7 @@ export class SettingsService extends BaseService implements ISettingsService {
 
     getMainSettings(): Promise<MainSettingsDto> {
         return this.fetchWrapper.get({
-            url: `${this.baseUrl}/main`,
+            url: `${this.baseUrl}/main`
         })
     }
 

@@ -9,6 +9,7 @@ public interface IBookingRepository
     Task<List<Booking>> GetAsync( DateTime from, DateTime to, int stadiumId );
     Task<List<Booking>> GetWeeklyAsync( DateTime from, DateTime to, int stadiumId );
     Task<Booking?> GetByNumberAsync( string bookingNumber );
+    Task<Booking?> FindDraftAsync( DateTime day, decimal startHour, int fieldId );
     void Add( Booking booking );
     void Update( Booking booking );
 }

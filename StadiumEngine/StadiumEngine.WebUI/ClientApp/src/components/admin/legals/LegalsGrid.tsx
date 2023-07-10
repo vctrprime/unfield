@@ -16,6 +16,7 @@ import {legalsSearchValue} from "../../../state/admin/legalsSearchValue";
 import {useLocalStorage} from "usehooks-ts";
 import {getOverlayNoRowsTemplate, getStartLkRoute} from "../../../helpers/utils";
 import {GridCellWithTitleRenderer} from "../../common/GridCellWithTitleRenderer";
+import {UserStadiumDto} from "../../../models/dto/accounts/UserStadiumDto";
 
 const AgGrid = require('ag-grid-react');
 const {AgGridReact} = AgGrid;
@@ -27,7 +28,7 @@ export const LegalsGrid = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const [searchString, setSearchString] = useRecoilState<string>(legalsSearchValue);
-    const setStadium = useSetRecoilState<number | null>(stadiumAtom);
+    const setStadium = useSetRecoilState<UserStadiumDto | null>(stadiumAtom);
     const setPermissions = useSetRecoilState<UserPermissionDto[]>(permissionsAtom);
 
     const [adminService] = useInject<IAdminService>('AdminService');

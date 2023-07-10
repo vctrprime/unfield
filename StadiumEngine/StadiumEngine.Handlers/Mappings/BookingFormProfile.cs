@@ -26,12 +26,9 @@ internal class BookingFormProfile : Profile
 
         CreateMap<AddBookingDraftCommand, Booking>()
             .ForMember( dest => dest.Day, act => act.MapFrom( s => s.Day ) )
-            .ForMember( dest => dest.StartHour, act => act.MapFrom( s => TimePointParser.Parse( s.Slot ) ) )
+            .ForMember( dest => dest.StartHour, act => act.MapFrom( s => s.Hour ) )
             .ForMember( dest => dest.IsDraft, act => act.MapFrom( s => true ) )
-            .ForMember( dest => dest.HoursCount, act => act.MapFrom( s => 1 ) )
-            .ForMember(
-                dest => dest.Source,
-                act => act.MapFrom( s => BookingSource.Form ) );
+            .ForMember( dest => dest.HoursCount, act => act.MapFrom( s => 1 ) );
 
         CreateMap<BookingCheckoutData, BookingCheckoutDto>()
             .ForMember(
@@ -69,7 +66,7 @@ internal class BookingFormProfile : Profile
                 {
                     BookingFormFieldSlotDto? nextSlotAfterHour =
                         bookingFormSlots.FirstOrDefault(
-                            s => TimePointParser.Parse( s.Name ) >= TimePointParser.Parse( bookingFormSlot.Name ) + 1 &&
+                            s => s.Hour >= bookingFormSlot.Hour + 1 &&
                                  s.Enabled );
 
                     bookingFormSlot.Enabled = bookingFormSlot.Enabled && nextSlotAfterHour != null;
@@ -122,6 +119,7 @@ internal class BookingFormProfile : Profile
             result.Add(
                 new BookingFormFieldSlotDto
                 {
+                    Hour = slot.Item1,
                     Name = TimePointParser.Parse( slot.Item1 ),
                     Prices = bookingFormPrices,
                     Enabled = slot.Item2 && bookingFormPrices.Any() && booking == null && fieldBreak == null,

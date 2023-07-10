@@ -44,6 +44,9 @@ public static class PermissionsKeys
     public const string GetReports = "get-reports";
 
     public const string GetBookings = "get-bookings";
+    public const string InsertBooking = "insert-booking";
+    public const string UpdateBooking = "update-booking";
+    public const string DeleteBooking = "delete-booking";
 
     public const string UpdateMainSettings = "update-main-settings";
     public const string GetBreaks = "get-breaks";

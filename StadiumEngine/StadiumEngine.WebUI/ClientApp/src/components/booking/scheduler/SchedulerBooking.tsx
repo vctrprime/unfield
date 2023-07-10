@@ -6,7 +6,7 @@ import {BookingHeader} from "../common/BookingHeader";
 import {BookingInventory, SelectedInventory} from "../common/BookingInventory";
 import {BookingDto, BookingPromoDto} from "../../../models/dto/booking/BookingDto";
 import {useInject} from "inversify-hooks";
-import {IBookingFormService} from "../../../services/BookingFormService";
+import {IBookingService} from "../../../services/BookingService";
 import {BookingCheckoutDto} from "../../../models/dto/booking/BookingCheckoutDto";
 import {CheckoutDiscount} from "../checkout/BookingCheckoutButtons";
 import {calculateDiscounts, getFieldAmountValue, getInventoryAmount} from "../../../helpers/booking-utils";
@@ -15,19 +15,23 @@ import {t} from "i18next";
 import {BookingTotalAmount} from "../common/BookingTotalAmount";
 import {BookingCustomer} from "../common/BookingCustomer";
 import {BookingDuration} from "../common/BookingDuration";
+import {BookingFormFieldSlotPriceDto} from "../../../models/dto/booking/BookingFormDto";
 
 export interface SchedulerBooking {
     bookingData: BookingDto;
+    slotPrices: BookingFormFieldSlotPriceDto[];
 }
 
 export const SchedulerBooking = (props: SchedulerBooking) => {
     const [data, setData] = useState<SchedulerBookingDto|null>(null);
+    
+    const isNew = props.bookingData.id === 0;
 
-    const [promo, setPromo] = useState<BookingPromoDto|null>(props.bookingData.promo);
+    const [promo, setPromo] = useState<BookingPromoDto|null>(isNew ? null : props.bookingData.promo);
     const [discounts, setDiscounts] = useState<CheckoutDiscount[]>([]);
 
-    const [selectedDuration, setSelectedDuration] = useState<number>(props.bookingData.hoursCount ?? 1);
-    const [selectedInventories, setSelectedInventories] = useState<SelectedInventory[]>(props.bookingData.inventories.map((i) => {
+    const [selectedDuration, setSelectedDuration] = useState<number>(isNew ? 1 : props.bookingData.hoursCount);
+    const [selectedInventories, setSelectedInventories] = useState<SelectedInventory[]>(isNew ? [] : props.bookingData.inventories.map((i) => {
         return {
             id: i.inventory.id,
             quantity: i.quantity,
@@ -35,10 +39,10 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
         } as SelectedInventory
     }));
 
-    const [phoneNumber, setPhoneNumber] = useState<string | undefined>(props.bookingData.customer?.phoneNumber || undefined);
-    const [name, setName] = useState<string | undefined>(props.bookingData.customer?.name || undefined);
+    const [phoneNumber, setPhoneNumber] = useState<string | undefined>(isNew ? undefined : props.bookingData.customer?.phoneNumber || undefined);
+    const [name, setName] = useState<string | undefined>(isNew ? undefined : props.bookingData.customer?.name || undefined);
 
-    const [bookingFormService] = useInject<IBookingFormService>('BookingFormService');
+    const [bookingService] = useInject<IBookingService>('BookingService');
 
     useEffect(() => {
         if (data?.checkoutData) {
@@ -47,7 +51,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     }, [data])
     
     useEffect(() => {
-        bookingFormService.getBookingCheckout(props.bookingData.number, true).then((response: BookingCheckoutDto) => {
+        bookingService.getBookingCheckout(props.bookingData.number, !isNew).then((response: BookingCheckoutDto) => {
             setData({
                 checkoutData: response
             })
@@ -69,6 +73,9 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     return data === null  ? null :  <Container className="booking-checkout-container">
         <Form style={{paddingBottom: '10px'}}>
             <BookingHeader data={data.checkoutData} withStadiumName={false} />
+            {props.slotPrices.map((p) => {
+                return <p key={p.tariffId}>{p.tariffName}</p>
+                })}
             <BookingDuration data={data.checkoutData} selectedDuration={selectedDuration} setSelectedDuration={setSelectedDuration} />
             <BookingFieldAmount
                 getFieldAmountValue={getSchedulerBookingFieldAmountValue}

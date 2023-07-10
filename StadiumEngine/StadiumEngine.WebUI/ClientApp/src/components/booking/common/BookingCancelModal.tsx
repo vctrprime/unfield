@@ -1,13 +1,13 @@
 import React from 'react';
 import {useInject} from "inversify-hooks";
-import {IBookingFormService} from "../../../services/BookingFormService";
+import {IBookingService} from "../../../services/BookingService";
 import {Button, Modal} from "semantic-ui-react";
 import {t} from "i18next";
 import {useNavigate} from "react-router-dom";
 
 export const BookingCancelModal = ({openModal, setOpenModal, bookingNumber, backPath}: any) => {
     
-    const [bookingFormService] = useInject<IBookingFormService>('BookingFormService');
+    const [bookingService] = useInject<IBookingService>('BookingService');
     const navigate = useNavigate();
     
     return <Modal
@@ -24,7 +24,7 @@ export const BookingCancelModal = ({openModal, setOpenModal, bookingNumber, back
             }}>{t('common:no_button')}</Button>
             <Button style={{backgroundColor: '#3CB371', color: 'white'}} onClick={() => {
                 setOpenModal(false);
-                bookingFormService.cancelBooking({
+                bookingService.cancelBooking({
                     bookingNumber: bookingNumber||''
                 }).finally(() => {
                     navigate(backPath);

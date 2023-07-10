@@ -6,7 +6,7 @@ using StadiumEngine.Domain.Services.Core.BookingForm;
 using StadiumEngine.Domain.Services.Infrastructure;
 using StadiumEngine.DTO.BookingForm;
 
-namespace StadiumEngine.Handlers.Handlers.BookingForm;
+namespace StadiumEngine.Handlers.Handlers.Bookings;
 
 internal sealed class FillBookingDataHandler : BaseCommandHandler<FillBookingDataCommand, FillBookingDataDto>
 {

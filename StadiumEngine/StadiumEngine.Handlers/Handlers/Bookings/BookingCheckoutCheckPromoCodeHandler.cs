@@ -4,7 +4,7 @@ using StadiumEngine.Domain.Services.Core.BookingForm;
 using StadiumEngine.DTO.Rates.Tariffs;
 using StadiumEngine.Queries.BookingForm;
 
-namespace StadiumEngine.Handlers.Handlers.BookingForm;
+namespace StadiumEngine.Handlers.Handlers.Bookings;
 
 internal sealed class
     BookingCheckoutCheckPromoCodeHandler : BaseRequestHandler<BookingCheckoutCheckPromoCodeQuery, PromoCodeDto?>

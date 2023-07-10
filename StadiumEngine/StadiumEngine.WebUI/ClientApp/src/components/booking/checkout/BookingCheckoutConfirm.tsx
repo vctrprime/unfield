@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {getTitle} from "../../../helpers/utils";
 import {useInject} from "inversify-hooks";
-import {IBookingFormService} from "../../../services/BookingFormService";
+import {IBookingService} from "../../../services/BookingService";
 import {Container} from "reactstrap";
 import '../../../css/booking/BookingCheckout.scss';
 import { Button, Form } from "semantic-ui-react";
@@ -24,7 +24,7 @@ export const BookingCheckoutConfirm = () => {
     let bookingNumber = (location.state as ConfirmLocationState)?.bookingNumber  || params["bookingNumber"];
     let backPath = (location.state as ConfirmLocationState)?.backPath || '/booking';
 
-    const [bookingFormService] = useInject<IBookingFormService>('BookingFormService');
+    const [bookingService] = useInject<IBookingService>('BookingService');
     
     const [code, setCode] = useState<string | undefined>();
 
@@ -59,7 +59,7 @@ export const BookingCheckoutConfirm = () => {
                 <Button 
                     disabled={confirmButtonDisabled()}
                     style={{backgroundColor: '#3CB371', color: 'white'}} onClick={() => {
-                    bookingFormService.confirmBooking({
+                    bookingService.confirmBooking({
                         bookingNumber: bookingNumber||'',
                         accessCode: code||'',
                         language: localStorage.getItem('language') || 'ru',

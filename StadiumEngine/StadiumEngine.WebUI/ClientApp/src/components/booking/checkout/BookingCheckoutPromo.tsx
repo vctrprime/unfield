@@ -4,7 +4,7 @@ import React, {useRef, useState} from "react";
 import {BookingCheckoutDto} from "../../../models/dto/booking/BookingCheckoutDto";
 import {PromoCodeDto} from "../../../models/dto/rates/TariffDto";
 import {useInject} from "inversify-hooks";
-import {IBookingFormService} from "../../../services/BookingFormService";
+import {IBookingService} from "../../../services/BookingService";
 
 export interface BookingCheckoutPromoProps {
     data: BookingCheckoutDto;
@@ -20,7 +20,7 @@ type PromoMessage = {
 export const BookingCheckoutPromo = (props: BookingCheckoutPromoProps) => {
     const promoInput = useRef<any>();
 
-    const [bookingFormService] = useInject<IBookingFormService>('BookingFormService');
+    const [bookingService] = useInject<IBookingService>('BookingService');
     
     const [promoMessage, setPromoMessage] = useState<PromoMessage|null>(null);
     
@@ -43,7 +43,7 @@ export const BookingCheckoutPromo = (props: BookingCheckoutPromoProps) => {
                         return;
                     }
 
-                    bookingFormService.checkPromoCode( props.data?.tariffId, promoInput.current?.value).then((result) => {
+                    bookingService.checkPromoCode( props.data?.tariffId, promoInput.current?.value).then((result) => {
                         const tariffPromo = result;
                         setPromoMessage(tariffPromo ? {
                             message: t("booking:checkout:promo_success"),

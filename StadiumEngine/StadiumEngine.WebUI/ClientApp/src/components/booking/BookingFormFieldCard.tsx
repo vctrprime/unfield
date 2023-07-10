@@ -43,7 +43,7 @@ const PopupSlot = (props: PopupSlotProps) => {
                         {p.value}{t("booking:field_card:per_hour")}
                     </p>
                     <Button
-                        onClick={() => props.addBookingDraft(p.tariffId, props.slot.name)}
+                        onClick={() => props.addBookingDraft(p.tariffId, props.slot.hour)}
                         style={{backgroundColor: '#354650', color: 'white'}}>{t("booking:field_card:book")}
                     </Button>
                 </Grid.Column>
@@ -111,7 +111,7 @@ export const BookingFormFieldCard = (props: BookingFormFieldCardProps) => {
                     <div>{
                         props.field.slots.map((s, i) => {
                             return i + 1 === props.field.slots.length ? null : <PopupSlot maxDuration={getMaxDuration(i)} slot={s} key={i}
-                                              addBookingDraft={(tariffId: number, slot: string) => props.addBookingDraft(props.field.data.id, tariffId, slot)}/>;
+                                              addBookingDraft={(tariffId: number, hour: number) => props.addBookingDraft(props.field.data.id, tariffId, hour)}/>;
                         })
                     }</div>
                 }

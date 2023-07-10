@@ -48,9 +48,17 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
             .Include( x => x.Costs )
             .SingleOrDefaultAsync( x => x.Number == bookingNumber );
 
+    public async Task<Booking?> FindDraftAsync( DateTime day, decimal startHour, int fieldId ) =>
+        await Entities.SingleOrDefaultAsync(
+            x => x.Day == day 
+                 && x.StartHour == startHour 
+                 && x.FieldId == fieldId 
+                 && !x.IsCanceled 
+                 && x.IsDraft );
+
     public new void Add( Booking booking ) => base.Add( booking );
     public new void Update( Booking booking ) => base.Update( booking );
-    
+
     private async Task<List<Booking>> Get( Expression<Func<Booking, bool>> clause ) =>
         await Entities
             .Include( x => x.Field )

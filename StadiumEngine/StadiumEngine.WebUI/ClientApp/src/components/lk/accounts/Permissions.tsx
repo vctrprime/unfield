@@ -180,7 +180,7 @@ export const Permissions = () => {
             <div className="outer-container" style={{width: '33.33%'}}>
                 <div className="inner-container">
                     <PermissionGroupTitle groupKey="schedule"/>
-                    {new Array(1).fill('').map((v, i) => {
+                    {new Array(4).fill('').map((v, i) => {
                         return <Permission key={i} className="permission"
                                            permission={data.find(p => p.groupKey === 'schedule' && p.sortValue === i + 1)}/>
                     })}

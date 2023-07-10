@@ -9,8 +9,9 @@ import {ConfirmBookingCommand} from "../models/command/booking/ConfirmBookingCom
 import {t} from "i18next";
 import {PromoCodeDto} from "../models/dto/rates/TariffDto";
 
-export interface IBookingFormService {
-    getBookingForm(date: Date, token: string|null, cityId: number|null, q: string|null): Promise<BookingFormDto>;
+export interface IBookingService {
+    getBookingForm(date: Date, token: string|null, cityId: number|null, q: string|null, hideSpinner?: boolean): Promise<BookingFormDto>;
+    addSchedulerBookingDraft(command: AddBookingDraftCommand): Promise<AddBookingDraftDto>;
     addBookingDraft(command: AddBookingDraftCommand): Promise<AddBookingDraftDto>;
     getBookingCheckout(bookingNumber: string, isConfirmed: boolean): Promise<BookingCheckoutDto>;
     fillBookingData(command: FillBookingDataCommand) : Promise<void>;
@@ -19,12 +20,12 @@ export interface IBookingFormService {
     checkPromoCode(tariffId: number, code: string): Promise<PromoCodeDto|null>;
 }
 
-export class BookingFormService extends BaseService implements IBookingFormService {
+export class BookingService extends BaseService implements IBookingService {
     constructor() {
         super("api/booking");
     }
 
-    getBookingForm(date: Date, token: string|null, cityId: number|null, q: string|null): Promise<BookingFormDto> {
+    getBookingForm(date: Date, token: string|null, cityId: number|null, q: string|null, hideSpinner?: boolean): Promise<BookingFormDto> {
         let params = `?day=${date.toDateString()}`;
         if (token !== null) {
             params += `&stadiumToken=${token}`
@@ -38,13 +39,22 @@ export class BookingFormService extends BaseService implements IBookingFormServi
         
         return this.fetchWrapper.get({
             url: `${this.baseUrl}/form${params}`,
+            hideSpinner: hideSpinner === undefined ? true : hideSpinner
         })
     }
 
     addBookingDraft(command: AddBookingDraftCommand): Promise<AddBookingDraftDto> {
         return this.fetchWrapper.post({
             url: `${this.baseUrl}/draft`,
-            body: command
+            body: command,
+        })
+    }
+
+    addSchedulerBookingDraft(command: AddBookingDraftCommand): Promise<AddBookingDraftDto> {
+        return this.fetchWrapper.post({
+            url: `${this.baseUrl}/scheduler-draft`,
+            body: command,
+            hideSpinner: false
         })
     }
 

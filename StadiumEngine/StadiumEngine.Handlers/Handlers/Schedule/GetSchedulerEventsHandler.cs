@@ -29,6 +29,13 @@ internal sealed class GetSchedulerEventsHandler : BaseRequestHandler<GetSchedule
 
         List<SchedulerEventDto> eventsDto = Mapper.Map<List<SchedulerEventDto>>( events );
 
+        int i = 1;
+        foreach ( SchedulerEventDto eventDto in eventsDto )
+        {
+            eventDto.EventId = i;
+            i++;
+        }
+
         return eventsDto;
     }
 }

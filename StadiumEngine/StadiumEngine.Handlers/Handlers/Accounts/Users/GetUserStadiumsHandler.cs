@@ -24,7 +24,7 @@ internal sealed class GetUserStadiumsHandler : BaseRequestHandler<GetUserStadium
     {
         List<Stadium> stadiums = await _queryService.GetUserStadiumsAsync( _userId, _legalId );
 
-        List<UserStadiumDto>? stadiumsDto = Mapper.Map<List<UserStadiumDto>>( stadiums );
+        List<UserStadiumDto> stadiumsDto = Mapper.Map<List<UserStadiumDto>>( stadiums );
 
         stadiumsDto.First( s => s.Id == _currentStadiumId ).IsCurrent = true;
 

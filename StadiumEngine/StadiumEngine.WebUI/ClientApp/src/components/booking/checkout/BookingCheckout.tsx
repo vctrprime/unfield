@@ -4,7 +4,7 @@ import {
     BookingCheckoutDto
 } from "../../../models/dto/booking/BookingCheckoutDto";
 import {useInject} from "inversify-hooks";
-import {IBookingFormService} from "../../../services/BookingFormService";
+import {IBookingService} from "../../../services/BookingService";
 import {Container} from "reactstrap";
 import '../../../css/booking/BookingCheckout.scss';
 import {PromoCodeDto} from "../../../models/dto/rates/TariffDto";
@@ -37,7 +37,7 @@ export const BookingCheckout = () => {
     let bookingNumber = (location.state as CheckoutLocationState)?.bookingNumber || params["bookingNumber"]
     let backPath = (location.state as CheckoutLocationState)?.backPath || '/booking';
     
-    const [bookingFormService] = useInject<IBookingFormService>('BookingFormService');
+    const [bookingService] = useInject<IBookingService>('BookingService');
     
     const [data, setData] = useState<BookingCheckoutDto|null>(null);
     
@@ -50,7 +50,7 @@ export const BookingCheckout = () => {
     const navigate = useNavigate();
     
     useEffect(() => {
-        bookingFormService.getBookingCheckout(bookingNumber as string, false).then((response: BookingCheckoutDto) => {
+        bookingService.getBookingCheckout(bookingNumber as string, false).then((response: BookingCheckoutDto) => {
             setData(response);
         })
             .catch((error) => {

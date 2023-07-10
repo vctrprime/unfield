@@ -50,6 +50,11 @@ public class BookingFormFieldSlotDto
     public string Name { get; set; } = null!;
     
     /// <summary>
+    ///  Час в числовом выражении
+    /// </summary>
+    public decimal Hour { get; set; }
+    
+    /// <summary>
     /// Доступен
     /// </summary>
     public bool Enabled { get; set; }

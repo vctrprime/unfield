@@ -6,7 +6,7 @@ import {
 import {t} from "i18next";
 import React, {useState} from "react";
 import {useInject} from "inversify-hooks";
-import {IBookingFormService} from "../../../services/BookingFormService";
+import {IBookingService} from "../../../services/BookingService";
 import {BookingCancelModal} from "../common/BookingCancelModal";
 import {PromoCodeDto} from "../../../models/dto/rates/TariffDto";
 import {BookingCheckoutDto} from "../../../models/dto/booking/BookingCheckoutDto";
@@ -34,7 +34,7 @@ export interface BookingCheckoutButtonsProps {
 export const BookingCheckoutButtons = (props: BookingCheckoutButtonsProps) => {
     const [cancelModal, setCancelModal] = useState<boolean>(false)
     
-    const [bookingFormService] = useInject<IBookingFormService>('BookingFormService');
+    const [bookingService] = useInject<IBookingService>('BookingService');
 
     const navigate = useNavigate();
 
@@ -47,7 +47,7 @@ export const BookingCheckoutButtons = (props: BookingCheckoutButtonsProps) => {
         <Button
             disabled={confirmButtonDisabled()}
             style={{backgroundColor: '#3CB371', color: 'white'}} onClick={() => {
-            bookingFormService.fillBookingData({
+            bookingService.fillBookingData({
                 bookingNumber: props.bookingNumber||'',
                 hoursCount: props.selectedDuration,
                 amount: props.getTotalAmount(),

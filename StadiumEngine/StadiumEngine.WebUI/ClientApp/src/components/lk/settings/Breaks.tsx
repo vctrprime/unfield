@@ -14,7 +14,7 @@ import {GridLoading} from "../common/GridLoading";
 import {permissionsAtom} from "../../../state/permissions";
 import {UpdateBreakCommand} from "../../../models/command/settings/UpdateBreakCommand";
 import {breaksAtom} from "../../../state/settings/breaks";
-import {parse} from "../../../helpers/time-point-parser";
+import {parseNumber} from "../../../helpers/time-point-parser";
 
 const AgGrid = require('ag-grid-react');
 const {AgGridReact} = AgGrid;
@@ -78,7 +78,7 @@ export const Breaks = () => {
 
     const HoursPeriodRenderer = (obj: any) => {
         const row = obj.data as BreakDto;
-        return <span>{parse(row.startHour)} - {parse(row.endHour)}</span>;
+        return <span>{parseNumber(row.startHour)} - {parseNumber(row.endHour)}</span>;
     }
 
     const columnDefs = [

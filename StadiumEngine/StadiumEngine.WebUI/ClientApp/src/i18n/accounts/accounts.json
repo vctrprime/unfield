@@ -93,6 +93,12 @@
     "permissions": {
         "get_bookings": "Просмотр броней",
         "get_bookings_description": "Просмотр расписания и забронированных слотов",
+        "insert_booking": "Добавление бронирования",
+        "insert_booking_description": "Возможность добавить бронирование",
+        "update_booking": "Изменение бронирования",
+        "update_booking_description": "Возможность изменить данные бронирования",
+        "delete_booking": "Отмена бронирования",
+        "delete_booking_description": "Возможность отменить бронирование",
         "get_fields": "Просмотр площадок",
         "get_fields_description": "Просмотр списка площадок",
         "insert_field": "Добавление площадки",

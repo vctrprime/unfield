@@ -23,7 +23,8 @@ interface StadiumDropDownData {
 
 export const Header = () => {
     const [stadiums, setStadiums] = useState<StadiumDropDownData[]>([])
-    const [stadium, setStadium] = useRecoilState<number | null>(stadiumAtom);
+    const [stadium, setStadium] = useRecoilState<UserStadiumDto | null>(stadiumAtom);
+    const [stadiumsData, setStadiumsData] = useState<UserStadiumDto[]>([]);
     
     const setLanguage = useSetRecoilState<string>(languageAtom);
 
@@ -42,12 +43,13 @@ export const Header = () => {
     const loadStadiums = () => {
         accountsService.getCurrentUserStadiums()
             .then((result: UserStadiumDto[]) => {
+                setStadiumsData(result);
                 setStadiums(result.map((s) => {
                     return {key: s.id, value: s.id, text: s.address}
                 }));
                 const currentStadium: UserStadiumDto | undefined = result.find(s => s.isCurrent);
                 if (currentStadium !== undefined) {
-                    setStadium(currentStadium.id);
+                    setStadium(currentStadium);
                 }
 
             })
@@ -57,7 +59,10 @@ export const Header = () => {
         accountsService.changeCurrentStadium(value)
             .then((result: AuthorizeUserDto) => {
                 setAuth(result);
-                setStadium(value);
+                const currentStadium: UserStadiumDto | undefined = stadiumsData.find(s => s.id == value);
+                if (currentStadium) {
+                    setStadium(currentStadium);
+                }
                 localStorage.setItem('user', JSON.stringify(result));
                 localStorage.setItem('language', result.language);
                 setLanguage(result.language);
@@ -85,7 +90,7 @@ export const Header = () => {
                             onChange={changeStadium}
                             inline
                             options={stadiums}
-                            defaultValue={stadium}
+                            defaultValue={stadium.id}
                         />
                     </div>
                     <div className="header-warning"

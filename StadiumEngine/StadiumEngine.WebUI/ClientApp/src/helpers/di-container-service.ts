@@ -4,7 +4,7 @@ import {AdminService, IAdminService} from "../services/AdminService";
 import {IOffersService, OffersService} from "../services/OffersService";
 import {IRatesService, RatesService} from "../services/RatesService";
 import {ISettingsService, SettingsService} from "../services/SettingsService";
-import {BookingFormService, IBookingFormService} from "../services/BookingFormService";
+import {BookingService, IBookingService} from "../services/BookingService";
 import {GeoService, IGeoService} from "../services/GeoService";
 import {IScheduleService, ScheduleService} from "../services/ScheduleService";
 
@@ -14,7 +14,7 @@ export function registerServices() {
     container.addRequest<IOffersService>(OffersService, 'OffersService');
     container.addRequest<IRatesService>(RatesService, 'RatesService');
     container.addRequest<ISettingsService>(SettingsService, 'SettingsService');
-    container.addRequest<IBookingFormService>(BookingFormService, 'BookingFormService');
+    container.addRequest<IBookingService>(BookingService, 'BookingService');
     container.addRequest<IGeoService>(GeoService, 'GeoService');
     container.addRequest<IScheduleService>(ScheduleService, 'ScheduleService');
 }

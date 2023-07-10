@@ -1,4 +1,5 @@
 using StadiumEngine.Common;
+using StadiumEngine.Common.Enums.BookingForm;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Common.Static;
 using StadiumEngine.Domain.Entities.Bookings;
@@ -21,6 +22,16 @@ internal class BookingFormCommandService : IBookingFormCommandService
     }
     public async Task CreateBookingAsync( Booking booking )
     {
+        if ( booking.Source == BookingSource.Schedule )
+        {
+            Booking? existingDraft = await _bookingRepository.FindDraftAsync( booking.Day, booking.StartHour, booking.FieldId );
+            if ( existingDraft != null )
+            {
+                booking.Number = existingDraft.Number;
+                return;
+            }
+        }
+        
         Field? field = await _fieldRepository.GetAsync( booking.FieldId );
 
         if ( field == null )

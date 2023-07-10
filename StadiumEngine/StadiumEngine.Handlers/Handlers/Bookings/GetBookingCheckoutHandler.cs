@@ -3,7 +3,7 @@ using StadiumEngine.DTO.BookingForm;
 using StadiumEngine.Handlers.Builders.BookingForm;
 using StadiumEngine.Queries.BookingForm;
 
-namespace StadiumEngine.Handlers.Handlers.BookingForm;
+namespace StadiumEngine.Handlers.Handlers.Bookings;
 
 internal class GetBookingCheckoutHandler : BaseRequestHandler<GetBookingCheckoutQuery, BookingCheckoutDto>
 {

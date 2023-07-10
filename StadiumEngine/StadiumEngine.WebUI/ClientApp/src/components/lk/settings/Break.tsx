@@ -16,7 +16,7 @@ import {useRecoilState} from "recoil";
 import {fieldsAtom} from "../../../state/offers/fields";
 import {Checkbox, Dropdown, Form} from "semantic-ui-react";
 import {DateRangeSelect} from "../common/DateRangeSelect";
-import {parse} from "../../../helpers/time-point-parser";
+import {parseNumber} from "../../../helpers/time-point-parser";
 
 export const Break = () => {
     let {id} = useParams();
@@ -179,7 +179,7 @@ export const Break = () => {
         let i = mainSettings?.openTime || 0;
         
         while ( i <= (mainSettings?.closeTime || i)) {
-            result.push({key: i, value: i, text: parse(i), disabled: i >= data.endHour})
+            result.push({key: i, value: i, text: parseNumber(i), disabled: i >= data.endHour})
             i += 0.5;
         }
         return result;
@@ -190,7 +190,7 @@ export const Break = () => {
         let i = mainSettings?.openTime || 0;
         
         while ( i <= (mainSettings?.closeTime || i)) {
-            result.push({key: i, value: i, text: parse(i), disabled: i <= data.startHour})
+            result.push({key: i, value: i, text: parseNumber(i), disabled: i <= data.startHour})
             i += 0.5;
         }
         return result;

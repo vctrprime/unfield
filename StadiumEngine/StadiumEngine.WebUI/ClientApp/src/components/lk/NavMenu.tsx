@@ -11,6 +11,7 @@ import {IAccountsService} from "../../services/AccountsService";
 import {t} from "i18next";
 import {logoutModalAtom} from "../../state/logoutModal";
 import {PermissionsKeys} from "../../static/PermissionsKeys";
+import {UserStadiumDto} from "../../models/dto/accounts/UserStadiumDto";
 
 
 const cdbreact = require('cdbreact');
@@ -25,7 +26,7 @@ const {
 
 
 export const NavMenu = () => {
-    const stadium = useRecoilValue<number | null>(stadiumAtom);
+    const stadium = useRecoilValue<UserStadiumDto | null>(stadiumAtom);
     const [permissions, setPermissions] = useRecoilState<UserPermissionDto[]>(permissionsAtom);
     const setLogoutModal = useSetRecoilState<boolean>(logoutModalAtom);
 

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import {useInject} from "inversify-hooks";
-import {IBookingFormService} from "../../services/BookingFormService";
+import {IBookingService} from "../../services/BookingService";
 import {BookingFormDto} from "../../models/dto/booking/BookingFormDto";
 import {BookingFormFieldCard} from "./BookingFormFieldCard";
 import {Col, Container} from "reactstrap";
@@ -17,6 +17,7 @@ import {loadingAtom} from "../../state/loading";
 import {Button, Dropdown, Icon, Input} from "semantic-ui-react";
 import {t} from "i18next";
 import {AddBookingDraftCommand} from "../../models/command/booking/AddBookingDraftCommand";
+import {BookingSource} from "../../models/dto/booking/enums/BookingSource";
 
 
 export const BookingForm = () => {
@@ -61,14 +62,15 @@ export const BookingForm = () => {
 
     const [searchString, setSearchString] = useState<string|null>(null);
     
-    const [bookingFormService] = useInject<IBookingFormService>('BookingFormService');
+    const [bookingService] = useInject<IBookingService>('BookingService');
     const [geoService] = useInject<IGeoService>('GeoService');
     
-    const goToCheckout = (fieldId: number, tariffId: number, slot: string) => {
-        bookingFormService.addBookingDraft({
+    const goToCheckout = (fieldId: number, tariffId: number, hour: number) => {
+        bookingService.addBookingDraft({
             fieldId: fieldId,
             tariffId: tariffId,
-            slot: slot,
+            hour: hour,
+            source: BookingSource.Form,
             day: currentDate?.toDateString()
         } as AddBookingDraftCommand).then((response) => {
             navigate("/booking/checkout", {
@@ -111,7 +113,7 @@ export const BookingForm = () => {
     }, [citySearch])
     
     const fetchData = (date: Date|null = null) => {
-        bookingFormService.getBookingForm(date === null ? currentDate : date, token === undefined ? null : token, cityId, searchString)
+        bookingService.getBookingForm(date === null ? currentDate : date, token === undefined ? null : token, cityId, searchString)
             .then((result: BookingFormDto) => {
                 setData(result);
             })

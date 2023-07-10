@@ -21,6 +21,27 @@ public static class PermissionSet
                     DisplayName = "Просмотр броней",
                     Description = "Просмотр расписания и забронированных слотов",
                     Sort = 1
+                },
+                new()
+                {
+                    Name = PermissionsKeys.InsertBooking,
+                    DisplayName = "Создание бронирования",
+                    Description = "Возможность добавить бронирование",
+                    Sort = 2
+                },
+                new()
+                {
+                    Name = PermissionsKeys.UpdateBooking,
+                    DisplayName = "Изменение бронирования",
+                    Description = "Возможность изменить данные бронирования",
+                    Sort = 3
+                },
+                new()
+                {
+                    Name = PermissionsKeys.DeleteBooking,
+                    DisplayName = "Отмена бронирования",
+                    Description = "Возможность отменить бронирование",
+                    Sort = 4
                 }
             }
         },

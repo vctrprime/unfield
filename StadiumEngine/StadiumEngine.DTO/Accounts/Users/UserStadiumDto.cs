@@ -24,4 +24,9 @@ public class UserStadiumDto
     ///     Теущий выбранный стадион
     /// </summary>
     public bool IsCurrent { get; set; }
+
+    /// <summary>
+    /// Токен
+    /// </summary>
+    public string Token { get; set; } = null!;
 }

@@ -13,6 +13,16 @@ import {SportKind} from "../../../models/dto/offers/enums/SportKind";
 import {stadiumAtom} from "../../../state/stadium";
 import {SchedulerFieldDto, SchedulerFieldsDto} from "../../../models/dto/schedule/SchedulerFieldsDto";
 import {SchedulerBooking} from "../../booking/scheduler/SchedulerBooking";
+import {IBookingService} from "../../../services/BookingService";
+import {ISettingsService} from "../../../services/SettingsService";
+import {parseString} from "../../../helpers/time-point-parser";
+import {BookingFormFieldSlotPriceDto} from "../../../models/dto/booking/BookingFormDto";
+import {BookingSource} from "../../../models/dto/booking/enums/BookingSource";
+import {AddBookingDraftCommand} from "../../../models/command/booking/AddBookingDraftCommand";
+import {BookingCustomerDto, BookingDto} from "../../../models/dto/booking/BookingDto";
+import {permissionsAtom} from "../../../state/permissions";
+import {PermissionsKeys} from "../../../static/PermissionsKeys";
+import {SchedulerEventDto} from "../../../models/dto/schedule/SchedulerEventDto";
 
 export interface FieldsSchedulerProps {
     mode: string,
@@ -21,12 +31,126 @@ export interface FieldsSchedulerProps {
 
 interface CustomEditorProps {
     scheduler: SchedulerHelpers;
+    events: SchedulerEventDto[];
 }
-export const CustomEditor = ({ scheduler }: CustomEditorProps) => {
+export const CustomEditor = ({ scheduler, events }: CustomEditorProps) => {
     const event = scheduler.edited;
+    
+    const permissions = useRecoilValue(permissionsAtom);
+
+    const hasInsertPermission = permissions.find( x => x.name == PermissionsKeys.InsertBooking) !== undefined;
+    const hasUpdatePermission = permissions.find( x => x.name == PermissionsKeys.UpdateBooking) !== undefined;
+    
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string|null>(null);
+    const [data, setData] = useState<BookingDto>({} as BookingDto);
+    const [slotPrices, setSlotPrices] = useState<BookingFormFieldSlotPriceDto[]>([]);
+    
+    const [bookingService] = useInject<IBookingService>('BookingService');
+    
+    const day = scheduler.state.start.value;
+    const hour: number = parseString(`${scheduler.state.start.value.getHours()}:${scheduler.state.start.value.getMinutes()}`);
+    const fieldId = scheduler.field_id;
+
+    const stadium = useRecoilValue(stadiumAtom);
+    
+    const raiseError = (message: string) => {
+        setError(message);
+        setIsLoading(false);
+    }
+    
+    useEffect(() => {
+        if (isLoading) {
+            
+            const hours = (day.getTime() - new Date().getTime()) / 3600000;
+            const nextHalfHourEvent = events.find( x => x.field_id === fieldId && x.start.getTime() === scheduler.state.end.value.getTime() );
+            
+            const intersectEvents = events.filter( x => x.field_id === fieldId 
+                && (x.start.getTime() === scheduler.state.start.value.getTime() 
+                    ||
+                    x.end.getTime() === scheduler.state.end.value.getTime()
+                    ||
+                    (x.start.getTime() < scheduler.state.start.value.getTime() && x.end.getTime() > scheduler.state.start.value.getTime() )
+                    ||
+                    (x.start.getTime() < scheduler.state.end.value.getTime() && x.end.getTime() > scheduler.state.end.value.getTime() )
+                ));
+            
+            if (event === undefined && hours < 1) {
+                raiseError('error hour');
+                return;
+            }
+            
+            if (event === undefined && intersectEvents.length > 0 ) {
+                raiseError('error intersect');
+                return;
+            }
+            
+            if (event === undefined && nextHalfHourEvent !== undefined) {
+                raiseError('error next event half hour');
+                return;
+            }
+            
+            if (stadium?.token === undefined) {
+                raiseError('error stadium');
+                return;
+            }
+            
+            if (event === undefined && !hasInsertPermission ) {
+                raiseError('forbidden');
+                return;
+            }
+            
+
+            bookingService.getBookingForm(day, stadium.token, null, null, false).then((formResponse) => {
+                const field = formResponse.fields.find(f => f.data.id == fieldId);
+                if (field) {
+                    const slot = field.slots.find(s => s.hour === hour);
+
+                    if (slot) {
+                        setSlotPrices(slot.prices);
+
+                        if (slot.prices.length > 0) {
+                            if (event) {
+                                setData(event.data);
+                                setIsLoading(false);
+                            }
+                            else {
+                                bookingService.addSchedulerBookingDraft({
+                                    fieldId: fieldId,
+                                    tariffId: slot.prices[0].tariffId,
+                                    hour: hour,
+                                    source: BookingSource.Schedule,
+                                    day: day.toDateString()
+                                } as AddBookingDraftCommand).then((response) => {
+                                    setData({
+                                        id: 0,
+                                        number: response.bookingNumber
+                                    } as BookingDto);
+                                    setIsLoading(false);
+                                })
+                                    .catch((error) => {
+                                        raiseError(error);
+                                    })
+                            }
+                        }
+                        else {
+                            raiseError('error slotPrices');
+                        }
+                    }
+                    else {
+                        raiseError('error slot');
+                    }
+                }
+                else {
+                    raiseError('error field');
+                }
+            })
+        }
+    }, [isLoading])
+    
     return (
-        <div>
-            <SchedulerBooking bookingData={event?.data} />
+           <div>
+               {isLoading ? <span/> : error ? <div>{error}</div> :<SchedulerBooking bookingData={data} slotPrices={slotPrices} />}
             <Button onClick={scheduler.close}>Cancel</Button>
         </div>
     );
@@ -41,6 +165,7 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
     const [scheduleService] = useInject<IScheduleService>('ScheduleService');
     
     const [fields, setFields] = useState<SchedulerFieldsDto|null>(null);
+    const [eventsData, setEventsData] = useState<SchedulerEventDto[]>([]);
     
     const calendarRef = useRef<SchedulerRef>(null);
     
@@ -73,6 +198,8 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
             e.start = new Date(e.start);
             e.end = new Date(e.end);
         });
+
+        setEventsData(events);
         return new Promise((res) => {
             res(events);
         });
@@ -101,7 +228,7 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
                 weekStartOn: 1,
             }}
             cellHeight={cellHeight()}
-            customEditor={(scheduler) => <CustomEditor scheduler={scheduler} />}
+            customEditor={(scheduler) => <CustomEditor scheduler={scheduler} events={eventsData} />}
             locale={getDateFnsLocale()}
             onViewChange={(v) => props.setView(v)}
             month={null}
@@ -132,8 +259,6 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
             view={"day"}
             hourFormat={"24"}
             loading={false}
-            //timeZone={"UTC"}
-            //events={EVENTS}
             getRemoteEvents={fetchEvents}
             resources={fields.data}
             resourceFields={{
@@ -175,7 +300,7 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
                                     const value = SportKind[s];
                                     const text = t("offers:sports:" + value.toLowerCase());
     
-                                    return <div style={ i === 0 ? { marginLeft: 0} : {}} key={i} className="field-sport">{text}</div>;
+                                    return <div style={ i === 0 ? { marginLeft: 0} : {}} key={`${field.data.id}-${i}`} className="field-sport">{text}</div>;
                                 })}
                         </div>
                     </div>

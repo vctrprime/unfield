@@ -13,7 +13,9 @@ internal class MainSettingsRepository : BaseRepository<MainSettings>, IMainSetti
 
     public async Task<MainSettings> GetAsync( int stadiumId )
     {
-        MainSettings? settings = await Entities.FirstOrDefaultAsync( x => x.StadiumId == stadiumId );
+        MainSettings? settings = await Entities
+            .Include( s => s.Stadium )
+            .FirstOrDefaultAsync( x => x.StadiumId == stadiumId );
 
         if ( settings != null )
         {
@@ -29,8 +31,11 @@ internal class MainSettingsRepository : BaseRepository<MainSettings>, IMainSetti
         Entities.Add( settings );
         await Commit();
         
+        settings = await Entities
+            .Include( s => s.Stadium )
+            .FirstAsync( x => x.StadiumId == stadiumId );
+        
         return settings;
-
     }
 
     public async Task<List<MainSettings>> GetAsync( List<int> stadiumsIds ) => await Entities.Where( x => stadiumsIds.Contains(x.StadiumId) ).ToListAsync();
