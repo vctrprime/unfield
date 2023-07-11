@@ -70,7 +70,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
         return getSchedulerBookingFieldAmountValue() + getSchedulerBookingInventoryAmount();
     }
     
-    return data === null  ? null :  <Container className="booking-checkout-container">
+    return data === null  ? null :  <Container className="booking-checkout-container" style={{minHeight: "auto"}}>
         <Form style={{paddingBottom: '10px'}}>
             <BookingHeader data={data.checkoutData} withStadiumName={false} />
             {props.slotPrices.map((p) => {
