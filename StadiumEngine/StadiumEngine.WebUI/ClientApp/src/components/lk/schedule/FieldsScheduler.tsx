@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import { Fragment, useRef, useState } from "react";
-import {Button, Icon} from "semantic-ui-react";
+import {Icon} from "semantic-ui-react";
 import { Scheduler } from "react-scheduler";
-import {DayHours, ProcessedEvent, SchedulerHelpers, SchedulerRef, ViewEvent} from "react-scheduler/types";
+import {DayHours, ProcessedEvent, SchedulerRef, ViewEvent} from "react-scheduler/types";
 import {getDateFnsLocale} from "../../../i18n/i18n";
 import {useRecoilValue} from "recoil";
 import {languageAtom} from "../../../state/language";
@@ -12,16 +12,6 @@ import {IScheduleService} from "../../../services/ScheduleService";
 import {SportKind} from "../../../models/dto/offers/enums/SportKind";
 import {stadiumAtom} from "../../../state/stadium";
 import {SchedulerFieldDto, SchedulerFieldsDto} from "../../../models/dto/schedule/SchedulerFieldsDto";
-import {SchedulerBooking} from "../../booking/scheduler/SchedulerBooking";
-import {IBookingService} from "../../../services/BookingService";
-import {ISettingsService} from "../../../services/SettingsService";
-import {parseString} from "../../../helpers/time-point-parser";
-import {BookingFormFieldSlotPriceDto} from "../../../models/dto/booking/BookingFormDto";
-import {BookingSource} from "../../../models/dto/booking/enums/BookingSource";
-import {AddBookingDraftCommand} from "../../../models/command/booking/AddBookingDraftCommand";
-import {BookingCustomerDto, BookingDto} from "../../../models/dto/booking/BookingDto";
-import {permissionsAtom} from "../../../state/permissions";
-import {PermissionsKeys} from "../../../static/PermissionsKeys";
 import {SchedulerEventDto} from "../../../models/dto/schedule/SchedulerEventDto";
 import {SchedulerBookingEditor} from "./SchedulerBookingEditor";
 
