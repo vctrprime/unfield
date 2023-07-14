@@ -13,7 +13,7 @@ export interface IBookingService {
     getBookingForm(date: Date, token: string|null, cityId: number|null, q: string|null, hideSpinner?: boolean): Promise<BookingFormDto>;
     addSchedulerBookingDraft(command: AddBookingDraftCommand): Promise<AddBookingDraftDto>;
     addBookingDraft(command: AddBookingDraftCommand): Promise<AddBookingDraftDto>;
-    getBookingCheckout(bookingNumber: string, isConfirmed: boolean): Promise<BookingCheckoutDto>;
+    getBookingCheckout(bookingNumber: string, isConfirmed: boolean, tariffId?: number): Promise<BookingCheckoutDto>;
     fillBookingData(command: FillBookingDataCommand) : Promise<void>;
     cancelBooking(command: CancelBookingCommand) : Promise<void>;
     confirmBooking(command: ConfirmBookingCommand) : Promise<void>;
@@ -58,8 +58,12 @@ export class BookingService extends BaseService implements IBookingService {
         })
     }
 
-    getBookingCheckout(bookingNumber: string, isConfirmed: boolean): Promise<BookingCheckoutDto> {
+    getBookingCheckout(bookingNumber: string, isConfirmed: boolean, tariffId?: number): Promise<BookingCheckoutDto> {
         let params = `?bookingNumber=${bookingNumber}&isConfirmed=${isConfirmed}`;
+        
+        if (tariffId) {
+            params += `&tariffId=${tariffId}`
+        }
         
         return this.fetchWrapper.get({
             url: `${this.baseUrl}/checkout${params}`,

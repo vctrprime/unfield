@@ -17,7 +17,10 @@ internal class BookingCheckoutQueryService : IBookingCheckoutQueryService
     private readonly IInventoryRepository _inventoryRepository;
     private readonly IPromoCodeRepository _promoCodeRepository;
 
-    public BookingCheckoutQueryService( IBookingRepository bookingRepository, IInventoryRepository inventoryRepository, IPromoCodeRepository promoCodeRepository )
+    public BookingCheckoutQueryService(
+        IBookingRepository bookingRepository,
+        IInventoryRepository inventoryRepository,
+        IPromoCodeRepository promoCodeRepository )
     {
         _bookingRepository = bookingRepository;
         _inventoryRepository = inventoryRepository;
@@ -36,7 +39,7 @@ internal class BookingCheckoutQueryService : IBookingCheckoutQueryService
 
         return booking;
     }
-    
+
     public async Task<Booking> GetConfirmedBookingAsync( string bookingNumber )
     {
         Booking? booking = await _bookingRepository.GetByNumberAsync( bookingNumber );
@@ -51,7 +54,8 @@ internal class BookingCheckoutQueryService : IBookingCheckoutQueryService
 
     public async Task<BookingCheckoutData> GetBookingCheckoutDataAsync(
         Booking booking,
-        List<BookingCheckoutSlot> slots )
+        List<BookingCheckoutSlot> slots,
+        int? tariffId )
     {
         List<BookingCheckoutDataDurationAmount> durationAmounts = new();
         List<BookingCheckoutDataPointPrice> pointPrices = new();
@@ -62,8 +66,9 @@ internal class BookingCheckoutQueryService : IBookingCheckoutQueryService
 
         while ( slot != null )
         {
-            BookingCheckoutSlotPrice? price = slot.Prices.SingleOrDefault( p => p.TariffId == booking.TariffId ) ??
-                                              slot.Prices.FirstOrDefault();
+            BookingCheckoutSlotPrice? price =
+                slot.Prices.SingleOrDefault( p => p.TariffId == ( tariffId ?? booking.TariffId ) ) ??
+                slot.Prices.FirstOrDefault();
             if ( price == null )
             {
                 throw new DomainException( ErrorsKeys.BookingError );
@@ -98,7 +103,7 @@ internal class BookingCheckoutQueryService : IBookingCheckoutQueryService
             BookingNumber = booking.Number,
             Day = booking.Day.ToString( "dd.MM.yyyy" ),
             Field = booking.Field,
-            TariffId = booking.TariffId,
+            TariffId = tariffId ?? booking.TariffId,
             DurationInventories = await GetInventories( booking, durationAmounts.Select( x => x.Duration ) ),
             DurationAmounts = durationAmounts,
             PointPrices = pointPrices

@@ -7,4 +7,5 @@ public sealed class GetBookingCheckoutQuery : BaseQuery, IRequest<BookingCheckou
 {
     public string BookingNumber { get; set; } = null!;
     public bool IsConfirmed { get; set; }
+    public int? TariffId { get; set; }
 }

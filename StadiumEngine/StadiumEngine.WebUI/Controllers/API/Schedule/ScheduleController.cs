@@ -9,7 +9,7 @@ using StadiumEngine.WebUI.Infrastructure.Attributes;
 namespace StadiumEngine.WebUI.Controllers.API.Schedule;
 
 /// <summary>
-///     Площадки
+///     Расписание
 /// </summary>
 [Route( "api/schedule" )]
 public class ScheduleController : BaseApiController

@@ -16,6 +16,7 @@ import {BookingTotalAmount} from "../common/BookingTotalAmount";
 import {BookingCustomer} from "../common/BookingCustomer";
 import {BookingDuration} from "../common/BookingDuration";
 import {BookingFormFieldSlotPriceDto} from "../../../models/dto/booking/BookingFormDto";
+import {SchedulerBookingTariffButton} from "./SchedulerBookingTariffButton";
 
 export interface SchedulerBooking {
     bookingData: BookingDto;
@@ -29,6 +30,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
 
     const [promo, setPromo] = useState<BookingPromoDto|null>(isNew ? null : props.bookingData.promo);
     const [discounts, setDiscounts] = useState<CheckoutDiscount[]>([]);
+    const [currentTariffId, setCurrentTariffId] = useState<number>(props.bookingData.tariff.id);
 
     const [selectedDuration, setSelectedDuration] = useState<number>(isNew ? 1 : props.bookingData.hoursCount);
     const [selectedInventories, setSelectedInventories] = useState<SelectedInventory[]>(isNew ? [] : props.bookingData.inventories.map((i) => {
@@ -51,11 +53,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     }, [data])
     
     useEffect(() => {
-        bookingService.getBookingCheckout(props.bookingData.number, !isNew).then((response: BookingCheckoutDto) => {
-            setData({
-                checkoutData: response
-            })
-        })
+        fetchCheckoutData();
     }, [])
 
     const getSchedulerBookingFieldAmountValue = () => {
@@ -70,12 +68,35 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
         return getSchedulerBookingFieldAmountValue() + getSchedulerBookingInventoryAmount();
     }
     
+    const updateBookingTariff = (tariffId: number) => {
+        if (tariffId !== currentTariffId) {
+            fetchCheckoutData(tariffId);
+            setCurrentTariffId(tariffId);
+        }
+    }
+    
+    const fetchCheckoutData = (tariffId?: number) => {
+        bookingService.getBookingCheckout(props.bookingData.number, !isNew, tariffId).then((response: BookingCheckoutDto) => {
+            setData({
+                checkoutData: response
+            })
+        })
+    }
+    
     return data === null  ? null :  <Container className="booking-checkout-container" style={{minHeight: "auto"}}>
         <Form style={{paddingBottom: '10px'}}>
             <BookingHeader data={data.checkoutData} withStadiumName={false} />
-            {props.slotPrices.map((p) => {
-                return <p key={p.tariffId}>{p.tariffName}</p>
-                })}
+            {promo === null ? 
+                <div className="scheduler-booking-tariff-buttons">
+                    <span>{t("booking:field_card:tariff")}: </span>
+                    {props.slotPrices.map((p) => {
+                    return <SchedulerBookingTariffButton
+                        action={() => updateBookingTariff(p.tariffId)}
+                        slotPrice={p}
+                        isCurrent={currentTariffId === p.tariffId}
+                    />
+                })
+                }</div> : <span/>}
             <BookingDuration data={data.checkoutData} selectedDuration={selectedDuration} setSelectedDuration={setSelectedDuration} />
             <BookingFieldAmount
                 getFieldAmountValue={getSchedulerBookingFieldAmountValue}

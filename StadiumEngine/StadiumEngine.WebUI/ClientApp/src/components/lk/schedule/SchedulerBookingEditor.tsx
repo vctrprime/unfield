@@ -114,7 +114,10 @@ export const SchedulerBookingEditor = ({ scheduler, events }: SchedulerBookingEd
                                 } as AddBookingDraftCommand).then((response) => {
                                     setData({
                                         id: 0,
-                                        number: response.bookingNumber
+                                        number: response.bookingNumber,
+                                        tariff: {
+                                            id: slot.prices[0].tariffId
+                                        }
                                     } as BookingDto);
                                     setIsLoading(false);
                                 })

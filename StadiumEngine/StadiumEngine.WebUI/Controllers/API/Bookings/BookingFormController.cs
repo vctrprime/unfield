@@ -1,12 +1,11 @@
 #nullable enable
-using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.DTO.BookingForm;
 using StadiumEngine.Queries.BookingForm;
 
-namespace StadiumEngine.WebUI.Controllers.API.BookingForm;
+namespace StadiumEngine.WebUI.Controllers.API.Bookings;
 
 /// <summary>
 ///     Данные для формы бронирования

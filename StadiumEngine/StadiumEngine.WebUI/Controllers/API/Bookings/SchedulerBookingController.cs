@@ -1,30 +1,31 @@
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Commands.BookingForm;
+using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.BookingForm;
+using StadiumEngine.WebUI.Infrastructure.Attributes;
 
-namespace StadiumEngine.WebUI.Controllers.API.BookingForm;
+namespace StadiumEngine.WebUI.Controllers.API.Bookings;
 
 /// <summary>
-///     Данные по бронированиям
+///     Данные по бронированиям (шахматка)
 /// </summary>
 [Route( "api/booking" )]
-[AllowAnonymous]
-public class BookingController : BaseApiController
+public class SchedulerBookingController : BaseApiController
 {
     /// <summary>
     /// Создать черновик брони
     /// </summary>
     /// <returns></returns>
-    [HttpPost( "draft" )]
+    [HttpPost( "scheduler-draft" )]
+    [HasPermission( PermissionsKeys.InsertBooking )]
     public async Task<AddBookingDraftDto> CreateDraft( AddBookingDraftCommand command )
     {
         AddBookingDraftDto dto = await Mediator.Send( command );
         return dto;
     }
     
-    /// <summary>
+    /*/// <summary>
     ///     Отменить бронь
     /// </summary>
     /// <returns></returns>
@@ -55,5 +56,5 @@ public class BookingController : BaseApiController
     {
         ConfirmBookingDto dto = await Mediator.Send( command );
         return dto;
-    }
+    }*/
 }

@@ -6,7 +6,7 @@ using StadiumEngine.DTO.BookingForm;
 using StadiumEngine.DTO.Rates.Tariffs;
 using StadiumEngine.Queries.BookingForm;
 
-namespace StadiumEngine.WebUI.Controllers.API.BookingForm;
+namespace StadiumEngine.WebUI.Controllers.API.Bookings;
 
 /// <summary>
 ///     Данные для чекаута бронирования

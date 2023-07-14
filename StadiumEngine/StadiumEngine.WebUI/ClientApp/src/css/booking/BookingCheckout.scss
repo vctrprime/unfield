@@ -6,6 +6,37 @@
   min-height: 100vh;
   max-width: 600px;
   padding: 0 20px;
+  
+  .scheduler-booking-tariff-buttons {
+    height: 20px;
+    margin-top: 10px;
+    
+    span {
+      float: left;
+    }
+    
+    .scheduler-booking-tariff-button {
+      float: left;
+      margin-left: 5px;
+      border-radius: 2px;
+      background-color: transparent;
+      color: $dark-color;
+      border: 1px solid $dark-color;
+      text-align: center;
+      font-size: 12px;
+      padding-left: 5px;
+      padding-right: 5px;
+      justify-content: center;
+      display: flex;
+      align-content: center;
+      cursor: pointer;
+      
+      &.current {
+        background-color: $dark-color;
+        color: white;
+      }
+    }
+  }
 
   .booking-checkout-header {
     font-weight: bold;

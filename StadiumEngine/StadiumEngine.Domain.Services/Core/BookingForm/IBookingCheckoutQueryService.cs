@@ -8,6 +8,11 @@ public interface IBookingCheckoutQueryService
 {
     Task<Booking> GetBookingDraftAsync( string bookingNumber );
     Task<Booking> GetConfirmedBookingAsync( string bookingNumber );
-    Task<BookingCheckoutData> GetBookingCheckoutDataAsync( Booking booking, List<BookingCheckoutSlot> slots );
+
+    Task<BookingCheckoutData> GetBookingCheckoutDataAsync(
+        Booking booking,
+        List<BookingCheckoutSlot> slots,
+        int? tariffId );
+
     Task<PromoCode?> CheckPromoAsync( int tariffId, string code );
 }

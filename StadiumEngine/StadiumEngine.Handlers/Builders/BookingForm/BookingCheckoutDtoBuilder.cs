@@ -60,7 +60,7 @@ internal class BookingCheckoutDtoBuilder : IBookingCheckoutDtoBuilder
                         } ).ToList()
                 } ).ToList();
         BookingCheckoutData bookingCheckoutData =
-            await _service.GetBookingCheckoutDataAsync( booking, slots );
+            await _service.GetBookingCheckoutDataAsync( booking, slots, query.TariffId );
 
         BookingCheckoutDto? result = _mapper.Map<BookingCheckoutDto>( bookingCheckoutData );
 
