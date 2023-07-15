@@ -3,7 +3,7 @@ import {CheckoutDiscount} from "../components/booking/checkout/BookingCheckoutBu
 import {SelectedInventory} from "../components/booking/common/BookingInventory";
 import {PromoCodeType} from "../models/dto/rates/enums/PromoCodeType";
 import {PromoCodeDto} from "../models/dto/rates/TariffDto";
-import {BookingPromoDto} from "../models/dto/booking/BookingDto";
+import {BookingDto, BookingPromoDto} from "../models/dto/booking/BookingDto";
 
 
 export const calculateDiscounts = (promo: PromoCodeDto|BookingPromoDto|null, data: BookingCheckoutDto, setDiscounts: Function) => {
@@ -51,11 +51,25 @@ export const getFieldAmountValue = (selectedDuration: number, data: BookingCheck
     return 0;
 }
 
+export const getFieldAmountValueByBooking = (booking: BookingDto) => {
+    return booking.amount - getInventoryAmountByBooking(booking);
+}
+
 export const getInventoryAmount = (selectedDuration: number, selectedInventories: SelectedInventory[]) => {
     let result = 0;
     selectedInventories.map((inv) => {
         result += (inv.price * inv.quantity * selectedDuration);
     });
 
+    return result;
+}
+
+export const getInventoryAmountByBooking = (booking: BookingDto) => {
+    let result = 0;
+    if (booking.inventories) {
+        booking.inventories.map((inv) => {
+            result += inv.amount;
+        });
+    }
     return result;
 }

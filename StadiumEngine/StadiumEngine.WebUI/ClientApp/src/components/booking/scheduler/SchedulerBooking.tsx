@@ -9,7 +9,12 @@ import {useInject} from "inversify-hooks";
 import {IBookingService} from "../../../services/BookingService";
 import {BookingCheckoutDto} from "../../../models/dto/booking/BookingCheckoutDto";
 import {CheckoutDiscount} from "../checkout/BookingCheckoutButtons";
-import {calculateDiscounts, getFieldAmountValue, getInventoryAmount} from "../../../helpers/booking-utils";
+import {
+    calculateDiscounts,
+    getFieldAmountValue,
+    getFieldAmountValueByBooking,
+    getInventoryAmount, getInventoryAmountByBooking
+} from "../../../helpers/booking-utils";
 import {BookingFieldAmount} from "../common/BookingFieldAmount";
 import {t} from "i18next";
 import {BookingTotalAmount} from "../common/BookingTotalAmount";
@@ -57,10 +62,16 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     }, [])
 
     const getSchedulerBookingFieldAmountValue = () => {
+        if (!isAvailableEditDuration()) {
+            return getFieldAmountValueByBooking(props.bookingData);
+        }
         return getFieldAmountValue(selectedDuration, data?.checkoutData||null, discounts);
     }
 
     const getSchedulerBookingInventoryAmount = () => {
+        if (!isAvailableEditInventory()) {
+            return getInventoryAmountByBooking(props.bookingData);
+        }
         return getInventoryAmount(selectedDuration, selectedInventories);
     }
 
@@ -71,7 +82,6 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     const updateBookingTariff = (tariffId: number) => {
         if (tariffId !== currentTariffId) {
             fetchCheckoutData(tariffId);
-            setCurrentTariffId(tariffId);
         }
     }
     
@@ -80,35 +90,76 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
             setData({
                 checkoutData: response
             })
+            if (tariffId) {
+                setCurrentTariffId(tariffId);
+            }
         })
+    }
+    
+    const isAvailableEditDuration = () => {
+        if ( currentTariffId === props.bookingData.tariff.id) {
+            if (selectedDuration !== props.bookingData.hoursCount) {
+                return true;
+            }
+            return props.bookingData.amount - getSchedulerBookingInventoryAmount() === getFieldAmountValue(selectedDuration, data?.checkoutData||null, discounts)
+        }
+        
+        return true;
+    }
+    
+    const isAvailableEditInventory = () => {
+        if ( currentTariffId === props.bookingData.tariff.id) {
+            let hasDiff = false;
+            selectedInventories.forEach((inv) => {
+                const durationInventory = data?.checkoutData.durationInventories.find( di => di.duration === selectedDuration);
+                if (durationInventory) {
+                   const inventory = durationInventory.inventories.find(i => i.id === inv.id);
+                   if (inventory && !hasDiff) {
+                       hasDiff = inventory.price !== inv.price;
+                   }
+                }
+            })
+            
+            return !hasDiff;
+        }
+
+        return true;
     }
     
     return data === null  ? null :  <Container className="booking-checkout-container" style={{minHeight: "auto"}}>
         <Form style={{paddingBottom: '10px'}}>
             <BookingHeader data={data.checkoutData} withStadiumName={false} />
-            {promo === null ? 
                 <div className="scheduler-booking-tariff-buttons">
                     <span>{t("booking:field_card:tariff")}: </span>
-                    {props.slotPrices.map((p) => {
+                    {(promo === null && isAvailableEditDuration() ? props.slotPrices : props.slotPrices.filter(x => x.tariffId === currentTariffId)).map((p) => {
                     return <SchedulerBookingTariffButton
+                        key={p.tariffId}
                         action={() => updateBookingTariff(p.tariffId)}
                         slotPrice={p}
                         isCurrent={currentTariffId === p.tariffId}
                     />
                 })
-                }</div> : <span/>}
-            <BookingDuration data={data.checkoutData} selectedDuration={selectedDuration} setSelectedDuration={setSelectedDuration} />
+                }</div>
+            <BookingDuration 
+                isEditable={isAvailableEditDuration()}
+                data={data.checkoutData} 
+                selectedDuration={selectedDuration} 
+                setSelectedDuration={setSelectedDuration} />
             <BookingFieldAmount
+                isEditable={isAvailableEditDuration()}
                 getFieldAmountValue={getSchedulerBookingFieldAmountValue}
                 selectedDuration={selectedDuration}
                 data={data.checkoutData} />
+            {!isAvailableEditDuration() && <span>Изменились цены, редчить нельзя</span>}
             <BookingInventory
                 data={data.checkoutData}
+                isEditable={isAvailableEditInventory()}
                 selectedDuration={selectedDuration}
                 selectedInventories={selectedInventories}
                 setSelectedInventories={setSelectedInventories}
                 getInventoryAmount={getSchedulerBookingInventoryAmount}
                 headerText={t("booking:scheduler:inventory_header")}/>
+            {!isAvailableEditInventory() && <span>Изменились цены, редчить инв нельзя</span>}
             <BookingTotalAmount getTotalAmount={getTotalAmount}/>
             <BookingCustomer
                 name={name}

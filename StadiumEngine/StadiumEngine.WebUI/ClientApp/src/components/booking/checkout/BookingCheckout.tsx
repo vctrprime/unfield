@@ -83,14 +83,20 @@ export const BookingCheckout = () => {
     return data === null  ? null :  <Container className="booking-checkout-container">
         <Form style={{paddingBottom: '10px', minHeight: 'calc(100vh - 30px)'}}>
             <BookingHeader data={data} withStadiumName={true} />
-            <BookingDuration data={data} selectedDuration={selectedDuration} setSelectedDuration={setSelectedDuration} />
+            <BookingDuration 
+                isEditable={true}
+                data={data} 
+                selectedDuration={selectedDuration} 
+                setSelectedDuration={setSelectedDuration} />
             <BookingFieldAmount 
+                isEditable={true}
                 getFieldAmountValue={getCheckoutFieldAmountValue}
                 selectedDuration={selectedDuration}
                 data={data} />
             <BookingCheckoutPromo data={data} promo={promo} setPromo={setPromo} />
             <BookingInventory 
                 data={data} 
+                isEditable={true}
                 selectedDuration={selectedDuration} 
                 selectedInventories={selectedInventories} 
                 setSelectedInventories={setSelectedInventories} 

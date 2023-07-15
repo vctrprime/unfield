@@ -14,7 +14,7 @@ interface InventoryRowProps {
     inventory: BookingCheckoutInventoryDto;
     selectedInventories: SelectedInventory[];
     setSelectedInventories: any;
-
+    isEditable: boolean;
 }
 const InventoryRow = (props: InventoryRowProps) => {
     let selectedInventory = props.selectedInventories.find( x => x.id === props.inventory.id);
@@ -66,12 +66,12 @@ const InventoryRow = (props: InventoryRowProps) => {
             <div className="booking-checkout-inventory-row-name" title={t("common:available_qty")||''}>{props.inventory.name} ({props.inventory.quantity})</div>
         </div>
         <div className="booking-checkout-inventory-row-block" style={{justifyContent: 'flex-end'}}>
-            <div className="booking-checkout-inventory-row-price">{props.inventory.price} {t("booking:checkout:rub")}/{t("common:hour_long")}</div>
+            {props.isEditable && <div className="booking-checkout-inventory-row-price">{props.inventory.price} {t("booking:checkout:rub")}/{t("common:hour_long")}</div>}
 
             <div className="booking-checkout-inventory-row-button">
-                <Icon onClick={() => removeInventory()} name='minus circle' style={{ color: '#CD5C5C', opacity: selectedInventory ? 1 : 0.5}} />
-                <span>{selectedInventory?.quantity || 0}</span>
-                <Icon onClick={() => addInventory()} name='add circle' style={{ color: '#3CB371', marginLeft: '5px', opacity: (selectedInventory?.quantity||0) < props.inventory.quantity ? 1 : 0.5}} />
+                {props.isEditable && <Icon onClick={() => removeInventory()} name='minus circle' style={{ color: '#CD5C5C', opacity: selectedInventory ? 1 : 0.5}} />}
+                <span style={props.isEditable ? {} : { marginRight: '10px'}}>{selectedInventory?.quantity || 0}</span>
+                {props.isEditable && <Icon onClick={() => addInventory()} name='add circle' style={{ color: '#3CB371', marginLeft: '5px', opacity: (selectedInventory?.quantity||0) < props.inventory.quantity ? 1 : 0.5}} />}
             </div>
         </div>
     </div>
@@ -85,6 +85,7 @@ export interface BookingInventoryProps {
     setSelectedInventories: Function;
     getInventoryAmount: Function;
     headerText: string;
+    isEditable: boolean;
 }
 export const BookingInventory = (props: BookingInventoryProps) => {
     
@@ -109,7 +110,7 @@ export const BookingInventory = (props: BookingInventoryProps) => {
             <div className="booking-checkout-inventories">
                 <div className="booking-checkout-inventories-title">{props.headerText}</div>
                 {inventories.map((inv, i) => {
-                    return <InventoryRow selectedInventories={props.selectedInventories} key={i}  inventory={inv} setSelectedInventories={props.setSelectedInventories}/>
+                    return <InventoryRow isEditable={props.isEditable} selectedInventories={props.selectedInventories} key={i}  inventory={inv} setSelectedInventories={props.setSelectedInventories}/>
                 })}
                 <div className="booking-checkout-amount">{t("booking:checkout:amount_inventory")} &nbsp;<span style={{fontWeight: 'bold'}}>{props.getInventoryAmount()} {t("booking:checkout:rub")}</span></div>
             </div> : <span/>}
