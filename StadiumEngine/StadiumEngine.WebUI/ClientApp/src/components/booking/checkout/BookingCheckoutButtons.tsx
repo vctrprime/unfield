@@ -12,6 +12,7 @@ import {PromoCodeDto} from "../../../models/dto/rates/TariffDto";
 import {BookingCheckoutDto} from "../../../models/dto/booking/BookingCheckoutDto";
 import {SelectedInventory} from "../common/BookingInventory";
 import {useNavigate} from "react-router-dom";
+import {getPromoDiscount} from "../../../helpers/booking-utils";
 
 export type CheckoutDiscount = {
     duration: number,
@@ -23,12 +24,11 @@ export interface BookingCheckoutButtonsProps {
     bookingNumber: string|undefined;
     data: BookingCheckoutDto;
     selectedDuration: number;
-    getTotalAmount: Function;
     promo: PromoCodeDto|null;
     name: string|undefined;
     phoneNumber: string|undefined;
     selectedInventories: SelectedInventory[];
-    discounts: CheckoutDiscount[];
+    totalAmount: number;
 }
 
 export const BookingCheckoutButtons = (props: BookingCheckoutButtonsProps) => {
@@ -50,13 +50,13 @@ export const BookingCheckoutButtons = (props: BookingCheckoutButtonsProps) => {
             bookingService.fillBookingData({
                 bookingNumber: props.bookingNumber||'',
                 hoursCount: props.selectedDuration,
-                amount: props.getTotalAmount(),
                 promo: props.promo ? {
                     code: props.promo.code,
                     type:  props.promo.type,
                     value:  props.promo.value
                 } as FillBookingDataCommandPromo : null,
-                discount: props.discounts.find(x => x.duration == props.selectedDuration)?.value || null,
+                promoDiscount: props.promo ? getPromoDiscount(props.promo, props.totalAmount) : null,
+                manualDiscount: null,
                 customer: {
                     name: props.name||'',
                     phoneNumber: props.phoneNumber||''

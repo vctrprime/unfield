@@ -23,8 +23,8 @@ public class SchedulerEvent
     public string? Color { get; }
     
     public bool Editable { get; }
-    
-    public bool Deletable { get; }
+
+    public bool Deletable => false;
     
     public bool Draggable => false;
     
@@ -43,10 +43,9 @@ public class SchedulerEvent
         EventId = data.Id;
         Start = start ?? data.Day.AddHours( ( double )data.StartHour );
         End = end ?? Start.AddHours( ( double )data.HoursCount );
-        _title = $"{data.Number} | {data.Customer.Name} | {data.Amount}";
+        _title = $"{data.Number} | {data.Customer.Name} | {data.TotalAmountAfterDiscount}";
         Color = data.IsWeekly ? "#20B2AA" : data.Source == BookingSource.Form ? "#3CB371" : "#4682B4";
         Editable = End > DateTime.Now;
-        Deletable = End > DateTime.Now;
         BookingsCount = 1;
 
         if ( !fieldId.HasValue )
@@ -69,7 +68,6 @@ public class SchedulerEvent
         _title = GetBreakTitle();
         Color = "";
         Editable = false;
-        Deletable = false;
         FieldId = breakField.FieldId;
     }
 

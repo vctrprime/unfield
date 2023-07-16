@@ -19,7 +19,10 @@ import {BookingInventory, SelectedInventory} from "../common/BookingInventory";
 import {BookingTotalAmount} from "../common/BookingTotalAmount";
 import {BookingCustomer} from "../common/BookingCustomer";
 import {BookingCheckoutButtons, CheckoutDiscount} from "./BookingCheckoutButtons";
-import {calculateDiscounts, getFieldAmountValue, getInventoryAmount} from "../../../helpers/booking-utils";
+import {
+    getFieldAmount,
+    getInventoryAmount
+} from "../../../helpers/booking-utils";
 
 type CheckoutLocationState = {
     bookingNumber: string;
@@ -42,7 +45,6 @@ export const BookingCheckout = () => {
     const [data, setData] = useState<BookingCheckoutDto|null>(null);
     
     const [promo, setPromo] = useState<PromoCodeDto|null>(null);
-    const [discounts, setDiscounts] = useState<CheckoutDiscount[]>([]);
     
     const [selectedDuration, setSelectedDuration] = useState<number>(1);
     const [selectedInventories, setSelectedInventories] = useState<SelectedInventory[]>([]);
@@ -58,23 +60,16 @@ export const BookingCheckout = () => {
             })
     }, [])
     
-    useEffect(() => {
-        if (data) {
-            calculateDiscounts(promo, data, setDiscounts);
-        }
-    }, [data, promo])
-    
-    
-    const getCheckoutFieldAmountValue = () => {
-        return getFieldAmountValue(selectedDuration, data, discounts);
+    const getCheckoutFieldAmount = () => {
+        return getFieldAmount(selectedDuration, data);
     }
     
     const getCheckoutInventoryAmount = () => {
        return getInventoryAmount(selectedDuration, selectedInventories);
     }
     
-    const getTotalAmount = () => {
-        return getCheckoutFieldAmountValue() + getCheckoutInventoryAmount();
+    const getTotalAmountValue = () => {
+        return getCheckoutFieldAmount() + getCheckoutInventoryAmount();
     }
 
     const [phoneNumber, setPhoneNumber] = useState<string | undefined>();
@@ -88,12 +83,7 @@ export const BookingCheckout = () => {
                 data={data} 
                 selectedDuration={selectedDuration} 
                 setSelectedDuration={setSelectedDuration} />
-            <BookingFieldAmount 
-                isEditable={true}
-                getFieldAmountValue={getCheckoutFieldAmountValue}
-                selectedDuration={selectedDuration}
-                data={data} />
-            <BookingCheckoutPromo data={data} promo={promo} setPromo={setPromo} />
+            <BookingFieldAmount getFieldAmount={getCheckoutFieldAmount}/>
             <BookingInventory 
                 data={data} 
                 isEditable={true}
@@ -101,8 +91,10 @@ export const BookingCheckout = () => {
                 selectedInventories={selectedInventories} 
                 setSelectedInventories={setSelectedInventories} 
                 getInventoryAmount={getCheckoutInventoryAmount}
+                bookingInventories={[]}
                 headerText={t("booking:checkout:inventory_header")}/>
-            <BookingTotalAmount getTotalAmount={getTotalAmount}/>
+            <BookingTotalAmount getTotalAmountValue={getTotalAmountValue} promo={promo}/>
+            <BookingCheckoutPromo data={data} promo={promo} setPromo={setPromo} />
             <BookingCustomer 
                 name={name} 
                 setName={setName} 
@@ -113,13 +105,12 @@ export const BookingCheckout = () => {
                 backPath={backPath} 
                 bookingNumber={bookingNumber} 
                 data={data} 
-                selectedDuration={selectedDuration} 
-                getTotalAmount={getTotalAmount} 
+                selectedDuration={selectedDuration}
                 promo={promo} 
                 name={name}
                 phoneNumber={phoneNumber} 
                 selectedInventories={selectedInventories} 
-                discounts={discounts}/>
+                totalAmount={getTotalAmountValue()}/>
         </Form>
         <div className="booking-form-footer">{t('common:footer')}</div>
     </Container>

@@ -20,8 +20,17 @@ public class Booking : BaseBookingEntity
     [Column( "day", TypeName = "timestamp without time zone")]
     public DateTime Day { get; set; }
     
-    [Column( "amount" )]
-    public decimal Amount { get; set; }
+    [Column( "inventory_amount" )]
+    public decimal InventoryAmount { get; set; }
+    
+    [Column( "field_amount" )]
+    public decimal FieldAmount { get; set; }
+    
+    [Column( "total_amount_before_discount" )] //InventoryAmount + FieldAmount
+    public decimal TotalAmountBeforeDiscount { get; set; }
+    
+    [Column( "total_amount_after_discount" )] //TotalAmountBeforeDiscount - PromoDiscount - ManualDiscount
+    public decimal TotalAmountAfterDiscount { get; set; }
     
     [Column( "start_hour" )]
     public decimal StartHour { get; set; }
@@ -47,8 +56,11 @@ public class Booking : BaseBookingEntity
     [Column( "access_code" )]
     public string AccessCode { get; set; } = null!;
     
-    [Column( "discount" )]
-    public decimal? Discount { get; set; }
+    [Column( "promo_discount" )]
+    public decimal? PromoDiscount { get; set; }
+    
+    [Column( "manual_discount" )]
+    public decimal? ManualDiscount { get; set; }
     
     [Column( "note" )]
     public string? Note { get; set; }

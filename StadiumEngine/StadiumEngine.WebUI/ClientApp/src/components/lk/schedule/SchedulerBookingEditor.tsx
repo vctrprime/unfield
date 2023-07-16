@@ -66,27 +66,27 @@ export const SchedulerBookingEditor = ({ scheduler, events }: SchedulerBookingEd
                 ));
 
             if (event === undefined && hours < 0) {
-                raiseError(t('schedule:scheduler:booking_errors:invalid_time'));
+                raiseError(t('schedule:scheduler:booking:errors:invalid_time'));
                 return;
             }
 
             if (event === undefined && intersectEvents.length > 0 ) {
-                raiseError(t('schedule:scheduler:booking_errors:intersect'));
+                raiseError(t('schedule:scheduler:booking:errors:intersect'));
                 return;
             }
 
             if (event === undefined && nextHalfHourEvent !== undefined) {
-                raiseError(t('schedule:scheduler:booking_errors:invalid_time'));
+                raiseError(t('schedule:scheduler:booking:errors:invalid_time'));
                 return;
             }
 
             if (stadium?.token === undefined) {
-                raiseError(t('schedule:scheduler:booking_errors:stadium'));
+                raiseError(t('schedule:scheduler:booking:errors:stadium'));
                 return;
             }
 
             if (event === undefined && !hasInsertPermission ) {
-                raiseError(t('schedule:scheduler:booking_errors:forbidden'));
+                raiseError(t('schedule:scheduler:booking:errors:forbidden'));
                 return;
             }
 
@@ -127,15 +127,15 @@ export const SchedulerBookingEditor = ({ scheduler, events }: SchedulerBookingEd
                             }
                         }
                         else {
-                            raiseError(t('schedule:scheduler:booking_errors:slot_prices'))
+                            raiseError(t('schedule:scheduler:booking:errors:slot_prices'))
                         }
                     }
                     else {
-                        raiseError(t('schedule:scheduler:booking_errors:slot'))
+                        raiseError(t('schedule:scheduler:booking:errors:slot'))
                     }
                 }
                 else {
-                    raiseError(t('schedule:scheduler:booking_errors:fields'));
+                    raiseError(t('schedule:scheduler:booking:errors:fields'));
                 }
             })
         }

@@ -3,8 +3,8 @@ import {PromoCodeType} from "../../dto/rates/enums/PromoCodeType";
 export interface FillBookingDataCommand {
     bookingNumber: string;
     hoursCount: number;
-    amount: number;
-    discount: number | null;
+    promoDiscount: number | null;
+    manualDiscount: number | null;
     language: string;
     customer: FillBookingDataCommandCustomer;
     promo: FillBookingDataCommandPromo|null;

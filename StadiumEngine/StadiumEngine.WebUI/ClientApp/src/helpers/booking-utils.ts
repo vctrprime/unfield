@@ -5,43 +5,24 @@ import {PromoCodeType} from "../models/dto/rates/enums/PromoCodeType";
 import {PromoCodeDto} from "../models/dto/rates/TariffDto";
 import {BookingDto, BookingPromoDto} from "../models/dto/booking/BookingDto";
 
-
-export const calculateDiscounts = (promo: PromoCodeDto|BookingPromoDto|null, data: BookingCheckoutDto, setDiscounts: Function) => {
-    if (promo == null) {
-        setDiscounts([]);
-        return;
-    }
-    
-    const calculatedDiscounts = [] as CheckoutDiscount[];
-    data?.durationAmounts.map((a: BookingCheckoutDurationAmountDto) => {
-        let discountValue = 0;
+export const getPromoDiscount = (promo: PromoCodeDto|null, value: number) => {
+    if (promo) {
         switch (promo.type) {
             case PromoCodeType.Fixed:
-                discountValue = promo.value;
-                break;
+                return promo.value;
             case PromoCodeType.Percent:
-                discountValue = a.value * (promo.value/100);
-                break;
+                return value * (promo.value/100);
         }
-        calculatedDiscounts.push({
-            duration: a.duration,
-            value: discountValue
-        });
-    })
-
-    setDiscounts(calculatedDiscounts);
+        return 0;
+    }
+    return 0;
 }
 
-export const getFieldAmountValue = (selectedDuration: number, data: BookingCheckoutDto|null, discounts: CheckoutDiscount[]) => {
+export const getFieldAmount = (selectedDuration: number, data: BookingCheckoutDto|null) => {
     if (data) {
-        const discount = discounts.find( x=> x.duration == selectedDuration);
         const durationAmount = data.durationAmounts.find( x => x.duration === selectedDuration);
 
         if (durationAmount) {
-            if (discount && discount.value > 0) {
-                return durationAmount.value - discount.value;
-            }
-
             return durationAmount.value;
         }
 
@@ -52,7 +33,7 @@ export const getFieldAmountValue = (selectedDuration: number, data: BookingCheck
 }
 
 export const getFieldAmountValueByBooking = (booking: BookingDto) => {
-    return booking.amount - getInventoryAmountByBooking(booking);
+    return booking.fieldAmount;
 }
 
 export const getInventoryAmount = (selectedDuration: number, selectedInventories: SelectedInventory[]) => {
@@ -65,11 +46,5 @@ export const getInventoryAmount = (selectedDuration: number, selectedInventories
 }
 
 export const getInventoryAmountByBooking = (booking: BookingDto) => {
-    let result = 0;
-    if (booking.inventories) {
-        booking.inventories.map((inv) => {
-            result += inv.amount;
-        });
-    }
-    return result;
+    return booking.inventoryAmount;
 }

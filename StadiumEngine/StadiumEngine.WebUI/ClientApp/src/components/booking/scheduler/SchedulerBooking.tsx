@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {SchedulerBookingDto} from "../../../models/dto/booking/SchedulerBookingDto";
 import {Container} from "reactstrap";
-import {Form} from "semantic-ui-react";
+import {Dropdown, Form, Input} from "semantic-ui-react";
 import {BookingHeader} from "../common/BookingHeader";
 import {BookingInventory, SelectedInventory} from "../common/BookingInventory";
 import {BookingDto, BookingPromoDto} from "../../../models/dto/booking/BookingDto";
@@ -10,8 +10,7 @@ import {IBookingService} from "../../../services/BookingService";
 import {BookingCheckoutDto} from "../../../models/dto/booking/BookingCheckoutDto";
 import {CheckoutDiscount} from "../checkout/BookingCheckoutButtons";
 import {
-    calculateDiscounts,
-    getFieldAmountValue,
+    getFieldAmount,
     getFieldAmountValueByBooking,
     getInventoryAmount, getInventoryAmountByBooking
 } from "../../../helpers/booking-utils";
@@ -34,9 +33,8 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     const isNew = props.bookingData.id === 0;
 
     const [promo, setPromo] = useState<BookingPromoDto|null>(isNew ? null : props.bookingData.promo);
-    const [discounts, setDiscounts] = useState<CheckoutDiscount[]>([]);
     const [currentTariffId, setCurrentTariffId] = useState<number>(props.bookingData.tariff.id);
-
+    
     const [selectedDuration, setSelectedDuration] = useState<number>(isNew ? 1 : props.bookingData.hoursCount);
     const [selectedInventories, setSelectedInventories] = useState<SelectedInventory[]>(isNew ? [] : props.bookingData.inventories.map((i) => {
         return {
@@ -51,21 +49,24 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
 
     const [bookingService] = useInject<IBookingService>('BookingService');
 
-    useEffect(() => {
-        if (data?.checkoutData) {
-            calculateDiscounts(promo, data?.checkoutData, setDiscounts);
+    
+    const getManualDiscount = (): string => {
+        if (props.bookingData.manualDiscount) {
+            return props.bookingData.manualDiscount.toString();
         }
-    }, [data])
+        return '';
+    }
+    const [manualDiscount, setManualDiscount] = useState<string>(getManualDiscount());
     
     useEffect(() => {
         fetchCheckoutData();
     }, [])
 
-    const getSchedulerBookingFieldAmountValue = () => {
+    const getSchedulerBookingFieldAmount = () => {
         if (!isAvailableEditDuration()) {
             return getFieldAmountValueByBooking(props.bookingData);
         }
-        return getFieldAmountValue(selectedDuration, data?.checkoutData||null, discounts);
+        return getFieldAmount(selectedDuration, data?.checkoutData||null);
     }
 
     const getSchedulerBookingInventoryAmount = () => {
@@ -75,11 +76,11 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
         return getInventoryAmount(selectedDuration, selectedInventories);
     }
 
-    const getTotalAmount = () => {
-        return getSchedulerBookingFieldAmountValue() + getSchedulerBookingInventoryAmount();
+    const getTotalAmountValue = () => {
+        return getSchedulerBookingFieldAmount() + getSchedulerBookingInventoryAmount();
     }
     
-    const updateBookingTariff = (tariffId: number) => {
+    const toggleBookingTariff = (tariffId: number) => {
         if (tariffId !== currentTariffId) {
             fetchCheckoutData(tariffId);
         }
@@ -101,9 +102,8 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
             if (selectedDuration !== props.bookingData.hoursCount) {
                 return true;
             }
-            return props.bookingData.amount - getSchedulerBookingInventoryAmount() === getFieldAmountValue(selectedDuration, data?.checkoutData||null, discounts)
+            return props.bookingData.fieldAmount === getFieldAmount(selectedDuration, data?.checkoutData||null)
         }
-        
         return true;
     }
     
@@ -134,7 +134,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                     {(promo === null && isAvailableEditDuration() ? props.slotPrices : props.slotPrices.filter(x => x.tariffId === currentTariffId)).map((p) => {
                     return <SchedulerBookingTariffButton
                         key={p.tariffId}
-                        action={() => updateBookingTariff(p.tariffId)}
+                        action={() => toggleBookingTariff(p.tariffId)}
                         slotPrice={p}
                         isCurrent={currentTariffId === p.tariffId}
                     />
@@ -145,12 +145,13 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                 data={data.checkoutData} 
                 selectedDuration={selectedDuration} 
                 setSelectedDuration={setSelectedDuration} />
-            <BookingFieldAmount
-                isEditable={isAvailableEditDuration()}
-                getFieldAmountValue={getSchedulerBookingFieldAmountValue}
-                selectedDuration={selectedDuration}
-                data={data.checkoutData} />
-            {!isAvailableEditDuration() && <span>Изменились цены, редчить нельзя</span>}
+            <BookingFieldAmount getFieldAmount={getSchedulerBookingFieldAmount} />
+            {!isAvailableEditDuration() && <div className="booking-warning">
+                <i className="fa fa-exclamation-circle" aria-hidden="true"/>
+                <div className="booking-warning-text">
+                  <span>{t("booking:warnings:disabled_change_duration")}</span>
+                </div>
+            </div>}
             <BookingInventory
                 data={data.checkoutData}
                 isEditable={isAvailableEditInventory()}
@@ -158,9 +159,26 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                 selectedInventories={selectedInventories}
                 setSelectedInventories={setSelectedInventories}
                 getInventoryAmount={getSchedulerBookingInventoryAmount}
+                bookingInventories={props.bookingData.inventories||[]}
                 headerText={t("booking:scheduler:inventory_header")}/>
-            {!isAvailableEditInventory() && <span>Изменились цены, редчить инв нельзя</span>}
-            <BookingTotalAmount getTotalAmount={getTotalAmount}/>
+            {!isAvailableEditInventory() && <div className="booking-warning">
+                <i className="fa fa-exclamation-circle" aria-hidden="true"/>
+                <div className="booking-warning-text">
+                    <span>{t("booking:warnings:disabled_change_inventory")}</span>
+                </div>
+            </div>}
+            <BookingTotalAmount getTotalAmountValue={getTotalAmountValue} promo={promo} manualDiscount={parseInt(manualDiscount === '' ? '0' : manualDiscount)}/>
+            <div className="booking-manual-discount">
+                <span>{t("schedule:scheduler:booking:manual_discount")}:</span>
+                <Input value={manualDiscount} onChange={(e, {value}) => {
+                    if (value) {
+                        setManualDiscount(value)
+                    }
+                    else {
+                        setManualDiscount('');
+                    }
+                }} style={{ width: '100px'}}/>
+            </div>
             <BookingCustomer
                 name={name}
                 setName={setName}

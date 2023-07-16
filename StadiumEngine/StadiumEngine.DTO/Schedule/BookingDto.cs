@@ -34,9 +34,24 @@ public class BookingDto
     public DateTime Day { get; set; }
     
     /// <summary>
-    /// Сумма
+    /// Сумма за инвентарь
     /// </summary>
-    public decimal Amount { get; set; }
+    public decimal InventoryAmount { get; set; }
+    
+    /// <summary>
+    /// Сумма за поле
+    /// </summary>
+    public decimal FieldAmount { get; set; }
+    
+    /// <summary>
+    /// Общая сумма до скидок
+    /// </summary>
+    public decimal TotalAmountBeforeDiscount { get; set; }
+    
+    /// <summary>
+    /// Общая сумма после скидок
+    /// </summary>
+    public decimal TotalAmountAfterDiscount { get; set; }
     
     /// <summary>
     /// Время начала
@@ -64,9 +79,14 @@ public class BookingDto
     public bool IsCanceled { get; set; }
     
     /// <summary>
-    /// Скидка
+    /// Скидка по промокоду
     /// </summary>
-    public decimal? Discount { get; set; }
+    public decimal? PromoDiscount { get; set; }
+    
+    /// <summary>
+    /// Дополнительная скидка
+    /// </summary>
+    public decimal? ManualDiscount { get; set; }
     
     /// <summary>
     /// Примечание
