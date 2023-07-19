@@ -7,5 +7,5 @@ export interface StadiumDto {
     region: string;
     city: string;
     dateCreated: string;
-    isRoleBound: boolean;
+    isUserBound: boolean;
 }

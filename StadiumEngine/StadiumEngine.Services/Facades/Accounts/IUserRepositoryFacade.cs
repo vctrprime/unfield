@@ -19,5 +19,8 @@ internal interface IUserRepositoryFacade
     Task<List<Permission>> GetPermissionsAsync( int roleId );
 
     Task<List<Stadium>> GetStadiumsForLegalAsync( int legalId );
-    Task<List<Stadium>> GetStadiumsForRoleAsync( int roleId );
+    Task<List<Stadium>> GetStadiumsForUserAsync( int userId );
+    Task<UserStadium?> GetUserStadiumAsync( int roleId, int stadiumId );
+    void AddUserStadium( UserStadium userStadium );
+    void RemoveUserStadium( UserStadium userStadium );
 }

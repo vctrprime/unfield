@@ -39,4 +39,9 @@ public class UserDto : BaseEntityDto
     ///     Дата последнего входа
     /// </summary>
     public DateTime? LastLoginDate { get; set; }
+    
+    /// <summary>
+    ///     Количество стадионов
+    /// </summary>
+    public int StadiumsCount { get; set; }
 }

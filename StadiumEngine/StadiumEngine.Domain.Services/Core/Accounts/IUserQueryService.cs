@@ -9,4 +9,5 @@ public interface IUserQueryService
     Task<List<User>> GetUsersByLegalIdAsync( int legalId );
     Task<List<Permission>> GetUserPermissionsAsync( int userId );
     Task<List<Stadium>> GetUserStadiumsAsync( int userId, int legalId );
+    Task<Dictionary<Stadium, bool>> GetStadiumsForUserAsync( int userId, int legalId );
 }

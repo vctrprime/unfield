@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {GridLoading} from "../common/GridLoading";
 import {dateFormatter} from "../../../helpers/date-formatter";
 import {UserDto} from "../../../models/dto/accounts/UserDto";
@@ -19,12 +19,13 @@ import {PermissionsRoleDropDownData} from "./Permissions";
 import {RoleDto} from "../../../models/dto/accounts/RoleDto";
 import {ContainerLoading} from "../../common/ContainerLoading";
 import {PermissionsKeys} from "../../../static/PermissionsKeys";
+import {changeBindingStadiumAtom} from "../../../state/changeBindingStadium";
 
 const AgGrid = require('ag-grid-react');
 const {AgGridReact} = AgGrid;
 
 
-export const UsersGrid = () => {
+export const UsersGrid = ({setSelectedUser}: any) => {
     const [data, setData] = useState<UserDto[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -57,6 +58,31 @@ export const UsersGrid = () => {
         }
     }, [])
 
+    const onSelectionChanged = useCallback(() => {
+        if (gridRef.current !== undefined) {
+            const selectedRows = gridRef.current.api.getSelectedRows();
+            if (selectedRows.length > 0) {
+                setSelectedUser(selectedRows[0]);
+            } else {
+                setSelectedUser(null);
+            }
+        }
+
+    }, []);
+
+    const NameRenderer = (obj: any) => {
+        return <span className="link-cell">{obj.data.name}</span>;
+    }
+
+    const changeBindingStadium = useRecoilValue(changeBindingStadiumAtom);
+    const [selectedNodeId, setSelectedNodeId] = useState(null);
+
+    useEffect(() => {
+        if (changeBindingStadium !== null && gridRef.current !== undefined) {
+            const rowNode = gridRef.current.api.getRowNode(selectedNodeId);
+            rowNode.setDataValue('stadiumsCount', rowNode.data.stadiumsCount + (changeBindingStadium ? 1 : -1));
+        }
+    }, [changeBindingStadium])
 
     const columnDefs = [
         {
@@ -76,7 +102,13 @@ export const UsersGrid = () => {
             pinned: 'left',
             width: 58,
         },
-        {field: 'name', headerName: t("accounts:users_grid:name"), width: 150},
+        {field: 'name', headerName: t("accounts:users_grid:name"), width: 150,
+            cellRenderer: NameRenderer,
+            onCellClicked: (e: any) => {
+                e.node.setSelected(true);
+                setSelectedNodeId(e.node.id);
+            }
+            },
         {field: 'lastName', headerName: t("accounts:users_grid:last_name"), width: 170},
         {
             field: 'phoneNumber',
@@ -97,6 +129,12 @@ export const UsersGrid = () => {
             headerName: t("accounts:users_grid:date_created"),
             width: 170,
             valueFormatter: dateFormatter
+        },
+        {
+            field: 'stadiumsCount',
+            cellClass: "grid-center-cell",
+            headerName: t("accounts:users_grid:stadiums_count"),
+            width: 200
         },
         {
             field: 'lastLoginDate',
@@ -187,6 +225,7 @@ export const UsersGrid = () => {
         setUserAction(true);
         accountsService.deleteUser(deletingUser?.id || 0).then(() => {
             fetchUsers();
+            setSelectedUser(null);
         }).finally(() => {
             setUserAction(false);
             setDeleteUserModal(false);
@@ -285,6 +324,7 @@ export const UsersGrid = () => {
                     ref={gridRef}
                     rowData={data}
                     columnDefs={columnDefs}
+                    onSelectionChanged={onSelectionChanged}
                     overlayNoRowsTemplate={getOverlayNoRowsTemplate()}
                 />}
             </div>

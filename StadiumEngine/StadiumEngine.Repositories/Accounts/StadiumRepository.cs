@@ -19,9 +19,9 @@ internal class StadiumRepository : BaseRepository<Stadium>, IStadiumRepository
             .ThenInclude( r => r.Country )
             .ToListAsync();
 
-    public async Task<List<Stadium>> GetForRoleAsync( int roleId ) =>
+    public async Task<List<Stadium>> GetForUserAsync( int userId ) =>
         await Entities
-            .Where( s => s.RoleStadiums.Select( rs => rs.RoleId ).Contains( roleId ) && !s.IsDeleted )
+            .Where( s => s.UserStadiums.Select( rs => rs.UserId ).Contains( userId ) && !s.IsDeleted )
             .Include( s => s.City )
             .ThenInclude( c => c.Region )
             .ThenInclude( r => r.Country )

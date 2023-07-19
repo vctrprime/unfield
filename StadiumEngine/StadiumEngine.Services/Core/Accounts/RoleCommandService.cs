@@ -58,7 +58,7 @@ internal class RoleCommandService : IRoleCommandService
         Role? role = await _roleRepositoryFacade.GetRoleAsync( roleId );
         _accountsAccessChecker.CheckRoleAccess( role, legalId );
 
-        if ( role!.RoleStadiums.Any() || role.Users.Any() )
+        if ( role.Users.Any() )
         {
             throw new DomainException(
                 ErrorsKeys.DeleteRoleHasBindings );
@@ -94,49 +94,6 @@ internal class RoleCommandService : IRoleCommandService
         else
         {
             _roleRepositoryFacade.RemoveRolePermission( rolePermission );
-        }
-    }
-
-    public async Task ToggleRoleStadiumAsync( int roleId, int stadiumId, int legalId, int userId )
-    {
-        User? user = await _userRepository.GetAsync( userId );
-
-        if ( user?.RoleId == roleId )
-        {
-            throw new DomainException( ErrorsKeys.ModifyStadiumsCurrentRole );
-        }
-
-        Role? role = await _roleRepositoryFacade.GetRoleAsync( roleId );
-        _accountsAccessChecker.CheckRoleAccess( role, legalId );
-
-        List<Stadium> stadiums = await _stadiumRepository.GetForLegalAsync( legalId );
-        Stadium? stadium = stadiums.FirstOrDefault( s => s.Id == stadiumId );
-
-        if ( stadium == null )
-        {
-            throw new DomainException( ErrorsKeys.StadiumNotFound );
-        }
-
-        RoleStadium? roleStadium = await _roleRepositoryFacade.GetRoleStadiumAsync( roleId, stadiumId );
-        if ( roleStadium == null )
-        {
-            roleStadium = new RoleStadium
-            {
-                RoleId = roleId,
-                StadiumId = stadiumId,
-                UserCreatedId = userId
-            };
-            _roleRepositoryFacade.AddRoleStadium( roleStadium );
-        }
-        else
-        {
-            if ( role!.Users.Any()
-                 && role.RoleStadiums.All( rs => rs.StadiumId == stadiumId ) )
-            {
-                throw new DomainException( ErrorsKeys.LastRoleStadiumUnbind );
-            }
-
-            _roleRepositoryFacade.RemoveRoleStadium( roleStadium );
         }
     }
 }

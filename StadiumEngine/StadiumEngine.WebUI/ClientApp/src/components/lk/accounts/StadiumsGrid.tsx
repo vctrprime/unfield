@@ -7,17 +7,18 @@ import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../../services/AccountsService";
 import {t} from "i18next";
 import {GridCellWithTitleRenderer} from "../../common/GridCellWithTitleRenderer";
-import {useSetRecoilState} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {changeBindingStadiumAtom} from "../../../state/changeBindingStadium";
+import {UserDto} from "../../../models/dto/accounts/UserDto";
 
 const AgGrid = require('ag-grid-react');
 const {AgGridReact} = AgGrid;
 
 interface StadiumsGridProps {
-    selectedRole: RoleDto | null
+    selectedUser: UserDto | null
 }
 
-export const StadiumsGrid = ({selectedRole}: StadiumsGridProps) => {
+export const StadiumsGrid = ({selectedUser}: StadiumsGridProps) => {
     const [data, setData] = useState<StadiumDto[] | null>(null);
     const gridRef = useRef<any>();
 
@@ -25,15 +26,15 @@ export const StadiumsGrid = ({selectedRole}: StadiumsGridProps) => {
 
     const toggleBindStadium = (nodeId: string, id: number, value: boolean) => {
         setChangeBindingStadium(null);
-        if (selectedRole !== null) {
-            accountsService.toggleRoleStadium({
-                roleId: selectedRole.id,
+        if (selectedUser !== null) {
+            accountsService.toggleUserStadium({
+                userId: selectedUser.id,
                 stadiumId: id
             })
                 .then(() => {
                     if (gridRef.current !== undefined) {
                         const rowNode = gridRef.current.api.getRowNode(nodeId);
-                        rowNode.setDataValue('isRoleBound', value);
+                        rowNode.setDataValue('isUserBound', value);
                         setChangeBindingStadium(value);
                     }
                 })
@@ -43,23 +44,26 @@ export const StadiumsGrid = ({selectedRole}: StadiumsGridProps) => {
     }
 
     const BindingButtonRenderer = (obj: any) => {
-        const value = obj.data.isRoleBound;
-        const title = value ? t('accounts:stadiums_grid:is_role_bound') : t('accounts:stadiums_grid:is_role_unbound');
+        const value = obj.data.isUserBound;
+        const title = value ? t('accounts:stadiums_grid:is_user_bound') : t('accounts:stadiums_grid:is_user_unbound');
 
         return <i title={title} style={value ? {color: '#00d2ff'} : {}}
                   onClick={() => toggleBindStadium(obj.node.id, obj.data.id, !value)} className="fa fa-link"
                   aria-hidden="true"/>;
     }
-
+    
+    
     const columnDefs = [
         {
-            field: 'isRoleBound',
+            field: 'isUserBound',
             cellClass: "grid-center-cell",
             headerName: '',
             cellRenderer: BindingButtonRenderer,
             width: 60
         },
-        {field: 'name', headerName: t("accounts:stadiums_grid:name"), width: 250},
+        {field: 'name', 
+            headerName: t("accounts:stadiums_grid:name"), 
+            width: 250},
         //{field: 'country', headerName: t("accounts:stadiums_grid:country"), width: 300},
         //{field: 'region', headerName: t("accounts:stadiums_grid:region"), width: 300},
         {field: 'city', cellClass: "grid-center-cell", headerName: t("accounts:stadiums_grid:city"), width: 200},
@@ -82,18 +86,18 @@ export const StadiumsGrid = ({selectedRole}: StadiumsGridProps) => {
     const [accountsService] = useInject<IAccountsService>('AccountsService');
 
     useEffect(() => {
-        if (selectedRole === null) {
+        if (selectedUser === null) {
             setTimeout(() => {
                 setData([]);
             }, 500);
         } else {
             fetchStadiums();
         }
-    }, [selectedRole])
+    }, [selectedUser])
 
     const fetchStadiums = () => {
-        if (selectedRole !== null) {
-            accountsService.getStadiums(selectedRole.id)
+        if (selectedUser !== null) {
+            accountsService.getStadiums(selectedUser.id)
                 .then((result: StadiumDto[]) => {
                     setData(result);
                 })
@@ -101,8 +105,8 @@ export const StadiumsGrid = ({selectedRole}: StadiumsGridProps) => {
     }
 
     const getOverlayNoRowsTemplate = () => {
-        if (selectedRole === null) {
-            return `<span>${t('accounts:stadiums_grid:select_role_notification')}</span>`;
+        if (selectedUser === null) {
+            return `<span>${t('accounts:stadiums_grid:select_user_notification')}</span>`;
         }
 
         return `<span>${t('accounts:stadiums_grid:no_rows')}</span>`;

@@ -46,7 +46,7 @@ public class StadiumDto
     public DateTime DateCreated { get; set; }
 
     /// <summary>
-    ///     Связан с ролью, для которой был запрос
+    ///     Связан с пользователем, для которого был запрос
     /// </summary>
-    public bool IsRoleBound { get; set; }
+    public bool IsUserBound { get; set; }
 }

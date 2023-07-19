@@ -10,17 +10,20 @@ internal class UserRepositoryFacade : IUserRepositoryFacade
     private readonly IRoleRepositoryFacade _roleRepositoryFacade;
     private readonly IStadiumRepository _stadiumRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IUserStadiumRepository _userStadiumRepository;
 
     public UserRepositoryFacade(
-        IUserRepository userRepository,
         ILegalRepository legalRepository,
+        IRoleRepositoryFacade roleRepositoryFacade,
         IStadiumRepository stadiumRepository,
-        IRoleRepositoryFacade roleRepositoryFacade )
+        IUserRepository userRepository,
+        IUserStadiumRepository userStadiumRepository )
     {
-        _userRepository = userRepository;
         _legalRepository = legalRepository;
-        _stadiumRepository = stadiumRepository;
         _roleRepositoryFacade = roleRepositoryFacade;
+        _stadiumRepository = stadiumRepository;
+        _userRepository = userRepository;
+        _userStadiumRepository = userStadiumRepository;
     }
 
     public async Task<User?> GetUserAsync( string login ) => await _userRepository.GetAsync( login );
@@ -48,5 +51,13 @@ internal class UserRepositoryFacade : IUserRepositoryFacade
     public async Task<List<Stadium>> GetStadiumsForLegalAsync( int legalId ) =>
         await _stadiumRepository.GetForLegalAsync( legalId );
 
-    public async Task<List<Stadium>> GetStadiumsForRoleAsync( int roleId ) => await _stadiumRepository.GetForRoleAsync( roleId );
+    public async Task<List<Stadium>> GetStadiumsForUserAsync( int userId ) =>
+        await _stadiumRepository.GetForUserAsync( userId );
+
+    public async Task<UserStadium?> GetUserStadiumAsync( int userId, int stadiumId ) =>
+        await _userStadiumRepository.GetAsync( userId, stadiumId );
+
+    public void AddUserStadium( UserStadium userStadium ) => _userStadiumRepository.Add( userStadium );
+
+    public void RemoveUserStadium( UserStadium userStadium ) => _userStadiumRepository.Remove( userStadium );
 }

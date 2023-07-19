@@ -13,7 +13,7 @@ public static class PermissionsKeys
     public const string GetPermissions = "get-permissions";
     public const string GetStadiums = "get-stadiums";
     public const string ToggleRolePermission = "toggle-role-permission";
-    public const string ToggleRoleStadium = "toggle-role-stadium";
+    public const string ToggleUserStadium = "toggle-user-stadium";
 
     public const string GetFields = "get-fields";
     public const string GetInventories = "get-inventories";

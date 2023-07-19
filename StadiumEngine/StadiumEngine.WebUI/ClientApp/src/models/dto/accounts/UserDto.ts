@@ -9,4 +9,5 @@ export interface UserDto extends BaseEntityDto {
     roleId: number | null;
     roleName: string;
     lastLoginDate: string | null;
+    stadiumsCount: number;
 }

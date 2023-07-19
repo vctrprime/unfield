@@ -4,28 +4,29 @@ using StadiumEngine.Domain.Services.Core.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts.Stadiums;
 using StadiumEngine.Queries.Accounts.Roles;
+using StadiumEngine.Queries.Accounts.Users;
 
-namespace StadiumEngine.Handlers.Handlers.Accounts.Roles;
+namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
-internal sealed class GetStadiumsForRoleHandler : BaseRequestHandler<GetStadiumsForRoleQuery, List<StadiumDto>>
+internal sealed class GetStadiumsForRoleHandler : BaseRequestHandler<GetStadiumsForUserQuery, List<StadiumDto>>
 {
-    private readonly IRoleQueryService _queryService;
+    private readonly IUserQueryService _queryService;
 
     public GetStadiumsForRoleHandler(
-        IRoleQueryService queryService,
+        IUserQueryService queryService,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
         _queryService = queryService;
     }
 
-    public override async ValueTask<List<StadiumDto>> Handle( GetStadiumsForRoleQuery request,
+    public override async ValueTask<List<StadiumDto>> Handle( GetStadiumsForUserQuery request,
         CancellationToken cancellationToken )
     {
-        Dictionary<Stadium, bool> stadiums = await _queryService.GetStadiumsForRoleAsync( request.RoleId, _legalId );
+        Dictionary<Stadium, bool> stadiums = await _queryService.GetStadiumsForUserAsync( request.UserId, _legalId );
 
         List<StadiumDto>? stadiumsDto = Mapper.Map<List<StadiumDto>>( stadiums.Keys );
-        stadiumsDto.ForEach( sd => { sd.IsRoleBound = stadiums.FirstOrDefault( s => s.Key.Id == sd.Id ).Value; } );
+        stadiumsDto.ForEach( sd => { sd.IsUserBound = stadiums.FirstOrDefault( s => s.Key.Id == sd.Id ).Value; } );
 
         return stadiumsDto;
     }

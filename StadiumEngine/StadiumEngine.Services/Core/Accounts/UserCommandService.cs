@@ -1,6 +1,7 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Accounts;
+using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services.Core.Accounts;
 using StadiumEngine.Services.Facades.Accounts;
 using StadiumEngine.Services.Checkers;
@@ -12,16 +13,18 @@ internal class UserCommandService : IUserCommandService
     private readonly IAccountsAccessChecker _accountsAccessChecker;
     private readonly IUserRepositoryFacade _userRepositoryFacade;
     private readonly IUserServiceFacade _userServiceFacade;
+    private readonly IStadiumRepository _stadiumRepository;
 
     public UserCommandService(
-        IUserServiceFacade userServiceFacade,
+        IAccountsAccessChecker accountsAccessChecker,
         IUserRepositoryFacade userRepositoryFacade,
-        IAccountsAccessChecker accountsAccessChecker
-    )
+        IUserServiceFacade userServiceFacade,
+        IStadiumRepository stadiumRepository )
     {
-        _userServiceFacade = userServiceFacade;
-        _userRepositoryFacade = userRepositoryFacade;
         _accountsAccessChecker = accountsAccessChecker;
+        _userRepositoryFacade = userRepositoryFacade;
+        _userServiceFacade = userServiceFacade;
+        _stadiumRepository = stadiumRepository;
     }
 
     public async Task<User> AuthorizeUserAsync( string login, string password )
@@ -54,13 +57,9 @@ internal class UserCommandService : IUserCommandService
             throw new DomainException( ErrorsKeys.UserNotFound );
         }
 
-        ;
-
-        if ( ( user.Role == null
-               && user.Legal.Stadiums.FirstOrDefault( s => s.Id == stadiumId ) == null )
+        if ( user.Legal.Stadiums.FirstOrDefault( s => s.Id == stadiumId ) == null
              ||
-             ( user.Role != null
-               && user.Role.RoleStadiums.Select( s => s.Stadium ).FirstOrDefault( s => s.Id == stadiumId ) == null ) )
+             user.UserStadiums.Select( s => s.Stadium ).FirstOrDefault( s => s.Id == stadiumId ) == null )
         {
             throw new DomainException( ErrorsKeys.Forbidden );
         }
@@ -106,18 +105,19 @@ internal class UserCommandService : IUserCommandService
         }
         else
         {
-            Role? role = await _userRepositoryFacade.GetRoleAsync( user.RoleId ?? 0 );
-            _accountsAccessChecker.CheckRoleAccess( role, user.LegalId );
-
-            if ( !role!.RoleStadiums.Any() )
+            List<Stadium> stadiums = await _stadiumRepository.GetForLegalAsync( user.LegalId );
+            user.UserStadiums = new List<UserStadium>
             {
-                throw new DomainException( ErrorsKeys.UserRolesDoesntHaveStadiums );
-            }
+                new UserStadium
+                {
+                    StadiumId = stadiums.First().Id
+                }
+            };
         }
 
         string userPassword = _userServiceFacade.GeneratePassword( 8 );
         user.Password = _userServiceFacade.CryptPassword( userPassword );
-
+        
         _userRepositoryFacade.AddUser( user );
 
         return userPassword;
@@ -181,18 +181,7 @@ internal class UserCommandService : IUserCommandService
         return ( user, userPassword );
     }
 
-    public async Task UpdateUserAsync( User user, int legalId )
-    {
-        Role? role = await _userRepositoryFacade.GetRoleAsync( user.RoleId ?? 0 );
-        _accountsAccessChecker.CheckRoleAccess( role, legalId );
-
-        if ( !role!.RoleStadiums.Any() )
-        {
-            throw new DomainException( ErrorsKeys.UserRolesDoesntHaveStadiums );
-        }
-
-        _userRepositoryFacade.UpdateUser( user );
-    }
+    public void UpdateUser( User user ) => _userRepositoryFacade.UpdateUser( user );
 
     public async Task DeleteUserAsync( int userId, int legalId, int userModifiedId )
     {
@@ -209,5 +198,52 @@ internal class UserCommandService : IUserCommandService
         user.PhoneNumber = $"{user.PhoneNumber}.deleted-by-{userModifiedId}.{DateTime.Now.Ticks}";
 
         _userRepositoryFacade.RemoveUser( user );
+    }
+
+    public async Task ToggleUserStadiumAsync(
+        int userId,
+        int stadiumId,
+        int legalId,
+        int modifyUserId )
+    {
+        if ( userId == modifyUserId )
+        {
+            throw new DomainException( ErrorsKeys.ModifyStadiumsCurrentUser );
+        }
+        User? user = await _userRepositoryFacade.GetUserAsync( userId );
+
+        if ( user == null )
+        {
+            throw new DomainException( ErrorsKeys.UserNotFound );
+        }
+
+        List<Stadium> stadiums = await _stadiumRepository.GetForLegalAsync( legalId );
+        Stadium? stadium = stadiums.FirstOrDefault( s => s.Id == stadiumId );
+
+        if ( stadium == null )
+        {
+            throw new DomainException( ErrorsKeys.StadiumNotFound );
+        }
+
+        UserStadium? userStadium = await _userRepositoryFacade.GetUserStadiumAsync( userId, stadiumId );
+        if ( userStadium == null )
+        {
+            userStadium = new UserStadium
+            {
+                UserId = userId,
+                StadiumId = stadiumId,
+                UserCreatedId = modifyUserId
+            };
+            _userRepositoryFacade.AddUserStadium( userStadium );
+        }
+        else
+        {
+            if ( user.UserStadiums.All( rs => rs.StadiumId == stadiumId ) )
+            {
+                throw new DomainException( ErrorsKeys.LastUserStadiumUnbind );
+            }
+
+            _userRepositoryFacade.RemoveUserStadium( userStadium );
+        }
     }
 }

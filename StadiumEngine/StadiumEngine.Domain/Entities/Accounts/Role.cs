@@ -19,5 +19,4 @@ public class Role : BaseUserEntity
 
     public virtual ICollection<User> Users { get; set; }
     public virtual ICollection<RolePermission> RolePermissions { get; set; }
-    public virtual ICollection<RoleStadium> RoleStadiums { get; set; }
 }

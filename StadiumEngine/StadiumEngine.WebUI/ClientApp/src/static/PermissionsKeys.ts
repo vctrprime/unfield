@@ -10,7 +10,7 @@ export class PermissionsKeys {
     public static readonly GetPermissions = "get-permissions";
     public static readonly GetStadiums = "get-stadiums";
     public static readonly ToggleRolePermission = "toggle-role-permission";
-    public static readonly ToggleRoleStadium = "toggle-role-stadium";
+    public static readonly ToggleUserStadium = "toggle-user-stadium";
 
     public static readonly GetFields = "get-fields";
     public static readonly GetInventories = "get-inventories";

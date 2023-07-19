@@ -20,10 +20,4 @@ public interface IRoleCommandService
         int permissionId,
         int legalId,
         int userId );
-
-    Task ToggleRoleStadiumAsync(
-        int roleId,
-        int stadiumId,
-        int legalId,
-        int userId );
 }

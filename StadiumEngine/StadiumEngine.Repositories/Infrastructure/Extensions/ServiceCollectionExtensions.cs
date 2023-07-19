@@ -48,7 +48,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ILegalRepository, LegalRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IPermissionRepository, PermissionRepository>();
-        services.AddScoped<IRoleStadiumRepository, RoleStadiumRepository>();
+        services.AddScoped<IUserStadiumRepository, UserStadiumRepository>();
         services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
         services.AddScoped<IPermissionGroupRepository, PermissionGroupRepository>();
 

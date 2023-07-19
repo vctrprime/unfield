@@ -39,8 +39,7 @@ internal class NewLegalBuilder : INewLegalBuilder
         {
             Name = "Администратор",
             Description = "Базовая роль для администратора (добавлена автоматически)",
-            RolePermissions = await GetRolePermissions(),
-            RoleStadiums = GetRoleStadiums( stadiums )
+            RolePermissions = await GetRolePermissions()
         };
 
         return role;
@@ -59,13 +58,5 @@ internal class NewLegalBuilder : INewLegalBuilder
             .Where( p => permissionsKeys.Contains( p.PermissionGroup.Key ) ).Select(
                 p => new RolePermission { Permission = p } );
         return rolePermissions.ToList();
-    }
-
-    private List<RoleStadium> GetRoleStadiums( IEnumerable<Stadium> stadiums )
-    {
-        IEnumerable<RoleStadium> roleStadiums = stadiums.Select(
-            s => new RoleStadium { Stadium = s } );
-
-        return roleStadiums.ToList();
     }
 }

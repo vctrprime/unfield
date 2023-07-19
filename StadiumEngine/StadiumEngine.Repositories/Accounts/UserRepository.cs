@@ -15,6 +15,7 @@ internal class UserRepository : BaseRepository<User>, IUserRepository
     public async Task<List<User>> GetAllAsync( int legalId ) =>
         await Entities
             .Where( u => u.LegalId == legalId && !u.IsDeleted && !u.IsSuperuser && !u.IsAdmin )
+            .Include( r => r.UserStadiums.Where( rs => !rs.Stadium.IsDeleted ) )
             .Include( u => u.Role )
             .Include( u => u.UserCreated )
             .Include( u => u.UserModified )
@@ -37,7 +38,7 @@ internal class UserRepository : BaseRepository<User>, IUserRepository
     private async Task<User?> GetAsync( Expression<Func<User, bool>> predicate ) =>
         await Entities
             .Include( u => u.Role )
-            .ThenInclude( r => r.RoleStadiums.Where( rs => !rs.Stadium.IsDeleted ) )
+            .Include( r => r.UserStadiums.Where( rs => !rs.Stadium.IsDeleted ) )
             .Include( u => u.Legal )
             .ThenInclude( l => l.Stadiums )
             .FirstOrDefaultAsync( predicate );

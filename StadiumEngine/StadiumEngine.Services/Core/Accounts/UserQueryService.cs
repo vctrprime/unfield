@@ -1,4 +1,5 @@
 using StadiumEngine.Domain.Entities.Accounts;
+using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Services.Core.Accounts;
 using StadiumEngine.Services.Facades.Accounts;
 
@@ -7,12 +8,12 @@ namespace StadiumEngine.Services.Core.Accounts;
 internal class UserQueryService : IUserQueryService
 {
     private readonly IUserRepositoryFacade _userRepositoryFacade;
+    private readonly IStadiumRepository _stadiumRepository;
 
-    public UserQueryService(
-        IUserRepositoryFacade userRepositoryFacade
-    )
+    public UserQueryService( IUserRepositoryFacade userRepositoryFacade, IStadiumRepository stadiumRepository )
     {
         _userRepositoryFacade = userRepositoryFacade;
+        _stadiumRepository = stadiumRepository;
     }
 
 
@@ -35,10 +36,23 @@ internal class UserQueryService : IUserQueryService
     {
         User? user = await _userRepositoryFacade.GetUserAsync( userId );
 
-        return user switch
+        if ( user == null || user.IsSuperuser )
         {
-            { Role: { } } => await _userRepositoryFacade.GetStadiumsForRoleAsync( user.Role.Id ),
-            _ => await _userRepositoryFacade.GetStadiumsForLegalAsync( legalId )
-        };
+            return await _userRepositoryFacade.GetStadiumsForLegalAsync( legalId );
+        }
+
+        return await _userRepositoryFacade.GetStadiumsForUserAsync( user.Id );
+    }
+    
+    public async Task<Dictionary<Stadium, bool>> GetStadiumsForUserAsync( int userId, int legalId )
+    {
+        User? user = await _userRepositoryFacade.GetUserAsync( userId );
+        
+        List<Stadium> stadiums = await _stadiumRepository.GetForLegalAsync( legalId );
+
+        return stadiums.ToDictionary(
+            stadium => stadium,
+            stadium => user!.UserStadiums.FirstOrDefault( rs => rs.UserId == userId && stadium.Id == rs.StadiumId ) !=
+                       null );
     }
 }

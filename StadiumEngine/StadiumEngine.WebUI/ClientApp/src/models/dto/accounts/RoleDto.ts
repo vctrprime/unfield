@@ -5,5 +5,4 @@ export interface RoleDto extends BaseEntityDto {
     name: string;
     description: string;
     usersCount: number;
-    stadiumsCount: number;
 }

@@ -38,7 +38,7 @@ internal class UpdateUserFacade : IUpdateUserFacade
         user.UserModifiedId = userId;
 
 
-        await _commandService.UpdateUserAsync( user, legalId );
+        _commandService.UpdateUser( user );
 
         return new UpdateUserDto();
     }

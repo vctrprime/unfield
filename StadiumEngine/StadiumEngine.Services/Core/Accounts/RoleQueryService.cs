@@ -37,17 +37,4 @@ internal class RoleQueryService : IRoleQueryService
             permission => permission,
             permission => rolePermissions.FirstOrDefault( rp => rp.Id == permission.Id ) != null );
     }
-
-    public async Task<Dictionary<Stadium, bool>> GetStadiumsForRoleAsync( int roleId, int legalId )
-    {
-        Role? role = await _roleRepositoryFacade.GetRoleAsync( roleId );
-        _accountsAccessChecker.CheckRoleAccess( role, legalId );
-
-        List<Stadium> stadiums = await _stadiumRepository.GetForLegalAsync( legalId );
-
-        return stadiums.ToDictionary(
-            stadium => stadium,
-            stadium => role!.RoleStadiums.FirstOrDefault( rs => rs.RoleId == roleId && stadium.Id == rs.StadiumId ) !=
-                       null );
-    }
 }

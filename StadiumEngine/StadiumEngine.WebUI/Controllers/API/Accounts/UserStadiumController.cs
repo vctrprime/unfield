@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StadiumEngine.Commands.Accounts.Users;
+using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.Accounts.Users;
 using StadiumEngine.Queries.Accounts.Users;
+using StadiumEngine.WebUI.Infrastructure.Attributes;
 
 namespace StadiumEngine.WebUI.Controllers.API.Accounts;
 
@@ -21,5 +24,17 @@ public class UserStadiumController : BaseApiController
     {
         List<UserStadiumDto> stadiums = await Mediator.Send( query );
         return stadiums;
+    }
+    
+    /// <summary>
+    ///     Добавить/убрать связь
+    /// </summary>
+    /// <returns></returns>
+    [HttpPost]
+    [HasPermission( PermissionsKeys.ToggleUserStadium )]
+    public async Task<ToggleUserStadiumDto> Post( ToggleUserStadiumCommand command )
+    {
+        ToggleUserStadiumDto dto = await Mediator.Send( command );
+        return dto;
     }
 }

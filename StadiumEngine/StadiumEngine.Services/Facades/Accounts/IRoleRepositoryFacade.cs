@@ -14,7 +14,4 @@ internal interface IRoleRepositoryFacade
     Task<RolePermission?> GetRolePermissionAsync( int roleId, int permissionId );
     void AddRolePermission( RolePermission rolePermission );
     void RemoveRolePermission( RolePermission rolePermission );
-    Task<RoleStadium?> GetRoleStadiumAsync( int roleId, int stadiumId );
-    void AddRoleStadium( RoleStadium roleStadium );
-    void RemoveRoleStadium( RoleStadium roleStadium );
 }

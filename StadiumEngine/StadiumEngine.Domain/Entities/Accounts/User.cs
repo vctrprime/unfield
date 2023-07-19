@@ -51,6 +51,8 @@ public class User : BaseUserEntity
     [Column( "is_admin" )]
     [DefaultValue( false )]
     public bool IsAdmin { get; set; }
+    
+    public virtual ICollection<UserStadium> UserStadiums { get; set; }
 
     [InverseProperty( "UserCreated" )]
     public virtual ICollection<User> CreatedUsers { get; set; }
@@ -71,10 +73,10 @@ public class User : BaseUserEntity
     public virtual ICollection<RolePermission> LastModifiedRolePermissions { get; set; }
 
     [InverseProperty( "UserCreated" )]
-    public virtual ICollection<RoleStadium> CreatedRoleStadiums { get; set; }
+    public virtual ICollection<UserStadium> CreatedUserStadiums { get; set; }
 
     [InverseProperty( "UserModified" )]
-    public virtual ICollection<RoleStadium> LastModifiedRoleStadiums { get; set; }
+    public virtual ICollection<UserStadium> LastModifiedUserStadiums { get; set; }
 
     [InverseProperty( "UserCreated" )]
     public virtual ICollection<LockerRoom> CreatedLockerRooms { get; set; }

@@ -9,13 +9,13 @@ import {UserStadiumDto} from "../models/dto/accounts/UserStadiumDto";
 import {StadiumDto} from "../models/dto/accounts/StadiumDto";
 import {UserDto} from "../models/dto/accounts/UserDto";
 import {t} from "i18next";
-import {ToggleRoleStadiumCommand} from "../models/command/accounts/ToggleRoleStadiumCommand";
 import {AddRoleCommand} from "../models/command/accounts/AddRoleCommand";
 import {UpdateRoleCommand} from "../models/command/accounts/UpdateRoleCommand";
 import {AddUserCommand} from "../models/command/accounts/AddUserCommand";
 import {UpdateUserCommand} from "../models/command/accounts/UpdateUserCommand";
 import {ChangeUserPasswordCommand} from "../models/command/accounts/ChangeUserPasswordCommand";
 import {ResetUserPasswordCommand} from "../models/command/accounts/ResetUserPasswordCommand";
+import {ToggleUserStadiumCommand} from "../models/command/accounts/ToggleUserStadiumCommand";
 
 export interface IAccountsService {
     authorize(command: AuthorizeUserCommand): Promise<AuthorizeUserDto>;
@@ -44,13 +44,13 @@ export interface IAccountsService {
 
     deleteRole(roleId: number): Promise<void>;
 
-    getStadiums(roleId: number): Promise<StadiumDto[]>;
+    getStadiums(userId: number): Promise<StadiumDto[]>;
 
     getPermissions(roleId: number): Promise<PermissionDto[]>;
 
     toggleRolePermission(command: ToggleRolePermissionCommand): Promise<void>;
 
-    toggleRoleStadium(command: ToggleRoleStadiumCommand): Promise<void>;
+    toggleUserStadium(command: ToggleUserStadiumCommand): Promise<void>;
 
     changeLanguage(language: string): Promise<void>;
 
@@ -109,9 +109,9 @@ export class AccountsService extends BaseService implements IAccountsService {
         })
     }
 
-    getStadiums(roleId: number): Promise<StadiumDto[]> {
+    getStadiums(userId: number): Promise<StadiumDto[]> {
         return this.fetchWrapper.get({
-            url: `${this.baseUrl}/stadiums/${roleId}`
+            url: `${this.baseUrl}/stadiums/${userId}`
         })
     }
 
@@ -146,9 +146,9 @@ export class AccountsService extends BaseService implements IAccountsService {
         })
     }
 
-    toggleRoleStadium(command: ToggleRoleStadiumCommand): Promise<void> {
+    toggleUserStadium(command: ToggleUserStadiumCommand): Promise<void> {
         return this.fetchWrapper.post({
-            url: `${this.baseUrl}/role-stadium`,
+            url: `${this.baseUrl}/user-stadiums`,
             body: command,
             successMessage: t('common:success_request')
         })

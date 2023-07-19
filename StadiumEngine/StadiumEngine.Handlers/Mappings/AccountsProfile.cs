@@ -52,7 +52,8 @@ internal class AccountsProfile : Profile
             .ForMember( dest => dest.RoleId, act => act.MapFrom( s => s.RoleId ) )
             .ForMember(
                 dest => dest.RoleName,
-                act => act.MapFrom( s => s.Role.Name ) );
+                act => act.MapFrom( s => s.Role.Name ) )
+            .ForMember( dest => dest.StadiumsCount, act => act.MapFrom( s => s.UserStadiums.Count ) );
         CreateMap<AddUserCommand, User>()
             .ForMember( dest => dest.Language, act => act.MapFrom( s => "ru" ) )
             .ForMember( dest => dest.IsSuperuser, act => act.MapFrom( s => false ) )
@@ -64,8 +65,7 @@ internal class AccountsProfile : Profile
 
         CreateMap<Role, RoleDto>()
             .IncludeBase<BaseUserEntity, BaseEntityDto>()
-            .ForMember( dest => dest.UsersCount, act => act.MapFrom( s => s.Users.Count ) )
-            .ForMember( dest => dest.StadiumsCount, act => act.MapFrom( s => s.RoleStadiums.Count ) );
+            .ForMember( dest => dest.UsersCount, act => act.MapFrom( s => s.Users.Count ) );
         CreateMap<AddRoleCommand, Role>();
 
         CreateMap<Permission, PermissionDto>()
@@ -95,9 +95,9 @@ internal class AccountsProfile : Profile
             new Claim( "legalId", user.LegalId.ToString() ),
             new Claim(
                 "stadiumId",
-                user.Role == null
+                user.IsSuperuser
                     ? user.Legal.Stadiums.First().Id.ToString()
-                    : user.Role.RoleStadiums.First().StadiumId.ToString() )
+                    : user.UserStadiums.First().StadiumId.ToString() )
         };
 
         return claims;

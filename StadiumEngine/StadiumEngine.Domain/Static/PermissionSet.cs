@@ -336,9 +336,9 @@ public static class PermissionSet
                 },
                 new()
                 {
-                    Name = PermissionsKeys.ToggleRoleStadium,
-                    DisplayName = "Связь \"роль-объект\"",
-                    Description = "Возможность добавить или удалить связь роли с объектом",
+                    Name = PermissionsKeys.ToggleUserStadium,
+                    DisplayName = "Связь \"пользователь-объект\"",
+                    Description = "Возможность добавить или удалить связь пользователя с объектом",
                     Sort = 12
                 }
             }

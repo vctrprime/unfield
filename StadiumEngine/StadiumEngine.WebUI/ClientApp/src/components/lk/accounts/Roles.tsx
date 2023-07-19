@@ -10,13 +10,9 @@ import {PermissionsKeys} from "../../../static/PermissionsKeys";
 export const Roles = () => {
     document.title = getTitle("accounts:roles_tab")
 
-    const [selectedRole, setSelectedRole] = useState(null)
-    const permissions = useRecoilValue<UserPermissionDto[]>(permissionsAtom);
-
-    const hasGetStadiumsPermission = permissions.filter(p => p.name === PermissionsKeys.GetStadiums).length > 0;
+    
 
     return <div className="accounts-container">
-        <RolesGrid selectedRole={selectedRole} setSelectedRole={setSelectedRole}/>
-        {hasGetStadiumsPermission ? <StadiumsGrid selectedRole={selectedRole}/> : <span/>}
+        <RolesGrid />
     </div>
 }

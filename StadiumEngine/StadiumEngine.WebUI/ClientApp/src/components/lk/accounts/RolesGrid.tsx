@@ -19,16 +19,14 @@ import {PermissionsKeys} from "../../../static/PermissionsKeys";
 const AgGrid = require('ag-grid-react');
 const {AgGridReact} = AgGrid;
 
-export const RolesGrid = ({setSelectedRole}: any) => {
+export const RolesGrid = () => {
     const [data, setData] = useState<RoleDto[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const setRecoilRoles = useSetRecoilState(rolesAtom);
 
     const permissions = useRecoilValue(permissionsAtom);
-
-    const changeBindingStadium = useRecoilValue(changeBindingStadiumAtom);
-
+    
     const [roleModal, setRoleModal] = useState<boolean>(false)
     const [deleteRoleModal, setDeleteRoleModal] = useState<boolean>(false)
 
@@ -36,13 +34,6 @@ export const RolesGrid = ({setSelectedRole}: any) => {
     const [deletingRole, setDeletingRole] = useState<RoleDto | null>(null);
 
     const gridRef = useRef<any>();
-
-    const [selectedNodeId, setSelectedNodeId] = useState(null);
-
-
-    const NameRenderer = (obj: any) => {
-        return <span className="link-cell">{obj.data.name}</span>;
-    }
 
     const columnDefs = [
         {
@@ -65,12 +56,7 @@ export const RolesGrid = ({setSelectedRole}: any) => {
         {
             field: 'name',
             headerName: t("accounts:roles_grid:name"),
-            width: 150,
-            cellRenderer: NameRenderer,
-            onCellClicked: (e: any) => {
-                e.node.setSelected(true);
-                setSelectedNodeId(e.node.id);
-            },
+            width: 150
         },
         {
             field: 'description',
@@ -82,12 +68,6 @@ export const RolesGrid = ({setSelectedRole}: any) => {
             field: 'usersCount',
             cellClass: "grid-center-cell",
             headerName: t("accounts:roles_grid:users_count"),
-            width: 200
-        },
-        {
-            field: 'stadiumsCount',
-            cellClass: "grid-center-cell",
-            headerName: t("accounts:roles_grid:stadiums_count"),
             width: 200
         },
         {
@@ -111,13 +91,7 @@ export const RolesGrid = ({setSelectedRole}: any) => {
         fetchRoles();
     }, [])
 
-    useEffect(() => {
-        if (changeBindingStadium !== null && gridRef.current !== undefined) {
-            const rowNode = gridRef.current.api.getRowNode(selectedNodeId);
-            rowNode.setDataValue('stadiumsCount', rowNode.data.stadiumsCount + (changeBindingStadium ? 1 : -1));
-        }
-    }, [changeBindingStadium])
-
+    
     const fetchRoles = () => {
         setIsLoading(true);
         accountsService.getRoles().then((result: RoleDto[]) => {
@@ -130,19 +104,7 @@ export const RolesGrid = ({setSelectedRole}: any) => {
             }, 500);
         })
     }
-
-    const onSelectionChanged = useCallback(() => {
-        if (gridRef.current !== undefined) {
-            const selectedRows = gridRef.current.api.getSelectedRows();
-            if (selectedRows.length > 0) {
-                setSelectedRole(selectedRows[0]);
-            } else {
-                setSelectedRole(null);
-            }
-        }
-
-    }, []);
-
+    
     const nameInput = useRef<any>();
     const descriptionInput = useRef<any>();
 
@@ -201,7 +163,6 @@ export const RolesGrid = ({setSelectedRole}: any) => {
         setRoleAction(true);
         accountsService.deleteRole(deletingRole?.id || 0).then(() => {
             fetchRoles();
-            setSelectedRole(null);
         }).finally(() => {
             setRoleAction(false);
             setDeleteRoleModal(false);
@@ -276,7 +237,6 @@ export const RolesGrid = ({setSelectedRole}: any) => {
                     ref={gridRef}
                     rowData={data}
                     columnDefs={columnDefs}
-                    onSelectionChanged={onSelectionChanged}
                     overlayNoRowsTemplate={getOverlayNoRowsTemplate()}
                 />}
             </div>

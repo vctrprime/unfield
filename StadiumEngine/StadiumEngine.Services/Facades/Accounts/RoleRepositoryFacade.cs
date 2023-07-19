@@ -9,18 +9,15 @@ internal class RoleRepositoryFacade : IRoleRepositoryFacade
     private readonly IPermissionRepository _permissionRepository;
     private readonly IRolePermissionRepository _rolePermissionRepository;
     private readonly IRoleRepository _roleRepository;
-    private readonly IRoleStadiumRepository _roleStadiumRepository;
 
     public RoleRepositoryFacade(
         IRoleRepository roleRepository,
         IPermissionRepository permissionRepository,
-        IRolePermissionRepository rolePermissionRepository,
-        IRoleStadiumRepository roleStadiumRepository )
+        IRolePermissionRepository rolePermissionRepository )
     {
         _roleRepository = roleRepository;
         _permissionRepository = permissionRepository;
         _rolePermissionRepository = rolePermissionRepository;
-        _roleStadiumRepository = roleStadiumRepository;
     }
 
     public async Task<List<Role>> GetRolesAsync( int legalId ) => await _roleRepository.GetAllAsync( legalId );
@@ -45,11 +42,4 @@ internal class RoleRepositoryFacade : IRoleRepositoryFacade
 
     public void RemoveRolePermission( RolePermission rolePermission ) =>
         _rolePermissionRepository.Remove( rolePermission );
-
-    public async Task<RoleStadium?> GetRoleStadiumAsync( int roleId, int stadiumId ) =>
-        await _roleStadiumRepository.GetAsync( roleId, stadiumId );
-
-    public void AddRoleStadium( RoleStadium roleStadium ) => _roleStadiumRepository.Add( roleStadium );
-
-    public void RemoveRoleStadium( RoleStadium roleStadium ) => _roleStadiumRepository.Remove( roleStadium );
 }

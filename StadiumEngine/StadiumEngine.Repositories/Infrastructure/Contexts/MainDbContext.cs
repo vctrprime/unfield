@@ -53,7 +53,7 @@ internal class MainDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Permission> Permissions { get; set; }
     public DbSet<RolePermission> RolePermissions { get; set; }
-    public DbSet<RoleStadium> RoleStadiums { get; set; }
+    public DbSet<UserStadium> UserStadiums { get; set; }
     public DbSet<Stadium> Stadiums { get; set; }
 
     #endregion

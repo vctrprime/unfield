@@ -33,7 +33,7 @@ public class Stadium : BaseEntity
     [Column( "token" )]
     public string Token { get; set; }
 
-    public virtual ICollection<RoleStadium> RoleStadiums { get; set; }
+    public virtual ICollection<UserStadium> UserStadiums { get; set; }
     public virtual ICollection<LockerRoom> LockerRooms { get; set; }
     public virtual ICollection<Field> Fields { get; set; }
     public virtual ICollection<Tariff> Tariffs { get; set; }
