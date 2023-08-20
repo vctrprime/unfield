@@ -1,5 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -25,20 +26,7 @@ public class Program
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
-
-        SelfLog.Enable( msg => Console.WriteLine( $"Logging Process Error: {msg}" ) );
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Information()
-            .Filter.ByExcluding( Matching.FromSource( "Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware" ) )
-            .Filter.ByExcluding( Matching.FromSource( "Microsoft.EntityFrameworkCore.Database.Command" ) )
-            .WriteTo.Console()
-            .WriteTo.PostgreSQL(
-                Environment.GetEnvironmentVariable( "DB_CONNECTION_STRING" ),
-                "PUBLIC.LOG_ERRORS",
-                needAutoCreateTable: true,
-                restrictedToMinimumLevel: LogEventLevel.Error )
-            .CreateLogger();
-
+        
         CreateHostBuilder( args ).Build().Run();
     }
 
@@ -49,5 +37,17 @@ public class Program
     /// <returns></returns>
     public static IHostBuilder CreateHostBuilder( string[] args ) =>
         Host.CreateDefaultBuilder( args ).UseSerilog()
-            .ConfigureWebHostDefaults( webBuilder => { webBuilder.UseStartup<Startup>(); } );
+            .ConfigureWebHostDefaults(
+                webBuilder =>
+                {
+                    webBuilder
+                        .UseStartup<Startup>()
+                        .ConfigureAppConfiguration(
+                            ( builderContext, config ) =>
+                            {
+                                config
+                                    .AddJsonFile( "appsettings.json", optional: true )
+                                    .AddJsonFile( $"appsettings.{Environment.GetEnvironmentVariable( "ASPNETCORE_ENVIRONMENT" )}.json", optional: true );
+                            } );
+                } );
 }

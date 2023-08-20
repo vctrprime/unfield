@@ -18,11 +18,11 @@ namespace StadiumEngine.Handlers.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void RegisterHandlers( this IServiceCollection services ) => services.RegisterModules();
+    public static void RegisterHandlers( this IServiceCollection services, string connectionString ) => services.RegisterModules( connectionString );
 
-    private static void RegisterModules( this IServiceCollection services )
+    private static void RegisterModules( this IServiceCollection services, string connectionString )
     {
-        services.RegisterServices();
+        services.RegisterServices( connectionString );
         services.AddMediator( options => options.ServiceLifetime = ServiceLifetime.Scoped );
         
         services.AddScoped<IAddUserFacade, AddUserFacade>();

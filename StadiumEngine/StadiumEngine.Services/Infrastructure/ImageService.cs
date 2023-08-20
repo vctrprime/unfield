@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using StadiumEngine.Common.Configuration;
 using StadiumEngine.Domain.Services.Infrastructure;
 
 namespace StadiumEngine.Services.Infrastructure;
@@ -7,9 +8,9 @@ internal class ImageService : IImageService
 {
     private readonly string? _directory;
 
-    public ImageService()
+    public ImageService( StorageConfig storageConfig )
     {
-        _directory = Environment.GetEnvironmentVariable( "IMAGE_STORAGE" );
+        _directory = storageConfig.ImageStorage;
     }
 
 

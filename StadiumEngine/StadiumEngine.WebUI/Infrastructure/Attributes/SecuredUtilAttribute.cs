@@ -1,9 +1,11 @@
+#nullable enable
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Primitives;
+using StadiumEngine.Common.Configuration;
 
 namespace StadiumEngine.WebUI.Infrastructure.Attributes;
 
@@ -20,12 +22,20 @@ public class SecuredUtilAttribute : ActionFilterAttribute
     {
         //Get header 
         StringValues requestHeaders = context.HttpContext.Request.Headers[ "SE-Utils-Api-Key" ];
-        string value = requestHeaders.FirstOrDefault();
+        string? value = requestHeaders.FirstOrDefault();
 
-        if ( String.IsNullOrEmpty( value ) || value != Environment.GetEnvironmentVariable( "UTILS_API_KEY" ) )
+        UtilsConfig? config = ( UtilsConfig? )context.HttpContext.RequestServices.GetService( typeof( UtilsConfig ) );
+
+        if ( String.IsNullOrEmpty( value ) || config == null || value != config.UtilsApiKey )
         {
             context.Result = new ObjectResult(
-                new { Message = "Forbidden" } ) { StatusCode = StatusCodes.Status403Forbidden };
+                new
+                {
+                    Message = "Forbidden"
+                } )
+            {
+                StatusCode = StatusCodes.Status403Forbidden
+            };
         }
     }
 }

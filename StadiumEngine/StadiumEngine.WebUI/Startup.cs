@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.IO;
 using System.Reflection;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -17,6 +19,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Serilog;
+using Serilog.Debugging;
+using Serilog.Events;
+using Serilog.Filters;
+using StadiumEngine.Common.Configuration;
+using StadiumEngine.WebUI.Infrastructure;
 using StadiumEngine.WebUI.Infrastructure.Extensions;
 using StadiumEngine.WebUI.Infrastructure.Middleware;
 
@@ -50,20 +58,28 @@ public class Startup
     /// <param name="services"></param>
     public void ConfigureServices( IServiceCollection services )
     {
-        string folderPath =
-            Path.Combine(
-                Path.GetDirectoryName(
-                    Assembly
-                        .GetAssembly( typeof( Startup ) )?.Location ) ?? String.Empty,
-                "keys" );
-
-        services.AddDataProtection()
-            .PersistKeysToFileSystem( new DirectoryInfo( folderPath ) )
-            .SetApplicationName( $"StadiumEngine-{Environment.GetEnvironmentVariable( "ASPNETCORE_ENVIRONMENT" )}" )
-            .SetDefaultKeyLifetime( TimeSpan.FromDays( 10000 ) )
-            .DisableAutomaticKeyGeneration();
-
-        services.RegisterModules();
+        services.AddSingleton( Configuration.GetSection( "StorageConfig" ).Get<StorageConfig>() );
+        services.AddSingleton( Configuration.GetSection( "UtilsConfig" ).Get<UtilsConfig>() );
+        
+        string? connectionString = Configuration.GetConnectionString( "MainDbConnection" );
+        
+        services.AddDbContext<KeysContext>( options => options.UseNpgsql( connectionString ) );
+        services.AddDataProtection().PersistKeysToDbContext<KeysContext>();
+        
+        SelfLog.Enable( msg => Console.WriteLine( $"Logging Process Error: {msg}" ) );
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information()
+            .Filter.ByExcluding( Matching.FromSource( "Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware" ) )
+            .Filter.ByExcluding( Matching.FromSource( "Microsoft.EntityFrameworkCore.Database.Command" ) )
+            .WriteTo.Console()
+            .WriteTo.PostgreSQL(
+                connectionString,
+                "PUBLIC.LOG_ERRORS",
+                needAutoCreateTable: true,
+                restrictedToMinimumLevel: LogEventLevel.Error )
+            .CreateLogger();
+        
+        services.RegisterModules( connectionString );
 
         if ( _environment.IsDevelopment() )
         {
@@ -166,10 +182,12 @@ public class Startup
         app.ConfigureExceptionHandler( logger );
 
         app.UseStaticFiles();
+
+        StorageConfig storageConfig = Configuration.GetSection( "StorageConfig" ).Get<StorageConfig>();
         app.UseStaticFiles(
             new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider( Environment.GetEnvironmentVariable( "IMAGE_STORAGE" ) ),
+                FileProvider = new PhysicalFileProvider( storageConfig.ImageStorage ),
                 RequestPath = "/legal-images"
             } );
 

@@ -37,9 +37,9 @@ namespace StadiumEngine.Services.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void RegisterServices( this IServiceCollection services )
+    public static void RegisterServices( this IServiceCollection services, string connectionString )
     {
-        services.RegisterDataAccessModules();
+        services.RegisterDataAccessModules( connectionString );
 
         services.AddScoped<IClaimsIdentityService, ClaimsIdentityService>();
         services.AddScoped<IPasswordGenerator, PasswordGenerator>();

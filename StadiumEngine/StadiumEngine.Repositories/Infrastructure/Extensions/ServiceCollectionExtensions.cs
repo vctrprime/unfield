@@ -19,14 +19,13 @@ namespace StadiumEngine.Repositories.Infrastructure.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void RegisterDataAccessModules( this IServiceCollection services ) =>
+    public static void RegisterDataAccessModules( this IServiceCollection services, string connectionString ) =>
         services
-            .RegisterContexts()
+            .RegisterContexts( connectionString )
             .RegisterRepositories();
 
-    private static IServiceCollection RegisterContexts( this IServiceCollection services )
+    private static IServiceCollection RegisterContexts( this IServiceCollection services, string connectionString )
     {
-        string? connectionString = Environment.GetEnvironmentVariable( "DB_CONNECTION_STRING" );
         services.AddDbContext<MainDbContext>(
             options =>
             {
