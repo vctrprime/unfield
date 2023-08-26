@@ -59,6 +59,16 @@
 
 
   }
+  
+  .booking-locker-room-weekly-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .checkbox {
+      margin-top: 10px;
+    }
+  }
 
   .booking-checkout-header {
     font-weight: bold;

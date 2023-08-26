@@ -94,6 +94,11 @@ public class BookingDto
     public string? Note { get; set; }
     
     /// <summary>
+    /// Еженедельное бронирование
+    /// </summary>
+    public bool IsWeekly { get; set; }
+    
+    /// <summary>
     /// Поле
     /// </summary>
     public FieldDto Field { get; set; } = null!;

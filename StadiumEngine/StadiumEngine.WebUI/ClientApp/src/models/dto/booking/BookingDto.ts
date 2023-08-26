@@ -22,6 +22,7 @@ export interface BookingDto {
     promo: BookingPromoDto | null;
     promoDiscount: number | null;
     manualDiscount: number | null;
+    isWeekly: boolean;
     note: string | null;
     field: FieldDto;
     tariff: TariffDto;

@@ -38,5 +38,6 @@
     "minute_short": "мин",
     "from": "с",
     "to": "до",
-    "available_qty": "Доступное количество"
+    "available_qty": "Доступное количество",
+    "disable_change_tariff": "Смена тарифа заблокирована"
 }

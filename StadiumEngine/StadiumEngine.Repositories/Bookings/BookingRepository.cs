@@ -79,6 +79,8 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
             .ThenInclude( x => x.Inventory )
             .Include( x => x.Customer )
             .Include( x => x.Promo )
+            .Include( x => x.BookingLockerRoom )
+            .ThenInclude( blr => blr!.LockerRoom )
             .Where( clause )
             .ToListAsync();
 }

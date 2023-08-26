@@ -13,7 +13,8 @@ public class SchedulerProfile : Profile
         CreateMap<BookingInventory, BookingInventoryDto>();
         CreateMap<BookingCost, BookingCostDto>();
         CreateMap<BookingPromo, BookingPromoDto>();
-        CreateMap<Booking, BookingDto>();
+        CreateMap<Booking, BookingDto>()
+            .ForMember( dest => dest.LockerRoom, act => act.MapFrom( s => s.BookingLockerRoom!.LockerRoom ) );
         CreateMap<SchedulerEvent, SchedulerEventDto>();
     }
 }
