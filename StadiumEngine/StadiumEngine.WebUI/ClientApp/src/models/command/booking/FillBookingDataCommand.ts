@@ -4,7 +4,6 @@ export interface FillBookingDataCommand {
     bookingNumber: string;
     hoursCount: number;
     promoDiscount: number | null;
-    manualDiscount: number | null;
     language: string;
     customer: FillBookingDataCommandCustomer;
     promo: FillBookingDataCommandPromo|null;

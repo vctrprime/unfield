@@ -56,7 +56,6 @@ export const BookingCheckoutButtons = (props: BookingCheckoutButtonsProps) => {
                     value:  props.promo.value
                 } as FillBookingDataCommandPromo : null,
                 promoDiscount: props.promo ? getPromoDiscount(props.promo, props.totalAmount) : null,
-                manualDiscount: null,
                 customer: {
                     name: props.name||'',
                     phoneNumber: props.phoneNumber||''

@@ -61,6 +61,7 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
 
     private async Task<List<Booking>> Get( Expression<Func<Booking, bool>> clause ) =>
         await Entities
+            .Where( x => x.IsLastVersion )
             .Include( x => x.Field )
             .ThenInclude( x => x.ChildFields )
             .Include( x => x.Tariff )
@@ -71,6 +72,7 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
 
     private async Task<List<Booking>> GetExtended( Expression<Func<Booking, bool>> clause ) =>
         await Entities
+            .Where( x => x.IsLastVersion )
             .Include( x => x.Field )
             .ThenInclude( x => x.ChildFields )
             .Include( x => x.Tariff )

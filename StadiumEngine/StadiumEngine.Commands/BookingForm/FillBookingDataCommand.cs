@@ -9,12 +9,8 @@ public sealed class FillBookingDataCommand : BaseCommand, IRequest<FillBookingDa
     public string BookingNumber { get; set; } = null!;
     
     public decimal HoursCount { get; set; }
-    
-    public decimal Amount { get; set; }
 
     public decimal? PromoDiscount { get; set; }
-    
-    public decimal? ManualDiscount { get; set; }
 
     public string Language { get; set; } = "ru";
 

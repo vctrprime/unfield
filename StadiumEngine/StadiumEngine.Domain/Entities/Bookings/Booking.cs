@@ -71,6 +71,12 @@ public class Booking : BaseBookingEntity
     [Column( "is_weekly_stopped_date" )]
     public DateTime? IsWeeklyStoppedDate { get; set; }
     
+    [Column("is_last_version")]
+    public bool IsLastVersion { get; set; }
+    
+    [Column("close_version_date")]
+    public DateTime? CloseVersionDate { get; set; }
+    
     [ForeignKey( "FieldId" )]
     public virtual Field Field { get; set; } = null!;
 

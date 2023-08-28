@@ -33,7 +33,6 @@ internal sealed class FillBookingDataHandler : BaseCommandHandler<FillBookingDat
         Booking booking = await _queryService.GetBookingDraftAsync( request.BookingNumber );
 
         booking.PromoDiscount = request.PromoDiscount;
-        booking.ManualDiscount = request.ManualDiscount;
         booking.HoursCount = request.HoursCount;
 
         booking.Costs = Mapper.Map<List<BookingCost>>( request.Costs );
@@ -43,7 +42,7 @@ internal sealed class FillBookingDataHandler : BaseCommandHandler<FillBookingDat
         booking.FieldAmount = booking.Costs.Sum( x => x.Cost );
         booking.InventoryAmount = booking.Inventories.Sum( x => x.Amount );
         booking.TotalAmountBeforeDiscount = booking.FieldAmount + booking.InventoryAmount;
-        booking.TotalAmountAfterDiscount = booking.TotalAmountBeforeDiscount - (request.PromoDiscount ?? 0) - (request.ManualDiscount ?? 0);
+        booking.TotalAmountAfterDiscount = booking.TotalAmountBeforeDiscount - (request.PromoDiscount ?? 0);
 
         if ( request.Promo != null )
         {

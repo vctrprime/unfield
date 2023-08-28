@@ -35,7 +35,7 @@ internal sealed class AddBookingDraftHandler : BaseCommandHandler<AddBookingDraf
             booking.UserCreatedId = _userId;
         }
 
-        await _commandService.CreateBookingAsync( booking );
+        await _commandService.CreateBookingAsync( booking, UnitOfWork );
 
         return new AddBookingDraftDto
         {
