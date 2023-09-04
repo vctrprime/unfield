@@ -7,5 +7,5 @@ public interface ISchedulerBookingCommandService
     Task FillBookingDataAsync( Booking booking, bool autoLockerRoom );
     Task AddVersionAsync( Booking booking );
     void UpdateOldVersion( Booking booking );
-    void AddExcludeDay( int bookingId, DateTime day, int userId );
+    void AddExcludeDay( int bookingId, DateTime day, int userId, string? reason = null );
 }

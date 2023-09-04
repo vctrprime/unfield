@@ -54,13 +54,14 @@ internal class SchedulerBookingCommandService : ISchedulerBookingCommandService
 
     public void UpdateOldVersion( Booking booking ) => _bookingRepository.Update( booking );
 
-    public void AddExcludeDay( int bookingId, DateTime day, int userId )
+    public void AddExcludeDay( int bookingId, DateTime day, int userId, string? reason = null )
     {
         BookingWeeklyExcludeDay excludeDay = new BookingWeeklyExcludeDay
         {
             BookingId = bookingId,
             Day = day,
-            UserCreatedId = userId
+            UserCreatedId = userId,
+            Reason = reason
         };
         _bookingWeeklyExcludeDayRepository.Add( excludeDay );
     }

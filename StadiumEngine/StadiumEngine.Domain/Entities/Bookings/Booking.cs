@@ -77,6 +77,9 @@ public class Booking : BaseBookingEntity
     [Column("close_version_date")]
     public DateTime? CloseVersionDate { get; set; }
     
+    [Column( "cancel_reason" )]
+    public string? CancelReason { get; set; }
+    
     [ForeignKey( "FieldId" )]
     public virtual Field Field { get; set; } = null!;
 

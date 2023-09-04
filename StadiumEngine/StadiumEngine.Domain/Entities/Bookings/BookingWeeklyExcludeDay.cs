@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,6 +13,9 @@ public class BookingWeeklyExcludeDay : BaseBookingEntity
     [Column( "day", TypeName = "timestamp without time zone")]
     public DateTime Day { get; set; }
     
+    [Column( "reason" )]
+    public string? Reason { get; set; }
+    
     [ForeignKey( "BookingId" )]
-    public virtual Booking Booking { get; set; }
+    public virtual Booking Booking { get; set; } = null!;
 }

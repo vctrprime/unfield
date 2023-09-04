@@ -8,6 +8,8 @@ import {CancelBookingCommand} from "../models/command/booking/CancelBookingComma
 import {ConfirmBookingCommand} from "../models/command/booking/ConfirmBookingCommand";
 import {t} from "i18next";
 import {PromoCodeDto} from "../models/dto/rates/TariffDto";
+import {SaveSchedulerBookingDataCommand} from "../models/command/schedule/SaveSchedulerBookingDataCommand";
+import {CancelSchedulerBookingCommand} from "../models/command/schedule/CancelSchedulerBookingCommand";
 
 export interface IBookingService {
     getBookingForm(date: Date, token: string|null, cityId: number|null, q: string|null, hideSpinner?: boolean): Promise<BookingFormDto>;
@@ -18,6 +20,8 @@ export interface IBookingService {
     cancelBooking(command: CancelBookingCommand) : Promise<void>;
     confirmBooking(command: ConfirmBookingCommand) : Promise<void>;
     checkPromoCode(tariffId: number, code: string): Promise<PromoCodeDto|null>;
+    saveSchedulerBookingData(command: SaveSchedulerBookingDataCommand) : Promise<void>;
+    cancelSchedulerBooking(command: CancelSchedulerBookingCommand) : Promise<void>;
 }
 
 export class BookingService extends BaseService implements IBookingService {
@@ -96,6 +100,27 @@ export class BookingService extends BaseService implements IBookingService {
     checkPromoCode(tariffId: number, code: string): Promise<PromoCodeDto | null> {
         return this.fetchWrapper.get({
             url: `${this.baseUrl}/checkout/promo/check?tariffId=${tariffId}&code=${code}`,
+        })
+    }
+
+    cancelSchedulerBooking(command: CancelSchedulerBookingCommand): Promise<void> {
+        return this.fetchWrapper.delete({
+            url: `${this.baseUrl}/scheduler-cancel`,
+            body: command
+        })
+    }
+
+    saveSchedulerBookingData(command: SaveSchedulerBookingDataCommand): Promise<void> {
+        if ( command.isNew ) {
+            return this.fetchWrapper.post({
+                url: `${this.baseUrl}/scheduler-save`,
+                body: command
+            })
+        }
+        
+        return this.fetchWrapper.put({
+            url: `${this.baseUrl}/scheduler-update`,
+            body: command
         })
     }
 }

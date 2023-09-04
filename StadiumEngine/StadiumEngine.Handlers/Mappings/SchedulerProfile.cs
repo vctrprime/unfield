@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Commands.Schedule;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Services.Models.Schedule;
 using StadiumEngine.DTO.Schedule;
@@ -16,5 +17,9 @@ public class SchedulerProfile : Profile
         CreateMap<Booking, BookingDto>()
             .ForMember( dest => dest.LockerRoom, act => act.MapFrom( s => s.BookingLockerRoom!.LockerRoom ) );
         CreateMap<SchedulerEvent, SchedulerEventDto>();
+        
+        CreateMap<SaveSchedulerBookingDataCommandCost, BookingCost>();
+        CreateMap<SaveSchedulerBookingDataCommandInventory, BookingInventory>();
+        CreateMap<SaveSchedulerBookingDataCommandCustomer, BookingCustomer>();
     }
 }

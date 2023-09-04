@@ -27,36 +27,35 @@ public class SchedulerBookingController : BaseApiController
         return dto;
     }
     
-    /*/// <summary>
+    /// <summary>
     ///     Отменить бронь
     /// </summary>
     /// <returns></returns>
-    [HttpDelete]
-    public async Task<CancelBookingDto> Cancel( [FromBody] CancelBookingCommand command )
+    [HttpDelete( "scheduler-cancel" )]
+    [HasPermission( PermissionsKeys.DeleteBooking )]
+    public async Task<CancelSchedulerBookingDto> Cancel( [FromBody] CancelSchedulerBookingCommand command )
     {
-        CancelBookingDto dto = await Mediator.Send( command );
+        CancelSchedulerBookingDto dto = await Mediator.Send( command );
         return dto;
-    }*/
+    }
     
     /// <summary>
     ///     Сохранить данные бронирования
     /// </summary>
     /// <returns></returns>
-    [HttpPost]
-    public async Task<SaveBookingDataDto> Fill( [FromBody] SaveBookingDataCommand command )
+    [HttpPost( "scheduler-save" )]
+    [HasPermission( PermissionsKeys.InsertBooking )]
+    public async Task<SaveSchedulerBookingDataDto> Save( [FromBody] SaveSchedulerBookingDataCommand command )
     {
-        SaveBookingDataDto dto = await Mediator.Send( command );
+        SaveSchedulerBookingDataDto dto = await Mediator.Send( command );
         return dto;
     }
     
-    /*/// <summary>
-    ///     Подтвердить бронь
+    /// <summary>
+    ///     Обновить данные бронирования
     /// </summary>
     /// <returns></returns>
-    [HttpPut("confirm")]
-    public async Task<ConfirmBookingDto> Confirm( [FromBody] ConfirmBookingCommand command )
-    {
-        ConfirmBookingDto dto = await Mediator.Send( command );
-        return dto;
-    }*/
+    [HttpPut( "scheduler-update" )]
+    [HasPermission( PermissionsKeys.UpdateBooking )]
+    public async Task<SaveSchedulerBookingDataDto> Update( [FromBody] SaveSchedulerBookingDataCommand command ) => await Save( command );
 }

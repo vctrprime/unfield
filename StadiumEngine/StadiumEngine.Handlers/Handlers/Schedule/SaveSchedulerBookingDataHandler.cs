@@ -6,14 +6,14 @@ using StadiumEngine.Domain.Services.Core.Schedule;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Schedule;
 
-namespace StadiumEngine.Handlers.Handlers.Bookings;
+namespace StadiumEngine.Handlers.Handlers.Schedule;
 
-internal sealed class SaveBookingDataHandler : BaseCommandHandler<SaveBookingDataCommand, SaveBookingDataDto>
+internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveSchedulerBookingDataCommand, SaveSchedulerBookingDataDto>
 {
     private readonly ISchedulerBookingQueryService _queryService;
     private readonly ISchedulerBookingCommandService _commandService;
 
-    public SaveBookingDataHandler(
+    public SaveSchedulerBookingDataHandler(
         ISchedulerBookingQueryService queryService,
         ISchedulerBookingCommandService commandService,
         IClaimsIdentityService claimsIdentityService,
@@ -24,8 +24,8 @@ internal sealed class SaveBookingDataHandler : BaseCommandHandler<SaveBookingDat
         _commandService = commandService;
     }
 
-    protected override async ValueTask<SaveBookingDataDto> HandleCommandAsync(
-        SaveBookingDataCommand request,
+    protected override async ValueTask<SaveSchedulerBookingDataDto> HandleCommandAsync(
+        SaveSchedulerBookingDataCommand request,
         CancellationToken cancellationToken )
     {
         Booking booking = await _queryService.GetBookingAsync( request.BookingNumber );
@@ -112,10 +112,10 @@ internal sealed class SaveBookingDataHandler : BaseCommandHandler<SaveBookingDat
         }
 
 
-        return new SaveBookingDataDto();
+        return new SaveSchedulerBookingDataDto();
     }
 
-    private void FillBooking( Booking booking, SaveBookingDataCommand request )
+    private void FillBooking( Booking booking, SaveSchedulerBookingDataCommand request )
     {
         booking.ManualDiscount = request.ManualDiscount;
         booking.HoursCount = request.HoursCount;

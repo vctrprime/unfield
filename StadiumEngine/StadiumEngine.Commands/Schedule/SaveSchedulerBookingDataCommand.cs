@@ -3,7 +3,7 @@ using StadiumEngine.DTO.Schedule;
 
 namespace StadiumEngine.Commands.Schedule;
 
-public sealed class SaveBookingDataCommand : BaseCommand, IRequest<SaveBookingDataDto>
+public sealed class SaveSchedulerBookingDataCommand : BaseCommand, IRequest<SaveSchedulerBookingDataDto>
 {
     public bool IsNew { get; set; }
     public bool AutoLockerRoom { get; set; }
@@ -21,12 +21,12 @@ public sealed class SaveBookingDataCommand : BaseCommand, IRequest<SaveBookingDa
     public int TariffId { get; set; }
     public DateTime Day { get; set; }
     
-    public SaveBookingCommandCustomer Customer { get; set; } = null!;
-    public List<SaveBookingCommandCost> Costs { get; set; } = null!;
-    public List<SaveBookingCommandInventory> Inventories { get; set; } = new();
+    public SaveSchedulerBookingDataCommandCustomer Customer { get; set; } = null!;
+    public List<SaveSchedulerBookingDataCommandCost> Costs { get; set; } = null!;
+    public List<SaveSchedulerBookingDataCommandInventory> Inventories { get; set; } = new();
 }
 
-public sealed class SaveBookingCommandCost
+public sealed class SaveSchedulerBookingDataCommandCost
 {
     public decimal StartHour { get; set; }
     
@@ -35,7 +35,7 @@ public sealed class SaveBookingCommandCost
     public decimal Cost { get; set; }
 }
 
-public sealed class SaveBookingCommandInventory
+public sealed class SaveSchedulerBookingDataCommandInventory
 {
     public int InventoryId { get; set; }
     
@@ -46,7 +46,7 @@ public sealed class SaveBookingCommandInventory
     public decimal Amount { get; set; }
 }
 
-public sealed class SaveBookingCommandCustomer
+public sealed class SaveSchedulerBookingDataCommandCustomer
 {
     public string Name { get; set; } = null!;
 
