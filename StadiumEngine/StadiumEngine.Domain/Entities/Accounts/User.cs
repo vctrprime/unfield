@@ -182,4 +182,10 @@ public class User : BaseUserEntity
 
     [InverseProperty( "UserModified" )]
     public virtual ICollection<BookingLockerRoom> LastModifiedBookingLockerRooms { get; set; }
+    
+    [InverseProperty( "UserCreated" )]
+    public virtual ICollection<BookingWeeklyExcludeDay> CreatedBookingsWeeklyExcludeDays { get; set; }
+
+    [InverseProperty( "UserModified" )]
+    public virtual ICollection<BookingWeeklyExcludeDay> LastModifiedBookingsWeeklyExcludeDays { get; set; }
 }

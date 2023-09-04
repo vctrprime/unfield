@@ -40,7 +40,7 @@ internal class BookingCheckoutCommandService : IBookingCheckoutCommandService
 
     public async Task FillBookingDataAsync( Booking booking )
     {
-        if ( !await _intersectionValidator.Validate( booking ) )
+        if ( !await _intersectionValidator.ValidateAsync( booking ) )
         {
             throw new DomainException( ErrorsKeys.BookingIntersection );
         }
@@ -62,7 +62,7 @@ internal class BookingCheckoutCommandService : IBookingCheckoutCommandService
             throw new DomainException( ErrorsKeys.InvalidAccessCode );
         }
         
-        if ( !await _intersectionValidator.Validate( booking ) )
+        if ( !await _intersectionValidator.ValidateAsync( booking ) )
         {
             throw new DomainException( ErrorsKeys.BookingIntersection );
         }

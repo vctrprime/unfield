@@ -3,8 +3,10 @@ using StadiumEngine.DTO.Schedule;
 
 namespace StadiumEngine.Commands.Schedule;
 
-public sealed class SaveBookingCommand : BaseCommand, IRequest<SaveBookingDataDto>
+public sealed class SaveBookingDataCommand : BaseCommand, IRequest<SaveBookingDataDto>
 {
+    public bool IsNew { get; set; }
+    public bool AutoLockerRoom { get; set; }
     public string BookingNumber { get; set; } = null!;
     
     public decimal HoursCount { get; set; }
@@ -14,6 +16,10 @@ public sealed class SaveBookingCommand : BaseCommand, IRequest<SaveBookingDataDt
     public string Language { get; set; } = "ru";
     
     public bool IsWeekly { get; set; }
+    public bool EditOneInRow { get; set; }
+    public int? LockerRoomId { get; set; }
+    public int TariffId { get; set; }
+    public DateTime Day { get; set; }
     
     public SaveBookingCommandCustomer Customer { get; set; } = null!;
     public List<SaveBookingCommandCost> Costs { get; set; } = null!;

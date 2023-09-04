@@ -1,11 +1,13 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Commands.BookingForm;
+using StadiumEngine.Commands.Schedule;
 using StadiumEngine.Common.Constant;
 using StadiumEngine.DTO.BookingForm;
+using StadiumEngine.DTO.Schedule;
 using StadiumEngine.WebUI.Infrastructure.Attributes;
 
-namespace StadiumEngine.WebUI.Controllers.API.Bookings;
+namespace StadiumEngine.WebUI.Controllers.API.Schedule;
 
 /// <summary>
 ///     Данные по бронированиям (шахматка)
@@ -34,20 +36,20 @@ public class SchedulerBookingController : BaseApiController
     {
         CancelBookingDto dto = await Mediator.Send( command );
         return dto;
-    }
+    }*/
     
     /// <summary>
-    ///     Заполнить бронь данными
+    ///     Сохранить данные бронирования
     /// </summary>
     /// <returns></returns>
-    [HttpPut]
-    public async Task<FillBookingDataDto> Fill( [FromBody] FillBookingDataCommand command )
+    [HttpPost]
+    public async Task<SaveBookingDataDto> Fill( [FromBody] SaveBookingDataCommand command )
     {
-        FillBookingDataDto dto = await Mediator.Send( command );
+        SaveBookingDataDto dto = await Mediator.Send( command );
         return dto;
     }
     
-    /// <summary>
+    /*/// <summary>
     ///     Подтвердить бронь
     /// </summary>
     /// <returns></returns>

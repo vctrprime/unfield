@@ -88,4 +88,5 @@ public class Booking : BaseBookingEntity
     public virtual BookingPromo? Promo { get; set; }
     public virtual ICollection<BookingCost> Costs { get; set; } = null!;
     public virtual ICollection<BookingInventory> Inventories { get; set; } = null!;
+    public virtual ICollection<BookingWeeklyExcludeDay> WeeklyExcludeDays { get; set; } = null!;
 }

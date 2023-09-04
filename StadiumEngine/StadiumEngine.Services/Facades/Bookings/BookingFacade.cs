@@ -16,9 +16,13 @@ internal class BookingFacade : IBookingFacade
     {
         List<Booking> bookings = await _bookingRepository.GetAsync( day, stadiumsIds );
         List<Booking> weeklyBookings = await _bookingRepository.GetWeeklyAsync( day, stadiumsIds );
-        
+
         //добавляем еженедельные бронирования, если совпадает день
-        foreach ( Booking weeklyBooking in weeklyBookings.Where( weeklyBooking => weeklyBooking.Day.DayOfWeek == day.DayOfWeek ) )
+        foreach ( Booking weeklyBooking in weeklyBookings.Where(
+                     weeklyBooking => weeklyBooking.Day.DayOfWeek == day.DayOfWeek
+                                      &&
+                                      weeklyBooking.WeeklyExcludeDays.FirstOrDefault( x => x.Day == day ) == null )
+                )
         {
             weeklyBooking.Day = day.Date;
             bookings.Add( weeklyBooking );
@@ -35,25 +39,29 @@ internal class BookingFacade : IBookingFacade
         }
 
         List<Booking> bookings = await _bookingRepository.GetAsync( from, to, stadiumId );
-        List<Booking> weeklyBookings = await _bookingRepository.GetWeeklyAsync( from, to, stadiumId );
+        List<Booking> weeklyBookings = await _bookingRepository.GetWeeklyAsync( to, stadiumId );
 
         //для каждого совпадающего дня добавляем еженедельные бронирования
         foreach ( Booking weeklyBooking in weeklyBookings )
         {
             DateTime date = from.Date;
-            
-            while ( date <= to.Date )
+
+            while ( date <= to.Date ||
+                    ( weeklyBooking.IsWeeklyStoppedDate.HasValue && date < weeklyBooking.IsWeeklyStoppedDate ) )
             {
-                if ( weeklyBooking.Day.DayOfWeek == date.DayOfWeek )
+                //день недели совпадает и день не переопределен модификацией
+                if ( weeklyBooking.Day.DayOfWeek == date.DayOfWeek &&
+                     weeklyBooking.WeeklyExcludeDays.FirstOrDefault( x => x.Day == date ) == null )
                 {
                     TimeSpan diff = date.Date - weeklyBooking.Day.Date;
                     weeklyBooking.Day = weeklyBooking.Day.Add( diff );
                     bookings.Add( weeklyBooking );
                 }
+
                 date = date.AddDays( 1 );
             }
         }
-        
+
         return bookings.Where( x => !x.IsCanceled && x.IsConfirmed ).ToList();
     }
 }

@@ -93,6 +93,8 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IBookingFacade, BookingFacade>();
         services.AddScoped<ISchedulerQueryService, SchedulerQueryService>();
+        services.AddScoped<ISchedulerBookingCommandService, SchedulerBookingCommandService>();
+        services.AddScoped<ISchedulerBookingQueryService, SchedulerBookingQueryService>();
         
         #endregion
 

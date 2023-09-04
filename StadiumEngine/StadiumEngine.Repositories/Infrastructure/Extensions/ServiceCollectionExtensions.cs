@@ -91,10 +91,8 @@ public static class ServiceCollectionExtensions
         #region booking
 
         services.AddScoped<IBookingRepository, BookingRepository>();
-        services.AddScoped<IBookingCostRepository, BookingCostRepository>();
-        services.AddScoped<IBookingCustomerRepository, BookingCustomerRepository>();
-        services.AddScoped<IBookingInventoryRepository, BookingInventoryRepository>();
         services.AddScoped<IBookingLockerRoomRepository, BookingLockerRoomRepository>();
+        services.AddScoped<IBookingWeeklyExcludeDayRepository, BookingWeeklyExcludeDayRepository>();
 
         #endregion
 

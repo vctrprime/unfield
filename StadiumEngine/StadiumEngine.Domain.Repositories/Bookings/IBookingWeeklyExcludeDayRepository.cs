@@ -2,7 +2,7 @@ using StadiumEngine.Domain.Entities.Bookings;
 
 namespace StadiumEngine.Domain.Repositories.Bookings;
 
-public interface IBookingCustomerRepository
+public interface IBookingWeeklyExcludeDayRepository
 {
-    void Add( BookingCustomer customer );
+    void Add( BookingWeeklyExcludeDay excludeDay );
 }

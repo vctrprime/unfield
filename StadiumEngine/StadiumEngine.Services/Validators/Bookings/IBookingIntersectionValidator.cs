@@ -4,5 +4,5 @@ namespace StadiumEngine.Services.Validators.Bookings;
 
 internal interface IBookingIntersectionValidator
 {
-    Task<bool> Validate( Booking booking );
+    Task<bool> ValidateAsync( Booking booking );
 }

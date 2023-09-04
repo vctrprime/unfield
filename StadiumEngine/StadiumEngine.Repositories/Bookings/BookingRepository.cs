@@ -32,7 +32,7 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
                  && !x.IsWeekly
                  && x.Field.StadiumId == stadiumId );
 
-    public async Task<List<Booking>> GetWeeklyAsync( DateTime from, DateTime to, int stadiumId ) =>
+    public async Task<List<Booking>> GetWeeklyAsync( DateTime to, int stadiumId ) =>
         await GetExtended(
             x => x.IsWeekly
                  && ( !x.IsWeeklyStoppedDate.HasValue || x.IsWeeklyStoppedDate > to )
@@ -46,7 +46,8 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
             .Include( x => x.Customer )
             .Include( x => x.Promo )
             .Include( x => x.Costs )
-            .SingleOrDefaultAsync( x => x.Number == bookingNumber );
+            .Include( x => x.WeeklyExcludeDays )
+            .SingleOrDefaultAsync( x => x.Number == bookingNumber && x.IsLastVersion );
 
     public async Task<Booking?> FindDraftAsync( DateTime day, decimal startHour, int fieldId ) =>
         await Entities.SingleOrDefaultAsync(
@@ -54,6 +55,7 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
                  && x.StartHour == startHour 
                  && x.FieldId == fieldId 
                  && !x.IsCanceled 
+                 && x.IsLastVersion
                  && x.IsDraft );
 
     public new void Add( Booking booking ) => base.Add( booking );
@@ -67,6 +69,7 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
             .Include( x => x.Tariff )
             .Include( x => x.Costs )
             .Include( x => x.Inventories )
+            .Include( x => x.WeeklyExcludeDays )
             .Where( clause )
             .ToListAsync();
 
@@ -77,6 +80,7 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
             .ThenInclude( x => x.ChildFields )
             .Include( x => x.Tariff )
             .Include( x => x.Costs )
+            .Include( x => x.WeeklyExcludeDays )
             .Include( x => x.Inventories )
             .ThenInclude( x => x.Inventory )
             .Include( x => x.Customer )

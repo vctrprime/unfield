@@ -12,7 +12,7 @@ internal class BookingIntersectionValidator : IBookingIntersectionValidator
         _bookingRepository = bookingRepository;
     }
 
-    public async Task<bool> Validate( Booking booking )
+    public async Task<bool> ValidateAsync( Booking booking )
     {
         List<Booking> dayBookings = await _bookingRepository.GetAsync(
             booking.Day,

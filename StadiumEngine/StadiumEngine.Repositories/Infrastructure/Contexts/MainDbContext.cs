@@ -95,6 +95,7 @@ internal class MainDbContext : DbContext
     public DbSet<BookingInventory> BookingInventories { get; set; }
     public DbSet<BookingLockerRoom> BookingLockerRooms { get; set; }
     public DbSet<BookingPromo> BookingPromos { get; set; }
+    public DbSet<BookingWeeklyExcludeDay> BookingWeeklyExcludeDays { get; set; }
 
     #endregion
 }
