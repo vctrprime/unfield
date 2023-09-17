@@ -45,6 +45,11 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
             "resourceViewMode"
         );
     }, [props.mode, fields])
+    
+    const deleteEvent = (deletedId: string|number) => {
+        const updatedEvents = eventsData.filter((e) => e.event_id !== deletedId);
+        calendarRef.current?.scheduler?.handleState(updatedEvents, "events");
+    }
 
     useEffect(() => {
         if (isInitialMount.current) {
@@ -92,7 +97,7 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
                 weekStartOn: 1,
             }}
             cellHeight={cellHeight()}
-            customEditor={(scheduler) => <SchedulerBookingEditor scheduler={scheduler} events={eventsData} />}
+            customEditor={(scheduler) => <SchedulerBookingEditor deleteEvent={deleteEvent} scheduler={scheduler} events={eventsData} />}
             locale={getDateFnsLocale()}
             onViewChange={(v) => props.setView(v)}
             month={null}
@@ -141,7 +146,7 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
                         <Icon name="phone"/><span>+{event?.data?.customer.phoneNumber}</span>
                     </div>
                     <div className="event-extra-row">
-                        <Icon name="dollar sign"/><span>{event?.data?.amount}</span>
+                        <Icon name="dollar sign"/><span>{event?.data?.totalAmountAfterDiscount}</span>
                     </div>
                     {event?.data?.promoCode && 
                         <div style={{ marginTop: '5px'}} className="event-extra-row">

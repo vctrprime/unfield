@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {SchedulerBookingDto} from "../../../models/dto/booking/SchedulerBookingDto";
 import {Container} from "reactstrap";
-import {Checkbox, Dropdown, Form, Input} from "semantic-ui-react";
+import {Button, Checkbox, Dropdown, Form, Input} from "semantic-ui-react";
 import {BookingHeader} from "../common/BookingHeader";
 import {BookingInventory, SelectedInventory} from "../common/BookingInventory";
 import {BookingDto, BookingPromoDto} from "../../../models/dto/booking/BookingDto";
@@ -26,10 +26,13 @@ import {LockerRoomDto} from "../../../models/dto/offers/LockerRoomDto";
 import {lockerRoomsAtom} from "../../../state/offers/lockerRooms";
 import {IOffersService} from "../../../services/OffersService";
 import {LockerRoomStatus} from "../../../models/dto/offers/enums/LockerRoomStatus";
+import {SchedulerHelpers} from "react-scheduler/types";
 
 export interface SchedulerBooking {
     bookingData: BookingDto;
     slotPrices: BookingFormFieldSlotPriceDto[];
+    scheduler: SchedulerHelpers;
+    deleteEvent: any;
 }
 
 export const SchedulerBooking = (props: SchedulerBooking) => {
@@ -146,6 +149,21 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
             return {key: l.id, value: l.id, text: l.name}
         })
     }
+
+    const cancelReason = useRef<any>();
+    const cancelBooking = () => {
+        bookingService.cancelSchedulerBooking({
+            bookingNumber: props.bookingData.number,
+            cancelOneInRow: false,
+            reason: '123',//cancelReason.current?.value,
+            day: props.bookingData.day
+        }).then((response) => {
+            props.scheduler.close();
+            if (!props.bookingData.isWeekly) {
+                props.deleteEvent();
+            }
+        })
+    }
     
     return data === null  ? null :  <Container className="booking-checkout-container" style={{minHeight: "auto"}}>
         <Form style={{paddingBottom: '10px'}}>
@@ -225,6 +243,11 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                 phoneNumber={phoneNumber}
                 setPhoneNumber={setPhoneNumber}
                 headerText={t("booking:scheduler:inputs_header")} />
+            <div className="booking-checkout-buttons">
+                <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
+                    cancelBooking();
+                }}>{t("booking:checkout:cancel_button")}</Button>
+            </div>
         </Form>
     </Container>
 }

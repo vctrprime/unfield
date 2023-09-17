@@ -106,7 +106,8 @@ export class BookingService extends BaseService implements IBookingService {
     cancelSchedulerBooking(command: CancelSchedulerBookingCommand): Promise<void> {
         return this.fetchWrapper.delete({
             url: `${this.baseUrl}/scheduler-cancel`,
-            body: command
+            body: command,
+            successMessage: t('booking:success_cancel')
         })
     }
 
