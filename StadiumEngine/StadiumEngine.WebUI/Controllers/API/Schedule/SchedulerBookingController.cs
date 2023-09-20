@@ -21,7 +21,7 @@ public class SchedulerBookingController : BaseApiController
     /// <returns></returns>
     [HttpPost( "scheduler-draft" )]
     [HasPermission( PermissionsKeys.InsertBooking )]
-    public async Task<AddBookingDraftDto> CreateDraft( AddBookingDraftCommand command )
+    public async Task<AddBookingDraftDto> CreateDraft( [FromBody] AddBookingDraftCommand command )
     {
         AddBookingDraftDto dto = await Mediator.Send( command );
         return dto;

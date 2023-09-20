@@ -139,3 +139,32 @@ button {
   color: rgba(0, 0, 0, 0.6);
   font-size: 12px;
 }
+
+.booking-cancel-overlay {
+  position: absolute;
+  width: calc(100% + 40px);
+  height: 100%;
+  z-index: 100;
+  background-color: rgba(0,0,0, 0.6);
+  top: 0;
+  left: -20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
+  textarea {
+    margin-top: 100px !important;
+    width: 350px !important;
+  }
+  .checkbox {
+    margin-top: 10px;
+    
+    label {
+      color: white !important;
+    }
+  }
+  .booking-cancel-overlay-buttons {
+    margin-top: 10px;
+  }
+}

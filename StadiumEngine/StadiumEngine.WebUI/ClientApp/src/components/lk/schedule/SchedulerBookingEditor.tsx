@@ -164,6 +164,7 @@ export const SchedulerBookingEditor = ({ scheduler, events, deleteEvent }: Sched
                     scheduler={scheduler}
                     slotPrices={slotPrices}
                     deleteEvent={_deleteEvent}
+                    event={event}
                 />}
         </div>
     );

@@ -39,5 +39,7 @@
     "from": "с",
     "to": "до",
     "available_qty": "Доступное количество",
-    "disable_change_tariff": "Смена тарифа заблокирована"
+    "disable_change_tariff": "Смена тарифа заблокирована",
+    "back": "Назад",
+    "confirm": "Подтвердить"
 }

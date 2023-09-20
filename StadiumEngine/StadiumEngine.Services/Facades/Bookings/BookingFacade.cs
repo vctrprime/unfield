@@ -44,11 +44,18 @@ internal class BookingFacade : IBookingFacade
         //для каждого совпадающего дня добавляем еженедельные бронирования
         foreach ( Booking weeklyBooking in weeklyBookings )
         {
+            if ( from < weeklyBooking.Day && to < weeklyBooking.Day )
+            {
+                continue;
+            }
             DateTime date = from.Date;
 
-            while ( date <= to.Date ||
-                    ( weeklyBooking.IsWeeklyStoppedDate.HasValue && date < weeklyBooking.IsWeeklyStoppedDate ) )
+            while ( date <= to.Date )
             {
+                if ( weeklyBooking.IsWeeklyStoppedDate.HasValue && date > weeklyBooking.IsWeeklyStoppedDate )
+                {
+                    break;
+                }
                 //день недели совпадает и день не переопределен модификацией
                 if ( weeklyBooking.Day.DayOfWeek == date.DayOfWeek &&
                      weeklyBooking.WeeklyExcludeDays.FirstOrDefault( x => x.Day == date ) == null )

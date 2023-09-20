@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {SchedulerBookingDto} from "../../../models/dto/booking/SchedulerBookingDto";
 import {Container} from "reactstrap";
-import {Button, Checkbox, Dropdown, Form, Input} from "semantic-ui-react";
+import {Button, Checkbox, Dropdown, Form, Input, TextArea} from "semantic-ui-react";
 import {BookingHeader} from "../common/BookingHeader";
 import {BookingInventory, SelectedInventory} from "../common/BookingInventory";
 import {BookingDto, BookingPromoDto} from "../../../models/dto/booking/BookingDto";
@@ -26,13 +26,14 @@ import {LockerRoomDto} from "../../../models/dto/offers/LockerRoomDto";
 import {lockerRoomsAtom} from "../../../state/offers/lockerRooms";
 import {IOffersService} from "../../../services/OffersService";
 import {LockerRoomStatus} from "../../../models/dto/offers/enums/LockerRoomStatus";
-import {SchedulerHelpers} from "react-scheduler/types";
+import {ProcessedEvent, SchedulerHelpers} from "react-scheduler/types";
 
 export interface SchedulerBooking {
     bookingData: BookingDto;
     slotPrices: BookingFormFieldSlotPriceDto[];
     scheduler: SchedulerHelpers;
     deleteEvent: any;
+    event: ProcessedEvent|undefined;
 }
 
 export const SchedulerBooking = (props: SchedulerBooking) => {
@@ -151,17 +152,18 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     }
 
     const cancelReason = useRef<any>();
+    const [oneInRow, setOneInRow] = useState(false);
+    const [cancelConfirm, setCancelConfirm] = useState(false);
     const cancelBooking = () => {
         bookingService.cancelSchedulerBooking({
             bookingNumber: props.bookingData.number,
-            cancelOneInRow: false,
-            reason: '123',//cancelReason.current?.value,
-            day: props.bookingData.day
+            cancelOneInRow: oneInRow,
+            reason: cancelReason.current?.value,
+            day: props.event?.start?.toDateString()||''
         }).then((response) => {
+            setOneInRow(false);
             props.scheduler.close();
-            if (!props.bookingData.isWeekly) {
-                props.deleteEvent();
-            }
+            props.deleteEvent();
         })
     }
     
@@ -245,8 +247,27 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                 headerText={t("booking:scheduler:inputs_header")} />
             <div className="booking-checkout-buttons">
                 <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
-                    cancelBooking();
+                    setCancelConfirm(true);
                 }}>{t("booking:checkout:cancel_button")}</Button>
+            </div>
+            <div className="booking-cancel-overlay" style={ cancelConfirm ? {} : { display: 'none'}}>
+                <textarea rows={3} ref={cancelReason} placeholder={t("booking:cancel:reason")||''}/>
+                {props.bookingData.isWeekly &&
+                    <Checkbox label={t("booking:cancel:one_in_row")} checked={oneInRow} onChange={() => setOneInRow(!oneInRow)}  />
+                }
+                <div className="booking-cancel-overlay-buttons">
+                    <Button
+                        style={{backgroundColor: '#3CB371', color: 'white'}} onClick={() => {
+                            cancelBooking();
+                    }}>
+                        {t("common:confirm")}
+                    </Button>
+                    <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
+                        setCancelConfirm(false);
+                        setOneInRow(false);
+                    }}>{t("common:back")}</Button>
+                </div>
+               
             </div>
         </Form>
     </Container>
