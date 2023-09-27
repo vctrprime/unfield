@@ -42,12 +42,15 @@ internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveS
                 Booking newVersion = new Booking
                 {
                     Number = booking.Number,
+                    Day = booking.Day.Date,
                     AccessCode = booking.AccessCode,
                     Source = booking.Source,
                     IsLastVersion = true,
                     UserCreatedId = _userId,
                     FieldId = booking.FieldId,
-                    PromoDiscount = booking.PromoDiscount
+                    PromoDiscount = booking.PromoDiscount,
+                    Field = booking.Field,
+                    StartHour = booking.StartHour
                 };
                 if ( booking.Promo != null )
                 {
@@ -80,7 +83,8 @@ internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveS
                         Source = booking.Source,
                         IsLastVersion = true,
                         UserCreatedId = _userId,
-                        FieldId = booking.FieldId
+                        FieldId = booking.FieldId,
+                        Field = booking.Field
                     };
                     FillBooking( excludeWeekly, request );
                     excludeWeekly.IsWeekly = false;
@@ -100,6 +104,7 @@ internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveS
                         IsLastVersion = true,
                         UserCreatedId = _userId,
                         FieldId = booking.FieldId,
+                        Field = booking.Field
                     };
                     FillBooking( newWeekly, request );
                     await _commandService.AddVersionAsync( newWeekly );

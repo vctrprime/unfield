@@ -26,6 +26,7 @@ internal class BookingIntersectionValidator : IBookingIntersectionValidator
                 x.IsConfirmed
                 && x.Id != booking.Id
                 && !x.IsCanceled
+                && x.Number != booking.Number
                 && Predicates.RelatedBookingField( x, booking.FieldId ) ).ToList();
 
         List<BookingCost> dayBookingsCosts = dayBookings.SelectMany( x => x.Costs ).ToList();
