@@ -34,11 +34,16 @@ public class SchedulerEvent
     public int BookingsCount { get; set; }
     private string Language { get; }
     
-    public SchedulerEvent( Booking data, string language, 
+    public int SourceBooking { get; }
+    
+    public SchedulerEvent( 
+        Booking data, 
+        string language, 
         int? fieldId = null,
         DateTime? start = null,
         DateTime? end = null)
     {
+        SourceBooking = data.Id;
         Language = language;
         EventId = data.Id;
         Start = start ?? data.Day.AddHours( ( double )data.StartHour );

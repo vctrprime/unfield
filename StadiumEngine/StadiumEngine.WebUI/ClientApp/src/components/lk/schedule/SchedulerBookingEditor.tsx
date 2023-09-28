@@ -22,9 +22,10 @@ interface SchedulerBookingEditorProps {
     scheduler: SchedulerHelpers;
     events: SchedulerEventDto[];
     deleteEvent: any;
+    updateEvent: any;
 }
 
-export const SchedulerBookingEditor = ({ scheduler, events, deleteEvent }: SchedulerBookingEditorProps) => {
+export const SchedulerBookingEditor = ({ scheduler, events, deleteEvent, updateEvent }: SchedulerBookingEditorProps) => {
     const event = scheduler.edited;
 
     const permissions = useRecoilValue(permissionsAtom);
@@ -164,6 +165,7 @@ export const SchedulerBookingEditor = ({ scheduler, events, deleteEvent }: Sched
                     scheduler={scheduler}
                     slotPrices={slotPrices}
                     deleteEvent={_deleteEvent}
+                    updateEvent={updateEvent}
                     event={event}
                 />}
         </div>

@@ -43,10 +43,15 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
         await Entities
             .Include( x => x.Field )
             .ThenInclude( x => x.SportKinds )
+            .Include( x => x.Tariff )
             .Include( x => x.Customer )
             .Include( x => x.Promo )
             .Include( x => x.Costs )
+            .Include( x => x.Inventories )
+            .ThenInclude( x => x.Inventory )
             .Include( x => x.WeeklyExcludeDays )
+            .Include( x => x.BookingLockerRoom )
+            .ThenInclude( blr => blr!.LockerRoom )
             .SingleOrDefaultAsync( x => x.Number == bookingNumber && x.IsLastVersion );
 
     public async Task<Booking?> FindDraftAsync( DateTime day, decimal startHour, int fieldId ) =>

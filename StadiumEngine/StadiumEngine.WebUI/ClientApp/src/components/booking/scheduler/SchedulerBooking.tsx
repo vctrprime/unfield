@@ -28,10 +28,6 @@ import {IOffersService} from "../../../services/OffersService";
 import {LockerRoomStatus} from "../../../models/dto/offers/enums/LockerRoomStatus";
 import {ProcessedEvent, SchedulerHelpers} from "react-scheduler/types";
 import {
-    FillBookingDataCommandCost,
-    FillBookingDataCommandInventory
-} from "../../../models/command/booking/FillBookingDataCommand";
-import {
     SaveSchedulerBookingDataCommandCost,
     SaveSchedulerBookingDataCommandInventory
 } from "../../../models/command/schedule/SaveSchedulerBookingDataCommand";
@@ -41,6 +37,7 @@ export interface SchedulerBooking {
     slotPrices: BookingFormFieldSlotPriceDto[];
     scheduler: SchedulerHelpers;
     deleteEvent: any;
+    updateEvent: any;
     event: ProcessedEvent|undefined;
 }
 
@@ -211,9 +208,9 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                     amount: inv.price * inv.quantity * selectedDuration,
                 } as SaveSchedulerBookingDataCommandInventory
             })
-        }).then(() => {
+        }).then((response) => {
+            props.updateEvent(props.event?.event_id, response);
             props.scheduler.close();
-            //переполучение данных для шедулера
         })
     }
     

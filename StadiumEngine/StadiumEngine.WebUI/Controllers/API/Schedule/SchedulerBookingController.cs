@@ -45,9 +45,9 @@ public class SchedulerBookingController : BaseApiController
     /// <returns></returns>
     [HttpPost( "scheduler-save" )]
     [HasPermission( PermissionsKeys.InsertBooking )]
-    public async Task<SaveSchedulerBookingDataDto> Save( [FromBody] SaveSchedulerBookingDataCommand command )
+    public async Task<SchedulerEventDto> Save( [FromBody] SaveSchedulerBookingDataCommand command )
     {
-        SaveSchedulerBookingDataDto dto = await Mediator.Send( command );
+        SchedulerEventDto dto = await Mediator.Send( command );
         return dto;
     }
     
@@ -57,5 +57,5 @@ public class SchedulerBookingController : BaseApiController
     /// <returns></returns>
     [HttpPut( "scheduler-update" )]
     [HasPermission( PermissionsKeys.UpdateBooking )]
-    public async Task<SaveSchedulerBookingDataDto> Update( [FromBody] SaveSchedulerBookingDataCommand command ) => await Save( command );
+    public async Task<SchedulerEventDto> Update( [FromBody] SaveSchedulerBookingDataCommand command ) => await Save( command );
 }

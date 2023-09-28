@@ -10,6 +10,7 @@ import {t} from "i18next";
 import {PromoCodeDto} from "../models/dto/rates/TariffDto";
 import {SaveSchedulerBookingDataCommand} from "../models/command/schedule/SaveSchedulerBookingDataCommand";
 import {CancelSchedulerBookingCommand} from "../models/command/schedule/CancelSchedulerBookingCommand";
+import {SchedulerEventDto} from "../models/dto/schedule/SchedulerEventDto";
 
 export interface IBookingService {
     getBookingForm(date: Date, token: string|null, cityId: number|null, q: string|null, hideSpinner?: boolean): Promise<BookingFormDto>;
@@ -20,7 +21,7 @@ export interface IBookingService {
     cancelBooking(command: CancelBookingCommand) : Promise<void>;
     confirmBooking(command: ConfirmBookingCommand) : Promise<void>;
     checkPromoCode(tariffId: number, code: string): Promise<PromoCodeDto|null>;
-    saveSchedulerBookingData(command: SaveSchedulerBookingDataCommand) : Promise<void>;
+    saveSchedulerBookingData(command: SaveSchedulerBookingDataCommand) : Promise<SchedulerEventDto>;
     cancelSchedulerBooking(command: CancelSchedulerBookingCommand) : Promise<void>;
 }
 
@@ -111,7 +112,7 @@ export class BookingService extends BaseService implements IBookingService {
         })
     }
 
-    saveSchedulerBookingData(command: SaveSchedulerBookingDataCommand): Promise<void> {
+    saveSchedulerBookingData(command: SaveSchedulerBookingDataCommand): Promise<SchedulerEventDto> {
         if ( command.isNew ) {
             return this.fetchWrapper.post({
                 url: `${this.baseUrl}/scheduler-save`,

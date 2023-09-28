@@ -3,7 +3,7 @@ using StadiumEngine.DTO.Schedule;
 
 namespace StadiumEngine.Commands.Schedule;
 
-public sealed class SaveSchedulerBookingDataCommand : BaseCommand, IRequest<SaveSchedulerBookingDataDto>
+public sealed class SaveSchedulerBookingDataCommand : BaseCommand, IRequest<SchedulerEventDto>
 {
     public bool IsNew { get; set; }
     public bool AutoLockerRoom { get; set; }
