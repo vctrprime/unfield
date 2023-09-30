@@ -21,11 +21,10 @@ import {t} from "i18next";
 interface SchedulerBookingEditorProps {
     scheduler: SchedulerHelpers;
     events: SchedulerEventDto[];
-    deleteEvent: any;
-    updateEvent: any;
+    updateEvents: any;
 }
 
-export const SchedulerBookingEditor = ({ scheduler, events, deleteEvent, updateEvent }: SchedulerBookingEditorProps) => {
+export const SchedulerBookingEditor = ({ scheduler, events, updateEvents }: SchedulerBookingEditorProps) => {
     const event = scheduler.edited;
 
     const permissions = useRecoilValue(permissionsAtom);
@@ -143,10 +142,6 @@ export const SchedulerBookingEditor = ({ scheduler, events, deleteEvent, updateE
         }
     }, [isLoading])
     
-    const _deleteEvent = () => {
-        deleteEvent(event?.event_id);
-    }
-
     return (
         <div style={{width: 580, minHeight: error ? 'auto': 500}}>
             <div style={{
@@ -164,8 +159,7 @@ export const SchedulerBookingEditor = ({ scheduler, events, deleteEvent, updateE
                     bookingData={data}
                     scheduler={scheduler}
                     slotPrices={slotPrices}
-                    deleteEvent={_deleteEvent}
-                    updateEvent={updateEvent}
+                    updateEvents={updateEvents}
                     event={event}
                 />}
         </div>

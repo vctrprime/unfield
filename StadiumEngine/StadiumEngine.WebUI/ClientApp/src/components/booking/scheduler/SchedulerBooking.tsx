@@ -36,8 +36,7 @@ export interface SchedulerBooking {
     bookingData: BookingDto;
     slotPrices: BookingFormFieldSlotPriceDto[];
     scheduler: SchedulerHelpers;
-    deleteEvent: any;
-    updateEvent: any;
+    updateEvents: any;
     event: ProcessedEvent|undefined;
 }
 
@@ -165,15 +164,31 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
             cancelOneInRow: oneInRow,
             reason: cancelReason.current?.value,
             day: props.event?.start?.toDateString()||''
-        }).then((response) => {
-            setOneInRow(false);
+        }).then(() => {
+            props.updateEvents();
             props.scheduler.close();
-            props.deleteEvent();
         })
     }
     
     const saveButtonDisabled = () => {
-      return false;
+        if (name?.length === 0 || phoneNumber?.length === 0) {
+            return true;
+        }
+        if (isNew) {
+            return false;
+        }
+        
+        return selectedDuration === props.bookingData.hoursCount &&
+            props.bookingData.manualDiscount === (manualDiscount ? parseInt(manualDiscount) : null) &&
+            currentLockerRoom === props.bookingData.lockerRoom?.id &&
+            currentTariffId === props.bookingData.tariff.id &&
+            selectedInventories.reduce((accumulator, currentValue) => {
+                return accumulator + currentValue.price * currentValue.quantity
+            }, 0) === props.bookingData.inventories.reduce((accumulator, currentValue) => {
+                return accumulator + currentValue.price * currentValue.quantity
+            }, 0) &&
+            name === props.bookingData.customer.name &&
+            phoneNumber === props.bookingData.customer.phoneNumber;
     }
     
     const save = () => {
@@ -208,8 +223,8 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                     amount: inv.price * inv.quantity * selectedDuration,
                 } as SaveSchedulerBookingDataCommandInventory
             })
-        }).then((response) => {
-            props.updateEvent(props.event?.event_id, response);
+        }).then(() => {
+            props.updateEvents();
             props.scheduler.close();
         })
     }
@@ -300,9 +315,9 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                 >
                     {t("common:save_button")}
                 </Button>
-                <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
+                {!isNew && <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
                     setCancelConfirm(true);
-                }}>{t("booking:checkout:cancel_button")}</Button>
+                }}>{t("booking:checkout:cancel_button")}</Button>}
             </div>
             <div className="booking-cancel-overlay" style={ cancelConfirm ? {} : { display: 'none'}}>
                 <textarea rows={3} ref={cancelReason} placeholder={t("booking:cancel:reason")||''}/>

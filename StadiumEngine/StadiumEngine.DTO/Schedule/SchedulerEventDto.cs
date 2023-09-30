@@ -69,9 +69,4 @@ public class SchedulerEventDto
     /// </summary>
     public BookingDto? Data { get; set; }
     
-    /// <summary>
-    /// Id источника события
-    /// </summary>
-    public int SourceBooking { get; set; }
-    
 }

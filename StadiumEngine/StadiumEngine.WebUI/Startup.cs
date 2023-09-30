@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -132,7 +133,7 @@ public class Startup
             .AddNewtonsoftJson();
 
         services.AddHttpContextAccessor();
-        services.AddTransient( s => s.GetService<IHttpContextAccessor>().HttpContext.User );
+        services.AddTransient( s => s.GetService<IHttpContextAccessor>()?.HttpContext?.User ?? new ClaimsPrincipal() );
 
         services.Configure<KestrelServerOptions>( Configuration.GetSection( "Kestrel" ) );
 

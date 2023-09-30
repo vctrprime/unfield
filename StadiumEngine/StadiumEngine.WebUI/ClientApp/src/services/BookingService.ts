@@ -21,7 +21,7 @@ export interface IBookingService {
     cancelBooking(command: CancelBookingCommand) : Promise<void>;
     confirmBooking(command: ConfirmBookingCommand) : Promise<void>;
     checkPromoCode(tariffId: number, code: string): Promise<PromoCodeDto|null>;
-    saveSchedulerBookingData(command: SaveSchedulerBookingDataCommand) : Promise<SchedulerEventDto>;
+    saveSchedulerBookingData(command: SaveSchedulerBookingDataCommand) : Promise<void>;
     cancelSchedulerBooking(command: CancelSchedulerBookingCommand) : Promise<void>;
 }
 
@@ -112,7 +112,7 @@ export class BookingService extends BaseService implements IBookingService {
         })
     }
 
-    saveSchedulerBookingData(command: SaveSchedulerBookingDataCommand): Promise<SchedulerEventDto> {
+    saveSchedulerBookingData(command: SaveSchedulerBookingDataCommand): Promise<void> {
         if ( command.isNew ) {
             return this.fetchWrapper.post({
                 url: `${this.baseUrl}/scheduler-save`,

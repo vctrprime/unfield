@@ -4,12 +4,11 @@ using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Services.Core.Schedule;
 using StadiumEngine.Domain.Services.Identity;
-using StadiumEngine.Domain.Services.Models.Schedule;
 using StadiumEngine.DTO.Schedule;
 
 namespace StadiumEngine.Handlers.Handlers.Schedule;
 
-internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveSchedulerBookingDataCommand, SchedulerEventDto>
+internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveSchedulerBookingDataCommand, SaveSchedulerBookingDataDto>
 {
     private readonly ISchedulerBookingQueryService _queryService;
     private readonly ISchedulerBookingCommandService _commandService;
@@ -25,12 +24,11 @@ internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveS
         _commandService = commandService;
     }
 
-    protected override async ValueTask<SchedulerEventDto> HandleCommandAsync(
+    protected override async ValueTask<SaveSchedulerBookingDataDto> HandleCommandAsync(
         SaveSchedulerBookingDataCommand request,
         CancellationToken cancellationToken )
     {
         Booking booking = await _queryService.GetBookingAsync( request.BookingNumber );
-        string bookingNumber = request.BookingNumber;
         
         if ( request.IsNew )
         {
@@ -76,10 +74,9 @@ internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveS
             {
                 if ( request.EditOneInRow )
                 {
-                    bookingNumber = $"{booking.Number}-E{booking.WeeklyExcludeDays.Count + 1}";
                     Booking excludeWeekly = new Booking
                     {
-                        Number = bookingNumber,
+                        Number = $"{booking.Number}-E{booking.WeeklyExcludeDays.Count + 1}",
                         AccessCode = booking.AccessCode,
                         Day = request.Day.Date,
                         StartHour = booking.StartHour,
@@ -97,10 +94,9 @@ internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveS
                 }
                 else
                 {
-                    bookingNumber = GetWeeklyBookingNumber( booking.Number );
                     Booking newWeekly = new Booking
                     {
-                        Number = bookingNumber,
+                        Number = GetWeeklyBookingNumber( booking.Number ),
                         AccessCode = booking.AccessCode,
                         StartHour = booking.StartHour,
                         Day = request.Day.Date,
@@ -120,10 +116,7 @@ internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveS
             }
         }
         
-        await UnitOfWork.SaveChangesAsync();
-        booking = await _queryService.GetBookingAsync( bookingNumber );
-        
-        return Mapper.Map<SchedulerEventDto>( new SchedulerEvent( booking, request.Language ) );
+        return new SaveSchedulerBookingDataDto();
     }
 
     private void FillBooking( Booking booking, SaveSchedulerBookingDataCommand request )

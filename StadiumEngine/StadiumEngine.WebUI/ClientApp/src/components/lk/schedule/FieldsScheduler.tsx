@@ -30,6 +30,7 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
     
     const [fields, setFields] = useState<SchedulerFieldsDto|null>(null);
     const [eventsData, setEventsData] = useState<SchedulerEventDto[]>([]);
+    const [eventsQuery, setEventsQuery] = useState<ViewEvent|null>(null);
     
     const calendarRef = useRef<SchedulerRef>(null);
     
@@ -46,34 +47,6 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
         );
     }, [props.mode, fields])
     
-    const deleteEvent = (deletedId: string|number) => {
-        const deletedEvent = eventsData.find( e => e.event_id === deletedId);
-        const updatedEvents = eventsData.filter((e) => e.sourceBooking !== deletedEvent?.data?.id);
-        setEventsData(updatedEvents);
-        calendarRef.current?.scheduler?.handleState(updatedEvents, "events");
-    }
-
-    const updateEvent = (deletedId: string|number, event: SchedulerEventDto) => {
-        const deletedEvent = eventsData.find( e => e.event_id === deletedId);
-        
-        const updatedEvents = eventsData.filter((e) => e.sourceBooking !== deletedEvent?.sourceBooking);
-        event.event_id = deletedId;
-        event.start = new Date(event.start);
-        event.end = new Date(event.end);
-
-        const disabledEvents = eventsData.filter( e => e.data === null && e.sourceBooking === deletedEvent?.sourceBooking);
-        disabledEvents.forEach((e) => {
-            e.start = event.start;
-            e.end = event.end;
-            e.title = event.title;
-            e.sourceBooking = event.sourceBooking;
-            updatedEvents.push(e);
-        })
-        updatedEvents.push(event);
-        setEventsData(updatedEvents);
-        calendarRef.current?.scheduler?.handleState(updatedEvents, "events");
-    }
-
     useEffect(() => {
         if (isInitialMount.current) {
             isInitialMount.current = false;
@@ -85,17 +58,31 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
     
 
     const fetchEvents = async (query: ViewEvent): Promise<ProcessedEvent[]> => {
-        const events = await scheduleService.getEvents(query.start, query.end);
+        setEventsQuery(query);
+        const events = await getEvents(query.start, query.end);
+        return new Promise((res) => {
+            res(events);
+        });
+    };
+    
+    const updateEvents = () => {
+        if (eventsQuery) {
+            getEvents(eventsQuery.start, eventsQuery.end).then((events) => {
+                calendarRef.current?.scheduler?.handleState(events, "events");
+            });
+        }
+    }
+    
+    const getEvents = async (start: Date, end: Date) => {
+        const events = await scheduleService.getEvents(start, end);
         events.map((e) => {
             e.start = new Date(e.start);
             e.end = new Date(e.end);
         });
 
         setEventsData(events);
-        return new Promise((res) => {
-            res(events);
-        });
-    };
+        return events;
+    }
     
     const cellHeight = () => {
         if (fields) {
@@ -120,9 +107,8 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
                 weekStartOn: 1,
             }}
             cellHeight={cellHeight()}
-            customEditor={(scheduler) => <SchedulerBookingEditor 
-                deleteEvent={deleteEvent} 
-                updateEvent={updateEvent}
+            customEditor={(scheduler) => <SchedulerBookingEditor
+                updateEvents={updateEvents}
                 scheduler={scheduler} 
                 events={eventsData} />}
             locale={getDateFnsLocale()}
