@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Commands.BookingForm;
@@ -26,36 +27,44 @@ public class SchedulerBookingController : BaseApiController
         AddBookingDraftDto dto = await Mediator.Send( command );
         return dto;
     }
-    
+
     /// <summary>
     ///     Отменить бронь
     /// </summary>
     /// <returns></returns>
     [HttpDelete( "scheduler-cancel" )]
     [HasPermission( PermissionsKeys.DeleteBooking )]
-    public async Task<CancelSchedulerBookingDto> Cancel( [FromBody] CancelSchedulerBookingCommand command )
+    public async Task<CancelSchedulerBookingDto> Cancel(
+        [FromBody] CancelSchedulerBookingCommand command,
+        [FromHeader( Name = "Client-Date" )] DateTime clientDate )
     {
+        command.ClientDate = clientDate;
         CancelSchedulerBookingDto dto = await Mediator.Send( command );
         return dto;
     }
-    
+
     /// <summary>
     ///     Сохранить данные бронирования
     /// </summary>
     /// <returns></returns>
     [HttpPost( "scheduler-save" )]
     [HasPermission( PermissionsKeys.InsertBooking )]
-    public async Task<SaveSchedulerBookingDataDto> Save( [FromBody] SaveSchedulerBookingDataCommand command )
+    public async Task<SaveSchedulerBookingDataDto> Save(
+        [FromBody] SaveSchedulerBookingDataCommand command,
+        [FromHeader( Name = "Client-Date" )] DateTime clientDate )
     {
+        command.ClientDate = clientDate;
         SaveSchedulerBookingDataDto dto = await Mediator.Send( command );
         return dto;
     }
-    
+
     /// <summary>
     ///     Обновить данные бронирования
     /// </summary>
     /// <returns></returns>
     [HttpPut( "scheduler-update" )]
     [HasPermission( PermissionsKeys.UpdateBooking )]
-    public async Task<SaveSchedulerBookingDataDto> Update( [FromBody] SaveSchedulerBookingDataCommand command ) => await Save( command );
+    public async Task<SaveSchedulerBookingDataDto> Update(
+        [FromBody] SaveSchedulerBookingDataCommand command,
+        [FromHeader( Name = "Client-Date" )] DateTime clientDate ) => await Save( command, clientDate );
 }

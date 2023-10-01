@@ -8,7 +8,8 @@ using StadiumEngine.DTO.Schedule;
 
 namespace StadiumEngine.Handlers.Handlers.Schedule;
 
-internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveSchedulerBookingDataCommand, SaveSchedulerBookingDataDto>
+internal sealed class
+    SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveSchedulerBookingDataCommand, SaveSchedulerBookingDataDto>
 {
     private readonly ISchedulerBookingQueryService _queryService;
     private readonly ISchedulerBookingCommandService _commandService;
@@ -29,7 +30,7 @@ internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveS
         CancellationToken cancellationToken )
     {
         Booking booking = await _queryService.GetBookingAsync( request.BookingNumber );
-        
+
         if ( request.IsNew )
         {
             FillBooking( booking, request );
@@ -89,14 +90,14 @@ internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveS
                     FillBooking( excludeWeekly, request );
                     excludeWeekly.IsWeekly = false;
                     await _commandService.AddVersionAsync( excludeWeekly );
-                    
+
                     _commandService.AddExcludeDay( booking.Id, request.Day, _userId );
                 }
                 else
                 {
                     Booking newWeekly = new Booking
                     {
-                        Number = booking.Number,
+                        Number = GetWeeklyBookingNumber( booking.Number ),
                         AccessCode = booking.AccessCode,
                         StartHour = booking.StartHour,
                         Day = GetNewWeeklyDay( request.ClientDate, booking.Day ),
@@ -105,24 +106,24 @@ internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveS
                         UserCreatedId = _userId,
                         FieldId = booking.FieldId,
                         Field = booking.Field,
-                        WeeklyExcludeDays = booking.WeeklyExcludeDays.Select( x => new BookingWeeklyExcludeDay
-                        {
-                            UserCreatedId = _userId,
-                            Day = x.Day,
-                            Reason = x.Reason
-                        } ).ToList()
+                        WeeklyExcludeDays = booking.WeeklyExcludeDays.Select(
+                            x => new BookingWeeklyExcludeDay
+                            {
+                                UserCreatedId = _userId,
+                                Day = x.Day,
+                                Reason = x.Reason
+                            } ).ToList()
                     };
                     FillBooking( newWeekly, request );
                     await _commandService.AddVersionAsync( newWeekly );
-                    
+
                     booking.IsWeeklyStoppedDate = request.ClientDate;
                     booking.UserModifiedId = _userId;
-                    booking.IsLastVersion = false;
                     _commandService.UpdateOldVersion( booking );
                 }
             }
         }
-        
+
         return new SaveSchedulerBookingDataDto();
     }
 
@@ -151,8 +152,9 @@ internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveS
 
         if ( request.LockerRoomId.HasValue && !request.IsWeekly )
         {
-            DateTime bookingLockerRoomStart = booking.Day.AddHours(( double )booking.StartHour - 0.5);
-            DateTime bookingLockerRoomEnd = booking.Day.AddHours(( double )( booking.StartHour + booking.HoursCount ) + 0.5);
+            DateTime bookingLockerRoomStart = booking.Day.AddHours( ( double )booking.StartHour - 0.5 );
+            DateTime bookingLockerRoomEnd =
+                booking.Day.AddHours( ( double )( booking.StartHour + booking.HoursCount ) + 0.5 );
             booking.BookingLockerRoom = new BookingLockerRoom
             {
                 LockerRoomId = request.LockerRoomId.Value,
@@ -171,5 +173,18 @@ internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveS
         booking.TotalAmountAfterDiscount = booking.TotalAmountBeforeDiscount - ( request.ManualDiscount ?? 0 ) -
                                            ( booking.PromoDiscount ?? 0 );
         booking.IsConfirmed = true;
+    }
+
+    private string GetWeeklyBookingNumber( string bookingNumber )
+    {
+        string[] partsNumber = bookingNumber.Split( "/" );
+        if ( partsNumber.Length == 1 )
+        {
+            return $"{bookingNumber}/2";
+        }
+
+        int i = Int32.Parse( partsNumber[ 1 ] );
+
+        return $"{partsNumber[ 0 ]}/{i + 1}";
     }
 }

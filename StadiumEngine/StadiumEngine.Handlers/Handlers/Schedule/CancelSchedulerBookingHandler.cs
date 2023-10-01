@@ -44,7 +44,7 @@ internal sealed class CancelSchedulerBookingHandler : BaseCommandHandler<CancelS
             }
             else
             {
-                booking.IsWeeklyStoppedDate = request.Day.Date.AddDays( -1 );
+                booking.IsWeeklyStoppedDate = request.ClientDate;
                 booking.UserModifiedId = _userId;
                 booking.CancelReason = request.Reason;
                 
