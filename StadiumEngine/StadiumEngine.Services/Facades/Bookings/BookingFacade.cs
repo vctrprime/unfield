@@ -24,6 +24,12 @@ internal class BookingFacade : IBookingFacade
                                       weeklyBooking.WeeklyExcludeDays.FirstOrDefault( x => x.Day == day ) == null )
                 )
         {
+            if ( day < weeklyBooking.Day ||
+                 ( weeklyBooking.IsWeeklyStoppedDate.HasValue && day > weeklyBooking.IsWeeklyStoppedDate ) )
+            {
+                continue;
+            }
+
             weeklyBooking.Day = day.Date;
             bookings.Add( weeklyBooking );
         }
@@ -48,6 +54,7 @@ internal class BookingFacade : IBookingFacade
             {
                 continue;
             }
+
             DateTime date = from.Date;
 
             while ( date <= to.Date )
@@ -56,6 +63,7 @@ internal class BookingFacade : IBookingFacade
                 {
                     break;
                 }
+
                 //день недели совпадает и день не переопределен модификацией
                 if ( weeklyBooking.Day.DayOfWeek == date.DayOfWeek &&
                      weeklyBooking.WeeklyExcludeDays.FirstOrDefault( x => x.Day == date ) == null )

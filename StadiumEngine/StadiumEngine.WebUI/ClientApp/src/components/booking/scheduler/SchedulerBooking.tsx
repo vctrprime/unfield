@@ -171,7 +171,8 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     }
     
     const saveButtonDisabled = () => {
-        if (name?.length === 0 || phoneNumber?.length === 0) {
+        console.log(name, phoneNumber);
+        if (name === undefined || phoneNumber === undefined || name?.length === 0 || phoneNumber?.length === 0) {
             return true;
         }
         if (isNew) {
@@ -180,7 +181,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
         
         return selectedDuration === props.bookingData.hoursCount &&
             props.bookingData.manualDiscount === (manualDiscount ? parseInt(manualDiscount) : null) &&
-            currentLockerRoom === props.bookingData.lockerRoom?.id &&
+            currentLockerRoom === (props.bookingData.lockerRoom?.id || null) &&
             currentTariffId === props.bookingData.tariff.id &&
             selectedInventories.reduce((accumulator, currentValue) => {
                 return accumulator + currentValue.price * currentValue.quantity
@@ -203,7 +204,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
             editOneInRow: oneInRow,
             lockerRoomId: currentLockerRoom,
             tariffId: currentTariffId,
-            day: props.bookingData.day,
+            day: props.event ? props.event?.start?.toDateString()||'' : props.bookingData.day,
             customer: {
                 name: name||'',
                 phoneNumber: phoneNumber||''
@@ -259,7 +260,11 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                 </div>
             </div>}
             <div className="booking-locker-room-weekly-row">
-                <Dropdown
+                <Checkbox
+                    onChange={(e, data) => setIsWeekly(data.checked)}
+                    checked={isWeekly}
+                    disabled={!isNew} label={t('schedule:scheduler:booking:is_weekly')} />
+                {!isWeekly && <Dropdown
                     fluid
                     style={{width: "200px"}}
                     selection
@@ -268,11 +273,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                     onChange={(e: any, {value}: any) => setCurrentLockerRoom(value)}
                     value={currentLockerRoom||''}
                     options={lockerRoomDropDownRows()}
-                    />
-                <Checkbox
-                    onChange={(e, data) => setIsWeekly(data.checked)}
-                    checked={isWeekly}
-                    disabled={!isNew} label={t('schedule:scheduler:booking:is_weekly')} />
+                    />}
             </div>
             <BookingInventory
                 data={data.checkoutData}
@@ -307,6 +308,9 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                 phoneNumber={phoneNumber}
                 setPhoneNumber={setPhoneNumber}
                 headerText={t("booking:scheduler:inputs_header")} />
+            {props.bookingData.isWeekly && !saveButtonDisabled() &&
+                <Checkbox label={t("booking:edit:one_in_row")} checked={oneInRow} onChange={() => setOneInRow(!oneInRow)}  />
+            }
             <div className="booking-checkout-buttons">
                 <Button
                     disabled={saveButtonDisabled()}

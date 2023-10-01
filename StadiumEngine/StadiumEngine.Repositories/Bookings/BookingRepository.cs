@@ -21,6 +21,7 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
     public async Task<List<Booking>> GetWeeklyAsync( DateTime day, List<int> stadiumsIds ) =>
         await Get(
             x => x.IsWeekly
+                 && day >= x.Day
                  && ( !x.IsWeeklyStoppedDate.HasValue || x.IsWeeklyStoppedDate > day )
                  && ( !x.Tariff.DateEnd.HasValue || x.Tariff.DateEnd > day )
                  && stadiumsIds.Contains( x.Field.StadiumId ) );

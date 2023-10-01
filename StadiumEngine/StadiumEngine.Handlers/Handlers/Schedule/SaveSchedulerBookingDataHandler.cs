@@ -96,27 +96,46 @@ internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveS
                 {
                     Booking newWeekly = new Booking
                     {
-                        Number = GetWeeklyBookingNumber( booking.Number ),
+                        Number = booking.Number,
                         AccessCode = booking.AccessCode,
                         StartHour = booking.StartHour,
-                        Day = request.Day.Date,
+                        Day = GetNewWeeklyDay( request.ClientDate, booking.Day ),
                         Source = booking.Source,
                         IsLastVersion = true,
                         UserCreatedId = _userId,
                         FieldId = booking.FieldId,
-                        Field = booking.Field
+                        Field = booking.Field,
+                        WeeklyExcludeDays = booking.WeeklyExcludeDays.Select( x => new BookingWeeklyExcludeDay
+                        {
+                            UserCreatedId = _userId,
+                            Day = x.Day,
+                            Reason = x.Reason
+                        } ).ToList()
                     };
                     FillBooking( newWeekly, request );
                     await _commandService.AddVersionAsync( newWeekly );
                     
-                    booking.IsWeeklyStoppedDate = request.Day.Date.AddDays( -1 );
+                    booking.IsWeeklyStoppedDate = request.ClientDate;
                     booking.UserModifiedId = _userId;
+                    booking.IsLastVersion = false;
                     _commandService.UpdateOldVersion( booking );
                 }
             }
         }
         
         return new SaveSchedulerBookingDataDto();
+    }
+
+    private DateTime GetNewWeeklyDay( DateTime clientDate, DateTime oldWeeklyDay )
+    {
+        DayOfWeek day = oldWeeklyDay.DayOfWeek;
+        DateTime result = clientDate.Date;
+        while ( result.DayOfWeek != day )
+        {
+            result = result.AddDays( 1 );
+        }
+
+        return result;
     }
 
     private void FillBooking( Booking booking, SaveSchedulerBookingDataCommand request )
@@ -130,12 +149,21 @@ internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveS
         booking.Inventories = Mapper.Map<List<BookingInventory>>( request.Inventories );
         booking.Customer = Mapper.Map<BookingCustomer>( request.Customer );
 
-        booking.BookingLockerRoom = request.LockerRoomId.HasValue
-            ? new BookingLockerRoom
+        if ( request.LockerRoomId.HasValue && !request.IsWeekly )
+        {
+            DateTime bookingLockerRoomStart = booking.Day.AddHours(( double )booking.StartHour - 0.5);
+            DateTime bookingLockerRoomEnd = booking.Day.AddHours(( double )( booking.StartHour + booking.HoursCount ) + 0.5);
+            booking.BookingLockerRoom = new BookingLockerRoom
             {
-                LockerRoomId = request.LockerRoomId.Value
-            }
-            : null;
+                LockerRoomId = request.LockerRoomId.Value,
+                Start = bookingLockerRoomStart,
+                End = bookingLockerRoomEnd
+            };
+        }
+        else
+        {
+            booking.BookingLockerRoom = null;
+        }
 
         booking.FieldAmount = booking.Costs.Sum( x => x.Cost );
         booking.InventoryAmount = booking.Inventories.Sum( x => x.Amount );
@@ -143,19 +171,5 @@ internal sealed class SaveSchedulerBookingDataHandler : BaseCommandHandler<SaveS
         booking.TotalAmountAfterDiscount = booking.TotalAmountBeforeDiscount - ( request.ManualDiscount ?? 0 ) -
                                            ( booking.PromoDiscount ?? 0 );
         booking.IsConfirmed = true;
-    }
-
-    private string GetWeeklyBookingNumber( string bookingNumber )
-    {
-        string[] partsNumber = bookingNumber.Split( "/" );
-        if ( partsNumber.Length == 1 )
-        {
-            return $"{bookingNumber}/2";
-        }
-
-        string[] partsRows = partsNumber[ 1 ].Split( "-" );
-        int i = Int32.Parse( partsRows[ 0 ] );
-        
-        return $"{partsNumber[0]}/{i}";
     }
 }

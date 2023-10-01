@@ -58,14 +58,17 @@ internal class RoleCommandService : IRoleCommandService
         Role? role = await _roleRepositoryFacade.GetRoleAsync( roleId );
         _accountsAccessChecker.CheckRoleAccess( role, legalId );
 
-        if ( role.Users.Any() )
+        if ( role != null )
         {
-            throw new DomainException(
-                ErrorsKeys.DeleteRoleHasBindings );
+            if ( role.Users.Any() )
+            {
+                throw new DomainException(
+                    ErrorsKeys.DeleteRoleHasBindings );
+            }
+            
+            role.UserModifiedId = userModifiedId;
+            _roleRepositoryFacade.RemoveRole( role );
         }
-
-        role.UserModifiedId = userModifiedId;
-        _roleRepositoryFacade.RemoveRole( role );
     }
 
     public async Task ToggleRolePermissionAsync( int roleId, int permissionId, int legalId, int userId )

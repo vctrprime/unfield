@@ -13,12 +13,12 @@ internal class LockerRoomRepository : BaseRepository<LockerRoom>, ILockerRoomRep
 
     public async Task<List<LockerRoom>> GetAllAsync( int stadiumId ) =>
         await Entities
-            .Include( lr => lr.BookingLockerRooms )
+            .Include( lr => lr.BookingLockerRooms.Where( blr => blr.Booking.IsLastVersion ) )
             .Where( lr => lr.StadiumId == stadiumId && !lr.IsDeleted ).ToListAsync();
 
     public async Task<LockerRoom?> GetAsync( int lockerRoomId, int stadiumId ) =>
         await Entities
-            .Include( lr => lr.BookingLockerRooms )
+            .Include( lr => lr.BookingLockerRooms.Where( blr => blr.Booking.IsLastVersion ) )
             .FirstOrDefaultAsync(
             lr => lr.Id == lockerRoomId && lr.StadiumId == stadiumId && !lr.IsDeleted );
 
