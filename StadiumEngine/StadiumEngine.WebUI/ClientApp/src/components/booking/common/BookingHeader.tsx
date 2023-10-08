@@ -6,13 +6,14 @@ import {BookingCheckoutDto} from "../../../models/dto/booking/BookingCheckoutDto
 export interface BookingHeaderProps {
     data: BookingCheckoutDto;
     withStadiumName: boolean;
+    dayText?: string|null;
 }
 
 export const BookingHeader = (props: BookingHeaderProps) => {
     return <>
         <div className="booking-checkout-header">
             <span>№ {props.data.bookingNumber}</span>
-            <span>{props.data.day}</span>
+            <span>{props.dayText ? props.dayText : props.data.day}</span>
         </div>
         {props.withStadiumName && <div className="booking-checkout-stadium">
             {props.data.stadiumName}

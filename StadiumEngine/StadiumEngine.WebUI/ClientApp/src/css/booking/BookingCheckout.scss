@@ -64,9 +64,17 @@
   .booking-locker-room-weekly-row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     padding-top: 10px;
-    height: 48px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    
+    .booking-locker-room-weekly-row-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+    }
     
     .checkbox {
       margin-top: 10px;
@@ -196,6 +204,8 @@
     align-items: center;
     justify-content: flex-end;
     margin-bottom: 3px !important;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
     
     span {
       margin-right: 5px;
@@ -230,7 +240,8 @@
     width: 100%;
     display: block;
     overflow: auto;
-    padding-top: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     
     label {
       width: 100%;
@@ -243,7 +254,7 @@
   }
   
   .booking-checkout-buttons {
-    margin-top: 15px;
+    margin-top: 5px;
     justify-content: flex-end;
     display: flex;
     width: 100%;

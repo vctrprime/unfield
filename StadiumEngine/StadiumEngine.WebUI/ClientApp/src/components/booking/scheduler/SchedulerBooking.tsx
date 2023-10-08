@@ -50,6 +50,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     const [currentTariffId, setCurrentTariffId] = useState<number>(props.bookingData.tariff.id);
     const [currentLockerRoom, setCurrentLockerRoom] = useState<number|null>(props.bookingData.lockerRoom?.id ?? null);
     const [isWeekly, setIsWeekly] = useState<boolean|undefined>(props.bookingData.isWeekly);
+    const [isAutoLockerRoom, setIsAutoLockerRoom] = useState<boolean|undefined>(false);
     
     const [selectedDuration, setSelectedDuration] = useState<number>(isNew ? 1 : props.bookingData.hoursCount);
     const [selectedInventories, setSelectedInventories] = useState<SelectedInventory[]>(isNew ? [] : props.bookingData.inventories.map((i) => {
@@ -171,8 +172,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     }
     
     const saveButtonDisabled = () => {
-        console.log(name, phoneNumber);
-        if (name === undefined || phoneNumber === undefined || name?.length === 0 || phoneNumber?.length === 0) {
+        if (name === undefined || phoneNumber === undefined || name?.length === 0 || phoneNumber?.length < 11) {
             return true;
         }
         if (isNew) {
@@ -192,10 +192,15 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
             phoneNumber === props.bookingData.customer.phoneNumber;
     }
     
+    const getEventEachText = () => {
+        const date = props.event ? props.event?.start : props.scheduler.state.start.value;
+        return t(`schedule:scheduler:each:${date?.getDay()}`);
+    }
+    
     const save = () => {
         bookingService.saveSchedulerBookingData({
             isNew: isNew,
-            autoLockerRoom: false,
+            autoLockerRoom: isAutoLockerRoom ?? false,
             bookingNumber: props.bookingData.number,
             hoursCount: selectedDuration,
             manualDiscount: manualDiscount ? parseInt(manualDiscount) : null,
@@ -232,7 +237,35 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     
     return data === null  ? null :  <Container className="booking-checkout-container" style={{minHeight: "auto"}}>
         <Form style={{paddingBottom: '10px'}}>
-            <BookingHeader data={data.checkoutData} withStadiumName={false} />
+            <BookingHeader dayText={isWeekly ? getEventEachText(): null} data={data.checkoutData} withStadiumName={false} />
+            <div className="booking-locker-room-weekly-row">
+                <Checkbox
+                    onChange={(e, data) => setIsWeekly(data.checked)}
+                    checked={isWeekly}
+                    disabled={!isNew} label={t('schedule:scheduler:booking:is_weekly')} />
+                {!isWeekly && <div className="booking-locker-room-weekly-row-right">
+                    <Dropdown
+                    fluid
+                    style={{width: "200px"}}
+                    selection
+                    clearable
+                    disabled={isAutoLockerRoom}
+                    placeholder={t('schedule:scheduler:booking:locker_room')||''}
+                    onChange={(e: any, {value}: any) => setCurrentLockerRoom(value)}
+                    value={currentLockerRoom||''}
+                    options={lockerRoomDropDownRows()}
+                />
+                {isNew && <Checkbox
+                    onChange={(e, data) => setIsAutoLockerRoom(data.checked)}
+                    checked={isAutoLockerRoom}
+                    disabled={!isNew} label={t('schedule:scheduler:booking:auto_locker_room')} />}
+                </div>}
+                {isWeekly && <div style={{marginTop: '5px',
+                    width: 300,
+                    textAlign: 'right',
+                    fontSize: '12px',
+                    color: '#666'}}><i style={{ color: '#00d2ff', marginRight: 3}} className="fa fa-exclamation-circle" aria-hidden="true"/>{t('schedule:scheduler:booking:weekly_locker_room_disabled')}</div>}
+            </div>
                 <div className="scheduler-booking-tariff-buttons">
                     <span>{t("booking:field_card:tariff")}: </span>
                     {(promo === null && isAvailableEditDuration() ? props.slotPrices : props.slotPrices.filter(x => x.tariffId === currentTariffId)).map((p) => {
@@ -259,22 +292,6 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                   <span>{t("booking:warnings:disabled_change_duration")}</span>
                 </div>
             </div>}
-            <div className="booking-locker-room-weekly-row">
-                <Checkbox
-                    onChange={(e, data) => setIsWeekly(data.checked)}
-                    checked={isWeekly}
-                    disabled={!isNew} label={t('schedule:scheduler:booking:is_weekly')} />
-                {!isWeekly && <Dropdown
-                    fluid
-                    style={{width: "200px"}}
-                    selection
-                    clearable
-                    placeholder={t('schedule:scheduler:booking:locker_room')||''}
-                    onChange={(e: any, {value}: any) => setCurrentLockerRoom(value)}
-                    value={currentLockerRoom||''}
-                    options={lockerRoomDropDownRows()}
-                    />}
-            </div>
             <BookingInventory
                 data={data.checkoutData}
                 isEditable={isAvailableEditInventory()}
@@ -309,9 +326,11 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                 setPhoneNumber={setPhoneNumber}
                 headerText={t("booking:scheduler:inputs_header")} />
             {props.bookingData.isWeekly && !saveButtonDisabled() &&
-                <Checkbox label={t("booking:edit:one_in_row")} checked={oneInRow} onChange={() => setOneInRow(!oneInRow)}  />
+                <div style={{marginTop: 10, textAlign: 'right'}}>
+                    <Checkbox label={t("booking:edit:one_in_row")} checked={oneInRow} onChange={() => setOneInRow(!oneInRow)}  />
+                </div>
             }
-            <div className="booking-checkout-buttons">
+            <div className="booking-checkout-buttons" >
                 <Button
                     disabled={saveButtonDisabled()}
                     style={{backgroundColor: '#3CB371', color: 'white'}}
