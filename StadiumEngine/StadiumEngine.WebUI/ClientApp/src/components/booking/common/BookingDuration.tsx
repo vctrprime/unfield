@@ -13,7 +13,7 @@ export interface BookingDurationProps {
 
 export const BookingDuration = (props: BookingDurationProps) => {
     return <div className="booking-checkout-durations">
-        <span style={{ fontSize: '16px'}}>c <span style={{fontWeight: 'bold'}}>{props.data.pointPrices[0].displayStart}</span> {t("booking:checkout:at")}  &nbsp;</span>
+        <span style={{ fontSize: '16px'}}>{t("booking:checkout:from")} <span style={{fontWeight: 'bold'}}>{props.data.pointPrices[0].displayStart}</span> {t("booking:checkout:at")}  &nbsp;</span>
         {props.isEditable ? <Dropdown
         fluid
         style={{width: "115px"}}

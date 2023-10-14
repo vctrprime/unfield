@@ -17,6 +17,7 @@ import {SchedulerBooking} from "../../booking/scheduler/SchedulerBooking";
 import {SchedulerBookingSkeleton} from "./SchedulerBookingSkeleton";
 import {SchedulerBookingError} from "./SchedulerBookingError";
 import {t} from "i18next";
+import {SchedulerReadonlyBooking} from "../../booking/scheduler/SchedulerReadonlyBooking";
 
 interface SchedulerBookingEditorProps {
     scheduler: SchedulerHelpers;
@@ -26,6 +27,8 @@ interface SchedulerBookingEditorProps {
 
 export const SchedulerBookingEditor = ({ scheduler, events, updateEvents }: SchedulerBookingEditorProps) => {
     const event = scheduler.edited;
+
+    const isReadonly = event ? event?.end < new Date() : false;
 
     const permissions = useRecoilValue(permissionsAtom);
 
@@ -90,7 +93,10 @@ export const SchedulerBookingEditor = ({ scheduler, events, updateEvents }: Sche
                 raiseError(t('schedule:scheduler:booking:errors:forbidden'));
                 return;
             }
-
+            
+            if ( isReadonly ) {
+                return;
+            }
 
             bookingService.getBookingForm(day, stadium.token, null, null, false).then((formResponse) => {
                 const field = formResponse.fields.find(f => f.data.id == fieldId);
@@ -154,7 +160,7 @@ export const SchedulerBookingEditor = ({ scheduler, events, updateEvents }: Sche
             }}>
                 <Icon style={{cursor: 'pointer'}} name='close' onClick={scheduler.close} />
             </div>
-            {isLoading ? <SchedulerBookingSkeleton /> : error ? <SchedulerBookingError message={error} /> : 
+            {isReadonly ? <SchedulerReadonlyBooking booking={event?.data} /> : isLoading ? <SchedulerBookingSkeleton /> : error ? <SchedulerBookingError message={error} /> : 
                 <SchedulerBooking 
                     bookingData={data}
                     scheduler={scheduler}

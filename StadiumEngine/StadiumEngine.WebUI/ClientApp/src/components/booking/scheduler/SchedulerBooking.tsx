@@ -31,6 +31,7 @@ import {
     SaveSchedulerBookingDataCommandCost,
     SaveSchedulerBookingDataCommandInventory
 } from "../../../models/command/schedule/SaveSchedulerBookingDataCommand";
+import {SchedulerReadonlyBooking} from "./SchedulerReadonlyBooking";
 
 export interface SchedulerBooking {
     bookingData: BookingDto;
@@ -78,7 +79,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     
     useEffect(() => {
         fetchCheckoutData();
-        
+
         if (lockerRooms.length === 0) {
             offersService.getLockerRooms().then((response) => {
                 setLockerRooms(response.filter( l => l.status === LockerRoomStatus.Ready && l.isActive));
@@ -235,7 +236,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
         })
     }
     
-    return data === null  ? null :  <Container className="booking-checkout-container" style={{minHeight: "auto"}}>
+    return data === null ? null :  <Container className="booking-checkout-container" style={{minHeight: "auto"}}>
         <Form style={{paddingBottom: '10px'}}>
             <BookingHeader dayText={isWeekly ? getEventEachText(): null} data={data.checkoutData} withStadiumName={false} />
             <div className="booking-locker-room-weekly-row">

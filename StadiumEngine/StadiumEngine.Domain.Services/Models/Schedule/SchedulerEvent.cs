@@ -47,7 +47,7 @@ public class SchedulerEvent
         End = end ?? Start.AddHours( ( double )data.HoursCount );
         _title = $"{data.Number} | {data.Customer.Name} | {data.TotalAmountAfterDiscount}";
         Color = data.IsWeekly ? "#20B2AA" : data.Source == BookingSource.Form ? "#3CB371" : "#4682B4";
-        Editable = End > DateTime.Now;
+        Editable = true;
         BookingsCount = 1;
 
         if ( !fieldId.HasValue )
