@@ -93,6 +93,7 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
             .Include( x => x.WeeklyExcludeDays )
             .Include( x => x.Inventories )
             .ThenInclude( x => x.Inventory )
+            .ThenInclude( x => x.Images )
             .Include( x => x.Customer )
             .Include( x => x.Promo )
             .Include( x => x.BookingLockerRoom )

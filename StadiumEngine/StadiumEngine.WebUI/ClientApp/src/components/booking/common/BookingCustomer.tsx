@@ -11,7 +11,8 @@ export interface BookingCustomerProps {
     setName: Function;
     phoneNumber: string | undefined;
     setPhoneNumber: Function;
-    headerText: string
+    headerText: string;
+    isReadonly?: boolean;
 }
 
 export const BookingCustomer = (props: BookingCustomerProps) => {
@@ -21,6 +22,7 @@ export const BookingCustomer = (props: BookingCustomerProps) => {
             <Form.Field style={{width: '100%'}}>
                 <input
                     value={props.name||''}
+                    readOnly={props.isReadonly}
                     onChange={(e) => props.setName(e.target.value)}
                     placeholder={t("booking:checkout:surname")||''}/>
             </Form.Field>
@@ -30,6 +32,7 @@ export const BookingCustomer = (props: BookingCustomerProps) => {
                 <PhoneInput
                     onlyCountries={['ru']}
                     country='ru'
+                    disabled={props.isReadonly}
                     containerStyle={{width: '100%'}}
                     inputStyle={{width: '100%', height: 38, paddingLeft: '42px', fontFamily: 'inherit'}}
                     placeholder={'+7 (123) 456-78-90'}

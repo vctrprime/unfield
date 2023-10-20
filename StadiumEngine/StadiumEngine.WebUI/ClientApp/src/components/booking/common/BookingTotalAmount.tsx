@@ -6,7 +6,7 @@ import {getPromoDiscount} from "../../../helpers/booking-utils";
 export interface BookingTotalAmountProps {
     getTotalAmountValue: Function;
     promo: PromoCodeDto|null;
-    manualDiscount?: number; 
+    manualDiscount?: number;
 }
 
 export const BookingTotalAmount = (props: BookingTotalAmountProps) => {
@@ -22,6 +22,6 @@ export const BookingTotalAmount = (props: BookingTotalAmountProps) => {
     }
     
     return <div className="booking-checkout-amount" style={{ marginTop: '20px', borderTop: '1px solid #eee'}} >
-        {t("booking:checkout:amount_total")}&nbsp; {getAmount()}
+        {t("booking:checkout:amount_total")}&nbsp; {getAmount()} <br/>
     </div>
 }
