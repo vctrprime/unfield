@@ -60,8 +60,9 @@ export const SchedulerReadonlyBooking = ({ booking } : SchedulerReadonlyBookingP
                 {!booking.isWeekly && booking.lockerRoom && <div className="booking-locker-room-weekly-row-right">
                     <Dropdown
                         fluid
-                        style={{width: "200px"}}
+                        selection
                         disabled={true}
+                        style={{width: "200px"}}
                         placeholder={t('schedule:scheduler:booking:locker_room')||''}
                         value={booking.lockerRoom?.id||''}
                         options={[{key: booking.lockerRoom?.id, value: booking.lockerRoom?.id, text: booking.lockerRoom?.name}]}
@@ -97,7 +98,7 @@ export const SchedulerReadonlyBooking = ({ booking } : SchedulerReadonlyBookingP
             {booking.manualDiscount && booking.manualDiscount > 0 && <div style={{marginTop: '5px',
                 fontSize: '12px',
                 textAlign: 'right',
-                color: '#666'}}><i style={{ color: '#00d2ff'}} className="fa fa-exclamation-circle" aria-hidden="true"/> {t('schedule:scheduler:booking:manual_discount_applied')} <b style={{color: 'black'}}>(-{booking.manualDiscount})</b>.</div>}
+                color: '#666'}}><i style={{ color: '#00d2ff'}} className="fa fa-exclamation-circle" aria-hidden="true"/> {t('schedule:scheduler:booking:manual_discount_applied')} <b style={{color: 'black'}}>(-{booking.manualDiscount})</b></div>}
             <BookingCustomer
                 name={booking.customer.name ?? undefined}
                 setName={() => null}
