@@ -84,7 +84,7 @@ export const Header = () => {
             <ProfileModal open={profileModal} setOpen={setProfileModal}/>
             {stadium !== null &&
                 <div className="stadium-list">
-                    <div style={routeWithoutStadiumList() || window.location.pathname.startsWith("/lk/accounts") ? {display: "none"} : {}}>
+                    <div style={routeWithoutStadiumList() || window.location.pathname.startsWith("/extranet/accounts") ? {display: "none"} : {}}>
                         {t("common:lk_header:current_stadium_title")}:  &nbsp;
                         <Dropdown
                             onChange={changeStadium}
@@ -94,7 +94,7 @@ export const Header = () => {
                         />
                     </div>
                     <div className="header-warning"
-                         style={window.location.pathname.startsWith("/lk/accounts") ? {} : {display: "none"}}>
+                         style={window.location.pathname.startsWith("/extranet/accounts") ? {} : {display: "none"}}>
                         <i className="fa fa-exclamation-circle" aria-hidden="true"/>
                         <div className="header-warning-text">
                             <span

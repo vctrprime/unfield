@@ -3,7 +3,7 @@ import {TabData, Tabs} from "../common/Tabs";
 import {useRecoilValue} from "recoil";
 import {AuthorizeUserDto} from "../../models/dto/accounts/AuthorizeUserDto";
 import {authAtom} from "../../state/auth";
-import {ForbiddenMessage} from "../lk/common/ForbiddenMessage";
+import {ForbiddenMessage} from "../extranet/common/ForbiddenMessage";
 
 export const Admin = () => {
     const auth = useRecoilValue<AuthorizeUserDto | null>(authAtom);

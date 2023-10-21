@@ -39,7 +39,7 @@ export const Fields = () => {
     const navigate = useNavigate();
 
     const onNameClick = (id: number) => {
-        navigate("/lk/offers/fields/" + id);
+        navigate("/extranet/offers/fields/" + id);
     }
 
     const NameRenderer = (obj: any) => {
@@ -154,7 +154,7 @@ export const Fields = () => {
         <div className="fields-btns">
             <Button
                 disabled={permissions.filter(p => p.name === PermissionsKeys.InsertField).length === 0}
-                onClick={() => navigate("/lk/offers/fields/new")}>{t('offers:fields_grid:add')}</Button>
+                onClick={() => navigate("/extranet/offers/fields/new")}>{t('offers:fields_grid:add')}</Button>
             {data.length === 0 && !isLoading && <span>{t('offers:fields_grid:no_rows')}</span>}
         </div>
         <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 36px)'}}>

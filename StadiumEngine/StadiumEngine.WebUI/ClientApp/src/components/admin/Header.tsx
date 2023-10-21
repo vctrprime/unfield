@@ -5,7 +5,7 @@ import logo from "../../img/logo/logo_icon_with_title.png";
 import {t} from "i18next";
 import {useSetRecoilState} from "recoil";
 import {logoutModalAtom} from "../../state/logoutModal";
-import {ProfileModal} from "../lk/accounts/ProfileModal";
+import {ProfileModal} from "../extranet/accounts/ProfileModal";
 
 
 export const Header = () => {

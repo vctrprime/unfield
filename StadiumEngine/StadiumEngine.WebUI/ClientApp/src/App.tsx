@@ -2,30 +2,30 @@ import React, {useEffect, useRef} from 'react';
 import {Layout} from './components/Layout';
 import {Route, Routes} from "react-router-dom";
 import {Home} from "./components/portal/Home";
-import {Layout as LkLayout} from "./components/lk/Layout";
+import {Layout as LkLayout} from "./components/extranet/Layout";
 import {Layout as AdminLayout} from "./components/admin/Layout";
-import {Offers} from "./components/lk/offers/Offers";
-import {Schedule} from "./components/lk/schedule/Schedule";
-import {SignIn} from "./components/lk/auth/SignIn";
+import {Offers} from "./components/extranet/offers/Offers";
+import {Schedule} from "./components/extranet/schedule/Schedule";
+import {SignIn} from "./components/extranet/auth/SignIn";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 
 import {withNamespaces} from 'react-i18next';
 
 import './custom.css'
-import './css/lk/SignIn.scss'
+import './css/extranet/SignIn.scss'
 import './css/common.scss'
 
-import {Employees} from "./components/lk/employees/Employees";
-import {Accounts} from "./components/lk/accounts/Accounts";
-import {Permissions} from "./components/lk/accounts/Permissions";
-import {Users} from "./components/lk/accounts/Users";
-import {Roles} from "./components/lk/accounts/Roles";
+import {Employees} from "./components/extranet/employees/Employees";
+import {Accounts} from "./components/extranet/accounts/Accounts";
+import {Permissions} from "./components/extranet/accounts/Permissions";
+import {Users} from "./components/extranet/accounts/Users";
+import {Roles} from "./components/extranet/accounts/Roles";
 import {Admin} from "./components/admin/Admin";
 
 
 import 'react-notifications/lib/notifications.css';
 import {Legals} from "./components/admin/legals/Legals";
-import {Reports} from "./components/lk/reports/Reports";
+import {Reports} from "./components/extranet/reports/Reports";
 import {useLocalStorage} from "usehooks-ts";
 import {AuthorizeUserDto} from "./models/dto/accounts/AuthorizeUserDto";
 import {Button, Modal} from "semantic-ui-react";
@@ -38,27 +38,27 @@ import {authAtom} from "./state/auth";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "./services/AccountsService";
 import {t} from "i18next";
-import {LockerRooms} from "./components/lk/offers/LockerRooms";
-import {LockerRoom} from "./components/lk/offers/LockerRoom";
-import {Fields} from "./components/lk/offers/Fields";
-import {Field} from "./components/lk/offers/Field";
-import {Inventory} from "./components/lk/offers/Inventory";
-import {Inventories} from "./components/lk/offers/Inventories";
-import {Rates} from "./components/lk/rates/Rates";
-import {PriceGroups} from "./components/lk/rates/PriceGroups";
-import {PriceGroup} from "./components/lk/rates/PriceGroup";
-import {Tariffs} from "./components/lk/rates/Tariffs";
-import {Tariff} from "./components/lk/rates/Tariff";
-import {Prices} from "./components/lk/rates/Prices";
+import {LockerRooms} from "./components/extranet/offers/LockerRooms";
+import {LockerRoom} from "./components/extranet/offers/LockerRoom";
+import {Fields} from "./components/extranet/offers/Fields";
+import {Field} from "./components/extranet/offers/Field";
+import {Inventory} from "./components/extranet/offers/Inventory";
+import {Inventories} from "./components/extranet/offers/Inventories";
+import {Rates} from "./components/extranet/rates/Rates";
+import {PriceGroups} from "./components/extranet/rates/PriceGroups";
+import {PriceGroup} from "./components/extranet/rates/PriceGroup";
+import {Tariffs} from "./components/extranet/rates/Tariffs";
+import {Tariff} from "./components/extranet/rates/Tariff";
+import {Prices} from "./components/extranet/rates/Prices";
 import {BookingForm} from "./components/booking/BookingForm";
 import {BookingCheckout} from "./components/booking/checkout/BookingCheckout";
 import {BookingCheckoutConfirm} from "./components/booking/checkout/BookingCheckoutConfirm";
-import {Forbidden} from "./components/lk/Forbidden";
-import {MainSettings} from "./components/lk/settings/MainSettings";
-import {Settings} from "./components/lk/settings/Settings";
-import {Breaks} from "./components/lk/settings/Breaks";
+import {Forbidden} from "./components/extranet/Forbidden";
+import {MainSettings} from "./components/extranet/settings/MainSettings";
+import {Settings} from "./components/extranet/settings/Settings";
+import {Breaks} from "./components/extranet/settings/Breaks";
 import {getStartLkRoute} from "./helpers/utils";
-import {Break} from "./components/lk/settings/Break";
+import {Break} from "./components/extranet/settings/Break";
 import {UserStadiumDto} from "./models/dto/accounts/UserStadiumDto";
 
 const ReactNotifications = require('react-notifications');
@@ -81,9 +81,9 @@ const App = () => {
         const prev = JSON.stringify(prevUserRef.current);
         const current = JSON.stringify(user)
         if (prev !== current) {
-            if (window.location.pathname.startsWith("/lk")) {
+            if (window.location.pathname.startsWith("/extranet")) {
                 prevUserRef.current = user;
-                if (window.location.pathname === "/lk/sign-in" && user?.isAdmin) {
+                if (window.location.pathname === "/extranet/sign-in" && user?.isAdmin) {
                     window.location.href = `/admin`;
                 } else {
                     window.location.href = getStartLkRoute();
@@ -106,7 +106,7 @@ const App = () => {
                 setAuth(null);
                 setStadium(null);
                 setPermissions([]);
-                window.location.href = "/lk/sign-in";
+                window.location.href = "/extranet/sign-in";
             });
     }
 
@@ -116,8 +116,8 @@ const App = () => {
                 <NotificationContainer/>
                 <Routes>
                     <Route path="/" element={<Home/>}/>
-                    <Route path="/lk/sign-in" element={<SignIn/>}/>
-                    <Route path="/lk" element={<ProtectedRoute component={LkLayout}/>}>
+                    <Route path="/extranet/sign-in" element={<SignIn/>}/>
+                    <Route path="/extranet" element={<ProtectedRoute component={LkLayout}/>}>
                         <Route path="forbidden" element={<Forbidden/>}/>
                         <Route path="settings" element={<Settings/>}>
                             <Route path="main" element={<MainSettings/>}/>

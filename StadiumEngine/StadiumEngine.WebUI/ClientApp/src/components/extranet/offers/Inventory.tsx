@@ -96,11 +96,11 @@ export const Inventory = () => {
             }
             if (id === "new") {
                 offersService.addInventory(form).then(() => {
-                    navigate("/lk/offers/inventories");
+                    navigate("/extranet/offers/inventories");
                 });
             } else {
                 offersService.updateInventory(form).then(() => {
-                    navigate("/lk/offers/inventories");
+                    navigate("/extranet/offers/inventories");
                 });
             }
 
@@ -109,7 +109,7 @@ export const Inventory = () => {
 
     const deleteInventory = () => {
         offersService.deleteInventory(inventoryId).then(() => {
-            navigate("/lk/offers/inventories");
+            navigate("/extranet/offers/inventories");
         })
     }
 

@@ -24,7 +24,7 @@ export const Offers = () => {
    
 
     return (tabs.length > 0 ?
-        <Tabs tabsData={tabs} leftNavRoute={"/lk/offers"}/> :
+        <Tabs tabsData={tabs} leftNavRoute={"/extranet/offers"}/> :
         <ForbiddenMessage/>)
 
 }

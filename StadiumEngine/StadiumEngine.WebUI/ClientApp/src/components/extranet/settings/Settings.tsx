@@ -19,7 +19,7 @@ export const Settings = () => {
     }
     
     return (tabs.length > 0 ?
-        <Tabs tabsData={tabs} leftNavRoute={"/lk/settings"}/> :
+        <Tabs tabsData={tabs} leftNavRoute={"/extranet/settings"}/> :
         <ForbiddenMessage/>)
 
 }

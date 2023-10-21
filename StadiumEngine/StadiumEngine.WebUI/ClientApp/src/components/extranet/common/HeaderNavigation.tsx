@@ -51,7 +51,7 @@ export const HeaderNavigation = (props: HeaderNavigationProps) => {
             <Icon className="back-button"
                   name='caret left'
                   title={t(`common:back_buttons:${route.replace('-', '_')}`)}
-                  onClick={() => navigate(`/lk/${parts[parts.length - 3]}/${route}`)}/> :
+                  onClick={() => navigate(`/extranet/${parts[parts.length - 3]}/${route}`)}/> :
             <span/>
     }
 
@@ -96,7 +96,7 @@ export const HeaderNavigation = (props: HeaderNavigationProps) => {
     }, []);
 
     const changeObject = (e: any, {value}: any) => {
-        navigate(`/lk/${parts[parts.length - 3]}/${route}/${value}`);
+        navigate(`/extranet/${parts[parts.length - 3]}/${route}/${value}`);
     }
 
     return <div style={{display: "flex"}}>

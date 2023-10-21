@@ -23,6 +23,6 @@ export const Accounts = () => {
     }
 
     return (tabs.length > 0 ?
-        <Tabs tabsData={tabs} leftNavRoute={"/lk/accounts"}/> :
+        <Tabs tabsData={tabs} leftNavRoute={"/extranet/accounts"}/> :
         <ForbiddenMessage/>)
 };

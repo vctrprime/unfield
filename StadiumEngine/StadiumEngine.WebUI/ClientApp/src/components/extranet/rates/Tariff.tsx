@@ -115,7 +115,7 @@ export const Tariff = () => {
                 promoCodes: data.promoCodes
             }
             ratesService.addTariff(command).then(() => {
-                navigate("/lk/rates/tariffs");
+                navigate("/extranet/rates/tariffs");
             })
         }
     }
@@ -140,7 +140,7 @@ export const Tariff = () => {
                 promoCodes: data.promoCodes
             }
             ratesService.updateTariff(command).then(() => {
-                navigate("/lk/rates/tariffs");
+                navigate("/extranet/rates/tariffs");
             })
         }
     }
@@ -215,7 +215,7 @@ export const Tariff = () => {
 
     const deleteTariff = () => {
         ratesService.deleteTariff(tariffId).then(() => {
-            navigate("/lk/rates/tariffs");
+            navigate("/extranet/rates/tariffs");
         })
     }
 

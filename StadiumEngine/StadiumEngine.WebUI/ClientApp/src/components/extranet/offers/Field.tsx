@@ -156,11 +156,11 @@ export const Field = () => {
             }
             if (id === "new") {
                 offersService.addField(form).then(() => {
-                    navigate("/lk/offers/fields");
+                    navigate("/extranet/offers/fields");
                 });
             } else {
                 offersService.updateField(form).then(() => {
-                    navigate("/lk/offers/fields");
+                    navigate("/extranet/offers/fields");
                 });
             }
 
@@ -169,7 +169,7 @@ export const Field = () => {
 
     const deleteField = () => {
         offersService.deleteField(fieldId).then(() => {
-            navigate("/lk/offers/fields");
+            navigate("/extranet/offers/fields");
         })
     }
 

@@ -36,7 +36,7 @@ export const PriceGroups = () => {
     const navigate = useNavigate();
 
     const onNameClick = (id: number) => {
-        navigate("/lk/rates/price-groups/" + id);
+        navigate("/extranet/rates/price-groups/" + id);
     }
 
     const NameRenderer = (obj: any) => {
@@ -120,7 +120,7 @@ export const PriceGroups = () => {
         <div className="price-groups-btns">
             <Button
                 disabled={permissions.filter(p => p.name === PermissionsKeys.InsertPriceGroup).length === 0}
-                onClick={() => navigate("/lk/rates/price-groups/new")}>{t('rates:price_groups_grid:add')}</Button>
+                onClick={() => navigate("/extranet/rates/price-groups/new")}>{t('rates:price_groups_grid:add')}</Button>
             {data.length === 0 && !isLoading && <span>{t('rates:price_groups_grid:no_rows')}</span>}
         </div>
         <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 36px)'}}>

@@ -37,7 +37,7 @@ export const Inventories = () => {
     const navigate = useNavigate();
 
     const onNameClick = (id: number) => {
-        navigate("/lk/offers/inventories/" + id);
+        navigate("/extranet/offers/inventories/" + id);
     }
 
     const NameRenderer = (obj: any) => {
@@ -135,7 +135,7 @@ export const Inventories = () => {
         <div className="inventories-btns">
             <Button
                 disabled={permissions.filter(p => p.name === PermissionsKeys.InsertInventory).length === 0}
-                onClick={() => navigate("/lk/offers/inventories/new")}>{t('offers:inventories_grid:add')}</Button>
+                onClick={() => navigate("/extranet/offers/inventories/new")}>{t('offers:inventories_grid:add')}</Button>
             {data.length === 0 && !isLoading && <span>{t('offers:inventories_grid:no_rows')}</span>}
         </div>
         <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 36px)'}}>
