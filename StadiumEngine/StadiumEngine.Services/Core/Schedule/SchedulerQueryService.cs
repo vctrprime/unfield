@@ -23,24 +23,28 @@ internal class SchedulerQueryService : ISchedulerQueryService
         DateTime from,
         DateTime to,
         int stadiumId,
-        string language )
+        string language, 
+        bool withDisabledEvents )
     {
         List<Booking> bookings = await _bookingFacade.GetAsync( from, to, stadiumId );
         List<SchedulerEvent> events = bookings.Where( x => x.IsConfirmed && !x.IsCanceled )
             .Select( x => new SchedulerEvent( x, language ) ).ToList();
 
-        List<SchedulerEvent> disabledEvents = await BuildDisabledEvents(
-            stadiumId,
-            bookings,
-            from,
-            to,
-            language );
-
-        if ( disabledEvents.Any() )
+        if ( withDisabledEvents )
         {
-            events.AddRange( disabledEvents );
-        }
+            List<SchedulerEvent> disabledEvents = await BuildDisabledEvents(
+                stadiumId,
+                bookings,
+                from,
+                to,
+                language );
 
+            if ( disabledEvents.Any() )
+            {
+                events.AddRange( disabledEvents );
+            }
+        }
+        
         return events;
     }
 

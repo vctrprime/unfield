@@ -12,4 +12,5 @@ public interface IBookingRepository
     Task<Booking?> FindDraftAsync( DateTime day, decimal startHour, int fieldId );
     void Add( Booking booking );
     void Update( Booking booking );
+    Booking DetachedClone( Booking booking );
 }

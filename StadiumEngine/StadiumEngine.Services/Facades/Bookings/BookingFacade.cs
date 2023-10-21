@@ -69,8 +69,9 @@ internal class BookingFacade : IBookingFacade
                      weeklyBooking.WeeklyExcludeDays.FirstOrDefault( x => x.Day == date ) == null )
                 {
                     TimeSpan diff = date.Date - weeklyBooking.Day.Date;
-                    weeklyBooking.Day = weeklyBooking.Day.Add( diff );
-                    bookings.Add( weeklyBooking );
+                    Booking weeklyDayBooking = _bookingRepository.DetachedClone( weeklyBooking );
+                    weeklyDayBooking.Day = weeklyDayBooking.Day.Add( diff );
+                    bookings.Add( weeklyDayBooking );
                 }
 
                 date = date.AddDays( 1 );

@@ -8,4 +8,5 @@ public sealed class GetSchedulerEventsQuery : BaseQuery, IRequest<List<Scheduler
     public DateTime Start { get; set; }
     public DateTime End { get; set; }
     public string? Language { get; set; }
+    public bool? WithDisabledEvents { get; set; }
 }

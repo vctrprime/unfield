@@ -67,6 +67,21 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
     public new void Add( Booking booking ) => base.Add( booking );
     public new void Update( Booking booking ) => base.Update( booking );
 
+    public Booking DetachedClone( Booking booking ) {
+        Booking copy = ( Entities.Entry( booking ).CurrentValues.Clone().ToObject() as Booking )!;
+        
+        copy.Costs = booking.Costs;
+        copy.Field = booking.Field;
+        copy.BookingLockerRoom = booking.BookingLockerRoom;
+        copy.Tariff = booking.Tariff;
+        copy.Inventories = booking.Inventories;
+        copy.Customer = booking.Customer;
+        copy.WeeklyExcludeDays = booking.WeeklyExcludeDays;
+        copy.Promo = booking.Promo;
+        
+        return copy;
+    }
+
     private async Task<List<Booking>> Get( Expression<Func<Booking, bool>> clause ) =>
         await Entities
             .Where( x => x.IsLastVersion )

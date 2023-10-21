@@ -16,7 +16,7 @@ internal sealed class GetSchedulerEventsHandler : BaseRequestHandler<GetSchedule
     public GetSchedulerEventsHandler(
         ISchedulerQueryService queryService,
         IMapper mapper,
-        IClaimsIdentityService claimsIdentityService) : base( mapper, claimsIdentityService )
+        IClaimsIdentityService claimsIdentityService ) : base( mapper, claimsIdentityService )
     {
         _queryService = queryService;
     }
@@ -25,7 +25,12 @@ internal sealed class GetSchedulerEventsHandler : BaseRequestHandler<GetSchedule
         GetSchedulerEventsQuery request,
         CancellationToken cancellationToken )
     {
-        List<SchedulerEvent> events = await _queryService.GetEventsAsync( request.Start, request.End, _currentStadiumId, request.Language ?? "ru" );
+        List<SchedulerEvent> events = await _queryService.GetEventsAsync(
+            request.Start,
+            request.End,
+            _currentStadiumId,
+            request.Language ?? "ru",
+            request.WithDisabledEvents ?? true );
 
         List<SchedulerEventDto> eventsDto = Mapper.Map<List<SchedulerEventDto>>( events );
 
