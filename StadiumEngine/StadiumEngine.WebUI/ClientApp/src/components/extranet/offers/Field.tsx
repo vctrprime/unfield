@@ -223,7 +223,7 @@ export const Field = () => {
                 />
             </Form.Field>
             <SportKindSelect data={data} setData={setData}/>
-            {parentFields.length > 0 && <Form.Field>
+            {parentFields.length > 0 && data.childNames.length == 0 && <Form.Field>
                 <label>{t("offers:fields_grid:parent_field")}</label>
                 <div style={{fontSize: '12px', lineHeight: '12px'}}>{t("offers:fields_grid:parent_field_hint")}</div>
                 <Dropdown
