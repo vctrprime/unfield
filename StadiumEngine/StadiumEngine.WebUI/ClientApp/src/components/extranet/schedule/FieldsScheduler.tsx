@@ -30,7 +30,15 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
     
     const [fields, setFields] = useState<SchedulerFieldsDto|null>(null);
     const [eventsData, setEventsData] = useState<SchedulerEventDto[]>([]);
-    const [eventsQuery, setEventsQuery] = useState<ViewEvent|null>(null);
+    
+    const storedEventsQuery = localStorage.getItem('schedulerEventsQuery');
+
+    const [eventsQuery, setEventsQuery] = useState<ViewEvent>(storedEventsQuery ? 
+        JSON.parse(storedEventsQuery) : {
+            start: new Date(),
+            end: new Date(),
+            view: "day"
+        } as ViewEvent);
     
     const calendarRef = useRef<SchedulerRef>(null);
     
@@ -59,6 +67,7 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
 
     const fetchEvents = async (query: ViewEvent): Promise<ProcessedEvent[]> => {
         setEventsQuery(query);
+        localStorage.setItem('schedulerEventsQuery', JSON.stringify(query));
         const events = await getEvents(query.start, query.end);
         return new Promise((res) => {
             res(events);
@@ -115,6 +124,7 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
             onViewChange={(v) => props.setView(v)}
             month={null}
             draggable={false}
+            selectedDate={new Date((new Date(eventsQuery.start).getTime() + new Date(eventsQuery.end).getTime()) / 2)}
             translations={{
                 navigation: {
                     month: t('schedule:scheduler:month'),
@@ -138,7 +148,7 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
                 moreEvents: "More...",
                 loading: "Loading..."
             }}
-            view={"day"}
+            view={eventsQuery.view}
             hourFormat={"24"}
             loading={false}
             getRemoteEvents={fetchEvents}
