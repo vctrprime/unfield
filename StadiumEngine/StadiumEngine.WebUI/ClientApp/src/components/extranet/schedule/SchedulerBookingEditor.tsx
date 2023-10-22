@@ -28,8 +28,6 @@ interface SchedulerBookingEditorProps {
 export const SchedulerBookingEditor = ({ scheduler, events, updateEvents }: SchedulerBookingEditorProps) => {
     const event = scheduler.edited;
 
-    const isReadonly = event ? event?.end < new Date() : false;
-
     const permissions = useRecoilValue(permissionsAtom);
 
     const hasInsertPermission = permissions.find( x => x.name == PermissionsKeys.InsertBooking) !== undefined;
@@ -47,6 +45,8 @@ export const SchedulerBookingEditor = ({ scheduler, events, updateEvents }: Sche
     const fieldId = scheduler.field_id;
 
     const stadium = useRecoilValue(stadiumAtom);
+
+    const isReadonly = event ? event?.end < new Date() : !hasUpdatePermission;
 
     const raiseError = (message: string) => {
         setError(message);
