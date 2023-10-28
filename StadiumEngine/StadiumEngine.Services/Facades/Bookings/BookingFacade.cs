@@ -126,7 +126,7 @@ internal class BookingFacade : IBookingFacade
                     Day = bookingDate,
                     ClosedDay = booking.IsWeekly ? 
                         booking.IsWeeklyStoppedDate ?? booking.Tariff.DateEnd  : null,
-                    Time = TimePointParser.Parse( booking.StartHour ),
+                    StartHour = booking.StartHour,
                     HoursCount = booking.HoursCount,
                     CustomerName = booking.Customer.Name,
                     CustomerPhoneNumber = booking.Customer.PhoneNumber,

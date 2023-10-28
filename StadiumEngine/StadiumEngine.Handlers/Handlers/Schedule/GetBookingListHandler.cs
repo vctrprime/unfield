@@ -1,5 +1,6 @@
 using AutoMapper;
 using Mediator;
+using StadiumEngine.Common.Enums.Schedule;
 using StadiumEngine.Common.Static;
 using StadiumEngine.Domain.Services.Core.Schedule;
 using StadiumEngine.Domain.Services.Identity;
@@ -46,21 +47,57 @@ internal sealed class GetBookingListHandler : BaseRequestHandler<GetBookingListQ
                 },
                 cancellationToken );
 
-            IEnumerable<BookingListItemDto> result = Mapper.Map<IEnumerable<BookingListItemDto>>( events.Select( x => x.Data ) );
-            return SortedResult( result );
+            List<BookingListItemDto> result = Mapper.Map<List<BookingListItemDto>>( events.Select( x => x.Data ) );
+            return SortedStatusResult( result, false, request.ClientDate );
         }
         else
         {
-            List<BookingListItem> bookings = await _queryService.SearchAllByNumberAsync( request.BookingNumber, _currentStadiumId );
-            IEnumerable<BookingListItemDto> result = Mapper.Map<IEnumerable<BookingListItemDto>>( bookings );
+            List<BookingListItem> bookings =
+                await _queryService.SearchAllByNumberAsync( request.BookingNumber, _currentStadiumId );
+            List<BookingListItemDto> result = Mapper.Map<List<BookingListItemDto>>( bookings );
 
-            return SortedResult( result );
+            return SortedStatusResult( result, true, request.ClientDate );
         }
     }
 
-    private static List<BookingListItemDto> SortedResult( IEnumerable<BookingListItemDto> result ) =>
-        result
+    private static List<BookingListItemDto> SortedStatusResult(
+        List<BookingListItemDto> result,
+        bool byNumberQuery,
+        DateTime clientDate )
+    {
+        foreach ( BookingListItemDto item in result )
+        {
+            if ( item.IsWeekly )
+            {
+                if ( !byNumberQuery )
+                {
+                    item.Status = GetStatusByDate( item, (int) BookingStatus.WeeklyItemActive,( int )BookingStatus.WeeklyItemFinished, clientDate );
+                }
+                else
+                {
+                    item.Status = item.Day.HasValue ? BookingStatus.WeeklyActive : BookingStatus.WeeklyFinished;
+                }
+            }
+            else
+            {
+                item.Status = GetStatusByDate( item, (int) BookingStatus.Active, ( int )BookingStatus.Finished, clientDate );
+            }
+        }
+
+        return result
             .OrderBy( x => x.Day )
-            .ThenBy( x => TimePointParser.Parse( x.Time ) )
+            .ThenBy( x => x.StartHour )
+            .ThenBy( x => x.FieldName )
             .ToList();
+    }
+
+    private static BookingStatus GetStatusByDate(
+        BookingListItemDto item,
+        int activeStatus,
+        int finishedStatus,
+        DateTime clientDate ) =>
+        item.Day != null &&
+        item.Day.Value.AddHours( ( double )( item.StartHour + item.HoursCount ) ) > clientDate
+            ? ( BookingStatus )activeStatus
+            : ( BookingStatus )finishedStatus;
 }

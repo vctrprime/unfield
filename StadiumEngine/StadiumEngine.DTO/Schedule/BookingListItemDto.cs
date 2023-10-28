@@ -1,4 +1,5 @@
 using StadiumEngine.Common.Enums.BookingForm;
+using StadiumEngine.Common.Enums.Schedule;
 
 namespace StadiumEngine.DTO.Schedule;
 
@@ -25,7 +26,7 @@ public class BookingListItemDto
     /// <summary>
     /// День
     /// </summary>
-    public DateTime Day { get; set; }
+    public DateTime? Day { get; set; }
     
     /// <summary>
     /// Дата окончания еженедельной
@@ -35,7 +36,7 @@ public class BookingListItemDto
     /// <summary>
     /// Время начала
     /// </summary>
-    public string Time { get; set; } = null!;
+    public decimal StartHour { get; set; }
     
     /// <summary>
     /// Общее количество часов
@@ -96,4 +97,9 @@ public class BookingListItemDto
     /// Общая сумма после скидок
     /// </summary>
     public decimal TotalAmountAfterDiscount { get; set; }
+    
+    /// <summary>
+    /// Статус
+    /// </summary>
+    public BookingStatus Status { get; set; }
 }

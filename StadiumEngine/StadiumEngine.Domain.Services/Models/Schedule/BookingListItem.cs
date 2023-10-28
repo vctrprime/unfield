@@ -9,7 +9,7 @@ public class BookingListItem
     public BookingSource Source { get; set; }
     public DateTime? Day { get; set; }
     public DateTime? ClosedDay { get; set; }
-    public string Time { get; set; } = null!;
+    public decimal StartHour { get; set; }
     public decimal HoursCount { get; set; }
     public string? CustomerName { get; set; }
     public string? CustomerPhoneNumber { get; set; }
