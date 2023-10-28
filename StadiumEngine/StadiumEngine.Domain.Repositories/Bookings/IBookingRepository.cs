@@ -13,4 +13,5 @@ public interface IBookingRepository
     void Add( Booking booking );
     void Update( Booking booking );
     Booking DetachedClone( Booking booking );
+    Task<List<Booking>> SearchAllByNumberAsync( string bookingNumber, int stadiumId );
 }

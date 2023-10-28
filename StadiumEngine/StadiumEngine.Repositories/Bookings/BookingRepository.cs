@@ -81,6 +81,13 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
         
         return copy;
     }
+    
+    public async Task<List<Booking>> SearchAllByNumberAsync( string bookingNumber, int stadiumId ) =>
+        await GetExtended(
+            x => x.Number.ToLower().Contains( bookingNumber.ToLower() )
+                 && x.IsConfirmed
+                 && !x.IsCanceled
+                 && x.Field.StadiumId == stadiumId );
 
     private async Task<List<Booking>> Get( Expression<Func<Booking, bool>> clause ) =>
         await Entities

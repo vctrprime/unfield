@@ -37,4 +37,16 @@ public class ScheduleController : BaseApiController
         List<SchedulerEventDto> events = await Mediator.Send( query );
         return events;
     }
+    
+    /// <summary>
+    ///     Получить список
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet( "list" )]
+    [HasPermission( $"{PermissionsKeys.GetBookings}" )]
+    public async Task<List<BookingListItemDto>> GetBookingList( [FromQuery] GetBookingListQuery query )
+    {
+        List<BookingListItemDto> bookings = await Mediator.Send( query );
+        return bookings;
+    }
 }

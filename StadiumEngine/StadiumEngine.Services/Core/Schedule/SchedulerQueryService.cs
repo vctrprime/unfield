@@ -47,6 +47,10 @@ internal class SchedulerQueryService : ISchedulerQueryService
         
         return events;
     }
+    
+    
+    public async Task<List<BookingListItem>> SearchAllByNumberAsync( string bookingNumber, int stadiumId ) =>
+        await _bookingFacade.SearchAllByNumberAsync( bookingNumber, stadiumId );
 
     private async Task<List<SchedulerEvent>> BuildDisabledEvents(
         int stadiumId,

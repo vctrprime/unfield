@@ -1,5 +1,7 @@
+using StadiumEngine.Common.Static;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Repositories.Bookings;
+using StadiumEngine.Domain.Services.Models.Schedule;
 
 namespace StadiumEngine.Services.Facades.Bookings;
 
@@ -79,5 +81,67 @@ internal class BookingFacade : IBookingFacade
         }
 
         return bookings.Where( x => !x.IsCanceled && x.IsConfirmed ).ToList();
+    }
+
+    public async Task<List<BookingListItem>> SearchAllByNumberAsync( string bookingNumber, int stadiumId )
+    {
+        List<Booking> bookings = await _bookingRepository.SearchAllByNumberAsync( bookingNumber, stadiumId );
+
+        List<BookingListItem> result = new List<BookingListItem>();
+
+        foreach ( Booking booking in bookings )
+        {
+            DateTime? bookingDate = null;
+            if ( booking.IsWeekly )
+            {
+                DateTime date = DateTime.Today;
+                while ( bookingDate == null )
+                {
+                    if ( ( booking.IsWeeklyStoppedDate.HasValue && date > booking.IsWeeklyStoppedDate )
+                         || ( booking.Tariff.DateEnd.HasValue && date > booking.Tariff.DateEnd ) )
+                    {
+                        break;
+                    }
+
+                    if ( booking.Day.DayOfWeek == date.DayOfWeek &&
+                         booking.WeeklyExcludeDays.FirstOrDefault( x => x.Day == date ) == null )
+                    {
+                        bookingDate = date;
+                    }
+
+                    date = date.AddDays( 1 );
+                }
+            }
+            else
+            {
+                bookingDate = booking.Day;
+            }
+
+            result.Add(
+                new BookingListItem
+                {
+                    Id = booking.Id,
+                    Number = booking.Number,
+                    Source = booking.Source,
+                    Day = bookingDate,
+                    ClosedDay = booking.IsWeekly ? 
+                        booking.IsWeeklyStoppedDate ?? booking.Tariff.DateEnd  : null,
+                    Time = TimePointParser.Parse( booking.StartHour ),
+                    HoursCount = booking.HoursCount,
+                    CustomerName = booking.Customer.Name,
+                    CustomerPhoneNumber = booking.Customer.PhoneNumber,
+                    TariffName = booking.Tariff.Name,
+                    FieldName = booking.Field.Name,
+                    IsWeekly = booking.IsWeekly,
+                    LockerRoomName = booking.BookingLockerRoom?.LockerRoom?.Name,
+                    PromoCode = booking.Promo?.Code,
+                    PromoValue = booking.Promo?.Value,
+                    ManualDiscount = booking.ManualDiscount,
+                    TotalAmountAfterDiscount = booking.TotalAmountAfterDiscount,
+                    TotalAmountBeforeDiscount = booking.TotalAmountBeforeDiscount
+                } );
+        }
+
+        return result;
     }
 }
