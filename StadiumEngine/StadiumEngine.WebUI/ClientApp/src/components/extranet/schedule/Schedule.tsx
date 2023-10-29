@@ -4,6 +4,7 @@ import {FieldsScheduler} from "./FieldsScheduler";
 import {NavLink, Outlet, useParams} from "react-router-dom";
 import {t} from "i18next";
 import {Card, Icon, Popup, Rating} from 'semantic-ui-react';
+import {BookingList} from "./BookingList";
 
 export const Schedule = () => {
     document.title = getTitle("common:lk_navbar:schedule")
@@ -43,7 +44,7 @@ export const Schedule = () => {
                         </div>
                     </a>
                 </div>
-                <Popup
+                {mode !== 'list' && <Popup
                     trigger={
                         <Icon style={{ fontSize: '18px', marginRight: '10px'}} name='question circle outline'/>
                     }
@@ -62,11 +63,11 @@ export const Schedule = () => {
                             <div className="scheduler-legend-square" style={{backgroundColor: "#d0d0d0"}} /> <span>&nbsp;  {t('schedule:scheduler:legend:disabled')}</span>
                         </div>
                     </Popup.Content>
-                </Popup>
+                </Popup>}
             </div>
             <div className={"tabs-content " + view}>
                 {mode !== 'list' && <FieldsScheduler setView={setView} mode={mode}/>}
-                {mode === 'list' && <span>Список</span>}
+                {mode === 'list' && <BookingList/>}
             </div>
         </div>);
 }

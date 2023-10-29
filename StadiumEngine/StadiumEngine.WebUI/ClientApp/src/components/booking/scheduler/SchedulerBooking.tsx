@@ -31,12 +31,11 @@ import {
     SaveSchedulerBookingDataCommandCost,
     SaveSchedulerBookingDataCommandInventory
 } from "../../../models/command/schedule/SaveSchedulerBookingDataCommand";
-import {SchedulerReadonlyBooking} from "./SchedulerReadonlyBooking";
 
 export interface SchedulerBooking {
     bookingData: BookingDto;
     slotPrices: BookingFormFieldSlotPriceDto[];
-    scheduler: SchedulerHelpers;
+    scheduler: SchedulerHelpers|null;
     updateEvents: any;
     event: ProcessedEvent|undefined;
 }
@@ -168,7 +167,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
             day: props.event?.start?.toDateString()||''
         }).then(() => {
             props.updateEvents();
-            props.scheduler.close();
+            props.scheduler?.close();
         })
     }
     
@@ -194,7 +193,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     }
     
     const getEventEachText = () => {
-        const date = props.event ? props.event?.start : props.scheduler.state.start.value;
+        const date = props.event ? props.event?.start : props.scheduler?.state.start.value;
         return t(`schedule:scheduler:each:${date?.getDay()}`);
     }
     
@@ -232,7 +231,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
             })
         }).then(() => {
             props.updateEvents();
-            props.scheduler.close();
+            props.scheduler?.close();
         })
     }
     

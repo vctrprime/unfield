@@ -1,4 +1,3 @@
-using StadiumEngine.Common.Static;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Repositories.Bookings;
 using StadiumEngine.Domain.Services.Models.Schedule;
@@ -120,25 +119,10 @@ internal class BookingFacade : IBookingFacade
             result.Add(
                 new BookingListItem
                 {
-                    Id = booking.Id,
-                    Number = booking.Number,
-                    Source = booking.Source,
                     Day = bookingDate,
                     ClosedDay = booking.IsWeekly ? 
                         booking.IsWeeklyStoppedDate ?? booking.Tariff.DateEnd  : null,
-                    StartHour = booking.StartHour,
-                    HoursCount = booking.HoursCount,
-                    CustomerName = booking.Customer.Name,
-                    CustomerPhoneNumber = booking.Customer.PhoneNumber,
-                    TariffName = booking.Tariff.Name,
-                    FieldName = booking.Field.Name,
-                    IsWeekly = booking.IsWeekly,
-                    LockerRoomName = booking.BookingLockerRoom?.LockerRoom?.Name,
-                    PromoCode = booking.Promo?.Code,
-                    PromoValue = booking.Promo?.Value,
-                    ManualDiscount = booking.ManualDiscount,
-                    TotalAmountAfterDiscount = booking.TotalAmountAfterDiscount,
-                    TotalAmountBeforeDiscount = booking.TotalAmountBeforeDiscount
+                    OriginalData = booking
                 } );
         }
 

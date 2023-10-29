@@ -135,6 +135,8 @@ internal sealed class
         {
             result = result.AddDays( 1 );
         }
+        
+        //todo проверить на exclude days
 
         return result;
     }

@@ -30,7 +30,5 @@ public enum BookingStatus
     /// <summary>
     /// Элемент еженедельного завершен
     /// </summary>
-    WeeklyItemFinished,
-    
-    
+    WeeklyItemFinished
 }
