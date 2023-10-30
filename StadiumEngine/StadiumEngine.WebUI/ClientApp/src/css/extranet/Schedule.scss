@@ -171,8 +171,22 @@ button {
 
 .booking-list-container {
   height: 100%;
+  background-color: #eeeeee;
   
   .booking-list-filters {
-    height: 36px;
+    height: 48px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 5px;
+    
+    label {
+      margin-bottom: 0 !important;
+    }
+  }
+  
+  .booking-list-messages {
+    font-size: 12px;
+    padding-top: 5px;
   }
 }

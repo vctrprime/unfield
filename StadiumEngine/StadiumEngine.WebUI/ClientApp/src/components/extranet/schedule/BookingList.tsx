@@ -7,7 +7,7 @@ import {useRecoilValue} from "recoil";
 import {stadiumAtom} from "../../../state/stadium";
 import {GridLoading} from "../common/GridLoading";
 import {getOverlayNoRowsTemplate} from "../../../helpers/utils";
-import {Icon} from "semantic-ui-react";
+import {Button, Checkbox, Icon, Input} from "semantic-ui-react";
 import {SchedulerReadonlyBooking} from "../../booking/scheduler/SchedulerReadonlyBooking";
 import {SchedulerBookingSkeleton} from "./SchedulerBookingSkeleton";
 import {SchedulerBookingError} from "./SchedulerBookingError";
@@ -17,6 +17,7 @@ import {IBookingService} from "../../../services/BookingService";
 import {BookingFormFieldSlotPriceDto} from "../../../models/dto/booking/BookingFormDto";
 import {BookingStatus} from "../../../models/dto/booking/enums/BookingStatus";
 import Dialog from '@mui/material/Dialog';
+import {dateFormatterWithoutTime} from "../../../helpers/date-formatter";
 
 const AgGrid = require('ag-grid-react');
 const {AgGridReact} = AgGrid;
@@ -38,7 +39,8 @@ export const BookingList = () => {
     const [slotPrices, setSlotPrices] = useState<BookingFormFieldSlotPriceDto[]>([]);
     const [error, setError] = useState<string|null>(null);
     
-    const [useSearch, setUseSearch] = useState(true);
+    const [useSearch, setUseSearch] = useState(false);
+    const [searchString, setSearchString] = useState<string>('');
     
     useEffect(() => {
         fetchBookings();
@@ -46,7 +48,7 @@ export const BookingList = () => {
     
     const fetchBookings = () => {
         setIsLoading(true);
-        scheduleService.getBookingList(null, null, '243').then((response) => {
+        scheduleService.getBookingList(null, null, useSearch ? searchString : null).then((response) => {
             setData(response);
             setIsLoading(false);
         })
@@ -118,7 +120,12 @@ export const BookingList = () => {
     
     const columnDefs = [
         {field: 'number', headerName: t("schedule:list:grid:number"), width: 200, cellRenderer: NumberRenderer},
-        {field: 'day', headerName: 'День', width: 200 },
+        {
+            field: 'day', 
+            cellClass: "grid-center-cell", 
+            headerName: t("schedule:list:grid:day"), 
+            width: 200,
+            valueFormatter: dateFormatterWithoutTime },
     ];
     
     
@@ -155,12 +162,30 @@ export const BookingList = () => {
                         /> : <span/>}
                 </div>
         </Dialog>
-        
-        
-        <div className="booking-list-filters">
-            
+        <div className="booking-list-messages">
+            <label className="box-shadow" style={{padding: '8px', marginBottom: 0, marginLeft: '8px', width: 'calc(100% - 16px)', borderRadius: '10px', backgroundColor: 'white'}}>
+                <i style={{ color: '#00d2ff', marginRight: 3}} className="fa fa-exclamation-circle" aria-hidden="true"/>
+                {useSearch && t('schedule:list:use_search_message')}
+                {!useSearch && t('schedule:list:not_use_search_message')}
+            </label>
         </div>
-        <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 36px)'}}>
+        <div className="booking-list-filters">
+            <Checkbox
+                onChange={(e, data) => setUseSearch(data.checked||false)}
+                checked={useSearch}
+                label={t('schedule:list:use_search')} />
+            {useSearch && <Input icon='search'
+                                 value={searchString}
+                                 style={{ marginLeft: 10}}
+                                 placeholder={t('schedule:list:search_placeholder')}
+                                 onChange={(e) => setSearchString(e.target.value)}
+            />}
+            {!useSearch && <span>456</span>}
+            
+            <Button style={{ marginLeft: 10}} onClick={fetchBookings}>{t('common:search_button')}</Button>
+            {data.length === 0 && !isLoading && <span>{t('schedule:list:no_rows')}</span>}
+        </div>
+        <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 83px)'}}>
             { isLoading ? <GridLoading columns={columnDefs}/> : <AgGridReact
                 ref={gridRef}
                 rowData={data}

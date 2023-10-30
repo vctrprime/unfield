@@ -38,7 +38,8 @@ export class ScheduleService extends BaseService implements IScheduleService {
         }
         
         return this.fetchWrapper.get({
-            url: `${this.baseUrl}/list${params}`
+            url: `${this.baseUrl}/list${params}`,
+            withSpinner: false
         })
     }
 }
