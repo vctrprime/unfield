@@ -7,7 +7,7 @@ import {useRecoilValue} from "recoil";
 import {stadiumAtom} from "../../../state/stadium";
 import {GridLoading} from "../common/GridLoading";
 import {getOverlayNoRowsTemplate} from "../../../helpers/utils";
-import {Icon, Modal} from "semantic-ui-react";
+import {Icon} from "semantic-ui-react";
 import {SchedulerReadonlyBooking} from "../../booking/scheduler/SchedulerReadonlyBooking";
 import {SchedulerBookingSkeleton} from "./SchedulerBookingSkeleton";
 import {SchedulerBookingError} from "./SchedulerBookingError";
@@ -16,6 +16,7 @@ import {ProcessedEvent} from "react-scheduler/types";
 import {IBookingService} from "../../../services/BookingService";
 import {BookingFormFieldSlotPriceDto} from "../../../models/dto/booking/BookingFormDto";
 import {BookingStatus} from "../../../models/dto/booking/enums/BookingStatus";
+import Dialog from '@mui/material/Dialog';
 
 const AgGrid = require('ag-grid-react');
 const {AgGridReact} = AgGrid;
@@ -36,6 +37,8 @@ export const BookingList = () => {
 
     const [slotPrices, setSlotPrices] = useState<BookingFormFieldSlotPriceDto[]>([]);
     const [error, setError] = useState<string|null>(null);
+    
+    const [useSearch, setUseSearch] = useState(true);
     
     useEffect(() => {
         fetchBookings();
@@ -120,12 +123,8 @@ export const BookingList = () => {
     
     
     return <div className="booking-list-container">
-
-        <Modal
-            dimmer='blurring'
-            size='large'
+        <Dialog
             open={selectedBooking !== null}>
-            <Modal.Content>
                 <div style={{width: 580, minHeight: 500}}>
                     <div style={{
                         display: 'flex',
@@ -137,19 +136,25 @@ export const BookingList = () => {
                     }}>
                         <Icon style={{cursor: 'pointer'}} name='close' onClick={() => setSelectedBooking(null)} />
                     </div>
-                    { selectedBooking ? isBookingReadonly ? <SchedulerReadonlyBooking booking={selectedBooking?.originalData} /> : isBookingLoading ? <SchedulerBookingSkeleton /> : error ? <SchedulerBookingError message={error} /> :
+                    { selectedBooking ? isBookingReadonly ? 
+                        <SchedulerReadonlyBooking 
+                            booking={selectedBooking?.originalData} 
+                            fromSearch={useSearch}
+                    /> : isBookingLoading ? <SchedulerBookingSkeleton /> : error ? <SchedulerBookingError message={error} /> :
                         <SchedulerBooking
                             bookingData={selectedBooking?.originalData}
                             scheduler={null}
                             slotPrices={slotPrices}
-                            updateEvents={() => null}
+                            updateEvents={() =>  {
+                                setSelectedBooking(null);
+                                fetchBookings();
+                            }}
                             event={{
                                 start: new Date(selectedBooking.start)
                             } as ProcessedEvent}
                         /> : <span/>}
                 </div>
-            </Modal.Content>
-        </Modal>
+        </Dialog>
         
         
         <div className="booking-list-filters">

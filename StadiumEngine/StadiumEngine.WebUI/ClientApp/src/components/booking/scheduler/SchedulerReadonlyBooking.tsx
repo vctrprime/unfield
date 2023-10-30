@@ -4,18 +4,14 @@ import {BookingHeader} from "../common/BookingHeader";
 import {BookingCheckoutDto} from "../../../models/dto/booking/BookingCheckoutDto";
 import {Container} from "reactstrap";
 import {
-    dateFormatter,
-    dateFormatterByStringWithoutTime,
-    dateFormatterWithoutTime
+    dateFormatterByStringWithoutTime
 } from "../../../helpers/date-formatter";
 import {Checkbox, Dropdown, Form} from "semantic-ui-react";
 import {t} from "i18next";
-import {SchedulerBookingTariffButton} from "./SchedulerBookingTariffButton";
 import {BookingDuration} from "../common/BookingDuration";
 import {parseNumber} from "../../../helpers/time-point-parser";
 import {
-    getFieldAmount,
-    getFieldAmountValueByBooking, getInventoryAmount,
+    getFieldAmountValueByBooking,
     getInventoryAmountByBooking
 } from "../../../helpers/booking-utils";
 import {BookingFieldAmount} from "../common/BookingFieldAmount";
@@ -25,9 +21,10 @@ import {BookingCustomer} from "../common/BookingCustomer";
 
 export interface SchedulerReadonlyBookingProps {
     booking: BookingDto;
+    fromSearch?: boolean;
 }
 
-export const SchedulerReadonlyBooking = ({ booking } : SchedulerReadonlyBookingProps) => {
+export const SchedulerReadonlyBooking = ({ booking, fromSearch } : SchedulerReadonlyBookingProps) => {
     
     useEffect(() => {
     })
@@ -43,6 +40,11 @@ export const SchedulerReadonlyBooking = ({ booking } : SchedulerReadonlyBookingP
     const getTotalAmountValue = () => {
         return getSchedulerBookingFieldAmount() + getSchedulerBookingInventoryAmount();
     }
+
+    const getEventEachText = () => {
+        const date = new Date(booking.day);
+        return t(`schedule:scheduler:each:${date?.getDay()}`);
+    }
     
     return <Container className="booking-checkout-container" style={{minHeight: "auto"}}>
         <Form style={{paddingBottom: '15px'}}>
@@ -51,7 +53,7 @@ export const SchedulerReadonlyBooking = ({ booking } : SchedulerReadonlyBookingP
                 day: dateFormatterByStringWithoutTime(booking.day),
                 stadiumName: '',
                 field: booking.field
-            } as BookingCheckoutDto} withStadiumName={false} />
+            } as BookingCheckoutDto} dayText={fromSearch ? booking.isWeekly ? getEventEachText(): null : null} withStadiumName={false} />
             <div className="booking-locker-room-weekly-row">
                 <Checkbox
                     checked={booking.isWeekly}

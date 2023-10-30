@@ -100,7 +100,7 @@ internal sealed class
                         Number = GetWeeklyBookingNumber( booking.Number ),
                         AccessCode = booking.AccessCode,
                         StartHour = booking.StartHour,
-                        Day = GetNewWeeklyDay( request.ClientDate, booking.Day ),
+                        Day = GetNewWeeklyDay( request.ClientDate, booking.Day, booking.WeeklyExcludeDays.Select( x => x.Day ).ToList() ),
                         Source = booking.Source,
                         IsLastVersion = true,
                         UserCreatedId = _userId,
@@ -127,17 +127,15 @@ internal sealed class
         return new SaveSchedulerBookingDataDto();
     }
 
-    private DateTime GetNewWeeklyDay( DateTime clientDate, DateTime oldWeeklyDay )
+    private DateTime GetNewWeeklyDay( DateTime clientDate, DateTime oldWeeklyDay, List<DateTime> excludeDays )
     {
         DayOfWeek day = oldWeeklyDay.DayOfWeek;
         DateTime result = clientDate.Date;
-        while ( result.DayOfWeek != day )
+        while ( result.DayOfWeek != day || excludeDays.Any( x => x == result.Date ) )
         {
             result = result.AddDays( 1 );
         }
         
-        //todo проверить на exclude days
-
         return result;
     }
 
