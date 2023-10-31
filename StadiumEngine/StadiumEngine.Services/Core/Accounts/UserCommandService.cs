@@ -56,10 +56,10 @@ internal class UserCommandService : IUserCommandService
         {
             throw new DomainException( ErrorsKeys.UserNotFound );
         }
-
+        
         if ( user.Legal.Stadiums.FirstOrDefault( s => s.Id == stadiumId ) == null
              ||
-             user.UserStadiums.Select( s => s.Stadium ).FirstOrDefault( s => s.Id == stadiumId ) == null )
+             ( !user.IsSuperuser && user.UserStadiums.Select( s => s.Stadium ).FirstOrDefault( s => s.Id == stadiumId ) == null ) )
         {
             throw new DomainException( ErrorsKeys.Forbidden );
         }

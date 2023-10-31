@@ -47,7 +47,7 @@ internal sealed class GetBookingListHandler : BaseRequestHandler<GetBookingListQ
                 },
                 cancellationToken );
 
-            List<BookingListItemDto> result = Mapper.Map<List<BookingListItemDto>>( events.Select( x => x.Data ) );
+            List<BookingListItemDto> result = Mapper.Map<List<BookingListItemDto>>( events );
             return SortedStatusResult( result, false, request.ClientDate );
         }
         else
@@ -86,7 +86,7 @@ internal sealed class GetBookingListHandler : BaseRequestHandler<GetBookingListQ
 
         return result
             .OrderBy( x => x.Day )
-            .ThenBy( x => x.StartHour )
+            .ThenBy( x => x.OriginalData.StartHour )
             .ThenBy( x => x.FieldName )
             .ToList();
     }
@@ -97,7 +97,7 @@ internal sealed class GetBookingListHandler : BaseRequestHandler<GetBookingListQ
         int finishedStatus,
         DateTime clientDate ) =>
         item.Day != null &&
-        item.Day.Value.AddHours( ( double )( item.StartHour + item.HoursCount ) ) > clientDate
+        item.Day.Value.AddHours( ( double )( item.OriginalData.StartHour + item.OriginalData.HoursCount ) ) > clientDate
             ? ( BookingStatus )activeStatus
             : ( BookingStatus )finishedStatus;
 }

@@ -46,7 +46,7 @@ internal class BookingFacade : IBookingFacade
         }
 
         List<Booking> bookings = await _bookingRepository.GetAsync( from, to, stadiumId );
-        List<Booking> weeklyBookings = await _bookingRepository.GetWeeklyAsync( to, stadiumId );
+        List<Booking> weeklyBookings = await _bookingRepository.GetWeeklyAsync( stadiumId );
 
         //для каждого совпадающего дня добавляем еженедельные бронирования
         foreach ( Booking weeklyBooking in weeklyBookings )
@@ -60,13 +60,16 @@ internal class BookingFacade : IBookingFacade
 
             while ( date <= to.Date )
             {
-                if ( weeklyBooking.IsWeeklyStoppedDate.HasValue && date > weeklyBooking.IsWeeklyStoppedDate )
+                if ( ( weeklyBooking.IsWeeklyStoppedDate.HasValue && date > weeklyBooking.IsWeeklyStoppedDate )
+                     ||
+                     ( weeklyBooking.Tariff.DateEnd.HasValue && date > weeklyBooking.Tariff.DateEnd ) )
                 {
                     break;
                 }
 
                 //день недели совпадает и день не переопределен модификацией
-                if ( weeklyBooking.Day.DayOfWeek == date.DayOfWeek &&
+                if ( date.Date >= weeklyBooking.Day.Date &&
+                     weeklyBooking.Day.DayOfWeek == date.DayOfWeek &&
                      weeklyBooking.WeeklyExcludeDays.FirstOrDefault( x => x.Day == date ) == null )
                 {
                     TimeSpan diff = date.Date - weeklyBooking.Day.Date;
@@ -105,7 +108,8 @@ internal class BookingFacade : IBookingFacade
                     if ( booking.Day.DayOfWeek == date.DayOfWeek &&
                          booking.WeeklyExcludeDays.FirstOrDefault( x => x.Day == date ) == null )
                     {
-                        bookingDate = date;
+                        TimeSpan diff = date.Date - booking.Day.Date;
+                        bookingDate = booking.Day.Add( diff );
                     }
 
                     date = date.AddDays( 1 );
@@ -120,8 +124,7 @@ internal class BookingFacade : IBookingFacade
                 new BookingListItem
                 {
                     Day = bookingDate,
-                    ClosedDay = booking.IsWeekly ? 
-                        booking.IsWeeklyStoppedDate ?? booking.Tariff.DateEnd  : null,
+                    ClosedDay = booking.IsWeekly ? booking.IsWeeklyStoppedDate ?? booking.Tariff.DateEnd : null,
                     OriginalData = booking
                 } );
         }

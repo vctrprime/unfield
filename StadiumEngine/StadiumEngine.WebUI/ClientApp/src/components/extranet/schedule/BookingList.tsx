@@ -18,9 +18,14 @@ import {BookingFormFieldSlotPriceDto} from "../../../models/dto/booking/BookingF
 import {BookingStatus} from "../../../models/dto/booking/enums/BookingStatus";
 import Dialog from '@mui/material/Dialog';
 import {dateFormatterWithoutTime} from "../../../helpers/date-formatter";
+import moment from "moment";
+import {DateRangeSelect} from "../common/DateRangeSelect";
 
 const AgGrid = require('ag-grid-react');
 const {AgGridReact} = AgGrid;
+
+const ReactNotifications = require('react-notifications');
+const {NotificationManager} = ReactNotifications;
 
 export const BookingList = () => {
     const [scheduleService] = useInject<IScheduleService>('ScheduleService');
@@ -42,13 +47,28 @@ export const BookingList = () => {
     const [useSearch, setUseSearch] = useState(false);
     const [searchString, setSearchString] = useState<string>('');
     
+    const [period, setPeriod] = useState<Date[]>([new Date(), moment(new Date()).add(1, 'M').toDate()]);
+    
+    const changePeriod = (event: any, dates: any) => {
+        let dateEnd = dates.value[1];
+        const maxEndDate = moment(period[0]).add(1, 'M').toDate();
+        if (dateEnd > maxEndDate) {
+            dateEnd = maxEndDate; 
+        }
+        setPeriod([dates.value[0], dateEnd])
+    }
+    
+    const filterDate = (date: Date) => {
+        return date <= moment(period[0]).add(1, 'M').toDate();
+    }
+    
     useEffect(() => {
         fetchBookings();
     }, [stadium])
     
     const fetchBookings = () => {
         setIsLoading(true);
-        scheduleService.getBookingList(null, null, useSearch ? searchString : null).then((response) => {
+        scheduleService.getBookingList(period[0], period[1], useSearch ? searchString : null).then((response) => {
             setData(response);
             setIsLoading(false);
         })
@@ -85,7 +105,7 @@ export const BookingList = () => {
                     bookingService.getBookingForm(new Date(selectedBooking.day), stadium.token, null, null, false).then((formResponse) => {
                         const field = formResponse.fields.find(f => f.data.id == selectedBooking.originalData.field.id);
                         if (field) {
-                            const slot = field.slots.find(s => s.hour === selectedBooking.startHour);
+                            const slot = field.slots.find(s => s.hour === selectedBooking.originalData.startHour);
 
                             if (slot) {
                                 setSlotPrices(slot.prices);
@@ -117,16 +137,128 @@ export const BookingList = () => {
     const NumberRenderer = (obj: any) => {
         return <span className="link-cell" onClick={() => onNumberClick(obj.data)}>{obj.data.number}</span>;
     }
+
+    const SourceRenderer = (obj: any) => {
+        return <span>{t("schedule:list:sources:" + obj.data.source)}</span>;
+    }
+
+    const StatusRenderer = (obj: any) => {
+        return <span>{t("schedule:list:statuses:" + obj.data.status)}</span>;
+    }
     
     const columnDefs = [
-        {field: 'number', headerName: t("schedule:list:grid:number"), width: 200, cellRenderer: NumberRenderer},
+        {field: 'number', headerName: t("schedule:list:grid:number"), width: 120, cellRenderer: NumberRenderer},
         {
-            field: 'day', 
-            cellClass: "grid-center-cell", 
-            headerName: t("schedule:list:grid:day"), 
+            field: 'isWeekly',
+            cellClass: "grid-center-cell",
+            headerName: t("schedule:list:grid:is_weekly"),
+            width: 140,
+            cellRenderer: (params: any) => {
+                return <input type='checkbox' checked={params.value} />;
+            }
+        },
+        {field: 'source', cellClass: "grid-center-cell", headerName: t("schedule:list:grid:source"), width: 180, cellRenderer: SourceRenderer},
+        {
+            field: 'day',
+            cellClass: "grid-center-cell",
+            headerName: t("schedule:list:grid:day"),
+            width: 110,
+            valueFormatter: dateFormatterWithoutTime
+        },
+        {
+            field: 'time',
+            cellClass: "grid-center-cell",
+            headerName: t("schedule:list:grid:time"),
+            width: 130
+        },
+        {
+            field: 'duration',
+            cellClass: "grid-center-cell",
+            headerName: t("schedule:list:grid:duration"),
+            width: 130
+        },
+        {
+            field: 'fieldName',
+            cellClass: "grid-center-cell",
+            headerName: t("schedule:list:grid:field"),
+            width: 200
+        },
+        {
+            field: 'tariffName',
+            cellClass: "grid-center-cell",
+            headerName: t("schedule:list:grid:tariff"),
+            width: 200
+        },
+        {
+            field: 'lockerRoomName',
+            cellClass: "grid-center-cell",
+            headerName: t("schedule:list:grid:locker_room"),
+            width: 200
+        },
+        {
+            field: 'customerName',
+            cellClass: "grid-center-cell",
+            headerName: t("schedule:list:grid:customer_name"),
+            width: 200
+        },
+        {
+            field: 'promoCode',
+            cellClass: "grid-center-cell",
+            headerName: t("schedule:list:grid:promo_code"),
+            width: 130
+        },
+        {
+            field: 'promoValue',
+            cellClass: "grid-center-cell",
+            headerName: t("schedule:list:grid:promo_value"),
+            width: 180
+        },
+        {
+            field: 'manualDiscount',
+            cellClass: "grid-center-cell",
+            headerName: t("schedule:list:grid:manual_discount"),
+            width: 120
+        },
+        {
+            field: 'totalAmountBeforeDiscount',
+            cellClass: "grid-center-cell",
+            headerName: t("schedule:list:grid:total_amount_before_discount"),
+            width: 120
+        },
+        {
+            field: 'totalAmountAfterDiscount',
+            cellClass: "grid-center-cell",
+            headerName: t("schedule:list:grid:total_amount_after_discount"),
+            width: 190
+        },
+        {
+            field: 'status',
+            cellClass: "grid-center-cell",
+            headerName: t("schedule:list:grid:status"),
+            width: 130,
+            cellRenderer: StatusRenderer
+        },
+        {
+            field: 'closedDay',
+            cellClass: "grid-center-cell",
+            headerName: t("schedule:list:grid:closed_day"),
             width: 200,
-            valueFormatter: dateFormatterWithoutTime },
+            valueFormatter: dateFormatterWithoutTime,
+            hide: !useSearch
+        },
     ];
+
+    const getRowStyle = (params: any) => {
+        const status = params.data.status;
+        if (status === BookingStatus.Finished ||
+            status === BookingStatus.WeeklyFinished ||
+            status === BookingStatus.WeeklyItemFinished
+        ) {
+            return { background: 'rgba(0,210,255, 0.2)' };
+        }
+        
+        return {background: 'rgba(60,179,113, 0.3)'}
+    };
     
     
     return <div className="booking-list-container">
@@ -162,6 +294,12 @@ export const BookingList = () => {
                         /> : <span/>}
                 </div>
         </Dialog>
+        <div className="booking-list-mode">
+            <Checkbox
+                onChange={(e, data) => setUseSearch(data.checked||false)}
+                checked={useSearch}
+                label={t('schedule:list:use_search')} />
+        </div>
         <div className="booking-list-messages">
             <label className="box-shadow" style={{padding: '8px', marginBottom: 0, marginLeft: '8px', width: 'calc(100% - 16px)', borderRadius: '10px', backgroundColor: 'white'}}>
                 <i style={{ color: '#00d2ff', marginRight: 3}} className="fa fa-exclamation-circle" aria-hidden="true"/>
@@ -170,26 +308,23 @@ export const BookingList = () => {
             </label>
         </div>
         <div className="booking-list-filters">
-            <Checkbox
-                onChange={(e, data) => setUseSearch(data.checked||false)}
-                checked={useSearch}
-                label={t('schedule:list:use_search')} />
             {useSearch && <Input icon='search'
                                  value={searchString}
-                                 style={{ marginLeft: 10}}
                                  placeholder={t('schedule:list:search_placeholder')}
                                  onChange={(e) => setSearchString(e.target.value)}
             />}
-            {!useSearch && <span>456</span>}
+            {!useSearch &&
+                <DateRangeSelect clearable={false} value={period} filterDate={filterDate} onChange={changePeriod}/>}
             
-            <Button style={{ marginLeft: 10}} onClick={fetchBookings}>{t('common:search_button')}</Button>
+            <Button disabled={(useSearch && searchString.length < 3) || (!useSearch && period[1] === undefined)} style={{ marginLeft: 10}} onClick={fetchBookings}>{t('common:search_button')}</Button>
             {data.length === 0 && !isLoading && <span>{t('schedule:list:no_rows')}</span>}
         </div>
-        <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 83px)'}}>
+        <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 111px)'}}>
             { isLoading ? <GridLoading columns={columnDefs}/> : <AgGridReact
                 ref={gridRef}
                 rowData={data}
                 columnDefs={columnDefs}
+                getRowStyle={getRowStyle}
                 overlayNoRowsTemplate={getOverlayNoRowsTemplate()}
             />}
         </div>

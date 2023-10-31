@@ -33,11 +33,9 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
                  && !x.IsWeekly
                  && x.Field.StadiumId == stadiumId );
 
-    public async Task<List<Booking>> GetWeeklyAsync( DateTime to, int stadiumId ) =>
+    public async Task<List<Booking>> GetWeeklyAsync( int stadiumId ) =>
         await GetExtended(
             x => x.IsWeekly
-                 && ( !x.IsWeeklyStoppedDate.HasValue || x.IsWeeklyStoppedDate > to )
-                 && ( !x.Tariff.DateEnd.HasValue || x.Tariff.DateEnd > to )
                  && x.Field.StadiumId == stadiumId );
 
     public async Task<Booking?> GetByNumberAsync( string bookingNumber ) =>

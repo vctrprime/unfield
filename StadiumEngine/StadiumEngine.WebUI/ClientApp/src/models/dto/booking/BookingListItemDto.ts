@@ -9,9 +9,8 @@ export interface BookingListItemDto {
     source: BookingSource;
     day: Date | null;
     closedDay: Date | null;
-    startHour: number;
-    hoursCount: number;
     time: string;
+    duration: string;
     customerName: string | null;
     customerPhoneNumber: string | null;
     tariffName: string;

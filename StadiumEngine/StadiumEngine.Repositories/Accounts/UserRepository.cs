@@ -37,8 +37,8 @@ internal class UserRepository : BaseRepository<User>, IUserRepository
 
     private async Task<User?> GetAsync( Expression<Func<User, bool>> predicate ) =>
         await Entities
+            .Include( u => u.UserStadiums.Where( rs => !rs.Stadium.IsDeleted ) )
             .Include( u => u.Role )
-            .Include( r => r.UserStadiums.Where( rs => !rs.Stadium.IsDeleted ) )
             .Include( u => u.Legal )
             .ThenInclude( l => l.Stadiums )
             .FirstOrDefaultAsync( predicate );

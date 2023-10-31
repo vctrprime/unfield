@@ -12,7 +12,7 @@ import {BookingDuration} from "../common/BookingDuration";
 import {parseNumber} from "../../../helpers/time-point-parser";
 import {
     getFieldAmountValueByBooking,
-    getInventoryAmountByBooking
+    getInventoryAmountByBooking, getPromoDiscount
 } from "../../../helpers/booking-utils";
 import {BookingFieldAmount} from "../common/BookingFieldAmount";
 import {BookingInventory} from "../common/BookingInventory";
@@ -76,7 +76,7 @@ export const SchedulerReadonlyBooking = ({ booking, fromSearch } : SchedulerRead
             </div>
             {booking.promo && <div style={{marginTop: '5px',
                 fontSize: '12px',
-                color: '#666'}}><i style={{ color: '#00d2ff'}} className="fa fa-exclamation-circle" aria-hidden="true"/> {t('schedule:scheduler:booking:promo_applied')}: <b style={{color: 'black'}}>{booking.promo.code} (-{booking.promo.value})</b>.</div>}
+                color: '#666'}}><i style={{ color: '#00d2ff'}} className="fa fa-exclamation-circle" aria-hidden="true"/> {t('schedule:scheduler:booking:promo_applied')}: <b style={{color: 'black'}}>{booking.promo.code} (-{getPromoDiscount(booking.promo, booking.totalAmountBeforeDiscount)})</b>.</div>}
             <BookingDuration
                 isEditable={false}
                 data={{

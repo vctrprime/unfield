@@ -12,7 +12,7 @@ import {
     getFieldAmount,
     getFieldAmountValueByBooking,
     getInventoryAmount,
-    getInventoryAmountByBooking
+    getInventoryAmountByBooking, getPromoDiscount
 } from "../../../helpers/booking-utils";
 import {BookingFieldAmount} from "../common/BookingFieldAmount";
 import {t} from "i18next";
@@ -279,7 +279,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                 }</div>
             {promo && <div style={{marginTop: '5px',
                 fontSize: '12px',
-                color: '#666'}}><i style={{ color: '#00d2ff'}} className="fa fa-exclamation-circle" aria-hidden="true"/> {t('schedule:scheduler:booking:promo_applied')}: <b style={{color: 'black'}}>{promo.code} (-{promo.value})</b>. {t("common:disable_change_tariff")}.</div>}
+                color: '#666'}}><i style={{ color: '#00d2ff'}} className="fa fa-exclamation-circle" aria-hidden="true"/> {t('schedule:scheduler:booking:promo_applied')}: <b style={{color: 'black'}}>{promo.code} (-{getPromoDiscount(promo, props.bookingData.totalAmountBeforeDiscount)})</b>. {t("common:disable_change_tariff")}.</div>}
             <BookingDuration 
                 isEditable={isAvailableEditDuration()}
                 data={data.checkoutData} 

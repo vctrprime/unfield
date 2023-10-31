@@ -24,6 +24,8 @@ public class SchedulerProfile : Profile
         CreateMap<SaveSchedulerBookingDataCommandCustomer, BookingCustomer>();
 
         CreateMap<BookingListItem, BookingListItemDto>();
-        CreateMap<BookingDto, BookingListItemDto>();
+        CreateMap<SchedulerEventDto, BookingListItemDto>()
+            .ForMember( dest => dest.OriginalData, act => act.MapFrom( s => s.Data ) )
+            .ForMember( dest => dest.Day, act => act.MapFrom( s => s.Start.Date ) );
     }
 }

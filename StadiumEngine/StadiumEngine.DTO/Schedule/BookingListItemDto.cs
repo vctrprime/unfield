@@ -33,17 +33,7 @@ public class BookingListItemDto
     /// Дата окончания еженедельной
     /// </summary>
     public DateTime? ClosedDay { get; set; }
-
-    /// <summary>
-    /// Время начала
-    /// </summary>
-    public decimal StartHour  => OriginalData.StartHour;
-
-    /// <summary>
-    /// Общее количество часов
-    /// </summary>
-    public decimal HoursCount => OriginalData.HoursCount;
-
+    
     /// <summary>
     /// Имя заказчика
     /// </summary>
@@ -105,9 +95,14 @@ public class BookingListItemDto
     public BookingStatus Status { get; set; }
 
     /// <summary>
-    ///  Время начала (текст)
+    ///  Время начала
     /// </summary>
-    public string Time => TimePointParser.Parse( HoursCount );
+    public string Time => TimePointParser.Parse( OriginalData.StartHour );
+
+    /// <summary>
+    /// Длительность
+    /// </summary>
+    public string Duration => TimePointParser.Parse( OriginalData.HoursCount, false );
 
     /// <summary>
     /// Данные по брони
@@ -117,5 +112,5 @@ public class BookingListItemDto
     /// <summary>
     /// Начало события
     /// </summary>
-    public DateTime Start => Day?.AddHours( ( double )StartHour ) ?? DateTime.Now;
+    public DateTime Start => Day?.Date.AddHours( ( double )OriginalData.StartHour ) ?? DateTime.Now;
 }
