@@ -32,6 +32,7 @@ import {
     SaveSchedulerBookingDataCommandInventory
 } from "../../../models/command/schedule/SaveSchedulerBookingDataCommand";
 import {Dialog} from "@mui/material";
+import {getWeeklyClosedText} from "../../../helpers/utils";
 
 export interface SchedulerBooking {
     bookingData: BookingDto;
@@ -240,10 +241,13 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
         <Form style={{paddingBottom: '10px'}}>
             <BookingHeader dayText={isWeekly ? getEventEachText(): null} withCurrentDate={true} data={data.checkoutData} withStadiumName={false} />
             <div className="booking-locker-room-weekly-row">
-                <Checkbox
-                    onChange={(e, data) => setIsWeekly(data.checked)}
-                    checked={isWeekly}
-                    disabled={!isNew} label={t('schedule:scheduler:booking:is_weekly')} />
+                <div style={{ display: 'flex', flexDirection: "column"}}>
+                    <Checkbox
+                        onChange={(e, data) => setIsWeekly(data.checked)}
+                        checked={isWeekly}
+                        disabled={!isNew} label={t('schedule:scheduler:booking:is_weekly')} />
+                    {!isNew && isWeekly && <span style={{ fontSize: 10, marginTop: -8}}>{getWeeklyClosedText(props.bookingData)}</span>}
+                </div>
                 {!isWeekly && <div className="booking-locker-room-weekly-row-right">
                     <Dropdown
                     fluid
@@ -329,6 +333,10 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
             {props.bookingData.isWeekly && !saveButtonDisabled() &&
                 <div style={{marginTop: 10, textAlign: 'right'}}>
                     <Checkbox label={t("booking:edit:one_in_row")} checked={oneInRow} onChange={() => setOneInRow(!oneInRow)}  />
+                    <br/>
+                    <div style={{ width: '100%', textAlign: 'left', fontSize: 12}}><i style={{ color: '#00d2ff', marginRight: 3}} className="fa fa-exclamation-circle" aria-hidden="true"/>
+                        {t('schedule:scheduler:booking:weekly_edit_description' + ( oneInRow ? '_one_in_row' : ''))}</div>
+                    <br/>
                 </div>
             }
             <div className="booking-checkout-buttons" >

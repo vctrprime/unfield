@@ -18,6 +18,7 @@ import {BookingFieldAmount} from "../common/BookingFieldAmount";
 import {BookingInventory} from "../common/BookingInventory";
 import {BookingTotalAmount} from "../common/BookingTotalAmount";
 import {BookingCustomer} from "../common/BookingCustomer";
+import {getWeeklyClosedText} from "../../../helpers/utils";
 
 export interface SchedulerReadonlyBookingProps {
     booking: BookingDto;
@@ -55,10 +56,13 @@ export const SchedulerReadonlyBooking = ({ booking, fromSearch } : SchedulerRead
                 field: booking.field
             } as BookingCheckoutDto} dayText={fromSearch ? booking.isWeekly ? getEventEachText(): null : null} withCurrentDate={!fromSearch} withStadiumName={false} />
             <div className="booking-locker-room-weekly-row">
-                <Checkbox
-                    checked={booking.isWeekly}
-                    disabled={true} 
-                    label={t('schedule:scheduler:booking:is_weekly')} />
+                <div style={{ display: 'flex', flexDirection: "column"}}>
+                    <Checkbox
+                        checked={booking.isWeekly}
+                        disabled={true}
+                        label={t('schedule:scheduler:booking:is_weekly')} />
+                    {booking.isWeekly && <span style={{ fontSize: 10, marginTop: -8}}>{getWeeklyClosedText(booking)}</span>}
+                </div>
                 {!booking.isWeekly && booking.lockerRoom && <div className="booking-locker-room-weekly-row-right">
                     <Dropdown
                         fluid

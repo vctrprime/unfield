@@ -1,6 +1,8 @@
 import {t} from "i18next";
 import {FieldDto} from "../models/dto/offers/FieldDto";
 import {InventoryDto} from "../models/dto/offers/InventoryDto";
+import {BookingDto} from "../models/dto/booking/BookingDto";
+import {dateFormatterByDateWithoutTime} from "./date-formatter";
 
 export function getTitle(path: string): string {
     return t(path) + " - Stadium Engine";
@@ -85,4 +87,24 @@ export const getDurationText = (duration: number) => {
     }
 
     return result;
+}
+
+export const getWeeklyClosedText = (booking: BookingDto) => {
+    const dates = [];
+    if (booking.isWeeklyStoppedDate) {
+        dates.push(booking.isWeeklyStoppedDate);
+    }
+    
+    if (booking.tariff.dateEnd) {
+        dates.push(booking.tariff.dateEnd)
+    }
+    
+    if (dates.length === 0) {
+        return '';
+    }
+    
+    const min = dates.reduce(function (a, b) { return a < b ? a : b; });
+    
+    return t("common:to") + ' ' + dateFormatterByDateWithoutTime(min);
+
 }

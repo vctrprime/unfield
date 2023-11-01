@@ -17,3 +17,7 @@ export function dateFormatterWithoutTime(params: GridDateValueParams) {
 export function dateFormatterByStringWithoutTime(date: string) {
     return moment(date).format('DD.MM.YYYY');
 }
+
+export function dateFormatterByDateWithoutTime(date: Date) {
+    return moment(date).format('DD.MM.YYYY');
+}

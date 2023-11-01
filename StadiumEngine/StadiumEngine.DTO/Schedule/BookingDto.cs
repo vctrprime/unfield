@@ -132,6 +132,11 @@ public class BookingDto
     /// Инвентарь
     /// </summary>
     public List<BookingInventoryDto> Inventories { get; set; } = null!;
+    
+    /// <summary>
+    /// Окончание еженедельного
+    /// </summary>
+    public DateTime? IsWeeklyStoppedDate { get; set; }
 }
 
 /// <summary>

@@ -30,6 +30,7 @@ export interface BookingDto {
     customer: BookingCustomerDto;
     costs: BookingCostDto[];
     inventories: BookingInventoryDto[];
+    isWeeklyStoppedDate: Date|null;
 }
 
 export interface BookingCustomerDto {
