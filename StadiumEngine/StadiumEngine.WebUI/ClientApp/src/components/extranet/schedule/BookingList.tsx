@@ -24,9 +24,6 @@ import {DateRangeSelect} from "../common/DateRangeSelect";
 const AgGrid = require('ag-grid-react');
 const {AgGridReact} = AgGrid;
 
-const ReactNotifications = require('react-notifications');
-const {NotificationManager} = ReactNotifications;
-
 export const BookingList = () => {
     const [scheduleService] = useInject<IScheduleService>('ScheduleService');
     const [bookingService] = useInject<IBookingService>('BookingService');

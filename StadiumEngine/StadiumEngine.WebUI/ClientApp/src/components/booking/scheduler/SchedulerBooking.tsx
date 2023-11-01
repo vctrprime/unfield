@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {SchedulerBookingDto} from "../../../models/dto/booking/SchedulerBookingDto";
 import {Container} from "reactstrap";
-import {Button, Checkbox, Dropdown, Form, Input, TextArea} from "semantic-ui-react";
+import {Button, Checkbox, Dropdown, Form, Input, Modal, TextArea} from "semantic-ui-react";
 import {BookingHeader} from "../common/BookingHeader";
 import {BookingInventory, SelectedInventory} from "../common/BookingInventory";
 import {BookingDto, BookingPromoDto} from "../../../models/dto/booking/BookingDto";
@@ -31,6 +31,7 @@ import {
     SaveSchedulerBookingDataCommandCost,
     SaveSchedulerBookingDataCommandInventory
 } from "../../../models/command/schedule/SaveSchedulerBookingDataCommand";
+import {Dialog} from "@mui/material";
 
 export interface SchedulerBooking {
     bookingData: BookingDto;
@@ -342,25 +343,31 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                     setCancelConfirm(true);
                 }}>{t("booking:checkout:cancel_button")}</Button>}
             </div>
-            <div className="booking-cancel-overlay" style={ cancelConfirm ? {} : { display: 'none'}}>
-                <textarea rows={3} ref={cancelReason} placeholder={t("booking:cancel:reason")||''}/>
-                {props.bookingData.isWeekly &&
-                    <Checkbox label={t("booking:cancel:one_in_row")} checked={oneInRow} onChange={() => setOneInRow(!oneInRow)}  />
-                }
-                <div className="booking-cancel-overlay-buttons">
-                    <Button
-                        style={{backgroundColor: '#3CB371', color: 'white'}} onClick={() => {
+
+            <Dialog
+                onClose={() => setCancelConfirm(false)}
+                open={cancelConfirm}
+            >
+                <div className="booking-cancel-overlay">
+                    <textarea rows={3} ref={cancelReason} placeholder={t("booking:cancel:reason")||''}/>
+                    {props.bookingData.isWeekly &&
+                        <Checkbox label={t("booking:cancel:one_in_row")} checked={oneInRow} onChange={() => setOneInRow(!oneInRow)}  />
+                    }
+                    <div className="booking-cancel-overlay-buttons">
+                        <Button
+                            style={{backgroundColor: '#3CB371', color: 'white'}} onClick={() => {
                             cancelBooking();
-                    }}>
-                        {t("common:confirm")}
-                    </Button>
-                    <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
-                        setCancelConfirm(false);
-                        setOneInRow(false);
-                    }}>{t("common:back")}</Button>
+                        }}>
+                            {t("common:confirm")}
+                        </Button>
+                        <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
+                            setCancelConfirm(false);
+                            setOneInRow(false);
+                        }}>{t("common:back")}</Button>
+                    </div>
                 </div>
-               
-            </div>
+                
+            </Dialog>
         </Form>
     </Container>
 }
