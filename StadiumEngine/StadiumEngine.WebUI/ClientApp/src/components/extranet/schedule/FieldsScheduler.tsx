@@ -16,8 +16,9 @@ import {SchedulerEventDto} from "../../../models/dto/schedule/SchedulerEventDto"
 import {SchedulerBookingEditor} from "./SchedulerBookingEditor";
 
 export interface FieldsSchedulerProps {
-    mode: string,
-    setView: any
+    mode: string;
+    setView: any;
+    refresh: boolean|null;
 }
 
 export const FieldsScheduler = (props: FieldsSchedulerProps) => {
@@ -64,6 +65,11 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
     }, [language, stadium])
     
     
+    useEffect(() => {
+        if (props.refresh != null) {
+            updateEvents();
+        }
+    }, [props.refresh])
 
     const fetchEvents = async (query: ViewEvent): Promise<ProcessedEvent[]> => {
         setEventsQuery(query);
