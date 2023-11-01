@@ -111,7 +111,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     }
     
     const fetchCheckoutData = (tariffId?: number) => {
-        bookingService.getBookingCheckout(props.bookingData.number, !isNew, tariffId).then((response: BookingCheckoutDto) => {
+        bookingService.getBookingCheckout(props.bookingData.number, !isNew, tariffId, props.event?.start).then((response: BookingCheckoutDto) => {
             setData({
                 checkoutData: response
             })
@@ -237,7 +237,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     
     return data === null ? null :  <Container className="booking-checkout-container" style={{minHeight: "auto"}}>
         <Form style={{paddingBottom: '10px'}}>
-            <BookingHeader dayText={isWeekly ? getEventEachText(): null} data={data.checkoutData} withStadiumName={false} />
+            <BookingHeader dayText={isWeekly ? getEventEachText(): null} withCurrentDate={true} data={data.checkoutData} withStadiumName={false} />
             <div className="booking-locker-room-weekly-row">
                 <Checkbox
                     onChange={(e, data) => setIsWeekly(data.checked)}

@@ -32,6 +32,11 @@ internal class BookingCheckoutDtoBuilder : IBookingCheckoutDtoBuilder
             await _service.GetConfirmedBookingAsync(query.BookingNumber) :
             await _service.GetBookingDraftAsync( query.BookingNumber );
 
+        if ( query.IsConfirmed && query.Day.HasValue )
+        {
+            booking.Day = query.Day.Value;
+        }
+        
         BookingFormDto? bookingFormDto =
             await _bookingFormDtoBuilder.BuildAsync( booking.FieldId, booking.Day, query.ClientDate.Hour, booking.Id );
 
@@ -63,7 +68,7 @@ internal class BookingCheckoutDtoBuilder : IBookingCheckoutDtoBuilder
             await _service.GetBookingCheckoutDataAsync( booking, slots, query.TariffId );
 
         BookingCheckoutDto? result = _mapper.Map<BookingCheckoutDto>( bookingCheckoutData );
-
+        
         return result;
     }
 }

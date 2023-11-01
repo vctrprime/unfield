@@ -7,13 +7,17 @@ export interface BookingHeaderProps {
     data: BookingCheckoutDto;
     withStadiumName: boolean;
     dayText?: string|null;
+    withCurrentDate?: boolean;
 }
 
 export const BookingHeader = (props: BookingHeaderProps) => {
     return <>
         <div className="booking-checkout-header">
             <span>№ {props.data.bookingNumber}</span>
-            <span>{props.dayText ? props.dayText : props.data.day}</span>
+            <div style={{display: "flex", flexDirection: 'column', alignItems: 'flex-end'}}>
+                <span>{props.dayText ? props.dayText : props.data.day}</span>
+                {props.withCurrentDate && props.dayText && <span style={{ fontSize: 10, marginTop: -7}}>{props.data.day}</span>}
+            </div>
         </div>
         {props.withStadiumName && <div className="booking-checkout-stadium">
             {props.data.stadiumName}

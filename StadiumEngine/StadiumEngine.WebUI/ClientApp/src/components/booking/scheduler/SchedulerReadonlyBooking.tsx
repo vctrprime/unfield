@@ -53,7 +53,7 @@ export const SchedulerReadonlyBooking = ({ booking, fromSearch } : SchedulerRead
                 day: dateFormatterByStringWithoutTime(booking.day),
                 stadiumName: '',
                 field: booking.field
-            } as BookingCheckoutDto} dayText={fromSearch ? booking.isWeekly ? getEventEachText(): null : null} withStadiumName={false} />
+            } as BookingCheckoutDto} dayText={fromSearch ? booking.isWeekly ? getEventEachText(): null : null} withCurrentDate={!fromSearch} withStadiumName={false} />
             <div className="booking-locker-room-weekly-row">
                 <Checkbox
                     checked={booking.isWeekly}
