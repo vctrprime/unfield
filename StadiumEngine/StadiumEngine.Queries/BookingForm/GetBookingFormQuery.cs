@@ -3,7 +3,7 @@ using StadiumEngine.DTO.BookingForm;
 
 namespace StadiumEngine.Queries.BookingForm;
 
-public sealed class GetBookingFormQuery : BaseQuery, IRequest<BookingFormDto>
+public class GetBookingFormQuery : BaseQuery, IRequest<BookingFormDto>
 {
     public DateTime Day { get; set; }
     public string? StadiumToken { get; set; }

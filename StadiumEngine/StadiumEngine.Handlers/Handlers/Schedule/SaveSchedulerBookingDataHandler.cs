@@ -2,6 +2,8 @@ using AutoMapper;
 using StadiumEngine.Commands.Schedule;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Bookings;
+using StadiumEngine.Domain.Entities.Offers;
+using StadiumEngine.Domain.Services.Core.Offers;
 using StadiumEngine.Domain.Services.Core.Schedule;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Schedule;
@@ -13,16 +15,19 @@ internal sealed class
 {
     private readonly ISchedulerBookingQueryService _queryService;
     private readonly ISchedulerBookingCommandService _commandService;
+    private readonly IFieldQueryService _fieldQueryService;
 
     public SaveSchedulerBookingDataHandler(
         ISchedulerBookingQueryService queryService,
         ISchedulerBookingCommandService commandService,
+        IFieldQueryService fieldQueryService,
         IClaimsIdentityService claimsIdentityService,
         IMapper mapper,
         IUnitOfWork unitOfWork ) : base( mapper, claimsIdentityService, unitOfWork )
     {
         _queryService = queryService;
         _commandService = commandService;
+        _fieldQueryService = fieldQueryService;
     }
 
     protected override async ValueTask<SaveSchedulerBookingDataDto> HandleCommandAsync(
@@ -30,7 +35,13 @@ internal sealed class
         CancellationToken cancellationToken )
     {
         Booking booking = await _queryService.GetBookingAsync( request.BookingNumber );
+        Field? field = null;
 
+        if ( request.MoveData != null )
+        {
+            field = await _fieldQueryService.GetByFieldIdAsync( request.MoveData.FieldId, _currentStadiumId );
+        }
+        
         if ( request.IsNew )
         {
             FillBooking( booking, request );
@@ -43,15 +54,15 @@ internal sealed class
                 Booking newVersion = new Booking
                 {
                     Number = booking.Number,
-                    Day = booking.Day.Date,
+                    Day = request.MoveData?.Day.Date ?? booking.Day.Date,
                     AccessCode = booking.AccessCode,
                     Source = booking.Source,
                     IsLastVersion = true,
                     UserCreatedId = _userId,
-                    FieldId = booking.FieldId,
+                    FieldId = request.MoveData?.FieldId ?? booking.FieldId,
                     PromoDiscount = booking.PromoDiscount,
-                    Field = booking.Field,
-                    StartHour = booking.StartHour
+                    Field = field ?? booking.Field,
+                    StartHour = request.MoveData?.StartHour ?? booking.StartHour
                 };
                 if ( booking.Promo != null )
                 {
@@ -79,13 +90,13 @@ internal sealed class
                     {
                         Number = $"{booking.Number}-E{booking.WeeklyExcludeDays.Count + 1}",
                         AccessCode = booking.AccessCode,
-                        Day = request.Day.Date,
-                        StartHour = booking.StartHour,
+                        Day = request.MoveData?.Day.Date ?? booking.Day.Date,
+                        StartHour = request.MoveData?.StartHour ?? booking.StartHour,
                         Source = booking.Source,
                         IsLastVersion = true,
                         UserCreatedId = _userId,
-                        FieldId = booking.FieldId,
-                        Field = booking.Field
+                        FieldId = request.MoveData?.FieldId ?? booking.FieldId,
+                        Field = field ?? booking.Field
                     };
                     FillBooking( excludeWeekly, request );
                     excludeWeekly.IsWeekly = false;
@@ -99,13 +110,13 @@ internal sealed class
                     {
                         Number = GetWeeklyBookingNumber( booking.Number ),
                         AccessCode = booking.AccessCode,
-                        StartHour = booking.StartHour,
+                        StartHour = request.MoveData?.StartHour ?? booking.StartHour,
                         Day = GetNewWeeklyDay( request.ClientDate, booking.Day, booking.WeeklyExcludeDays.Select( x => x.Day ).ToList() ),
                         Source = booking.Source,
                         IsLastVersion = true,
                         UserCreatedId = _userId,
-                        FieldId = booking.FieldId,
-                        Field = booking.Field,
+                        FieldId = request.MoveData?.FieldId ?? booking.FieldId,
+                        Field = field ?? booking.Field,
                         WeeklyExcludeDays = booking.WeeklyExcludeDays.Select(
                             x => new BookingWeeklyExcludeDay
                             {

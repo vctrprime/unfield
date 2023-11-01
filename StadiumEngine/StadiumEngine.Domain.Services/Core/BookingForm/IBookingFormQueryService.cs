@@ -11,5 +11,5 @@ public interface IBookingFormQueryService
         string? q,
         DateTime day,
         int currentHour,
-        int currentBookingId );
+        string currentBookingNumber );
 }

@@ -12,6 +12,7 @@ using StadiumEngine.Handlers.Facades.Rates.Tariffs;
 using StadiumEngine.Handlers.Facades.Settings.Breaks;
 using StadiumEngine.Handlers.Facades.Settings.Main;
 using StadiumEngine.Handlers.Mappings;
+using StadiumEngine.Handlers.Processors.BookingForm;
 using StadiumEngine.Services.Extensions;
 
 namespace StadiumEngine.Handlers.Extensions;
@@ -43,6 +44,8 @@ public static class ServiceCollectionExtensions
         
         services.AddScoped<IBookingFormDtoBuilder, BookingFormDtoBuilder>();
         services.AddScoped<IBookingCheckoutDtoBuilder, BookingCheckoutDtoBuilder>();
+        
+        services.AddScoped<IMovingBookingFormProcessor, MovingBookingFormProcessor>();
         
         MapperConfiguration mappingConfig = new MapperConfiguration(
             cfg =>
