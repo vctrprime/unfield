@@ -16,21 +16,17 @@ internal class MovingBookingFormProcessor : IMovingBookingFormProcessor
 
     public async Task<BookingFormDto> ProcessAsync( string bookingNumber, BookingFormDto originalBookingFormData )
     {
-        //отфильтровать (только то же поле или из одной ценовой группы, только тот же тариф) и задизайблить дополнительно слоты (не подходящие по длительности)
-
-        //1получили бронь
         Booking booking = await _checkoutService.GetConfirmedBookingAsync( bookingNumber );
 
         BookingFormDto result = FilterFields( booking, originalBookingFormData );
         result = FilterTariff( booking.TariffId, result );
         result = ProcessSlots( booking.HoursCount, result );
-        
+
         return result;
     }
 
     private BookingFormDto FilterFields( Booking booking, BookingFormDto data )
     {
-        //2 взяли площадки - отфильтровали площадки из original только по той ценовой группе что в площадке брони (либо только та же площадка)
         Field currentBookingField = booking.Field;
 
         List<int> fieldsIds = new List<int>();
@@ -48,14 +44,13 @@ internal class MovingBookingFormProcessor : IMovingBookingFormProcessor
         return data;
     }
 
-    private BookingFormDto FilterTariff(int tariffId, BookingFormDto data)
+    private BookingFormDto FilterTariff( int tariffId, BookingFormDto data )
     {
-        //3 убрали все несовпадающие тарифы из слотов
         BookingFormDto newData = new BookingFormDto
         {
             Fields = new List<BookingFormFieldDto>()
         };
-        
+
         foreach ( BookingFormFieldDto field in data.Fields )
         {
             List<BookingFormFieldSlotDto> newSlots = new List<BookingFormFieldSlotDto>();
@@ -70,11 +65,13 @@ internal class MovingBookingFormProcessor : IMovingBookingFormProcessor
                 newSlots.Add( slot );
             }
 
-            if ( newSlots.Any() )
+            if ( !newSlots.Any() )
             {
-                field.Slots = newSlots;
-                newData.Fields.Add( field );
+                continue;
             }
+
+            field.Slots = newSlots;
+            newData.Fields.Add( field );
         }
 
         return newData;
@@ -82,7 +79,49 @@ internal class MovingBookingFormProcessor : IMovingBookingFormProcessor
 
     private BookingFormDto ProcessSlots( decimal hoursCount, BookingFormDto data )
     {
-        //4 идем по слотам и оставляем только те, где подряд встречается необходимое число половинок (в зависимости от starthour из booking)
+        BookingFormDto newData = new BookingFormDto
+        {
+            Fields = new List<BookingFormFieldDto>()
+        };
         
+        int halfOurPartsCount = ( int )( hoursCount / ( decimal )0.5 );
+
+        foreach ( BookingFormFieldDto field in data.Fields )
+        {
+            List<BookingFormFieldSlotDto> newSlots = new List<BookingFormFieldSlotDto>();
+            foreach ( BookingFormFieldSlotDto slot in field.Slots )
+            {
+                int index = field.Slots.IndexOf( slot );
+                int count = 0;
+                for ( int i = index; i < field.Slots.Count; i++ )
+                {
+                    if ( field.Slots[ i ].Enabled ||
+                         ( !field.Slots[ i ].Enabled && field.Slots[ i ].DisabledByMinDuration ) )
+                    {
+                        count++;
+                    }
+
+                    if ( count >= halfOurPartsCount || !field.Slots[ i ].Enabled )
+                    {
+                        break;
+                    }
+                }
+
+                if ( count >= halfOurPartsCount )
+                {
+                    newSlots.Add( slot );
+                }
+            }
+
+            if ( !newSlots.Any() )
+            {
+                continue;
+            }
+
+            field.Slots = newSlots;
+            newData.Fields.Add( field );
+        }
+
+        return newData;
     }
 }
