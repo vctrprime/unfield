@@ -185,3 +185,92 @@ button {
     padding-top: 5px;
   }
 }
+
+.move-booking-container {
+  width: 580px;
+  padding: 15px;
+  
+  .move-booking-filters {
+    
+  }
+  
+  .move-booking-fields {
+    max-height: 700px;
+    padding-top: 10px;
+    overflow-y: auto;
+    
+    .move-booking-field-card {
+      font-size: 14px !important;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      border-bottom: 1px solid #eee;
+      font-family: "Stadium Engine Sans Pro" !important;
+      text-transform: initial !important;
+      margin-top: 10px;
+      
+      .move-booking-slots {
+        padding-top: 10px;
+        
+        .move-booking-slot {
+          float: left;
+          margin-top: 8px;
+          margin-left: 5px;
+          border-radius: 5px;
+          width: calc(10% - 5px);
+          background-color: #eee;
+          cursor: pointer;
+          text-align: center;
+          font-size: 12px;
+          position: relative;
+          
+          &:hover, &.active {
+            background-color: $dark-color;
+            color: white;
+          }
+        }
+      }
+
+      .move-booking-field {
+        display: flex;
+        
+        img {
+          height: 40px;
+          margin-right: 10px;
+        }
+
+        .move-booking-field-text {
+
+          .move-booking-field-name {
+            font-weight: bold;
+          }
+
+          .move-booking-field-sports {
+            height: 20px;
+
+            .field-sport {
+              float: left;
+              margin-left: 5px;
+              border-radius: 5px;
+              background-color: $dark-color;
+              color: white;
+              text-align: center;
+              font-size: 12px;
+              padding-left: 5px;
+              padding-right: 5px;
+              justify-content: center;
+              display: flex;
+              align-content: center;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .move-booking-buttons {
+    text-align: right;
+    margin-top: 10px;
+  }
+}

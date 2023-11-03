@@ -243,8 +243,20 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
         })
     }
     
+    useEffect(() => {
+        if (moveData) {
+            save();
+        }
+    }, [moveData])
+    
     return data === null ? null :  <Container className="booking-checkout-container" style={{minHeight: "auto"}}>
-        <SchedulerBookingMoveModal open={openMoveModal} setOpen={setOpenMoveModal} bookingNumber={props.bookingData.number} startDay={props.event?.start ?? new Date()} />
+        <SchedulerBookingMoveModal 
+            open={openMoveModal} 
+            setOpen={setOpenMoveModal} 
+            bookingNumber={props.bookingData.number} 
+            startDay={props.event?.start ?? new Date()}
+            setMoveData={setMoveData}
+        />
         <Form style={{paddingBottom: '10px'}}>
             <BookingHeader dayText={isWeekly ? getEventEachText(): null} withCurrentDate={true} data={data.checkoutData} withStadiumName={false} />
             <div className="booking-locker-room-weekly-row">
