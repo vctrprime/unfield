@@ -14,6 +14,7 @@ import {SchedulerEventDto} from "../models/dto/schedule/SchedulerEventDto";
 
 export interface IBookingService {
     getBookingForm(date: Date, token: string|null, cityId: number|null, q: string|null, hideSpinner?: boolean): Promise<BookingFormDto>;
+    getBookingFormForMove(date: Date, token: string, bookingNumber: string): Promise<BookingFormDto>;
     addSchedulerBookingDraft(command: AddBookingDraftCommand): Promise<AddBookingDraftDto>;
     addBookingDraft(command: AddBookingDraftCommand): Promise<AddBookingDraftDto>;
     getBookingCheckout(bookingNumber: string, isConfirmed: boolean, tariffId?: number, day?: Date): Promise<BookingCheckoutDto>;
@@ -45,6 +46,14 @@ export class BookingService extends BaseService implements IBookingService {
         return this.fetchWrapper.get({
             url: `${this.baseUrl}/form${params}`,
             hideSpinner: hideSpinner === undefined ? true : hideSpinner
+        })
+    }
+
+    getBookingFormForMove(date: Date, token: string, bookingNumber: string): Promise<BookingFormDto> {
+        let params = `?day=${date.toDateString()}&bookingNumber=${bookingNumber}&stadiumToken=${token}`;
+
+        return this.fetchWrapper.get({
+            url: `${this.baseUrl}/form/moving/${params}`,
         })
     }
 

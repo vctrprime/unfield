@@ -21,14 +21,14 @@ public sealed class SaveSchedulerBookingDataCommand : BaseCommand, IRequest<Save
     public int TariffId { get; set; }
     public DateTime Day { get; set; }
     
-    public SaveSchedulerBookingMoveData? MoveData { get; set; }
+    public SaveSchedulerBookingDataCommandMoveData? MoveData { get; set; }
     
     public SaveSchedulerBookingDataCommandCustomer Customer { get; set; } = null!;
     public List<SaveSchedulerBookingDataCommandCost> Costs { get; set; } = null!;
     public List<SaveSchedulerBookingDataCommandInventory> Inventories { get; set; } = new();
 }
 
-public sealed class SaveSchedulerBookingMoveData
+public sealed class SaveSchedulerBookingDataCommandMoveData
 {
     public DateTime Day { get; set; }
     

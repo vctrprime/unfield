@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {SchedulerBookingDto} from "../../../models/dto/booking/SchedulerBookingDto";
 import {Container} from "reactstrap";
-import {Button, Checkbox, Dropdown, Form, Input, Modal, TextArea} from "semantic-ui-react";
+import {Button, Checkbox, Dropdown, Form, Input} from "semantic-ui-react";
 import {BookingHeader} from "../common/BookingHeader";
 import {BookingInventory, SelectedInventory} from "../common/BookingInventory";
 import {BookingDto, BookingPromoDto} from "../../../models/dto/booking/BookingDto";
@@ -29,10 +29,11 @@ import {LockerRoomStatus} from "../../../models/dto/offers/enums/LockerRoomStatu
 import {ProcessedEvent, SchedulerHelpers} from "react-scheduler/types";
 import {
     SaveSchedulerBookingDataCommandCost,
-    SaveSchedulerBookingDataCommandInventory
+    SaveSchedulerBookingDataCommandInventory, SaveSchedulerBookingDataCommandMoveData
 } from "../../../models/command/schedule/SaveSchedulerBookingDataCommand";
 import {Dialog} from "@mui/material";
 import {getWeeklyClosedText} from "../../../helpers/utils";
+import {SchedulerBookingMoveModal} from "./SchedulerBookingMoveModal";
 
 export interface SchedulerBooking {
     bookingData: BookingDto;
@@ -68,6 +69,8 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
 
     const [bookingService] = useInject<IBookingService>('BookingService');
     const [offersService] = useInject<IOffersService>('OffersService');
+    
+    const [moveData, setMoveData] = useState<SaveSchedulerBookingDataCommandMoveData|null>(null);
 
     
     const getManualDiscount = (): string => {
@@ -199,6 +202,8 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
         return t(`schedule:scheduler:each:${date?.getDay()}`);
     }
     
+    const [openMoveModal, setOpenMoveModal] = useState(false);
+    
     const save = () => {
         bookingService.saveSchedulerBookingData({
             isNew: isNew,
@@ -230,7 +235,8 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                     quantity: inv.quantity,
                     amount: inv.price * inv.quantity * selectedDuration,
                 } as SaveSchedulerBookingDataCommandInventory
-            })
+            }),
+            moveData: moveData
         }).then(() => {
             props.updateEvents();
             props.scheduler?.close();
@@ -238,6 +244,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     }
     
     return data === null ? null :  <Container className="booking-checkout-container" style={{minHeight: "auto"}}>
+        <SchedulerBookingMoveModal open={openMoveModal} setOpen={setOpenMoveModal} bookingNumber={props.bookingData.number} startDay={props.event?.start ?? new Date()} />
         <Form style={{paddingBottom: '10px'}}>
             <BookingHeader dayText={isWeekly ? getEventEachText(): null} withCurrentDate={true} data={data.checkoutData} withStadiumName={false} />
             <div className="booking-locker-room-weekly-row">
@@ -340,6 +347,13 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                 </div>
             }
             <div className="booking-checkout-buttons" >
+                {!isNew && isAvailableEditDuration() && <Button
+                    disabled={!saveButtonDisabled()}
+                    style={{backgroundColor: '#00d2ff', color: 'white'}}
+                    onClick={() => setOpenMoveModal(true)}
+                >
+                    {t("schedule:scheduler:booking:move:button")}
+                </Button>}
                 <Button
                     disabled={saveButtonDisabled()}
                     style={{backgroundColor: '#3CB371', color: 'white'}}

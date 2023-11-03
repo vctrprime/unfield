@@ -1,3 +1,4 @@
+using StadiumEngine.Common.Enums.Offers;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Services.Core.BookingForm;
@@ -32,13 +33,21 @@ internal class MovingBookingFormProcessor : IMovingBookingFormProcessor
         List<int> fieldsIds = new List<int>();
         if ( currentBookingField.PriceGroup != null )
         {
-            fieldsIds.AddRange( currentBookingField.PriceGroup.Fields.Select( x => x.Id ) );
+            List<SportKind> bookingSportKinds = booking.Field.SportKinds.Select( x => x.SportKind ).ToList();
+            foreach ( Field field in currentBookingField.PriceGroup.Fields )
+            {
+                List<SportKind> fieldSportKinds = field.SportKinds.Select( x => x.SportKind ).ToList();
+                if ( bookingSportKinds.Intersect( fieldSportKinds ).Count() == bookingSportKinds.Count )
+                {
+                    fieldsIds.Add( field.Id );
+                }
+            }
         }
         else
         {
             fieldsIds.Add( booking.FieldId );
         }
-
+        
         data.Fields = data.Fields.Where( x => fieldsIds.Contains( x.Data.Id ) ).ToList();
 
         return data;

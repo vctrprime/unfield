@@ -10,6 +10,7 @@ export interface SaveSchedulerBookingDataCommand {
     lockerRoomId: number | null;
     tariffId: number;
     day: string;
+    moveData?: SaveSchedulerBookingDataCommandMoveData|null;
     customer: SaveSchedulerBookingDataCommandCustomer;
     costs: SaveSchedulerBookingDataCommandCost[];
     inventories: SaveSchedulerBookingDataCommandInventory[];
@@ -31,4 +32,10 @@ export interface SaveSchedulerBookingDataCommandInventory {
 export interface SaveSchedulerBookingDataCommandCustomer {
     name: string;
     phoneNumber: string;
+}
+
+export interface SaveSchedulerBookingDataCommandMoveData {
+    day: string;
+    fieldId: number;
+    startHour: number;
 }
