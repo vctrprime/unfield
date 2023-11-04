@@ -187,38 +187,56 @@ button {
 }
 
 .move-booking-container {
-  width: 580px;
+  width: 800px;
   padding: 15px;
   
   .move-booking-filters {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-bottom: 10px;
     
+    label {
+      margin-top: 5px;
+    }
   }
   
   .move-booking-fields {
-    max-height: 700px;
+    max-height: 250px;
+    min-height: 250px;
     padding-top: 10px;
     overflow-y: auto;
+    
+    .no-fields {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 240px;
+    }
     
     .move-booking-field-card {
       font-size: 14px !important;
       padding: 15px;
       display: flex;
+      width: 50%;
       flex-direction: column;
       background-color: white;
-      border-bottom: 1px solid #eee;
       font-family: "Stadium Engine Sans Pro" !important;
       text-transform: initial !important;
       margin-top: 10px;
+      float: left;
       
       .move-booking-slots {
         padding-top: 10px;
+        height: 180px;
         
         .move-booking-slot {
           float: left;
           margin-top: 8px;
           margin-left: 5px;
           border-radius: 5px;
-          width: calc(10% - 5px);
+          width: calc(20% - 5px);
           background-color: #eee;
           cursor: pointer;
           text-align: center;

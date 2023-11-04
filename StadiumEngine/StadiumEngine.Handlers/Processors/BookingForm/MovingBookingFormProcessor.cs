@@ -18,7 +18,7 @@ internal class MovingBookingFormProcessor : IMovingBookingFormProcessor
     public async Task<BookingFormDto> ProcessAsync( string bookingNumber, BookingFormDto originalBookingFormData )
     {
         Booking booking = await _checkoutService.GetConfirmedBookingAsync( bookingNumber );
-
+        
         BookingFormDto result = FilterFields( booking, originalBookingFormData );
         result = FilterTariff( booking.TariffId, result );
         result = ProcessSlots( booking.HoursCount, result );
@@ -28,9 +28,26 @@ internal class MovingBookingFormProcessor : IMovingBookingFormProcessor
 
     private BookingFormDto FilterFields( Booking booking, BookingFormDto data )
     {
-        Field currentBookingField = booking.Field;
-
+        //пока убираем проверку на одну ценовую группу, так как все равно выводим предупреждение о смене стоимости
+        //Field currentBookingField = booking.Field;
         List<int> fieldsIds = new List<int>();
+        
+        List<SportKind> bookingSportKinds = booking.Field.SportKinds.Select( x => x.SportKind ).ToList();
+        foreach ( BookingFormFieldDto field in data.Fields )
+        {
+            if ( field.Data.SportKinds == null )
+            {
+                continue;
+            }
+
+            List<SportKind> fieldSportKinds = field.Data.SportKinds.Select( x => x ).ToList();
+            if ( bookingSportKinds.Intersect( fieldSportKinds ).Count() == bookingSportKinds.Count )
+            {
+                fieldsIds.Add( field.Data.Id );
+            }
+        }
+        
+        /*
         if ( currentBookingField.PriceGroup != null )
         {
             List<SportKind> bookingSportKinds = booking.Field.SportKinds.Select( x => x.SportKind ).ToList();
@@ -46,7 +63,7 @@ internal class MovingBookingFormProcessor : IMovingBookingFormProcessor
         else
         {
             fieldsIds.Add( booking.FieldId );
-        }
+        }*/
         
         data.Fields = data.Fields.Where( x => fieldsIds.Contains( x.Data.Id ) ).ToList();
 

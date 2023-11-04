@@ -34,6 +34,7 @@ import {
 import {Dialog} from "@mui/material";
 import {getWeeklyClosedText} from "../../../helpers/utils";
 import {SchedulerBookingMoveModal} from "./SchedulerBookingMoveModal";
+import {SimpleAlert} from "../../common/SimpleAlert";
 
 export interface SchedulerBooking {
     bookingData: BookingDto;
@@ -162,7 +163,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     }
 
     const cancelReason = useRef<any>();
-    const [oneInRow, setOneInRow] = useState(false);
+    const [oneInRow, setOneInRow] = useState(true);
     const [cancelConfirm, setCancelConfirm] = useState(false);
     const cancelBooking = () => {
         bookingService.cancelSchedulerBooking({
@@ -204,6 +205,8 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     
     const [openMoveModal, setOpenMoveModal] = useState(false);
     
+    const [moveCosts, setMoveCosts] = useState<SaveSchedulerBookingDataCommandCost[]|null>(null);
+    
     const save = () => {
         bookingService.saveSchedulerBookingData({
             isNew: isNew,
@@ -221,7 +224,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                 name: name||'',
                 phoneNumber: phoneNumber||''
             },
-            costs: data ? data?.checkoutData.pointPrices.slice(0, selectedDuration/0.5).map((p) => {
+            costs: moveCosts ? moveCosts : data ? data?.checkoutData.pointPrices.slice(0, selectedDuration/0.5).map((p) => {
                 return {
                     startHour: p.start,
                     endHour: p.end,
@@ -250,12 +253,15 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     }, [moveData])
     
     return data === null ? null :  <Container className="booking-checkout-container" style={{minHeight: "auto"}}>
-        <SchedulerBookingMoveModal 
+        <SchedulerBookingMoveModal
             open={openMoveModal} 
             setOpen={setOpenMoveModal} 
-            bookingNumber={props.bookingData.number} 
+            booking={props.bookingData} 
             startDay={props.event?.start ?? new Date()}
             setMoveData={setMoveData}
+            setOneInRow={setOneInRow}
+            setMoveCosts={setMoveCosts}
+            oneInRow={oneInRow}
         />
         <Form style={{paddingBottom: '10px'}}>
             <BookingHeader dayText={isWeekly ? getEventEachText(): null} withCurrentDate={true} data={data.checkoutData} withStadiumName={false} />
@@ -353,8 +359,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                 <div style={{marginTop: 10, textAlign: 'right'}}>
                     <Checkbox label={t("booking:edit:one_in_row")} checked={oneInRow} onChange={() => setOneInRow(!oneInRow)}  />
                     <br/>
-                    <div style={{ width: '100%', textAlign: 'left', fontSize: 12}}><i style={{ color: '#00d2ff', marginRight: 3}} className="fa fa-exclamation-circle" aria-hidden="true"/>
-                        {t('schedule:scheduler:booking:weekly_edit_description' + ( oneInRow ? '_one_in_row' : ''))}</div>
+                    <SimpleAlert message={'schedule:scheduler:booking:weekly_edit_description' + ( oneInRow ? '_one_in_row' : '')}/>
                     <br/>
                 </div>
             }
@@ -396,7 +401,6 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
                         </Button>
                         <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
                             setCancelConfirm(false);
-                            setOneInRow(false);
                         }}>{t("common:back")}</Button>
                     </div>
                 </div>

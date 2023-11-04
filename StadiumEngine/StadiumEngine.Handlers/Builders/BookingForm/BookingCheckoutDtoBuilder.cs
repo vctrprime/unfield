@@ -28,17 +28,21 @@ internal class BookingCheckoutDtoBuilder : IBookingCheckoutDtoBuilder
 
     public async Task<BookingCheckoutDto> BuildAsync( GetBookingCheckoutQuery query )
     {
-        Booking booking = query.IsConfirmed ? 
-            await _service.GetConfirmedBookingAsync(query.BookingNumber) :
-            await _service.GetBookingDraftAsync( query.BookingNumber );
+        Booking booking = query.IsConfirmed
+            ? await _service.GetConfirmedBookingAsync( query.BookingNumber )
+            : await _service.GetBookingDraftAsync( query.BookingNumber );
 
         if ( query.IsConfirmed && query.Day.HasValue )
         {
             booking.Day = query.Day.Value;
         }
-        
+
         BookingFormDto? bookingFormDto =
-            await _bookingFormDtoBuilder.BuildAsync( booking.FieldId, booking.Day, query.ClientDate.Hour, booking.Number );
+            await _bookingFormDtoBuilder.BuildAsync(
+                query.FieldId ?? booking.FieldId,
+                booking.Day,
+                query.ClientDate.Hour,
+                booking.Number );
 
         if ( bookingFormDto == null || !bookingFormDto.Fields.Any() )
         {
@@ -49,11 +53,11 @@ internal class BookingCheckoutDtoBuilder : IBookingCheckoutDtoBuilder
             .Slots
             .Where(
                 x => ( x.Enabled ||
-                       x.Hour == booking.StartHour ||
-                       x.Hour == booking.StartHour + ( decimal )0.5 ||
+                       x.Hour == ( query.StartHour ?? booking.StartHour ) ||
+                       x.Hour == ( query.StartHour ?? booking.StartHour ) + ( decimal )0.5 ||
                        ( !x.Enabled && x.DisabledByMinDuration )
                      ) &&
-                     x.Hour >= booking.StartHour ).Select(
+                     x.Hour >= ( query.StartHour ?? booking.StartHour ) ).Select(
                 x => new BookingCheckoutSlot
                 {
                     Hour = x.Hour,
@@ -68,7 +72,7 @@ internal class BookingCheckoutDtoBuilder : IBookingCheckoutDtoBuilder
             await _service.GetBookingCheckoutDataAsync( booking, slots, query.TariffId );
 
         BookingCheckoutDto? result = _mapper.Map<BookingCheckoutDto>( bookingCheckoutData );
-        
+
         return result;
     }
 }

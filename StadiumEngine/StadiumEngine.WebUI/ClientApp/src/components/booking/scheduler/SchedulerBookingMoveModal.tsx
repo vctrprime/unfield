@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Dialog} from "@mui/material";
-import {Button} from "semantic-ui-react";
+import {Button, Checkbox} from "semantic-ui-react";
 import {t} from "i18next";
-import {BookingFormDto} from "../../../models/dto/booking/BookingFormDto";
+import {BookingFormDto, BookingFormFieldSlotDto} from "../../../models/dto/booking/BookingFormDto";
 import {useInject} from "inversify-hooks";
 import {IBookingService} from "../../../services/BookingService";
 import {useRecoilValue} from "recoil";
@@ -10,19 +10,26 @@ import {stadiumAtom} from "../../../state/stadium";
 import SemanticDatepicker from "react-semantic-ui-datepickers";
 import {getLocale} from "../../../i18n/i18n";
 import {
+    SaveSchedulerBookingDataCommandCost,
     SaveSchedulerBookingDataCommandMoveData
 } from "../../../models/command/schedule/SaveSchedulerBookingDataCommand";
 import {SportKind} from "../../../models/dto/offers/enums/SportKind";
+import {FieldDto} from "../../../models/dto/offers/FieldDto";
+import {BookingDto} from "../../../models/dto/booking/BookingDto";
+import {SimpleAlert} from "../../common/SimpleAlert";
 
 export interface SchedulerBookingMoveModalProps {
     open: boolean;
     setOpen: any;
-    bookingNumber: string;
+    booking: BookingDto;
     startDay: Date;
     setMoveData: any;
+    setOneInRow: any;
+    setMoveCosts: any;
+    oneInRow: boolean;
 }
 
-export const SchedulerBookingMoveModal = ({ open, setOpen, bookingNumber, startDay, setMoveData }: SchedulerBookingMoveModalProps) => {
+export const SchedulerBookingMoveModal = ({ open, setOpen, booking, startDay, setMoveData, oneInRow, setOneInRow, setMoveCosts }: SchedulerBookingMoveModalProps) => {
     const stadium = useRecoilValue(stadiumAtom);
     
     const [data, setData] = useState<BookingFormDto|null>(null);
@@ -49,15 +56,50 @@ export const SchedulerBookingMoveModal = ({ open, setOpen, bookingNumber, startD
     
     useEffect(() => {
         if (open) {
-            setData(null);
-            bookingService.getBookingFormForMove(date, stadium?.token ?? '' , bookingNumber).then((formResponse) => {
+            bookingService.getBookingFormForMove(date, stadium?.token ?? '' , booking.number).then((formResponse) => {
                 setData(formResponse);
             })
         }
+
+        setStartHour(null);
+        setSelectedFieldId(null);
+        setNewAmount(null);
+        
     }, [date, open])
     
-    return <Dialog open={open}>
+    const [newAmount, setNewAmount] = useState<number|null>(null);
+    
+    const selectSlot = (field: FieldDto , slot: BookingFormFieldSlotDto ) => {
+        setStartHour(slot.hour);
+        setSelectedFieldId(field.id);
+        bookingService.getBookingCheckout(booking.number, true, booking.tariff.id, date, field.id, slot.hour).then((response) => {
+            const costs = response.pointPrices.slice(0, booking.hoursCount/0.5).map((p) => {
+                return {
+                    startHour: p.start,
+                    endHour: p.end,
+                    cost: p.value
+                } as SaveSchedulerBookingDataCommandCost
+            });
+            setMoveCosts(costs);
+            setNewAmount(costs.reduce((accumulator, object) => {
+                return accumulator + object.cost;
+            }, 0) + booking.inventoryAmount)
+        });
+    }
+    
+    useEffect(() => {
+        if (!oneInRow) {
+            setDate(new Date(booking.day));
+        }
+    }, [oneInRow])
+    
+    return <Dialog maxWidth={800} open={open} onClose={() => {
+        setMoveCosts(null);
+    }}>
         <div className="move-booking-container">
+            <div className="move-booking-notification">
+                <SimpleAlert message={"schedule:scheduler:booking:move:notifications:common"}/>
+            </div>
             <div className="move-booking-filters">
                 <SemanticDatepicker
                     className="booking-form-date-picker"
@@ -65,15 +107,19 @@ export const SchedulerBookingMoveModal = ({ open, setOpen, bookingNumber, startD
                     datePickerOnly={true}
                     locale={getLocale()}
                     value={date}
+                    disabled={booking.isWeekly && !oneInRow}
                     format={'DD.MM.YYYY'}
                     minDate={new Date()}
                     onChange={onChange}
                     clearable={false}
                     pointing="left"
                 />
+                {booking.isWeekly &&
+                    <Checkbox label={t("schedule:scheduler:booking:move:one_in_row")} checked={oneInRow} onChange={() => setOneInRow(!oneInRow)}  />
+                }
             </div>
             <div className="move-booking-fields">
-                {data?.fields.map((field) => {
+                {data ? data.fields.length === 0 ? <div className="no-fields">{t('schedule:scheduler:booking:move:no_fields')}</div> : data.fields.map((field) => {
                         return <div className="move-booking-field-card">
                             <div className="move-booking-field">
                                 {field.data.images.length ?
@@ -101,16 +147,26 @@ export const SchedulerBookingMoveModal = ({ open, setOpen, bookingNumber, startD
                                         if (isActive) {
                                             setStartHour(null);
                                             setSelectedFieldId(null);
+                                            setNewAmount(null);
                                         }
                                         else {
-                                            setStartHour(slot.hour);
-                                            setSelectedFieldId(field.data.id);
+                                            selectSlot(field.data, slot);
                                         }
                                     }}>{slot.name}</div>;
                                     })}
                             </div>
                         </div>
-                    })}
+                    }) : <span/>}
+            </div>
+            <div className="move-booking-notification">
+                {booking.isWeekly && !oneInRow && <SimpleAlert message={"schedule:scheduler:booking:move:notifications:weekly_move_description"}/>}
+                {newAmount && newAmount !== booking.totalAmountBeforeDiscount && 
+                    <div style={{display: 'flex', flexDirection: 'column', marginTop: 15}}>
+                        <SimpleAlert style={{ fontSize: '14px', paddingBottom: 10}} message={"schedule:scheduler:booking:move:notifications:change_amount"}/>
+                        <span>{t("schedule:scheduler:booking:move:notifications:current_amount")} <b>{booking.totalAmountBeforeDiscount}</b></span>
+                        <span>{t("schedule:scheduler:booking:move:notifications:future_amount")} <b>{newAmount}</b></span>
+                    </div>
+                }
             </div>
             <div className="move-booking-buttons">
                 <Button

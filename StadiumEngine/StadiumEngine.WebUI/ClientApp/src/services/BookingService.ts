@@ -17,7 +17,7 @@ export interface IBookingService {
     getBookingFormForMove(date: Date, token: string, bookingNumber: string): Promise<BookingFormDto>;
     addSchedulerBookingDraft(command: AddBookingDraftCommand): Promise<AddBookingDraftDto>;
     addBookingDraft(command: AddBookingDraftCommand): Promise<AddBookingDraftDto>;
-    getBookingCheckout(bookingNumber: string, isConfirmed: boolean, tariffId?: number, day?: Date): Promise<BookingCheckoutDto>;
+    getBookingCheckout(bookingNumber: string, isConfirmed: boolean, tariffId?: number, day?: Date, fieldId?: number, startHour?: number): Promise<BookingCheckoutDto>;
     fillBookingData(command: FillBookingDataCommand) : Promise<void>;
     cancelBooking(command: CancelBookingCommand) : Promise<void>;
     confirmBooking(command: ConfirmBookingCommand) : Promise<void>;
@@ -72,7 +72,7 @@ export class BookingService extends BaseService implements IBookingService {
         })
     }
 
-    getBookingCheckout(bookingNumber: string, isConfirmed: boolean, tariffId?: number, day?: Date): Promise<BookingCheckoutDto> {
+    getBookingCheckout(bookingNumber: string, isConfirmed: boolean, tariffId?: number, day?: Date, fieldId?: number, startHour?: number): Promise<BookingCheckoutDto> {
         let params = `?bookingNumber=${bookingNumber}&isConfirmed=${isConfirmed}`;
         
         if (tariffId) {
@@ -81,6 +81,14 @@ export class BookingService extends BaseService implements IBookingService {
         
         if (day) {
             params += `&day=${day.toDateString()}`
+        }
+
+        if (fieldId) {
+            params += `&fieldId=${fieldId}`
+        }
+
+        if (startHour) {
+            params += `&startHour=${startHour}`
         }
         
         return this.fetchWrapper.get({
