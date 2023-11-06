@@ -13,14 +13,21 @@ internal class UIMessageLastReadCommandService : IUIMessageLastReadCommandServic
         _repository = repository;
     }
 
-    public void Save( UIMessageLastRead messageLastRead )
+    public async Task Save( int userId, int stadiumId, int messageId )
     {
-        if ( messageLastRead.Id == 0 )
+        UIMessageLastRead? messageLastRead = await _repository.GetAsync( userId, stadiumId );
+        if ( messageLastRead == null )
         {
-            _repository.Add( messageLastRead );
+            _repository.Add( new UIMessageLastRead
+            {
+                MessageId = messageId,
+                UserId = userId,
+                StadiumId = stadiumId
+            } );
         }
         else
         {
+            messageLastRead.MessageId = messageId;
             _repository.Update( messageLastRead );
         }
     }
