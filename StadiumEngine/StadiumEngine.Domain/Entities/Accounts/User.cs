@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using StadiumEngine.Domain.Entities.Bookings;
+using StadiumEngine.Domain.Entities.Notifications;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Entities.Settings;
@@ -53,6 +54,7 @@ public class User : BaseUserEntity
     public bool IsAdmin { get; set; }
     
     public virtual ICollection<UserStadium> UserStadiums { get; set; }
+    public virtual ICollection<UIMessageLastRead> UIMessageLastReads { get; set; }
 
     [InverseProperty( "UserCreated" )]
     public virtual ICollection<User> CreatedUsers { get; set; }

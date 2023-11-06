@@ -3,6 +3,7 @@ using StadiumEngine.Domain.Services.Core.Accounts;
 using StadiumEngine.Domain.Services.Core.BookingForm;
 using StadiumEngine.Domain.Services.Core.BookingForm.Distributors;
 using StadiumEngine.Domain.Services.Core.Geo;
+using StadiumEngine.Domain.Services.Core.Notifications;
 using StadiumEngine.Domain.Services.Core.Offers;
 using StadiumEngine.Domain.Services.Core.Rates;
 using StadiumEngine.Domain.Services.Core.Schedule;
@@ -28,6 +29,7 @@ using StadiumEngine.Services.Core.Settings;
 using StadiumEngine.Services.Handlers.Offers;
 using StadiumEngine.Services.Identity;
 using StadiumEngine.Services.Infrastructure;
+using StadiumEngine.Services.Notifications;
 using StadiumEngine.Services.Resolvers.Offers;
 using StadiumEngine.Services.Validators.Bookings;
 using StadiumEngine.Services.Validators.Rates;
@@ -95,6 +97,11 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISchedulerQueryService, SchedulerQueryService>();
         services.AddScoped<ISchedulerBookingCommandService, SchedulerBookingCommandService>();
         services.AddScoped<ISchedulerBookingQueryService, SchedulerBookingQueryService>();
+
+        services.AddScoped<IUIMessageQueryService, UIMessageQueryService>();
+        services.AddScoped<IUIMessageCommandService, UIMessageCommandService>();
+        services.AddScoped<IUIMessageLastReadQueryService, UIMessageLastReadQueryService>();
+        services.AddScoped<IUIMessageLastReadCommandService, UIMessageLastReadCommandService>();
         
         #endregion
 

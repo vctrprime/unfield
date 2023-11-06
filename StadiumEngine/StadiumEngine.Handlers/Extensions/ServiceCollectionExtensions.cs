@@ -60,6 +60,7 @@ public static class ServiceCollectionExtensions
                 cfg.AddProfile( new GeoProfile() );
                 cfg.AddProfile( new BookingFormProfile() );
                 cfg.AddProfile( new SchedulerProfile() );
+                cfg.AddProfile( new NotificationsProfile() );
             } );
         services.AddSingleton( provider => mappingConfig.CreateMapper());
     }

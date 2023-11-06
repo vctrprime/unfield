@@ -4,6 +4,7 @@ using StadiumEngine.Domain.Entities;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Entities.Geo;
+using StadiumEngine.Domain.Entities.Notifications;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Entities.Settings;
@@ -97,5 +98,13 @@ internal class MainDbContext : DbContext
     public DbSet<BookingPromo> BookingPromos { get; set; }
     public DbSet<BookingWeeklyExcludeDay> BookingWeeklyExcludeDays { get; set; }
 
+    #endregion
+
+    #region notifications
+    
+    public DbSet<UIMessage> UIMessages { get; set; }
+    public DbSet<UIMessageText> UIMessageTexts { get; set; }
+    public DbSet<UIMessageLastRead> UIMessageLastReads { get; set; }
+    
     #endregion
 }

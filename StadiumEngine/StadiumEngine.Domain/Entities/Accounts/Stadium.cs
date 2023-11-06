@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using StadiumEngine.Domain.Entities.Geo;
+using StadiumEngine.Domain.Entities.Notifications;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Entities.Settings;
@@ -39,6 +40,8 @@ public class Stadium : BaseEntity
     public virtual ICollection<Tariff> Tariffs { get; set; }
     public virtual ICollection<PriceGroup> PriceGroups { get; set; }
     public virtual ICollection<Break> Breaks { get; set; }
+    public virtual ICollection<UIMessage> UIMessages { get; set; }
+    public virtual ICollection<UIMessageLastRead> UIMessageLastReads { get; set; }
     
     public virtual MainSettings MainSettings { get; set; }
 }

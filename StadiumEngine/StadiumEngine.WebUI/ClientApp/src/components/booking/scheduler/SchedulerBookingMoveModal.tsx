@@ -93,7 +93,7 @@ export const SchedulerBookingMoveModal = ({ open, setOpen, booking, startDay, se
         }
     }, [oneInRow])
     
-    return <Dialog maxWidth={800} open={open} onClose={() => {
+    return <Dialog open={open} onClose={() => {
         setMoveCosts(null);
     }}>
         <div className="move-booking-container">

@@ -4,6 +4,7 @@ using StadiumEngine.Domain;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Repositories.Bookings;
 using StadiumEngine.Domain.Repositories.Geo;
+using StadiumEngine.Domain.Repositories.Notifications;
 using StadiumEngine.Domain.Repositories.Offers;
 using StadiumEngine.Domain.Repositories.Rates;
 using StadiumEngine.Domain.Repositories.Settings;
@@ -11,6 +12,7 @@ using StadiumEngine.Repositories.Accounts;
 using StadiumEngine.Repositories.Bookings;
 using StadiumEngine.Repositories.Geo;
 using StadiumEngine.Repositories.Infrastructure.Contexts;
+using StadiumEngine.Repositories.Notifications;
 using StadiumEngine.Repositories.Offers;
 using StadiumEngine.Repositories.Rates;
 using StadiumEngine.Repositories.Settings;
@@ -93,6 +95,13 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IBookingRepository, BookingRepository>();
         services.AddScoped<IBookingLockerRoomRepository, BookingLockerRoomRepository>();
         services.AddScoped<IBookingWeeklyExcludeDayRepository, BookingWeeklyExcludeDayRepository>();
+
+        #endregion
+
+        #region notifications
+
+        services.AddScoped<IUIMessageRepository, UIMessageRepository>();
+        services.AddScoped<IUIMessageLastReadRepository, UIMessageLastReadRepository>();
 
         #endregion
 
