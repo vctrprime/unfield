@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StadiumEngine.Commands.Notifications;
 using StadiumEngine.DTO.Notifications;
 using StadiumEngine.Queries.Notifications;
 
@@ -24,5 +25,17 @@ public class UIMessageController : BaseApiController
         List<UIMessageDto> messages = await Mediator.Send( query );
 
         return messages;
+    }
+    
+    /// <summary>
+    ///     Отметить последнее прочитанное сообщение
+    /// </summary>
+    /// <returns></returns>
+    [HttpPost("read")]
+    public async Task<SetLastReadUIMessageDto> SetLastReadMessage( [FromBody] SetLastReadUIMessageCommand command )
+    {
+        SetLastReadUIMessageDto dto = await Mediator.Send( command );
+
+        return dto;
     }
 }
