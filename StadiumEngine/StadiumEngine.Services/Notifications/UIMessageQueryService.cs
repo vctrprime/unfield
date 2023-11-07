@@ -34,16 +34,16 @@ internal class UIMessageQueryService : IUIMessageQueryService
             throw new DomainException( ErrorsKeys.UserNotFound );
         }
 
-        List<Permission> permissions = !user.RoleId.HasValue
-            ? await _permissionRepository.GetAllAsync()
-            : await _permissionRepository.GetForRoleAsync( user.RoleId.Value );
-        
-        //только для тех у кого есть права смотреть брони
-        if ( permissions.SingleOrDefault( x => x.Name == PermissionsKeys.GetBookings ) == null )
+        if ( user.RoleId.HasValue )
         {
-            messages = messages.Where( x => x.MessageType != UIMessageType.BookingFromForm ).ToList();
+            List<Permission> permissions = await _permissionRepository.GetForRoleAsync( user.RoleId.Value );
+            //только для тех у кого есть права смотреть брони
+            if ( permissions.SingleOrDefault( x => x.Name == PermissionsKeys.GetBookings ) == null )
+            {
+                messages = messages.Where( x => x.MessageType != UIMessageType.BookingFromForm ).ToList();
+            }
         }
-
+        
         return messages;
     }
 }
