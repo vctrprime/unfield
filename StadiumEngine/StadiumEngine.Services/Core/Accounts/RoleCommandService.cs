@@ -12,17 +12,14 @@ internal class RoleCommandService : IRoleCommandService
 {
     private readonly IAccountsAccessChecker _accountsAccessChecker;
     private readonly IRoleRepositoryFacade _roleRepositoryFacade;
-    private readonly IStadiumRepository _stadiumRepository;
     private readonly IUserRepository _userRepository;
 
     public RoleCommandService(
         IRoleRepositoryFacade roleRepositoryFacade,
-        IStadiumRepository stadiumRepository,
         IUserRepository userRepository,
         IAccountsAccessChecker accountsAccessChecker )
     {
         _roleRepositoryFacade = roleRepositoryFacade;
-        _stadiumRepository = stadiumRepository;
         _userRepository = userRepository;
         _accountsAccessChecker = accountsAccessChecker;
     }

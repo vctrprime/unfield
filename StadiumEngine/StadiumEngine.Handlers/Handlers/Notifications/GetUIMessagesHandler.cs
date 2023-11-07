@@ -26,7 +26,7 @@ internal sealed class GetUIMessagesHandler : BaseRequestHandler<GetUIMessagesQue
         GetUIMessagesQuery request,
         CancellationToken cancellationToken )
     {
-        List<UIMessage> messages = await _messageQueryService.GetByStadiumIdAsync( _currentStadiumId );
+        List<UIMessage> messages = await _messageQueryService.GetByStadiumIdAsync( _currentStadiumId, _userId );
 
         List<UIMessageDto> messagesDto = Mapper.Map<List<UIMessageDto>>( messages );
 
