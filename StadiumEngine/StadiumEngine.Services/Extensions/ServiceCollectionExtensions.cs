@@ -42,6 +42,7 @@ public static class ServiceCollectionExtensions
     public static void RegisterServices( this IServiceCollection services, string connectionString )
     {
         services.RegisterDataAccessModules( connectionString );
+        services.AddSignalR();
 
         services.AddScoped<IClaimsIdentityService, ClaimsIdentityService>();
         services.AddScoped<IPasswordGenerator, PasswordGenerator>();
@@ -143,6 +144,6 @@ public static class ServiceCollectionExtensions
 
         #endregion
 
-
+        services.AddScoped<IUINotificationService, UINotificationService>();
     }
 }

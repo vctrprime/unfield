@@ -13,7 +13,7 @@ internal class UIMessageRepository : BaseRepository<UIMessage>, IUIMessageReposi
 
     public async Task<List<UIMessage>> GetAsync( int stadiumId ) => 
         await Entities
-            .Include( m => m.Texts )
+            .Include( m => m.Texts.OrderBy( x => x.Index ) )
             .Where( m => m.StadiumId == stadiumId && DateTime.Now.AddDays( -3 ) < m.DateCreated )
             .OrderByDescending( x => x.Id )
             .ToListAsync();

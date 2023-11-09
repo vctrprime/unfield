@@ -25,6 +25,7 @@ using Serilog.Debugging;
 using Serilog.Events;
 using Serilog.Filters;
 using StadiumEngine.Common.Configuration;
+using StadiumEngine.Common.Hubs;
 using StadiumEngine.WebUI.Infrastructure;
 using StadiumEngine.WebUI.Infrastructure.Extensions;
 using StadiumEngine.WebUI.Infrastructure.Middleware;
@@ -212,6 +213,7 @@ public class Startup
                 endpoints.MapControllerRoute(
                     "default",
                     "{controller}/{action=Index}/{id?}" );
+                endpoints.MapHub<StadiumHub>( "/stadiumHub" );
             } );
 
         app.UseSpa(
