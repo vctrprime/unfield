@@ -14,7 +14,7 @@ import {AuthorizeUserDto} from "../../models/dto/accounts/AuthorizeUserDto";
 import {ProfileModal} from "./accounts/ProfileModal";
 import {HeaderNavigation} from "./common/HeaderNavigation";
 import {languageAtom} from "../../state/language";
-import {NotificationsPopup} from "./NotificationsPopup";
+import {Notifications} from "./Notifications";
 
 interface StadiumDropDownData {
     key: number,
@@ -111,7 +111,7 @@ export const Header = () => {
                 <div className="header-icons">
                     <LanguageSelect/>
                 </div>
-                <NotificationsPopup/>
+                <Notifications/>
                 <AuthorizedUserInfo setProfileModal={setProfileModal}/>
                 {auth !== null && auth.isAdmin &&
                     <i onClick={toAdmin} title={t('common:lk_header:to_admin_title') || ""}

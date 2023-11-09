@@ -5,7 +5,7 @@ import {HubConnection} from "@microsoft/signalr";
 
 const signalR = require("@microsoft/signalr");
 
-export const NotificationsPopup = () => {
+export const Notifications = () => {
     const stadium = useRecoilValue(stadiumAtom);
 
     const [connection, setConnection] = useState<HubConnection|null>(null);
