@@ -1,0 +1,40 @@
+.notifications-icon {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  i {
+    font-size: 20px !important;
+    cursor: pointer;
+  }
+
+  .has-unread {
+    background-color: #CD5C5C;
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    top: 0;
+    right: 7px;
+    border-radius: 50%;
+  }
+}
+
+.ui-messages {
+  width: 350px;
+  max-height: 300px;
+  overflow-y: auto;
+  
+  .ui-message {
+    font-size: 13px;
+    border-top: 1px solid #eee;
+    
+    .ui-message-date {
+      text-align: right;
+      font-size: 10px;
+      padding-right: 5px;
+    }
+  }
+}

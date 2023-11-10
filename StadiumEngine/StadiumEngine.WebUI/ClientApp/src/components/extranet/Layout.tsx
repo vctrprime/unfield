@@ -8,6 +8,7 @@ import '../../css/extranet/Offers.scss';
 import '../../css/extranet/Rates.scss';
 import '../../css/extranet/Schedule.scss';
 import '../../css/extranet/Settings.scss';
+import '../../css/extranet/Notifications.scss';
 import {isMobile} from 'react-device-detect';
 import {useRecoilValue} from "recoil";
 import {stadiumAtom} from "../../state/stadium";

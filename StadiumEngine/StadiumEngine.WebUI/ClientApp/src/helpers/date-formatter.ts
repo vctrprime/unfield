@@ -21,3 +21,7 @@ export function dateFormatterByStringWithoutTime(date: string) {
 export function dateFormatterByDateWithoutTime(date: Date) {
     return moment(date).format('DD.MM.YYYY');
 }
+
+export function dateFormatterByDate(date: Date) {
+    return moment(date).format('DD.MM.YYYY HH:mm');
+}

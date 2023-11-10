@@ -42,6 +42,8 @@
         <Content Include="ClientApp\src\i18n\common\common.json" />
         <Content Include="ClientApp\src\i18n\errors\errors.en.json" />
         <Content Include="ClientApp\src\i18n\errors\errors.json" />
+        <Content Include="ClientApp\src\i18n\notifications\notifications.en.json" />
+        <Content Include="ClientApp\src\i18n\notifications\notifications.json" />
         <Content Include="ClientApp\src\i18n\offers\offers.en.json" />
         <Content Include="ClientApp\src\i18n\offers\offers.json" />
         <Content Include="ClientApp\src\i18n\portal\portal.en.json" />
