@@ -73,7 +73,7 @@ export const BookingForm = () => {
             source: BookingSource.Form,
             day: currentDate?.toDateString()
         } as AddBookingDraftCommand).then((response) => {
-            navigate("/booking/checkout", {
+            navigate("/checkout", {
                 state: {
                     backPath: window.location.pathname,
                     bookingNumber: response.bookingNumber

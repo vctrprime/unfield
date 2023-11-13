@@ -44,6 +44,7 @@ public class Startup
     public void ConfigureServices( IServiceCollection services )
     {
         services.AddSingleton( Configuration.GetSection( "StorageConfig" ).Get<StorageConfig>() );
+        services.AddSingleton( Configuration.GetSection( "UtilServiceConfig" ).Get<UtilServiceConfig>() );
         
         string? connectionString = Configuration.GetConnectionString( "MainDbConnection" );
         

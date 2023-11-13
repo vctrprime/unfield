@@ -78,9 +78,9 @@ export const BookingFormFieldCard = (props: BookingFormFieldCardProps) => {
     }
     
     
-   return <Col xs={12} sm={12} md={6} lg={3} style={{float: 'left'}}>
+   return <Col xs={12} sm={12} md={6} lg={3} style={{float: 'left', paddingRight: '15px', paddingLeft: '15px'}}>
         <div className="booking-form-field-card" style={props.field.slots.filter(x => x.enabled).length === 0 ? { filter: 'grayscale(1)' } : {}}>
-            <div className="field-covering">{t("offers:coverings:" + FieldCoveringType[props.field.data.coveringType].toLowerCase())}</div>
+            <div className="field-covering">{t("common:coverings:" + FieldCoveringType[props.field.data.coveringType].toLowerCase())}</div>
             {props.field.stadiumName !== null && <div className="field-stadium">{props.field.stadiumName}</div>}
             <div className="field-min-price">{t("booking:field_card:from")} {props.field.minPrice}{t("booking:field_card:per_hour")}</div>
             {props.field.data.images.length === 0 ? 
@@ -99,7 +99,7 @@ export const BookingFormFieldCard = (props: BookingFormFieldCardProps) => {
                 <span style={{paddingLeft: '10px', fontSize: '12px', fontWeight: "bold"}}>{t("booking:field_card:no_sports")}</span> :
                     props.field.data.sportKinds.map((s, i) => {
                         const value = SportKind[s];
-                        const text = t("offers:sports:" + value.toLowerCase());
+                        const text = t("common:sports:" + value.toLowerCase());
                         
                         return <div key={i} className="field-sport">{text}</div>;
                     })}

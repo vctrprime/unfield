@@ -1,19 +1,18 @@
-using Microsoft.AspNetCore.SignalR;
-using StadiumEngine.Common.Hubs;
 using StadiumEngine.Domain.Entities.Notifications;
 using StadiumEngine.Domain.Services.Core.Notifications;
+using StadiumEngine.Domain.Services.Utils;
 
 namespace StadiumEngine.Services.Notifications;
 
 public class UINotificationService : IUINotificationService
 {
     private readonly IUIMessageCommandService _commandService;
-    private readonly IHubContext<StadiumHub> _stadiumHubContext;
+    private readonly IUtilService _utilService;
 
-    public UINotificationService( IUIMessageCommandService commandService, IHubContext<StadiumHub> stadiumHubContext )
+    public UINotificationService( IUIMessageCommandService commandService, IUtilService utilService )
     {
         _commandService = commandService;
-        _stadiumHubContext = stadiumHubContext;
+        _utilService = utilService;
     }
     
     
@@ -22,6 +21,6 @@ public class UINotificationService : IUINotificationService
         UIMessage message = builder.Build();
         _commandService.Add( message );
 
-        await _stadiumHubContext.Clients.Group( $"stadium-{message.StadiumId}" ).SendAsync( "HasNewUIMessages" );
+        await _utilService.NewUIMessage( message.StadiumId );
     }
 }

@@ -6,6 +6,8 @@ import 'react-notifications/lib/notifications.css';
 import {BookingForm} from "./components/booking/BookingForm";
 import {BookingCheckout} from "./components/booking/checkout/BookingCheckout";
 import {BookingCheckoutConfirm} from "./components/booking/checkout/BookingCheckoutConfirm";
+import './custom.css'
+import './css/common.scss'
 
 const ReactNotifications = require('react-notifications');
 const {NotificationContainer} = ReactNotifications;

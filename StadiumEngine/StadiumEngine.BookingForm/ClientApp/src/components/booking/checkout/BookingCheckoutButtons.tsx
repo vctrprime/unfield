@@ -77,7 +77,7 @@ export const BookingCheckoutButtons = (props: BookingCheckoutButtonsProps) => {
                     } as FillBookingDataCommandInventory
                 })
             }).then(() => {
-                navigate("/booking/confirm",  {
+                navigate("/confirm",  {
                     state: {
                         bookingNumber: props.bookingNumber,
                         backPath: props.backPath

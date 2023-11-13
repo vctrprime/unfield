@@ -1,29 +1,8 @@
 {
-    "lk_navbar": {
-        "settings": "Управление объектом",
-        "schedule": "Расписание и брони",
-        "offers": "Активы",
-        "rates": "Тарифы и цены",
-        "employees": "Персонал",
-        "reports": "Отчеты",
-        "accounts": "Аккаунты и роли",
-        "logout": "Выйти"
-    },
-    "back_buttons": {
-        "locker_rooms": "К списку раздевалок",
-        "fields": "К списку площадок",
-        "inventories": "К списку инвентаря",
-        "price_groups": "К списку ценовых групп"
-    },
-    "lk_header": {
-        "current_stadium_title": "Текущий объект",
-        "to_admin_title": "К панели администратора"
-    },
     "success_request_title": "Успешно",
     "success_request": "Запрос успешно выполнен",
     "error_request_title": "Ошибка",
     "error_request": "Ошибка при выполнении запроса",
-    "mobile_notification": "К сожалению, на мобильных устройствах мы пока не работаем :(",
     "search_button": "Поиск",
     "edit_button": "Редактировать",
     "delete_button": "Удалить",
@@ -43,5 +22,18 @@
     "disable_change_tariff": "Смена тарифа заблокирована",
     "back": "Назад",
     "confirm": "Подтвердить",
-    "refresh": "Обновить"
+    "refresh": "Обновить",
+    "coverings": {
+        "natural": "Натуральный газон",
+        "synthetic": "Искусственный газон",
+        "parquet": "Паркет",
+        "rubber": "Резина"
+    },
+    "sports": {
+        "title": "Виды спорта",
+        "football": "Футбол",
+        "basketball": "Баскетбол",
+        "tennis": "Теннис",
+        "badminton": "Бадминтон"
+    }
 }

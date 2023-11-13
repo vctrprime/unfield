@@ -34,7 +34,7 @@ export const BookingHeader = (props: BookingHeaderProps) => {
                         <span style={{paddingLeft: '10px', fontSize: '12px', fontWeight: "bold"}}>{t("booking:field_card:no_sports")}</span> :
                         props.data.field.sportKinds.map((s, i) => {
                             const value = SportKind[s];
-                            const text = t("offers:sports:" + value.toLowerCase());
+                            const text = t("common:sports:" + value.toLowerCase());
 
                             return <div style={ i === 0 ? { marginLeft: 0} : {}} key={i} className="field-sport">{text}</div>;
                         })}

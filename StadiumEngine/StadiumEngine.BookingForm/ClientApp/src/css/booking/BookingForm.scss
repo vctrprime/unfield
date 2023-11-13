@@ -219,6 +219,15 @@
   font-size: 18px;
 }
 
+.booking-form-header-right {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.booking-form-header-left {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
 @media (max-width: 576px) {
   .booking-form-header {
     flex-direction: column;
@@ -226,9 +235,13 @@
   .booking-form-header-right {
     justify-content: space-between !important;
     margin-top: 5px;
+    padding-right: 15px;
+    padding-left: 15px;
   }
   .booking-form-header-left {
     flex-direction: column;
+    padding-right: 15px;
+    padding-left: 15px;
   }
   .booking-form-search-input-container {
     display: flex;

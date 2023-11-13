@@ -10,6 +10,7 @@ using StadiumEngine.Domain.Services.Core.Schedule;
 using StadiumEngine.Domain.Services.Core.Settings;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.Domain.Services.Infrastructure;
+using StadiumEngine.Domain.Services.Utils;
 using StadiumEngine.Repositories.Infrastructure.Extensions;
 using StadiumEngine.Services.Builders.Utils;
 using StadiumEngine.Services.Checkers;
@@ -31,6 +32,7 @@ using StadiumEngine.Services.Identity;
 using StadiumEngine.Services.Infrastructure;
 using StadiumEngine.Services.Notifications;
 using StadiumEngine.Services.Resolvers.Offers;
+using StadiumEngine.Services.Utils;
 using StadiumEngine.Services.Validators.Bookings;
 using StadiumEngine.Services.Validators.Rates;
 using StadiumEngine.Services.Validators.Settings;
@@ -145,5 +147,6 @@ public static class ServiceCollectionExtensions
         #endregion
 
         services.AddScoped<IUINotificationService, UINotificationService>();
+        services.AddScoped<IUtilService, UtilService>();
     }
 }
