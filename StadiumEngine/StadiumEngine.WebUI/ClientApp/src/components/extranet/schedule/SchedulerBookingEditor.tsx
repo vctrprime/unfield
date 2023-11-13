@@ -7,7 +7,6 @@ import React, {useEffect, useState} from "react";
 import {BookingDto} from "../../../models/dto/booking/BookingDto";
 import {BookingFormFieldSlotPriceDto} from "../../../models/dto/booking/BookingFormDto";
 import {useInject} from "inversify-hooks";
-import {IBookingService} from "../../../services/BookingService";
 import {parseString} from "../../../helpers/time-point-parser";
 import {stadiumAtom} from "../../../state/stadium";
 import {BookingSource} from "../../../models/dto/booking/enums/BookingSource";
@@ -18,6 +17,7 @@ import {SchedulerBookingSkeleton} from "./SchedulerBookingSkeleton";
 import {SchedulerBookingError} from "./SchedulerBookingError";
 import {t} from "i18next";
 import {SchedulerReadonlyBooking} from "../../booking/scheduler/SchedulerReadonlyBooking";
+import {IScheduleService} from "../../../services/ScheduleService";
 
 interface SchedulerBookingEditorProps {
     scheduler: SchedulerHelpers;
@@ -38,7 +38,7 @@ export const SchedulerBookingEditor = ({ scheduler, events, updateEvents }: Sche
     const [data, setData] = useState<BookingDto>({} as BookingDto);
     const [slotPrices, setSlotPrices] = useState<BookingFormFieldSlotPriceDto[]>([]);
 
-    const [bookingService] = useInject<IBookingService>('BookingService');
+    const [scheduleService] = useInject<IScheduleService>('ScheduleService');
 
     const day = scheduler.state.start.value;
     const hour: number = parseString(`${scheduler.state.start.value.getHours()}:${scheduler.state.start.value.getMinutes()}`);
@@ -98,7 +98,7 @@ export const SchedulerBookingEditor = ({ scheduler, events, updateEvents }: Sche
                 return;
             }
 
-            bookingService.getBookingForm(day, stadium.token, null, null, false).then((formResponse) => {
+            scheduleService.getBookingForm(day, stadium.token, null, null, false).then((formResponse) => {
                 const field = formResponse.fields.find(f => f.data.id == fieldId);
                 if (field) {
                     const slot = field.slots.find(s => s.hour === hour);
@@ -112,7 +112,7 @@ export const SchedulerBookingEditor = ({ scheduler, events, updateEvents }: Sche
                                 setIsLoading(false);
                             }
                             else {
-                                bookingService.addSchedulerBookingDraft({
+                                scheduleService.addSchedulerBookingDraft({
                                     fieldId: fieldId,
                                     tariffId: slot.prices[0].tariffId,
                                     hour: hour,

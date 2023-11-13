@@ -1,0 +1,9 @@
+{
+    "title": "Booking",
+    "field_card": {
+        "no_sports": "Sports not listed",
+        "book": "Book",
+        "from": "from",
+        "per_hour": " per hour"
+    }
+}

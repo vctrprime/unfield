@@ -50,9 +50,6 @@ import {PriceGroup} from "./components/extranet/rates/PriceGroup";
 import {Tariffs} from "./components/extranet/rates/Tariffs";
 import {Tariff} from "./components/extranet/rates/Tariff";
 import {Prices} from "./components/extranet/rates/Prices";
-import {BookingForm} from "./components/booking/BookingForm";
-import {BookingCheckout} from "./components/booking/checkout/BookingCheckout";
-import {BookingCheckoutConfirm} from "./components/booking/checkout/BookingCheckoutConfirm";
 import {Forbidden} from "./components/extranet/Forbidden";
 import {MainSettings} from "./components/extranet/settings/MainSettings";
 import {Settings} from "./components/extranet/settings/Settings";
@@ -156,9 +153,6 @@ const App = () => {
                             <Route path="" element={<Legals/>}/>
                         </Route>
                     </Route>
-                    <Route path="booking/:token?" element={<BookingForm/>}/>
-                    <Route path="booking/checkout/:bookingNumber?" element={<BookingCheckout/>}/>
-                    <Route path="booking/confirm/:bookingNumber?" element={<BookingCheckoutConfirm/>}/>
                 </Routes>
             </Layout>
             <Modal

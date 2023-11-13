@@ -4,7 +4,6 @@ import {Button, Checkbox} from "semantic-ui-react";
 import {t} from "i18next";
 import {BookingFormDto, BookingFormFieldSlotDto} from "../../../models/dto/booking/BookingFormDto";
 import {useInject} from "inversify-hooks";
-import {IBookingService} from "../../../services/BookingService";
 import {useRecoilValue} from "recoil";
 import {stadiumAtom} from "../../../state/stadium";
 import SemanticDatepicker from "react-semantic-ui-datepickers";
@@ -17,6 +16,7 @@ import {SportKind} from "../../../models/dto/offers/enums/SportKind";
 import {FieldDto} from "../../../models/dto/offers/FieldDto";
 import {BookingDto} from "../../../models/dto/booking/BookingDto";
 import {SimpleAlert} from "../../common/SimpleAlert";
+import {IScheduleService} from "../../../services/ScheduleService";
 
 export interface SchedulerBookingMoveModalProps {
     open: boolean;
@@ -43,7 +43,7 @@ export const SchedulerBookingMoveModal = ({ open, setOpen, booking, startDay, se
     const [selectedFieldId, setSelectedFieldId] = useState<number|null>(null);
     const [selectedStartHour, setStartHour] = useState<number|null>(null);
 
-    const [bookingService] = useInject<IBookingService>('BookingService');
+    const [scheduleService] = useInject<IScheduleService>('ScheduleService');
     
     const confirmMoving = () => {
         setMoveData({
@@ -56,7 +56,7 @@ export const SchedulerBookingMoveModal = ({ open, setOpen, booking, startDay, se
     
     useEffect(() => {
         if (open) {
-            bookingService.getBookingFormForMove(date, stadium?.token ?? '' , booking.number).then((formResponse) => {
+            scheduleService.getBookingFormForMove(date, stadium?.token ?? '' , booking.number).then((formResponse) => {
                 setData(formResponse);
             })
         }
@@ -72,7 +72,7 @@ export const SchedulerBookingMoveModal = ({ open, setOpen, booking, startDay, se
     const selectSlot = (field: FieldDto , slot: BookingFormFieldSlotDto ) => {
         setStartHour(slot.hour);
         setSelectedFieldId(field.id);
-        bookingService.getBookingCheckout(booking.number, true, booking.tariff.id, date, field.id, slot.hour).then((response) => {
+        scheduleService.getBookingCheckout(booking.number, true, booking.tariff.id, date, field.id, slot.hour).then((response) => {
             const costs = response.pointPrices.slice(0, booking.hoursCount/0.5).map((p) => {
                 return {
                     startHour: p.start,

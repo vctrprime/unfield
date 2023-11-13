@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StadiumEngine.Commands", "S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{220CFEC0-8035-490B-B2C0-685DCC98D709}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StadiumEngine.BookingForm", "StadiumEngine.BookingForm\StadiumEngine.BookingForm.csproj", "{569EEC16-6C98-4EB5-873C-B7875F09ACDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{C8170C74-214E-4E55-873D-24505FD15B9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8170C74-214E-4E55-873D-24505FD15B9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8170C74-214E-4E55-873D-24505FD15B9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{569EEC16-6C98-4EB5-873C-B7875F09ACDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{569EEC16-6C98-4EB5-873C-B7875F09ACDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{569EEC16-6C98-4EB5-873C-B7875F09ACDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{569EEC16-6C98-4EB5-873C-B7875F09ACDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FE4BE2B7-5FB0-4A7A-844D-0A4BB0ABC9A7} = {2E204052-5F0F-431E-A767-1C6E7B18AD52}

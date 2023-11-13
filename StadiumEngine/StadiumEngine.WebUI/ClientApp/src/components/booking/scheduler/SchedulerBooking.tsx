@@ -6,7 +6,6 @@ import {BookingHeader} from "../common/BookingHeader";
 import {BookingInventory, SelectedInventory} from "../common/BookingInventory";
 import {BookingDto, BookingPromoDto} from "../../../models/dto/booking/BookingDto";
 import {useInject} from "inversify-hooks";
-import {IBookingService} from "../../../services/BookingService";
 import {BookingCheckoutDto} from "../../../models/dto/booking/BookingCheckoutDto";
 import {
     getFieldAmount,
@@ -35,6 +34,7 @@ import {Dialog} from "@mui/material";
 import {getWeeklyClosedText} from "../../../helpers/utils";
 import {SchedulerBookingMoveModal} from "./SchedulerBookingMoveModal";
 import {SimpleAlert} from "../../common/SimpleAlert";
+import {IScheduleService} from "../../../services/ScheduleService";
 
 export interface SchedulerBooking {
     bookingData: BookingDto;
@@ -68,7 +68,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     const [phoneNumber, setPhoneNumber] = useState<string | undefined>(isNew ? undefined : props.bookingData.customer?.phoneNumber || undefined);
     const [name, setName] = useState<string | undefined>(isNew ? undefined : props.bookingData.customer?.name || undefined);
 
-    const [bookingService] = useInject<IBookingService>('BookingService');
+    const [scheduleService] = useInject<IScheduleService>('ScheduleService');
     const [offersService] = useInject<IOffersService>('OffersService');
     
     const [moveData, setMoveData] = useState<SaveSchedulerBookingDataCommandMoveData|null>(null);
@@ -117,7 +117,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     }
     
     const fetchCheckoutData = (tariffId?: number) => {
-        bookingService.getBookingCheckout(props.bookingData.number, !isNew, tariffId, props.event?.start).then((response: BookingCheckoutDto) => {
+        scheduleService.getBookingCheckout(props.bookingData.number, !isNew, tariffId, props.event?.start).then((response: BookingCheckoutDto) => {
             setData({
                 checkoutData: response
             })
@@ -166,7 +166,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     const [oneInRow, setOneInRow] = useState(true);
     const [cancelConfirm, setCancelConfirm] = useState(false);
     const cancelBooking = () => {
-        bookingService.cancelSchedulerBooking({
+        scheduleService.cancelSchedulerBooking({
             bookingNumber: props.bookingData.number,
             cancelOneInRow: oneInRow,
             reason: cancelReason.current?.value,
@@ -208,7 +208,7 @@ export const SchedulerBooking = (props: SchedulerBooking) => {
     const [moveCosts, setMoveCosts] = useState<SaveSchedulerBookingDataCommandCost[]|null>(null);
     
     const save = () => {
-        bookingService.saveSchedulerBookingData({
+        scheduleService.saveSchedulerBookingData({
             isNew: isNew,
             autoLockerRoom: isAutoLockerRoom ?? false,
             bookingNumber: props.bookingData.number,

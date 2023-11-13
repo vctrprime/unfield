@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.DTO.Geo;
 using StadiumEngine.Queries.Geo;
 
-namespace StadiumEngine.WebUI.Controllers.API.Geo;
+namespace StadiumEngine.BookingForm.Controllers.API;
 
 /// <summary>
 ///     Города

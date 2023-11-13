@@ -26,7 +26,6 @@ const {AgGridReact} = AgGrid;
 
 export const BookingList = () => {
     const [scheduleService] = useInject<IScheduleService>('ScheduleService');
-    const [bookingService] = useInject<IBookingService>('BookingService');
     
     const stadium = useRecoilValue(stadiumAtom);
     
@@ -99,7 +98,7 @@ export const BookingList = () => {
             else {
                 if (selectedBooking.day) {
                     setIsBookingReadonly(false);
-                    bookingService.getBookingForm(new Date(selectedBooking.day), stadium.token, null, null, false).then((formResponse) => {
+                    scheduleService.getBookingForm(new Date(selectedBooking.day), stadium.token, null, null, false).then((formResponse) => {
                         const field = formResponse.fields.find(f => f.data.id == selectedBooking.originalData.field.id);
                         if (field) {
                             const slot = field.slots.find(s => s.hour === selectedBooking.originalData.startHour);
