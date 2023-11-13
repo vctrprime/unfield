@@ -36,7 +36,7 @@ export const Breaks = () => {
     const navigate = useNavigate();
 
     const onNameClick = (id: number) => {
-        navigate("/extranet/settings/breaks/" + id);
+        navigate("/settings/breaks/" + id);
     }
 
     const toggleIsActive = (nodeId: number, data: BreakDto) => {
@@ -143,7 +143,7 @@ export const Breaks = () => {
         <div className="breaks-btns">
             <Button
                 disabled={permissions.filter(p => p.name === PermissionsKeys.InsertBreak).length === 0}
-                onClick={() => navigate("/extranet/settings/breaks/new")}>{t('settings:breaks_grid:add')}</Button>
+                onClick={() => navigate("/settings/breaks/new")}>{t('settings:breaks_grid:add')}</Button>
             {data.length === 0 && !isLoading && <span>{t('settings:breaks_grid:no_rows')}</span>}
         </div>
         <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 36px)'}}>

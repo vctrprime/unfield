@@ -17,7 +17,7 @@ export const getOverlayNoRowsTemplate = () => {
 }
 
 export const getStartLkRoute = () => {
-    return `/extranet/settings/main`;
+    return `/settings/main`;
 }
 
 export const StringFormat = (str: string, ...args: string[]) =>

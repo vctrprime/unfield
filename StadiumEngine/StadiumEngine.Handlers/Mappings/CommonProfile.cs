@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Common.Configuration;
 using StadiumEngine.Domain.Entities;
 using StadiumEngine.DTO;
 
@@ -8,6 +9,8 @@ internal class CommonProfile : Profile
 {
     public CommonProfile()
     {
+        CreateMap<EnvConfig, EnvDataDto>();
+        
         CreateMap<BaseUserEntity, BaseEntityDto>()
             .ForMember(
                 dest => dest.UserCreated,

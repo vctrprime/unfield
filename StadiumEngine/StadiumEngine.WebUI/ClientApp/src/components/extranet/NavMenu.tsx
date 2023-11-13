@@ -60,42 +60,42 @@ export const NavMenu = () => {
             <CDBSidebarContent className="sidebar-content">
                 <CDBSidebarMenu>
 
-                    {permissions.length > 0 ? <NavLink to="/extranet/settings" className={getNavLinkClassName}>
+                    {permissions.length > 0 ? <NavLink to="/settings" className={getNavLinkClassName}>
                         <CDBSidebarMenuItem title={t('common:lk_navbar:settings')}
                                             icon="columns">{t('common:lk_navbar:settings')}</CDBSidebarMenuItem>
                     </NavLink> : <span/>}
 
                     {viewNavLink(PermissionsKeys.ScheduleGroup) ?
-                        <NavLink to="/extranet/schedule" className={getNavLinkClassName}>
+                        <NavLink to="/schedule" className={getNavLinkClassName}>
                             <CDBSidebarMenuItem title={t('common:lk_navbar:schedule')}
                                                 icon="table">{t('common:lk_navbar:schedule')}</CDBSidebarMenuItem>
                         </NavLink> : <span/>}
 
                     {viewNavLink(PermissionsKeys.OffersGroup) ?
-                        <NavLink to="/extranet/offers" className={getNavLinkClassName}>
+                        <NavLink to="/offers" className={getNavLinkClassName}>
                             <CDBSidebarMenuItem title={t('common:lk_navbar:offers')}
                                                 icon="object-ungroup">{t('common:lk_navbar:offers')}</CDBSidebarMenuItem>
                         </NavLink> : <span/>}
 
-                    {viewNavLink(PermissionsKeys.RatesGroup) ? <NavLink to="/extranet/rates" className={getNavLinkClassName}>
+                    {viewNavLink(PermissionsKeys.RatesGroup) ? <NavLink to="/rates" className={getNavLinkClassName}>
                         <CDBSidebarMenuItem title={t('common:lk_navbar:rates')}
                                             icon="dollar-sign">{t('common:lk_navbar:rates')}</CDBSidebarMenuItem>
                     </NavLink> : <span/>}
 
                     {viewNavLink(PermissionsKeys.EmployeesGroup) ?
-                        <NavLink to="/extranet/employees" className={getNavLinkClassName}>
+                        <NavLink to="/employees" className={getNavLinkClassName}>
                             <CDBSidebarMenuItem title={t('common:lk_navbar:employees')}
                                                 icon="user-tie">{t('common:lk_navbar:employees')}</CDBSidebarMenuItem>
                         </NavLink> : <span/>}
 
                     {viewNavLink(PermissionsKeys.ReportsGroup) ?
-                        <NavLink to="/extranet/reports" className={getNavLinkClassName}>
+                        <NavLink to="/reports" className={getNavLinkClassName}>
                             <CDBSidebarMenuItem title={t('common:lk_navbar:reports')}
                                                 icon="chart-line">{t('common:lk_navbar:reports')}</CDBSidebarMenuItem>
                         </NavLink> : <span/>}
 
                     {viewNavLink(PermissionsKeys.AccountsGroup) ?
-                        <NavLink to="/extranet/accounts" className={getNavLinkClassName}>
+                        <NavLink to="/accounts" className={getNavLinkClassName}>
                             <CDBSidebarMenuItem title={t('common:lk_navbar:accounts')}
                                                 icon="users">{t('common:lk_navbar:accounts')}</CDBSidebarMenuItem>
                         </NavLink> : <span/>}

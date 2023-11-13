@@ -60,7 +60,7 @@ export const PriceGroup = () => {
                 isActive: data.isActive,
             }
             ratesService.addPriceGroup(command).then(() => {
-                navigate("/extranet/rates/price-groups");
+                navigate("/rates/price-groups");
             })
         }
     }
@@ -74,14 +74,14 @@ export const PriceGroup = () => {
                 isActive: data.isActive
             }
             ratesService.updatePriceGroup(command).then(() => {
-                navigate("/extranet/rates/price-groups");
+                navigate("/rates/price-groups");
             })
         }
     }
 
     const deletePriceGroup = () => {
         ratesService.deletePriceGroup(priceGroupId).then(() => {
-            navigate("/extranet/rates/price-groups");
+            navigate("/rates/price-groups");
         })
     }
 

@@ -46,8 +46,6 @@
         <Content Include="ClientApp\src\i18n\notifications\notifications.json" />
         <Content Include="ClientApp\src\i18n\offers\offers.en.json" />
         <Content Include="ClientApp\src\i18n\offers\offers.json" />
-        <Content Include="ClientApp\src\i18n\portal\portal.en.json" />
-        <Content Include="ClientApp\src\i18n\portal\portal.json" />
         <Content Include="ClientApp\src\i18n\rates\rates.en.json" />
         <Content Include="ClientApp\src\i18n\rates\rates.json" />
         <Content Include="ClientApp\src\i18n\schedule\schedule.en.json" />

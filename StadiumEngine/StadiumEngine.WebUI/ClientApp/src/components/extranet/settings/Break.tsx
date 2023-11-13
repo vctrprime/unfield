@@ -103,7 +103,7 @@ export const Break = () => {
                 dateEnd: data.dateEnd// ? new Date(data.dateEnd.getTime() - tzDifference * 60 * 1000) : data.dateEnd,
             }
             settingsService.addBreak(command).then(() => {
-                navigate("/extranet/settings/breaks");
+                navigate("/settings/breaks");
             })
         }
     }
@@ -122,14 +122,14 @@ export const Break = () => {
                 dateEnd: data.dateEnd,
             }
             settingsService.updateBreak(command).then(() => {
-                navigate("/extranet/settings/breaks");
+                navigate("/settings/breaks");
             })
         }
     }
 
     const deleteBreak = () => {
         settingsService.deleteBreak(breakId).then(() => {
-            navigate("/extranet/settings/breaks");
+            navigate("/settings/breaks");
         })
     }
 

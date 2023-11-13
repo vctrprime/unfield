@@ -36,7 +36,7 @@ export const Tariffs = () => {
     const navigate = useNavigate();
 
     const onNameClick = (id: number) => {
-        navigate("/extranet/rates/tariffs/" + id);
+        navigate("/rates/tariffs/" + id);
     }
 
     const NameRenderer = (obj: any) => {
@@ -171,7 +171,7 @@ export const Tariffs = () => {
         <div className="tariffs-btns">
             <Button
                 disabled={permissions.filter(p => p.name === PermissionsKeys.InsertTariff).length === 0}
-                onClick={() => navigate("/extranet/rates/tariffs/new")}>{t('rates:tariffs_grid:add')}</Button>
+                onClick={() => navigate("/rates/tariffs/new")}>{t('rates:tariffs_grid:add')}</Button>
             {data.length === 0 && !isLoading && <span>{t('rates:tariffs_grid:no_rows')}</span>}
         </div>
         <div className="grid-container ag-theme-alpine" style={{height: 'calc(100% - 36px)'}}>

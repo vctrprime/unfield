@@ -1,7 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {Layout} from './components/Layout';
 import {Route, Routes} from "react-router-dom";
-import {Home} from "./components/portal/Home";
 import {Layout as LkLayout} from "./components/extranet/Layout";
 import {Layout as AdminLayout} from "./components/admin/Layout";
 import {Offers} from "./components/extranet/offers/Offers";
@@ -57,6 +56,8 @@ import {Breaks} from "./components/extranet/settings/Breaks";
 import {getStartLkRoute} from "./helpers/utils";
 import {Break} from "./components/extranet/settings/Break";
 import {UserStadiumDto} from "./models/dto/accounts/UserStadiumDto";
+import {ICommonService} from "./services/CommonService";
+import {envAtom} from "./state/env";
 
 const ReactNotifications = require('react-notifications');
 const {NotificationContainer} = ReactNotifications;
@@ -70,23 +71,30 @@ const App = () => {
     const setStadium = useSetRecoilState<UserStadiumDto | null>(stadiumAtom);
     const setPermissions = useSetRecoilState<UserPermissionDto[]>(permissionsAtom);
     const setAuth = useSetRecoilState(authAtom);
+    const setEnv = useSetRecoilState(envAtom);
 
     const [accountsService] = useInject<IAccountsService>('AccountsService');
+    const [commonService] = useInject<ICommonService>('CommonService');
 
+    useEffect(() => {
+        commonService.getEnvData().then((response) => {
+            setEnv(response)
+        })
+    }, [])
 
     useEffect(() => {
         const prev = JSON.stringify(prevUserRef.current);
         const current = JSON.stringify(user)
         if (prev !== current) {
-            if (window.location.pathname.startsWith("/extranet")) {
+            if (!window.location.pathname.startsWith("/admin")) {
                 prevUserRef.current = user;
-                if (window.location.pathname === "/extranet/sign-in" && user?.isAdmin) {
+                if (window.location.pathname === "/sign-in" && user?.isAdmin) {
                     window.location.href = `/admin`;
                 } else {
                     window.location.href = getStartLkRoute();
                 }
             }
-            if (window.location.pathname.startsWith("/admin")) {
+            else  {
                 if (user === null) {
                     prevUserRef.current = user;
                     window.location.reload();
@@ -103,7 +111,7 @@ const App = () => {
                 setAuth(null);
                 setStadium(null);
                 setPermissions([]);
-                window.location.href = "/extranet/sign-in";
+                window.location.href = "/sign-in";
             });
     }
 
@@ -112,9 +120,8 @@ const App = () => {
             <Layout>
                 <NotificationContainer/>
                 <Routes>
-                    <Route path="/" element={<Home/>}/>
-                    <Route path="/extranet/sign-in" element={<SignIn/>}/>
-                    <Route path="/extranet" element={<ProtectedRoute component={LkLayout}/>}>
+                    <Route path="/sign-in" element={<SignIn/>}/>
+                    <Route path="/" element={<ProtectedRoute component={LkLayout}/>}>
                         <Route path="forbidden" element={<Forbidden/>}/>
                         <Route path="settings" element={<Settings/>}>
                             <Route path="main" element={<MainSettings/>}/>

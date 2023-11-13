@@ -63,6 +63,7 @@ public class Startup
         services.AddSingleton( Configuration.GetSection( "StorageConfig" ).Get<StorageConfig>() );
         services.AddSingleton( Configuration.GetSection( "UtilsConfig" ).Get<UtilsConfig>() );
         services.AddSingleton( Configuration.GetSection( "UtilServiceConfig" ).Get<UtilServiceConfig>() );
+        services.AddSingleton( Configuration.GetSection( "EnvConfig" ).Get<EnvConfig>() );
         
         string? connectionString = Configuration.GetConnectionString( "MainDbConnection" );
         

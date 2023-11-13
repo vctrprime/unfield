@@ -64,7 +64,7 @@ export const LockerRoom = () => {
                 gender: LockerRoomGender.All//data.gender
             }
             offersService.addLockerRoom(command).then(() => {
-                navigate("/extranet/offers/locker-rooms");
+                navigate("/offers/locker-rooms");
             })
         }
     }
@@ -79,14 +79,14 @@ export const LockerRoom = () => {
                 gender: LockerRoomGender.All//data.gender
             }
             offersService.updateLockerRoom(command).then(() => {
-                navigate("/extranet/offers/locker-rooms");
+                navigate("/offers/locker-rooms");
             })
         }
     }
 
     const deleteLockerRoom = () => {
         offersService.deleteLockerRoom(lockerRoomId).then(() => {
-            navigate("/extranet/offers/locker-rooms");
+            navigate("/offers/locker-rooms");
         })
     }
 

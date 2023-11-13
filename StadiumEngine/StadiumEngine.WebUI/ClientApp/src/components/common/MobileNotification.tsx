@@ -3,14 +3,18 @@ import {Link, NavLink} from "react-router-dom";
 import logo from "../../img/logo/logo_icon_with_title.png";
 import React from "react";
 import {t} from "i18next";
+import {useRecoilValue} from "recoil";
+import {envAtom} from "../../state/env";
 
 export const MobileNotification = () => {
+    const env = useRecoilValue(envAtom);
+    
     return (<div className="sign-in-container">
         <div className="color-block bottom-color-block" style={{top: 0}}/>
         <div className="color-block top-color-block"/>
 
         <div className="logo-container">
-            <NavbarBrand className={"navbar-brand-ext"} tag={Link} to="/">
+            <NavbarBrand className={"navbar-brand-ext"} tag={Link} to={env?.portalHost||'/'}>
                 <img className={"logo"} alt={"Stadium Engine"} src={logo}/>
             </NavbarBrand>
             <div className={"version-title"}>{process.env.REACT_APP_VERSION}</div>
@@ -26,7 +30,7 @@ export const MobileNotification = () => {
             textAlign: 'center'
         }}>{t('common:mobile_notification')}</div>
 
-        <NavLink className="portal-button" to="/">
+        <NavLink className="portal-button" to={env?.portalHost||'/'}>
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                  className="bi bi-house" viewBox="0 0 16 16">
                 <path

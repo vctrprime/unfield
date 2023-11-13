@@ -1,5 +1,5 @@
 import React from 'react';
-import {Outlet} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import {NavMenu} from "./NavMenu";
 import {Header} from "./Header";
 import '../../css/extranet/Main.scss';
@@ -17,16 +17,22 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import {MobileNotification} from "../common/MobileNotification";
 import {t} from "i18next";
+import {getStartLkRoute} from "../../helpers/utils";
 
 export const Layout = () => {
     const stadium = useRecoilValue(stadiumAtom);
-
+    const navigate = useNavigate();
 
     if (isMobile) {
         return (
             <MobileNotification/>
         )
     }
+    
+    if (window.location.pathname.length < 3) {
+        navigate(getStartLkRoute());
+    }
+    
 
     return (
         <div

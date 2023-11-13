@@ -77,13 +77,13 @@ function useFetchWrapper() {
                 if ([401].includes(response.status)) {
                     localStorage.removeItem('user');
                     setAuth(null);
-                    navigate("/extranet/sign-in");
+                    navigate("/sign-in");
                     return Promise.reject(error);
                 }
                 
                 console.log(url);
                 if ([403].includes(response.status) && url.startsWith("api/schedule")) {
-                    navigate("/extranet/forbidden");
+                    navigate("/forbidden");
                     return Promise.reject(error);
                 }
                 

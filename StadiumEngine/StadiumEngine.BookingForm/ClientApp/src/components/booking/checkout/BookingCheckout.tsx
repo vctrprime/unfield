@@ -23,6 +23,7 @@ import {
     getFieldAmount,
     getInventoryAmount
 } from "../../../helpers/booking-utils";
+import 'react-phone-input-2/lib/style.css'
 
 type CheckoutLocationState = {
     bookingNumber: string;

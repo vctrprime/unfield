@@ -20,16 +20,12 @@ namespace StadiumEngine.BookingForm;
 /// </summary>
 public class Startup
 {
-    private readonly IWebHostEnvironment _environment;
-
     /// <summary>
     ///     Установочный класс
     /// </summary>
-    public Startup( IConfiguration configuration,
-        IWebHostEnvironment environment )
+    public Startup( IConfiguration configuration )
     {
         Configuration = configuration;
-        _environment = environment;
     }
 
     /// <summary>
@@ -45,6 +41,7 @@ public class Startup
     {
         services.AddSingleton( Configuration.GetSection( "StorageConfig" ).Get<StorageConfig>() );
         services.AddSingleton( Configuration.GetSection( "UtilServiceConfig" ).Get<UtilServiceConfig>() );
+        services.AddSingleton( Configuration.GetSection( "EnvConfig" ).Get<EnvConfig>() );
         
         string? connectionString = Configuration.GetConnectionString( "MainDbConnection" );
         

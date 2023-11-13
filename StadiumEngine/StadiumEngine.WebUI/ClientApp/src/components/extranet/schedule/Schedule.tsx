@@ -22,7 +22,7 @@ export const Schedule = () => {
                 alignItems: 'center'}}>
                 <div>
                     <a className={ mode === "default" ? "active": "" } onClick={() => {
-                        window.history.pushState(null, '', "extranet/schedule");
+                        window.history.pushState(null, '', "schedule");
                         setMode("default")
                     }}>
                         <div className="tabs-link">
@@ -30,7 +30,7 @@ export const Schedule = () => {
                         </div>
                     </a>
                     <a className={ mode === "tabs" ? "active": "" } onClick={() => {
-                        window.history.pushState(null, '', "extranet/schedule/tabs");
+                        window.history.pushState(null, '', "schedule/tabs");
                         setMode("tabs")
                     }}>
                         <div className="tabs-link">
@@ -38,7 +38,7 @@ export const Schedule = () => {
                         </div>
                     </a>
                     <a className={ mode === "list" ? "active": "" } onClick={() => {
-                        window.history.pushState(null, '', "extranet/schedule/list");
+                        window.history.pushState(null, '', "schedule/list");
                         setMode("list")
                     }}>
                         <div className="tabs-link">

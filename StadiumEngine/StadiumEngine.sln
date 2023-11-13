@@ -32,6 +32,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{220CFE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StadiumEngine.BookingForm", "StadiumEngine.BookingForm\StadiumEngine.BookingForm.csproj", "{569EEC16-6C98-4EB5-873C-B7875F09ACDB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StadiumEngine.Portal", "StadiumEngine.Portal\StadiumEngine.Portal.csproj", "{019C7BC2-5A1E-4104-B1DE-8C83AA42B3F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{569EEC16-6C98-4EB5-873C-B7875F09ACDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{569EEC16-6C98-4EB5-873C-B7875F09ACDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{569EEC16-6C98-4EB5-873C-B7875F09ACDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{019C7BC2-5A1E-4104-B1DE-8C83AA42B3F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{019C7BC2-5A1E-4104-B1DE-8C83AA42B3F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{019C7BC2-5A1E-4104-B1DE-8C83AA42B3F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{019C7BC2-5A1E-4104-B1DE-8C83AA42B3F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FE4BE2B7-5FB0-4A7A-844D-0A4BB0ABC9A7} = {2E204052-5F0F-431E-A767-1C6E7B18AD52}
