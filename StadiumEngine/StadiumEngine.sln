@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StadiumEngine.WebUI", "StadiumEngine.WebUI\StadiumEngine.WebUI.csproj", "{9F5CC079-4957-4D3F-91F5-5419C13D5EE9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StadiumEngine.Extranet", "StadiumEngine.Extranet\StadiumEngine.Extranet.csproj", "{9F5CC079-4957-4D3F-91F5-5419C13D5EE9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{5F72A127-EEBA-45C1-A97C-9B7F3C5A3945}"
 EndProject
