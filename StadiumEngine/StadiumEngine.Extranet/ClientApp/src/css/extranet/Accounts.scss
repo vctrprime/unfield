@@ -86,13 +86,13 @@
     }
 
 
-    .accounts-permissions-container, .offers-permissions-container, .rates-permissions-container, .settings-permission-container {
+    .accounts-permissions-container, .schedule-permissions-container, .offers-permissions-container, .rates-permissions-container, .settings-permission-container {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
       width: 100%;
 
-      .accounts-permission, .offers-permission, .rates-permission, .settings-permission {
+      .accounts-permission, .offers-permission, .rates-permission, .settings-permission, .schedule-permission {
         flex: 1 0 25%;
       }
     }

@@ -177,16 +177,16 @@ export const Permissions = () => {
                     })}
                 </div>
             </div>
-            <div className="outer-container" style={{width: '33.33%'}}>
-                <div className="inner-container">
+            <div className="outer-container" style={{width: '100%'}}>
+                <div className="schedule-permissions-container inner-container">
                     <PermissionGroupTitle groupKey="schedule"/>
                     {new Array(4).fill('').map((v, i) => {
-                        return <Permission key={i} className="permission"
+                        return <Permission key={i} className="permission schedule-permission" 
                                            permission={data.find(p => p.groupKey === 'schedule' && p.sortValue === i + 1)}/>
                     })}
                 </div>
             </div>
-            <div className="outer-container" style={{width: '33.33%'}}>
+            {/*<div className="outer-container" style={{width: '33.33%'}}>
                 <div className="inner-container">
                     <PermissionGroupTitle groupKey="employees"/>
                     {new Array(1).fill('').map((v, i) => {
@@ -203,7 +203,7 @@ export const Permissions = () => {
                                            permission={data.find(p => p.groupKey === 'reports' && p.sortValue === i + 1)}/>
                     })}
                 </div>
-            </div>
+            </div>*/}
             <div className="outer-container" style={{width: '100%'}}>
                 <div className="accounts-permissions-container inner-container">
                     <PermissionGroupTitle groupKey="accounts"/>

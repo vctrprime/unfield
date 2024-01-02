@@ -82,7 +82,7 @@ export const NavMenu = () => {
                                             icon="dollar-sign">{t('common:lk_navbar:rates')}</CDBSidebarMenuItem>
                     </NavLink> : <span/>}
 
-                    {viewNavLink(PermissionsKeys.EmployeesGroup) ?
+                    {/*{viewNavLink(PermissionsKeys.EmployeesGroup) ?
                         <NavLink to="/employees" className={getNavLinkClassName}>
                             <CDBSidebarMenuItem title={t('common:lk_navbar:employees')}
                                                 icon="user-tie">{t('common:lk_navbar:employees')}</CDBSidebarMenuItem>
@@ -92,7 +92,7 @@ export const NavMenu = () => {
                         <NavLink to="/reports" className={getNavLinkClassName}>
                             <CDBSidebarMenuItem title={t('common:lk_navbar:reports')}
                                                 icon="chart-line">{t('common:lk_navbar:reports')}</CDBSidebarMenuItem>
-                        </NavLink> : <span/>}
+                        </NavLink> : <span/>}*/}
 
                     {viewNavLink(PermissionsKeys.AccountsGroup) ?
                         <NavLink to="/accounts" className={getNavLinkClassName}>
