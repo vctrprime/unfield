@@ -8,6 +8,7 @@ export interface DateRangeSelectProps {
     onChange: any,
     filterDate?: any,
     clearable?: boolean,
+    keepOpenOnSelect?: boolean;
 }
 
 export const DateRangeSelect = (props: DateRangeSelectProps) => {
@@ -17,7 +18,7 @@ export const DateRangeSelect = (props: DateRangeSelectProps) => {
         datePickerOnly={true} 
         format={"DD.MM.YYYY"}
         value={props.value}
-        keepOpenOnSelect={true}
+        keepOpenOnSelect={props.keepOpenOnSelect ?? false}
         clearable={props.clearable === undefined ? true : props.clearable }
         filterDate={props.filterDate ? props.filterDate : () => true}
         locale={getLocale()} onChange={props.onChange} type="range" />;

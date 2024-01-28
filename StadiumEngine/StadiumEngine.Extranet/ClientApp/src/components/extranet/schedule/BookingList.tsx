@@ -310,7 +310,7 @@ export const BookingList = () => {
                                  onChange={(e) => setSearchString(e.target.value)}
             />}
             {!useSearch &&
-                <DateRangeSelect clearable={false} value={period} filterDate={filterDate} onChange={changePeriod}/>}
+                <DateRangeSelect keepOpenOnSelect={true} clearable={false} value={period} filterDate={filterDate} onChange={changePeriod}/>}
             
             <Button disabled={(useSearch && searchString.length < 3) || (!useSearch && period[1] === undefined)} style={{ marginLeft: 10}} onClick={fetchBookings}>{t('common:search_button')}</Button>
             {data.length === 0 && !isLoading && <span>{t('schedule:list:no_rows')}</span>}
