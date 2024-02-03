@@ -11,6 +11,14 @@ internal class StadiumRepository : BaseRepository<Stadium>, IStadiumRepository
     {
     }
 
+    public async Task<List<Stadium>> GetAsync( int skip, int take ) =>
+        await Entities
+            .Where( x => !x.IsDeleted )
+            .OrderBy( x => x.Id )
+            .Skip( skip )
+            .Take( take )
+            .ToListAsync();
+
     public async Task<List<Stadium>> GetForLegalAsync( int legalId ) =>
         await Entities
             .Where( s => s.LegalId == legalId && !s.IsDeleted )

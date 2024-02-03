@@ -25,7 +25,7 @@ public static class ServiceCollectionExtensions
                 .UsePostgreSqlStorage( connectionString ) );
         services.AddHangfireServer();
 
-        services.AddScoped<IDashboardDataBuilder, DashboardDataBuilder>();
+        services.AddScoped<IStadiumDashboardDataBuilder, StadiumDashboardDataBuilder>();
         services.AddScoped<IDashboardCalculatorJob, DashboardCalculatorJob>();
 
         services.RegisterServices( connectionString );

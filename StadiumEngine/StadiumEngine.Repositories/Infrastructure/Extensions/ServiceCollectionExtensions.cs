@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Repositories.Bookings;
+using StadiumEngine.Domain.Repositories.Dashboard;
 using StadiumEngine.Domain.Repositories.Geo;
 using StadiumEngine.Domain.Repositories.Notifications;
 using StadiumEngine.Domain.Repositories.Offers;
@@ -10,6 +11,7 @@ using StadiumEngine.Domain.Repositories.Rates;
 using StadiumEngine.Domain.Repositories.Settings;
 using StadiumEngine.Repositories.Accounts;
 using StadiumEngine.Repositories.Bookings;
+using StadiumEngine.Repositories.Dashboard;
 using StadiumEngine.Repositories.Geo;
 using StadiumEngine.Repositories.Infrastructure.Contexts;
 using StadiumEngine.Repositories.Notifications;
@@ -103,6 +105,12 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUIMessageRepository, UIMessageRepository>();
         services.AddScoped<IUIMessageLastReadRepository, UIMessageLastReadRepository>();
 
+        #endregion
+
+        #region dashboard
+
+        services.AddScoped<IStadiumDashboardRepository, StadiumDashboardRepository>();
+        
         #endregion
 
         return services;

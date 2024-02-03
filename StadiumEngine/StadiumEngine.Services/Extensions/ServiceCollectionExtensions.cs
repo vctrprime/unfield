@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Domain.Services.Core.Accounts;
 using StadiumEngine.Domain.Services.Core.BookingForm;
 using StadiumEngine.Domain.Services.Core.BookingForm.Distributors;
+using StadiumEngine.Domain.Services.Core.Dashboard;
 using StadiumEngine.Domain.Services.Core.Geo;
 using StadiumEngine.Domain.Services.Core.Notifications;
 using StadiumEngine.Domain.Services.Core.Offers;
@@ -17,6 +18,7 @@ using StadiumEngine.Services.Checkers;
 using StadiumEngine.Services.Core.Accounts;
 using StadiumEngine.Services.Core.BookingForm;
 using StadiumEngine.Services.Core.BookingForm.Distributors;
+using StadiumEngine.Services.Core.Dashboard;
 using StadiumEngine.Services.Facades.Accounts;
 using StadiumEngine.Services.Core.Geo;
 using StadiumEngine.Services.Core.Offers;
@@ -66,6 +68,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRoleQueryService, RoleQueryService>();
         services.AddScoped<IRoleCommandService, RoleCommandService>();
         services.AddScoped<IPermissionCommandService, PermissionCommandService>();
+        services.AddScoped<IStadiumQueryService, StadiumQueryService>();
 
         services.AddScoped<IFieldServiceFacade, FieldServiceFacade>();
         services.AddScoped<IFieldQueryService, FieldQueryService>();
@@ -105,6 +108,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUIMessageCommandService, UIMessageCommandService>();
         services.AddScoped<IUIMessageLastReadQueryService, UIMessageLastReadQueryService>();
         services.AddScoped<IUIMessageLastReadCommandService, UIMessageLastReadCommandService>();
+
+        services.AddScoped<IStadiumDashboardCommandService, StadiumDashboardCommandService>();
         
         #endregion
 
