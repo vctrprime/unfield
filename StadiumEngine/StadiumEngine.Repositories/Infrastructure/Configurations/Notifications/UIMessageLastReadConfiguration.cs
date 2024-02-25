@@ -1,0 +1,29 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using StadiumEngine.Domain.Entities;
+using StadiumEngine.Domain.Entities.Notifications;
+
+namespace StadiumEngine.Repositories.Infrastructure.Configurations.Notifications;
+
+internal class UIMessageLastReadConfiguration : IEntityTypeConfiguration<UIMessageLastRead>
+{
+    public void Configure( EntityTypeBuilder<UIMessageLastRead> builder )
+    {
+        builder.ToTable( "ui_message_last_read", "notifications" );
+        builder.HasBaseType( typeof( BaseEntity ) );
+        
+        builder.Property( p => p.StadiumId ).HasColumnName( "stadium_id" );
+        builder.Property( p => p.UserId ).HasColumnName( "user_id" );
+        builder.Property( p => p.MessageId ).HasColumnName( "ui_message_id" );
+        
+        builder.HasOne( x => x.Stadium )
+            .WithMany( x => x.UIMessageLastReads )
+            .HasForeignKey( x => x.StadiumId );
+        builder.HasOne( x => x.User )
+            .WithMany( x => x.UIMessageLastReads )
+            .HasForeignKey( x => x.UserId );
+        builder.HasOne( x => x.Message )
+            .WithMany( x => x.UIMessageLastReads )
+            .HasForeignKey( x => x.MessageId );
+    }
+}

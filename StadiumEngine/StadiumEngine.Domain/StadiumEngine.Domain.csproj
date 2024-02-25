@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.1" />
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\StadiumEngine.Common\StadiumEngine.Common.csproj" />
     </ItemGroup>
 

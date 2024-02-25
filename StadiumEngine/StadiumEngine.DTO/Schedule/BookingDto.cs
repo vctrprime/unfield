@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using StadiumEngine.Common.Enums.BookingForm;
 using StadiumEngine.Common.Enums.Rates;
 using StadiumEngine.DTO.Offers.Fields;

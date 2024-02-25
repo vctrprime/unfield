@@ -16,4 +16,8 @@
         <ProjectReference Include="..\StadiumEngine.Domain\StadiumEngine.Domain.csproj" PrivateAssets="All" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Infrastructure\Configurations\Dashboard" />
+    </ItemGroup>
+
 </Project>
