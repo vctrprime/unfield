@@ -4,13 +4,13 @@ using StadiumEngine.Domain.Entities;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations;
 
-internal class BaseUserEntityConfiguration : IEntityTypeConfiguration<BaseUserEntity>
+internal abstract class BaseUserEntityConfiguration : BaseEntityConfiguration
 {
-    public void Configure( EntityTypeBuilder<BaseUserEntity> builder )
+    protected void BaseUserEntityConfigure<T>( EntityTypeBuilder<T> builder ) where T : BaseUserEntity
     {
-        builder.HasBaseType( typeof( BaseEntity ) );
+        BaseEntityConfigure( builder );
         
         builder.Property( p => p.UserCreatedId ).HasColumnName( "user_created_id" );
-        builder.Property( p => p.UserModifiedId ).HasColumnName( "user_created_id" );
+        builder.Property( p => p.UserModifiedId ).HasColumnName( "user_modified_id" );
     }
 }

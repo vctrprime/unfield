@@ -1,15 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using StadiumEngine.Domain.Entities;
 using StadiumEngine.Domain.Entities.Offers;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Offers;
 
-internal class BaseOfferEntityConfiguration : IEntityTypeConfiguration<BaseOfferEntity>
+internal abstract class BaseOfferEntityConfiguration : BaseUserEntityConfiguration
 {
-    public void Configure( EntityTypeBuilder<BaseOfferEntity> builder )
+    protected void BaseOfferEntityConfigure<T>( EntityTypeBuilder<T> builder ) where T : BaseOfferEntity
     {
-        builder.HasBaseType( typeof( BaseUserEntity ) );
+        BaseUserEntityConfigure( builder );
         
         builder.Property( p => p.Name ).HasColumnName( "name" );
         builder.Property( p => p.Description ).HasColumnName( "description" );

@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Bookings;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Bookings;
 
-internal class BookingWeeklyExcludeDayConfiguration : IEntityTypeConfiguration<BookingWeeklyExcludeDay>
+internal class BookingWeeklyExcludeDayConfiguration : BaseUserEntityConfiguration, IEntityTypeConfiguration<BookingWeeklyExcludeDay>
 {
     public void Configure( EntityTypeBuilder<BookingWeeklyExcludeDay> builder )
     {
         builder.ToTable( "booking_weekly_exclude_day", "bookings" );
-        builder.HasBaseType( typeof( BaseUserEntity ) );
+        BaseUserEntityConfigure( builder );
         
         builder.HasOne( x => x.UserCreated )
             .WithMany( x => x.CreatedBookingsWeeklyExcludeDays )

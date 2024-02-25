@@ -1,16 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using StadiumEngine.Domain.Entities;
 using StadiumEngine.Domain.Entities.Offers;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Offers;
 
-internal class LockerRoomConfiguration : IEntityTypeConfiguration<LockerRoom>
+internal class LockerRoomConfiguration : BaseUserEntityConfiguration, IEntityTypeConfiguration<LockerRoom>
 {
     public void Configure( EntityTypeBuilder<LockerRoom> builder )
     {
         builder.ToTable( "locker_room", "offers" );
-        builder.HasBaseType( typeof( BaseUserEntity ) );
+        BaseUserEntityConfigure( builder );
         
         builder.HasOne( x => x.UserCreated )
             .WithMany( x => x.CreatedLockerRooms )

@@ -5,11 +5,11 @@ using StadiumEngine.Domain.Entities.Rates;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Rates;
 
-internal class BaseRateEntityConfiguration : IEntityTypeConfiguration<BaseRateEntity>
+internal abstract class BaseRateEntityConfiguration : BaseUserEntityConfiguration
 {
-    public void Configure( EntityTypeBuilder<BaseRateEntity> builder )
+    protected void BaseRateEntityConfigure<T>( EntityTypeBuilder<T> builder ) where T : BaseRateEntity
     {
-        builder.HasBaseType( typeof( BaseUserEntity ) );
+        BaseUserEntityConfigure( builder );
         
         builder.Property( p => p.Name ).HasColumnName( "name" );
         builder.Property( p => p.Description ).HasColumnName( "description" );

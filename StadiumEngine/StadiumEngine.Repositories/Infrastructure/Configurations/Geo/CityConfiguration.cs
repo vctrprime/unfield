@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Geo;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Geo;
 
-internal class CityConfiguration : IEntityTypeConfiguration<City>
+internal class CityConfiguration : BaseGeoEntityConfiguration, IEntityTypeConfiguration<City>
 {
     public void Configure( EntityTypeBuilder<City> builder )
     {
         builder.ToTable( "city", "geo" );
-        builder.HasBaseType( typeof( BaseGeoEntity ) );
+        BaseGeoEntityConfigure( builder );
         
         builder.Property( p => p.RegionId ).HasColumnName( "region_id" );
         

@@ -1,15 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using StadiumEngine.Domain.Entities;
 using StadiumEngine.Domain.Entities.Geo;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Geo;
 
-internal class BaseGeoEntityConfiguration : IEntityTypeConfiguration<BaseGeoEntity>
+internal abstract class BaseGeoEntityConfiguration : BaseEntityConfiguration
 {
-    public void Configure( EntityTypeBuilder<BaseGeoEntity> builder )
+    protected void BaseGeoEntityConfigure<T>( EntityTypeBuilder<T> builder ) where T : BaseGeoEntity
     {
-        builder.HasBaseType( typeof( BaseEntity ) );
+        BaseEntityConfigure( builder );
         
         builder.Property( p => p.Name ).HasColumnName( "name" );
         builder.Property( p => p.Description ).HasColumnName( "description" );

@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Accounts;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Accounts;
 
-internal class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermission>
+internal class RolePermissionConfiguration : BaseUserEntityConfiguration, IEntityTypeConfiguration<RolePermission>
 {
     public void Configure( EntityTypeBuilder<RolePermission> builder )
     {
         builder.ToTable( "role_permission", "accounts" );
-        builder.HasBaseType( typeof( BaseUserEntity ) );
+        BaseUserEntityConfigure( builder );
         
         builder.HasOne( x => x.UserCreated )
             .WithMany( x => x.CreatedRolePermissions )

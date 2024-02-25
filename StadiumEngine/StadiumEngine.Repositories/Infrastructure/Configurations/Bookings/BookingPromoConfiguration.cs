@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Bookings;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Bookings;
 
-internal class BookingPromoConfiguration : IEntityTypeConfiguration<BookingPromo>
+internal class BookingPromoConfiguration : BaseUserEntityConfiguration, IEntityTypeConfiguration<BookingPromo>
 {
     public void Configure( EntityTypeBuilder<BookingPromo> builder )
     {
         builder.ToTable( "booking_promo", "bookings" );
-        builder.HasBaseType( typeof( BaseUserEntity ) );
+        BaseUserEntityConfigure( builder );
         
         builder.HasOne( x => x.UserCreated )
             .WithMany( x => x.CreatedBookingsPromos )

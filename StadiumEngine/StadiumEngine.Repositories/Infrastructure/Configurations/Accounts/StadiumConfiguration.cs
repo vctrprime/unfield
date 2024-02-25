@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Accounts;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Accounts;
 
-internal class StadiumConfiguration : IEntityTypeConfiguration<Stadium>
+internal class StadiumConfiguration : BaseEntityConfiguration, IEntityTypeConfiguration<Stadium>
 {
     public void Configure( EntityTypeBuilder<Stadium> builder )
     {
         builder.ToTable( "stadium", "accounts" );
-        builder.HasBaseType( typeof( BaseEntity ) );
+        BaseEntityConfigure( builder );
 
         builder.Property( p => p.Address ).HasColumnName( "address" );
         builder.Property( p => p.Token ).HasColumnName( "token" );
@@ -18,7 +18,7 @@ internal class StadiumConfiguration : IEntityTypeConfiguration<Stadium>
         builder.Property( p => p.LegalId ).HasColumnName( "legal_id" ).IsRequired();
         builder.Property( p => p.Name ).HasColumnName( "name" );
         builder.Property( p => p.Description ).HasColumnName( "description" );
-        builder.Property( p => p.IsDeleted ).HasColumnName( "is_deleted" ).HasDefaultValue( false );
+        builder.Property( p => p.IsDeleted ).HasColumnName( "is_deleted" );
 
         builder.HasOne( x => x.City )
             .WithMany( x => x.Stadiums )

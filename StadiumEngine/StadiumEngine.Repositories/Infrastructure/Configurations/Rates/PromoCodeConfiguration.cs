@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Rates;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Rates;
 
-internal class PromoCodeConfiguration : IEntityTypeConfiguration<PromoCode>
+internal class PromoCodeConfiguration : BaseUserEntityConfiguration, IEntityTypeConfiguration<PromoCode>
 {
     public void Configure( EntityTypeBuilder<PromoCode> builder )
     {
         builder.ToTable( "promo_code", "rates" );
-        builder.HasBaseType( typeof( BaseUserEntity ) );
+        BaseUserEntityConfigure( builder );
         
         builder.HasOne( x => x.UserCreated )
             .WithMany( x => x.CreatedPromoCodes )

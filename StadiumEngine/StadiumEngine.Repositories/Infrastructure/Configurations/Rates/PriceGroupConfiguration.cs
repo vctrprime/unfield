@@ -4,12 +4,12 @@ using StadiumEngine.Domain.Entities.Rates;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Rates;
 
-internal class PriceGroupConfiguration : IEntityTypeConfiguration<PriceGroup>
+internal class PriceGroupConfiguration : BaseRateEntityConfiguration, IEntityTypeConfiguration<PriceGroup>
 {
     public void Configure( EntityTypeBuilder<PriceGroup> builder )
     {
         builder.ToTable( "price_group", "rates" );
-        builder.HasBaseType( typeof( BaseRateEntity ) );
+        BaseRateEntityConfigure( builder );
         
         builder.HasOne( x => x.UserCreated )
             .WithMany( x => x.CreatedPriceGroups )

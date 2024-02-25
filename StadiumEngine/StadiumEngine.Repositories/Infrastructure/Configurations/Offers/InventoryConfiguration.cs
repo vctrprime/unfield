@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Offers;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Offers;
 
-internal class InventoryConfiguration : IEntityTypeConfiguration<Inventory>
+internal class InventoryConfiguration : BaseOfferEntityConfiguration, IEntityTypeConfiguration<Inventory>
 {
     public void Configure( EntityTypeBuilder<Inventory> builder )
     {
         builder.ToTable( "inventory", "offers" );
-        builder.HasBaseType( typeof( BaseOfferEntity ) );
+        BaseOfferEntityConfigure( builder );
         
         builder.HasOne( x => x.UserCreated )
             .WithMany( x => x.CreatedInventories )

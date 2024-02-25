@@ -1,16 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using StadiumEngine.Domain.Entities;
 using StadiumEngine.Domain.Entities.Bookings;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Bookings;
 
-internal class BookingConfiguration : IEntityTypeConfiguration<Booking>
+internal class BookingConfiguration : BaseUserEntityConfiguration, IEntityTypeConfiguration<Booking>
 {
     public void Configure( EntityTypeBuilder<Booking> builder )
     {
         builder.ToTable( "booking", "bookings" );
-        builder.HasBaseType( typeof( BaseUserEntity ) );
+        BaseUserEntityConfigure( builder );
         
         builder.HasOne( x => x.UserCreated )
             .WithMany( x => x.CreatedBookings )
@@ -27,6 +26,7 @@ internal class BookingConfiguration : IEntityTypeConfiguration<Booking>
         builder.Property( p => p.FieldAmount ).HasColumnName( "field_amount" );
         builder.Property( p => p.TotalAmountBeforeDiscount ).HasColumnName( "total_amount_before_discount" );
         builder.Property( p => p.TotalAmountAfterDiscount ).HasColumnName( "total_amount_after_discount" );
+        builder.Property( p => p.StartHour ).HasColumnName( "start_hour" );
         builder.Property( p => p.HoursCount ).HasColumnName( "hours_count" );
         builder.Property( p => p.FieldId ).HasColumnName( "field_id" );
         builder.Property( p => p.TariffId ).HasColumnName( "tariff_id" );
@@ -41,6 +41,7 @@ internal class BookingConfiguration : IEntityTypeConfiguration<Booking>
         builder.Property( p => p.IsWeeklyStoppedDate ).HasColumnName( "is_weekly_stopped_date" );
         builder.Property( p => p.IsLastVersion ).HasColumnName( "is_last_version" );
         builder.Property( p => p.CancelReason ).HasColumnName( "cancel_reason" );
+        builder.Property( p => p.CloseVersionDate ).HasColumnName( "close_version_date" );
         
         builder.HasOne( x => x.Field )
             .WithMany( x => x.Bookings )

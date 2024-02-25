@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Rates;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Rates;
 
-internal class PriceConfiguration : IEntityTypeConfiguration<Price>
+internal class PriceConfiguration : BaseUserEntityConfiguration, IEntityTypeConfiguration<Price>
 {
     public void Configure( EntityTypeBuilder<Price> builder )
     {
         builder.ToTable( "price", "rates" );
-        builder.HasBaseType( typeof( BaseUserEntity ) );
+        BaseUserEntityConfigure( builder );
         
         builder.HasOne( x => x.UserCreated )
             .WithMany( x => x.CreatedPrices )

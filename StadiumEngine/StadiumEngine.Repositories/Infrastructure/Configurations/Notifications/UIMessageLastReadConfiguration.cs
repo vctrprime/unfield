@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Notifications;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Notifications;
 
-internal class UIMessageLastReadConfiguration : IEntityTypeConfiguration<UIMessageLastRead>
+internal class UIMessageLastReadConfiguration : BaseEntityConfiguration, IEntityTypeConfiguration<UIMessageLastRead>
 {
     public void Configure( EntityTypeBuilder<UIMessageLastRead> builder )
     {
         builder.ToTable( "ui_message_last_read", "notifications" );
-        builder.HasBaseType( typeof( BaseEntity ) );
+        BaseEntityConfigure( builder );
         
         builder.Property( p => p.StadiumId ).HasColumnName( "stadium_id" );
         builder.Property( p => p.UserId ).HasColumnName( "user_id" );

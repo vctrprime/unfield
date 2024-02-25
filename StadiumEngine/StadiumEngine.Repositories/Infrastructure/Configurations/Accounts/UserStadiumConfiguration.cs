@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Accounts;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Accounts;
 
-internal class UserStadiumConfiguration : IEntityTypeConfiguration<UserStadium>
+internal class UserStadiumConfiguration : BaseUserEntityConfiguration, IEntityTypeConfiguration<UserStadium>
 {
     public void Configure( EntityTypeBuilder<UserStadium> builder )
     {
         builder.ToTable( "user_stadium", "accounts" );
-        builder.HasBaseType( typeof( BaseUserEntity ) );
+        BaseUserEntityConfigure( builder );
         
         builder.HasOne( x => x.UserCreated )
             .WithMany( x => x.CreatedUserStadiums )

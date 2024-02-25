@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Accounts;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Accounts;
 
-internal class RoleConfiguration : IEntityTypeConfiguration<Role>
+internal class RoleConfiguration : BaseUserEntityConfiguration, IEntityTypeConfiguration<Role>
 {
     public void Configure( EntityTypeBuilder<Role> builder )
     {
         builder.ToTable( "role", "accounts" );
-        builder.HasBaseType( typeof( BaseUserEntity ) );
+        BaseUserEntityConfigure( builder );
         
         builder.HasOne( x => x.UserCreated )
             .WithMany( x => x.CreatedRoles )
@@ -23,7 +23,7 @@ internal class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.Property( p => p.Name ).HasColumnName( "name" );
         builder.Property( p => p.Description ).HasColumnName( "description" );
         builder.Property( p => p.LegalId ).HasColumnName( "legal_id" );
-        builder.Property( p => p.IsDeleted ).HasColumnName( "is_deleted" ).HasDefaultValue(false);
+        builder.Property( p => p.IsDeleted ).HasColumnName( "is_deleted" );
 
         builder.HasOne( x => x.Legal )
             .WithMany( x => x.Roles )

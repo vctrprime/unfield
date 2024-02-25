@@ -1,20 +1,19 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using StadiumEngine.Domain.Entities;
 using StadiumEngine.Domain.Entities.Accounts;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Accounts;
 
-internal class LegalConfiguration : IEntityTypeConfiguration<Legal>
+internal class LegalConfiguration : BaseEntityConfiguration, IEntityTypeConfiguration<Legal>
 {
     public void Configure( EntityTypeBuilder<Legal> builder )
     {
         builder.ToTable( "legal", "accounts" );
-        builder.HasBaseType( typeof( BaseEntity ) );
+        BaseEntityConfigure( builder );
         
-        builder.Property( p => p.Inn ).HasColumnName( "inn" ).IsRequired();
-        builder.Property( p => p.HeadName ).HasColumnName( "head_name" ).IsRequired();
-        builder.Property( p => p.CityId ).HasColumnName( "city_id" ).IsRequired();
+        builder.Property( p => p.Inn ).HasColumnName( "inn" );
+        builder.Property( p => p.HeadName ).HasColumnName( "head_name" );
+        builder.Property( p => p.CityId ).HasColumnName( "city_id" );
         builder.Property( p => p.Name ).HasColumnName( "name" );
         builder.Property( p => p.Description ).HasColumnName( "description" );
 

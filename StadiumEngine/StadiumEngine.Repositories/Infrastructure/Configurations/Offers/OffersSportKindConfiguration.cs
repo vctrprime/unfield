@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Offers;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Offers;
 
-internal class OffersSportKindConfiguration : IEntityTypeConfiguration<OffersSportKind>
+internal class OffersSportKindConfiguration : BaseUserEntityConfiguration, IEntityTypeConfiguration<OffersSportKind>
 {
     public void Configure( EntityTypeBuilder<OffersSportKind> builder )
     {
         builder.ToTable( "sport_kind", "offers" );
-        builder.HasBaseType( typeof( BaseUserEntity ) );
+        BaseUserEntityConfigure( builder );
         
         builder.HasOne( x => x.UserCreated )
             .WithMany( x => x.CreatedOffersSportKinds )

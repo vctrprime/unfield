@@ -1,4 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using StadiumEngine.Domain.Entities.Notifications;
+using StadiumEngine.Domain.Entities.Rates;
+using StadiumEngine.Domain.Entities.Settings;
+using StadiumEngine.Repositories.Infrastructure.Configurations;
 using StadiumEngine.Repositories.Infrastructure.Configurations.Accounts;
 using StadiumEngine.Repositories.Infrastructure.Configurations.Bookings;
 using StadiumEngine.Repositories.Infrastructure.Configurations.Geo;
@@ -33,9 +37,6 @@ internal class MainDbContext : DbContext
                // ValueGenerated.OnAdd;
         }*/
 
-        //modelBuilder.ApplyConfiguration( new BaseEntityTypeConfiguration() );
-        //modelBuilder.ApplyConfiguration( new BaseUserEntityTypeConfiguration() );
-        
         #region accounts
         
         modelBuilder.ApplyConfiguration( new LegalConfiguration() );
@@ -63,7 +64,6 @@ internal class MainDbContext : DbContext
 
         #region geo
         
-        //modelBuilder.ApplyConfiguration( new BaseGeoEntityConfiguration() );
         modelBuilder.ApplyConfiguration( new CityConfiguration() );
         modelBuilder.ApplyConfiguration( new CountryConfiguration() );
         modelBuilder.ApplyConfiguration( new RegionConfiguration() );
@@ -80,7 +80,6 @@ internal class MainDbContext : DbContext
 
         #region offers
         
-        //modelBuilder.ApplyConfiguration( new BaseOfferEntityConfiguration() );
         modelBuilder.ApplyConfiguration( new FieldConfiguration() );
         modelBuilder.ApplyConfiguration( new InventoryConfiguration() );
         modelBuilder.ApplyConfiguration( new LockerRoomConfiguration() );
@@ -91,7 +90,6 @@ internal class MainDbContext : DbContext
         
         #region rates
         
-        //modelBuilder.ApplyConfiguration( new BaseRateEntityConfiguration() );
         modelBuilder.ApplyConfiguration( new DayIntervalConfiguration() );
         modelBuilder.ApplyConfiguration( new PriceConfiguration() );
         modelBuilder.ApplyConfiguration( new PriceGroupConfiguration() );
@@ -109,6 +107,12 @@ internal class MainDbContext : DbContext
 
         #endregion
 
+        modelBuilder.Entity<DayInterval>().Ignore(t => t.DateModified);
+        modelBuilder.Entity<MainSettings>().Ignore(t => t.UserCreatedId);
+        modelBuilder.Entity<MainSettings>().Ignore(t => t.UserCreated);
+        modelBuilder.Entity<UIMessageText>().Ignore(t => t.DateCreated);
+        modelBuilder.Entity<UIMessageText>().Ignore(t => t.DateModified);
+        
         base.OnModelCreating( modelBuilder );
     }
 

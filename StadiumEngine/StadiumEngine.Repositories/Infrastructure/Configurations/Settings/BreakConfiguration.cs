@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Settings;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Settings;
 
-internal class BreakConfiguration : IEntityTypeConfiguration<Break>
+internal class BreakConfiguration : BaseUserEntityConfiguration, IEntityTypeConfiguration<Break>
 {
     public void Configure( EntityTypeBuilder<Break> builder )
     {
         builder.ToTable( "break", "settings" );
-        builder.HasBaseType( typeof( BaseUserEntity ) );
+        BaseUserEntityConfigure( builder );
         
         builder.HasOne( x => x.UserCreated )
             .WithMany( x => x.CreatedBreaks )

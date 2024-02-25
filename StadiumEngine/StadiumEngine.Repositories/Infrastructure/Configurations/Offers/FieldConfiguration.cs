@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Offers;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Offers;
 
-internal class FieldConfiguration : IEntityTypeConfiguration<Field>
+internal class FieldConfiguration : BaseOfferEntityConfiguration, IEntityTypeConfiguration<Field>
 {
     public void Configure( EntityTypeBuilder<Field> builder )
     {
         builder.ToTable( "field", "offers" );
-        builder.HasBaseType( typeof( BaseOfferEntity ) );
+        BaseOfferEntityConfigure( builder );
         
         builder.HasOne( x => x.UserCreated )
             .WithMany( x => x.CreatedFields )

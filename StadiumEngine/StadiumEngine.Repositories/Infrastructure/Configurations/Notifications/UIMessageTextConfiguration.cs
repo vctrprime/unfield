@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Notifications;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Notifications;
 
-internal class UIMessageTextConfiguration : IEntityTypeConfiguration<UIMessageText>
+internal class UIMessageTextConfiguration : BaseEntityConfiguration, IEntityTypeConfiguration<UIMessageText>
 {
     public void Configure( EntityTypeBuilder<UIMessageText> builder )
     {
         builder.ToTable( "ui_message_text", "notifications" );
-        builder.HasBaseType( typeof( BaseEntity ) );
+        BaseEntityConfigure( builder );
         
         builder.Property( p => p.MessageId ).HasColumnName( "ui_message_id" );
         builder.Property( p => p.Text ).HasColumnName( "text" );

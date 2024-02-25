@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Rates;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Rates;
 
-internal class TariffDayIntervalConfiguration : IEntityTypeConfiguration<TariffDayInterval>
+internal class TariffDayIntervalConfiguration : BaseUserEntityConfiguration, IEntityTypeConfiguration<TariffDayInterval>
 {
     public void Configure( EntityTypeBuilder<TariffDayInterval> builder )
     {
         builder.ToTable( "tariff_day_interval", "rates" );
-        builder.HasBaseType( typeof( BaseUserEntity ) );
+        BaseUserEntityConfigure( builder );
         
         builder.HasOne( x => x.UserCreated )
             .WithMany( x => x.CreatedTariffDayIntervals )
@@ -21,7 +21,7 @@ internal class TariffDayIntervalConfiguration : IEntityTypeConfiguration<TariffD
             .HasForeignKey( x => x.UserModifiedId );
         
         builder.Property( p => p.TariffId ).HasColumnName( "tariff_id" );
-        builder.Property( p => p.DayIntervalId ).HasColumnName( "tariff_day_interval" );
+        builder.Property( p => p.DayIntervalId ).HasColumnName( "day_interval_id" );
         
         builder.HasOne( x => x.Tariff )
             .WithMany( x => x.TariffDayIntervals )

@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Settings;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Settings;
 
-internal class MainSettingsConfiguration : IEntityTypeConfiguration<MainSettings>
+internal class MainSettingsConfiguration : BaseUserEntityConfiguration, IEntityTypeConfiguration<MainSettings>
 {
     public void Configure( EntityTypeBuilder<MainSettings> builder )
     {
         builder.ToTable( "main_settings", "settings" );
-        builder.HasBaseType( typeof( BaseUserEntity ) );
+        BaseUserEntityConfigure( builder );
 
         builder.HasOne( x => x.UserModified )
             .WithMany( x => x.LastModifiedMainSettings )

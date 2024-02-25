@@ -5,12 +5,12 @@ using StadiumEngine.Domain.Entities.Offers;
 
 namespace StadiumEngine.Repositories.Infrastructure.Configurations.Offers;
 
-internal class OffersImageConfiguration : IEntityTypeConfiguration<OffersImage>
+internal class OffersImageConfiguration : BaseUserEntityConfiguration, IEntityTypeConfiguration<OffersImage>
 {
     public void Configure( EntityTypeBuilder<OffersImage> builder )
     {
         builder.ToTable( "image", "offers" );
-        builder.HasBaseType( typeof( BaseUserEntity ) );
+        BaseUserEntityConfigure( builder );
         
         builder.HasOne( x => x.UserCreated )
             .WithMany( x => x.CreatedOffersImages )
