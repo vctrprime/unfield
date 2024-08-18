@@ -114,7 +114,8 @@ const App = () => {
                 window.location.href = "/sign-in";
             });
     }
-
+    
+    // todo фронт для дашборда
     return (
         <>
             <Layout>

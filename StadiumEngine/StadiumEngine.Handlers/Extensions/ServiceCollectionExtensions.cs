@@ -19,11 +19,17 @@ namespace StadiumEngine.Handlers.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void RegisterHandlers( this IServiceCollection services, string connectionString ) => services.RegisterModules( connectionString );
+    public static void RegisterHandlers( 
+        this IServiceCollection services, 
+        string connectionString,
+        string archiveConnectionString ) => services.RegisterModules( connectionString, archiveConnectionString );
 
-    private static void RegisterModules( this IServiceCollection services, string connectionString )
+    private static void RegisterModules( 
+        this IServiceCollection services, 
+        string connectionString,
+        string archiveConnectionString )
     {
-        services.RegisterServices( connectionString );
+        services.RegisterServices( connectionString, archiveConnectionString );
         services.AddMediator( options => options.ServiceLifetime = ServiceLifetime.Scoped );
         
         services.AddScoped<IAddUserFacade, AddUserFacade>();
@@ -61,6 +67,7 @@ public static class ServiceCollectionExtensions
                 cfg.AddProfile( new BookingFormProfile() );
                 cfg.AddProfile( new SchedulerProfile() );
                 cfg.AddProfile( new NotificationsProfile() );
+                cfg.AddProfile( new DashboardsProfile() );
             } );
         services.AddSingleton( provider => mappingConfig.CreateMapper());
     }

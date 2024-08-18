@@ -44,6 +44,7 @@ public class Startup
         services.AddSingleton( Configuration.GetSection( "EnvConfig" ).Get<EnvConfig>() );
         
         string? connectionString = Configuration.GetConnectionString( "MainDbConnection" );
+        string? archiveConnectionString = Configuration.GetConnectionString( "ArchiveDbConnection" );
         
         SelfLog.Enable( msg => Console.WriteLine( $"Logging Process Error: {msg}" ) );
         Log.Logger = new LoggerConfiguration()
@@ -58,7 +59,7 @@ public class Startup
                 restrictedToMinimumLevel: LogEventLevel.Error )
             .CreateLogger();
         
-        services.RegisterModules( connectionString );
+        services.RegisterModules( connectionString, archiveConnectionString );
         
         services.AddControllersWithViews().AddJsonOptions(
                 options => { options.JsonSerializerOptions.Converters.Add( new JsonStringEnumConverter() ); } )

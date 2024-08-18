@@ -65,4 +65,10 @@ public static class ErrorsKeys
     public const string BookingIntersection = "booking:booking_intersection";
 
     #endregion
+
+    #region dashboards
+
+    public const string StadiumDashboardNotFound = "dashboards:stadium_dashboard_not_found";
+
+    #endregion
 }

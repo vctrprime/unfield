@@ -46,6 +46,7 @@ export class PermissionsKeys {
     public static readonly DeleteBooking = "delete-booking";
 
     public static readonly UpdateMainSettings = "update-main-settings";
+    public static readonly ViewDashboard = "view-dashboard";
     public static readonly GetBreaks = "get-breaks";
     public static readonly InsertBreak = "insert-break";
     public static readonly UpdateBreak = "update-break";

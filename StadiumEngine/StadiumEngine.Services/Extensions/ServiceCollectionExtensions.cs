@@ -43,9 +43,12 @@ namespace StadiumEngine.Services.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void RegisterServices( this IServiceCollection services, string connectionString )
+    public static void RegisterServices( 
+        this IServiceCollection services, 
+        string connectionString,
+        string archiveConnectionString )
     {
-        services.RegisterDataAccessModules( connectionString );
+        services.RegisterDataAccessModules( connectionString, archiveConnectionString );
         services.AddSignalR();
 
         services.AddScoped<IClaimsIdentityService, ClaimsIdentityService>();
@@ -110,6 +113,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUIMessageLastReadCommandService, UIMessageLastReadCommandService>();
 
         services.AddScoped<IStadiumDashboardCommandService, StadiumDashboardCommandService>();
+        services.AddScoped<IStadiumDashboardQueryService, StadiumDashboardQueryService>();
         
         #endregion
 

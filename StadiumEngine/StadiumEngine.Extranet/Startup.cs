@@ -66,6 +66,7 @@ public class Startup
         services.AddSingleton( Configuration.GetSection( "EnvConfig" ).Get<EnvConfig>() );
         
         string? connectionString = Configuration.GetConnectionString( "MainDbConnection" );
+        string? archiveConnectionString = Configuration.GetConnectionString( "ArchiveDbConnection" );
         
         services.AddDbContext<KeysContext>( options => options.UseNpgsql( connectionString ) );
         services.AddDataProtection().PersistKeysToDbContext<KeysContext>();
@@ -83,7 +84,7 @@ public class Startup
                 restrictedToMinimumLevel: LogEventLevel.Error )
             .CreateLogger();
         
-        services.RegisterModules( connectionString );
+        services.RegisterModules( connectionString, archiveConnectionString );
 
         if ( _environment.IsDevelopment() )
         {

@@ -16,7 +16,11 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <param name="connectionString"></param>
-    public static void RegisterModules( this IServiceCollection services, string connectionString )
+    /// <param name="archiveConnectionString"></param>
+    public static void RegisterModules( 
+        this IServiceCollection services, 
+        string connectionString,
+        string archiveConnectionString )
     {
         services.AddHangfire(
             configuration => configuration
@@ -28,6 +32,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IStadiumDashboardDataBuilder, StadiumDashboardDataBuilder>();
         services.AddScoped<IDashboardCalculatorJob, DashboardCalculatorJob>();
 
-        services.RegisterServices( connectionString );
+        services.RegisterServices( connectionString, archiveConnectionString );
     }
 }

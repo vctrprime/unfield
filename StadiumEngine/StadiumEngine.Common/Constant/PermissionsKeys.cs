@@ -49,6 +49,7 @@ public static class PermissionsKeys
     public const string DeleteBooking = "delete-booking";
 
     public const string UpdateMainSettings = "update-main-settings";
+    public const string ViewDashboard = "view-dashboard";
     public const string GetBreaks = "get-breaks";
     public const string InsertBreak = "insert-break";
     public const string UpdateBreak = "update-break";

@@ -1,8 +1,7 @@
-using StadiumEngine.Domain.Services.Models.Dashboard;
-
+using StadiumEngine.Domain.Entities.Dashboard;
 namespace StadiumEngine.BackgroundWorker.Builders.Dashboard;
 
 internal interface IStadiumDashboardDataBuilder
 {
-    Task<StadiumDashboardResult> BuildAsync( int stadiumId, DateTime date );
+    Task<StadiumDashboard> BuildAsync( int stadiumId, DateTime date );
 }

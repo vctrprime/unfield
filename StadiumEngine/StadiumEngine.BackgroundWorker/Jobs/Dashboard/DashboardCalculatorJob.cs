@@ -1,8 +1,8 @@
 using StadiumEngine.BackgroundWorker.Builders.Dashboard;
 using StadiumEngine.Domain.Entities.Accounts;
+using StadiumEngine.Domain.Entities.Dashboard;
 using StadiumEngine.Domain.Services.Core.Accounts;
 using StadiumEngine.Domain.Services.Core.Dashboard;
-using StadiumEngine.Domain.Services.Models.Dashboard;
 
 namespace StadiumEngine.BackgroundWorker.Jobs.Dashboard;
 
@@ -27,12 +27,12 @@ internal class DashboardCalculatorJob : DefaultJob, IDashboardCalculatorJob
     {
         LogInfo( "Start job" );
 
-        await CalculateStadiumsDashboards();
+        await CalculateStadiumsDashboardsAsync();
 
         LogInfo( "Finish job" );
     }
 
-    private async Task CalculateStadiumsDashboards()
+    private async Task CalculateStadiumsDashboardsAsync()
     {
         LogInfo( "Start calculate stadiums dashboards" );
 
@@ -52,7 +52,7 @@ internal class DashboardCalculatorJob : DefaultJob, IDashboardCalculatorJob
                 LogInfo( $"Start calculate stadium {stadium.Id}" );
                 try
                 {
-                    StadiumDashboardResult data = await _builder.BuildAsync( stadium.Id, DateTime.Now );
+                    StadiumDashboard data = await _builder.BuildAsync( stadium.Id, DateTime.Now );
                     await _commandService.AddAsync( data );
                 }
                 catch ( Exception e )

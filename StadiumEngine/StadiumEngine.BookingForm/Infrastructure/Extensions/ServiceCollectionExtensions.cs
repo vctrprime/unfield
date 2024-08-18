@@ -12,5 +12,10 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <param name="connectionString"></param>
-    public static void RegisterModules( this IServiceCollection services, string connectionString ) => services.RegisterHandlers(connectionString);
+    /// <param name="archiveConnectionString"></param>
+    public static void RegisterModules( 
+        this IServiceCollection services, 
+        string connectionString,
+        string archiveConnectionString ) => 
+        services.RegisterHandlers( connectionString, archiveConnectionString );
 }

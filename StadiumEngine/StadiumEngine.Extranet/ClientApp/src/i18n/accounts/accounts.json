@@ -153,6 +153,8 @@
         "toggle_user_stadium_description": "Возможность добавить или удалить связь пользователя с объектом",
         "update_main_settings": "Обновление настроек объекта",
         "update_main_settings_description": "Возможность изменить основные данные по объекту",
+        "view_dashboard": "Просмотр дашборда",
+        "view_dashboard_description": "Возможность просмотра дашборда по объекту",
         "get_price_groups": "Просмотр ценовых групп",
         "get_price_groups_description": "Просмотр списка ценовых групп",
         "insert_price_group": "Добавление ценовой группы",

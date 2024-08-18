@@ -147,6 +147,8 @@
         "toggle_user_stadium_description": "Ability to add or remove a user association to an stadium",
         "update_main_settings": "Update main settings",
         "update_main_settings_description": "Ability to change the main data for an object",
+        "view_dashboard": "View dashboard",
+        "view_dashboard_description": "Ability to view the dashboard for an object",
         "get_price_groups": "View price groups",
         "get_price_groups_description": "View the list of price groups",
         "insert_price_group": "Adding price group",

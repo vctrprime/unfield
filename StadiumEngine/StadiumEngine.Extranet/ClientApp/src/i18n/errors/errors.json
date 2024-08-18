@@ -42,5 +42,8 @@
         "booking_error": "Ошибка при бронировании",
         "invalid_access_code": "Неверный код подтверждения",
         "booking_intersection": "Выбранное время или длительность тренировки больше недоступны"
+    },
+    "dashboards": {
+        "stadium_dashboard_not_found": "Дашборд не найден"
     }
 }

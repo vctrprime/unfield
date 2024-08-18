@@ -23,12 +23,18 @@ namespace StadiumEngine.Repositories.Infrastructure.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void RegisterDataAccessModules( this IServiceCollection services, string connectionString ) =>
+    public static void RegisterDataAccessModules( 
+        this IServiceCollection services, 
+        string connectionString, 
+        string archiveConnectionString ) =>
         services
-            .RegisterContexts( connectionString )
+            .RegisterContexts( connectionString, archiveConnectionString )
             .RegisterRepositories();
 
-    private static IServiceCollection RegisterContexts( this IServiceCollection services, string connectionString )
+    private static IServiceCollection RegisterContexts( 
+        this IServiceCollection services, 
+        string connectionString, 
+        string archiveConnectionString )
     {
         services.AddDbContext<MainDbContext>(
             options =>
@@ -37,7 +43,15 @@ public static class ServiceCollectionExtensions
                     connectionString,
                     o => o.UseQuerySplittingBehavior( QuerySplittingBehavior.SplitQuery ) );
             } );
+        services.AddDbContext<ArchiveDbContext>(
+            options =>
+            {
+                options.UseNpgsql(
+                    archiveConnectionString,
+                    o => o.UseQuerySplittingBehavior( QuerySplittingBehavior.SplitQuery ) );
+            } );
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IArchiveUnitOfWork, ArchiveUnitOfWork>();
 
         return services;
     }

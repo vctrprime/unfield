@@ -1,8 +1,8 @@
-using StadiumEngine.Domain.Services.Models.Dashboard;
+using StadiumEngine.Domain.Entities.Dashboard;
 
 namespace StadiumEngine.Domain.Services.Core.Dashboard;
 
 public interface IStadiumDashboardCommandService
 {
-    Task AddAsync( StadiumDashboardResult dashboardData );
+    Task AddAsync( StadiumDashboard dashboardData );
 }

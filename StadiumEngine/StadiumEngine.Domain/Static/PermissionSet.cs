@@ -353,17 +353,24 @@ public static class PermissionSet
             {
                 new()
                 {
+                    Name = PermissionsKeys.ViewDashboard,
+                    DisplayName = "Просмотр дашборда",
+                    Description = "Возможность посмотреть дашборд по объекту",
+                    Sort = 5
+                },
+                new()
+                {
                     Name = PermissionsKeys.UpdateMainSettings,
                     DisplayName = "Обновление основных настроек",
                     Description = "Возможность изменить основные данные по объекту",
-                    Sort = 5
+                    Sort = 6
                 },
                 new()
                 {
                     Name = PermissionsKeys.SyncLockerRoomStatus,
                     DisplayName = "Cинхронизация статуса раздевалки",
                     Description = "Возможность запустить синхронизацию статуса (после уборки, либо принудительная синхронизация)",
-                    Sort = 6
+                    Sort = 7
                 },
                 new()
                 {
