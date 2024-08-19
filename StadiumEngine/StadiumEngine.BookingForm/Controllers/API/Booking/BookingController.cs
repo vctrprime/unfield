@@ -15,7 +15,7 @@ public class BookingController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPost( "draft" )]
-    public async Task<AddBookingDraftDto> CreateDraft( AddBookingDraftCommand command )
+    public async Task<AddBookingDraftDto> CreateDraft( [FromBody] AddBookingDraftCommand command )
     {
         AddBookingDraftDto dto = await Mediator.Send( command );
         return dto;

@@ -42,6 +42,7 @@ public static class ServiceCollectionExtensions
                     connectionsConfig.MainDb,
                     o => o.UseQuerySplittingBehavior( QuerySplittingBehavior.SplitQuery ) );
             } );
+
         services.AddDbContext<ArchiveDbContext>(
             options =>
             {
@@ -49,6 +50,7 @@ public static class ServiceCollectionExtensions
                     connectionsConfig.ArchiveDb,
                     o => o.UseQuerySplittingBehavior( QuerySplittingBehavior.SplitQuery ) );
             } );
+        
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IArchiveUnitOfWork, ArchiveUnitOfWork>();
 

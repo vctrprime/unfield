@@ -4,12 +4,14 @@ using System.Text.Json.Serialization;
 using Hangfire;
 using Hangfire.PostgreSql;
 using HangfireBasicAuthenticationFilter;
+using MassTransit;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Serilog;
 using Serilog.Debugging;
 using Serilog.Events;
 using Serilog.Filters;
+using StadiumEngine.BackgroundWorker.Infrastructure.Extensions;
 using StadiumEngine.Common.Configuration;
 using StadiumEngine.Handlers.Extensions;
 using StadiumEngine.Jobs.Recurring.Dashboard;
@@ -42,7 +44,7 @@ public class Startup
     {
         services.AddSingleton<StorageConfig>();
         services.AddSingleton<UtilsConfig>();
-        services.AddSingleton<UtilServiceConfig>();
+        services.AddSingleton( Configuration.GetSection( "UtilServiceConfig" ).Get<UtilServiceConfig>() );
         services.AddSingleton<EnvConfig>();
         
         ConnectionsConfig connectionsConfig = new ConnectionsConfig( Configuration );
@@ -60,8 +62,9 @@ public class Startup
                 needAutoCreateTable: true,
                 restrictedToMinimumLevel: LogEventLevel.Error )
             .CreateLogger();
-
-        services.RegisterHandlers( connectionsConfig );
+        
+        MessagingConfig messagingConfig = Configuration.GetSection( "MessagingConfig" ).Get<MessagingConfig>() ?? new MessagingConfig();
+        services.RegisterModules( connectionsConfig, messagingConfig );
         
         services.AddControllersWithViews().AddJsonOptions(
                 options => { options.JsonSerializerOptions.Converters.Add( new JsonStringEnumConverter() ); } )

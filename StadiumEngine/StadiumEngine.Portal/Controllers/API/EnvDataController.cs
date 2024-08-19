@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using StadiumEngine.Common.Configuration;
 using StadiumEngine.DTO;
-using StadiumEngine.Queries;
 
 namespace StadiumEngine.Portal.Controllers.API;
 
@@ -10,15 +10,26 @@ namespace StadiumEngine.Portal.Controllers.API;
 [Route( "api/env" )]
 public class EnvDataController : BaseApiController
 {
+    private readonly EnvConfig _config;
+
+    public EnvDataController( EnvConfig config )
+    {
+        _config = config;
+    }
+    
     /// <summary>
     /// Получить данные о среде развертывания
     /// </summary>
     /// <param name="query"></param>
     /// <returns></returns>
     [HttpGet]
-    public async Task<EnvDataDto> Get( [FromQuery] GetEnvDataQuery query )
+    public async Task<EnvDataDto> Get()
     {
-        EnvDataDto dto = await Mediator.Send( query );
+        EnvDataDto dto = new EnvDataDto
+        {
+            ExtranetHost = _config.ExtranetHost,
+            PortalHost = _config.PortalHost
+        };
 
         return dto;
     }

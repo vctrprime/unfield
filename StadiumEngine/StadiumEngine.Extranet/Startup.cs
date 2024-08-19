@@ -62,7 +62,7 @@ public class Startup
     {
         services.AddSingleton( Configuration.GetSection( "StorageConfig" ).Get<StorageConfig>() );
         services.AddSingleton( Configuration.GetSection( "UtilsConfig" ).Get<UtilsConfig>() );
-        services.AddSingleton( Configuration.GetSection( "UtilServiceConfig" ).Get<UtilServiceConfig>() );
+        services.AddSingleton<UtilServiceConfig>();
         services.AddSingleton( Configuration.GetSection( "EnvConfig" ).Get<EnvConfig>() );
 
         ConnectionsConfig connectionsConfig = new ConnectionsConfig( Configuration );
@@ -84,7 +84,8 @@ public class Startup
                 restrictedToMinimumLevel: LogEventLevel.Error )
             .CreateLogger();
         
-        services.RegisterModules( connectionsConfig );
+        MessagingConfig messagingConfig = Configuration.GetSection( "MessagingConfig" ).Get<MessagingConfig>() ?? new MessagingConfig();
+        services.RegisterModules( connectionsConfig, messagingConfig );
 
         if ( _environment.IsDevelopment() )
         {

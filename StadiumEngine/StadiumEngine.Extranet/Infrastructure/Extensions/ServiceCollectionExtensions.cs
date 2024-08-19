@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Common.Configuration;
+using StadiumEngine.EventBus;
 using StadiumEngine.Handlers.Extensions;
 
 namespace StadiumEngine.Extranet.Infrastructure.Extensions;
@@ -14,7 +15,13 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <param name="connectionsConfig"></param>
+    /// <param name="messagingConfig"></param>
     public static void RegisterModules( 
         this IServiceCollection services, 
-        ConnectionsConfig connectionsConfig ) => services.RegisterHandlers( connectionsConfig );
+        ConnectionsConfig connectionsConfig,
+        MessagingConfig messagingConfig )
+    {
+        services.RegisterHandlers( connectionsConfig );
+        services.AddEventBus( messagingConfig );
+    }
 }

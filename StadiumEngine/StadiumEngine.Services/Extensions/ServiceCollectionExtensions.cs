@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Common.Configuration;
 using StadiumEngine.Domain.Services.Core.Accounts;
@@ -13,6 +14,7 @@ using StadiumEngine.Domain.Services.Core.Settings;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.Domain.Services.Infrastructure;
 using StadiumEngine.Domain.Services.Utils;
+using StadiumEngine.EventBus;
 using StadiumEngine.Repositories.Infrastructure.Extensions;
 using StadiumEngine.Services.Builders.Utils;
 using StadiumEngine.Services.Checkers;
@@ -49,6 +51,8 @@ public static class ServiceCollectionExtensions
         ConnectionsConfig connectionsConfig )
     {
         services.RegisterDataAccessModules( connectionsConfig );
+        services.RegisterDispatcher();
+        
         services.AddSignalR();
 
         services.AddScoped<IClaimsIdentityService, ClaimsIdentityService>();
@@ -58,6 +62,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPhoneNumberChecker, PhoneNumberChecker>();
         services.AddScoped<IPasswordValidator, PasswordValidator>();
         services.AddScoped<IImageService, ImageService>();
+        services.AddScoped<IMessagePublisher, MessagePublisher>();
 
         #region core
 

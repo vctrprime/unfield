@@ -47,6 +47,7 @@
       <ProjectReference Include="..\StadiumEngine.Commands\StadiumEngine.Commands.csproj" />
       <ProjectReference Include="..\StadiumEngine.Common\StadiumEngine.Common.csproj" />
       <ProjectReference Include="..\StadiumEngine.DTO\StadiumEngine.DTO.csproj" />
+      <ProjectReference Include="..\StadiumEngine.EventBus\StadiumEngine.EventBus.csproj" />
       <ProjectReference Include="..\StadiumEngine.Handlers\StadiumEngine.Handlers.csproj" />
       <ProjectReference Include="..\StadiumEngine.Queries\StadiumEngine.Queries.csproj" />
     </ItemGroup>

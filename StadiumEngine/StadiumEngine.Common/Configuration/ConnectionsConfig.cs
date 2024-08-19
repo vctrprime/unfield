@@ -10,6 +10,6 @@ public class ConnectionsConfig
     public ConnectionsConfig( IConfiguration configuration )
     {
         MainDb = configuration.GetConnectionString( "MainDbConnection" );
-        ArchiveDb = configuration.GetConnectionString( "ArchiveDbConnection" );
+        ArchiveDb = configuration.GetConnectionString( "ArchiveDbConnection" ) ?? String.Empty;
     }
 }

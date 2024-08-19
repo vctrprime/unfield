@@ -39,7 +39,7 @@ public class Startup
     public void ConfigureServices( IServiceCollection services )
     {
         services.AddSingleton( Configuration.GetSection( "StorageConfig" ).Get<StorageConfig>() );
-        services.AddSingleton( Configuration.GetSection( "UtilServiceConfig" ).Get<UtilServiceConfig>() );
+        services.AddSingleton<UtilServiceConfig>();
         services.AddSingleton( Configuration.GetSection( "EnvConfig" ).Get<EnvConfig>() );
         
         ConnectionsConfig connectionsConfig = new ConnectionsConfig( Configuration );
@@ -57,7 +57,7 @@ public class Startup
                 needAutoCreateTable: true,
                 restrictedToMinimumLevel: LogEventLevel.Error )
             .CreateLogger();
-        
+
         services.RegisterModules( connectionsConfig );
         
         services.AddControllersWithViews().AddJsonOptions(

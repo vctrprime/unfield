@@ -1,8 +1,10 @@
+using MassTransit;
+using StadiumEngine.BackgroundWorker.Consumers.Bookings;
 using StadiumEngine.Common.Configuration;
 using StadiumEngine.EventBus;
 using StadiumEngine.Handlers.Extensions;
 
-namespace StadiumEngine.BookingForm.Infrastructure.Extensions;
+namespace StadiumEngine.BackgroundWorker.Infrastructure.Extensions;
 
 /// <summary>
 ///     Расширение для регистрации зависимостей
@@ -21,6 +23,20 @@ public static class ServiceCollectionExtensions
         MessagingConfig messagingConfig )
     {
         services.RegisterHandlers( connectionsConfig );
-        services.AddEventBus( messagingConfig );
+        services.AddEventBus( messagingConfig, ConfigureBusServices, ConfigureRabbit, true );
+    }
+    
+    private static void ConfigureBusServices( IBusRegistrationConfigurator configurator )
+    {
+        configurator.AddConsumer<BookingConfirmedConsumer>();
+    }
+
+    private static void ConfigureRabbit( IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator )
+    {
+        configurator.ReceiveEndpoint( "bookings",
+            endpointConfigurator =>
+            {
+                endpointConfigurator.ConfigureConsumer<BookingConfirmedConsumer>( context );
+            } );
     }
 }

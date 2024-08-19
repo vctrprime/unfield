@@ -1,5 +1,4 @@
 using StadiumEngine.Common.Configuration;
-using StadiumEngine.Handlers.Extensions;
 
 namespace StadiumEngine.Portal.Infrastructure.Extensions;
 
@@ -15,6 +14,8 @@ public static class ServiceCollectionExtensions
     /// <param name="connectionsConfig"></param>
     public static void RegisterModules( 
         this IServiceCollection services, 
-        ConnectionsConfig connectionsConfig ) 
-        => services.RegisterHandlers( connectionsConfig );
+        ConnectionsConfig connectionsConfig )
+    {
+        
+    }
 }

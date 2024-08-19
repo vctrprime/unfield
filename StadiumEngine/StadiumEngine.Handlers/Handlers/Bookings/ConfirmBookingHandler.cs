@@ -6,6 +6,7 @@ using StadiumEngine.Domain.Services.Core.BookingForm;
 using StadiumEngine.Domain.Services.Core.Notifications;
 using StadiumEngine.Domain.Services.Infrastructure;
 using StadiumEngine.DTO.BookingForm;
+using StadiumEngine.MessageContracts.Bookings;
 using StadiumEngine.Services.Notifications.Builders;
 
 namespace StadiumEngine.Handlers.Handlers.Bookings;
@@ -14,18 +15,18 @@ internal sealed class ConfirmBookingHandler : BaseCommandHandler<ConfirmBookingC
 {
     private readonly IBookingCheckoutCommandService _commandService;
     private readonly ISmsSender _smsSender;
-    private readonly IUINotificationService _notificationService;
+    private readonly IMessagePublisher _messagePublisher;
 
     public ConfirmBookingHandler(
         IBookingCheckoutCommandService commandService,
         ISmsSender smsSender,
-        IUINotificationService notificationService,
+        IMessagePublisher messagePublisher,
         IMapper mapper,
         IUnitOfWork unitOfWork ) : base( mapper, null, unitOfWork )
     {
         _commandService = commandService;
         _smsSender = smsSender;
-        _notificationService = notificationService;
+        _messagePublisher = messagePublisher;
     }
 
     protected override async ValueTask<ConfirmBookingDto> HandleCommandAsync(
@@ -37,7 +38,7 @@ internal sealed class ConfirmBookingHandler : BaseCommandHandler<ConfirmBookingC
         //пока закомментим, непонятно надо ли отсылать инфу о раздевалке, если бронируют сильно заранее
         //await _smsSender.SendBookingConfirmation( booking, request.Language );
         
-        await _notificationService.Notify( new NewBookingUIMessageBuilder( booking ) );
+        await _messagePublisher.PublishAsync( new BookingConfirmed( booking.Number ), cancellationToken );
         
         return new ConfirmBookingDto();
     }
