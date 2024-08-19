@@ -50,6 +50,7 @@ public class Startup
         SelfLog.Enable( msg => Console.WriteLine( $"Logging Process Error: {msg}" ) );
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
+            .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning )
             .Filter.ByExcluding( Matching.FromSource( "Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware" ) )
             .Filter.ByExcluding( Matching.FromSource( "Microsoft.EntityFrameworkCore.Database.Command" ) )
             .WriteTo.Console()
@@ -79,7 +80,6 @@ public class Startup
         services.AddHangfireServer( options =>
         {
             options.Queues = [ "default", "dashboards" ];
-            options.WorkerCount = 1; //todo сделать в зависимости от среды
         } );
     }
 

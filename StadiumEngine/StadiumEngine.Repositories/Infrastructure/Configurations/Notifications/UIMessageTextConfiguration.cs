@@ -10,7 +10,7 @@ internal class UIMessageTextConfiguration : BaseEntityConfiguration, IEntityType
     public void Configure( EntityTypeBuilder<UIMessageText> builder )
     {
         builder.ToTable( "ui_message_text", "notifications" );
-        BaseEntityConfigure( builder );
+        BaseEntityConfigure( builder, ignoreDateCreated: true, ignoreDateModified: true );
         
         builder.Property( p => p.MessageId ).HasColumnName( "ui_message_id" );
         builder.Property( p => p.Text ).HasColumnName( "text" );

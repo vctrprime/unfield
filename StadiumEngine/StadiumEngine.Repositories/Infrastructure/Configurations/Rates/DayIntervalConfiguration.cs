@@ -10,7 +10,7 @@ internal class DayIntervalConfiguration : BaseEntityConfiguration, IEntityTypeCo
     public void Configure( EntityTypeBuilder<DayInterval> builder )
     {
         builder.ToTable( "day_interval", "rates" );
-        BaseEntityConfigure( builder );
+        BaseEntityConfigure( builder, ignoreDateModified: true );
         
         builder.Property( p => p.Start ).HasColumnName( "start" );
         builder.Property( p => p.End ).HasColumnName( "end" );

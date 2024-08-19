@@ -6,16 +6,27 @@ namespace StadiumEngine.Repositories.Infrastructure.Configurations;
 
 internal abstract class BaseEntityConfiguration
 {
-    protected void BaseEntityConfigure<T>( EntityTypeBuilder<T> builder ) where T : BaseEntity
+    protected void BaseEntityConfigure<T>( 
+        EntityTypeBuilder<T> builder, 
+        bool ignoreDateCreated = false,
+        bool ignoreDateModified = false ) where T : BaseEntity
     {
         builder.HasKey( p => p.Id );
 
         builder.Property( p => p.Id ).HasColumnName( "id" ).HasColumnOrder( 0 );
-        builder.Property( p => p.DateCreated )
-            .HasColumnName( "date_created" )
-            .ValueGeneratedOnAdd()
-            .IsRequired()
-            .HasDefaultValueSql( "now()" );
-        builder.Property( p => p.DateModified ).HasColumnName( "date_modified" );
+
+        if ( !ignoreDateCreated )
+        {
+            builder.Property( p => p.DateCreated )
+                .HasColumnName( "date_created" )
+                .ValueGeneratedOnAdd()
+                .IsRequired()
+                .HasDefaultValueSql( "now()" );
+        }
+
+        if ( !ignoreDateModified )
+        {
+            builder.Property( p => p.DateModified ).HasColumnName( "date_modified" );
+        }
     }
 }

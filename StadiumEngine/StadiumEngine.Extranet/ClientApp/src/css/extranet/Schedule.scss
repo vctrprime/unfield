@@ -187,7 +187,7 @@ button {
 }
 
 .move-booking-container {
-  width: 800px;
+  width: 100%;
   padding: 15px;
   
   .move-booking-filters {
@@ -203,8 +203,6 @@ button {
   }
   
   .move-booking-fields {
-    max-height: 250px;
-    min-height: 250px;
     padding-top: 10px;
     overflow-y: auto;
     

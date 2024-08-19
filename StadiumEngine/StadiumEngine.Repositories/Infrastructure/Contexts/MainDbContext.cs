@@ -22,7 +22,7 @@ internal class MainDbContext : DbContext
     protected override void OnModelCreating( ModelBuilder modelBuilder )
     {
         #region accounts
-        
+
         modelBuilder.ApplyConfiguration( new LegalConfiguration() );
         modelBuilder.ApplyConfiguration( new PermissionConfiguration() );
         modelBuilder.ApplyConfiguration( new PermissionGroupConfiguration() );
@@ -31,11 +31,11 @@ internal class MainDbContext : DbContext
         modelBuilder.ApplyConfiguration( new StadiumConfiguration() );
         modelBuilder.ApplyConfiguration( new UserConfiguration() );
         modelBuilder.ApplyConfiguration( new UserStadiumConfiguration() );
-        
+
         #endregion
 
         #region bookings
-        
+
         modelBuilder.ApplyConfiguration( new BookingConfiguration() );
         modelBuilder.ApplyConfiguration( new BookingCostConfiguration() );
         modelBuilder.ApplyConfiguration( new BookingCustomerConfiguration() );
@@ -43,27 +43,27 @@ internal class MainDbContext : DbContext
         modelBuilder.ApplyConfiguration( new BookingLockerRoomConfiguration() );
         modelBuilder.ApplyConfiguration( new BookingPromoConfiguration() );
         modelBuilder.ApplyConfiguration( new BookingWeeklyExcludeDayConfiguration() );
-        
+
         #endregion
 
         #region geo
-        
+
         modelBuilder.ApplyConfiguration( new CityConfiguration() );
         modelBuilder.ApplyConfiguration( new CountryConfiguration() );
         modelBuilder.ApplyConfiguration( new RegionConfiguration() );
-        
+
         #endregion
-        
+
         #region notifications
-    
+
         modelBuilder.ApplyConfiguration( new UIMessageConfiguration() );
         modelBuilder.ApplyConfiguration( new UIMessageLastReadConfiguration() );
         modelBuilder.ApplyConfiguration( new UIMessageTextConfiguration() );
-    
+
         #endregion
 
         #region offers
-        
+
         modelBuilder.ApplyConfiguration( new FieldConfiguration() );
         modelBuilder.ApplyConfiguration( new InventoryConfiguration() );
         modelBuilder.ApplyConfiguration( new LockerRoomConfiguration() );
@@ -71,18 +71,18 @@ internal class MainDbContext : DbContext
         modelBuilder.ApplyConfiguration( new OffersSportKindConfiguration() );
 
         #endregion
-        
+
         #region rates
-        
+
         modelBuilder.ApplyConfiguration( new DayIntervalConfiguration() );
         modelBuilder.ApplyConfiguration( new PriceConfiguration() );
         modelBuilder.ApplyConfiguration( new PriceGroupConfiguration() );
         modelBuilder.ApplyConfiguration( new PromoCodeConfiguration() );
         modelBuilder.ApplyConfiguration( new TariffConfiguration() );
         modelBuilder.ApplyConfiguration( new TariffDayIntervalConfiguration() );
-        
+
         #endregion
-        
+
         #region settings
 
         modelBuilder.ApplyConfiguration( new BreakConfiguration() );
@@ -91,12 +91,12 @@ internal class MainDbContext : DbContext
 
         #endregion
 
-        modelBuilder.Entity<DayInterval>().Ignore(t => t.DateModified);
-        modelBuilder.Entity<MainSettings>().Ignore(t => t.UserCreatedId);
-        modelBuilder.Entity<MainSettings>().Ignore(t => t.UserCreated);
-        modelBuilder.Entity<UIMessageText>().Ignore(t => t.DateCreated);
-        modelBuilder.Entity<UIMessageText>().Ignore(t => t.DateModified);
-        
+        modelBuilder.Entity<DayInterval>().Ignore( t => t.DateModified );
+        modelBuilder.Entity<MainSettings>().Ignore( t => t.UserCreatedId );
+        modelBuilder.Entity<MainSettings>().Ignore( t => t.UserCreated );
+        modelBuilder.Entity<UIMessageText>().Ignore( t => t.DateCreated );
+        modelBuilder.Entity<UIMessageText>().Ignore( t => t.DateModified );
+
         base.OnModelCreating( modelBuilder );
     }
 }

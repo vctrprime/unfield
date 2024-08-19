@@ -10,7 +10,7 @@ internal class MainSettingsConfiguration : BaseUserEntityConfiguration, IEntityT
     public void Configure( EntityTypeBuilder<MainSettings> builder )
     {
         builder.ToTable( "main_settings", "settings" );
-        BaseUserEntityConfigure( builder );
+        BaseUserEntityConfigure( builder, ignoreUserCreated: true );
 
         builder.HasOne( x => x.UserModified )
             .WithMany( x => x.LastModifiedMainSettings )
