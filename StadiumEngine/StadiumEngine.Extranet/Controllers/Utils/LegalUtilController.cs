@@ -21,7 +21,7 @@ public class LegalUtilController : BaseApiController
     /// <returns></returns>
     [HttpPost]
     [SecuredUtil]
-    public async Task<AddLegalDto> Post( AddLegalCommand command )
+    public async Task<AddLegalDto> Post( [FromBody] AddLegalCommand command )
     {
         AddLegalDto legal = await Mediator.Send( command );
 

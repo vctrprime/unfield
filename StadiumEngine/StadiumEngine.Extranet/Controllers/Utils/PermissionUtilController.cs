@@ -20,7 +20,7 @@ public class PermissionUtilController : BaseApiController
     /// <returns></returns>
     [HttpPost( "sync" )]
     [SecuredUtil]
-    public async Task<SyncPermissionsDto> Sync([FromRoute]SyncPermissionsCommand command)
+    public async Task<SyncPermissionsDto> Sync( [FromRoute] SyncPermissionsCommand command )
     {
         SyncPermissionsDto syncPermissionsDto = await Mediator.Send( command );
 

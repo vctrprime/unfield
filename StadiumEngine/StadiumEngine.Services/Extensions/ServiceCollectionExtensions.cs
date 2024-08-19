@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using StadiumEngine.Common.Configuration;
 using StadiumEngine.Domain.Services.Core.Accounts;
 using StadiumEngine.Domain.Services.Core.BookingForm;
 using StadiumEngine.Domain.Services.Core.BookingForm.Distributors;
@@ -45,10 +46,9 @@ public static class ServiceCollectionExtensions
 {
     public static void RegisterServices( 
         this IServiceCollection services, 
-        string connectionString,
-        string archiveConnectionString )
+        ConnectionsConfig connectionsConfig )
     {
-        services.RegisterDataAccessModules( connectionString, archiveConnectionString );
+        services.RegisterDataAccessModules( connectionsConfig );
         services.AddSignalR();
 
         services.AddScoped<IClaimsIdentityService, ClaimsIdentityService>();

@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using StadiumEngine.Common.Configuration;
 using StadiumEngine.Handlers.Builders.BookingForm;
 using StadiumEngine.Handlers.Facades.Accounts.Legals;
 using StadiumEngine.Handlers.Facades.Accounts.Users;
@@ -13,6 +14,7 @@ using StadiumEngine.Handlers.Facades.Settings.Breaks;
 using StadiumEngine.Handlers.Facades.Settings.Main;
 using StadiumEngine.Handlers.Mappings;
 using StadiumEngine.Handlers.Processors.BookingForm;
+using StadiumEngine.Jobs.Infrastructure.Extensions;
 using StadiumEngine.Services.Extensions;
 
 namespace StadiumEngine.Handlers.Extensions;
@@ -21,15 +23,14 @@ public static class ServiceCollectionExtensions
 {
     public static void RegisterHandlers( 
         this IServiceCollection services, 
-        string connectionString,
-        string archiveConnectionString ) => services.RegisterModules( connectionString, archiveConnectionString );
+        ConnectionsConfig connectionsConfig ) => 
+        services.RegisterModules( connectionsConfig );
 
     private static void RegisterModules( 
         this IServiceCollection services, 
-        string connectionString,
-        string archiveConnectionString )
+        ConnectionsConfig connectionsConfig )
     {
-        services.RegisterServices( connectionString, archiveConnectionString );
+        services.RegisterServices( connectionsConfig );
         services.AddMediator( options => options.ServiceLifetime = ServiceLifetime.Scoped );
         
         services.AddScoped<IAddUserFacade, AddUserFacade>();
@@ -70,5 +71,6 @@ public static class ServiceCollectionExtensions
                 cfg.AddProfile( new DashboardsProfile() );
             } );
         services.AddSingleton( provider => mappingConfig.CreateMapper());
+        services.RegisterJobs( connectionsConfig.MainDb );
     }
 }

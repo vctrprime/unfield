@@ -43,7 +43,8 @@ internal sealed class GetBookingListHandler : BaseRequestHandler<GetBookingListQ
                     Start = request.Start.Value,
                     End = request.End.Value,
                     Language = request.Language,
-                    WithDisabledEvents = false
+                    WithDisabledEvents = false,
+                    StadiumId = request.StadiumId
                 },
                 cancellationToken );
 

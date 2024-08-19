@@ -1,5 +1,6 @@
 using StadiumEngine.Domain.Entities.Dashboard;
-namespace StadiumEngine.BackgroundWorker.Builders.Dashboard;
+
+namespace StadiumEngine.Jobs.Services.Builders.Dashboard;
 
 internal interface IStadiumDashboardDataBuilder
 {

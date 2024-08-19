@@ -1,26 +1,22 @@
-using StadiumEngine.BackgroundWorker.Builders.Dashboard;
+using Microsoft.Extensions.Logging;
 using StadiumEngine.Domain.Entities.Accounts;
-using StadiumEngine.Domain.Entities.Dashboard;
 using StadiumEngine.Domain.Services.Core.Accounts;
-using StadiumEngine.Domain.Services.Core.Dashboard;
+using StadiumEngine.Jobs.Background.Dashboard;
 
-namespace StadiumEngine.BackgroundWorker.Jobs.Dashboard;
+namespace StadiumEngine.Jobs.Recurring.Dashboard;
 
 internal class DashboardCalculatorJob : DefaultJob, IDashboardCalculatorJob
 {
     private readonly IStadiumQueryService _stadiumQueryService;
-    private readonly IStadiumDashboardDataBuilder _builder;
-    private readonly IStadiumDashboardCommandService _commandService;
+    private readonly IDashboardQueueManager _dashboardQueueManager;
 
     public DashboardCalculatorJob(
         IStadiumQueryService stadiumQueryService,
-        IStadiumDashboardDataBuilder builder,
-        IStadiumDashboardCommandService commandService,
+        IDashboardQueueManager dashboardQueueManager,
         ILogger<DashboardCalculatorJob> logger ) : base( logger, "DashboardCalculator" )
     {
         _stadiumQueryService = stadiumQueryService;
-        _builder = builder;
-        _commandService = commandService;
+        _dashboardQueueManager = dashboardQueueManager;
     }
 
     public async Task Calculate()
@@ -49,24 +45,12 @@ internal class DashboardCalculatorJob : DefaultJob, IDashboardCalculatorJob
             LogInfo( $"Fetched {stadiums.Count} stadiums" );
             foreach ( Stadium stadium in stadiums )
             {
-                LogInfo( $"Start calculate stadium {stadium.Id}" );
-                try
-                {
-                    StadiumDashboard data = await _builder.BuildAsync( stadium.Id, DateTime.Now );
-                    await _commandService.AddAsync( data );
-                }
-                catch ( Exception e )
-                {
-                    LogError( $"Stadium {stadium.Id} error", e );
-                }
-
-
-                LogInfo( $"Finish calculate stadium {stadium.Id}" );
+                _dashboardQueueManager.EnqueueCalculateStadiumDashboard( stadium.Id );
             }
 
             skip += stadiums.Count;
         }
 
-        LogInfo( "Finish calculate stadiums dashboards" );
+        LogInfo( "Finish enqueued stadiums dashboards" );
     }
 }

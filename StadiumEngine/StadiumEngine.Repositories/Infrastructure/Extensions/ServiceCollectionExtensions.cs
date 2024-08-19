@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using StadiumEngine.Common.Configuration;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Repositories.Bookings;
@@ -25,29 +26,27 @@ public static class ServiceCollectionExtensions
 {
     public static void RegisterDataAccessModules( 
         this IServiceCollection services, 
-        string connectionString, 
-        string archiveConnectionString ) =>
+        ConnectionsConfig connectionsConfig ) =>
         services
-            .RegisterContexts( connectionString, archiveConnectionString )
+            .RegisterContexts( connectionsConfig )
             .RegisterRepositories();
 
     private static IServiceCollection RegisterContexts( 
         this IServiceCollection services, 
-        string connectionString, 
-        string archiveConnectionString )
+        ConnectionsConfig connectionsConfig )
     {
         services.AddDbContext<MainDbContext>(
             options =>
             {
                 options.UseNpgsql(
-                    connectionString,
+                    connectionsConfig.MainDb,
                     o => o.UseQuerySplittingBehavior( QuerySplittingBehavior.SplitQuery ) );
             } );
         services.AddDbContext<ArchiveDbContext>(
             options =>
             {
                 options.UseNpgsql(
-                    archiveConnectionString,
+                    connectionsConfig.ArchiveDb,
                     o => o.UseQuerySplittingBehavior( QuerySplittingBehavior.SplitQuery ) );
             } );
         services.AddScoped<IUnitOfWork, UnitOfWork>();

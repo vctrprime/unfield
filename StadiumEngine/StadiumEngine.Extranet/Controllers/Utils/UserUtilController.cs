@@ -21,7 +21,7 @@ public class UserUtilController : BaseApiController
     /// <returns></returns>
     [HttpPost( "new-admin" )]
     [SecuredUtil]
-    public async Task<AddAdminUserDto> Post( AddAdminUserCommand command )
+    public async Task<AddAdminUserDto> Post( [FromBody] AddAdminUserCommand command )
     {
         AddAdminUserDto dto = await Mediator.Send( command );
 

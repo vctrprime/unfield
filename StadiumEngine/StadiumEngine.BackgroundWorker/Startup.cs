@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text.Json.Serialization;
 using Hangfire;
+using Hangfire.PostgreSql;
 using HangfireBasicAuthenticationFilter;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -9,9 +10,9 @@ using Serilog;
 using Serilog.Debugging;
 using Serilog.Events;
 using Serilog.Filters;
-using StadiumEngine.BackgroundWorker.Infrastructure.Extensions;
-using StadiumEngine.BackgroundWorker.Jobs.Dashboard;
 using StadiumEngine.Common.Configuration;
+using StadiumEngine.Handlers.Extensions;
+using StadiumEngine.Jobs.Recurring.Dashboard;
 
 namespace StadiumEngine.BackgroundWorker;
 
@@ -44,8 +45,7 @@ public class Startup
         services.AddSingleton<UtilServiceConfig>();
         services.AddSingleton<EnvConfig>();
         
-        string? connectionString = Configuration.GetConnectionString( "MainDbConnection" );
-        string? archiveConnectionString = Configuration.GetConnectionString( "ArchiveDbConnection" );
+        ConnectionsConfig connectionsConfig = new ConnectionsConfig( Configuration );
 
         SelfLog.Enable( msg => Console.WriteLine( $"Logging Process Error: {msg}" ) );
         Log.Logger = new LoggerConfiguration()
@@ -54,14 +54,14 @@ public class Startup
             .Filter.ByExcluding( Matching.FromSource( "Microsoft.EntityFrameworkCore.Database.Command" ) )
             .WriteTo.Console()
             .WriteTo.PostgreSQL(
-                connectionString,
+                connectionsConfig.MainDb,
                 "PUBLIC.BW_LOG_ERRORS",
                 needAutoCreateTable: true,
                 restrictedToMinimumLevel: LogEventLevel.Error )
             .CreateLogger();
 
-        services.RegisterModules( connectionString, archiveConnectionString );
-
+        services.RegisterHandlers( connectionsConfig );
+        
         services.AddControllersWithViews().AddJsonOptions(
                 options => { options.JsonSerializerOptions.Converters.Add( new JsonStringEnumConverter() ); } )
             .AddNewtonsoftJson();
@@ -70,6 +70,17 @@ public class Startup
         services.AddTransient( s => s.GetService<IHttpContextAccessor>()?.HttpContext?.User ?? new ClaimsPrincipal() );
 
         services.Configure<KestrelServerOptions>( Configuration.GetSection( "Kestrel" ) );
+        
+        services.AddHangfire(
+            configuration => configuration
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UsePostgreSqlStorage( c => c.UseNpgsqlConnection( connectionsConfig.MainDb ) ) );
+        services.AddHangfireServer( options =>
+        {
+            options.Queues = [ "default", "dashboards" ];
+            options.WorkerCount = 1; //todo сделать в зависимости от среды
+        } );
     }
 
     /// <summary>
@@ -118,7 +129,7 @@ public class Startup
         RecurringJob.AddOrUpdate<IDashboardCalculatorJob>(
             "Calculate Dashboards Data",
             x => x.Calculate(),
-            "0 0 * * * * "
+            "0 0 * * *"
         );
 
         #endregion

@@ -64,6 +64,7 @@
         <ProjectReference Include="..\StadiumEngine.Commands\StadiumEngine.Commands.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\StadiumEngine.Common\StadiumEngine.Common.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\StadiumEngine.Handlers\StadiumEngine.Handlers.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\StadiumEngine.Jobs\StadiumEngine.Jobs.csproj" />
         <ProjectReference Include="..\StadiumEngine.Queries\StadiumEngine.Queries.csproj" PrivateAssets="All" />
     </ItemGroup>
 

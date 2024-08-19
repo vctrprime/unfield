@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using StadiumEngine.Common.Configuration;
 using StadiumEngine.Handlers.Extensions;
 
 namespace StadiumEngine.Extranet.Infrastructure.Extensions;
@@ -12,10 +13,8 @@ public static class ServiceCollectionExtensions
     ///     Зарегистрировать все необходимые модули
     /// </summary>
     /// <param name="services"></param>
-    /// <param name="connectionString"></param>
-    /// <param name="archiveConnectionString"></param>
+    /// <param name="connectionsConfig"></param>
     public static void RegisterModules( 
         this IServiceCollection services, 
-        string connectionString,
-        string archiveConnectionString ) => services.RegisterHandlers( connectionString, archiveConnectionString );
+        ConnectionsConfig connectionsConfig ) => services.RegisterHandlers( connectionsConfig );
 }

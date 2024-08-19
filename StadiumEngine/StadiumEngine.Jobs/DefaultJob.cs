@@ -1,4 +1,6 @@
-namespace StadiumEngine.BackgroundWorker.Jobs;
+using Microsoft.Extensions.Logging;
+
+namespace StadiumEngine.Jobs;
 
 internal abstract class DefaultJob
 {

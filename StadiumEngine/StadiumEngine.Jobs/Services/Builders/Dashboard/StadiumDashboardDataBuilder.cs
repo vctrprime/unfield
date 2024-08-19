@@ -1,11 +1,28 @@
+using Mediator;
 using StadiumEngine.Domain.Entities.Dashboard;
+using StadiumEngine.DTO.Schedule;
+using StadiumEngine.Queries.Schedule;
 
-namespace StadiumEngine.BackgroundWorker.Builders.Dashboard;
+namespace StadiumEngine.Jobs.Services.Builders.Dashboard;
 
 internal class StadiumDashboardDataBuilder : IStadiumDashboardDataBuilder
 {
+    private readonly IMediator _mediator;
+
+    public StadiumDashboardDataBuilder( IMediator mediator )
+    {
+        _mediator = mediator;
+    }
+
     public async Task<StadiumDashboard> BuildAsync( int stadiumId, DateTime date )
     {
+        List<BookingListItemDto> bookings = await _mediator.Send( new GetBookingListQuery
+        {
+            Start = date.AddYears( -1 ),
+            End = date,
+            StadiumId = stadiumId
+        });
+        
         // todo логика билда дашборда
         Console.WriteLine( $"Build stadium {stadiumId}");
         return new StadiumDashboard

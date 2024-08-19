@@ -43,8 +43,7 @@ public class Startup
         services.AddSingleton( Configuration.GetSection( "UtilServiceConfig" ).Get<UtilServiceConfig>() );
         services.AddSingleton( Configuration.GetSection( "EnvConfig" ).Get<EnvConfig>() );
         
-        string? connectionString = Configuration.GetConnectionString( "MainDbConnection" );
-        string? archiveConnectionString = Configuration.GetConnectionString( "ArchiveDbConnection" );
+        ConnectionsConfig connectionsConfig = new ConnectionsConfig( Configuration );
         
         SelfLog.Enable( msg => Console.WriteLine( $"Logging Process Error: {msg}" ) );
         Log.Logger = new LoggerConfiguration()
@@ -53,13 +52,13 @@ public class Startup
             .Filter.ByExcluding( Matching.FromSource( "Microsoft.EntityFrameworkCore.Database.Command" ) )
             .WriteTo.Console()
             .WriteTo.PostgreSQL(
-                connectionString,
+                connectionsConfig.MainDb,
                 "PUBLIC.LOG_ERRORS",
                 needAutoCreateTable: true,
                 restrictedToMinimumLevel: LogEventLevel.Error )
             .CreateLogger();
         
-        services.RegisterModules( connectionString, archiveConnectionString );
+        services.RegisterModules( connectionsConfig );
         
         services.AddControllersWithViews().AddJsonOptions(
                 options => { options.JsonSerializerOptions.Converters.Add( new JsonStringEnumConverter() ); } )

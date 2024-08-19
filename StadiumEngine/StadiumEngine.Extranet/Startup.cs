@@ -64,11 +64,10 @@ public class Startup
         services.AddSingleton( Configuration.GetSection( "UtilsConfig" ).Get<UtilsConfig>() );
         services.AddSingleton( Configuration.GetSection( "UtilServiceConfig" ).Get<UtilServiceConfig>() );
         services.AddSingleton( Configuration.GetSection( "EnvConfig" ).Get<EnvConfig>() );
+
+        ConnectionsConfig connectionsConfig = new ConnectionsConfig( Configuration );
         
-        string? connectionString = Configuration.GetConnectionString( "MainDbConnection" );
-        string? archiveConnectionString = Configuration.GetConnectionString( "ArchiveDbConnection" );
-        
-        services.AddDbContext<KeysContext>( options => options.UseNpgsql( connectionString ) );
+        services.AddDbContext<KeysContext>( options => options.UseNpgsql( connectionsConfig.MainDb ) );
         services.AddDataProtection().PersistKeysToDbContext<KeysContext>();
         
         SelfLog.Enable( msg => Console.WriteLine( $"Logging Process Error: {msg}" ) );
@@ -78,13 +77,13 @@ public class Startup
             .Filter.ByExcluding( Matching.FromSource( "Microsoft.EntityFrameworkCore.Database.Command" ) )
             .WriteTo.Console()
             .WriteTo.PostgreSQL(
-                connectionString,
+                connectionsConfig.MainDb,
                 "PUBLIC.LOG_ERRORS",
                 needAutoCreateTable: true,
                 restrictedToMinimumLevel: LogEventLevel.Error )
             .CreateLogger();
         
-        services.RegisterModules( connectionString, archiveConnectionString );
+        services.RegisterModules( connectionsConfig );
 
         if ( _environment.IsDevelopment() )
         {

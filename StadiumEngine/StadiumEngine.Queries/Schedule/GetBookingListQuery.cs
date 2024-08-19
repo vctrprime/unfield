@@ -9,4 +9,5 @@ public sealed class GetBookingListQuery : BaseQuery, IRequest<List<BookingListIt
     public DateTime? End { get; set; }
     public string? Language { get; set; }
     public string? BookingNumber { get; set; }
+    public int? StadiumId { get; set; }
 }

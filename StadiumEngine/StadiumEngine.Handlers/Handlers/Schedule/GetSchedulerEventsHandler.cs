@@ -28,7 +28,7 @@ internal sealed class GetSchedulerEventsHandler : BaseRequestHandler<GetSchedule
         List<SchedulerEvent> events = await _queryService.GetEventsAsync(
             request.Start,
             request.End,
-            _currentStadiumId,
+            request.StadiumId ?? _currentStadiumId,
             request.Language ?? "ru",
             request.WithDisabledEvents ?? true );
 

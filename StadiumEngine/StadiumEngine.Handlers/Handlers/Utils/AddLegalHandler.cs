@@ -5,6 +5,7 @@ using StadiumEngine.Domain.Services.Core.Accounts;
 using StadiumEngine.Domain.Services.Infrastructure;
 using StadiumEngine.DTO.Utils;
 using StadiumEngine.Commands.Utils;
+using StadiumEngine.Jobs.Background.Dashboard;
 
 namespace StadiumEngine.Handlers.Handlers.Utils;
 
@@ -12,12 +13,14 @@ internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddL
 {
     private readonly ILegalCommandService _commandService;
     private readonly ISmsSender _smsSender;
+    private readonly IDashboardQueueManager _dashboardQueueManager;
 
     public AddLegalHandler(
         ILegalCommandService commandService,
         ISmsSender smsSender,
         IMapper mapper,
-        IUnitOfWork unitOfWork ) : base(
+        IUnitOfWork unitOfWork,
+        IDashboardQueueManager dashboardQueueManager ) : base(
         mapper,
         null,
         unitOfWork,
@@ -25,6 +28,7 @@ internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddL
     {
         _commandService = commandService;
         _smsSender = smsSender;
+        _dashboardQueueManager = dashboardQueueManager;
     }
 
     protected override async ValueTask<AddLegalDto> HandleCommandAsync( AddLegalCommand request,
@@ -45,6 +49,11 @@ internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddL
             superuser.Language );
 
         AddLegalDto? legalDto = Mapper.Map<AddLegalDto>( legal );
+
+        foreach ( Stadium stadium in legal.Stadiums )
+        {
+            _dashboardQueueManager.EnqueueCalculateStadiumDashboard( stadium.Id );
+        }
 
         return legalDto;
     }
