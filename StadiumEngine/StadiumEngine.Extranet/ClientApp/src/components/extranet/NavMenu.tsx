@@ -41,8 +41,12 @@ export const NavMenu = () => {
     }, [stadium])
 
 
-    const viewNavLink = (key: string) => {
+    const viewNavLinkByGroup = (key: string) => {
         return permissions.filter(p => p.groupKey === key).length > 0;
+    }
+
+    const viewNavLinkByKey = (key: string) => {
+        return permissions.filter(p => p.name === key).length > 0;
     }
 
     const getNavLinkClassName = ({isActive}: any) => {
@@ -59,25 +63,30 @@ export const NavMenu = () => {
 
             <CDBSidebarContent className="sidebar-content">
                 <CDBSidebarMenu>
-
+                    {viewNavLinkByKey(PermissionsKeys.ViewDashboard) ?
+                        <NavLink to="/dashboard" className={getNavLinkClassName}>
+                            <CDBSidebarMenuItem title={t('common:lk_navbar:dashboard')}
+                                                icon="chart-pie">{t('common:lk_navbar:dashboard')}</CDBSidebarMenuItem>
+                        </NavLink> : <span/>}
+                    
                     {permissions.length > 0 ? <NavLink to="/settings" className={getNavLinkClassName}>
                         <CDBSidebarMenuItem title={t('common:lk_navbar:settings')}
                                             icon="columns">{t('common:lk_navbar:settings')}</CDBSidebarMenuItem>
                     </NavLink> : <span/>}
 
-                    {viewNavLink(PermissionsKeys.ScheduleGroup) ?
+                    {viewNavLinkByGroup(PermissionsKeys.ScheduleGroup) ?
                         <NavLink to="/schedule" className={getNavLinkClassName}>
                             <CDBSidebarMenuItem title={t('common:lk_navbar:schedule')}
                                                 icon="table">{t('common:lk_navbar:schedule')}</CDBSidebarMenuItem>
                         </NavLink> : <span/>}
 
-                    {viewNavLink(PermissionsKeys.OffersGroup) ?
+                    {viewNavLinkByGroup(PermissionsKeys.OffersGroup) ?
                         <NavLink to="/offers" className={getNavLinkClassName}>
                             <CDBSidebarMenuItem title={t('common:lk_navbar:offers')}
                                                 icon="object-ungroup">{t('common:lk_navbar:offers')}</CDBSidebarMenuItem>
                         </NavLink> : <span/>}
 
-                    {viewNavLink(PermissionsKeys.RatesGroup) ? <NavLink to="/rates" className={getNavLinkClassName}>
+                    {viewNavLinkByGroup(PermissionsKeys.RatesGroup) ? <NavLink to="/rates" className={getNavLinkClassName}>
                         <CDBSidebarMenuItem title={t('common:lk_navbar:rates')}
                                             icon="dollar-sign">{t('common:lk_navbar:rates')}</CDBSidebarMenuItem>
                     </NavLink> : <span/>}
@@ -94,7 +103,7 @@ export const NavMenu = () => {
                                                 icon="chart-line">{t('common:lk_navbar:reports')}</CDBSidebarMenuItem>
                         </NavLink> : <span/>}*/}
 
-                    {viewNavLink(PermissionsKeys.AccountsGroup) ?
+                    {viewNavLinkByGroup(PermissionsKeys.AccountsGroup) ?
                         <NavLink to="/accounts" className={getNavLinkClassName}>
                             <CDBSidebarMenuItem title={t('common:lk_navbar:accounts')}
                                                 icon="users">{t('common:lk_navbar:accounts')}</CDBSidebarMenuItem>

@@ -1,14 +1,4 @@
 {
-    "lk_navbar": {
-        "main_settings": "Main Settings",
-        "schedule": "Schedule",
-        "offers": "Actives",
-        "rates": "Tariffs and prices",
-        "employees": "Employees",
-        "reports": "Reports",
-        "accounts": "Accounts",
-        "logout": "Logout"
-    },
     "back_buttons": {
         "locker_rooms": "Back to locker rooms list",
         "fields": "Back to fields list",

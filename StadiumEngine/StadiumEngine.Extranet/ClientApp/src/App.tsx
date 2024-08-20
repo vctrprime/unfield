@@ -58,6 +58,7 @@ import {Break} from "./components/extranet/settings/Break";
 import {UserStadiumDto} from "./models/dto/accounts/UserStadiumDto";
 import {ICommonService} from "./services/CommonService";
 import {envAtom} from "./state/env";
+import {Dashboard} from "./components/extranet/dashboard/Dashboard";
 
 const ReactNotifications = require('react-notifications');
 const {NotificationContainer} = ReactNotifications;
@@ -124,6 +125,7 @@ const App = () => {
                     <Route path="/sign-in" element={<SignIn/>}/>
                     <Route path="/" element={<ProtectedRoute component={LkLayout}/>}>
                         <Route path="forbidden" element={<Forbidden/>}/>
+                        <Route path="dashboard" element={<Dashboard/>}/>
                         <Route path="settings" element={<Settings/>}>
                             <Route path="main" element={<MainSettings/>}/>
                             <Route path="breaks" element={<Breaks/>}/>
