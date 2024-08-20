@@ -10,5 +10,5 @@ public class StadiumDashboardPopularInventory
 public class StadiumDashboardPopularInventoryItem 
 {
     public string Inventory { get; set; }
-    public int Value { get; set; }
+    public decimal Value { get; set; }
 }

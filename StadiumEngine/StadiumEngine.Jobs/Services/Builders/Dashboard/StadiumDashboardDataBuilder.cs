@@ -1,4 +1,5 @@
 using Mediator;
+using StadiumEngine.Common.Static;
 using StadiumEngine.Domain.Entities.Dashboard;
 using StadiumEngine.DTO.Schedule;
 using StadiumEngine.Queries.Schedule;
@@ -16,95 +17,125 @@ internal class StadiumDashboardDataBuilder : IStadiumDashboardDataBuilder
 
     public async Task<StadiumDashboard> BuildAsync( int stadiumId, DateTime date )
     {
-        List<BookingListItemDto> bookings = await _mediator.Send( new GetBookingListQuery
-        {
-            Start = date.AddYears( -1 ),
-            End = date,
-            StadiumId = stadiumId
-        });
-        
-        // todo логика билда дашборда
-        Console.WriteLine( $"Build stadium {stadiumId}");
+        DateTime startDate = date.AddMonths( -11 );
+        startDate = new DateTime( startDate.Year, startDate.Month, 1 );
+
+        List<BookingListItemDto> bookings = await _mediator.Send(
+            new GetBookingListQuery
+            {
+                Start = startDate,
+                End = date,
+                StadiumId = stadiumId
+            } );
+
         return new StadiumDashboard
         {
             StadiumId = stadiumId,
             Data = new StadiumDashboardData
             {
-                YearChart = new StadiumDashboardYearChart
-                {
-                    Items =
-                    [
-                        new StadiumDashboardYearChartItem
-                        {
-                            Month = "January",
-                            Value = 1,
-                        },
-
-                        new StadiumDashboardYearChartItem
-                        {
-                            Month = "February",
-                            Value = 2
-                        }
-                    ]
-                },
-                FieldDistribution = new StadiumDashboardFieldDistribution
-                {
-                    Items =
-                    [
-                        new StadiumDashboardFieldDistributionItem
-                        {
-                            Field = "Field 1",
-                            Value = 1,
-                        },
-
-                        new StadiumDashboardFieldDistributionItem
-                        {
-                            Field = "Field 2",
-                            Value = 2
-                        }
-                    ]
-                },
-                AverageBill = new StadiumDashboardAverageBill
-                {
-                    FieldValue = 100,
-                    InventoryValue = ( decimal )200.55,
-                    TotalValue = 300
-                },
-                PopularInventory = new StadiumDashboardPopularInventory
-                {
-                    Items =
-                    [
-                        new StadiumDashboardPopularInventoryItem
-                        {
-                            Inventory = "Inventory 1",
-                            Value = 1,
-                        },
-
-                        new StadiumDashboardPopularInventoryItem
-                        {
-                            Inventory = "Inventory 2",
-                            Value = 2
-                        }
-                    ]
-                },
-                TimeChart = new StadiumDashboardTimeChart
-                {
-                    Items =
-                    [
-                        new StadiumDashboardTimeChartItem
-                        {
-                            Time = "00:00",
-                            Value = 1,
-                        },
-
-                        new StadiumDashboardTimeChartItem
-                        {
-                            Time = "01:00",
-                            Value = 2
-                        }
-                    ]
-                }
+                YearChart = BuildYearChart( bookings, startDate ),
+                FieldDistribution = BuildFieldDistribution( bookings ),
+                AverageBill = BuildAverageBill( bookings ),
+                PopularInventory = BuildPopularInventory( bookings ),
+                TimeChart = BuildTimeChart( bookings )
             }
         };
+    }
+
+    private StadiumDashboardYearChart BuildYearChart( List<BookingListItemDto> bookings, DateTime startDate )
+    {
+        StadiumDashboardYearChart result = new StadiumDashboardYearChart
+        {
+            Items = new List<StadiumDashboardYearChartItem>()
+        };
+
+        List<IGrouping<string, BookingListItemDto>> groupedBookings = bookings
+            .Where( x => x.Day.HasValue )
+            .GroupBy( x => $"{x.Day.Value.Month}.{x.Day.Value.Year}" )
+            .ToList();
+
+        int i = 0;
+
+        while ( i < 12 )
+        {
+            DateTime date = startDate.AddMonths( i );
+            string key = $"{date.Month}.{date.Year}";
+
+            IGrouping<string, BookingListItemDto>? group = groupedBookings
+                .SingleOrDefault( x => x.Key == key );
+
+            result.Items.Add(
+                new StadiumDashboardYearChartItem
+                {
+                    Month = group?.Key ?? key,
+                    Value = group?.Count() ?? 0,
+                } );
+
+            i++;
+        }
+
+        return result;
+    }
+
+    private StadiumDashboardFieldDistribution BuildFieldDistribution( List<BookingListItemDto> bookings ) =>
+        new()
+        {
+            Items = bookings.GroupBy( x => x.FieldName ).Select(
+                x => new StadiumDashboardFieldDistributionItem
+                {
+                    Field = x.Key,
+                    Value = x.Count()
+                } ).ToList()
+        };
+
+    private StadiumDashboardAverageBill BuildAverageBill( List<BookingListItemDto> bookings ) =>
+        new()
+        {
+            FieldValue =
+                Math.Round( bookings.Select( b => b.OriginalData.FieldAmount ).DefaultIfEmpty( 0 ).Average(), 2 ),
+            InventoryValue =
+                Math.Round( bookings.Select( b => b.OriginalData.InventoryAmount ).DefaultIfEmpty( 0 ).Average(), 2 ),
+            TotalValue = Math.Round(
+                bookings.Select( b => b.OriginalData.TotalAmountAfterDiscount ).DefaultIfEmpty( 0 ).Average(),
+                2 )
+        };
+
+    private StadiumDashboardPopularInventory BuildPopularInventory( List<BookingListItemDto> bookings ) =>
+        new()
+        {
+            Items = bookings
+                .SelectMany( x => x.OriginalData.Inventories )
+                .GroupBy( x => x.Inventory.Name )
+                .Select(
+                    x => new StadiumDashboardPopularInventoryItem
+                    {
+                        Inventory = x.Key,
+                        Value = x.Sum( i => i.Quantity )
+                    } ).ToList()
+        };
+
+    private StadiumDashboardTimeChart BuildTimeChart( List<BookingListItemDto> bookings )
+    {
+        StadiumDashboardTimeChart result = new StadiumDashboardTimeChart
+        {
+            Items = new List<StadiumDashboardTimeChartItem>()
+        };
+
+        decimal i = 0;
+        while ( i < 24 )
+        {
+            string slot = TimePointParser.Parse( i );
+
+            result.Items.Add(
+                new StadiumDashboardTimeChartItem
+                {
+                    Time = slot,
+                    Value = bookings.SelectMany( x => x.OriginalData.Costs ).Count( x => x.StartHour == i )
+                } );
+
+            i += ( decimal )0.5;
+        }
+
+        return result;
     }
 }

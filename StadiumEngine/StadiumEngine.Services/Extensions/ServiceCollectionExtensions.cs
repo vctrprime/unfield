@@ -1,4 +1,3 @@
-using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Common.Configuration;
 using StadiumEngine.Domain.Services.Core.Accounts;
