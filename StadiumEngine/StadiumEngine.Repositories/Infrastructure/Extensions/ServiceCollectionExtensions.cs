@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Common.Configuration;
+using StadiumEngine.Common.Configuration.Sections;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Repositories.Bookings;

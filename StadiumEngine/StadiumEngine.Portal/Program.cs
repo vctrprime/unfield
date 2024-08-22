@@ -1,3 +1,4 @@
+using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog;
@@ -14,12 +15,12 @@ public class Program
     /// </summary>
     public static void Main( string[] args )
     {
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        AppContext.SetSwitch( "Npgsql.EnableLegacyTimestampBehavior", true );
         JsonConvert.DefaultSettings = () => new JsonSerializerSettings
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
-        
+
         CreateHostBuilder( args ).Build().Run();
     }
 
@@ -39,8 +40,13 @@ public class Program
                             ( builderContext, config ) =>
                             {
                                 config
-                                    .AddJsonFile( "appsettings.json", optional: true )
-                                    .AddJsonFile( $"appsettings.{Environment.GetEnvironmentVariable( "ASPNETCORE_ENVIRONMENT" )}.json", optional: true );
+                                    .SetBasePath( Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location ) )
+                                    .AddJsonFile( "appsettings.json", optional: false )
+                                    .AddJsonFile( "launch.settings.json", optional: true )
+                                    .AddJsonFile(
+                                        $"appsettings.{Environment.GetEnvironmentVariable( "ASPNETCORE_ENVIRONMENT" )}.json",
+                                        optional: true )
+                                    .AddUserSecrets<Startup>();
                             } );
                 } );
 }

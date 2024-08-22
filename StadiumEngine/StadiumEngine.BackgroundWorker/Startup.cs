@@ -13,8 +13,12 @@ using Serilog.Events;
 using Serilog.Filters;
 using StadiumEngine.BackgroundWorker.Infrastructure.Extensions;
 using StadiumEngine.Common.Configuration;
+using StadiumEngine.Common.Configuration.Infrastructure;
+using StadiumEngine.Common.Configuration.Infrastructure.Extensions;
+using StadiumEngine.Common.Configuration.Sections;
 using StadiumEngine.Handlers.Extensions;
 using StadiumEngine.Jobs.Recurring.Dashboard;
+using ServiceCollectionExtensions = StadiumEngine.Common.Configuration.Infrastructure.Extensions.ServiceCollectionExtensions;
 
 namespace StadiumEngine.BackgroundWorker;
 
@@ -42,29 +46,10 @@ public class Startup
     /// <param name="services"></param>
     public void ConfigureServices( IServiceCollection services )
     {
-        services.AddSingleton<StorageConfig>();
-        services.AddSingleton<UtilsConfig>();
-        services.AddSingleton( Configuration.GetSection( "UtilServiceConfig" ).Get<UtilServiceConfig>() );
-        services.AddSingleton<EnvConfig>();
+        LoadConfigurationResult loadConfigurationResult = services.LoadConfigurations( Configuration );
+        Configurator.ConfigureLogger( loadConfigurationResult, "bw_log_errors" );
         
-        ConnectionsConfig connectionsConfig = new ConnectionsConfig( Configuration );
-
-        SelfLog.Enable( msg => Console.WriteLine( $"Logging Process Error: {msg}" ) );
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Information()
-            .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning )
-            .Filter.ByExcluding( Matching.FromSource( "Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware" ) )
-            .Filter.ByExcluding( Matching.FromSource( "Microsoft.EntityFrameworkCore.Database.Command" ) )
-            .WriteTo.Console()
-            .WriteTo.PostgreSQL(
-                connectionsConfig.MainDb,
-                "PUBLIC.BW_LOG_ERRORS",
-                needAutoCreateTable: true,
-                restrictedToMinimumLevel: LogEventLevel.Error )
-            .CreateLogger();
-        
-        MessagingConfig messagingConfig = Configuration.GetSection( "MessagingConfig" ).Get<MessagingConfig>() ?? new MessagingConfig();
-        services.RegisterModules( connectionsConfig, messagingConfig );
+        services.RegisterModules( loadConfigurationResult );
         
         services.AddControllersWithViews().AddJsonOptions(
                 options => { options.JsonSerializerOptions.Converters.Add( new JsonStringEnumConverter() ); } )
@@ -79,7 +64,7 @@ public class Startup
             configuration => configuration
                 .UseSimpleAssemblyNameTypeSerializer()
                 .UseRecommendedSerializerSettings()
-                .UsePostgreSqlStorage( c => c.UseNpgsqlConnection( connectionsConfig.MainDb ) ) );
+                .UsePostgreSqlStorage( c => c.UseNpgsqlConnection( loadConfigurationResult.ConnectionsConfig.MainDb ) ) );
         services.AddHangfireServer( options =>
         {
             options.Queues = [ "default", "dashboards" ];

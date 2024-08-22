@@ -11,14 +11,13 @@
         <SpaProxyServerUrl>https://localhost:44463</SpaProxyServerUrl>
         <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
         <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>823fd3dc-3ec5-4d5f-8c68-861ff28fae4e</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.11" />
         <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.11" />
         <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.8" />
-        <PackageReference Include="Serilog.AspNetCore" Version="6.1.0-dev-00285" />
-        <PackageReference Include="Serilog.Sinks.PostgreSQL" Version="2.3.0" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Common.Configuration;
+using StadiumEngine.Common.Configuration.Sections;
 using StadiumEngine.DTO;
 
 namespace StadiumEngine.Portal.Controllers.API;

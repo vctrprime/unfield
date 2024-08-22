@@ -12,6 +12,9 @@ using Serilog.Filters;
 using StadiumEngine.BookingForm.Infrastructure.Extensions;
 using StadiumEngine.BookingForm.Infrastructure.Middleware;
 using StadiumEngine.Common.Configuration;
+using StadiumEngine.Common.Configuration.Infrastructure;
+using StadiumEngine.Common.Configuration.Infrastructure.Extensions;
+using StadiumEngine.Common.Configuration.Sections;
 
 namespace StadiumEngine.BookingForm;
 
@@ -39,28 +42,10 @@ public class Startup
     /// <param name="services"></param>
     public void ConfigureServices( IServiceCollection services )
     {
-        services.AddSingleton( Configuration.GetSection( "StorageConfig" ).Get<StorageConfig>() );
-        services.AddSingleton<UtilServiceConfig>();
-        services.AddSingleton( Configuration.GetSection( "EnvConfig" ).Get<EnvConfig>() );
+        LoadConfigurationResult loadConfigurationResult = services.LoadConfigurations( Configuration );
+        Configurator.ConfigureLogger( loadConfigurationResult, "bf_log_errors" );
         
-        ConnectionsConfig connectionsConfig = new ConnectionsConfig( Configuration );
-        
-        SelfLog.Enable( msg => Console.WriteLine( $"Logging Process Error: {msg}" ) );
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Information()
-            .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning )
-            .Filter.ByExcluding( Matching.FromSource( "Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware" ) )
-            .Filter.ByExcluding( Matching.FromSource( "Microsoft.EntityFrameworkCore.Database.Command" ) )
-            .WriteTo.Console()
-            .WriteTo.PostgreSQL(
-                connectionsConfig.MainDb,
-                "PUBLIC.LOG_ERRORS",
-                needAutoCreateTable: true,
-                restrictedToMinimumLevel: LogEventLevel.Error )
-            .CreateLogger();
-        
-        MessagingConfig messagingConfig = Configuration.GetSection( "MessagingConfig" ).Get<MessagingConfig>() ?? new MessagingConfig();
-        services.RegisterModules( connectionsConfig, messagingConfig );
+        services.RegisterModules( loadConfigurationResult );
         
         services.AddControllersWithViews().AddJsonOptions(
                 options => { options.JsonSerializerOptions.Converters.Add( new JsonStringEnumConverter() ); } )

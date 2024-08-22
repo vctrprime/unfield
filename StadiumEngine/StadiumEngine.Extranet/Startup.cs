@@ -25,6 +25,9 @@ using Serilog.Debugging;
 using Serilog.Events;
 using Serilog.Filters;
 using StadiumEngine.Common.Configuration;
+using StadiumEngine.Common.Configuration.Infrastructure;
+using StadiumEngine.Common.Configuration.Infrastructure.Extensions;
+using StadiumEngine.Common.Configuration.Sections;
 using StadiumEngine.Common.Hubs;
 using StadiumEngine.Extranet.Infrastructure;
 using StadiumEngine.Extranet.Infrastructure.Extensions;
@@ -60,32 +63,13 @@ public class Startup
     /// <param name="services"></param>
     public void ConfigureServices( IServiceCollection services )
     {
-        services.AddSingleton( Configuration.GetSection( "StorageConfig" ).Get<StorageConfig>() );
-        services.AddSingleton( Configuration.GetSection( "UtilsConfig" ).Get<UtilsConfig>() );
-        services.AddSingleton<UtilServiceConfig>();
-        services.AddSingleton( Configuration.GetSection( "EnvConfig" ).Get<EnvConfig>() );
-
-        ConnectionsConfig connectionsConfig = new ConnectionsConfig( Configuration );
+        LoadConfigurationResult loadConfigurationResult = services.LoadConfigurations( Configuration );
+        Configurator.ConfigureLogger( loadConfigurationResult, "extranet_log_errors" );
         
-        services.AddDbContext<KeysContext>( options => options.UseNpgsql( connectionsConfig.MainDb ) );
+        services.AddDbContext<KeysContext>( options => options.UseNpgsql( loadConfigurationResult.ConnectionsConfig.MainDb ) );
         services.AddDataProtection().PersistKeysToDbContext<KeysContext>();
         
-        SelfLog.Enable( msg => Console.WriteLine( $"Logging Process Error: {msg}" ) );
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Information()
-            .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning )
-            .Filter.ByExcluding( Matching.FromSource( "Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware" ) )
-            .Filter.ByExcluding( Matching.FromSource( "Microsoft.EntityFrameworkCore.Database.Command" ) )
-            .WriteTo.Console()
-            .WriteTo.PostgreSQL(
-                connectionsConfig.MainDb,
-                "PUBLIC.LOG_ERRORS",
-                needAutoCreateTable: true,
-                restrictedToMinimumLevel: LogEventLevel.Error )
-            .CreateLogger();
-        
-        MessagingConfig messagingConfig = Configuration.GetSection( "MessagingConfig" ).Get<MessagingConfig>() ?? new MessagingConfig();
-        services.RegisterModules( connectionsConfig, messagingConfig );
+        services.RegisterModules( loadConfigurationResult );
 
         if ( _environment.IsDevelopment() )
         {

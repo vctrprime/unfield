@@ -1,4 +1,6 @@
-namespace StadiumEngine.Common.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace StadiumEngine.Common.Configuration.Sections;
 
 public class UtilServiceConfig
 {

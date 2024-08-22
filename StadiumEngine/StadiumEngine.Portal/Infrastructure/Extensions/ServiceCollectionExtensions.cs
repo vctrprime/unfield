@@ -1,4 +1,5 @@
 using StadiumEngine.Common.Configuration;
+using StadiumEngine.Common.Configuration.Sections;
 
 namespace StadiumEngine.Portal.Infrastructure.Extensions;
 

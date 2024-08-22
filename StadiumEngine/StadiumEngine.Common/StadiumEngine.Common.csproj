@@ -12,5 +12,9 @@
         <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\StadiumEngine.Common.Configuration\StadiumEngine.Common.Configuration.csproj" />
+    </ItemGroup>
+
 
 </Project>

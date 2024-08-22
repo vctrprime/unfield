@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace StadiumEngine.Common.Configuration;
+namespace StadiumEngine.Common.Configuration.Sections;
 
 public class ConnectionsConfig
 {
@@ -10,6 +10,6 @@ public class ConnectionsConfig
     public ConnectionsConfig( IConfiguration configuration )
     {
         MainDb = configuration.GetConnectionString( "MainDbConnection" );
-        ArchiveDb = configuration.GetConnectionString( "ArchiveDbConnection" ) ?? String.Empty;
+        ArchiveDb = configuration.GetConnectionString( "ArchiveDbConnection" );
     }
 }

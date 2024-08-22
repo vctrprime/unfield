@@ -1,6 +1,8 @@
 using MassTransit;
 using StadiumEngine.BackgroundWorker.Consumers.Bookings;
 using StadiumEngine.Common.Configuration;
+using StadiumEngine.Common.Configuration.Infrastructure.Extensions;
+using StadiumEngine.Common.Configuration.Sections;
 using StadiumEngine.EventBus;
 using StadiumEngine.Handlers.Extensions;
 
@@ -15,15 +17,13 @@ public static class ServiceCollectionExtensions
     ///     Зарегистрировать все необходимые модули
     /// </summary>
     /// <param name="services"></param>
-    /// <param name="connectionsConfig"></param>
-    /// <param name="messagingConfig"></param>
+    /// <param name="loadConfigurationResult"></param>
     public static void RegisterModules( 
         this IServiceCollection services, 
-        ConnectionsConfig connectionsConfig,
-        MessagingConfig messagingConfig )
+        LoadConfigurationResult loadConfigurationResult )
     {
-        services.RegisterHandlers( connectionsConfig );
-        services.AddEventBus( messagingConfig, ConfigureBusServices, ConfigureRabbit, true );
+        services.RegisterHandlers( loadConfigurationResult.ConnectionsConfig );
+        services.AddEventBus( loadConfigurationResult.MessagingConfig, ConfigureBusServices, ConfigureRabbit, true );
     }
     
     private static void ConfigureBusServices( IBusRegistrationConfigurator configurator )

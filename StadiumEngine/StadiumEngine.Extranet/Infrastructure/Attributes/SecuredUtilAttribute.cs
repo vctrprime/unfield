@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Primitives;
 using StadiumEngine.Common.Configuration;
+using StadiumEngine.Common.Configuration.Sections;
 
 namespace StadiumEngine.Extranet.Infrastructure.Attributes;
 

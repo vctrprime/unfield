@@ -10,6 +10,9 @@ using Serilog.Debugging;
 using Serilog.Events;
 using Serilog.Filters;
 using StadiumEngine.Common.Configuration;
+using StadiumEngine.Common.Configuration.Infrastructure;
+using StadiumEngine.Common.Configuration.Infrastructure.Extensions;
+using StadiumEngine.Common.Configuration.Sections;
 using StadiumEngine.Portal.Infrastructure.Extensions;
 
 namespace StadiumEngine.Portal;
@@ -38,27 +41,10 @@ public class Startup
     /// <param name="services"></param>
     public void ConfigureServices( IServiceCollection services )
     {
-        services.AddSingleton( Configuration.GetSection( "StorageConfig" ).Get<StorageConfig>() );
-        services.AddSingleton<UtilServiceConfig>();
-        services.AddSingleton( Configuration.GetSection( "EnvConfig" ).Get<EnvConfig>() );
-        
-        ConnectionsConfig connectionsConfig = new ConnectionsConfig( Configuration );
-        
-        SelfLog.Enable( msg => Console.WriteLine( $"Logging Process Error: {msg}" ) );
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Information()
-            .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning )
-            .Filter.ByExcluding( Matching.FromSource( "Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware" ) )
-            .Filter.ByExcluding( Matching.FromSource( "Microsoft.EntityFrameworkCore.Database.Command" ) )
-            .WriteTo.Console()
-            .WriteTo.PostgreSQL(
-                connectionsConfig.MainDb,
-                "PUBLIC.LOG_ERRORS",
-                needAutoCreateTable: true,
-                restrictedToMinimumLevel: LogEventLevel.Error )
-            .CreateLogger();
+        LoadConfigurationResult loadConfigurationResult = services.LoadConfigurations( Configuration );
+        Configurator.ConfigureLogger( loadConfigurationResult, "portal_log_errors" );
 
-        services.RegisterModules( connectionsConfig );
+        services.RegisterModules( loadConfigurationResult.ConnectionsConfig );
         
         services.AddControllersWithViews().AddJsonOptions(
                 options => { options.JsonSerializerOptions.Converters.Add( new JsonStringEnumConverter() ); } )

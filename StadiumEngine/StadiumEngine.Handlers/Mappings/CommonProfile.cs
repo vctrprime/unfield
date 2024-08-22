@@ -1,5 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Common.Configuration;
+using StadiumEngine.Common.Configuration.Sections;
 using StadiumEngine.Domain.Entities;
 using StadiumEngine.DTO;
 

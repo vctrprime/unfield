@@ -1,4 +1,4 @@
-namespace StadiumEngine.Common.Configuration;
+namespace StadiumEngine.Common.Configuration.Sections;
 
 public class UtilsConfig
 {

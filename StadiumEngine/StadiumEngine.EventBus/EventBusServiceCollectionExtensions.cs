@@ -2,6 +2,7 @@ using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Common.Configuration;
+using StadiumEngine.Common.Configuration.Sections;
 
 namespace StadiumEngine.EventBus;
 

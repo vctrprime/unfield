@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Http;
-using StadiumEngine.Common.Configuration;
+using StadiumEngine.Common.Configuration.Sections;
 using StadiumEngine.Domain.Services.Infrastructure;
 
 namespace StadiumEngine.Services.Infrastructure;

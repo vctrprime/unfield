@@ -11,6 +11,7 @@
         <SpaProxyServerUrl>https://localhost:44403</SpaProxyServerUrl>
         <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
         <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>823fd3dc-3ec5-4d5f-8c68-861ff28fae4e</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,8 +22,6 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Serilog.AspNetCore" Version="6.1.0-dev-00285" />
-        <PackageReference Include="Serilog.Sinks.PostgreSQL" Version="2.3.0" />
     </ItemGroup>
 
     <ItemGroup>
