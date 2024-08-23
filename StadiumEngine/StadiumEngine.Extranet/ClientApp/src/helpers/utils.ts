@@ -3,6 +3,10 @@ import {FieldDto} from "../models/dto/offers/FieldDto";
 import {InventoryDto} from "../models/dto/offers/InventoryDto";
 import {BookingDto} from "../models/dto/booking/BookingDto";
 import {dateFormatterByDateWithoutTime} from "./date-formatter";
+import {useRecoilValue} from "recoil";
+import {permissionsAtom} from "../state/permissions";
+import {PermissionsKeys} from "../static/PermissionsKeys";
+import {UserPermissionDto} from "../models/dto/accounts/UserPermissionDto";
 
 export function getTitle(path: string): string {
     return t(path) + " - Stadium Engine";
@@ -16,8 +20,9 @@ export const getOverlayNoRowsTemplate = () => {
     return '<span />';
 }
 
-export const getStartLkRoute = () => {
-    return `/settings/main`;
+export const getStartLkRoute = ( permissions: UserPermissionDto[]) => {
+    const hasDashboardPermission = permissions.filter(p => p.name === PermissionsKeys.ViewDashboard).length > 0
+    return hasDashboardPermission ? `/dashboard` : `/settings/main`;
 }
 
 export const StringFormat = (str: string, ...args: string[]) =>

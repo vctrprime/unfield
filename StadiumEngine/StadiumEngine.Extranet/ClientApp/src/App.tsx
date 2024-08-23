@@ -28,7 +28,7 @@ import {Reports} from "./components/extranet/reports/Reports";
 import {useLocalStorage} from "usehooks-ts";
 import {AuthorizeUserDto} from "./models/dto/accounts/AuthorizeUserDto";
 import {Button, Modal} from "semantic-ui-react";
-import {useRecoilState, useSetRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {logoutModalAtom} from "./state/logoutModal";
 import {stadiumAtom} from "./state/stadium";
 import {UserPermissionDto} from "./models/dto/accounts/UserPermissionDto";
@@ -70,7 +70,7 @@ const App = () => {
     const [logoutModal, setLogoutModal] = useRecoilState<boolean>(logoutModalAtom);
 
     const setStadium = useSetRecoilState<UserStadiumDto | null>(stadiumAtom);
-    const setPermissions = useSetRecoilState<UserPermissionDto[]>(permissionsAtom);
+    const [permissions, setPermissions] = useRecoilState<UserPermissionDto[]>(permissionsAtom);
     const setAuth = useSetRecoilState(authAtom);
     const setEnv = useSetRecoilState(envAtom);
 
@@ -92,7 +92,7 @@ const App = () => {
                 if (window.location.pathname === "/sign-in" && user?.isAdmin) {
                     window.location.href = `/admin`;
                 } else {
-                    window.location.href = getStartLkRoute();
+                    window.location.href = getStartLkRoute( permissions );
                 }
             }
             else  {

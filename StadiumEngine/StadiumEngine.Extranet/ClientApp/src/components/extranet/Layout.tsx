@@ -18,9 +18,13 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import {MobileNotification} from "../common/MobileNotification";
 import {t} from "i18next";
 import {getStartLkRoute} from "../../helpers/utils";
+import {permissionsAtom} from "../../state/permissions";
+import {UserPermissionDto} from "../../models/dto/accounts/UserPermissionDto";
 
 export const Layout = () => {
     const stadium = useRecoilValue(stadiumAtom);
+    const permissions = useRecoilValue(permissionsAtom);
+    
     const navigate = useNavigate();
 
     if (isMobile) {
@@ -30,7 +34,7 @@ export const Layout = () => {
     }
     
     if (window.location.pathname.length < 3) {
-        navigate(getStartLkRoute());
+        navigate(getStartLkRoute(permissions));
     }
     
 

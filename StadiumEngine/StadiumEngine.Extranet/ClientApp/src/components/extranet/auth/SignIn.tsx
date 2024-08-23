@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {authAtom} from '../../../state/auth';
 import {Link, NavLink, useNavigate} from "react-router-dom";
 import {NavbarBrand} from "reactstrap";
@@ -20,6 +20,8 @@ import {getStartLkRoute, getTitle} from "../../../helpers/utils";
 import {Button, Form, Modal} from "semantic-ui-react";
 import {ContainerLoading} from "../../common/ContainerLoading";
 import {envAtom} from "../../../state/env";
+import {UserPermissionDto} from "../../../models/dto/accounts/UserPermissionDto";
+import {permissionsAtom} from "../../../state/permissions";
 
 
 export const SignIn = () => {
@@ -27,6 +29,8 @@ export const SignIn = () => {
 
     const setAuth = useSetRecoilState(authAtom);
     const setLoading = useSetRecoilState(loadingAtom);
+    const [permissions, setPermissions] = useRecoilState<UserPermissionDto[]>(permissionsAtom);
+    
     const env = useRecoilValue(envAtom);
 
     const [accountsService] = useInject<IAccountsService>('AccountsService');
@@ -46,6 +50,7 @@ export const SignIn = () => {
                 .then((user: AuthorizeUserDto) => {
                     localStorage.setItem('user', JSON.stringify(user));
                     setAuth(user);
+                    setPermissions(user.permissions);
 
                     const localStorageLanguage = localStorage.getItem('language') || 'ru';
 
@@ -58,9 +63,8 @@ export const SignIn = () => {
                         setLoading(false);
                         navigate("/admin");
                     } else {
-                        navigate(getStartLkRoute());
+                        navigate(getStartLkRoute(permissions));
                     }
-
                 });
         }
     };

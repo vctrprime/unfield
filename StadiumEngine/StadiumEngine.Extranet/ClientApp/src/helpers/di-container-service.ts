@@ -8,6 +8,7 @@ import {BookingService, IBookingService} from "../services/BookingService";
 import {IScheduleService, ScheduleService} from "../services/ScheduleService";
 import {INotificationsService, NotificationsService} from "../services/NotificationsService";
 import {CommonService, ICommonService} from "../services/CommonService";
+import {DashboardService, IDashboardService} from "../services/DashboardService";
 
 export function registerServices() {
     container.addRequest<IAccountsService>(AccountsService, 'AccountsService');
@@ -19,4 +20,5 @@ export function registerServices() {
     container.addRequest<IScheduleService>(ScheduleService, 'ScheduleService');
     container.addRequest<INotificationsService>(NotificationsService, 'NotificationsService');
     container.addRequest<ICommonService>(CommonService, 'CommonService');
+    container.addRequest<IDashboardService>(DashboardService, 'DashboardService');
 }

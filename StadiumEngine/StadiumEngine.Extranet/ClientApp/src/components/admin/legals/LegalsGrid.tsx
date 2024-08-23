@@ -29,7 +29,7 @@ export const LegalsGrid = () => {
 
     const [searchString, setSearchString] = useRecoilState<string>(legalsSearchValue);
     const setStadium = useSetRecoilState<UserStadiumDto | null>(stadiumAtom);
-    const setPermissions = useSetRecoilState<UserPermissionDto[]>(permissionsAtom);
+    const [permissions, setPermissions] = useRecoilState<UserPermissionDto[]>(permissionsAtom);
 
     const [adminService] = useInject<IAdminService>('AdminService');
 
@@ -43,7 +43,7 @@ export const LegalsGrid = () => {
             setPermissions([]);
             setAuth(result);
             setUser(result);
-            window.open(`${window.location.origin}${getStartLkRoute()}`);
+            window.open(`${window.location.origin}${getStartLkRoute(permissions)}`);
         })
     }
 

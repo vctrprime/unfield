@@ -13,4 +13,9 @@ public class AuthorizeUserDto : AuthorizedUserDto
     /// </summary>
     [JsonIgnore]
     public List<Claim> Claims { get; set; } = null!;
+    
+    /// <summary>
+    /// Разрешения
+    /// </summary>
+    public List<UserPermissionDto> Permissions { get; set; } = new List<UserPermissionDto>();
 }

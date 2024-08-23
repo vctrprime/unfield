@@ -1,3 +1,5 @@
+import {UserPermissionDto} from "./UserPermissionDto";
+
 export interface AuthorizeUserDto {
     fullName: string,
     roleName: string | null,
@@ -5,4 +7,5 @@ export interface AuthorizeUserDto {
     isSuperuser: boolean,
     language: string
     legalName: string
+    permissions: UserPermissionDto[]
 }

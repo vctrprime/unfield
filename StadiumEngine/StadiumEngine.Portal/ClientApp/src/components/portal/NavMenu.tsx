@@ -6,7 +6,6 @@ import logo from '../../img/logo/logo_icon_with_title.png';
 import {t} from "i18next";
 import {LanguageSelect} from "../common/LanguageSelect";
 import {useRecoilValue} from "recoil";
-import {getStartLkRoute} from "../../helpers/utils";
 import {envAtom} from "../../state/env";
 
 

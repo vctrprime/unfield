@@ -33,6 +33,9 @@ import scheduleEN from '../i18n/schedule/schedule.en.json';
 import notificationsRU from '../i18n/notifications/notifications.json';
 import notificationsEN from '../i18n/notifications/notifications.en.json';
 
+import dashboardRU from '../i18n/dashboard/dashboard.json';
+import dashboardEN from '../i18n/dashboard/dashboard.en.json';
+
 import {LocaleOptions} from "react-semantic-ui-datepickers/dist/types";
 
 import fnsRu from "date-fns/locale/ru";
@@ -50,7 +53,8 @@ const resources = {
         settings: settingsRU,
         booking: bookingRU,
         schedule: scheduleRU,
-        notifications: notificationsRU
+        notifications: notificationsRU,
+        dashboard: dashboardRU
     },
     en: {
         accounts: accountsEN,
@@ -62,7 +66,8 @@ const resources = {
         settings: settingsEN,
         booking: bookingEN,
         schedule: scheduleEN,
-        notifications: notificationsEN
+        notifications: notificationsEN,
+        dashboard: dashboardEN
     }
 };
 
@@ -71,7 +76,7 @@ i18next
     .use(reactI18nextModule) // passes i18n down to react-i18next
     .init({
         fallbackLng: "ru",
-        ns: ['common', 'accounts', 'admin', 'errors', 'offers', 'rates', 'settings', 'booking', 'schedule', 'notifications'],
+        ns: ['common', 'accounts', 'admin', 'errors', 'offers', 'rates', 'settings', 'booking', 'schedule', 'notifications', 'dashboard'],
         resources,
         lng: localStorage.getItem('language') || 'ru',
         keySeparator: false, // we do not use keys in form messages.welcome
