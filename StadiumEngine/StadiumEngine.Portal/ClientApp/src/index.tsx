@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import * as registerServiceWorker from './registerServiceWorker';
 import {RecoilRoot} from "recoil";
 import 'reflect-metadata';
 import {registerServices} from "./helpers/di-container-service";
@@ -30,5 +30,5 @@ ReactDOM.render(
     </BrowserRouter>,
     rootElement);
 
-registerServiceWorker();
+registerServiceWorker.unregister();
 
