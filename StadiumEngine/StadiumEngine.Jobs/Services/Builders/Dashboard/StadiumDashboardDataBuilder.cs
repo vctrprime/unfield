@@ -2,7 +2,9 @@ using Mediator;
 using StadiumEngine.Common.Static;
 using StadiumEngine.Domain.Entities.Dashboard;
 using StadiumEngine.DTO.Schedule;
+using StadiumEngine.DTO.Settings.Main;
 using StadiumEngine.Queries.Schedule;
+using StadiumEngine.Queries.Settings.Main;
 
 namespace StadiumEngine.Jobs.Services.Builders.Dashboard;
 
@@ -28,6 +30,11 @@ internal class StadiumDashboardDataBuilder : IStadiumDashboardDataBuilder
                 StadiumId = stadiumId
             } );
 
+        MainSettingsDto settings =await _mediator.Send( new GetMainSettingsQuery
+        {
+            StadiumId = stadiumId
+        } );
+
         return new StadiumDashboard
         {
             StadiumId = stadiumId,
@@ -37,7 +44,7 @@ internal class StadiumDashboardDataBuilder : IStadiumDashboardDataBuilder
                 FieldDistribution = BuildFieldDistribution( bookings ),
                 AverageBill = BuildAverageBill( bookings ),
                 PopularInventory = BuildPopularInventory( bookings ),
-                TimeChart = BuildTimeChart( bookings )
+                TimeChart = BuildTimeChart( bookings, settings )
             }
         };
     }
@@ -51,7 +58,7 @@ internal class StadiumDashboardDataBuilder : IStadiumDashboardDataBuilder
 
         List<IGrouping<string, BookingListItemDto>> groupedBookings = bookings
             .Where( x => x.Day.HasValue )
-            .GroupBy( x => $"{x.Day.Value.Month}.{x.Day.Value.Year}" )
+            .GroupBy( x => $"{x.Day.Value.Month}.{x.Day.Value:yy}" )
             .ToList();
 
         int i = 0;
@@ -59,7 +66,7 @@ internal class StadiumDashboardDataBuilder : IStadiumDashboardDataBuilder
         while ( i < 12 )
         {
             DateTime date = startDate.AddMonths( i );
-            string key = $"{date.Month}.{date.Year}";
+            string key = $"{date.Month}.{date:yy}";
 
             IGrouping<string, BookingListItemDto>? group = groupedBookings
                 .SingleOrDefault( x => x.Key == key );
@@ -114,15 +121,15 @@ internal class StadiumDashboardDataBuilder : IStadiumDashboardDataBuilder
                     } ).ToList()
         };
 
-    private StadiumDashboardTimeChart BuildTimeChart( List<BookingListItemDto> bookings )
+    private StadiumDashboardTimeChart BuildTimeChart( List<BookingListItemDto> bookings, MainSettingsDto settings )
     {
         StadiumDashboardTimeChart result = new StadiumDashboardTimeChart
         {
             Items = new List<StadiumDashboardTimeChartItem>()
         };
 
-        decimal i = 0;
-        while ( i < 24 )
+        decimal i = settings.OpenTime;
+        while ( i < settings.CloseTime )
         {
             string slot = TimePointParser.Parse( i );
 

@@ -11,12 +11,16 @@ import {stadiumAtom} from "../../../state/stadium";
 import {useInject} from "inversify-hooks";
 import {IDashboardService} from "../../../services/DashboardService";
 import {StadiumDashboardDto} from "../../../models/dto/dashboard/StadiumDashboardDto";
+import {t} from "i18next";
 export const Dashboard = () => {
     document.title = getTitle("common:lk_navbar:dashboard")
 
     const stadium = useRecoilValue(stadiumAtom);
     
-    const [data, setData] = useState<StadiumDashboardDto>({} as StadiumDashboardDto);
+    const [data, setData] = useState<StadiumDashboardDto>({
+        yearChart: [],
+        timeChart: []
+    } as StadiumDashboardDto);
 
     const [dashboardService] = useInject<IDashboardService>('DashboardService');
 
@@ -31,9 +35,11 @@ export const Dashboard = () => {
     }, [stadium])
 
     return <div className="dashboard-container">
+        {data.calculationDate && 
+            <div className="dashboard-calc-date">{t('dashboard:stadium:calc_date') + ": " + new Date(data.calculationDate).toLocaleString()}</div>}
         <div className="dashboard-row">
                 <div className="dashboard-column" style={{flex: 2}}>
-                    <YearChart/>
+                    <YearChart data={data.yearChart} />
                 </div>
                 <div className="dashboard-column">
                     <FieldDistribution/>
@@ -48,8 +54,8 @@ export const Dashboard = () => {
                         <PopularInventory/>
                     </div>
                 </div>
-                <div className="dashboard-column" style={{flex: 2}}>
-                    <TimeChart/>
+                <div className="dashboard-column" style={{flex: 3}}>
+                    <TimeChart data={data.timeChart}/>
                 </div>
             </div>
     </div>

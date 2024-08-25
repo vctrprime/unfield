@@ -9,10 +9,23 @@ internal class DashboardsProfile : Profile
 {
     public DashboardsProfile()
     {
-        // todo сделать нормальный объект под нужны фронта и маппинг
-        CreateMap<StadiumDashboard, StadiumDashboardDto>()
+        CreateMap<StadiumDashboardYearChartItem, StadiumDashboardChartItemDto>()
             .ForMember(
-                dest => dest.Test,
-                act => act.MapFrom( s => JsonConvert.SerializeObject( s ) ) );
+                dest => dest.Category,
+                act => act.MapFrom( s => s.Month ) );
+        CreateMap<StadiumDashboardTimeChartItem, StadiumDashboardChartItemDto>()
+            .ForMember(
+                dest => dest.Category,
+                act => act.MapFrom( s => s.Time ) );
+        
+        CreateMap<StadiumDashboard, StadiumDashboardDto>()
+            .ForMember( dest => dest.CalculationDate, act => 
+                act.MapFrom( s => s.DateCreated ) )
+            .ForMember(
+                dest => dest.YearChart,
+                act => act.MapFrom( s => s.Data.YearChart.Items ) )
+            .ForMember(
+                dest => dest.TimeChart,
+                act => act.MapFrom( s => s.Data.TimeChart.Items ) );
     }
 }

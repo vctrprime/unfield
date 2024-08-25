@@ -5,4 +5,5 @@ namespace StadiumEngine.Queries.Settings.Main;
 
 public sealed class GetMainSettingsQuery : BaseQuery, IRequest<MainSettingsDto>
 {
+    public int? StadiumId { get; set; }
 }

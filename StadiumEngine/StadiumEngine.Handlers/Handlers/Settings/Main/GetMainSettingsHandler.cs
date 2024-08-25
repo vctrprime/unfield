@@ -19,11 +19,13 @@ internal sealed class GetMainSettingsHandler : BaseRequestHandler<GetMainSetting
         _queryService = queryService;
     }
 
-    public override async ValueTask<MainSettingsDto> Handle( GetMainSettingsQuery request,
+    public override async ValueTask<MainSettingsDto> Handle(
+        GetMainSettingsQuery request,
         CancellationToken cancellationToken )
     {
-        MainSettings mainSettings = await _queryService.GetByStadiumIdAsync( _currentStadiumId );
-        
+        MainSettings mainSettings = await _queryService.GetByStadiumIdAsync(
+            _currentStadiumId == 0 && request.StadiumId.HasValue ? request.StadiumId.Value : _currentStadiumId );
+
         MainSettingsDto mainSettingsDto = Mapper.Map<MainSettingsDto>( mainSettings );
 
         return mainSettingsDto;

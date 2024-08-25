@@ -12,10 +12,13 @@ export const ResponsiveVictoryChart = ({...initialProps}) => {
     //@ts-ignore
     function useSize(element) {
         const [size, setSize] = React.useState(getSize(element));
-
+        
         React.useEffect(() => {
             const onResize = () => setSize(getSize(element));
-            onResize();
+            
+            if (size.width === undefined) {
+                onResize();
+            }
 
             window.addEventListener("resize", onResize);
             return () => window.removeEventListener("resize", onResize);

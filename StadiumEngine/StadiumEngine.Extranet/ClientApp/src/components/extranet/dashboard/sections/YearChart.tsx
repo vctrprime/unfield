@@ -1,27 +1,56 @@
 import React from 'react';
-import {VictoryLine} from "victory";
+import {VictoryLabel, VictoryLine} from "victory";
+import {StadiumDashboardChartItemDto} from "../../../../models/dto/dashboard/StadiumDashboardDto";
+import {t} from "i18next";
 import {ResponsiveVictoryChart} from "../../common/ResponsiveVictoryChart";
 
-export const YearChart = () => {
-    return <div className="dashboard-section" style={{backgroundColor: 'pink'}}>
-        <ResponsiveVictoryChart>
-            <VictoryLine
-                categories={{
-                    x: ["birds", "cats", "dogs", "fish", "frogs", "birds1", "cats2", "dogs3", "fish4", "frogs5"]
-                }}
-                data={[
-                    {x: "cats", y: 1},
-                    {x: "dogs", y: 2},
-                    {x: "birds", y: 3},
-                    {x: "fish", y: 2},
-                    {x: "frogs", y: 1},
-                    {x: "cats1", y: 1},
-                    {x: "dogs2", y: 2},
-                    {x: "birds3", y: 3},
-                    {x: "fish4", y: 2},
-                    {x: "frogs5", y: 1}
-                ]}
-            />
-        </ResponsiveVictoryChart>
+export interface YearChartProps {
+    data: StadiumDashboardChartItemDto[]
+}
+export const YearChart = (props: YearChartProps) => {
+    
+    const getCategory = (category: string) => {
+        const splitted = category.split(".");
+        
+        const month = splitted[0];
+        const year = splitted[1];
+        
+        return t('common:months:short:' + month) + " " + year;
+    }
+    
+    const maxValue = Math.max.apply(Math, props.data.map(d => d.value));
+    
+    return <div className="dashboard-section">
+        <div className="section-name">
+            { t('dashboard:stadium:sections:titles:year_chart')}
+        </div>
+        <div className="section-chart-cont">
+            <ResponsiveVictoryChart>
+                <VictoryLine
+                    domain={{ y: [0, maxValue + 1]}}
+                    categories={{
+                        x: props.data.map(d => getCategory(d.category))
+                    }}
+                    style={{
+                        data: {
+                            stroke: "#354650"
+                        },
+                        labels: {
+                            fontFamily: "Stadium Engine Sans Pro",
+                            fill: "#354650"
+                        }
+                    }}
+                    labels={({datum}) => datum.y == 0 ? '' : datum.y}
+                    labelComponent={<VictoryLabel renderInPortal dy={-10}/>}
+                    data={props.data.map(d => {
+                        return {
+                            x: getCategory(d.category),
+                            y: d.value
+                        }
+                    })
+                    }
+                />
+            </ResponsiveVictoryChart>
+        </div>
     </div>
 }
