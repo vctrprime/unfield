@@ -27,7 +27,7 @@ export const YearChart = (props: YearChartProps) => {
         <div className="section-chart-cont">
             <ResponsiveVictoryChart>
                 <VictoryLine
-                    domain={{ y: [0, maxValue + 1]}}
+                    domain={{ y: [0, maxValue ? maxValue + 1 : 1]}}
                     categories={{
                         x: props.data.map(d => getCategory(d.category))
                     }}

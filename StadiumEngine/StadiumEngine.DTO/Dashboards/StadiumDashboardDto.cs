@@ -16,6 +16,16 @@ public class StadiumDashboardDto
     public List<StadiumDashboardChartItemDto> YearChart { get; set; }
     
     /// <summary>
+    /// Средний чек
+    /// </summary>
+    public StadiumDashboardAverageBillDto AverageBill { get; set; }
+    
+    /// <summary>
+    /// Распределение по площадкам
+    /// </summary>
+    public List<StadiumDashboardChartItemDto> FieldDistribution { get; set; }
+    
+    /// <summary>
     /// Распределение по времени бронирования
     /// </summary>
     public List<StadiumDashboardChartItemDto> TimeChart { get; set; }
@@ -35,5 +45,26 @@ public class StadiumDashboardChartItemDto
     /// Значение
     /// </summary>
     public decimal Value { get; set; }
+}
+
+/// <summary>
+/// Данные по среднему чеку
+/// </summary>
+public class StadiumDashboardAverageBillDto
+{
+    /// <summary>
+    /// Средний чек по площадкам
+    /// </summary>
+    public decimal FieldValue { get; set; }
+    
+    /// <summary>
+    /// Средний чек по инвентарю
+    /// </summary>
+    public decimal InventoryValue { get; set; }
+    
+    /// <summary>
+    /// Средний чек общий
+    /// </summary>
+    public decimal TotalValue { get; set; }
 }
 

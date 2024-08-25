@@ -1,3 +1,5 @@
+@import "../const";
+
 .dashboard-container {
   display: flex;
   flex-direction: column;
@@ -40,7 +42,7 @@
   }
   .section-chart-cont {
     width: 100%;
-    height: calc(100% - 20px);
+    height: calc(100% - 25px);
     
     .chart {
       width: 100%;
@@ -49,6 +51,31 @@
         tspan {
           font-family: 'Stadium Engine Sans Pro' !important;
         }
+    }
+    
+    .average-bill-row {
+      display: flex;
+      flex: 1;
+      max-height: 50%;
+      
+      .average-bill-column {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        
+        .average-bill-column-name {
+          font-size: 11px;
+          color: #888;
+        }
+        
+        .average-bill-column-value {
+          font-size: 26px;
+          font-weight:bold;
+          color: $dark-color;
+        }
       }
+    }
   }
 }

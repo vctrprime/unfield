@@ -2,15 +2,13 @@ import React from 'react';
 import {StadiumDashboardChartItemDto} from "../../../../models/dto/dashboard/StadiumDashboardDto";
 import {t} from "i18next";
 import {ResponsiveVictoryChart} from "../../common/ResponsiveVictoryChart";
-import {VictoryArea, VictoryAxis, VictoryLabel, VictoryLine, VictoryTooltip, VictoryVoronoiContainer} from "victory";
-import {YearChartProps} from "./YearChart";
-import {Nu} from "react-flags-select";
+import {VictoryArea, VictoryAxis, VictoryVoronoiContainer} from "victory";
 
 export interface TimeChartProps {
     data: StadiumDashboardChartItemDto[]
 }
 
-export const TimeChart = (props: YearChartProps) => {
+export const TimeChart = (props: TimeChartProps) => {
     const maxValue = Math.max.apply(Math, props.data.map(d => d.value));
     
     return <div className="dashboard-section">
@@ -22,7 +20,7 @@ export const TimeChart = (props: YearChartProps) => {
                 labels={({ datum }) => `${datum.x}: ${datum.y}`}
             />}>
                 <VictoryArea
-                    domain={{ y: [0, maxValue + 10]}}
+                    domain={{ y: [0, maxValue ? maxValue + 10 : 10]}}
                     interpolation="natural"
                     style={{
                         data: {

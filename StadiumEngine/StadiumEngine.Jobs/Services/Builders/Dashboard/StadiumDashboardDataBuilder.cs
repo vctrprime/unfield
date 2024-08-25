@@ -92,7 +92,7 @@ internal class StadiumDashboardDataBuilder : IStadiumDashboardDataBuilder
                 {
                     Field = x.Key,
                     Value = x.Count()
-                } ).ToList()
+                } ).OrderByDescending( i => i.Value ).ToList()
         };
 
     private StadiumDashboardAverageBill BuildAverageBill( List<BookingListItemDto> bookings ) =>

@@ -21,7 +21,11 @@ export const ResponsiveVictoryChart = ({...initialProps}) => {
             }
 
             window.addEventListener("resize", onResize);
-            return () => window.removeEventListener("resize", onResize);
+            window.addEventListener("sidebar.toggled", onResize);
+            return () => {
+                window.removeEventListener("resize", onResize);
+                window.removeEventListener("sidebar.toggled", onResize);
+            }
         });
         return size;
     }

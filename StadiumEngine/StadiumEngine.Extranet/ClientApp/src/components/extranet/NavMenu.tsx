@@ -12,6 +12,7 @@ import {t} from "i18next";
 import {logoutModalAtom} from "../../state/logoutModal";
 import {PermissionsKeys} from "../../static/PermissionsKeys";
 import {UserStadiumDto} from "../../models/dto/accounts/UserStadiumDto";
+import {useLocalStorage} from "usehooks-ts";
 
 
 const cdbreact = require('cdbreact');
@@ -31,6 +32,8 @@ export const NavMenu = () => {
     const setLogoutModal = useSetRecoilState<boolean>(logoutModalAtom);
 
     const [accountsService] = useInject<IAccountsService>('AccountsService');
+
+    const [toggled, setToggled] = useLocalStorage('sidebar-toggled', false);
 
     useEffect(() => {
         if (permissions.length === 0) {
@@ -53,10 +56,17 @@ export const NavMenu = () => {
         return isActive ? "activeClicked" : undefined;
     }
     
+    const clickSidebar = () => {
+        setToggled(!toggled);
+        setTimeout(() => {
+            window.dispatchEvent( new Event('sidebar.toggled') ); 
+        }, 300)
+    }
+    
     return (
 
-        <CDBSidebar textColor="#fff" backgroundColor="#354650">
-            <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"/>}>
+        <CDBSidebar textColor="#fff" toggled={toggled} backgroundColor="#354650">
+            <CDBSidebarHeader prefix={<i onClick={clickSidebar} className="fa fa-bars fa-large"/>}>
                 <img style={{height: '26px'}} className={"logo"} alt={"Stadium Engine"} src={logo}/>
                 <div className={"lk-version-title"}>{process.env.REACT_APP_VERSION}</div>
             </CDBSidebarHeader>

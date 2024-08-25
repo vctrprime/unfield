@@ -12,15 +12,13 @@ import {useInject} from "inversify-hooks";
 import {IDashboardService} from "../../../services/DashboardService";
 import {StadiumDashboardDto} from "../../../models/dto/dashboard/StadiumDashboardDto";
 import {t} from "i18next";
+
 export const Dashboard = () => {
     document.title = getTitle("common:lk_navbar:dashboard")
 
     const stadium = useRecoilValue(stadiumAtom);
     
-    const [data, setData] = useState<StadiumDashboardDto>({
-        yearChart: [],
-        timeChart: []
-    } as StadiumDashboardDto);
+    const [data, setData] = useState<StadiumDashboardDto|null>(null);
 
     const [dashboardService] = useInject<IDashboardService>('DashboardService');
 
@@ -35,27 +33,27 @@ export const Dashboard = () => {
     }, [stadium])
 
     return <div className="dashboard-container">
-        {data.calculationDate && 
+        {data && 
             <div className="dashboard-calc-date">{t('dashboard:stadium:calc_date') + ": " + new Date(data.calculationDate).toLocaleString()}</div>}
         <div className="dashboard-row">
                 <div className="dashboard-column" style={{flex: 2}}>
-                    <YearChart data={data.yearChart} />
+                    {data && <YearChart data={data.yearChart} />}
                 </div>
                 <div className="dashboard-column">
-                    <FieldDistribution/>
+                    {data && <FieldDistribution data={data.fieldDistribution} />}
                 </div>
             </div>
             <div className="dashboard-row">
                 <div className="dashboard-column">
-                    <div className="dashboard-row">
-                        <AverageBill/>
+                    <div className="dashboard-row" style={{flex: 2, maxHeight: '100%'}}>
+                        {data && <AverageBill data={data.averageBill}/>}
                     </div>
-                    <div className="dashboard-row">
+                    <div className="dashboard-row" style={{flex: 4, maxHeight: '100%'}}>
                         <PopularInventory/>
                     </div>
                 </div>
                 <div className="dashboard-column" style={{flex: 3}}>
-                    <TimeChart data={data.timeChart}/>
+                    {data && <TimeChart data={data.timeChart}/>}
                 </div>
             </div>
     </div>
