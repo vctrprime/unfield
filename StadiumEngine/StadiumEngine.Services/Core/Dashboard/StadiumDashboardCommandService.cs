@@ -21,4 +21,7 @@ internal class StadiumDashboardCommandService : IStadiumDashboardCommandService
         await _repository.AddAsync( dashboardData );
         await _archiveUnitOfWork.SaveChangesAsync();
     }
+
+    public async Task<int> DeleteByDateAsync( DateTime date ) => 
+        await _repository.DeleteByDateAsync( date );
 }

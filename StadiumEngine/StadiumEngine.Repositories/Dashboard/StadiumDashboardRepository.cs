@@ -22,4 +22,13 @@ internal class StadiumDashboardRepository : BaseRepository<StadiumDashboard>, IS
         Add( dashboard );
         await Commit();
     }
+
+    public async Task<int> DeleteByDateAsync( DateTime date )
+    {
+        int rows = await Entities
+            .Where( x => x.DateCreated < date )
+            .ExecuteDeleteAsync();
+        
+        return rows;
+    }
 }

@@ -5,15 +5,15 @@ using StadiumEngine.Jobs.Background.Dashboard;
 
 namespace StadiumEngine.Jobs.Recurring.Dashboard;
 
-internal class DashboardCalculatorJob : DefaultJob, IDashboardCalculatorJob
+internal class CalculateStadiumDashboardJob : DefaultJob, ICalculateStadiumDashboardJob
 {
     private readonly IStadiumQueryService _stadiumQueryService;
     private readonly IDashboardQueueManager _dashboardQueueManager;
 
-    public DashboardCalculatorJob(
+    public CalculateStadiumDashboardJob(
         IStadiumQueryService stadiumQueryService,
         IDashboardQueueManager dashboardQueueManager,
-        ILogger<DashboardCalculatorJob> logger ) : base( logger, "DashboardCalculator" )
+        ILogger<CalculateStadiumDashboardJob> logger ) : base( logger, "CalculateStadiumDashboard" )
     {
         _stadiumQueryService = stadiumQueryService;
         _dashboardQueueManager = dashboardQueueManager;
@@ -22,15 +22,6 @@ internal class DashboardCalculatorJob : DefaultJob, IDashboardCalculatorJob
     public async Task Calculate()
     {
         LogInfo( "Start job" );
-
-        await CalculateStadiumsDashboardsAsync();
-
-        LogInfo( "Finish job" );
-    }
-
-    private async Task CalculateStadiumsDashboardsAsync()
-    {
-        LogInfo( "Start calculate stadiums dashboards" );
 
         int skip = 0;
         const int take = 50;
@@ -52,5 +43,7 @@ internal class DashboardCalculatorJob : DefaultJob, IDashboardCalculatorJob
         }
 
         LogInfo( "Finish enqueued stadiums dashboards" );
+
+        LogInfo( "Finish job" );
     }
 }

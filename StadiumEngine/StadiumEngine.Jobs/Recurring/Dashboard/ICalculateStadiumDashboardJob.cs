@@ -1,6 +1,6 @@
 namespace StadiumEngine.Jobs.Recurring.Dashboard;
 
-public interface IDashboardCalculatorJob
+public interface ICalculateStadiumDashboardJob
 {
     Task Calculate();
 }

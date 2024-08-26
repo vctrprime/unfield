@@ -15,7 +15,6 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services,
         IConfiguration configuration )
     {
-        IConfigurationSection a = configuration.GetSection( "StorageConfig" );
         services.AddSingleton( configuration.GetSection( "StorageConfig" ).Get<StorageConfig>() );
         services.AddSingleton( configuration.GetSection( "UtilsConfig" ).Get<UtilsConfig>() );
         services.AddSingleton( configuration.GetSection( "UtilServiceConfig" ).Get<UtilServiceConfig>() );

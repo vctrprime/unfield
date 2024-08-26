@@ -115,8 +115,8 @@ public class Startup
         
         #region Jobs
 
-        RecurringJob.AddOrUpdate<IDashboardCalculatorJob>(
-            "Calculate Dashboards Data",
+        RecurringJob.AddOrUpdate<ICalculateStadiumDashboardJob>(
+            "Calculate Stadium Dashboards Data",
             x => x.Calculate(),
             "0 0 * * *"
         );
@@ -125,6 +125,12 @@ public class Startup
             "Clear Outdated Booking Drafts",
             x => x.Clear(),
             "0 4 * * *"
+        );
+        
+        RecurringJob.AddOrUpdate<IClearOutdatedStadiumDashboardJob>(
+            "Clear Outdated Stadium Dashboards",
+            x => x.Clear(),
+            "0 3 * * *"
         );
 
         #endregion

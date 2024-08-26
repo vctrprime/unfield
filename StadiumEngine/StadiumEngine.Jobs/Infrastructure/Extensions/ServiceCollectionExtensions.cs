@@ -24,11 +24,12 @@ public static class ServiceCollectionExtensions
         string connectionString )
     {
         services.AddScoped<IStadiumDashboardDataBuilder, StadiumDashboardDataBuilder>();
-        services.AddScoped<IDashboardCalculatorJob, DashboardCalculatorJob>();
+        services.AddScoped<ICalculateStadiumDashboardJob, CalculateStadiumDashboardJob>();
         services.AddScoped<IStadiumDashboardCalculator, StadiumDashboardCalculator>();
         services.AddScoped<IDashboardQueueManager, DashboardQueueManager>();
         
         services.AddScoped<IClearOutdatedBookingDraftsJob, ClearOutdatedBookingDraftsJob>();
+        services.AddScoped<IClearOutdatedStadiumDashboardJob, ClearOutdatedStadiumDashboardJob>();
 
         services.AddSingleton<IBackgroundJobClient>(
             _ => new BackgroundJobClient(

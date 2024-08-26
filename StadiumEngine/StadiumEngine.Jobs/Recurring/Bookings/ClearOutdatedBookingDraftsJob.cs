@@ -10,7 +10,7 @@ internal class ClearOutdatedBookingDraftsJob : DefaultJob, IClearOutdatedBooking
 
     public ClearOutdatedBookingDraftsJob( 
         ILogger<ClearOutdatedBookingDraftsJob> logger,
-        ISchedulerBookingCommandService bookingCommandService ) : base( logger, "ClearOutdatedBookingDraftsJob" )
+        ISchedulerBookingCommandService bookingCommandService ) : base( logger, "ClearOutdatedBookingDrafts" )
     {
         _bookingCommandService = bookingCommandService;
     }
