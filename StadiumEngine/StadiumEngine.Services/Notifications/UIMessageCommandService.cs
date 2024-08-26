@@ -14,4 +14,6 @@ internal class UIMessageCommandService : IUIMessageCommandService
     }
 
     public void Add( UIMessage message ) => _repository.Add( message );
+    public async Task<int> DeleteByDateAsync( DateTime date, int limit ) => 
+        await _repository.DeleteByDateAsync( date, limit );
 }

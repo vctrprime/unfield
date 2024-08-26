@@ -19,6 +19,7 @@ using StadiumEngine.Common.Configuration.Sections;
 using StadiumEngine.Handlers.Extensions;
 using StadiumEngine.Jobs.Recurring.Bookings;
 using StadiumEngine.Jobs.Recurring.Dashboard;
+using StadiumEngine.Jobs.Recurring.Notifications;
 using ServiceCollectionExtensions = StadiumEngine.Common.Configuration.Infrastructure.Extensions.ServiceCollectionExtensions;
 
 namespace StadiumEngine.BackgroundWorker;
@@ -131,6 +132,12 @@ public class Startup
             "Clear Outdated Stadium Dashboards",
             x => x.Clear(),
             "0 3 * * *"
+        );
+        
+        RecurringJob.AddOrUpdate<IClearOutdatedUIMessagesJob>(
+            "Clear Outdated UI Messages",
+            x => x.Clear(),
+            "0 2 * * *"
         );
 
         #endregion

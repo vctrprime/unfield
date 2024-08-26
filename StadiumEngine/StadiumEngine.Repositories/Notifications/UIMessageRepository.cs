@@ -19,4 +19,14 @@ internal class UIMessageRepository : BaseRepository<UIMessage>, IUIMessageReposi
             .ToListAsync();
 
     public new void Add( UIMessage message ) => base.Add( message );
+    
+    public async Task<int> DeleteByDateAsync( DateTime date, int limit )
+    {
+        int rows = await Entities
+            .Where( x => x.DateCreated < date )
+            .Take( limit )
+            .ExecuteDeleteAsync();
+
+        return rows;
+    }
 }

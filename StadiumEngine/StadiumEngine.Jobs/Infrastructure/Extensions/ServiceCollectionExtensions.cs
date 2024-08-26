@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Jobs.Background.Dashboard;
 using StadiumEngine.Jobs.Recurring.Bookings;
 using StadiumEngine.Jobs.Recurring.Dashboard;
+using StadiumEngine.Jobs.Recurring.Notifications;
 using StadiumEngine.Jobs.Services.Builders.Dashboard;
 
 namespace StadiumEngine.Jobs.Infrastructure.Extensions;
@@ -30,6 +31,7 @@ public static class ServiceCollectionExtensions
         
         services.AddScoped<IClearOutdatedBookingDraftsJob, ClearOutdatedBookingDraftsJob>();
         services.AddScoped<IClearOutdatedStadiumDashboardJob, ClearOutdatedStadiumDashboardJob>();
+        services.AddScoped<IClearOutdatedUIMessagesJob, ClearOutdatedUIMessagesJob>();
 
         services.AddSingleton<IBackgroundJobClient>(
             _ => new BackgroundJobClient(
