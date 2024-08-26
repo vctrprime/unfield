@@ -12,6 +12,7 @@ public interface IBookingRepository
     Task<Booking?> FindDraftAsync( DateTime day, decimal startHour, int fieldId );
     void Add( Booking booking );
     void Update( Booking booking );
+    Task<int> DeleteDraftsByDateAsync( DateTime date, int limit );
     Booking DetachedClone( Booking booking );
     Task<List<Booking>> SearchAllByNumberAsync( string bookingNumber, int stadiumId );
 }

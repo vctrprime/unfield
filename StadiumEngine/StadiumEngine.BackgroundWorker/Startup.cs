@@ -17,6 +17,7 @@ using StadiumEngine.Common.Configuration.Infrastructure;
 using StadiumEngine.Common.Configuration.Infrastructure.Extensions;
 using StadiumEngine.Common.Configuration.Sections;
 using StadiumEngine.Handlers.Extensions;
+using StadiumEngine.Jobs.Recurring.Bookings;
 using StadiumEngine.Jobs.Recurring.Dashboard;
 using ServiceCollectionExtensions = StadiumEngine.Common.Configuration.Infrastructure.Extensions.ServiceCollectionExtensions;
 
@@ -118,6 +119,12 @@ public class Startup
             "Calculate Dashboards Data",
             x => x.Calculate(),
             "0 0 * * *"
+        );
+        
+        RecurringJob.AddOrUpdate<IClearOutdatedBookingDraftsJob>(
+            "Clear Outdated Booking Drafts",
+            x => x.Clear(),
+            "0 4 * * *"
         );
 
         #endregion

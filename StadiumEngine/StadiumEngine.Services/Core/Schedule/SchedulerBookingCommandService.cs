@@ -65,4 +65,7 @@ internal class SchedulerBookingCommandService : ISchedulerBookingCommandService
         };
         _bookingWeeklyExcludeDayRepository.Add( excludeDay );
     }
+
+    public async Task<int> DeleteDraftsByDateAsync( DateTime date, int limit ) => 
+        await _bookingRepository.DeleteDraftsByDateAsync( date, limit );
 }

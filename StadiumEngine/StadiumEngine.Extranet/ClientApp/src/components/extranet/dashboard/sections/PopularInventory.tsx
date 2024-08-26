@@ -47,7 +47,7 @@ export const PopularInventory = (props: PopularInventoryProps) => {
                     horizontal
                     data={data}
                 />
-                <VictoryAxis tickCount={0} style={{tickLabels: {fill: "transparent"}}}/>
+                <VictoryAxis style={{tickLabels: {fill: "transparent"}}}/>
                 <VictoryAxis dependentAxis/>
             </ResponsiveVictoryChart>
         </div>

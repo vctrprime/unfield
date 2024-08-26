@@ -65,6 +65,16 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
     public new void Add( Booking booking ) => base.Add( booking );
     public new void Update( Booking booking ) => base.Update( booking );
 
+    public async Task<int> DeleteDraftsByDateAsync( DateTime date, int limit )
+    {
+        int rows = await Entities
+            .Where( x => x.Day.Date < date && x.IsDraft && !x.IsConfirmed )
+            .Take( limit )
+            .ExecuteDeleteAsync();
+
+        return rows;
+    }
+
     public Booking DetachedClone( Booking booking ) {
         Booking copy = ( Entities.Entry( booking ).CurrentValues.Clone().ToObject() as Booking )!;
         

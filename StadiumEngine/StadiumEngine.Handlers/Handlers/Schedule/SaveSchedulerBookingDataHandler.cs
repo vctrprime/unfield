@@ -184,6 +184,7 @@ internal sealed class
         booking.TotalAmountAfterDiscount = booking.TotalAmountBeforeDiscount - ( request.ManualDiscount ?? 0 ) -
                                            ( booking.PromoDiscount ?? 0 );
         booking.IsConfirmed = true;
+        booking.IsDraft = false;
     }
 
     private string GetWeeklyBookingNumber( string bookingNumber )

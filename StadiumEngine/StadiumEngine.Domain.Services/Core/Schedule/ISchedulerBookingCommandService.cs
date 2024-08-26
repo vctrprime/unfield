@@ -8,4 +8,5 @@ public interface ISchedulerBookingCommandService
     Task AddVersionAsync( Booking booking );
     void UpdateOldVersion( Booking booking );
     void AddExcludeDay( int bookingId, DateTime day, int userId, string? reason = null );
+    Task<int> DeleteDraftsByDateAsync( DateTime date, int limit );
 }

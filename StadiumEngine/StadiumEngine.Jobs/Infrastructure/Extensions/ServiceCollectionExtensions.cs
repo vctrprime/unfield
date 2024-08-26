@@ -3,6 +3,7 @@ using Hangfire.PostgreSql;
 using Hangfire.PostgreSql.Factories;
 using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Jobs.Background.Dashboard;
+using StadiumEngine.Jobs.Recurring.Bookings;
 using StadiumEngine.Jobs.Recurring.Dashboard;
 using StadiumEngine.Jobs.Services.Builders.Dashboard;
 
@@ -26,6 +27,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IDashboardCalculatorJob, DashboardCalculatorJob>();
         services.AddScoped<IStadiumDashboardCalculator, StadiumDashboardCalculator>();
         services.AddScoped<IDashboardQueueManager, DashboardQueueManager>();
+        
+        services.AddScoped<IClearOutdatedBookingDraftsJob, ClearOutdatedBookingDraftsJob>();
 
         services.AddSingleton<IBackgroundJobClient>(
             _ => new BackgroundJobClient(
