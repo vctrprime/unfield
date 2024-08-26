@@ -16,7 +16,9 @@ export const TimeChart = (props: TimeChartProps) => {
             {t('dashboard:stadium:sections:titles:time_chart')}
         </div>
         <div className="section-chart-cont">
-            <ResponsiveVictoryChart containerComponent={<VictoryVoronoiContainer
+            <ResponsiveVictoryChart
+                padding={{ left: 50, right: 50, bottom: 35, top: 30 }}
+                containerComponent={<VictoryVoronoiContainer
                 labels={({ datum }) => `${datum.x}: ${datum.y}`}
             />}>
                 <VictoryArea

@@ -7,7 +7,7 @@ export interface AverageBillProps {
 }
 
 export const AverageBill = (props: AverageBillProps) => {
-    return <div className="dashboard-section">
+    return <div className="dashboard-section" style={{ paddingLeft: '40px', paddingBottom: '15px', paddingTop: '10px'}}>
         <div className="section-chart-cont" style={{display: 'flex', height: '100%', flexDirection: 'column'}}>
             <div className="average-bill-row">
                 <div className="average-bill-column">

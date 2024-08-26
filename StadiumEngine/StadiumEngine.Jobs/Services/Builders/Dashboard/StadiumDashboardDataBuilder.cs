@@ -118,7 +118,7 @@ internal class StadiumDashboardDataBuilder : IStadiumDashboardDataBuilder
                     {
                         Inventory = x.Key,
                         Value = x.Sum( i => i.Quantity )
-                    } ).ToList()
+                    } ).OrderByDescending( i => i.Value ).ToList()
         };
 
     private StadiumDashboardTimeChart BuildTimeChart( List<BookingListItemDto> bookings, MainSettingsDto settings )

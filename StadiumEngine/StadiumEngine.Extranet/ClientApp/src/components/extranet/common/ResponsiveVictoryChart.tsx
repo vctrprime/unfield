@@ -42,7 +42,7 @@ export const ResponsiveVictoryChart = ({...initialProps}) => {
     return (
         <div className="chart" ref={ref}>
             <VictoryChart
-                theme={VictoryTheme.material}
+                theme={initialProps.theme ? initialProps.theme : VictoryTheme.material}
                 {...props} />
         </div>
     );

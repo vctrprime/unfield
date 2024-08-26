@@ -45,11 +45,11 @@ export const Dashboard = () => {
             </div>
             <div className="dashboard-row">
                 <div className="dashboard-column">
-                    <div className="dashboard-row" style={{flex: 2, maxHeight: '100%'}}>
+                    <div className="dashboard-row" style={{maxHeight: '37%'}}>
                         {data && <AverageBill data={data.averageBill}/>}
                     </div>
-                    <div className="dashboard-row" style={{flex: 4, maxHeight: '100%'}}>
-                        <PopularInventory/>
+                    <div className="dashboard-row" style={{maxHeight: '63%'}}>
+                        {data && <PopularInventory data={data.popularInventory}/>}
                     </div>
                 </div>
                 <div className="dashboard-column" style={{flex: 3}}>

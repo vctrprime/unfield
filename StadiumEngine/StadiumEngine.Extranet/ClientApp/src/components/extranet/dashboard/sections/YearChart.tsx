@@ -25,7 +25,7 @@ export const YearChart = (props: YearChartProps) => {
             { t('dashboard:stadium:sections:titles:year_chart')}
         </div>
         <div className="section-chart-cont">
-            <ResponsiveVictoryChart>
+            <ResponsiveVictoryChart padding={{ left: 40, right: 25, bottom: 35, top: 20 }}>
                 <VictoryLine
                     domain={{ y: [0, maxValue ? maxValue + 1 : 1]}}
                     categories={{

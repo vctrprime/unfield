@@ -26,6 +26,11 @@ public class StadiumDashboardDto
     public List<StadiumDashboardChartItemDto> FieldDistribution { get; set; }
     
     /// <summary>
+    /// Популярность инвентаря
+    /// </summary>
+    public List<StadiumDashboardChartItemDto> PopularInventory { get; set; }
+    
+    /// <summary>
     /// Распределение по времени бронирования
     /// </summary>
     public List<StadiumDashboardChartItemDto> TimeChart { get; set; }

@@ -3,6 +3,7 @@ export interface StadiumDashboardDto {
     yearChart: StadiumDashboardChartItemDto[];
     averageBill: StadiumDashboardAverageBillDto;
     fieldDistribution: StadiumDashboardChartItemDto[];
+    popularInventory: StadiumDashboardChartItemDto[];
     timeChart: StadiumDashboardChartItemDto[];
 }
 

@@ -66,16 +66,22 @@
         flex-direction: column;
         
         .average-bill-column-name {
-          font-size: 11px;
+          font-size: 10px;
           color: #888;
         }
         
         .average-bill-column-value {
-          font-size: 26px;
+          font-size: 27px;
           font-weight:bold;
           color: $dark-color;
         }
       }
+    }
+    
+    .field-distrib-block {
+      width: 50%;
+      height: 100%;
+      float: left;
     }
   }
 }
