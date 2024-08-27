@@ -1,7 +1,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using StadiumEngine.Common.Enums.BookingForm;
+using StadiumEngine.Common.Enums.Bookings;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
 
@@ -45,4 +45,6 @@ public class Booking : BaseUserEntity
     public virtual ICollection<BookingCost> Costs { get; set; } = null!;
     public virtual ICollection<BookingInventory> Inventories { get; set; } = null!;
     public virtual ICollection<BookingWeeklyExcludeDay> WeeklyExcludeDays { get; set; } = null!;
+    public virtual ICollection<BookingToken> Tokens { get; set; } = null!;
+    
 }

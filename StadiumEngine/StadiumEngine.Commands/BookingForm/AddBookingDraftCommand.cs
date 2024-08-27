@@ -1,5 +1,5 @@
 using Mediator;
-using StadiumEngine.Common.Enums.BookingForm;
+using StadiumEngine.Common.Enums.Bookings;
 using StadiumEngine.DTO.BookingForm;
 
 namespace StadiumEngine.Commands.BookingForm;

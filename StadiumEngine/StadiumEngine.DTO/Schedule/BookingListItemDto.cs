@@ -1,4 +1,4 @@
-using StadiumEngine.Common.Enums.BookingForm;
+using StadiumEngine.Common.Enums.Bookings;
 using StadiumEngine.Common.Enums.Schedule;
 using StadiumEngine.Common.Static;
 

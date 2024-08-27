@@ -1,4 +1,4 @@
-namespace StadiumEngine.Common.Enums.BookingForm;
+namespace StadiumEngine.Common.Enums.Bookings;
 
 public enum BookingSource
 {

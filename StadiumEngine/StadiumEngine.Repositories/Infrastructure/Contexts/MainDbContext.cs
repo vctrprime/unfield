@@ -43,6 +43,7 @@ internal class MainDbContext : DbContext
         modelBuilder.ApplyConfiguration( new BookingLockerRoomConfiguration() );
         modelBuilder.ApplyConfiguration( new BookingPromoConfiguration() );
         modelBuilder.ApplyConfiguration( new BookingWeeklyExcludeDayConfiguration() );
+        modelBuilder.ApplyConfiguration( new BookingTokenConfiguration() );
 
         #endregion
 

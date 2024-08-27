@@ -1,4 +1,5 @@
 using StadiumEngine.Common;
+using StadiumEngine.Common.Enums.Bookings;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Repositories.Bookings;
@@ -69,10 +70,16 @@ internal class BookingCheckoutCommandService : IBookingCheckoutCommandService
         
         booking.IsDraft = false;
         booking.IsConfirmed = true;
+        booking.Tokens = new List<BookingToken>
+        {
+            new BookingToken
+            {
+                Token = Guid.NewGuid().ToString(),
+                Type = BookingTokenType.RedirectToClientAccountAfterConfirm
+            }
+        };
 
         _bookingRepository.Update( booking );
-
-        await _lockerRoomDistributor.DistributeAsync( booking );
         
         return booking;
     }

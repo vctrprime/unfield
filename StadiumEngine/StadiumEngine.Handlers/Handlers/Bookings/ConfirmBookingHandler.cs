@@ -1,5 +1,6 @@
 using AutoMapper;
 using StadiumEngine.Commands.BookingForm;
+using StadiumEngine.Common.Enums.Bookings;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Services.Core.BookingForm;
@@ -34,12 +35,17 @@ internal sealed class ConfirmBookingHandler : BaseCommandHandler<ConfirmBookingC
         CancellationToken cancellationToken )
     {
         Booking booking = await _commandService.ConfirmBookingAsync( request.BookingNumber, request.AccessCode );
+        BookingToken? redirectToken =
+            booking.Tokens.SingleOrDefault( x => x.Type == BookingTokenType.RedirectToClientAccountAfterConfirm );
         
         //пока закомментим, непонятно надо ли отсылать инфу о раздевалке, если бронируют сильно заранее
         //await _smsSender.SendBookingConfirmation( booking, request.Language );
         
         await _messagePublisher.PublishAsync( new BookingConfirmed( booking.Number ), cancellationToken );
         
-        return new ConfirmBookingDto();
+        return new ConfirmBookingDto
+        {
+            RedirectToken = redirectToken?.Token
+        };
     }
 }
