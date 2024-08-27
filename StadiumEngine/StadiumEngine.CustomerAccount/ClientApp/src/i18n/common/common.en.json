@@ -1,0 +1,25 @@
+{
+    "back_buttons": {
+        "locker_rooms": "Back to locker rooms list",
+        "fields": "Back to fields list",
+        "inventories": "Back to inventory list",
+        "price_groups": "Back to price groups list"
+    },
+    "lk_header": {
+        "current_stadium_title": "Current stadium",
+        "to_admin_title": "To admin panel"
+    },
+    "success_request_title": "Success",
+    "success_request": "Request completed successfully",
+    "error_request_title": "Error",
+    "error_request": "Error while executing request",
+    "mobile_notification": "Unfortunately, we do not work on mobile devices yet :(",
+    "search_button": "Search",
+    "edit_button": "Edit",
+    "delete_button": "Delete",
+    "yes_button": "Yes",
+    "no_button": "No",
+    "save_button": "Save",
+    "close_button": "Close",
+    "apply_button": "Apply"
+}

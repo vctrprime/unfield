@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StadiumEngine.MessageContra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StadiumEngine.Common.Configuration", "StadiumEngine.Common.Configuration\StadiumEngine.Common.Configuration.csproj", "{7B6C28B5-6A79-4156-A38F-EC7F548DB12D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StadiumEngine.CustomerAccount", "StadiumEngine.CustomerAccount\StadiumEngine.CustomerAccount.csproj", "{CFBE6F1A-BB91-471B-8B3C-2B63BCB4D8F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -124,6 +126,10 @@ Global
 		{7B6C28B5-6A79-4156-A38F-EC7F548DB12D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B6C28B5-6A79-4156-A38F-EC7F548DB12D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B6C28B5-6A79-4156-A38F-EC7F548DB12D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFBE6F1A-BB91-471B-8B3C-2B63BCB4D8F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFBE6F1A-BB91-471B-8B3C-2B63BCB4D8F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFBE6F1A-BB91-471B-8B3C-2B63BCB4D8F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFBE6F1A-BB91-471B-8B3C-2B63BCB4D8F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FE4BE2B7-5FB0-4A7A-844D-0A4BB0ABC9A7} = {2E204052-5F0F-431E-A767-1C6E7B18AD52}

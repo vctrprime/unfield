@@ -3,6 +3,7 @@ using StadiumEngine.Common.Configuration;
 using StadiumEngine.Common.Configuration.Sections;
 using StadiumEngine.Domain.Services.Core.Accounts;
 using StadiumEngine.Domain.Services.Core.BookingForm;
+using StadiumEngine.Domain.Services.Core.BookingForm.Builders;
 using StadiumEngine.Domain.Services.Core.BookingForm.Distributors;
 using StadiumEngine.Domain.Services.Core.Dashboard;
 using StadiumEngine.Domain.Services.Core.Geo;
@@ -20,6 +21,7 @@ using StadiumEngine.Services.Builders.Utils;
 using StadiumEngine.Services.Checkers;
 using StadiumEngine.Services.Core.Accounts;
 using StadiumEngine.Services.Core.BookingForm;
+using StadiumEngine.Services.Core.BookingForm.Builders;
 using StadiumEngine.Services.Core.BookingForm.Distributors;
 using StadiumEngine.Services.Core.Dashboard;
 using StadiumEngine.Services.Facades.Accounts;
@@ -125,6 +127,7 @@ public static class ServiceCollectionExtensions
         #region builders
 
         services.AddScoped<INewLegalBuilder, NewLegalBuilder>();
+        services.AddScoped<ICustomerAccountRedirectUrlBuilder, CustomerAccountRedirectUrlBuilder>();
 
         #endregion
 

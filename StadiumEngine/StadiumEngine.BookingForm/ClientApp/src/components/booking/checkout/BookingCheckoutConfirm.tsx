@@ -63,8 +63,13 @@ export const BookingCheckoutConfirm = () => {
                         bookingNumber: bookingNumber||'',
                         accessCode: code||'',
                         language: localStorage.getItem('language') || 'ru',
-                    }).then(() => {
-                        navigate(backPath);
+                    }).then((result) => {
+                        if (result.redirectUrl) {
+                            window.location.replace(result.redirectUrl);
+                        }
+                        else {
+                            navigate(backPath);
+                        }
                     }).catch((error) => {
                         if (error === 'booking:booking_intersection') {
                             navigate(backPath);

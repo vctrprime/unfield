@@ -6,7 +6,7 @@ namespace StadiumEngine.DTO.BookingForm;
 public class ConfirmBookingDto : BaseEmptySuccessDto
 {
     /// <summary>
-    /// Токен для редиректа на ЛК
+    /// URL для редиректа на ЛК
     /// </summary>
-    public string? RedirectToken { get; set; }
+    public string? RedirectUrl{ get; set; }
 }

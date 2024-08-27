@@ -8,6 +8,7 @@ import {CancelBookingCommand} from "../models/command/booking/CancelBookingComma
 import {ConfirmBookingCommand} from "../models/command/booking/ConfirmBookingCommand";
 import {t} from "i18next";
 import {PromoCodeDto} from "../models/dto/rates/TariffDto";
+import {ConfirmBookingDto} from "../models/dto/booking/ConfirmBookingDto";
 
 export interface IBookingService {
     getBookingForm(date: Date, token: string|null, cityId: number|null, q: string|null, hideSpinner?: boolean): Promise<BookingFormDto>;
@@ -15,7 +16,7 @@ export interface IBookingService {
     getBookingCheckout(bookingNumber: string, isConfirmed: boolean, tariffId?: number, day?: Date, fieldId?: number, startHour?: number): Promise<BookingCheckoutDto>;
     fillBookingData(command: FillBookingDataCommand) : Promise<void>;
     cancelBooking(command: CancelBookingCommand) : Promise<void>;
-    confirmBooking(command: ConfirmBookingCommand) : Promise<void>;
+    confirmBooking(command: ConfirmBookingCommand) : Promise<ConfirmBookingDto>;
     checkPromoCode(tariffId: number, code: string): Promise<PromoCodeDto|null>;
 }
 
@@ -81,11 +82,11 @@ export class BookingService extends BaseService implements IBookingService {
         })
     }
 
-    confirmBooking(command: ConfirmBookingCommand): Promise<void> {
+    confirmBooking(command: ConfirmBookingCommand): Promise<ConfirmBookingDto> {
         return this.fetchWrapper.put({
             url: `${this.baseUrl}/confirm`,
             body: command,
-            successMessage: t('booking:success_confirm')
+            // successMessage: t('booking:success_confirm')
         })
     }
 
