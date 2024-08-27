@@ -19,6 +19,6 @@ internal class CustomerAccountRedirectUrlBuilder : ICustomerAccountRedirectUrlBu
             return null;
         }
         
-        return _envConfig.CustomerAccountHost + "/account/redirect/" + token;
+        return _envConfig.CustomerAccountHost + "/redirect/" + token;
     }
 }

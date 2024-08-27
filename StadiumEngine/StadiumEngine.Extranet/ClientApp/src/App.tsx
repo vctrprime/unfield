@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import {Layout} from './components/Layout';
 import {Route, Routes} from "react-router-dom";
-import {Layout as LkLayout} from "./components/extranet/Layout";
+import {Layout as ExtranetLayout} from "./components/extranet/Layout";
 import {Layout as AdminLayout} from "./components/admin/Layout";
 import {Offers} from "./components/extranet/offers/Offers";
 import {Schedule} from "./components/extranet/schedule/Schedule";
@@ -123,7 +123,7 @@ const App = () => {
                 <NotificationContainer/>
                 <Routes>
                     <Route path="/sign-in" element={<SignIn/>}/>
-                    <Route path="/" element={<ProtectedRoute component={LkLayout}/>}>
+                    <Route path="/" element={<ProtectedRoute component={ExtranetLayout}/>}>
                         <Route path="forbidden" element={<Forbidden/>}/>
                         <Route path="dashboard" element={<Dashboard/>}/>
                         <Route path="settings" element={<Settings/>}>
