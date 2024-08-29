@@ -1,8 +1,5 @@
 {
-    "booking": {
-        "booking_not_found": "Бронирование не найдено",
-        "booking_error": "Ошибка при бронировании",
-        "invalid_access_code": "Неверный код подтверждения",
-        "booking_intersection": "Выбранное время или длительность тренировки больше недоступны"
+    "auth": {
+        "redirect_token_not_found": "Бронирование не найдено"
     }
 }

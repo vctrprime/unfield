@@ -4,6 +4,7 @@ using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Entities.Settings;
 using StadiumEngine.Repositories.Infrastructure.Configurations.Accounts;
 using StadiumEngine.Repositories.Infrastructure.Configurations.Bookings;
+using StadiumEngine.Repositories.Infrastructure.Configurations.Customers;
 using StadiumEngine.Repositories.Infrastructure.Configurations.Geo;
 using StadiumEngine.Repositories.Infrastructure.Configurations.Notifications;
 using StadiumEngine.Repositories.Infrastructure.Configurations.Offers;
@@ -89,6 +90,12 @@ internal class MainDbContext : DbContext
         modelBuilder.ApplyConfiguration( new BreakConfiguration() );
         modelBuilder.ApplyConfiguration( new BreakFieldConfiguration() );
         modelBuilder.ApplyConfiguration( new MainSettingsConfiguration() );
+
+        #endregion
+
+        #region customers
+
+        modelBuilder.ApplyConfiguration( new CustomerConfiguration() );
 
         #endregion
 

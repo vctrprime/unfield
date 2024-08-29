@@ -5,6 +5,7 @@ using StadiumEngine.Domain.Services.Core.Accounts;
 using StadiumEngine.Domain.Services.Core.BookingForm;
 using StadiumEngine.Domain.Services.Core.BookingForm.Builders;
 using StadiumEngine.Domain.Services.Core.BookingForm.Distributors;
+using StadiumEngine.Domain.Services.Core.Customers;
 using StadiumEngine.Domain.Services.Core.Dashboard;
 using StadiumEngine.Domain.Services.Core.Geo;
 using StadiumEngine.Domain.Services.Core.Notifications;
@@ -20,9 +21,11 @@ using StadiumEngine.Repositories.Infrastructure.Extensions;
 using StadiumEngine.Services.Builders.Utils;
 using StadiumEngine.Services.Checkers;
 using StadiumEngine.Services.Core.Accounts;
+using StadiumEngine.Services.Core.Accounts.Decorators;
 using StadiumEngine.Services.Core.BookingForm;
 using StadiumEngine.Services.Core.BookingForm.Builders;
 using StadiumEngine.Services.Core.BookingForm.Distributors;
+using StadiumEngine.Services.Core.Customers;
 using StadiumEngine.Services.Core.Dashboard;
 using StadiumEngine.Services.Facades.Accounts;
 using StadiumEngine.Services.Core.Geo;
@@ -65,6 +68,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPasswordValidator, PasswordValidator>();
         services.AddScoped<IImageService, ImageService>();
         services.AddScoped<IMessagePublisher, MessagePublisher>();
+        services.AddScoped<ICacheProvider, MemoryCacheProvider>();
 
         #region core
 
@@ -72,6 +76,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUserRepositoryFacade, UserRepositoryFacade>();
         services.AddScoped<IRoleRepositoryFacade, RoleRepositoryFacade>();
         services.AddScoped<IUserQueryService, UserQueryService>();
+        services.Decorate<IUserQueryService, UserQueryServiceCacheDecorator>();
         services.AddScoped<IUserCommandService, UserCommandService>();
         services.AddScoped<ILegalQueryService, LegalQueryService>();
         services.AddScoped<ILegalCommandService, LegalCommandService>();
@@ -160,6 +165,12 @@ public static class ServiceCollectionExtensions
         #region distributors
 
         services.AddScoped<IBookingLockerRoomDistributor, BookingLockerRoomDistributor>();
+
+        #endregion
+
+        #region processors
+
+        services.AddScoped<IConfirmBookingRedirectProcessor, ConfirmBookingRedirectProcessor>();
 
         #endregion
 

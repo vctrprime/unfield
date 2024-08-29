@@ -63,12 +63,18 @@ public static class ErrorsKeys
     public const string BookingError = "booking:booking_error";
     public const string InvalidAccessCode = "booking:invalid_access_code";
     public const string BookingIntersection = "booking:booking_intersection";
-
+    
     #endregion
 
     #region dashboards
 
     public const string StadiumDashboardNotFound = "dashboards:stadium_dashboard_not_found";
+
+    #endregion
+
+    #region customers
+
+    public const string RedirectTokenNotFound = "auth:redirect_token_not_found";
 
     #endregion
 }
