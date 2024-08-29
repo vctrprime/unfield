@@ -70,6 +70,7 @@ public static class ServiceCollectionExtensions
                 cfg.AddProfile( new SchedulerProfile() );
                 cfg.AddProfile( new NotificationsProfile() );
                 cfg.AddProfile( new DashboardsProfile() );
+                cfg.AddProfile( new CustomersProfile() );
             } );
         services.AddSingleton( provider => mappingConfig.CreateMapper());
         services.RegisterJobs( connectionsConfig.MainDb );

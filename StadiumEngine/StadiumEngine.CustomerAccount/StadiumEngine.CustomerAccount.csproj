@@ -15,21 +15,31 @@
         <UserSecretsId>823fd3dc-3ec5-4d5f-8c68-861ff28fae4e</UserSecretsId>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\net8.0\StadiumEngine.CustomerAccount.xml</DocumentationFile>
+    </PropertyGroup>
+
     <ItemGroup>
+      <ProjectReference Include="..\StadiumEngine.Commands\StadiumEngine.Commands.csproj" />
       <ProjectReference Include="..\StadiumEngine.Common\StadiumEngine.Common.csproj" />
+      <ProjectReference Include="..\StadiumEngine.DTO\StadiumEngine.DTO.csproj" />
       <ProjectReference Include="..\StadiumEngine.EventBus\StadiumEngine.EventBus.csproj" />
       <ProjectReference Include="..\StadiumEngine.Handlers\StadiumEngine.Handlers.csproj" />
       <ProjectReference Include="..\StadiumEngine.Jobs\StadiumEngine.Jobs.csproj" />
+      <ProjectReference Include="..\StadiumEngine.Queries\StadiumEngine.Queries.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="8.0.0" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.8" />
-      <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="8.0.8" />
       <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="8.0.8" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0-preview.7.24405.3">
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
     </ItemGroup>
 
     <ItemGroup>

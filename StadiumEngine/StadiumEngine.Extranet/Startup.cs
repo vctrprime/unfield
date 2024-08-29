@@ -67,7 +67,9 @@ public class Startup
         Configurator.ConfigureLogger( loadConfigurationResult, "extranet_log_errors" );
         
         services.AddDbContext<KeysContext>( options => options.UseNpgsql( loadConfigurationResult.ConnectionsConfig.MainDb ) );
-        services.AddDataProtection().PersistKeysToDbContext<KeysContext>();
+        services.AddDataProtection()
+            .PersistKeysToDbContext<KeysContext>()
+            .SetApplicationName( "Extranet" );
         
         services.RegisterModules( loadConfigurationResult );
 
@@ -81,7 +83,7 @@ public class Startup
                         "v1",
                         new OpenApiInfo
                         {
-                            Title = "Stadium Engine API",
+                            Title = "Stadium Engine Extranet API",
                             Version = "v1"
                         } );
                     string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -114,6 +116,7 @@ public class Startup
                     };*/
                     options.ExpireTimeSpan = TimeSpan.FromHours( 8 );
                     options.SlidingExpiration = true;
+                    options.Cookie.Name = "SE_EXTRANET_TICKET";
                 } );
 
 
@@ -192,7 +195,7 @@ public class Startup
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI( c => { c.SwaggerEndpoint( "/swagger/v1/swagger.json", "Stadium Engine API" ); } );
+            app.UseSwaggerUI( c => { c.SwaggerEndpoint( "/swagger/v1/swagger.json", "Stadium Engine Extranet API" ); } );
         }
 
         app.UseEndpoints(

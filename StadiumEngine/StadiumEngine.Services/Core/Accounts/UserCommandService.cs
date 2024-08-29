@@ -76,8 +76,6 @@ internal class UserCommandService : IUserCommandService
             throw new DomainException( ErrorsKeys.UserNotFound );
         }
 
-        ;
-
         if ( user.LegalId == legalId )
         {
             return;

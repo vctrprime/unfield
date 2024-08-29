@@ -38,7 +38,8 @@ internal class ConfirmBookingRedirectProcessor : IConfirmBookingRedirectProcesso
         {
             customer = new Customer
             {
-                PhoneNumber = bookingToken.Booking.Customer.PhoneNumber
+                PhoneNumber = bookingToken.Booking.Customer.PhoneNumber,
+                Language = "ru"
             };
             _customerRepository.Add( customer );
         }
