@@ -1,7 +1,9 @@
 import {FieldDto} from "../offers/FieldDto";
+import {AuthorizedCustomerDto} from "../customers/AuthorizedCustomerDto";
 
 export interface BookingFormDto {
     fields: BookingFormFieldDto[];
+    customer?: AuthorizedCustomerDto;
 }
 
 export interface BookingFormFieldDto {

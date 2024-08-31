@@ -1,3 +1,4 @@
+using StadiumEngine.DTO.Customers;
 using StadiumEngine.DTO.Offers.Fields;
 
 namespace StadiumEngine.DTO.BookingForm;
@@ -11,6 +12,11 @@ public class BookingFormDto
     /// Площадки
     /// </summary>
     public List<BookingFormFieldDto> Fields { get; set; } = new();
+    
+    /// <summary>
+    /// Авторизованный заказчик
+    /// </summary>
+    public AuthorizedCustomerDto? Customer { get; set; }
 }
 
 /// <summary>

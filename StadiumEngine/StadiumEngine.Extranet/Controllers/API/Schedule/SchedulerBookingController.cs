@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Commands.BookingForm;
 using StadiumEngine.Commands.Schedule;
 using StadiumEngine.Common.Constant;
+using StadiumEngine.Common.Enums.Bookings;
 using StadiumEngine.DTO.BookingForm;
 using StadiumEngine.DTO.Schedule;
 using StadiumEngine.Extranet.Infrastructure.Attributes;
@@ -89,6 +90,7 @@ public class SchedulerBookingController : BaseApiController
     [HasPermission( $"{PermissionsKeys.InsertBooking},{PermissionsKeys.UpdateBooking}" )]
     public async Task<BookingFormDto> Get( [FromQuery] GetBookingFormQuery query )
     {
+        query.Source = BookingSource.Schedule;
         BookingFormDto bookingForm = await Mediator.Send( query );
         return bookingForm;
     }
@@ -101,6 +103,7 @@ public class SchedulerBookingController : BaseApiController
     [HasPermission( PermissionsKeys.UpdateBooking )]
     public async Task<BookingFormDto> Get( [FromQuery] GetBookingFormForMoveQuery query )
     {
+        query.Source = BookingSource.Schedule;
         BookingFormDto bookingForm = await Mediator.Send( query );
         return bookingForm;
     }

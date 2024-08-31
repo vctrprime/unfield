@@ -1,5 +1,7 @@
 using AutoMapper;
+using Mediator;
 using StadiumEngine.Common;
+using StadiumEngine.Common.Enums.Bookings;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Common.Static;
 using StadiumEngine.Domain.Entities.Bookings;
@@ -7,6 +9,7 @@ using StadiumEngine.Domain.Services.Core.BookingForm;
 using StadiumEngine.Domain.Services.Models.BookingForm;
 using StadiumEngine.DTO.BookingForm;
 using StadiumEngine.Queries.BookingForm;
+using StadiumEngine.Queries.Customers;
 
 namespace StadiumEngine.Handlers.Builders.BookingForm;
 
@@ -15,15 +18,18 @@ internal class BookingCheckoutDtoBuilder : IBookingCheckoutDtoBuilder
     private readonly IBookingCheckoutQueryService _service;
     private readonly IBookingFormDtoBuilder _bookingFormDtoBuilder;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     public BookingCheckoutDtoBuilder(
         IBookingCheckoutQueryService service,
         IBookingFormDtoBuilder bookingFormDtoBuilder,
-        IMapper mapper )
+        IMapper mapper,
+        IMediator mediator )
     {
         _service = service;
         _bookingFormDtoBuilder = bookingFormDtoBuilder;
         _mapper = mapper;
+        _mediator = mediator;
     }
 
     public async Task<BookingCheckoutDto> BuildAsync( GetBookingCheckoutQuery query )
@@ -71,7 +77,12 @@ internal class BookingCheckoutDtoBuilder : IBookingCheckoutDtoBuilder
         BookingCheckoutData bookingCheckoutData =
             await _service.GetBookingCheckoutDataAsync( booking, slots, query.TariffId );
 
-        BookingCheckoutDto? result = _mapper.Map<BookingCheckoutDto>( bookingCheckoutData );
+        BookingCheckoutDto result = _mapper.Map<BookingCheckoutDto>( bookingCheckoutData );
+
+        if ( booking.Source == BookingSource.Form )
+        {
+            result.Customer = await _mediator.Send( new GetAuthorizedCustomerQuery() );
+        }
 
         return result;
     }

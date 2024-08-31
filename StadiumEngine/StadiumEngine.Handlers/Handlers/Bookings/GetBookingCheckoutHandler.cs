@@ -1,4 +1,5 @@
 using AutoMapper;
+using StadiumEngine.Common.Enums.Bookings;
 using StadiumEngine.DTO.BookingForm;
 using StadiumEngine.Handlers.Builders.BookingForm;
 using StadiumEngine.Queries.BookingForm;
@@ -19,6 +20,7 @@ internal class GetBookingCheckoutHandler : BaseRequestHandler<GetBookingCheckout
         CancellationToken cancellationToken )
     {
         BookingCheckoutDto result = await _builder.BuildAsync( request );
+        
         return result;
     }
 }

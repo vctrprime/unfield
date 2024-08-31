@@ -9,6 +9,7 @@ import {BookingCheckoutDto} from "../models/dto/booking/BookingCheckoutDto";
 import {CancelSchedulerBookingCommand} from "../models/command/schedule/CancelSchedulerBookingCommand";
 import {t} from "i18next";
 import {SaveSchedulerBookingDataCommand} from "../models/command/schedule/SaveSchedulerBookingDataCommand";
+import {BookingSource} from "../models/dto/booking/enums/BookingSource";
 
 export interface IScheduleService {
     getFields(): Promise<SchedulerFieldsDto>;

@@ -1,4 +1,5 @@
 using StadiumEngine.Common.Static;
+using StadiumEngine.DTO.Customers;
 using StadiumEngine.DTO.Offers.Fields;
 using StadiumEngine.DTO.Offers.Inventories;
 using StadiumEngine.DTO.Rates.Tariffs;
@@ -49,6 +50,11 @@ public class BookingCheckoutDto
     /// Цена за каждые возможные полчаса в брони
     /// </summary>
     public List<BookingCheckoutPointPriceDto> PointPrices { get; set; } = null!;
+    
+    /// <summary>
+    /// Авторизованный заказчик
+    /// </summary>
+    public AuthorizedCustomerDto? Customer { get; set; }
 }
 
 /// <summary>

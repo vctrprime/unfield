@@ -1,3 +1,4 @@
+using StadiumEngine.Common.Enums.Bookings;
 using StadiumEngine.DTO.BookingForm;
 using StadiumEngine.Queries.BookingForm;
 

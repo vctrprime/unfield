@@ -1,4 +1,5 @@
 import {FieldDto} from "../offers/FieldDto";
+import {AuthorizedCustomerDto} from "../customers/AuthorizedCustomerDto";
 
 export interface BookingCheckoutDto {
     bookingNumber: string;
@@ -9,6 +10,7 @@ export interface BookingCheckoutDto {
     durationInventories: BookingCheckoutDurationInventoryDto[];
     durationAmounts: BookingCheckoutDurationAmountDto[];
     pointPrices: BookingCheckoutPointPriceDto[];
+    customer?: AuthorizedCustomerDto;
 }
 
 export interface BookingCheckoutDurationAmountDto {

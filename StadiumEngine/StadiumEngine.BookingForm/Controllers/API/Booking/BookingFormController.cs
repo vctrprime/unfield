@@ -1,6 +1,7 @@
 #nullable enable
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StadiumEngine.Common.Enums.Bookings;
 using StadiumEngine.DTO.BookingForm;
 using StadiumEngine.Queries.BookingForm;
 
@@ -20,6 +21,7 @@ public class BookingFormController : BaseApiController
     [HttpGet]
     public async Task<BookingFormDto> Get( [FromQuery] GetBookingFormQuery query )
     {
+        query.Source = BookingSource.Form;
         BookingFormDto bookingForm = await Mediator.Send( query );
         return bookingForm;
     }

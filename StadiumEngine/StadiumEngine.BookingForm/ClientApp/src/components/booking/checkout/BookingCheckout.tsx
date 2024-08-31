@@ -51,10 +51,15 @@ export const BookingCheckout = () => {
     const [selectedInventories, setSelectedInventories] = useState<SelectedInventory[]>([]);
     
     const navigate = useNavigate();
+
+    const [phoneNumber, setPhoneNumber] = useState<string | undefined>();
+    const [name, setName] = useState<string | undefined>();
     
     useEffect(() => {
         bookingService.getBookingCheckout(bookingNumber as string, false).then((response: BookingCheckoutDto) => {
             setData(response);
+            setPhoneNumber(response?.customer?.phoneNumber);
+            setName(response?.customer?.lastName);
         })
             .catch((error) => {
                 navigate(backPath);
@@ -72,9 +77,6 @@ export const BookingCheckout = () => {
     const getTotalAmountValue = () => {
         return getCheckoutFieldAmount() + getCheckoutInventoryAmount();
     }
-
-    const [phoneNumber, setPhoneNumber] = useState<string | undefined>();
-    const [name, setName] = useState<string | undefined>();
     
     return data === null  ? null :  <Container className="booking-checkout-container">
         <Form style={{paddingBottom: '10px', minHeight: 'calc(100vh - 30px)'}}>

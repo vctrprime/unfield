@@ -12,9 +12,9 @@ internal class CustomerClaimsIdentityService : ICustomerClaimsIdentityService
         _userIdentity = userIdentity;
     }
 
-    public int GetCustomerId() => GetClaim<int>( "id", "0" );
+    public int GetCustomerId() => GetClaim<int>( "customerId", "0" );
 
-    public string GetCustomerPhoneNumber() => GetClaim<string>( "phoneNumber" );
+    public string GetCustomerPhoneNumber() => GetClaim<string>( "customerPhoneNumber" );
 
     private T GetClaim<T>( string claimName, string? emptyValue = null )
     {

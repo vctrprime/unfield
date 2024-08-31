@@ -21,8 +21,8 @@ internal class CustomersProfile : Profile
     {
         List<Claim> claims = new()
         {
-            new Claim( "id", customer.Id.ToString() ),
-            new Claim( "phoneNumber", customer.PhoneNumber )
+            new Claim( "customerId", customer.Id.ToString() ),
+            new Claim( "customerPhoneNumber", customer.PhoneNumber )
         };
 
         return claims;

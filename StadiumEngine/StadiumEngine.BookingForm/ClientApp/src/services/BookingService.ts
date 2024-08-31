@@ -9,6 +9,7 @@ import {ConfirmBookingCommand} from "../models/command/booking/ConfirmBookingCom
 import {t} from "i18next";
 import {PromoCodeDto} from "../models/dto/rates/TariffDto";
 import {ConfirmBookingDto} from "../models/dto/booking/ConfirmBookingDto";
+import {BookingSource} from "../models/dto/booking/enums/BookingSource";
 
 export interface IBookingService {
     getBookingForm(date: Date, token: string|null, cityId: number|null, q: string|null, hideSpinner?: boolean): Promise<BookingFormDto>;

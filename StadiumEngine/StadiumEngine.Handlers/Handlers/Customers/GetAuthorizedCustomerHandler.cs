@@ -8,7 +8,7 @@ using StadiumEngine.Queries.Customers;
 
 namespace StadiumEngine.Handlers.Handlers.Customers;
 
-internal sealed class GetAuthorizedCustomerHandler : BaseCustomerRequestHandler<GetAuthorizedCustomerQuery, AuthorizedCustomerDto>
+internal sealed class GetAuthorizedCustomerHandler : BaseCustomerRequestHandler<GetAuthorizedCustomerQuery, AuthorizedCustomerDto?>
 {
     private readonly ICustomerQueryService _queryService;
     public GetAuthorizedCustomerHandler( 
@@ -19,9 +19,14 @@ internal sealed class GetAuthorizedCustomerHandler : BaseCustomerRequestHandler<
         _queryService = queryService;
     }
 
-    public override async ValueTask<AuthorizedCustomerDto> Handle( GetAuthorizedCustomerQuery request,
+    public override async ValueTask<AuthorizedCustomerDto?> Handle( GetAuthorizedCustomerQuery request,
         CancellationToken cancellationToken )
     {
+        if ( _customerId == 0 )
+        {
+            return null;
+        }
+        
         Customer? customer = await _queryService.GetCustomerAsync( _customerId );
 
         AuthorizedCustomerDto? customerDto = Mapper.Map<AuthorizedCustomerDto>( customer );

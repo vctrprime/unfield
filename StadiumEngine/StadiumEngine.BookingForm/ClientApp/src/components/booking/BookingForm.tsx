@@ -19,7 +19,7 @@ import {t} from "i18next";
 import {AddBookingDraftCommand} from "../../models/command/booking/AddBookingDraftCommand";
 import {BookingSource} from "../../models/dto/booking/enums/BookingSource";
 
-
+//todo иконка ЛК (если не авторизован то ссылка на вход с редиректом)
 export const BookingForm = () => {
     let {token} = useParams();
     const setLoading = useSetRecoilState(loadingAtom);
