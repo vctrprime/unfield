@@ -4,5 +4,5 @@ namespace StadiumEngine.Domain.Services.Core.Customers;
 
 public interface IConfirmBookingRedirectProcessor
 {
-    Task<ConfirmBookingRedirectResult> ProcessAsync( string token );
+    Task<ConfirmBookingRedirectResult> ProcessAsync( string token, string language );
 }

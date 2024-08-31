@@ -31,7 +31,7 @@ Confirmation code: {2}</value>
 Assigned locker room: {0}</value>
     </data>
     <data name="password_notification_customer_created" xml:space="preserve">
-        <value>our number is automatically linked to your account after booking a venue through the Stadium Engine service.
+        <value>Your number is automatically linked to your account after booking a venue through the Stadium Engine service.
 Your login password: {0}</value>
     </data>
     <data name="password_notification_customer_reset" xml:space="preserve">

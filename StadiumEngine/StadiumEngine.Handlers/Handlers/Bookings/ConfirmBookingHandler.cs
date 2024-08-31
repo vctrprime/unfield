@@ -50,7 +50,7 @@ internal sealed class ConfirmBookingHandler : BaseCommandHandler<ConfirmBookingC
 
         return new ConfirmBookingDto
         {
-            RedirectUrl = _customerAccountRedirectUrlBuilder.Build( redirectToken?.Token ),
+            RedirectUrl = _customerAccountRedirectUrlBuilder.Build( redirectToken?.Token, request.Language ),
         };
     }
 }

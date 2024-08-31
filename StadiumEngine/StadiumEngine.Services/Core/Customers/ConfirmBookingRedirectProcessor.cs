@@ -36,7 +36,7 @@ internal class ConfirmBookingRedirectProcessor : IConfirmBookingRedirectProcesso
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<ConfirmBookingRedirectResult> ProcessAsync( string token )
+    public async Task<ConfirmBookingRedirectResult> ProcessAsync( string token, string language )
     {
         BookingToken? bookingToken = await _bookingTokenRepository.GetAsync(
             token,
@@ -55,7 +55,8 @@ internal class ConfirmBookingRedirectProcessor : IConfirmBookingRedirectProcesso
             customer = new Customer
             {
                 PhoneNumber = bookingToken.Booking.Customer.PhoneNumber,
-                Language = "ru",
+                Language = language,
+                LastName = bookingToken.Booking.Customer.Name,
                 Password = _userServiceFacade.CryptPassword( password )
             };
             _customerRepository.Add( customer );

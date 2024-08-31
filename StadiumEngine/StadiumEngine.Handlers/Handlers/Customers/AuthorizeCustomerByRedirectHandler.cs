@@ -24,7 +24,7 @@ internal sealed class AuthorizeCustomerByRedirectHandler : BaseCommandHandler<Au
     protected override async ValueTask<AuthorizeCustomerDto> HandleCommandAsync( AuthorizeCustomerByRedirectCommand request,
         CancellationToken cancellationToken )
     {
-        ConfirmBookingRedirectResult result = await _confirmBookingRedirectProcessor.ProcessAsync( request.Token );
+        ConfirmBookingRedirectResult result = await _confirmBookingRedirectProcessor.ProcessAsync( request.Token, request.Language );
 
         AuthorizeCustomerDto customerDto = Mapper.Map<AuthorizeCustomerDto>( result.Customer );
         customerDto.BookingNumber = result.BookingNumber;

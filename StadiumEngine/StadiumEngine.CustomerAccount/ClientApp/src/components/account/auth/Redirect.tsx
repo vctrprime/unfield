@@ -2,7 +2,7 @@ import React from "react";
 import {useParams} from "react-router-dom";
 
 export const Redirect = () => {
-    let {token} = useParams();
+    let {lng, token} = useParams();
 
-    return <div>{token}</div>;
+    return <div>{token}-{lng}</div>;
 }

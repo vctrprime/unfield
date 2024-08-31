@@ -12,13 +12,13 @@ internal class CustomerAccountRedirectUrlBuilder : ICustomerAccountRedirectUrlBu
         _envConfig = envConfig;
     }
 
-    public string? Build( string? token )
+    public string? Build( string? token, string language )
     {
         if ( String.IsNullOrEmpty( token ) )
         {
             return null;
         }
         
-        return _envConfig.CustomerAccountHost + "/redirect/" + token;
+        return _envConfig.CustomerAccountHost + "/redirect/" + $"{language}/" + token;
     }
 }

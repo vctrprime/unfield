@@ -25,7 +25,7 @@ const App = () => {
             <Layout>
                 <NotificationContainer/>
                 <Routes>
-                    <Route path="/redirect/:token" element={<Redirect/>}/>
+                    <Route path="/redirect/:lng/:token" element={<Redirect/>}/>
                     <Route path="/sign-in" element={<SignIn/>}/>
                     
                     <Route path="/" element={<ProtectedRoute component={AccountLayout}/>}>
