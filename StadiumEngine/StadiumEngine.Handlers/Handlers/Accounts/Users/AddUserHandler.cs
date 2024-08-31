@@ -19,8 +19,7 @@ internal sealed class AddUserHandler : BaseCommandHandler<AddUserCommand, AddUse
         IUnitOfWork unitOfWork ) : base(
         mapper,
         claimsIdentityService,
-        unitOfWork,
-        false )
+        unitOfWork )
     {
         _facade = facade;
     }

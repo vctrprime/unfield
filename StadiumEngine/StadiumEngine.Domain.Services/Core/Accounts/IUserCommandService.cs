@@ -16,7 +16,7 @@ public interface IUserCommandService
         string newPassword,
         string oldPassword );
 
-    Task<(User, string)> ResetPasswordAsync( string phoneNumber );
+    Task ResetPasswordAsync( string phoneNumber );
     void UpdateUser( User user );
     Task DeleteUserAsync( int userId, int legalId, int userModifiedId );
     Task ToggleUserStadiumAsync(

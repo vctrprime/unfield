@@ -1,3 +1,4 @@
+using System.Globalization;
 using StadiumEngine.Common.Enums.Bookings;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Entities.Settings;
@@ -10,7 +11,8 @@ public class SchedulerEvent
     
     public int FieldId { get; }
 
-    public string Title => BookingsCount <= 1 ? _title : GetMoreThanOneTitle();
+    public string Title => BookingsCount <= 1 ? _title : 
+        Common.Resources.Scheduler.ResourceManager.GetString( "multiple_bookings", new CultureInfo( Language ) ) ?? "Multiple bookings";
     
     private string _title { get; }
     
@@ -67,23 +69,9 @@ public class SchedulerEvent
         EventId = 0;
         Start = date.AddHours( ( double )breakField.Break.StartHour );
         End = date.AddHours( ( double ) breakField.Break.EndHour );
-        _title = GetBreakTitle();
+        _title = Common.Resources.Scheduler.ResourceManager.GetString( "break", new CultureInfo( Language ) ) ?? "Break";
         Color = "";
         Editable = false;
         FieldId = breakField.FieldId;
     }
-
-    private string GetBreakTitle() =>
-        Language switch
-        {
-            "en" => "Break",
-            _ => "Перерыв"
-        };
-    
-    private string GetMoreThanOneTitle() =>
-        Language switch
-        {
-            "en" => "Multiple bookings",
-            _ => "Несколько броней"
-        };
 }

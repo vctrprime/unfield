@@ -1,4 +1,5 @@
 using Hangfire;
+using StadiumEngine.Domain.Services.Core.Dashboard;
 
 namespace StadiumEngine.Jobs.Background.Dashboard;
 

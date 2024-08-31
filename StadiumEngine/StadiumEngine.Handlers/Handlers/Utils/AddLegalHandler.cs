@@ -5,19 +5,23 @@ using StadiumEngine.Domain.Services.Core.Accounts;
 using StadiumEngine.Domain.Services.Infrastructure;
 using StadiumEngine.DTO.Utils;
 using StadiumEngine.Commands.Utils;
+using StadiumEngine.Common.Enums.Notifications;
+using StadiumEngine.Domain.Services.Core.Dashboard;
+using StadiumEngine.Domain.Services.Core.Notifications;
 using StadiumEngine.Jobs.Background.Dashboard;
+using StadiumEngine.Jobs.Background.Notifications;
 
 namespace StadiumEngine.Handlers.Handlers.Utils;
 
 internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddLegalDto>
 {
     private readonly ILegalCommandService _commandService;
-    private readonly ISmsSender _smsSender;
+    private readonly INotificationsQueueManager _notificationsQueueManager;
     private readonly IDashboardQueueManager _dashboardQueueManager;
 
     public AddLegalHandler(
         ILegalCommandService commandService,
-        ISmsSender smsSender,
+        INotificationsQueueManager notificationsQueueManager,
         IMapper mapper,
         IUnitOfWork unitOfWork,
         IDashboardQueueManager dashboardQueueManager ) : base(
@@ -27,11 +31,12 @@ internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddL
         false )
     {
         _commandService = commandService;
-        _smsSender = smsSender;
+        _notificationsQueueManager = notificationsQueueManager;
         _dashboardQueueManager = dashboardQueueManager;
     }
 
-    protected override async ValueTask<AddLegalDto> HandleCommandAsync( AddLegalCommand request,
+    protected override async ValueTask<AddLegalDto> HandleCommandAsync(
+        AddLegalCommand request,
         CancellationToken cancellationToken )
     {
         Legal? legal = Mapper.Map<Legal>( request );
@@ -41,12 +46,14 @@ internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddL
 
         string password = await _commandService.AddLegalAsync( legal, superuser );
 
-        await UnitOfWork.SaveChangesAsync();
-
-        await _smsSender.SendPasswordAsync(
+        _notificationsQueueManager.EnqueuePasswordNotification(
             superuser.PhoneNumber,
             password,
-            superuser.Language );
+            superuser.Language,
+            PasswordNotificationType.Created,
+            PasswordNotificationSubject.User );
+
+        await UnitOfWork.SaveChangesAsync();
 
         AddLegalDto? legalDto = Mapper.Map<AddLegalDto>( legal );
 

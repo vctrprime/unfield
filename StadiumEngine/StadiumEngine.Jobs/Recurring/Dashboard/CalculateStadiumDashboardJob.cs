@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Services.Core.Accounts;
+using StadiumEngine.Domain.Services.Core.Dashboard;
 using StadiumEngine.Jobs.Background.Dashboard;
 
 namespace StadiumEngine.Jobs.Recurring.Dashboard;

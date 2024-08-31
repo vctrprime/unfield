@@ -2,7 +2,6 @@ using Hangfire;
 using Microsoft.Extensions.Logging;
 using StadiumEngine.Domain.Entities.Dashboard;
 using StadiumEngine.Domain.Services.Core.Dashboard;
-using StadiumEngine.Jobs.Recurring;
 using StadiumEngine.Jobs.Services.Builders.Dashboard;
 
 namespace StadiumEngine.Jobs.Background.Dashboard;

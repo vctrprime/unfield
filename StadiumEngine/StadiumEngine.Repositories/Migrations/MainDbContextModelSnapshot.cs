@@ -1003,6 +1003,11 @@ namespace StadiumEngine.DataAccess.Migrations
                         .HasColumnType("text")
                         .HasColumnName("last_name");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("password");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("text")

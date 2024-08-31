@@ -10,7 +10,6 @@ namespace StadiumEngine.Handlers.Handlers.Accounts.Users;
 
 internal sealed class ResetUserPasswordHandler : BaseCommandHandler<ResetUserPasswordCommand, ResetUserPasswordDto>
 {
-    private readonly ISmsSender _smsSender;
     private readonly IUserCommandService _commandService;
 
     public ResetUserPasswordHandler(
@@ -20,21 +19,15 @@ internal sealed class ResetUserPasswordHandler : BaseCommandHandler<ResetUserPas
         IUnitOfWork unitOfWork ) : base(
         mapper,
         null,
-        unitOfWork,
-        false )
+        unitOfWork )
     {
         _commandService = commandService;
-        _smsSender = smsSender;
     }
 
     protected override async ValueTask<ResetUserPasswordDto> HandleCommandAsync( ResetUserPasswordCommand request,
         CancellationToken cancellationToken )
     {
-        ( User user, string password ) = await _commandService.ResetPasswordAsync( request.PhoneNumber );
-        await UnitOfWork.SaveChangesAsync();
-
-        await _smsSender.SendPasswordAsync( user.PhoneNumber, password, user.Language );
-
+        await _commandService.ResetPasswordAsync( request.PhoneNumber );
         return new ResetUserPasswordDto();
     }
 }

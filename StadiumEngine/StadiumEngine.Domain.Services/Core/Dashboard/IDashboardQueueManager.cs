@@ -1,4 +1,4 @@
-namespace StadiumEngine.Jobs.Background.Dashboard;
+namespace StadiumEngine.Domain.Services.Core.Dashboard;
 
 public interface IDashboardQueueManager
 {

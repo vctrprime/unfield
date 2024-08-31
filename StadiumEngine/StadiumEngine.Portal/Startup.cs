@@ -1,4 +1,5 @@
 #nullable enable
+using System.Globalization;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -67,6 +68,9 @@ public class Startup
     /// <param name="logger"></param>
     public void Configure( IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger )
     {
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo( "ru-RU" );
+        CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo( "ru-RU" );
+        
         if ( env.IsDevelopment() )
         {
             app.UseDeveloperExceptionPage();

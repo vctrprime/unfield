@@ -1,5 +1,6 @@
 #nullable enable
 using System;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Security.Claims;
@@ -141,6 +142,9 @@ public class Startup
     /// <param name="logger"></param>
     public void Configure( IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger )
     {
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo( "ru-RU" );
+        CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo( "ru-RU" );
+        
         env.WriteReactEnvAppVersion();
 
         if ( env.IsDevelopment() )

@@ -1,4 +1,5 @@
 #nullable enable
+using System.Globalization;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
@@ -53,17 +54,14 @@ public class Startup
         services.AddDbContext<KeysContext>( options => options.UseNpgsql( loadConfigurationResult.ConnectionsConfig.MainDb ) );
         services.AddDataProtection()
             .PersistKeysToDbContext<KeysContext>()
-            .SetApplicationName( "CustomerAccount" );
+            .SetApplicationName( "CustomerApp" );
         
         services.RegisterModules( loadConfigurationResult );
         
         services.AddControllersWithViews().AddJsonOptions(
                 options => { options.JsonSerializerOptions.Converters.Add( new JsonStringEnumConverter() ); } )
             .AddNewtonsoftJson();
-
-        services.AddHttpContextAccessor();
-        services.AddTransient( s => s.GetService<IHttpContextAccessor>()?.HttpContext?.User ?? new ClaimsPrincipal() );
-
+        
         services.Configure<KestrelServerOptions>( Configuration.GetSection( "Kestrel" ) );
         
         services.AddAuthentication( "Identity.Core" )
@@ -127,6 +125,9 @@ public class Startup
     /// <param name="logger"></param>
     public void Configure( IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger )
     {
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo( "ru-RU" );
+        CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo( "ru-RU" );
+        
         env.WriteReactEnvAppVersion();
         if ( env.IsDevelopment() )
         {

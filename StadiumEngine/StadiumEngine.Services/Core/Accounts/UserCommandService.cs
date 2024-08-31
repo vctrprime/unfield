@@ -1,8 +1,13 @@
+using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure.Internal;
 using StadiumEngine.Common;
+using StadiumEngine.Common.Enums.Notifications;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Accounts;
+using StadiumEngine.Domain.Entities.Notifications;
 using StadiumEngine.Domain.Repositories.Accounts;
+using StadiumEngine.Domain.Repositories.Notifications;
 using StadiumEngine.Domain.Services.Core.Accounts;
+using StadiumEngine.Domain.Services.Core.Notifications;
 using StadiumEngine.Services.Facades.Accounts;
 using StadiumEngine.Services.Checkers;
 
@@ -14,17 +19,20 @@ internal class UserCommandService : IUserCommandService
     private readonly IUserRepositoryFacade _userRepositoryFacade;
     private readonly IUserServiceFacade _userServiceFacade;
     private readonly IStadiumRepository _stadiumRepository;
+    private readonly INotificationsQueueManager _notificationsQueueManager;
 
     public UserCommandService(
         IAccountsAccessChecker accountsAccessChecker,
         IUserRepositoryFacade userRepositoryFacade,
         IUserServiceFacade userServiceFacade,
-        IStadiumRepository stadiumRepository )
+        IStadiumRepository stadiumRepository,
+        INotificationsQueueManager notificationsQueueManager )
     {
         _accountsAccessChecker = accountsAccessChecker;
         _userRepositoryFacade = userRepositoryFacade;
         _userServiceFacade = userServiceFacade;
         _stadiumRepository = stadiumRepository;
+        _notificationsQueueManager = notificationsQueueManager;
     }
 
     public async Task<User> AuthorizeUserAsync( string login, string password )
@@ -56,10 +64,11 @@ internal class UserCommandService : IUserCommandService
         {
             throw new DomainException( ErrorsKeys.UserNotFound );
         }
-        
+
         if ( user.Legal.Stadiums.FirstOrDefault( s => s.Id == stadiumId ) == null
              ||
-             ( !user.IsSuperuser && user.UserStadiums.Select( s => s.Stadium ).FirstOrDefault( s => s.Id == stadiumId ) == null ) )
+             ( !user.IsSuperuser &&
+               user.UserStadiums.Select( s => s.Stadium ).FirstOrDefault( s => s.Id == stadiumId ) == null ) )
         {
             throw new DomainException( ErrorsKeys.Forbidden );
         }
@@ -115,7 +124,7 @@ internal class UserCommandService : IUserCommandService
 
         string userPassword = _userServiceFacade.GeneratePassword( 8 );
         user.Password = _userServiceFacade.CryptPassword( userPassword );
-        
+
         _userRepositoryFacade.AddUser( user );
 
         return userPassword;
@@ -161,7 +170,7 @@ internal class UserCommandService : IUserCommandService
         _userRepositoryFacade.UpdateUser( user );
     }
 
-    public async Task<(User, string)> ResetPasswordAsync( string phoneNumber )
+    public async Task ResetPasswordAsync( string phoneNumber )
     {
         phoneNumber = _userServiceFacade.CheckPhoneNumber( phoneNumber );
 
@@ -175,8 +184,12 @@ internal class UserCommandService : IUserCommandService
         user.Password = _userServiceFacade.CryptPassword( userPassword );
 
         _userRepositoryFacade.UpdateUser( user );
-
-        return ( user, userPassword );
+        _notificationsQueueManager.EnqueuePasswordNotification(
+            phoneNumber,
+            userPassword,
+            user.Language,
+            PasswordNotificationType.Reset,
+            PasswordNotificationSubject.User );
     }
 
     public void UpdateUser( User user ) => _userRepositoryFacade.UpdateUser( user );
@@ -208,6 +221,7 @@ internal class UserCommandService : IUserCommandService
         {
             throw new DomainException( ErrorsKeys.ModifyStadiumsCurrentUser );
         }
+
         User? user = await _userRepositoryFacade.GetUserAsync( userId );
 
         if ( user == null )

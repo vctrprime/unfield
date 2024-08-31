@@ -2,7 +2,10 @@ using Hangfire;
 using Hangfire.PostgreSql;
 using Hangfire.PostgreSql.Factories;
 using Microsoft.Extensions.DependencyInjection;
+using StadiumEngine.Domain.Services.Core.Dashboard;
+using StadiumEngine.Domain.Services.Core.Notifications;
 using StadiumEngine.Jobs.Background.Dashboard;
+using StadiumEngine.Jobs.Background.Notifications;
 using StadiumEngine.Jobs.Recurring.Bookings;
 using StadiumEngine.Jobs.Recurring.Dashboard;
 using StadiumEngine.Jobs.Recurring.Notifications;
@@ -28,6 +31,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICalculateStadiumDashboardJob, CalculateStadiumDashboardJob>();
         services.AddScoped<IStadiumDashboardCalculator, StadiumDashboardCalculator>();
         services.AddScoped<IDashboardQueueManager, DashboardQueueManager>();
+        services.AddScoped<INotificationsQueueManager, NotificationsQueueManager>();
+        services.AddScoped<IBackgroundNotificationSender, BackgroundNotificationSender>();
         
         services.AddScoped<IClearOutdatedBookingDraftsJob, ClearOutdatedBookingDraftsJob>();
         services.AddScoped<IClearOutdatedStadiumDashboardJob, ClearOutdatedStadiumDashboardJob>();

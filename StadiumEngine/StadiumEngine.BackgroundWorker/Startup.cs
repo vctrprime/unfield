@@ -1,4 +1,5 @@
 #nullable enable
+using System.Globalization;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
 using Hangfire;
@@ -69,7 +70,7 @@ public class Startup
                 .UsePostgreSqlStorage( c => c.UseNpgsqlConnection( loadConfigurationResult.ConnectionsConfig.MainDb ) ) );
         services.AddHangfireServer( options =>
         {
-            options.Queues = [ "default", "dashboards" ];
+            options.Queues = [ "default", "dashboards", "notifications" ];
         } );
     }
 
@@ -81,6 +82,9 @@ public class Startup
     /// <param name="logger"></param>
     public void Configure( IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger )
     {
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo( "ru-RU" );
+        CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo( "ru-RU" );
+        
         if ( env.IsDevelopment() )
         {
             app.UseDeveloperExceptionPage();

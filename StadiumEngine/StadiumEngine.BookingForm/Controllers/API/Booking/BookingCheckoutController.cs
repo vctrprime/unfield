@@ -1,4 +1,5 @@
 #nullable enable
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.DTO.BookingForm;
 using StadiumEngine.DTO.Rates.Tariffs;
@@ -10,6 +11,7 @@ namespace StadiumEngine.BookingForm.Controllers.API.Booking;
 ///     Данные для чекаута бронирования
 /// </summary>
 [Route( "api/booking/checkout" )]
+[AllowAnonymous]
 public class BookingCheckoutController : BaseApiController
 {
     /// <summary>

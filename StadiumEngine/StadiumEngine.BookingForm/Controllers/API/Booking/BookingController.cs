@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Commands.BookingForm;
 using StadiumEngine.DTO.BookingForm;
@@ -8,6 +9,7 @@ namespace StadiumEngine.BookingForm.Controllers.API.Booking;
 ///     Данные по бронированиям
 /// </summary>
 [Route( "api/booking" )]
+[AllowAnonymous]
 public class BookingController : BaseApiController
 {
     /// <summary>

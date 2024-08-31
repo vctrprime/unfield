@@ -2,56 +2,35 @@ using StadiumEngine.Common;
 using StadiumEngine.Common.Static;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Services.Infrastructure;
+using StadiumEngine.Domain.Services.Models.Notifications;
+using StadiumEngine.Services.Notifications.Resolvers;
 
 namespace StadiumEngine.Services.Infrastructure;
 
 internal class SmsSender : ISmsSender
 {
-    public async Task SendPasswordAsync( string phoneNumber, string password, string language )
+    private readonly ISmsTemplateResolver _templateResolver;
+
+    public SmsSender( ISmsTemplateResolver templateResolver )
     {
-        string template = language switch
-        {
-            "en" => SmsTemplates.SendPasswordEn,
-            _ => SmsTemplates.SendPasswordRu
-        };
-        
-        await SendAsync( phoneNumber, String.Format( template, password ) );
+        _templateResolver = templateResolver;
+    }
+    
+    public async Task SendPasswordAsync( PasswordNotification passwordNotification )
+    {
+        string template = _templateResolver.ResolvePasswordNotificationTemplate( passwordNotification );
+        await SendAsync( passwordNotification.PhoneNumber, String.Format( template, passwordNotification.Password ) );
     }
 
     public async Task SendBookingAccessCodeAsync( Booking booking, string language )
     {
-        string template = language switch
-        {
-            "en" => SmsTemplates.SendAccessCodeEn,
-            _ => SmsTemplates.SendAccessCodeRu
-        };
-
+        string template = _templateResolver.ResolveBookingAccessCodeTemplate( language );
         await SendAsync( booking.Customer.PhoneNumber, String.Format( template, booking.Number, $"{booking.Day:dd.MM.yyyy} {TimePointParser.Parse( booking.StartHour )}", booking.AccessCode ) );
     }
 
     public async Task SendBookingConfirmation( Booking booking, string language )
     {
-        string template = language switch
-        {
-            "en" => SmsTemplates.SendConfirmationEn,
-            _ => SmsTemplates.SendConfirmationRu
-        };
-
-        if ( booking.BookingLockerRoom != null )
-        {
-            string lockerRoomTemplate = language switch
-            {
-                "en" => SmsTemplates.SendConfirmationLockerRoomEn,
-                _ => SmsTemplates.SendConfirmationLockerRoomRu
-            };
-            lockerRoomTemplate = String.Format( lockerRoomTemplate, booking.BookingLockerRoom.LockerRoom.Name );
-            template = String.Format( template, booking.Number, lockerRoomTemplate );
-        }
-        else
-        {
-            template = String.Format( template, booking.Number, String.Empty );
-        }
-
+        string template = _templateResolver.ResolveBookingConfirmationTemplate( booking, language );
         await SendAsync( booking.Customer.PhoneNumber, template );
     }
 

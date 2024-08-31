@@ -8,6 +8,7 @@ namespace StadiumEngine.BookingForm.Controllers;
 ///     Базовый api-контроллер
 /// </summary>
 [ApiController]
+[Authorize]
 public class BaseApiController : ControllerBase
 {
     private IMediator _mediator;

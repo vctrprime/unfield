@@ -41,6 +41,7 @@ using StadiumEngine.Services.Handlers.Offers;
 using StadiumEngine.Services.Identity;
 using StadiumEngine.Services.Infrastructure;
 using StadiumEngine.Services.Notifications;
+using StadiumEngine.Services.Notifications.Resolvers;
 using StadiumEngine.Services.Resolvers.Offers;
 using StadiumEngine.Services.Utils;
 using StadiumEngine.Services.Validators.Bookings;
@@ -61,6 +62,7 @@ public static class ServiceCollectionExtensions
         services.AddSignalR();
 
         services.AddScoped<IClaimsIdentityService, ClaimsIdentityService>();
+        services.AddScoped<ICustomerClaimsIdentityService, CustomerClaimsIdentityService>();
         services.AddScoped<IPasswordGenerator, PasswordGenerator>();
         services.AddScoped<IHasher, Hasher>();
         services.AddScoped<ISmsSender, SmsSender>();
@@ -127,6 +129,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IStadiumDashboardCommandService, StadiumDashboardCommandService>();
         services.AddScoped<IStadiumDashboardQueryService, StadiumDashboardQueryService>();
         
+        services.AddScoped<ICustomerQueryService, CustomerQueryService>();
+        
         #endregion
 
         #region builders
@@ -159,6 +163,7 @@ public static class ServiceCollectionExtensions
         #region resolvers
 
         services.AddScoped<ILockerRoomStatusResolver, LockerRoomStatusResolver>();
+        services.AddScoped<ISmsTemplateResolver, SmsTemplateResolver>();
 
         #endregion
 

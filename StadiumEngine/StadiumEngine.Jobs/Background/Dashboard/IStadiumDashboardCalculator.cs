@@ -1,6 +1,6 @@
 namespace StadiumEngine.Jobs.Background.Dashboard;
 
-public interface IStadiumDashboardCalculator
+internal interface IStadiumDashboardCalculator
 {
     Task CalculateAsync( int stadiumId );
 }
