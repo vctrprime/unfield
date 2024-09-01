@@ -33,7 +33,7 @@ public class StadiumCustomerProtectAttribute : ActionFilterAttribute
             {
                 AuthorizedCustomerDto? customer = mediator.Send( new GetAuthorizedCustomerQuery() ).GetAwaiter().GetResult();
 
-                if ( customer != null && customer.StadiumId == Int32.Parse( value ) )
+                if ( customer != null && customer.Stadiums.Select( x => x.Id ).Contains( Int32.Parse( value ) ) )
                 {
                     return;
                 }

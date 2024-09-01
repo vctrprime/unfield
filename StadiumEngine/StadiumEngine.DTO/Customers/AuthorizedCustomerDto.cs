@@ -1,3 +1,5 @@
+using StadiumEngine.DTO.Accounts.Stadiums;
+
 namespace StadiumEngine.DTO.Customers;
 
 /// <summary>
@@ -26,7 +28,7 @@ public class AuthorizedCustomerDto
     public string PhoneNumber { get; set; } = null!;
     
     /// <summary>
-    /// Id стадиона
+    /// Список доступнхы стадионов
     /// </summary>
-    public int StadiumId { get; set; }
+    public List<StadiumDto> Stadiums { get; set; }
 }

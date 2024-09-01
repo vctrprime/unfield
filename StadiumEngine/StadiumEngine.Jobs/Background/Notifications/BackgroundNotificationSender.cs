@@ -21,7 +21,7 @@ internal class BackgroundNotificationSender : IBackgroundNotificationSender
         string language,
         PasswordNotificationType type,
         PasswordNotificationSubject subject,
-        string? stadiumName ) =>
+        string? stadiumGroupName ) =>
         await _smsSender.SendPasswordAsync( new PasswordNotification
         {
             PhoneNumber = phoneNumber,
@@ -29,6 +29,6 @@ internal class BackgroundNotificationSender : IBackgroundNotificationSender
             Password = password,
             Subject = subject,
             Type = type,
-            StadiumName = stadiumName
+            StadiumGroupName = stadiumGroupName
         } );
 }

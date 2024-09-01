@@ -10,7 +10,7 @@ public class Customer : BaseEntity
     public string PhoneNumber { get; set; } = null!;
     public string Password { get; set; } = null!;
     public string Language { get; set; } = null!;
-    public int StadiumId { get; set; }
+    public int StadiumGroupId { get; set; }
     
-    public virtual Stadium Stadium { get; set; }
+    public virtual Legal StadiumGroup { get; set; }
 }

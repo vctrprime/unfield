@@ -36,7 +36,7 @@ public class PriceController : BaseApiController
     /// <returns></returns>
     [HttpPut]
     [HasPermission( PermissionsKeys.SetPrices )]
-    public async Task<SetPricesDto> Put( SetPricesCommand command )
+    public async Task<SetPricesDto> Put( [FromBody] SetPricesCommand command )
     {
         SetPricesDto dto = await Mediator.Send( command );
         return dto;

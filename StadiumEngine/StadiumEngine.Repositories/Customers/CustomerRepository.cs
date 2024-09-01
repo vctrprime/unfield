@@ -12,10 +12,16 @@ internal class CustomerRepository : BaseRepository<Customer>, ICustomerRepositor
     }
 
     public async Task<Customer?> GetAsync( string phoneNumber, int stadiumId ) => 
-        await Entities.SingleOrDefaultAsync( x => x.PhoneNumber == phoneNumber && x.StadiumId == stadiumId );
+        await Entities
+            .Include( x => x.StadiumGroup )
+            .ThenInclude( x => x.Stadiums.Where( s => !s.IsDeleted ) )
+            .SingleOrDefaultAsync( x => x.PhoneNumber == phoneNumber && x.StadiumGroup.Stadiums.Select( s => s.Id ).Contains( stadiumId ) );
 
     public async Task<Customer?> GetAsync( int id ) => 
-        await Entities.SingleOrDefaultAsync( x => x.Id == id );
+        await Entities
+            .Include( x => x.StadiumGroup )
+            .ThenInclude( x => x.Stadiums.Where( s => !s.IsDeleted ) )
+            .SingleOrDefaultAsync( x => x.Id == id );
 
     public new void Add( Customer customer ) => 
         base.Add( customer );

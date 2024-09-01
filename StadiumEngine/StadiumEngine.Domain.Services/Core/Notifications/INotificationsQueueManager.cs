@@ -10,5 +10,5 @@ public interface INotificationsQueueManager
         string language,
         PasswordNotificationType type,
         PasswordNotificationSubject subject,
-        string? stadiumName = null );
+        string? stadiumGroupName = null );
 }

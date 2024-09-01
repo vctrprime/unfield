@@ -16,12 +16,12 @@ internal class CustomerConfiguration : BaseEntityConfiguration, IEntityTypeConfi
         builder.Property( p => p.PhoneNumber ).HasColumnName( "phone_number" ).IsRequired();
         builder.Property( p => p.Language ).HasColumnName( "language" ).IsRequired();
         builder.Property( p => p.Password ).HasColumnName( "password" ).IsRequired();
-        builder.Property( p => p.StadiumId ).HasColumnName( "stadium_id" ).IsRequired();
+        builder.Property( p => p.StadiumGroupId ).HasColumnName( "stadium_group_id" ).IsRequired();
 
         builder.HasIndex(
             c => new
             {
-                c.StadiumId,
+                c.StadiumGroupId,
                 c.PhoneNumber
             } )
             .IsUnique();

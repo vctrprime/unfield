@@ -25,7 +25,7 @@ internal class NotificationsQueueManager : INotificationsQueueManager
         string language,
         PasswordNotificationType type,
         PasswordNotificationSubject subject,
-        string? stadiumName = null ) =>
+        string? stadiumGroupName = null ) =>
         _backgroundJobClient.Enqueue(
             () => _backgroundNotificationSender.SendPasswordAsync(
                 phoneNumber,
@@ -33,5 +33,5 @@ internal class NotificationsQueueManager : INotificationsQueueManager
                 language,
                 type,
                 subject,
-                stadiumName ) );
+                stadiumGroupName ) );
 }

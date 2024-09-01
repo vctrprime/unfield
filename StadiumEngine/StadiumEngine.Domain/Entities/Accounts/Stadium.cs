@@ -30,5 +30,4 @@ public class Stadium : BaseEntity
     public virtual ICollection<UIMessage> UIMessages { get; set; }
     public virtual ICollection<UIMessageLastRead> UIMessageLastReads { get; set; }
     public virtual MainSettings MainSettings { get; set; }
-    public virtual ICollection<Customer> Customers { get; set; }
 }

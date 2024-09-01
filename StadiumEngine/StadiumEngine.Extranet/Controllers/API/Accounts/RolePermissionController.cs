@@ -19,7 +19,7 @@ public class RolePermissionController : BaseApiController
     /// <returns></returns>
     [HttpPost]
     [HasPermission( PermissionsKeys.ToggleRolePermission )]
-    public async Task<ToggleRolePermissionDto> Post( ToggleRolePermissionCommand command )
+    public async Task<ToggleRolePermissionDto> Post( [FromBody] ToggleRolePermissionCommand command )
     {
         ToggleRolePermissionDto dto = await Mediator.Send( command );
         return dto;

@@ -19,6 +19,7 @@ internal class BookingTokenRepository : BaseRepository<BookingToken>, IBookingTo
             .Include( x => x.Booking )
             .ThenInclude( x => x.Field )
             .ThenInclude( x => x.Stadium )
+            .ThenInclude( x => x.Legal )
             .SingleOrDefaultAsync( x => x.Token == token && x.Type == type );
 
     public new void Remove( BookingToken token ) => 

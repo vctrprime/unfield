@@ -19,7 +19,7 @@ public class MainSettingsController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public async Task<MainSettingsDto> Get( [FromQuery]GetMainSettingsQuery query )
+    public async Task<MainSettingsDto> Get( [FromQuery] GetMainSettingsQuery query )
     {
         MainSettingsDto settings = await Mediator.Send( query );
         return settings;
@@ -31,7 +31,7 @@ public class MainSettingsController : BaseApiController
     /// <returns></returns>
     [HttpPut]
     [HasPermission( PermissionsKeys.UpdateMainSettings )]
-    public async Task<UpdateMainSettingsDto> Put( UpdateMainSettingsCommand command )
+    public async Task<UpdateMainSettingsDto> Put(  [FromBody] UpdateMainSettingsCommand command )
     {
         UpdateMainSettingsDto dto = await Mediator.Send( command );
         return dto;

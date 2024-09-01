@@ -20,7 +20,7 @@ internal class BookingAuthorizedCustomerResolver : IBookingAuthorizedCustomerRes
         {
             AuthorizedCustomerDto? authorizedCustomer = await _mediator.Send( new GetAuthorizedCustomerQuery() );
             
-            if ( authorizedCustomer != null && authorizedCustomer.StadiumId == stadiumId )
+            if ( authorizedCustomer != null && authorizedCustomer.Stadiums.Select( x => x.Id ).Contains( stadiumId.Value ) )
             {
                 return authorizedCustomer;
             }

@@ -9,20 +9,24 @@ internal class CustomersProfile : Profile
 {
     public CustomersProfile()
     {
-        CreateMap<Customer, AuthorizedCustomerDto>();
-        CreateMap<Customer, AuthorizeCustomerDto>() 
+        CreateMap<Customer, AuthorizedCustomerDto>()
+            .ForMember(
+                dest => dest.Stadiums,
+                act => act.MapFrom( s => s.StadiumGroup.Stadiums ) );
+
+        CreateMap<Customer, AuthorizeCustomerDto>()
             .IncludeBase<Customer, AuthorizedCustomerDto>()
             .ForMember(
                 dest => dest.Claims,
                 act => act.MapFrom( s => CreateClaimsList( s ) ) );
     }
-    
+
     private List<Claim> CreateClaimsList( Customer customer )
     {
         List<Claim> claims = new()
         {
             new Claim( "customerId", customer.Id.ToString() ),
-            new Claim( "customerStadiumId", customer.StadiumId.ToString() ),
+            new Claim( "customerStadiumGroupId", customer.StadiumGroupId.ToString() ),
             new Claim( "customerPhoneNumber", customer.PhoneNumber )
         };
 

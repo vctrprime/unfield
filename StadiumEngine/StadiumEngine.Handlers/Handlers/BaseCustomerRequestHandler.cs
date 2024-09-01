@@ -9,7 +9,7 @@ internal abstract class BaseCustomerRequestHandler<TRequest, TResponse> : IReque
 {
     protected readonly int _customerId;
     protected readonly string _customerPhoneNumber;
-    protected readonly int _customerStadiumId;
+    protected readonly int _customerStadiumGroupId;
     
     protected readonly IMapper Mapper;
 
@@ -19,7 +19,7 @@ internal abstract class BaseCustomerRequestHandler<TRequest, TResponse> : IReque
         
         _customerId = claimsIdentityService.GetCustomerId();
         _customerPhoneNumber = claimsIdentityService.GetCustomerPhoneNumber();
-        _customerStadiumId = claimsIdentityService.GetCustomerStadiumId();
+        _customerStadiumGroupId = claimsIdentityService.GetCustomerStadiumGroupId();
     }
     
     public abstract ValueTask<TResponse> Handle( TRequest request, CancellationToken cancellationToken );

@@ -32,7 +32,7 @@ public class UserStadiumController : BaseApiController
     /// <returns></returns>
     [HttpPost]
     [HasPermission( PermissionsKeys.ToggleUserStadium )]
-    public async Task<ToggleUserStadiumDto> Post( ToggleUserStadiumCommand command )
+    public async Task<ToggleUserStadiumDto> Post( [FromBody] ToggleUserStadiumCommand command )
     {
         ToggleUserStadiumDto dto = await Mediator.Send( command );
         return dto;

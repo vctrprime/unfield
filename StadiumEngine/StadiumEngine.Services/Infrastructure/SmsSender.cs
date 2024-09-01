@@ -21,8 +21,8 @@ internal class SmsSender : ISmsSender
     {
         string template = _templateResolver.ResolvePasswordNotificationTemplate( passwordNotification );
 
-        template = passwordNotification.Subject == PasswordNotificationSubject.Customer && !String.IsNullOrEmpty( passwordNotification.StadiumName )
-            ? String.Format( template, passwordNotification.Password, passwordNotification.StadiumName )
+        template = passwordNotification.Subject == PasswordNotificationSubject.Customer && !String.IsNullOrEmpty( passwordNotification.StadiumGroupName )
+            ? String.Format( template, passwordNotification.Password, passwordNotification.StadiumGroupName )
             : String.Format( template, passwordNotification.Password );
         
         await SendAsync( passwordNotification.PhoneNumber, String.Format( template, passwordNotification.Password ) );
