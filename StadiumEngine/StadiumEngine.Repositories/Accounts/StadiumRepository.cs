@@ -19,9 +19,9 @@ internal class StadiumRepository : BaseRepository<Stadium>, IStadiumRepository
             .Take( take )
             .ToListAsync();
 
-    public async Task<List<Stadium>> GetForLegalAsync( int legalId ) =>
+    public async Task<List<Stadium>> GetForStadiumGroupAsync( int stadiumGroupId ) =>
         await Entities
-            .Where( s => s.LegalId == legalId && !s.IsDeleted )
+            .Where( s => s.StadiumGroupId == stadiumGroupId && !s.IsDeleted )
             .Include( s => s.City )
             .ThenInclude( c => c.Region )
             .ThenInclude( r => r.Country )

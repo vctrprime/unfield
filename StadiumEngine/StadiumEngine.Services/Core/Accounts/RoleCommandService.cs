@@ -28,7 +28,7 @@ internal class RoleCommandService : IRoleCommandService
 
     public async Task UpdateRoleAsync(
         int roleId,
-        int legalId,
+        int stadiumGroupId,
         int userId,
         string name,
         string? description )
@@ -41,7 +41,7 @@ internal class RoleCommandService : IRoleCommandService
         }
 
         Role? role = await _roleRepositoryFacade.GetRoleAsync( roleId );
-        _accountsAccessChecker.CheckRoleAccess( role, legalId );
+        _accountsAccessChecker.CheckRoleAccess( role, stadiumGroupId );
 
         role!.Name = name;
         role.Description = description;
@@ -50,10 +50,10 @@ internal class RoleCommandService : IRoleCommandService
         _roleRepositoryFacade.UpdateRole( role );
     }
 
-    public async Task DeleteRoleAsync( int roleId, int legalId, int userModifiedId )
+    public async Task DeleteRoleAsync( int roleId, int stadiumGroupId, int userModifiedId )
     {
         Role? role = await _roleRepositoryFacade.GetRoleAsync( roleId );
-        _accountsAccessChecker.CheckRoleAccess( role, legalId );
+        _accountsAccessChecker.CheckRoleAccess( role, stadiumGroupId );
 
         if ( role != null )
         {
@@ -68,7 +68,7 @@ internal class RoleCommandService : IRoleCommandService
         }
     }
 
-    public async Task ToggleRolePermissionAsync( int roleId, int permissionId, int legalId, int userId )
+    public async Task ToggleRolePermissionAsync( int roleId, int permissionId, int stadiumGroupId, int userId )
     {
         User? user = await _userRepository.GetAsync( userId );
 
@@ -78,7 +78,7 @@ internal class RoleCommandService : IRoleCommandService
         }
 
         Role? role = await _roleRepositoryFacade.GetRoleAsync( roleId );
-        _accountsAccessChecker.CheckRoleAccess( role, legalId );
+        _accountsAccessChecker.CheckRoleAccess( role, stadiumGroupId );
 
         RolePermission? rolePermission = await _roleRepositoryFacade.GetRolePermissionAsync( roleId, permissionId );
         if ( rolePermission == null )

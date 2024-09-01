@@ -28,7 +28,7 @@ internal sealed class AddUserHandler : BaseCommandHandler<AddUserCommand, AddUse
         CancellationToken cancellationToken )
     {
         User? user = Mapper.Map<User>( request );
-        user.LegalId = _legalId;
+        user.StadiumGroupId = _stadiumGroupId;
         user.UserCreatedId = _userId;
 
         return await _facade.AddAsync( user );

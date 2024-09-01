@@ -5,7 +5,7 @@ namespace StadiumEngine.Domain.Repositories.Accounts;
 
 public interface IUserRepository
 {
-    Task<List<User>> GetAllAsync( int legalId );
+    Task<List<User>> GetAllAsync( int stadiumGroupId );
     Task<User?> GetAsync( string login );
     Task<User?> GetAsync( int id );
     void Add( User user );

@@ -57,13 +57,13 @@ public class AuthorizeController : BaseApiController
     }
 
     /// <summary>
-    ///     Сменить орагнизацию (админ)
+    ///     Сменить группу (админ)
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
     [AdminFeature]
-    [HttpPut( "/api/admin/change-legal/{legalId}" )]
-    public async Task<AuthorizeUserDto> ChangeLegal( [FromRoute] ChangeLegalCommand command )
+    [HttpPut( "/api/admin/change-stadium-group/{stadiumGroupId}" )]
+    public async Task<AuthorizeUserDto> ChangeStadiumGroup( [FromRoute] ChangeStadiumGroupCommand command )
     {
         AuthorizeUserDto user = await Mediator.Send( command );
 

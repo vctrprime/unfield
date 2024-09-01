@@ -23,7 +23,7 @@ internal sealed class GetStadiumsForRoleHandler : BaseRequestHandler<GetStadiums
     public override async ValueTask<List<StadiumDto>> Handle( GetStadiumsForUserQuery request,
         CancellationToken cancellationToken )
     {
-        Dictionary<Stadium, bool> stadiums = await _queryService.GetStadiumsForUserAsync( request.UserId, _legalId );
+        Dictionary<Stadium, bool> stadiums = await _queryService.GetStadiumsForUserAsync( request.UserId, _stadiumGroupId );
 
         List<StadiumDto>? stadiumsDto = Mapper.Map<List<StadiumDto>>( stadiums.Keys );
         stadiumsDto.ForEach( sd => { sd.IsUserBound = stadiums.FirstOrDefault( s => s.Key.Id == sd.Id ).Value; } );

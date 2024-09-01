@@ -28,7 +28,7 @@ internal sealed class ToggleUserStadiumHandler : BaseCommandHandler<ToggleUserSt
         await _commandService.ToggleUserStadiumAsync(
             request.UserId,
             request.StadiumId,
-            _legalId,
+            _stadiumGroupId,
             _userId );
         return new ToggleUserStadiumDto();
     }

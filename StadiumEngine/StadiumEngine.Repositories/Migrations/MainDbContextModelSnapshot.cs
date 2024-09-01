@@ -22,56 +22,6 @@ namespace StadiumEngine.DataAccess.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("StadiumEngine.Domain.Entities.Accounts.Legal", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .HasColumnOrder(0);
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("integer")
-                        .HasColumnName("city_id");
-
-                    b.Property<DateTime>("DateCreated")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("date_created")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<DateTime?>("DateModified")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("date_modified");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text")
-                        .HasColumnName("description");
-
-                    b.Property<string>("HeadName")
-                        .HasColumnType("text")
-                        .HasColumnName("head_name");
-
-                    b.Property<string>("Inn")
-                        .HasColumnType("text")
-                        .HasColumnName("inn");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("Inn")
-                        .IsUnique();
-
-                    b.ToTable("legal", "accounts");
-                });
-
             modelBuilder.Entity("StadiumEngine.Domain.Entities.Accounts.Permission", b =>
                 {
                     b.Property<int>("Id")
@@ -188,13 +138,13 @@ namespace StadiumEngine.DataAccess.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_deleted");
 
-                    b.Property<int>("LegalId")
-                        .HasColumnType("integer")
-                        .HasColumnName("legal_id");
-
                     b.Property<string>("Name")
                         .HasColumnType("text")
                         .HasColumnName("name");
+
+                    b.Property<int>("StadiumGroupId")
+                        .HasColumnType("integer")
+                        .HasColumnName("stadium_group_id");
 
                     b.Property<int?>("UserCreatedId")
                         .HasColumnType("integer")
@@ -206,7 +156,7 @@ namespace StadiumEngine.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LegalId");
+                    b.HasIndex("StadiumGroupId");
 
                     b.HasIndex("UserCreatedId");
 
@@ -300,13 +250,13 @@ namespace StadiumEngine.DataAccess.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_deleted");
 
-                    b.Property<int>("LegalId")
-                        .HasColumnType("integer")
-                        .HasColumnName("legal_id");
-
                     b.Property<string>("Name")
                         .HasColumnType("text")
                         .HasColumnName("name");
+
+                    b.Property<int>("StadiumGroupId")
+                        .HasColumnType("integer")
+                        .HasColumnName("stadium_group_id");
 
                     b.Property<string>("Token")
                         .HasColumnType("text")
@@ -316,9 +266,42 @@ namespace StadiumEngine.DataAccess.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.HasIndex("LegalId");
+                    b.HasIndex("StadiumGroupId");
 
                     b.ToTable("stadium", "accounts");
+                });
+
+            modelBuilder.Entity("StadiumEngine.Domain.Entities.Accounts.StadiumGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("date_created")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<DateTime?>("DateModified")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("date_modified");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("stadium_group", "accounts");
                 });
 
             modelBuilder.Entity("StadiumEngine.Domain.Entities.Accounts.User", b =>
@@ -369,10 +352,6 @@ namespace StadiumEngine.DataAccess.Migrations
                         .HasColumnType("text")
                         .HasColumnName("last_name");
 
-                    b.Property<int>("LegalId")
-                        .HasColumnType("integer")
-                        .HasColumnName("legal_id");
-
                     b.Property<string>("Name")
                         .HasColumnType("text")
                         .HasColumnName("name");
@@ -389,6 +368,10 @@ namespace StadiumEngine.DataAccess.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("role_id");
 
+                    b.Property<int>("StadiumGroupId")
+                        .HasColumnType("integer")
+                        .HasColumnName("stadium_group_id");
+
                     b.Property<int?>("UserCreatedId")
                         .HasColumnType("integer")
                         .HasColumnName("user_created_id");
@@ -399,12 +382,12 @@ namespace StadiumEngine.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LegalId");
-
                     b.HasIndex("PhoneNumber")
                         .IsUnique();
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("StadiumGroupId");
 
                     b.HasIndex("UserCreatedId");
 
@@ -2109,17 +2092,6 @@ namespace StadiumEngine.DataAccess.Migrations
                     b.ToTable("main_settings", "settings");
                 });
 
-            modelBuilder.Entity("StadiumEngine.Domain.Entities.Accounts.Legal", b =>
-                {
-                    b.HasOne("StadiumEngine.Domain.Entities.Geo.City", "City")
-                        .WithMany("Legals")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("City");
-                });
-
             modelBuilder.Entity("StadiumEngine.Domain.Entities.Accounts.Permission", b =>
                 {
                     b.HasOne("StadiumEngine.Domain.Entities.Accounts.PermissionGroup", "PermissionGroup")
@@ -2133,9 +2105,9 @@ namespace StadiumEngine.DataAccess.Migrations
 
             modelBuilder.Entity("StadiumEngine.Domain.Entities.Accounts.Role", b =>
                 {
-                    b.HasOne("StadiumEngine.Domain.Entities.Accounts.Legal", "Legal")
+                    b.HasOne("StadiumEngine.Domain.Entities.Accounts.StadiumGroup", "StadiumGroup")
                         .WithMany("Roles")
-                        .HasForeignKey("LegalId")
+                        .HasForeignKey("StadiumGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2147,7 +2119,7 @@ namespace StadiumEngine.DataAccess.Migrations
                         .WithMany("LastModifiedRoles")
                         .HasForeignKey("UserModifiedId");
 
-                    b.Navigation("Legal");
+                    b.Navigation("StadiumGroup");
 
                     b.Navigation("UserCreated");
 
@@ -2193,28 +2165,28 @@ namespace StadiumEngine.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("StadiumEngine.Domain.Entities.Accounts.Legal", "Legal")
+                    b.HasOne("StadiumEngine.Domain.Entities.Accounts.StadiumGroup", "StadiumGroup")
                         .WithMany("Stadiums")
-                        .HasForeignKey("LegalId")
+                        .HasForeignKey("StadiumGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("City");
 
-                    b.Navigation("Legal");
+                    b.Navigation("StadiumGroup");
                 });
 
             modelBuilder.Entity("StadiumEngine.Domain.Entities.Accounts.User", b =>
                 {
-                    b.HasOne("StadiumEngine.Domain.Entities.Accounts.Legal", "Legal")
-                        .WithMany("Users")
-                        .HasForeignKey("LegalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("StadiumEngine.Domain.Entities.Accounts.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId");
+
+                    b.HasOne("StadiumEngine.Domain.Entities.Accounts.StadiumGroup", "StadiumGroup")
+                        .WithMany("Users")
+                        .HasForeignKey("StadiumGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("StadiumEngine.Domain.Entities.Accounts.User", "UserCreated")
                         .WithMany("CreatedUsers")
@@ -2224,9 +2196,9 @@ namespace StadiumEngine.DataAccess.Migrations
                         .WithMany("LastModifiedUsers")
                         .HasForeignKey("UserModifiedId");
 
-                    b.Navigation("Legal");
-
                     b.Navigation("Role");
+
+                    b.Navigation("StadiumGroup");
 
                     b.Navigation("UserCreated");
 
@@ -2462,7 +2434,7 @@ namespace StadiumEngine.DataAccess.Migrations
 
             modelBuilder.Entity("StadiumEngine.Domain.Entities.Customers.Customer", b =>
                 {
-                    b.HasOne("StadiumEngine.Domain.Entities.Accounts.Legal", "StadiumGroup")
+                    b.HasOne("StadiumEngine.Domain.Entities.Accounts.StadiumGroup", "StadiumGroup")
                         .WithMany("Customers")
                         .HasForeignKey("StadiumGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2879,17 +2851,6 @@ namespace StadiumEngine.DataAccess.Migrations
                     b.Navigation("UserModified");
                 });
 
-            modelBuilder.Entity("StadiumEngine.Domain.Entities.Accounts.Legal", b =>
-                {
-                    b.Navigation("Customers");
-
-                    b.Navigation("Roles");
-
-                    b.Navigation("Stadiums");
-
-                    b.Navigation("Users");
-                });
-
             modelBuilder.Entity("StadiumEngine.Domain.Entities.Accounts.Permission", b =>
                 {
                     b.Navigation("RolePermissions");
@@ -2928,6 +2889,17 @@ namespace StadiumEngine.DataAccess.Migrations
                     b.Navigation("UIMessages");
 
                     b.Navigation("UserStadiums");
+                });
+
+            modelBuilder.Entity("StadiumEngine.Domain.Entities.Accounts.StadiumGroup", b =>
+                {
+                    b.Navigation("Customers");
+
+                    b.Navigation("Roles");
+
+                    b.Navigation("Stadiums");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("StadiumEngine.Domain.Entities.Accounts.User", b =>
@@ -3047,8 +3019,6 @@ namespace StadiumEngine.DataAccess.Migrations
 
             modelBuilder.Entity("StadiumEngine.Domain.Entities.Geo.City", b =>
                 {
-                    b.Navigation("Legals");
-
                     b.Navigation("Stadiums");
                 });
 

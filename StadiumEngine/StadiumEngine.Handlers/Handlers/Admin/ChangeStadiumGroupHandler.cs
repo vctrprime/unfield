@@ -4,16 +4,16 @@ using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.DTO.Accounts.Users;
 using StadiumEngine.Commands.Admin;
-using StadiumEngine.Handlers.Facades.Accounts.Legals;
+using StadiumEngine.Handlers.Facades.Accounts.StadiumGroups;
 
 namespace StadiumEngine.Handlers.Handlers.Admin;
 
-internal sealed class ChangeLegalHandler : BaseCommandHandler<ChangeLegalCommand, AuthorizeUserDto?>
+internal sealed class ChangeStadiumGroupHandler : BaseCommandHandler<ChangeStadiumGroupCommand, AuthorizeUserDto?>
 {
-    private readonly IChangeLegalFacade _facade;
+    private readonly IChangeStadiumGroupFacade _facade;
 
-    public ChangeLegalHandler(
-        IChangeLegalFacade facade,
+    public ChangeStadiumGroupHandler(
+        IChangeStadiumGroupFacade facade,
         IMapper mapper,
         IClaimsIdentityService claimsIdentityService,
         IUnitOfWork unitOfWork ) : base(
@@ -25,7 +25,7 @@ internal sealed class ChangeLegalHandler : BaseCommandHandler<ChangeLegalCommand
         _facade = facade;
     }
 
-    protected override async ValueTask<AuthorizeUserDto?> HandleCommandAsync( ChangeLegalCommand request,
+    protected override async ValueTask<AuthorizeUserDto?> HandleCommandAsync( ChangeStadiumGroupCommand request,
         CancellationToken cancellationToken )
     {
         User? user = await _facade.ChangeAsync( request, _userId );

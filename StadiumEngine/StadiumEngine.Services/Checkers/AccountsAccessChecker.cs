@@ -6,17 +6,17 @@ namespace StadiumEngine.Services.Checkers;
 
 internal class AccountsAccessChecker : IAccountsAccessChecker
 {
-    public void CheckUserAccess( User? user, int legalId )
+    public void CheckUserAccess( User? user, int stadiumGroupId )
     {
-        if ( user == null || legalId != user.LegalId )
+        if ( user == null || stadiumGroupId != user.StadiumGroupId )
         {
             throw new DomainException( ErrorsKeys.UserNotFound );
         }
     }
 
-    public void CheckRoleAccess( Role? role, int legalId )
+    public void CheckRoleAccess( Role? role, int stadiumGroupId )
     {
-        if ( role == null || legalId != role.LegalId )
+        if ( role == null || stadiumGroupId != role.StadiumGroupId )
         {
             throw new DomainException( ErrorsKeys.RoleNotFound );
         }

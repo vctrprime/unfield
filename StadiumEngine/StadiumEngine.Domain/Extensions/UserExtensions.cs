@@ -16,7 +16,7 @@ public static class UserExtensions
         using MD5 md5 = MD5.Create();
         byte[] hash = md5.ComputeHash(
             Encoding.Unicode.GetBytes(
-                $"{user.LegalId}{( user.RoleId.HasValue ? $"{user.RoleId}" : "" )}{user.Name}-{user.LastName}{user.Id}-{stadiumId}" ) );
+                $"{user.StadiumGroupId}{( user.RoleId.HasValue ? $"{user.RoleId}" : "" )}{user.Name}-{user.LastName}{user.Id}-{stadiumId}" ) );
         return new Guid( hash );
     }
 }

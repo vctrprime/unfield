@@ -26,7 +26,7 @@
         "title": "Profile",
         "full_name": "Username",
         "admin_title": "Service Administrator",
-        "legal_name": "Organization",
+        "stadium_group_name": "Group",
         "superuser_title": "Superuser for organization",
         "role_name": "User Role"
     },

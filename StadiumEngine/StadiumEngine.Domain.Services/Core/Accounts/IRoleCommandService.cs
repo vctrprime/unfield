@@ -8,16 +8,16 @@ public interface IRoleCommandService
 
     Task UpdateRoleAsync(
         int roleId,
-        int legalId,
+        int stadiumGroupId,
         int userId,
         string name,
         string? description );
 
-    Task DeleteRoleAsync( int roleId, int legalId, int userModifiedId );
+    Task DeleteRoleAsync( int roleId, int stadiumGroupId, int userModifiedId );
 
     Task ToggleRolePermissionAsync(
         int roleId,
         int permissionId,
-        int legalId,
+        int stadiumGroupId,
         int userId );
 }

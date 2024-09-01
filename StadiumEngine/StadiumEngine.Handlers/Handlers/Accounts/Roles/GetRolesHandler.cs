@@ -21,7 +21,7 @@ internal sealed class GetRolesHandler : BaseRequestHandler<GetRolesQuery, List<R
 
     public override async ValueTask<List<RoleDto>> Handle( GetRolesQuery request, CancellationToken cancellationToken )
     {
-        List<Role> roles = await _queryService.GetRolesForLegalAsync( _legalId );
+        List<Role> roles = await _queryService.GetRolesForStadiumGroupAsync( _stadiumGroupId );
 
         List<RoleDto>? rolesDto = Mapper.Map<List<RoleDto>>( roles );
 

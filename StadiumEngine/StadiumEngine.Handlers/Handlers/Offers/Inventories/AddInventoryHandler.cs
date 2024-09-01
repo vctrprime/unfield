@@ -28,7 +28,7 @@ internal sealed class AddInventoryHandler : BaseCommandHandler<AddInventoryComma
         inventory.StadiumId = _currentStadiumId;
         inventory.UserCreatedId = _userId;
 
-        await _commandService.AddInventoryAsync( inventory, request.Images, _legalId );
+        await _commandService.AddInventoryAsync( inventory, request.Images, _stadiumGroupId );
 
         return new AddInventoryDto();
     }

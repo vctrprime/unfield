@@ -14,14 +14,14 @@ internal class ImageService : IImageService
     }
 
 
-    public async Task<string> Upload( IFormFile file, int legalId, int stadiumId, string module )
+    public async Task<string> Upload( IFormFile file, int stadiumGroupId, int stadiumId, string module )
     {
         if ( _directory is null )
         {
             return String.Empty;
         }
 
-        string path = $"{legalId}/{stadiumId}/{module}";
+        string path = $"{stadiumGroupId}/{stadiumId}/{module}";
         string fullPath = Path.Combine( _directory, path );
         string fileName = $"{Guid.NewGuid()}.jpg";
 

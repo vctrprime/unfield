@@ -5,29 +5,26 @@ using StadiumEngine.Repositories.Infrastructure.Contexts;
 
 namespace StadiumEngine.Repositories.Accounts;
 
-internal class LegalRepository : BaseRepository<Legal>, ILegalRepository
+internal class StadiumGroupRepository : BaseRepository<StadiumGroup>, IStadiumGroupRepository
 {
-    public LegalRepository( MainDbContext context ) : base( context )
+    public StadiumGroupRepository( MainDbContext context ) : base( context )
     {
     }
 
-    public async Task<List<Legal>> GetByFilterAsync( string searchString )
+    public async Task<List<StadiumGroup>> GetByFilterAsync( string searchString )
     {
         string searchStringLower = searchString.ToLower();
 
         return await Entities
             .Where(
                 l => l.Name.ToLower().Contains( searchStringLower ) ||
-                     l.Inn.ToLower().Contains( searchStringLower ) ||
-                     l.Description.ToLower().Contains( searchStringLower ) ||
-                     l.HeadName.ToLower().Contains( searchStringLower ) )
+                     l.Description.ToLower().Contains( searchStringLower ) )
             .Take( 50 )
             .OrderBy( l => l.Name )
-            .Include( l => l.City ).ThenInclude( c => c.Region ).ThenInclude( r => r.Country )
             .Include( l => l.Users.Where( u => !u.IsDeleted && !u.IsAdmin ) )
             .Include( l => l.Stadiums.Where( s => !s.IsDeleted ) )
             .ToListAsync();
     }
 
-    public new void Add( Legal legal ) => base.Add( legal );
+    public new void Add( StadiumGroup stadiumGroup ) => base.Add( stadiumGroup );
 }

@@ -24,7 +24,7 @@ internal class UserConfiguration : BaseUserEntityConfiguration, IEntityTypeConfi
         builder.Property( p => p.LastName ).HasColumnName( "last_name" );
         builder.Property( p => p.Name ).HasColumnName( "name" );
         builder.Property( p => p.Description ).HasColumnName( "description" );
-        builder.Property( p => p.LegalId ).HasColumnName( "legal_id" );
+        builder.Property( p => p.StadiumGroupId ).HasColumnName( "stadium_group_id" );
         builder.Property( p => p.RoleId ).HasColumnName( "role_id" );
         builder.Property( p => p.IsSuperuser ).HasColumnName( "is_superuser" );
         builder.Property( p => p.LastLoginDate ).HasColumnName( "last_login_date" );
@@ -33,9 +33,9 @@ internal class UserConfiguration : BaseUserEntityConfiguration, IEntityTypeConfi
         builder.Property( p => p.Language ).HasColumnName( "language" );
 
         builder.HasIndex( p => p.PhoneNumber ).IsUnique();
-        builder.HasOne( x => x.Legal )
+        builder.HasOne( x => x.StadiumGroup )
             .WithMany( x => x.Users )
-            .HasForeignKey( x => x.LegalId );
+            .HasForeignKey( x => x.StadiumGroupId );
         builder.HasOne( x => x.Role )
             .WithMany( x => x.Users )
             .HasForeignKey( x => x.RoleId );

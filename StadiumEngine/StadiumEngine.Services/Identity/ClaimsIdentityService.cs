@@ -14,7 +14,7 @@ internal class ClaimsIdentityService : IClaimsIdentityService
 
     public int GetUserId() => GetClaim<int>( "id", "0" );
 
-    public int GetLegalId() => GetClaim<int>( "legalId", "0" );
+    public int GetStadiumGroupId() => GetClaim<int>( "stadiumGroupId", "0" );
 
     public int GetCurrentStadiumId() => GetClaim<int>( "stadiumId", "0" );
 

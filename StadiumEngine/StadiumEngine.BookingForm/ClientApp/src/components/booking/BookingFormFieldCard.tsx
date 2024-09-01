@@ -87,7 +87,7 @@ export const BookingFormFieldCard = (props: BookingFormFieldCardProps) => {
                 <div className="field-carousel"></div> :
             <Carousel autoPlay={true} infiniteLoop={true} showThumbs={false} showStatus={false} className="field-carousel">
                 {props.field.data.images.map((img, i) => {
-                    return <img key={i} src={"/legal-images/" + img} />
+                    return <img key={i} src={"/stadium-group-images/" + img} />
                 })}
             </Carousel>}
             <div className="field-name">

@@ -26,8 +26,8 @@ internal class FieldCommandService : BaseOfferCommandService<Field>, IFieldComma
 
     protected override string ImageFolder => "fields";
 
-    public async Task AddFieldAsync( Field field, List<ImageFile> images, int legalId ) =>
-        await base.AddOfferAsync( field, images, legalId );
+    public async Task AddFieldAsync( Field field, List<ImageFile> images, int stadiumGroupId ) =>
+        await base.AddOfferAsync( field, images, stadiumGroupId );
 
     public async Task UpdateFieldAsync( Field field, List<ImageFile> images, List<SportKind> sportKinds ) =>
         await base.UpdateOfferAsync( field, images, sportKinds );

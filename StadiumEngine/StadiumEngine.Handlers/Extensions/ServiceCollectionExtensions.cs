@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StadiumEngine.Common.Configuration;
 using StadiumEngine.Common.Configuration.Sections;
 using StadiumEngine.Handlers.Builders.BookingForm;
-using StadiumEngine.Handlers.Facades.Accounts.Legals;
+using StadiumEngine.Handlers.Facades.Accounts.StadiumGroups;
 using StadiumEngine.Handlers.Facades.Accounts.Users;
 using StadiumEngine.Handlers.Facades.Offers.Fields;
 using StadiumEngine.Handlers.Facades.Offers.Inventories;
@@ -37,7 +37,7 @@ public static class ServiceCollectionExtensions
         
         services.AddScoped<IAddUserFacade, AddUserFacade>();
         services.AddScoped<IUpdateUserFacade, UpdateUserFacade>();
-        services.AddScoped<IChangeLegalFacade, ChangeLegalFacade>();
+        services.AddScoped<IChangeStadiumGroupFacade, ChangeStadiumGroupFacade>();
 
         services.AddScoped<IUpdateFieldFacade, UpdateFieldFacade>();
         services.AddScoped<IUpdateInventoryFacade, UpdateInventoryFacade>();

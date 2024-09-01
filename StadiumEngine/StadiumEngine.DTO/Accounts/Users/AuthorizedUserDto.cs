@@ -36,7 +36,7 @@ public class AuthorizedUserDto
     public Guid UniqueToken { get; set; }
 
     /// <summary>
-    ///     Организация
+    ///     Группа
     /// </summary>
-    public string LegalName { get; set; } = null!;
+    public string StadiumGroupName { get; set; } = null!;
 }

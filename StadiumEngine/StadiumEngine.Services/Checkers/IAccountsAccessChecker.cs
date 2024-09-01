@@ -4,6 +4,6 @@ namespace StadiumEngine.Services.Checkers;
 
 internal interface IAccountsAccessChecker
 {
-    void CheckUserAccess( User? user, int legalId );
-    void CheckRoleAccess( Role? role, int legalId );
+    void CheckUserAccess( User? user, int stadiumGroupId );
+    void CheckRoleAccess( Role? role, int stadiumGroupId );
 }

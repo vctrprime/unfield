@@ -28,7 +28,7 @@ internal sealed class AddFieldHandler : BaseCommandHandler<AddFieldCommand, AddF
         field.StadiumId = _currentStadiumId;
         field.UserCreatedId = _userId;
 
-        await _commandService.AddFieldAsync( field, request.Images, _legalId );
+        await _commandService.AddFieldAsync( field, request.Images, _stadiumGroupId );
 
         return new AddFieldDto();
     }

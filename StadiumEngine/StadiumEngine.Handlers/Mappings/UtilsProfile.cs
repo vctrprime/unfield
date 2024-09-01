@@ -10,18 +10,18 @@ internal class UtilsProfile : Profile
 {
     public UtilsProfile()
     {
-        CreateMap<AddLegalCommand, Legal>()
+        CreateMap<AddStadiumGroupCommand, StadiumGroup>()
             .ForMember(
                 dest => dest.Stadiums,
-                act => act.MapFrom( s => MapLegalStadium( s ) ) );
+                act => act.MapFrom( s=> MapStadiumGroupStadium( s ) ) );
 
-        CreateMap<AddLegalCommandSuperuser, User>()
+        CreateMap<AddStadiumGroupCommandSuperuser, User>()
             .ForMember( dest => dest.IsSuperuser, act => act.MapFrom( s => true ) )
             .ForMember( dest => dest.IsAdmin, act => act.MapFrom( s => false ) );
-        CreateMap<Legal, AddLegalDto>();
+        CreateMap<StadiumGroup, AddStadiumGroupDto>();
     }
 
-    private List<Stadium> MapLegalStadium( AddLegalCommand source )
+    private List<Stadium> MapStadiumGroupStadium( AddStadiumGroupCommand source )
     {
         List<Stadium> stadiums = source.Stadiums.Select(
             s => new Stadium
@@ -29,7 +29,7 @@ internal class UtilsProfile : Profile
                 Name = s.Name,
                 Address = s.Address,
                 Description = s.Description,
-                CityId = source.CityId,
+                CityId = s.CityId,
                 MainSettings = new MainSettings
                 {
                     OpenTime = 8,

@@ -4,7 +4,7 @@ namespace StadiumEngine.Services.Facades.Accounts;
 
 internal interface IRoleRepositoryFacade
 {
-    Task<List<Role>> GetRolesAsync( int legalId );
+    Task<List<Role>> GetRolesAsync( int stadiumGroupId );
     Task<Role?> GetRoleAsync( int roleId );
     void AddRole( Role role );
     void UpdateRole( Role role );

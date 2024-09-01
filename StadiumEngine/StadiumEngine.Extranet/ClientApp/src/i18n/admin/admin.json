@@ -2,19 +2,14 @@
     "header": {
         "panel_admin_title": "Панель администратора"
     },
-    "legals_tab": "Организации",
-    "legals_grid": {
+    "stadium_groups_tab": "Группы",
+    "stadium_groups_grid": {
         "name": "Название",
-        "inn": "ИНН",
-        "country": "Страна",
-        "region": "Регион",
-        "city": "Город",
         "description": "Описание",
-        "head_name": "Руководитель",
         "date_created": "Дата добавления",
         "users_count": "Кол-во пользователей",
         "stadiums_count": "Кол-во объектов",
         "no_rows": "Организаций по текущему поисковому запросу не найдено",
-        "search_placeholder": "Название или ИНН"
+        "search_placeholder": "Название"
     }
 }

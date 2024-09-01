@@ -53,7 +53,7 @@ export const ImagesForm = (props: ImagesFormProps) => {
         <input ref={hiddenUploadInput} style={{display: 'none'}} type="file" multiple onChange={uploadImages}/>
         <div className="offer-images">
             {props.passedImages.map((img, index) => {
-                const src = img.formFile !== undefined ? img.path : "/legal-images/" + img.path;
+                const src = img.formFile !== undefined ? img.path : "/stadium-group-images/" + img.path;
 
                 return <div key={index} className="offer-image">
                     <div className="tools">

@@ -9,10 +9,10 @@ using StadiumEngine.Queries.Admin;
 namespace StadiumEngine.Extranet.Controllers.API.Admin;
 
 /// <summary>
-///     Организации
+///     Группы стадионов
 /// </summary>
-[Route( "api/admin/legals" )]
-public class LegalController : BaseApiController
+[Route( "api/admin/stadium-groups" )]
+public class StadiumGroupController : BaseApiController
 {
     /// <summary>
     ///     Получить организации
@@ -20,9 +20,9 @@ public class LegalController : BaseApiController
     /// <returns></returns>
     [AdminFeature]
     [HttpGet]
-    public async Task<List<LegalDto>> Get( [FromQuery] GetLegalsByFilterQuery query )
+    public async Task<List<StadiumGroupDto>> Get( [FromQuery] GetStadiumGroupsByFilterQuery query )
     {
-        List<LegalDto> legals = await Mediator.Send( query );
-        return legals;
+        List<StadiumGroupDto> stadiumGroups = await Mediator.Send( query );
+        return stadiumGroups;
     }
 }

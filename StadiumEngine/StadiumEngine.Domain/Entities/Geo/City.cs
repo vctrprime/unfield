@@ -7,7 +7,5 @@ public class City : BaseGeoEntity
 {
     public int RegionId { get; set; }
     public virtual Region Region { get; set; }
-
-    public virtual ICollection<Legal> Legals { get; set; }
     public virtual ICollection<Stadium> Stadiums { get; set; }
 }

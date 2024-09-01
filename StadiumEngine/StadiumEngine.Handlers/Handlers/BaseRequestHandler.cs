@@ -8,7 +8,7 @@ internal abstract class BaseRequestHandler<TRequest, TResponse> : IRequestHandle
     where TRequest : IRequest<TResponse>
 {
     protected readonly int _currentStadiumId;
-    protected readonly int _legalId;
+    protected readonly int _stadiumGroupId;
 
     protected readonly int _userId;
     protected readonly IMapper Mapper;
@@ -24,7 +24,7 @@ internal abstract class BaseRequestHandler<TRequest, TResponse> : IRequestHandle
         }
 
         _userId = claimsIdentityService.GetUserId();
-        _legalId = claimsIdentityService.GetLegalId();
+        _stadiumGroupId = claimsIdentityService.GetStadiumGroupId();
         _currentStadiumId = claimsIdentityService.GetCurrentStadiumId();
     }
 

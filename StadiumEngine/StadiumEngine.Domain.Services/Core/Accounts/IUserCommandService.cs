@@ -7,7 +7,7 @@ public interface IUserCommandService
 {
     Task<User> AuthorizeUserAsync( string login, string password );
     Task<User> ChangeStadiumAsync( int userId, int stadiumId );
-    Task ChangeLegalAsync( int userId, int legalId );
+    Task ChangeStadiumGroupAsync( int userId, int stadiumGroupId );
     Task<string> AddUserAsync( User user, bool isAdminUser = false );
     Task ChangeLanguageAsync( int userId, string language );
 
@@ -18,10 +18,10 @@ public interface IUserCommandService
 
     Task ResetPasswordAsync( string phoneNumber );
     void UpdateUser( User user );
-    Task DeleteUserAsync( int userId, int legalId, int userModifiedId );
+    Task DeleteUserAsync( int userId, int stadiumGroupId, int userModifiedId );
     Task ToggleUserStadiumAsync(
         int userId,
         int stadiumId,
-        int legalId,
+        int stadiumGroupId,
         int modifyUserId );
 }

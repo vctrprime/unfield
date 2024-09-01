@@ -23,12 +23,13 @@ internal class RoleQueryService : IRoleQueryService
     }
 
 
-    public async Task<List<Role>> GetRolesForLegalAsync( int legalId ) => await _roleRepositoryFacade.GetRolesAsync( legalId );
+    public async Task<List<Role>> GetRolesForStadiumGroupAsync( int stadiumGroupId ) =>
+        await _roleRepositoryFacade.GetRolesAsync( stadiumGroupId );
 
-    public async Task<Dictionary<Permission, bool>> GetPermissionsForRoleAsync( int roleId, int legalId )
+    public async Task<Dictionary<Permission, bool>> GetPermissionsForRoleAsync( int roleId, int stadiumGroupId )
     {
         Role? role = await _roleRepositoryFacade.GetRoleAsync( roleId );
-        _accountsAccessChecker.CheckRoleAccess( role, legalId );
+        _accountsAccessChecker.CheckRoleAccess( role, stadiumGroupId );
 
         List<Permission> permissions = await _roleRepositoryFacade.GetPermissionsAsync();
         List<Permission> rolePermissions = await _roleRepositoryFacade.GetPermissionsAsync( roleId );

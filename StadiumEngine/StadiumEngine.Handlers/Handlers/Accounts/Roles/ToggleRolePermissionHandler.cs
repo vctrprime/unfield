@@ -27,7 +27,7 @@ internal sealed class ToggleRolePermissionHandler : BaseCommandHandler<ToggleRol
         await _commandService.ToggleRolePermissionAsync(
             request.RoleId,
             request.PermissionId,
-            _legalId,
+            _stadiumGroupId,
             _userId );
 
         return new ToggleRolePermissionDto();

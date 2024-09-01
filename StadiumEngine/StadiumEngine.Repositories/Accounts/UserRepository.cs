@@ -12,9 +12,9 @@ internal class UserRepository : BaseRepository<User>, IUserRepository
     {
     }
 
-    public async Task<List<User>> GetAllAsync( int legalId ) =>
+    public async Task<List<User>> GetAllAsync( int stadiumGroupId ) =>
         await Entities
-            .Where( u => u.LegalId == legalId && !u.IsDeleted && !u.IsSuperuser && !u.IsAdmin )
+            .Where( u => u.StadiumGroupId == stadiumGroupId && !u.IsDeleted && !u.IsSuperuser && !u.IsAdmin )
             .Include( r => r.UserStadiums.Where( rs => !rs.Stadium.IsDeleted ) )
             .Include( u => u.Role )
             .Include( u => u.UserCreated )
@@ -39,7 +39,7 @@ internal class UserRepository : BaseRepository<User>, IUserRepository
         await Entities
             .Include( u => u.UserStadiums.Where( rs => !rs.Stadium.IsDeleted ) )
             .Include( u => u.Role )
-            .Include( u => u.Legal )
+            .Include( u => u.StadiumGroup )
             .ThenInclude( l => l.Stadiums )
             .FirstOrDefaultAsync( predicate );
 }

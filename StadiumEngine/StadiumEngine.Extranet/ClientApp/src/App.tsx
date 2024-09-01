@@ -23,7 +23,7 @@ import {Admin} from "./components/admin/Admin";
 
 
 import 'react-notifications/lib/notifications.css';
-import {Legals} from "./components/admin/legals/Legals";
+import {StadiumGroups} from "./components/admin/stadium-groups/StadiumGroups";
 import {Reports} from "./components/extranet/reports/Reports";
 import {useLocalStorage} from "usehooks-ts";
 import {AuthorizeUserDto} from "./models/dto/accounts/AuthorizeUserDto";
@@ -160,7 +160,7 @@ const App = () => {
                     </Route>
                     <Route path="/admin" element={<ProtectedRoute component={AdminLayout}/>}>
                         <Route path="" element={<Admin/>}>
-                            <Route path="" element={<Legals/>}/>
+                            <Route path="" element={<StadiumGroups/>}/>
                         </Route>
                     </Route>
                 </Routes>

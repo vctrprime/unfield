@@ -1,11 +1,11 @@
-import {LegalDto} from "../models/dto/admin/LegalDto";
+import {StadiumGroupDto} from "../models/dto/admin/StadiumGroupDto";
 import {BaseService} from "./BaseService";
 import {AuthorizeUserDto} from "../models/dto/accounts/AuthorizeUserDto";
 
 export interface IAdminService {
-    getLegals(q: string | null): Promise<LegalDto[]>;
+    getStadiumGroups(q: string | null): Promise<StadiumGroupDto[]>;
 
-    changeLegal(legalId: number): Promise<AuthorizeUserDto>;
+    changeStadiumGroup(stadiumGroupId: number): Promise<AuthorizeUserDto>;
 }
 
 export class AdminService extends BaseService implements IAdminService {
@@ -13,10 +13,10 @@ export class AdminService extends BaseService implements IAdminService {
         super("api/admin");
     }
 
-    getLegals(q: string | null): Promise<LegalDto[]> {
+    getStadiumGroups(q: string | null): Promise<StadiumGroupDto[]> {
         const endpoint = (q === null ?
-            "/legals" :
-            `/legals?q=${q}`);
+            "/stadium-groups" :
+            `/stadium-groups?q=${q}`);
 
         return this.fetchWrapper.get({
             url: `${this.baseUrl}${endpoint}`,
@@ -25,9 +25,9 @@ export class AdminService extends BaseService implements IAdminService {
         })
     }
 
-    changeLegal(legalId: number): Promise<AuthorizeUserDto> {
+    changeStadiumGroup(stadiumGroupId: number): Promise<AuthorizeUserDto> {
         return this.fetchWrapper.put({
-            url: `${this.baseUrl}/change-legal/` + legalId
+            url: `${this.baseUrl}/change-stadium-group/` + stadiumGroupId
         })
     }
 }

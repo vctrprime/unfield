@@ -25,7 +25,7 @@ internal sealed class UpdateRoleHandler : BaseCommandHandler<UpdateRoleCommand, 
     {
         await _commandService.UpdateRoleAsync(
             request.Id,
-            _legalId,
+            _stadiumGroupId,
             _userId,
             request.Name,
             request.Description );

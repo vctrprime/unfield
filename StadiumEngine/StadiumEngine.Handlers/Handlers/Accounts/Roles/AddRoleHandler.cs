@@ -25,7 +25,7 @@ internal sealed class AddRoleHandler : BaseCommandHandler<AddRoleCommand, AddRol
         CancellationToken cancellationToken )
     {
         Role? role = Mapper.Map<Role>( request );
-        role.LegalId = _legalId;
+        role.StadiumGroupId = _stadiumGroupId;
         role.UserCreatedId = _userId;
 
         _commandService.AddRole( role );

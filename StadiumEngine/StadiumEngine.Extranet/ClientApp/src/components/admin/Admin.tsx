@@ -11,7 +11,7 @@ export const Admin = () => {
     if (auth === null || !auth.isAdmin) return <ForbiddenMessage/>
 
     const tabs: TabData[] = [
-        {route: "", resourcePath: "admin:legals_tab"}
+        {route: "", resourcePath: "admin:stadium_groups_tab"}
     ]
 
     return (<Tabs tabsData={tabs} leftNavRoute={"/admin"}/>)

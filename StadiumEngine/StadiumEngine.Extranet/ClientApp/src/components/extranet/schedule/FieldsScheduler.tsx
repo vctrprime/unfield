@@ -187,7 +187,7 @@ export const FieldsScheduler = (props: FieldsSchedulerProps) => {
             recourseHeaderComponent={(field : SchedulerFieldDto) => {
                 return <div className="scheduler-field">
                     {field.data.images.length ?
-                        <img src={"/legal-images/" + field.data.images[0]}/>  : <span/>
+                        <img src={"/stadium-group-images/" + field.data.images[0]}/>  : <span/>
                     }
                     <div className="scheduler-field-text">
                         <div className="scheduler-field-name">{field.data.name}</div>

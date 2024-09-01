@@ -22,11 +22,11 @@ internal class RoleConfiguration : BaseUserEntityConfiguration, IEntityTypeConfi
         
         builder.Property( p => p.Name ).HasColumnName( "name" );
         builder.Property( p => p.Description ).HasColumnName( "description" );
-        builder.Property( p => p.LegalId ).HasColumnName( "legal_id" );
+        builder.Property( p => p.StadiumGroupId ).HasColumnName( "stadium_group_id" );
         builder.Property( p => p.IsDeleted ).HasColumnName( "is_deleted" );
 
-        builder.HasOne( x => x.Legal )
+        builder.HasOne( x => x.StadiumGroup )
             .WithMany( x => x.Roles )
-            .HasForeignKey( x => x.LegalId );
+            .HasForeignKey( x => x.StadiumGroupId );
     }
 }

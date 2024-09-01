@@ -14,9 +14,9 @@ public class Stadium : BaseEntity
     public string Description { get; set; }
     public int CityId { get; set; }
     public virtual City City { get; set; }
-    public int LegalId { get; set; }
+    public int StadiumGroupId { get; set; }
     public bool IsDeleted { get; set; }
-    public virtual Legal Legal { get; set; }
+    public virtual StadiumGroup StadiumGroup { get; set; }
     public string Address { get; set; }
     public string Token { get; set; }
 

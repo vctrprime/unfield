@@ -22,7 +22,7 @@ internal sealed class GetPermissionsForRoleHandler : BaseRequestHandler<GetPermi
     public override async ValueTask<List<PermissionDto>> Handle( GetPermissionsForRoleQuery request,
         CancellationToken cancellationToken )
     {
-        Dictionary<Permission, bool> permissions = await _queryService.GetPermissionsForRoleAsync( request.RoleId, _legalId );
+        Dictionary<Permission, bool> permissions = await _queryService.GetPermissionsForRoleAsync( request.RoleId, _stadiumGroupId );
 
         List<PermissionDto>? permissionsDto = Mapper.Map<List<PermissionDto>>( permissions.Keys );
 

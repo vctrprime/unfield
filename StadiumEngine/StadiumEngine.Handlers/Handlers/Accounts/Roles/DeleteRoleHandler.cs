@@ -24,7 +24,7 @@ internal sealed class DeleteRoleHandler : BaseCommandHandler<DeleteRoleCommand, 
     protected override async ValueTask<DeleteRoleDto> HandleCommandAsync( DeleteRoleCommand request,
         CancellationToken cancellationToken )
     {
-        await _commandService.DeleteRoleAsync( request.RoleId, _legalId, _userId );
+        await _commandService.DeleteRoleAsync( request.RoleId, _stadiumGroupId, _userId );
 
         return new DeleteRoleDto();
     }

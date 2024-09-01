@@ -1,7 +1,7 @@
 import React from 'react';
 import {Outlet} from "react-router-dom";
 import {Header} from "./Header";
-import '../../css/admin/Legals.scss';
+import '../../css/admin/StadiumGroups.scss';
 import {isMobile} from 'react-device-detect';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';

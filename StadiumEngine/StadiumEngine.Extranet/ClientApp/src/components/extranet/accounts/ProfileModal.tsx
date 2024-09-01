@@ -20,7 +20,7 @@ export const ProfileModal = ({open, setOpen}: any) => {
                     <sup><i title={t('accounts:profile:admin_title') || ""} className="fa fa-font"/></sup>
                 }
             </div>
-            <div className="profile-row">{t('accounts:profile:legal_name')}: <span>{auth.legalName}</span>
+            <div className="profile-row">{t('accounts:profile:stadium_group_name')}: <span>{auth.stadiumGroupName}</span>
                 {auth.isSuperuser &&
                     <sup><i title={t('accounts:profile:superuser_title') || ""} className="fa fa-star"/></sup>
                 }

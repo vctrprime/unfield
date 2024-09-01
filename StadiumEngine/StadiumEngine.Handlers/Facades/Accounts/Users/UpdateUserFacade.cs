@@ -18,7 +18,7 @@ internal class UpdateUserFacade : IUpdateUserFacade
         _commandService = commandService;
     }
 
-    public async Task<UpdateUserDto> UpdateAsync( UpdateUserCommand request, int userId, int legalId )
+    public async Task<UpdateUserDto> UpdateAsync( UpdateUserCommand request, int userId, int stadiumGroupId )
     {
         if ( request.Id == userId )
         {
@@ -26,7 +26,7 @@ internal class UpdateUserFacade : IUpdateUserFacade
         }
 
         User? user = await _queryService.GetUserAsync( request.Id );
-        if ( user == null || legalId != user.LegalId )
+        if ( user == null || stadiumGroupId != user.StadiumGroupId )
         {
             throw new DomainException( ErrorsKeys.UserNotFound );
         }

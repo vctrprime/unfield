@@ -23,7 +23,7 @@ internal sealed class DeleteUserHandler : BaseCommandHandler<DeleteUserCommand, 
     protected override async ValueTask<DeleteUserDto> HandleCommandAsync( DeleteUserCommand request,
         CancellationToken cancellationToken )
     {
-        await _commandService.DeleteUserAsync( request.UserId, _legalId, _userId );
+        await _commandService.DeleteUserAsync( request.UserId, _stadiumGroupId, _userId );
         return new DeleteUserDto();
     }
 }

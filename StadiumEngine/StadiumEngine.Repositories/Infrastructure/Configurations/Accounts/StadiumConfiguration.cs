@@ -15,7 +15,7 @@ internal class StadiumConfiguration : BaseEntityConfiguration, IEntityTypeConfig
         builder.Property( p => p.Address ).HasColumnName( "address" );
         builder.Property( p => p.Token ).HasColumnName( "token" );
         builder.Property( p => p.CityId ).HasColumnName( "city_id" ).IsRequired();
-        builder.Property( p => p.LegalId ).HasColumnName( "legal_id" ).IsRequired();
+        builder.Property( p => p.StadiumGroupId ).HasColumnName( "stadium_group_id" ).IsRequired();
         builder.Property( p => p.Name ).HasColumnName( "name" );
         builder.Property( p => p.Description ).HasColumnName( "description" );
         builder.Property( p => p.IsDeleted ).HasColumnName( "is_deleted" );
@@ -23,8 +23,8 @@ internal class StadiumConfiguration : BaseEntityConfiguration, IEntityTypeConfig
         builder.HasOne( x => x.City )
             .WithMany( x => x.Stadiums )
             .HasForeignKey( x => x.CityId );
-        builder.HasOne( x => x.Legal )
+        builder.HasOne( x => x.StadiumGroup )
             .WithMany( x => x.Stadiums )
-            .HasForeignKey( x => x.LegalId );
+            .HasForeignKey( x => x.StadiumGroupId );
     }
 }

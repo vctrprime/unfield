@@ -12,5 +12,5 @@ public class Customer : BaseEntity
     public string Language { get; set; } = null!;
     public int StadiumGroupId { get; set; }
     
-    public virtual Legal StadiumGroup { get; set; }
+    public virtual StadiumGroup StadiumGroup { get; set; }
 }

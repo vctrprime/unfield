@@ -25,8 +25,8 @@ internal class InventoryCommandService : BaseOfferCommandService<Inventory>, IIn
 
     protected override string ImageFolder => "inventories";
 
-    public async Task AddInventoryAsync( Inventory inventory, List<ImageFile> images, int legalId ) =>
-        await base.AddOfferAsync( inventory, images, legalId );
+    public async Task AddInventoryAsync( Inventory inventory, List<ImageFile> images, int stadiumGroupId ) =>
+        await base.AddOfferAsync( inventory, images, stadiumGroupId );
 
 
     public async Task UpdateInventoryAsync( Inventory inventory, List<ImageFile> images, List<SportKind> sportKinds ) =>

@@ -6,6 +6,6 @@ export interface AuthorizeUserDto {
     isAdmin: boolean,
     isSuperuser: boolean,
     language: string
-    legalName: string
+    stadiumGroupName: string
     permissions: UserPermissionDto[]
 }

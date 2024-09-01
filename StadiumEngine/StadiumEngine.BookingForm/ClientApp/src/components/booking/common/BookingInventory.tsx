@@ -71,7 +71,7 @@ const InventoryRow = (props: InventoryRowProps) => {
         className="booking-checkout-inventory-row">
         <div className="booking-checkout-inventory-row-block" style={{justifyContent: 'flex-start'}}>
             {props.inventory.image ?
-                <img src={"/legal-images/" + props.inventory.image}/> :
+                <img src={"/stadium-group-images/" + props.inventory.image}/> :
                 <img src={noImage}/>
             }
             <div className="booking-checkout-inventory-row-name" title={props.isReadonly ? t("common:reserved_qty")||'' : t("common:available_qty")||''}>{props.inventory.name} ({props.inventory.quantity})</div>

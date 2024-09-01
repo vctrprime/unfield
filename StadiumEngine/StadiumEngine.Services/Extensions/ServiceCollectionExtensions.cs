@@ -80,8 +80,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUserQueryService, UserQueryService>();
         services.Decorate<IUserQueryService, UserQueryServiceCacheDecorator>();
         services.AddScoped<IUserCommandService, UserCommandService>();
-        services.AddScoped<ILegalQueryService, LegalQueryService>();
-        services.AddScoped<ILegalCommandService, LegalCommandService>();
+        services.AddScoped<IStadiumGroupQueryService, StadiumGroupQueryService>();
+        services.AddScoped<IStadiumGroupCommandService, StadiumGroupCommandService>();
         services.AddScoped<IRoleQueryService, RoleQueryService>();
         services.AddScoped<IRoleCommandService, RoleCommandService>();
         services.AddScoped<IPermissionCommandService, PermissionCommandService>();
@@ -135,7 +135,7 @@ public static class ServiceCollectionExtensions
 
         #region builders
 
-        services.AddScoped<INewLegalBuilder, NewLegalBuilder>();
+        services.AddScoped<INewStadiumGroupBuilder, NewStadiumGroupBuilder>();
         services.AddScoped<ICustomerAccountRedirectUrlBuilder, CustomerAccountRedirectUrlBuilder>();
 
         #endregion

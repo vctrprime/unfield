@@ -18,8 +18,8 @@ internal class UserQueryServiceCacheDecorator : IUserQueryService
     public async Task<User?> GetUserAsync( int userId ) => 
         await _userQueryService.GetUserAsync( userId );
 
-    public async Task<List<User>> GetUsersByLegalIdAsync( int legalId ) => 
-        await _userQueryService.GetUsersByLegalIdAsync( legalId );
+    public async Task<List<User>> GetUsersByStadiumGroupIdAsync( int stadiumGroupId ) => 
+        await _userQueryService.GetUsersByStadiumGroupIdAsync( stadiumGroupId );
 
     public async Task<List<Permission>> GetUserPermissionsAsync( int userId )
     {
@@ -31,9 +31,9 @@ internal class UserQueryServiceCacheDecorator : IUserQueryService
         return result ?? new List<Permission>();
     }
     
-    public async Task<List<Stadium>> GetUserStadiumsAsync( int userId, int legalId ) =>
-        await _userQueryService.GetUserStadiumsAsync( userId, legalId );
+    public async Task<List<Stadium>> GetUserStadiumsAsync( int userId, int stadiumGroupId ) =>
+        await _userQueryService.GetUserStadiumsAsync( userId, stadiumGroupId );
     
-    public async Task<Dictionary<Stadium, bool>> GetStadiumsForUserAsync( int userId, int legalId ) =>
-        await _userQueryService.GetStadiumsForUserAsync( userId, legalId );
+    public async Task<Dictionary<Stadium, bool>> GetStadiumsForUserAsync( int userId, int stadiumGroupId ) =>
+        await _userQueryService.GetStadiumsForUserAsync( userId, stadiumGroupId );
 }

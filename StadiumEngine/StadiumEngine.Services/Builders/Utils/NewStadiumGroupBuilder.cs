@@ -5,13 +5,13 @@ using StadiumEngine.Domain.Services.Infrastructure;
 
 namespace StadiumEngine.Services.Builders.Utils;
 
-internal class NewLegalBuilder : INewLegalBuilder
+internal class NewStadiumGroupBuilder : INewStadiumGroupBuilder
 {
     private readonly IHasher _hasher;
     private readonly IPasswordGenerator _passwordGenerator;
     private readonly IPermissionRepository _permissionRepository;
 
-    public NewLegalBuilder(
+    public NewStadiumGroupBuilder(
         IPermissionRepository permissionRepository,
         IPasswordGenerator passwordGenerator,
         IHasher hasher )
@@ -21,14 +21,14 @@ internal class NewLegalBuilder : INewLegalBuilder
         _hasher = hasher;
     }
 
-    public async Task<string> BuildAsync( Legal legal, User superuser )
+    public async Task<string> BuildAsync(StadiumGroup stadiumGroup, User superuser )
     {
         string superuserPassword = _passwordGenerator.Generate( 8 );
         superuser.Password = _hasher.Crypt( superuserPassword );
 
-        legal.Roles = new List<Role> { await GetBaseRole( legal.Stadiums ) };
+        stadiumGroup.Roles = new List<Role> { await GetBaseRole( stadiumGroup.Stadiums ) };
 
-        legal.Users = new List<User> { superuser };
+        stadiumGroup.Users = new List<User> { superuser };
 
         return superuserPassword;
     }

@@ -65,7 +65,7 @@ internal class UserCommandService : IUserCommandService
             throw new DomainException( ErrorsKeys.UserNotFound );
         }
 
-        if ( user.Legal.Stadiums.FirstOrDefault( s => s.Id == stadiumId ) == null
+        if ( user.StadiumGroup.Stadiums.FirstOrDefault( s => s.Id == stadiumId ) == null
              ||
              ( !user.IsSuperuser &&
                user.UserStadiums.Select( s => s.Stadium ).FirstOrDefault( s => s.Id == stadiumId ) == null ) )
@@ -76,7 +76,7 @@ internal class UserCommandService : IUserCommandService
         return user;
     }
 
-    public async Task ChangeLegalAsync( int userId, int legalId )
+    public async Task ChangeStadiumGroupAsync( int userId, int stadiumGroupId )
     {
         User? user = await _userRepositoryFacade.GetUserAsync( userId );
 
@@ -85,12 +85,12 @@ internal class UserCommandService : IUserCommandService
             throw new DomainException( ErrorsKeys.UserNotFound );
         }
 
-        if ( user.LegalId == legalId )
+        if ( user.StadiumGroupId == stadiumGroupId )
         {
             return;
         }
 
-        user.LegalId = legalId;
+        user.StadiumGroupId = stadiumGroupId;
         _userRepositoryFacade.UpdateUser( user );
     }
 
@@ -107,12 +107,12 @@ internal class UserCommandService : IUserCommandService
 
         if ( isAdminUser )
         {
-            List<Legal> legals = await _userRepositoryFacade.GetLegalsAsync( String.Empty );
-            user.LegalId = legals.First().Id;
+            List<StadiumGroup> stadiumGroups = await _userRepositoryFacade.GetStadiumGroupsAsync( String.Empty );
+            user.StadiumGroupId = stadiumGroups.First().Id;
         }
         else
         {
-            List<Stadium> stadiums = await _stadiumRepository.GetForLegalAsync( user.LegalId );
+            List<Stadium> stadiums = await _stadiumRepository.GetForStadiumGroupAsync( user.StadiumGroupId );
             user.UserStadiums = new List<UserStadium>
             {
                 new UserStadium
@@ -194,11 +194,11 @@ internal class UserCommandService : IUserCommandService
 
     public void UpdateUser( User user ) => _userRepositoryFacade.UpdateUser( user );
 
-    public async Task DeleteUserAsync( int userId, int legalId, int userModifiedId )
+    public async Task DeleteUserAsync( int userId, int stadiumGroupId, int userModifiedId )
     {
         User? user = await _userRepositoryFacade.GetUserAsync( userId );
 
-        _accountsAccessChecker.CheckUserAccess( user, legalId );
+        _accountsAccessChecker.CheckUserAccess( user, stadiumGroupId );
 
         if ( user!.IsSuperuser )
         {
@@ -214,7 +214,7 @@ internal class UserCommandService : IUserCommandService
     public async Task ToggleUserStadiumAsync(
         int userId,
         int stadiumId,
-        int legalId,
+        int stadiumGroupId,
         int modifyUserId )
     {
         if ( userId == modifyUserId )
@@ -229,7 +229,7 @@ internal class UserCommandService : IUserCommandService
             throw new DomainException( ErrorsKeys.UserNotFound );
         }
 
-        List<Stadium> stadiums = await _stadiumRepository.GetForLegalAsync( legalId );
+        List<Stadium> stadiums = await _stadiumRepository.GetForStadiumGroupAsync( stadiumGroupId );
         Stadium? stadium = stadiums.FirstOrDefault( s => s.Id == stadiumId );
 
         if ( stadium == null )

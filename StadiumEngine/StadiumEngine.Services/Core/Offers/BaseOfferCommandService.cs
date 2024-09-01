@@ -25,7 +25,7 @@ internal abstract class BaseOfferCommandService<T> where T : BaseOfferEntity
 
     protected abstract string ImageFolder { get; }
 
-    protected async Task AddOfferAsync( T offer, List<ImageFile> images, int legalId )
+    protected async Task AddOfferAsync( T offer, List<ImageFile> images, int stadiumGroupId )
     {
         foreach ( OffersSportKind? offersSportKind in offer.SportKinds )
         {
@@ -43,7 +43,7 @@ internal abstract class BaseOfferCommandService<T> where T : BaseOfferEntity
 
             string path = await _imageService.Upload(
                 image.FormFile,
-                legalId,
+                stadiumGroupId,
                 offer.StadiumId,
                 $"offers/{ImageFolder}" );
             offer.Images.Add(
@@ -124,7 +124,7 @@ internal abstract class BaseOfferCommandService<T> where T : BaseOfferEntity
             {
                 string path = await _imageService.Upload(
                     image.FormFile,
-                    offer.Stadium.LegalId,
+                    offer.Stadium.StadiumGroupId,
                     offer.StadiumId,
                     $"offers/{ImageFolder}" );
                 _imageRepository.Add(

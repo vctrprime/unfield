@@ -167,7 +167,7 @@ public class Startup
             new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider( storageConfig.ImageStorage ),
-                RequestPath = "/legal-images"
+                RequestPath = "/stadium-group-images"
             } );
 
         app.UseSpaStaticFiles();

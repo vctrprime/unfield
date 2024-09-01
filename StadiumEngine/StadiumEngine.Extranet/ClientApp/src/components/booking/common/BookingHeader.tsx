@@ -24,7 +24,7 @@ export const BookingHeader = (props: BookingHeaderProps) => {
         </div>}
         <div className="booking-checkout-field">
             {props.data.field.images.length ?
-                <img src={"/legal-images/" + props.data.field.images[0]}/>  : <span/>
+                <img src={"/stadium-group-images/" + props.data.field.images[0]}/>  : <span/>
             }
             <div className="booking-checkout-field-text">
                 <div className="booking-checkout-field-name">{props.data.field.name}</div>

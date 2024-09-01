@@ -7,34 +7,34 @@ using StadiumEngine.Services.Builders.Utils;
 
 namespace StadiumEngine.Services.Core.Accounts;
 
-internal class LegalCommandService : ILegalCommandService
+internal class StadiumGroupCommandService : IStadiumGroupCommandService
 {
-    private readonly ILegalRepository _legalRepository;
-    private readonly INewLegalBuilder _newLegalBuilder;
+    private readonly IStadiumGroupRepository _stadiumGroupRepository;
+    private readonly INewStadiumGroupBuilder _newStadiumGroupBuilder;
     private readonly IUserServiceFacade _userServiceFacade;
 
-    public LegalCommandService(
+    public StadiumGroupCommandService(
         IUserServiceFacade userServiceFacade,
-        ILegalRepository legalRepository,
-        INewLegalBuilder newLegalBuilder )
+        IStadiumGroupRepository stadiumGroupRepository,
+        INewStadiumGroupBuilder newStadiumGroupBuilder )
     {
         _userServiceFacade = userServiceFacade;
-        _legalRepository = legalRepository;
-        _newLegalBuilder = newLegalBuilder;
+        _stadiumGroupRepository = stadiumGroupRepository;
+        _newStadiumGroupBuilder = newStadiumGroupBuilder;
     }
 
-    public async Task<string> AddLegalAsync( Legal legal, User superuser )
+    public async Task<string> AddStadiumGroupAsync( StadiumGroup stadiumGroup, User superuser )
     {
-        if ( !legal.Stadiums.Any() )
+        if ( !stadiumGroup.Stadiums.Any() )
         {
             throw new DomainException( "Передан пустой список объектов для добавления!" );
         }
 
         superuser.PhoneNumber = _userServiceFacade.CheckPhoneNumber( superuser.PhoneNumber );
 
-        string password = await _newLegalBuilder.BuildAsync( legal, superuser );
+        string password = await _newStadiumGroupBuilder.BuildAsync( stadiumGroup, superuser );
 
-        _legalRepository.Add( legal );
+        _stadiumGroupRepository.Add( stadiumGroup );
 
         return password;
     }

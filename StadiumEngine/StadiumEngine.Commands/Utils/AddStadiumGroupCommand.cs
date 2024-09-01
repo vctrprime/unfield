@@ -3,25 +3,19 @@ using StadiumEngine.DTO.Utils;
 
 namespace StadiumEngine.Commands.Utils;
 
-public sealed class AddLegalCommand : BaseCommand, IRequest<AddLegalDto>
+public sealed class AddStadiumGroupCommand : BaseCommand, IRequest<AddStadiumGroupDto>
 {
-    public string Inn { get; set; } = null!;
-
-    public string HeadName { get; set; } = null!;
-
-    public int CityId { get; set; }
-
     public string Name { get; set; } = null!;
 
     public string? Description { get; set; }
 
     public string Language { get; set; } = null!;
 
-    public AddLegalCommandSuperuser Superuser { get; set; } = null!;
-    public List<AddLegalCommandStadium> Stadiums { get; set; } = null!;
+    public AddStadiumGroupCommandSuperuser Superuser { get; set; } = null!;
+    public List<AddStadiumGroupCommandStadium> Stadiums { get; set; } = null!;
 }
 
-public sealed class AddLegalCommandSuperuser
+public sealed class AddStadiumGroupCommandSuperuser
 {
     public string Name { get; set; } = null!;
     public string? Description { get; set; }
@@ -29,9 +23,10 @@ public sealed class AddLegalCommandSuperuser
     public string PhoneNumber { get; set; } = null!;
 }
 
-public sealed class AddLegalCommandStadium
+public sealed class AddStadiumGroupCommandStadium
 {
     public string Name { get; set; } = null!;
     public string? Description { get; set; }
     public string Address { get; set; } = null!;
+    public int CityId { get; set; }
 }

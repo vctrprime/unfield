@@ -92,11 +92,11 @@ internal class AccountsProfile : Profile
         List<Claim> claims = new()
         {
             new Claim( "id", user.Id.ToString() ),
-            new Claim( "legalId", user.LegalId.ToString() ),
+            new Claim( "stadiumGroupId", user.StadiumGroupId.ToString() ),
             new Claim(
                 "stadiumId",
                 user.IsSuperuser
-                    ? user.Legal.Stadiums.First().Id.ToString()
+                    ? user.StadiumGroup.Stadiums.First().Id.ToString()
                     : user.UserStadiums.First().StadiumId.ToString() )
         };
 

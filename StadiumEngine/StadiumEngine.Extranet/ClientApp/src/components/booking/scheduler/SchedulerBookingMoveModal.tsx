@@ -123,7 +123,7 @@ export const SchedulerBookingMoveModal = ({ open, setOpen, booking, startDay, se
                         return <div className="move-booking-field-card">
                             <div className="move-booking-field">
                                 {field.data.images.length ?
-                                    <img src={"/legal-images/" + field.data.images[0]}/>  : <span/>
+                                    <img src={"/stadium-group-images/" + field.data.images[0]}/>  : <span/>
                                 }
                                 <div className="move-booking-field-text">
                                     <div className="move-booking-field-name">{field.data.name}</div>

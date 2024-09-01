@@ -24,7 +24,7 @@ internal class MainDbContext : DbContext
     {
         #region accounts
 
-        modelBuilder.ApplyConfiguration( new LegalConfiguration() );
+        modelBuilder.ApplyConfiguration( new StadiumGroupConfiguration() );
         modelBuilder.ApplyConfiguration( new PermissionConfiguration() );
         modelBuilder.ApplyConfiguration( new PermissionGroupConfiguration() );
         modelBuilder.ApplyConfiguration( new RoleConfiguration() );

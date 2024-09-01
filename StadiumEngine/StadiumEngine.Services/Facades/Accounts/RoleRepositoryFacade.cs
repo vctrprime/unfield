@@ -20,7 +20,7 @@ internal class RoleRepositoryFacade : IRoleRepositoryFacade
         _rolePermissionRepository = rolePermissionRepository;
     }
 
-    public async Task<List<Role>> GetRolesAsync( int legalId ) => await _roleRepository.GetAllAsync( legalId );
+    public async Task<List<Role>> GetRolesAsync( int stadiumGroupId ) => await _roleRepository.GetAllAsync( stadiumGroupId );
 
     public async Task<Role?> GetRoleAsync( int roleId ) => await _roleRepository.GetAsync( roleId );
 

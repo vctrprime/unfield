@@ -25,7 +25,7 @@ export const Header = () => {
 
                     <LanguageSelect/>
                 </div>
-                <AuthorizedUserInfo setProfileModal={setProfileModal} withLegalName={false}/>
+                <AuthorizedUserInfo setProfileModal={setProfileModal} withStadiumGroupName={false}/>
                 <i onClick={() => setLogoutModal(true)} title={t('common:lk_navbar:logout') || ""}
                    style={{marginLeft: "10px", cursor: "pointer"}} className="fa fa-power-off"/>
             </div>

@@ -15,8 +15,8 @@ public class User : BaseUserEntity
     public string LastName { get; set; }
     public string PhoneNumber { get; set; }
     public string Password { get; set; }
-    public int LegalId { get; set; }
-    public virtual Legal Legal { get; set; }
+    public int StadiumGroupId { get; set; }
+    public virtual StadiumGroup StadiumGroup { get; set; }
     public int? RoleId { get; set; }
     public virtual Role Role { get; set; }
     public bool IsSuperuser { get; set; }

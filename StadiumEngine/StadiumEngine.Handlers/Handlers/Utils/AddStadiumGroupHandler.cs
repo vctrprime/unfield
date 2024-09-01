@@ -13,14 +13,14 @@ using StadiumEngine.Jobs.Background.Notifications;
 
 namespace StadiumEngine.Handlers.Handlers.Utils;
 
-internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddLegalDto>
+internal sealed class AddStadiumGroupHandler : BaseCommandHandler<AddStadiumGroupCommand, AddStadiumGroupDto>
 {
-    private readonly ILegalCommandService _commandService;
+    private readonly IStadiumGroupCommandService _commandService;
     private readonly INotificationsQueueManager _notificationsQueueManager;
     private readonly IDashboardQueueManager _dashboardQueueManager;
 
-    public AddLegalHandler(
-        ILegalCommandService commandService,
+    public AddStadiumGroupHandler(
+        IStadiumGroupCommandService commandService,
         INotificationsQueueManager notificationsQueueManager,
         IMapper mapper,
         IUnitOfWork unitOfWork,
@@ -35,16 +35,16 @@ internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddL
         _dashboardQueueManager = dashboardQueueManager;
     }
 
-    protected override async ValueTask<AddLegalDto> HandleCommandAsync(
-        AddLegalCommand request,
+    protected override async ValueTask<AddStadiumGroupDto> HandleCommandAsync(
+        AddStadiumGroupCommand request,
         CancellationToken cancellationToken )
     {
-        Legal? legal = Mapper.Map<Legal>( request );
+        StadiumGroup? stadiumGroup = Mapper.Map<StadiumGroup>( request );
         User? superuser = Mapper.Map<User>( request.Superuser );
 
         superuser.Language = request.Language;
 
-        string password = await _commandService.AddLegalAsync( legal, superuser );
+        string password = await _commandService.AddStadiumGroupAsync( stadiumGroup, superuser );
 
         _notificationsQueueManager.EnqueuePasswordNotification(
             superuser.PhoneNumber,
@@ -55,13 +55,13 @@ internal sealed class AddLegalHandler : BaseCommandHandler<AddLegalCommand, AddL
 
         await UnitOfWork.SaveChangesAsync();
 
-        AddLegalDto? legalDto = Mapper.Map<AddLegalDto>( legal );
+        AddStadiumGroupDto? addStadiumGroupDto = Mapper.Map<AddStadiumGroupDto>( stadiumGroup );
 
-        foreach ( Stadium stadium in legal.Stadiums )
+        foreach ( Stadium stadium in stadiumGroup.Stadiums )
         {
             _dashboardQueueManager.EnqueueCalculateStadiumDashboard( stadium.Id );
         }
 
-        return legalDto;
+        return addStadiumGroupDto;
     }
 }
