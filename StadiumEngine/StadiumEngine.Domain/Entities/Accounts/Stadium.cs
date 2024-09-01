@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using StadiumEngine.Domain.Entities.Customers;
 using StadiumEngine.Domain.Entities.Geo;
 using StadiumEngine.Domain.Entities.Notifications;
 using StadiumEngine.Domain.Entities.Offers;
@@ -28,6 +29,6 @@ public class Stadium : BaseEntity
     public virtual ICollection<Break> Breaks { get; set; }
     public virtual ICollection<UIMessage> UIMessages { get; set; }
     public virtual ICollection<UIMessageLastRead> UIMessageLastReads { get; set; }
-    
     public virtual MainSettings MainSettings { get; set; }
+    public virtual ICollection<Customer> Customers { get; set; }
 }

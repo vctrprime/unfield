@@ -9,4 +9,5 @@ public class PasswordNotification
     public string Language { get; set; } = null!;
     public PasswordNotificationType Type { get; set; }
     public PasswordNotificationSubject Subject { get; set; }
+    public string? StadiumName { get; set; }
 }

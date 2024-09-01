@@ -24,12 +24,14 @@ internal class NotificationsQueueManager : INotificationsQueueManager
         string password,
         string language,
         PasswordNotificationType type,
-        PasswordNotificationSubject subject ) =>
+        PasswordNotificationSubject subject,
+        string? stadiumName = null ) =>
         _backgroundJobClient.Enqueue(
             () => _backgroundNotificationSender.SendPasswordAsync(
                 phoneNumber,
                 password,
                 language,
                 type,
-                subject ) );
+                subject,
+                stadiumName ) );
 }

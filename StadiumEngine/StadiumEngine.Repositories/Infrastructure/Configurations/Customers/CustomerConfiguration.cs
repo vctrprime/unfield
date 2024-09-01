@@ -10,11 +10,20 @@ internal class CustomerConfiguration : BaseEntityConfiguration, IEntityTypeConfi
     {
         builder.ToTable( "customer", "customers" );
         BaseEntityConfigure( builder );
-        
+
         builder.Property( p => p.FirstName ).HasColumnName( "first_name" );
         builder.Property( p => p.LastName ).HasColumnName( "last_name" );
         builder.Property( p => p.PhoneNumber ).HasColumnName( "phone_number" ).IsRequired();
         builder.Property( p => p.Language ).HasColumnName( "language" ).IsRequired();
         builder.Property( p => p.Password ).HasColumnName( "password" ).IsRequired();
+        builder.Property( p => p.StadiumId ).HasColumnName( "stadium_id" ).IsRequired();
+
+        builder.HasIndex(
+            c => new
+            {
+                c.StadiumId,
+                c.PhoneNumber
+            } )
+            .IsUnique();
     }
 }

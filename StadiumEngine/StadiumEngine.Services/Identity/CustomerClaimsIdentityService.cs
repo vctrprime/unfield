@@ -13,6 +13,8 @@ internal class CustomerClaimsIdentityService : ICustomerClaimsIdentityService
     }
 
     public int GetCustomerId() => GetClaim<int>( "customerId", "0" );
+    
+    public int GetCustomerStadiumId() => GetClaim<int>( "customerStadiumId", "0" );
 
     public string GetCustomerPhoneNumber() => GetClaim<string>( "customerPhoneNumber" );
 

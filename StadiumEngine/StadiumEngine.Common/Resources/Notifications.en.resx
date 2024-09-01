@@ -31,11 +31,11 @@ Confirmation code: {2}</value>
 Assigned locker room: {0}</value>
     </data>
     <data name="password_notification_customer_created" xml:space="preserve">
-        <value>Your number is automatically linked to your account after booking a venue through the Stadium Engine service.
+        <value>A personal account {1} is automatically created.
 Your login password: {0}</value>
     </data>
     <data name="password_notification_customer_reset" xml:space="preserve">
-        <value>The Stadium Engine venue booking service password has been reset.
+        <value>The password for your personal account {1} has been reset.
 Your new login password is: {0}</value>
     </data>
     <data name="password_notification_user_created" xml:space="preserve">

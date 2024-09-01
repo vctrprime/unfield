@@ -1,6 +1,8 @@
+using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Entities.Offers;
 using StadiumEngine.Domain.Entities.Rates;
 using StadiumEngine.Domain.Entities.Settings;
+using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Repositories.Rates;
 using StadiumEngine.Domain.Repositories.Settings;
 using StadiumEngine.Domain.Services.Core.BookingForm;
@@ -13,17 +15,20 @@ namespace StadiumEngine.Services.Core.BookingForm;
 internal class BookingFormQueryService : IBookingFormQueryService
 {
     private readonly IBookingFormFieldRepositoryFacade _fieldRepositoryFacade;
+    private readonly IStadiumRepository _stadiumRepository;
     private readonly IMainSettingsRepository _mainSettingsRepository;
     private readonly IPriceRepository _priceRepository;
     private readonly IBookingFacade _bookingFacade;
 
     public BookingFormQueryService(
         IBookingFormFieldRepositoryFacade fieldRepositoryFacade,
+        IStadiumRepository stadiumRepository,
         IMainSettingsRepository mainSettingsRepository,
         IPriceRepository priceRepository,
         IBookingFacade bookingFacade )
     {
         _fieldRepositoryFacade = fieldRepositoryFacade;
+        _stadiumRepository = stadiumRepository;
         _mainSettingsRepository = mainSettingsRepository;
         _priceRepository = priceRepository;
         _bookingFacade = bookingFacade;
@@ -38,8 +43,10 @@ internal class BookingFormQueryService : IBookingFormQueryService
         int currentHour,
         string currentBookingNumber )
     {
+        Stadium? stadium = !String.IsNullOrEmpty( token ) ? await _stadiumRepository.GetByTokenAsync( token ) : null;
+        
         List<Field> fields = await GetFieldsForBookingFormAsync(
-            token,
+            stadium?.Id,
             cityId,
             q,
             fieldId );
@@ -53,6 +60,7 @@ internal class BookingFormQueryService : IBookingFormQueryService
 
         return new BookingFormData
         {
+            StadiumId = stadium?.Id,
             IsForCity = String.IsNullOrEmpty( token ),
             Day = day,
             Fields = fields,
@@ -61,18 +69,19 @@ internal class BookingFormQueryService : IBookingFormQueryService
                 currentHour,
                 DateTime.Today.ToUniversalTime().Date == day.ToUniversalTime().Date ),
             Prices = await GetPricesAsync( stadiumIds ),
-            Bookings = ( await _bookingFacade.GetAsync( day, stadiumIds ) ).Where( x => x.Number != currentBookingNumber )
+            Bookings = ( await _bookingFacade.GetAsync( day, stadiumIds ) )
+                .Where( x => x.Number != currentBookingNumber )
                 .ToList()
         };
     }
 
     private async Task<List<Field>> GetFieldsForBookingFormAsync(
-        string? token,
+        int? stadiumId,
         int? cityId,
         string? q,
         int? fieldId ) =>
         await _fieldRepositoryFacade.GetFieldsForBookingFormAsync(
-            token,
+            stadiumId,
             cityId,
             q,
             fieldId );

@@ -3,6 +3,7 @@ using StadiumEngine.Common.Enums.Bookings;
 using StadiumEngine.Common.Enums.Notifications;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain;
+using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Entities.Customers;
 using StadiumEngine.Domain.Repositories.Bookings;
@@ -47,7 +48,9 @@ internal class ConfirmBookingRedirectProcessor : IConfirmBookingRedirectProcesso
             throw new DomainException( ErrorsKeys.RedirectTokenNotFound );
         }
 
-        Customer? customer = await _customerRepository.GetAsync( bookingToken.Booking.Customer.PhoneNumber );
+        Stadium stadium = bookingToken.Booking.Field.Stadium;
+
+        Customer? customer = await _customerRepository.GetAsync( bookingToken.Booking.Customer.PhoneNumber, stadium.Id );
 
         if ( customer is null )
         {
@@ -57,7 +60,8 @@ internal class ConfirmBookingRedirectProcessor : IConfirmBookingRedirectProcesso
                 PhoneNumber = bookingToken.Booking.Customer.PhoneNumber,
                 Language = language,
                 LastName = bookingToken.Booking.Customer.Name,
-                Password = _userServiceFacade.CryptPassword( password )
+                Password = _userServiceFacade.CryptPassword( password ),
+                StadiumId = stadium.Id
             };
             _customerRepository.Add( customer );
             await _unitOfWork.SaveChangesAsync();
@@ -67,7 +71,8 @@ internal class ConfirmBookingRedirectProcessor : IConfirmBookingRedirectProcesso
                 password,
                 customer.Language,
                 PasswordNotificationType.Created,
-                PasswordNotificationSubject.Customer );
+                PasswordNotificationSubject.Customer,
+                stadium.Name );
         }
 
         string bookingNumber = bookingToken.Booking.Number;

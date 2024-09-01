@@ -9,5 +9,6 @@ internal interface IBackgroundNotificationSender
         string password,
         string language,
         PasswordNotificationType type,
-        PasswordNotificationSubject subject );
+        PasswordNotificationSubject subject,
+        string? stadiumName );
 }

@@ -5,4 +5,5 @@ public interface ICustomerClaimsIdentityService
 {
     int GetCustomerId();
     string GetCustomerPhoneNumber();
+    int GetCustomerStadiumId();
 }

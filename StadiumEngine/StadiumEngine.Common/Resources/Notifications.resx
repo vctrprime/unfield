@@ -39,11 +39,11 @@
 Ваш новый пароль для входа: {0}</value>
     </data>
     <data name="password_notification_customer_created" xml:space="preserve">
-        <value>Ваш номер автоматически привязан к аккаунту после бронирования площадки через сервис Stadium Engine.
+        <value>Автоматически создан личный кабинет {1}.
 Ваш пароль для входа: {0}</value>
     </data>
     <data name="password_notification_customer_reset" xml:space="preserve">
-        <value>Пароль в сервисе бронирования площадок Stadium Engine был сброшен.
+        <value>Пароль от личного кабинета {1} был сброшен.
 Ваш новый пароль для входа: {0}</value>
     </data>
 </root>

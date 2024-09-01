@@ -9,6 +9,11 @@ namespace StadiumEngine.DTO.BookingForm;
 public class BookingFormDto
 {
     /// <summary>
+    /// Id стадиона по токену
+    /// </summary>
+    public int? StadiumId { get; set; }
+    
+    /// <summary>
     /// Площадки
     /// </summary>
     public List<BookingFormFieldDto> Fields { get; set; } = new();

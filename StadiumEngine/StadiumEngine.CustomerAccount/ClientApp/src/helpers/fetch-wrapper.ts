@@ -1,6 +1,7 @@
 import {useSetRecoilState} from 'recoil';
 import {loadingAtom} from "../state/loading";
 import {t} from "i18next";
+import {useNavigate, useParams} from "react-router-dom";
 
 const ReactNotifications = require('react-notifications');
 const {NotificationManager} = ReactNotifications;
@@ -9,6 +10,8 @@ export {useFetchWrapper};
 
 function useFetchWrapper() {
     const setLoading = useSetRecoilState(loadingAtom);
+    const navigate = useNavigate();
+    const { stadiumId } = useParams();
 
     return {
         get: request('GET'),
@@ -35,10 +38,12 @@ function useFetchWrapper() {
             const requestOptions: RequestInit = {
                 method,
                 headers: contentType === null ? {
-                    'Client-Date': dateHeader
+                    'Client-Date': dateHeader,
+                    'SE-Stadium-Id': stadiumId || '0'
                 } : {
                     'Content-Type': contentType,
-                    'Client-Date': dateHeader
+                    'Client-Date': dateHeader,
+                    'SE-Stadium-Id': stadiumId || '0'
                 }
             };
             if (body) {
@@ -70,6 +75,10 @@ function useFetchWrapper() {
                 const error = t(`errors:${errorKey}`);
 
                 setLoading(false);
+                if ([401].includes(response.status)) {
+                    navigate( stadiumId ? "/" + stadiumId + "/sign-in" : "/");
+                    return Promise.reject(error);
+                }
                 
                 if (showErrorAlert) {
                     NotificationManager.error(error, t('common:error_request_title'), 5000);

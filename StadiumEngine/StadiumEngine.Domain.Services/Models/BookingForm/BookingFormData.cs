@@ -6,6 +6,7 @@ namespace StadiumEngine.Domain.Services.Models.BookingForm;
 
 public class BookingFormData
 {
+    public int? StadiumId { get; set; }
     public bool IsForCity { get; set; }
     public DateTime Day { get; set; }
     public List<Field> Fields { get; set; } = new();

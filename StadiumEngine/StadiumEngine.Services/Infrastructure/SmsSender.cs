@@ -1,4 +1,5 @@
 using StadiumEngine.Common;
+using StadiumEngine.Common.Enums.Notifications;
 using StadiumEngine.Common.Static;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Services.Infrastructure;
@@ -19,6 +20,11 @@ internal class SmsSender : ISmsSender
     public async Task SendPasswordAsync( PasswordNotification passwordNotification )
     {
         string template = _templateResolver.ResolvePasswordNotificationTemplate( passwordNotification );
+
+        template = passwordNotification.Subject == PasswordNotificationSubject.Customer && !String.IsNullOrEmpty( passwordNotification.StadiumName )
+            ? String.Format( template, passwordNotification.Password, passwordNotification.StadiumName )
+            : String.Format( template, passwordNotification.Password );
+        
         await SendAsync( passwordNotification.PhoneNumber, String.Format( template, passwordNotification.Password ) );
     }
 

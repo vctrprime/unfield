@@ -40,7 +40,7 @@ public class AuthorizeController : BaseApiController
         return await Authorize( customer, "System error" );
     }
 
-    
+
     /// <summary>
     ///     Выйти из системы
     /// </summary>
@@ -71,7 +71,10 @@ public class AuthorizeController : BaseApiController
         await HttpContext.SignInAsync(
             "Identity.Core",
             new ClaimsPrincipal( claimsIdentity ),
-            new AuthenticationProperties { IsPersistent = true } );
+            new AuthenticationProperties
+            {
+                IsPersistent = true
+            } );
 
         return customer;
     }

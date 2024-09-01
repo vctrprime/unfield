@@ -15,6 +15,7 @@ using StadiumEngine.Handlers.Facades.Settings.Breaks;
 using StadiumEngine.Handlers.Facades.Settings.Main;
 using StadiumEngine.Handlers.Mappings;
 using StadiumEngine.Handlers.Processors.BookingForm;
+using StadiumEngine.Handlers.Resolvers.Customers;
 using StadiumEngine.Jobs.Infrastructure.Extensions;
 using StadiumEngine.Services.Extensions;
 
@@ -53,6 +54,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IBookingFormDtoBuilder, BookingFormDtoBuilder>();
         services.AddScoped<IBookingCheckoutDtoBuilder, BookingCheckoutDtoBuilder>();
         
+        services.AddScoped<IBookingAuthorizedCustomerResolver, BookingAuthorizedCustomerResolver>();
         services.AddScoped<IMovingBookingFormProcessor, MovingBookingFormProcessor>();
         
         MapperConfiguration mappingConfig = new MapperConfiguration(

@@ -11,8 +11,8 @@ internal class CustomerRepository : BaseRepository<Customer>, ICustomerRepositor
     {
     }
 
-    public async Task<Customer?> GetAsync( string phoneNumber ) => 
-        await Entities.SingleOrDefaultAsync( x => x.PhoneNumber == phoneNumber );
+    public async Task<Customer?> GetAsync( string phoneNumber, int stadiumId ) => 
+        await Entities.SingleOrDefaultAsync( x => x.PhoneNumber == phoneNumber && x.StadiumId == stadiumId );
 
     public async Task<Customer?> GetAsync( int id ) => 
         await Entities.SingleOrDefaultAsync( x => x.Id == id );

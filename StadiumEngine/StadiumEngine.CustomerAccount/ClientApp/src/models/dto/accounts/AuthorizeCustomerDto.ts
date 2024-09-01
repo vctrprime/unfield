@@ -5,4 +5,5 @@ export interface AuthorizeCustomerDto {
     phoneNumber: string;
     language: string;
     bookingNumber?: string;
+    stadiumId: number;
 }

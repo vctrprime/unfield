@@ -18,7 +18,7 @@ internal class BookingFormFieldRepositoryFacade : IBookingFormFieldRepositoryFac
 
 
     public async Task<List<Field>> GetFieldsForBookingFormAsync(
-        string? token,
+        int? stadiumId,
         int? cityId,
         string? q,
         int? fieldId )
@@ -36,7 +36,7 @@ internal class BookingFormFieldRepositoryFacade : IBookingFormFieldRepositoryFac
             return fields;
         }
 
-        if ( String.IsNullOrEmpty( token ) )
+        if ( !stadiumId.HasValue )
         {
             if ( cityId.HasValue )
             {
@@ -45,12 +45,7 @@ internal class BookingFormFieldRepositoryFacade : IBookingFormFieldRepositoryFac
         }
         else
         {
-            Stadium? stadium = await _stadiumRepository.GetByTokenAsync( token );
-
-            if ( stadium != null )
-            {
-                fields = await _fieldRepository.GetAllAsync( stadium.Id );
-            }
+            fields = await _fieldRepository.GetAllAsync( stadiumId.Value );
         }
 
         return fields;

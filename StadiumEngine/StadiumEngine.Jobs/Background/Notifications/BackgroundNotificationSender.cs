@@ -20,13 +20,15 @@ internal class BackgroundNotificationSender : IBackgroundNotificationSender
         string password,
         string language,
         PasswordNotificationType type,
-        PasswordNotificationSubject subject ) =>
+        PasswordNotificationSubject subject,
+        string? stadiumName ) =>
         await _smsSender.SendPasswordAsync( new PasswordNotification
         {
             PhoneNumber = phoneNumber,
             Language = language,
             Password = password,
             Subject = subject,
-            Type = type
+            Type = type,
+            StadiumName = stadiumName
         } );
 }

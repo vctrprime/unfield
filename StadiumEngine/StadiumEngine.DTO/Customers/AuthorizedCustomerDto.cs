@@ -24,4 +24,9 @@ public class AuthorizedCustomerDto
     ///     Язык
     /// </summary>
     public string PhoneNumber { get; set; } = null!;
+    
+    /// <summary>
+    /// Id стадиона
+    /// </summary>
+    public int StadiumId { get; set; }
 }

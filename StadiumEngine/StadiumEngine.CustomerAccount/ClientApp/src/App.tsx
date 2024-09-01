@@ -9,12 +9,12 @@ import {Redirect} from "./components/account/auth/Redirect";
 import {SignIn} from "./components/account/auth/SignIn";
 import {Layout as AccountLayout} from "./components/account/Layout";
 import ProtectedRoute from "./components/common/ProtectedRoute";
-import {Forbidden} from "./components/account/Forbidden";
 import {Bookings} from "./components/account/bookings/Bookings";
 import {PastBookings} from "./components/account/bookings/PastBookings";
 import {FutureBookings} from "./components/account/bookings/FutureBookings";
 import {Booking} from "./components/account/bookings/Booking";
 import {Profile} from "./components/account/profile/Profile";
+import {NotFound} from "./components/common/NotFound";
 
 const ReactNotifications = require('react-notifications');
 const {NotificationContainer} = ReactNotifications;
@@ -25,11 +25,11 @@ const App = () => {
             <Layout>
                 <NotificationContainer/>
                 <Routes>
+                    <Route path="*" element={<NotFound/>}></Route>
                     <Route path="/redirect/:lng/:token" element={<Redirect/>}/>
-                    <Route path="/sign-in" element={<SignIn/>}/>
+                    <Route path="/:stadiumId/sign-in" element={<SignIn/>}/>
                     
-                    <Route path="/" element={<ProtectedRoute component={AccountLayout}/>}>
-                        <Route path="forbidden" element={<Forbidden/>}/>
+                    <Route path="/:stadiumId" element={<ProtectedRoute component={AccountLayout}/>}>
                         <Route path="profile" element={<Profile/>}/>
                         <Route path="bookings" element={<Bookings />}>
                             <Route path="past" element={<PastBookings/>}/>
