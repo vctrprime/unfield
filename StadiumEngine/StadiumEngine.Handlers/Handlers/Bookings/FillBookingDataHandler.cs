@@ -1,10 +1,14 @@
 using AutoMapper;
+using Mediator;
 using StadiumEngine.Commands.BookingForm;
 using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Services.Core.BookingForm;
 using StadiumEngine.Domain.Services.Infrastructure;
 using StadiumEngine.DTO.BookingForm;
+using StadiumEngine.DTO.Customers;
+using StadiumEngine.Handlers.Facades.Bookings;
+using StadiumEngine.Handlers.Resolvers.Customers;
 
 namespace StadiumEngine.Handlers.Handlers.Bookings;
 
@@ -13,17 +17,23 @@ internal sealed class FillBookingDataHandler : BaseCommandHandler<FillBookingDat
     private readonly IBookingCheckoutQueryService _queryService;
     private readonly IBookingCheckoutCommandService _commandService;
     private readonly ISmsSender _smsSender;
+    private readonly IBookingAuthorizedCustomerResolver _authorizedCustomerResolver;
+    private readonly IConfirmBookingFacade _confirmBookingFacade;
 
     public FillBookingDataHandler(
         IBookingCheckoutQueryService queryService,
         IBookingCheckoutCommandService commandService,
         ISmsSender smsSender,
+        IBookingAuthorizedCustomerResolver authorizedCustomerResolver,
+        IConfirmBookingFacade confirmBookingFacade,
         IMapper mapper,
         IUnitOfWork unitOfWork ) : base( mapper, null, unitOfWork )
     {
         _queryService = queryService;
         _commandService = commandService;
         _smsSender = smsSender;
+        _authorizedCustomerResolver = authorizedCustomerResolver;
+        _confirmBookingFacade = confirmBookingFacade;
     }
 
     protected override async ValueTask<FillBookingDataDto> HandleCommandAsync(
@@ -50,6 +60,27 @@ internal sealed class FillBookingDataHandler : BaseCommandHandler<FillBookingDat
         }
         
         await _commandService.FillBookingDataAsync( booking );
+        
+        AuthorizedCustomerDto? customer = await _authorizedCustomerResolver.ResolveAsync( booking.Source, booking.Field.StadiumId );
+
+        // если пользователь авторизован и совпадает, то не требуем подтверждения, подтверждаем автоматически
+        if ( customer != null && customer.PhoneNumber == booking.Customer.PhoneNumber )
+        {
+            ConfirmBookingDto confirmDto = await _confirmBookingFacade.ConfirmAsync(
+                new ConfirmBookingCommand
+                {
+                    ClientDate = request.ClientDate,
+                    BookingNumber = booking.Number,
+                    AccessCode = booking.AccessCode,
+                    Language = request.Language
+                },
+                cancellationToken );
+
+            return new FillBookingDataDto
+            {
+                RedirectUrl = confirmDto.RedirectUrl
+            };
+        }
 
         await _smsSender.SendBookingAccessCodeAsync( booking, request.Language );
 

@@ -5,6 +5,7 @@ using StadiumEngine.Common.Configuration.Sections;
 using StadiumEngine.Handlers.Builders.BookingForm;
 using StadiumEngine.Handlers.Facades.Accounts.StadiumGroups;
 using StadiumEngine.Handlers.Facades.Accounts.Users;
+using StadiumEngine.Handlers.Facades.Bookings;
 using StadiumEngine.Handlers.Facades.Offers.Fields;
 using StadiumEngine.Handlers.Facades.Offers.Inventories;
 using StadiumEngine.Handlers.Facades.Offers.LockerRooms;
@@ -56,6 +57,8 @@ public static class ServiceCollectionExtensions
         
         services.AddScoped<IBookingAuthorizedCustomerResolver, BookingAuthorizedCustomerResolver>();
         services.AddScoped<IMovingBookingFormProcessor, MovingBookingFormProcessor>();
+        
+        services.AddScoped<IConfirmBookingFacade, ConfirmBookingFacade>();
         
         MapperConfiguration mappingConfig = new MapperConfiguration(
             cfg =>

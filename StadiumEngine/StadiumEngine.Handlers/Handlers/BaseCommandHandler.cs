@@ -38,7 +38,7 @@ internal abstract class BaseCommandHandler<TRequest, TResponse> : BaseRequestHan
             
             return result;
         }
-        catch
+        catch( Exception ex )
         {
             await UnitOfWork.RollbackTransactionAsync();
             throw;

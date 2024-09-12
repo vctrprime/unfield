@@ -76,13 +76,18 @@ export const BookingCheckoutButtons = (props: BookingCheckoutButtonsProps) => {
                         amount: inv.price * inv.quantity * props.selectedDuration,
                     } as FillBookingDataCommandInventory
                 })
-            }).then(() => {
-                navigate("/confirm",  {
-                    state: {
-                        bookingNumber: props.bookingNumber,
-                        backPath: props.backPath
-                    }
-                });
+            }).then((result) => {
+                if (result.redirectUrl) {
+                    window.location.replace(result.redirectUrl);
+                }
+                else {
+                    navigate("/confirm",  {
+                        state: {
+                            bookingNumber: props.bookingNumber,
+                            backPath: props.backPath
+                        }
+                    });
+                }
             }).catch((error) => {
                 if (error === 'booking:booking_intersection') {
                     navigate(props.backPath);

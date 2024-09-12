@@ -10,12 +10,13 @@ import {t} from "i18next";
 import {PromoCodeDto} from "../models/dto/rates/TariffDto";
 import {ConfirmBookingDto} from "../models/dto/booking/ConfirmBookingDto";
 import {BookingSource} from "../models/dto/booking/enums/BookingSource";
+import {FillBookingDataDto} from "../models/dto/booking/FillBookingDataDto";
 
 export interface IBookingService {
     getBookingForm(date: Date, token: string|null, cityId: number|null, q: string|null, hideSpinner?: boolean): Promise<BookingFormDto>;
     addBookingDraft(command: AddBookingDraftCommand): Promise<AddBookingDraftDto>;
     getBookingCheckout(bookingNumber: string, isConfirmed: boolean, tariffId?: number, day?: Date, fieldId?: number, startHour?: number): Promise<BookingCheckoutDto>;
-    fillBookingData(command: FillBookingDataCommand) : Promise<void>;
+    fillBookingData(command: FillBookingDataCommand) : Promise<FillBookingDataDto>;
     cancelBooking(command: CancelBookingCommand) : Promise<void>;
     confirmBooking(command: ConfirmBookingCommand) : Promise<ConfirmBookingDto>;
     checkPromoCode(tariffId: number, code: string): Promise<PromoCodeDto|null>;
@@ -91,7 +92,7 @@ export class BookingService extends BaseService implements IBookingService {
         })
     }
 
-    fillBookingData(command: FillBookingDataCommand): Promise<void> {
+    fillBookingData(command: FillBookingDataCommand): Promise<FillBookingDataDto> {
         return this.fetchWrapper.put({
             url: `${this.baseUrl}`,
             body: command
