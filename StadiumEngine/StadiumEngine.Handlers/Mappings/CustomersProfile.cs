@@ -9,13 +9,16 @@ internal class CustomersProfile : Profile
 {
     public CustomersProfile()
     {
+        CreateMap<Customer, AuthorizedCustomerBaseDto>();
+        
         CreateMap<Customer, AuthorizedCustomerDto>()
+            .IncludeBase<Customer, AuthorizedCustomerBaseDto>()
             .ForMember(
                 dest => dest.Stadiums,
                 act => act.MapFrom( s => s.StadiumGroup.Stadiums ) );
 
         CreateMap<Customer, AuthorizeCustomerDto>()
-            .IncludeBase<Customer, AuthorizedCustomerDto>()
+            .IncludeBase<Customer, AuthorizedCustomerBaseDto>()
             .ForMember(
                 dest => dest.Claims,
                 act => act.MapFrom( s => CreateClaimsList( s ) ) );

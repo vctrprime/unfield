@@ -27,7 +27,11 @@ internal sealed class AuthorizeCustomerByRedirectHandler : BaseCommandHandler<Au
         ConfirmBookingRedirectResult result = await _confirmBookingRedirectProcessor.ProcessAsync( request.Token, request.Language );
 
         AuthorizeCustomerDto customerDto = Mapper.Map<AuthorizeCustomerDto>( result.Customer );
-        customerDto.BookingNumber = result.BookingNumber;
+        customerDto.Booking = new AuthorizeCustomerBookingDto
+        {
+            Number = result.BookingNumber,
+            StadiumId = result.BookingStadiumId
+        };
 
         return customerDto;
     }
