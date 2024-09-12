@@ -3,6 +3,8 @@
 import i18next from "i18next";
 import {reactI18nextModule} from "react-i18next";
 
+import accountsRU from '../i18n/accounts/accounts.json';
+import accountsEN from '../i18n/accounts/accounts.en.json';
 
 import bookingRU from '../i18n/booking/booking.json';
 import bookingEN from '../i18n/booking/booking.en.json';
@@ -21,11 +23,13 @@ import fnsEn from "date-fns/locale/en-US";
 
 const resources = {
     ru: {
+        accounts: accountsRU,
         booking: bookingRU,
         common: commonRU,
         errors: errorsRU,
     },
     en: {
+        accounts: accountsEN,
         booking: bookingEN,
         common: commonEN,
         errors: errorsEN,
@@ -37,7 +41,7 @@ i18next
     .use(reactI18nextModule) // passes i18n down to react-i18next
     .init({
         fallbackLng: "ru",
-        ns: ['common', 'errors', 'booking'],
+        ns: ['common', 'accounts', 'errors', 'booking'],
         resources,
         lng: localStorage.getItem('language') || 'ru',
         keySeparator: false, // we do not use keys in form messages.welcome

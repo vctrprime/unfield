@@ -1,8 +1,9 @@
+import {AuthorizeCustomerBookingDto} from "./AuthorizeCustomerBookingDto";
 
 export interface AuthorizeCustomerDto {
     firstName?: string;
     lastName?: string;
     phoneNumber: string;
     language: string;
-    bookingNumber?: string;
+    booking?: AuthorizeCustomerBookingDto;
 }

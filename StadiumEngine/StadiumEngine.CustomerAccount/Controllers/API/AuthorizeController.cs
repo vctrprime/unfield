@@ -12,14 +12,14 @@ namespace StadiumEngine.CustomerAccount.Controllers.API;
 /// <summary>
 ///     Авторизация
 /// </summary>
-[Route( "api/authorize" )]
+[Route( "api/accounts" )]
 public class AuthorizeController : BaseApiController
 {
     /// <summary>
     ///     Получить авторизованного юзера
     /// </summary>
     /// <returns></returns>
-    [HttpGet]
+    [HttpGet( "authorize" )]
     public async Task<AuthorizedCustomerDto?> Get( [FromRoute] GetAuthorizedCustomerQuery query )
     {
         AuthorizedCustomerDto? customer = await Mediator.Send( query );
@@ -31,7 +31,7 @@ public class AuthorizeController : BaseApiController
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    [HttpPost( "redirect" )]
+    [HttpPost( "login/redirect" )]
     [AllowAnonymous]
     public async Task<AuthorizeCustomerDto> Redirect( [FromBody] AuthorizeCustomerByRedirectCommand command )
     {

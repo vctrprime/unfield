@@ -5,6 +5,7 @@ import {withNamespaces} from 'react-i18next';
 import 'react-notifications/lib/notifications.css';
 import './custom.css'
 import './css/common.scss'
+import './css/SignIn.scss'
 import {Redirect} from "./components/account/auth/Redirect";
 import {SignIn} from "./components/account/auth/SignIn";
 import {Layout as AccountLayout} from "./components/account/Layout";
@@ -35,7 +36,7 @@ const App = () => {
                             <Route path="past" element={<PastBookings/>}/>
                             <Route path="future" element={<FutureBookings/>}/>
                         </Route>
-                        <Route path="bookings/:id" element={<Booking/>}/>
+                        <Route path="bookings/:number" element={<Booking/>}/>
                     </Route>
                 </Routes>
             </Layout>
