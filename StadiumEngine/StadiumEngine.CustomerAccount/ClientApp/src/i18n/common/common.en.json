@@ -21,5 +21,9 @@
     "no_button": "No",
     "save_button": "Save",
     "close_button": "Close",
-    "apply_button": "Apply"
+    "apply_button": "Apply",
+    "not_found": {
+        "first": "It looks like you're lost...",
+        "second": "That's a trouble?"
+    }
 }

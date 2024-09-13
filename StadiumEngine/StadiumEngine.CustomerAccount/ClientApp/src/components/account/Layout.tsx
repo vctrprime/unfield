@@ -12,7 +12,6 @@ export const Layout = () => {
             <div className="right-container">
                 <Header/>
                 <Outlet/>
-                <div className="lk-footer">{t('common:footer')}</div>
             </div>
 
         </div>
