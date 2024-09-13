@@ -1,4 +1,6 @@
 #nullable enable
+using System;
+using System.Data.Common;
 using StadiumEngine.Domain.Entities.Accounts;
 
 namespace StadiumEngine.Domain.Entities.Customers;
@@ -11,6 +13,7 @@ public class Customer : BaseEntity
     public string Password { get; set; } = null!;
     public string Language { get; set; } = null!;
     public int StadiumGroupId { get; set; }
+    public DateTime? LastLoginDate { get; set; }
     
     public virtual StadiumGroup StadiumGroup { get; set; }
 }

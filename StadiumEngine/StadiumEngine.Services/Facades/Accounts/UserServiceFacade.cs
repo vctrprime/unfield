@@ -1,6 +1,5 @@
 using StadiumEngine.Domain.Services.Identity;
 using StadiumEngine.Domain.Services.Infrastructure;
-using StadiumEngine.Services.Facades.Accounts;
 
 namespace StadiumEngine.Services.Facades.Accounts;
 

@@ -61,7 +61,8 @@ internal class ConfirmBookingRedirectProcessor : IConfirmBookingRedirectProcesso
                 Language = language,
                 LastName = bookingToken.Booking.Customer.Name,
                 Password = _userServiceFacade.CryptPassword( password ),
-                StadiumGroupId = stadium.StadiumGroupId
+                StadiumGroupId = stadium.StadiumGroupId,
+                LastLoginDate = DateTime.Now.ToUniversalTime()
             };
             _customerRepository.Add( customer );
             await _unitOfWork.SaveChangesAsync();
@@ -73,6 +74,11 @@ internal class ConfirmBookingRedirectProcessor : IConfirmBookingRedirectProcesso
                 PasswordNotificationType.Created,
                 PasswordNotificationSubject.Customer,
                 stadium.StadiumGroup.Name );
+        }
+        else
+        {
+            customer.LastLoginDate = DateTime.Now.ToUniversalTime();
+            _customerRepository.Update( customer );
         }
 
         string bookingNumber = bookingToken.Booking.Number;

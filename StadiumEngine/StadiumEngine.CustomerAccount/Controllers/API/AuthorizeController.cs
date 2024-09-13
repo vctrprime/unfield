@@ -39,6 +39,20 @@ public class AuthorizeController : BaseApiController
 
         return await Authorize( customer, "System error" );
     }
+    
+    /// <summary>
+    ///     Авторизовать через логин и пароль
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    [HttpPost( "login" )]
+    [AllowAnonymous]
+    public async Task<AuthorizeCustomerDto> Login( [FromBody] AuthorizeCustomerCommand command )
+    {
+        AuthorizeCustomerDto customer = await Mediator.Send( command );
+
+        return await Authorize( customer, "System error" );
+    }
 
 
     /// <summary>

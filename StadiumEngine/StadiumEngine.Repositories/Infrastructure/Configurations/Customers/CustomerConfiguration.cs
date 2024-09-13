@@ -17,6 +17,7 @@ internal class CustomerConfiguration : BaseEntityConfiguration, IEntityTypeConfi
         builder.Property( p => p.Language ).HasColumnName( "language" ).IsRequired();
         builder.Property( p => p.Password ).HasColumnName( "password" ).IsRequired();
         builder.Property( p => p.StadiumGroupId ).HasColumnName( "stadium_group_id" ).IsRequired();
+        builder.Property( p => p.LastLoginDate ).HasColumnName( "last_login_date" );
 
         builder.HasIndex(
             c => new

@@ -130,6 +130,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IStadiumDashboardQueryService, StadiumDashboardQueryService>();
         
         services.AddScoped<ICustomerQueryService, CustomerQueryService>();
+        services.AddScoped<ICustomerCommandService, CustomerCommandService>();
         
         #endregion
 
