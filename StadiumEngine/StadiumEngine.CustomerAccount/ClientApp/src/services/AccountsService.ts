@@ -47,7 +47,7 @@ export class AccountsService extends BaseService implements IAccountsService {
     
     changeLanguage(language: string): Promise<void> {
         return this.fetchWrapper.put({
-            url: `${this.baseUrl}/user-language/${language}`,
+            url: `${this.baseUrl}/customer-language/${language}`,
             hideSpinner: false
         })
     }

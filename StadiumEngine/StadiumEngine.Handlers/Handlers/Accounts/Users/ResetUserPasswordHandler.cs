@@ -14,7 +14,6 @@ internal sealed class ResetUserPasswordHandler : BaseCommandHandler<ResetUserPas
 
     public ResetUserPasswordHandler(
         IUserCommandService commandService,
-        ISmsSender smsSender,
         IMapper mapper,
         IUnitOfWork unitOfWork ) : base(
         mapper,
