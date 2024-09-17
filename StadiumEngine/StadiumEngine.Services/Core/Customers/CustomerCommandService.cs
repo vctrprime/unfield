@@ -5,30 +5,31 @@ using StadiumEngine.Domain.Entities.Customers;
 using StadiumEngine.Domain.Repositories.Customers;
 using StadiumEngine.Domain.Services.Core.Customers;
 using StadiumEngine.Domain.Services.Core.Notifications;
+using StadiumEngine.Domain.Services.Models.Customers;
 using StadiumEngine.Services.Facades.Accounts;
+using StadiumEngine.Services.Facades.Customers;
 
 namespace StadiumEngine.Services.Core.Customers;
 
 internal class CustomerCommandService : ICustomerCommandService
 {
-    private readonly ICustomerRepository _customerRepository;
     private readonly IUserServiceFacade _userServiceFacade;
     private readonly INotificationsQueueManager _notificationsQueueManager;
+    private readonly ICustomerFacade _customerFacade;
 
     public CustomerCommandService(
-        ICustomerRepository customerRepository,
         IUserServiceFacade userServiceFacade,
-        INotificationsQueueManager notificationsQueueManager )
+        INotificationsQueueManager notificationsQueueManager,
+        ICustomerFacade customerFacade )
     {
-        _customerRepository = customerRepository;
         _userServiceFacade = userServiceFacade;
         _notificationsQueueManager = notificationsQueueManager;
+        _customerFacade = customerFacade;
     }
-
-
+    
     public async Task<Customer> AuthorizeCustomerAsync( string login, int stadiumId, string password )
     {
-        Customer? customer = await _customerRepository.GetAsync( login, stadiumId );
+        Customer? customer = await _customerFacade.GetCustomerAsync( login, stadiumId );
 
         if ( customer == null )
         {
@@ -42,14 +43,14 @@ internal class CustomerCommandService : ICustomerCommandService
 
         customer.LastLoginDate = DateTime.Now.ToUniversalTime();
 
-        _customerRepository.Update( customer );
+        _customerFacade.UpdateCustomer( customer );
 
         return customer;
     }
 
     public async Task ChangeLanguageAsync( int customerId, string language )
     {
-        Customer? customer = await _customerRepository.GetAsync( customerId );
+        Customer? customer = await _customerFacade.GetCustomerAsync( customerId );
 
         if ( customer == null )
         {
@@ -58,7 +59,7 @@ internal class CustomerCommandService : ICustomerCommandService
 
         customer.Language = language;
 
-        _customerRepository.Update( customer );
+        _customerFacade.UpdateCustomer( customer );
     }
 
     public async Task ChangePasswordAsync(
@@ -71,7 +72,7 @@ internal class CustomerCommandService : ICustomerCommandService
             throw new DomainException( ErrorsKeys.PasswordDoesntMatchConditions );
         }
 
-        Customer? customer = await _customerRepository.GetAsync( customerId );
+        Customer? customer = await _customerFacade.GetCustomerAsync( customerId );
         if ( customer == null )
         {
             throw new DomainException( ErrorsKeys.UserNotFound );
@@ -83,14 +84,14 @@ internal class CustomerCommandService : ICustomerCommandService
         }
 
         customer.Password = _userServiceFacade.CryptPassword( newPassword );
-        _customerRepository.Update( customer );
+        _customerFacade.UpdateCustomer( customer );
     }
 
     public async Task ResetPasswordAsync( string phoneNumber, int stadiumId )
     {
         phoneNumber = _userServiceFacade.CheckPhoneNumber( phoneNumber );
 
-        Customer? customer = await _customerRepository.GetAsync( phoneNumber, stadiumId );
+        Customer? customer = await _customerFacade.GetCustomerAsync( phoneNumber, stadiumId );
         if ( customer == null )
         {
             throw new DomainException( ErrorsKeys.UserNotFound );
@@ -99,7 +100,7 @@ internal class CustomerCommandService : ICustomerCommandService
         string customerPassword = _userServiceFacade.GeneratePassword( 8 );
         customer.Password = _userServiceFacade.CryptPassword( customerPassword );
 
-        _customerRepository.Update( customer );
+        _customerFacade.UpdateCustomer( customer );
         _notificationsQueueManager.EnqueuePasswordNotification(
             phoneNumber,
             customerPassword,
@@ -107,5 +108,19 @@ internal class CustomerCommandService : ICustomerCommandService
             PasswordNotificationType.Reset,
             PasswordNotificationSubject.Customer,
             customer.StadiumGroup.Name );
+    }
+
+    public async Task RegisterAsync( CreateCustomerData createCustomerData )
+    {
+        Customer? customer = await _customerFacade.GetCustomerAsync(
+            createCustomerData.PhoneNumber,
+            createCustomerData.Stadium.Id );
+
+        if ( customer != null )
+        {
+            throw new DomainException( ErrorsKeys.LoginAlreadyExist );
+        }
+
+        await _customerFacade.CreateCustomerAsync( createCustomerData );
     }
 }

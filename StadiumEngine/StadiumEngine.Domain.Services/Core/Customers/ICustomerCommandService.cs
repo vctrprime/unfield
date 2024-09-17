@@ -1,4 +1,5 @@
 using StadiumEngine.Domain.Entities.Customers;
+using StadiumEngine.Domain.Services.Models.Customers;
 
 namespace StadiumEngine.Domain.Services.Core.Customers;
 
@@ -12,4 +13,5 @@ public interface ICustomerCommandService
         string oldPassword );
 
     Task ResetPasswordAsync( string phoneNumber, int stadiumId );
+    Task RegisterAsync( CreateCustomerData createCustomerData );
 }

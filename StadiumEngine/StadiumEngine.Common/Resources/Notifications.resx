@@ -39,7 +39,7 @@
 Ваш новый пароль для входа: {0}</value>
     </data>
     <data name="password_notification_customer_created" xml:space="preserve">
-        <value>Автоматически создан личный кабинет {1}.
+        <value>Создан личный кабинет {1}.
 Ваш пароль для входа: {0}</value>
     </data>
     <data name="password_notification_customer_reset" xml:space="preserve">

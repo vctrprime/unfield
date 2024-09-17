@@ -17,7 +17,7 @@ public class UserPasswordController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPut( "change" )]
-    public async Task<ChangeUserPasswordDto> Change( ChangeUserPasswordCommand command )
+    public async Task<ChangeUserPasswordDto> Change( [FromBody] ChangeUserPasswordCommand command )
     {
         ChangeUserPasswordDto dto = await Mediator.Send( command );
         return dto;
@@ -29,7 +29,7 @@ public class UserPasswordController : BaseApiController
     /// <returns></returns>
     [AllowAnonymous]
     [HttpPut( "reset" )]
-    public async Task<ResetUserPasswordDto> Reset( ResetUserPasswordCommand command )
+    public async Task<ResetUserPasswordDto> Reset( [FromBody] ResetUserPasswordCommand command )
     {
         ResetUserPasswordDto dto = await Mediator.Send( command );
         return dto;

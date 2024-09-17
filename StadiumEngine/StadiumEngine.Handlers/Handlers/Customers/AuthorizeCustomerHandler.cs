@@ -7,7 +7,7 @@ using StadiumEngine.DTO.Customers;
 
 namespace StadiumEngine.Handlers.Handlers.Customers;
 
-internal sealed class AuthorizeCustomerHandler : BaseCommandHandler<AuthorizeCustomerCommand, AuthorizeCustomerDto>
+internal sealed class AuthorizeCustomerHandler : BaseCustomerCommandHandler<AuthorizeCustomerCommand, AuthorizeCustomerDto>
 {
     private readonly ICustomerCommandService _commandService;
 
@@ -25,9 +25,9 @@ internal sealed class AuthorizeCustomerHandler : BaseCommandHandler<AuthorizeCus
         CancellationToken cancellationToken )
     {
         Customer customer = await _commandService.AuthorizeCustomerAsync(
-            request.Login,
+            request.Data.Login,
             request.StadiumId,
-            request.Password );
+            request.Data.Password );
         
         AuthorizeCustomerDto customerDto = Mapper.Map<AuthorizeCustomerDto>( customer );
         

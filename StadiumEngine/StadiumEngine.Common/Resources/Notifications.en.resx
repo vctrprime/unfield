@@ -31,7 +31,7 @@ Confirmation code: {2}</value>
 Assigned locker room: {0}</value>
     </data>
     <data name="password_notification_customer_created" xml:space="preserve">
-        <value>A personal account {1} is automatically created.
+        <value>A personal account {1} is created.
 Your login password: {0}</value>
     </data>
     <data name="password_notification_customer_reset" xml:space="preserve">

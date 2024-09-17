@@ -1,40 +1,27 @@
 using StadiumEngine.Common;
 using StadiumEngine.Common.Enums.Bookings;
-using StadiumEngine.Common.Enums.Notifications;
 using StadiumEngine.Common.Exceptions;
-using StadiumEngine.Domain;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Entities.Bookings;
 using StadiumEngine.Domain.Entities.Customers;
 using StadiumEngine.Domain.Repositories.Bookings;
-using StadiumEngine.Domain.Repositories.Customers;
 using StadiumEngine.Domain.Services.Core.Customers;
-using StadiumEngine.Domain.Services.Core.Notifications;
 using StadiumEngine.Domain.Services.Models.Customers;
-using StadiumEngine.Services.Facades.Accounts;
+using StadiumEngine.Services.Facades.Customers;
 
 namespace StadiumEngine.Services.Core.Customers;
 
 internal class ConfirmBookingRedirectProcessor : IConfirmBookingRedirectProcessor
 {
     private readonly IBookingTokenRepository _bookingTokenRepository;
-    private readonly ICustomerRepository _customerRepository;
-    private readonly IUserServiceFacade _userServiceFacade;
-    private readonly INotificationsQueueManager _notificationsQueueManager;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly ICustomerFacade _customerFacade;
 
     public ConfirmBookingRedirectProcessor(
         IBookingTokenRepository bookingTokenRepository,
-        ICustomerRepository customerRepository,
-        IUserServiceFacade userServiceFacade,
-        INotificationsQueueManager notificationsQueueManager,
-        IUnitOfWork unitOfWork )
+        ICustomerFacade customerFacade )
     {
         _bookingTokenRepository = bookingTokenRepository;
-        _customerRepository = customerRepository;
-        _userServiceFacade = userServiceFacade;
-        _notificationsQueueManager = notificationsQueueManager;
-        _unitOfWork = unitOfWork;
+        _customerFacade = customerFacade;
     }
 
     public async Task<ConfirmBookingRedirectResult> ProcessAsync( string token, string language )
@@ -50,35 +37,25 @@ internal class ConfirmBookingRedirectProcessor : IConfirmBookingRedirectProcesso
 
         Stadium stadium = bookingToken.Booking.Field.Stadium;
 
-        Customer? customer = await _customerRepository.GetAsync( bookingToken.Booking.Customer.PhoneNumber, stadium.Id );
+        Customer? customer = await _customerFacade.GetCustomerAsync(
+            bookingToken.Booking.Customer.PhoneNumber,
+            stadium.Id );
 
         if ( customer is null )
         {
-            string password = _userServiceFacade.GeneratePassword( 8 );
-            customer = new Customer
-            {
-                PhoneNumber = bookingToken.Booking.Customer.PhoneNumber,
-                Language = language,
-                LastName = bookingToken.Booking.Customer.Name,
-                Password = _userServiceFacade.CryptPassword( password ),
-                StadiumGroupId = stadium.StadiumGroupId,
-                LastLoginDate = DateTime.Now.ToUniversalTime()
-            };
-            _customerRepository.Add( customer );
-            await _unitOfWork.SaveChangesAsync();
-            
-            _notificationsQueueManager.EnqueuePasswordNotification(
-                customer.PhoneNumber,
-                password,
-                customer.Language,
-                PasswordNotificationType.Created,
-                PasswordNotificationSubject.Customer,
-                stadium.StadiumGroup.Name );
+            customer = await _customerFacade.CreateCustomerAsync(
+                new CreateCustomerData
+                {
+                    LastName = bookingToken.Booking.Customer.Name,
+                    PhoneNumber = bookingToken.Booking.Customer.PhoneNumber,
+                    Language = language,
+                    Stadium = stadium
+                } );
         }
         else
         {
             customer.LastLoginDate = DateTime.Now.ToUniversalTime();
-            _customerRepository.Update( customer );
+            _customerFacade.UpdateCustomer( customer );
         }
 
         string bookingNumber = bookingToken.Booking.Number;

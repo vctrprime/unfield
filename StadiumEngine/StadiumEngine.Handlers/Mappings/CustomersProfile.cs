@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using AutoMapper;
+using StadiumEngine.Commands.Customers;
 using StadiumEngine.Domain.Entities.Customers;
+using StadiumEngine.Domain.Services.Models.Customers;
 using StadiumEngine.DTO.Customers;
 
 namespace StadiumEngine.Handlers.Mappings;
@@ -9,6 +11,7 @@ internal class CustomersProfile : Profile
 {
     public CustomersProfile()
     {
+        CreateMap<RegisterCustomerCommandBody, CreateCustomerData>();
         CreateMap<Customer, AuthorizedCustomerBaseDto>();
         
         CreateMap<Customer, AuthorizedCustomerDto>()

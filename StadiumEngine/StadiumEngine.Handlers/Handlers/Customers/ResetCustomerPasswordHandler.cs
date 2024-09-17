@@ -6,7 +6,7 @@ using StadiumEngine.DTO.Customers;
 
 namespace StadiumEngine.Handlers.Handlers.Customers;
 
-internal sealed class ResetCustomerPasswordHandler : BaseCommandHandler<ResetCustomerPasswordCommand, ResetCustomerPasswordDto>
+internal sealed class ResetCustomerPasswordHandler : BaseCustomerCommandHandler<ResetCustomerPasswordCommand, ResetCustomerPasswordDto>
 {
     private readonly ICustomerCommandService _commandService;
 
@@ -24,7 +24,7 @@ internal sealed class ResetCustomerPasswordHandler : BaseCommandHandler<ResetCus
     protected override async ValueTask<ResetCustomerPasswordDto> HandleCommandAsync( ResetCustomerPasswordCommand request,
         CancellationToken cancellationToken )
     {
-        await _commandService.ResetPasswordAsync( request.PhoneNumber, request.StadiumId );
+        await _commandService.ResetPasswordAsync( request.Data.PhoneNumber, request.StadiumId );
         return new ResetCustomerPasswordDto();
     }
 }

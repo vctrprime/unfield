@@ -13,13 +13,16 @@ internal abstract class BaseCustomerRequestHandler<TRequest, TResponse> : IReque
     
     protected readonly IMapper Mapper;
 
-    protected BaseCustomerRequestHandler( IMapper mapper, ICustomerClaimsIdentityService claimsIdentityService )
+    protected BaseCustomerRequestHandler( IMapper mapper, ICustomerClaimsIdentityService? claimsIdentityService )
     {
         Mapper = mapper;
-        
-        _customerId = claimsIdentityService.GetCustomerId();
-        _customerPhoneNumber = claimsIdentityService.GetCustomerPhoneNumber();
-        _customerStadiumGroupId = claimsIdentityService.GetCustomerStadiumGroupId();
+
+        if ( claimsIdentityService != null )
+        {
+            _customerId = claimsIdentityService.GetCustomerId();
+            _customerPhoneNumber = claimsIdentityService.GetCustomerPhoneNumber();
+            _customerStadiumGroupId = claimsIdentityService.GetCustomerStadiumGroupId();
+        }
     }
     
     public abstract ValueTask<TResponse> Handle( TRequest request, CancellationToken cancellationToken );

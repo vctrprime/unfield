@@ -25,12 +25,12 @@ internal sealed class ChangeCustomerPasswordHandler : BaseCustomerCommandHandler
     protected override async ValueTask<ChangeCustomerPasswordDto> HandleCommandAsync( ChangeCustomerPasswordCommand request,
         CancellationToken cancellationToken )
     {
-        if ( request.NewPassword != request.NewPasswordRepeat )
+        if ( request.Data.NewPassword != request.Data.NewPasswordRepeat )
         {
             throw new DomainException( ErrorsKeys.PasswordsNotEqual );
         }
 
-        await _commandService.ChangePasswordAsync( _customerId, request.NewPassword, request.OldPassword );
+        await _commandService.ChangePasswordAsync( _customerId, request.Data.NewPassword, request.Data.OldPassword );
 
         return new ChangeCustomerPasswordDto();
     }

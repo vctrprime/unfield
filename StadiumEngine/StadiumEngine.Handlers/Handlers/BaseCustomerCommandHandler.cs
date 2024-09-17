@@ -13,7 +13,7 @@ internal abstract class BaseCustomerCommandHandler<TRequest, TResponse> : BaseCu
 
     protected BaseCustomerCommandHandler(
         IMapper mapper,
-        ICustomerClaimsIdentityService claimsIdentityService,
+        ICustomerClaimsIdentityService? claimsIdentityService,
         IUnitOfWork unitOfWork,
         bool transactional = true ) : base( mapper, claimsIdentityService )
     {

@@ -47,7 +47,7 @@ public class AuthorizeController : BaseApiController
     /// <returns></returns>
     [HttpPost( "login" )]
     [AllowAnonymous]
-    public async Task<AuthorizeCustomerDto> Login( [FromBody] AuthorizeCustomerCommand command )
+    public async Task<AuthorizeCustomerDto> Login( AuthorizeCustomerCommand command )
     {
         AuthorizeCustomerDto customer = await Mediator.Send( command );
 

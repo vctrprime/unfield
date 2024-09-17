@@ -7,7 +7,7 @@ using StadiumEngine.DTO.Customers;
 
 namespace StadiumEngine.Handlers.Handlers.Customers;
 
-internal sealed class AuthorizeCustomerByRedirectHandler : BaseCommandHandler<AuthorizeCustomerByRedirectCommand, AuthorizeCustomerDto>
+internal sealed class AuthorizeCustomerByRedirectHandler : BaseCustomerCommandHandler<AuthorizeCustomerByRedirectCommand, AuthorizeCustomerDto>
 {
     private readonly IConfirmBookingRedirectProcessor _confirmBookingRedirectProcessor;
 

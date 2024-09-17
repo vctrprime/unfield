@@ -37,6 +37,7 @@ using StadiumEngine.Services.Facades.Bookings;
 using StadiumEngine.Services.Facades.Offers;
 using StadiumEngine.Services.Facades.Rates;
 using StadiumEngine.Services.Core.Settings;
+using StadiumEngine.Services.Facades.Customers;
 using StadiumEngine.Services.Handlers.Offers;
 using StadiumEngine.Services.Identity;
 using StadiumEngine.Services.Infrastructure;
@@ -131,6 +132,8 @@ public static class ServiceCollectionExtensions
         
         services.AddScoped<ICustomerQueryService, CustomerQueryService>();
         services.AddScoped<ICustomerCommandService, CustomerCommandService>();
+
+        services.AddScoped<ICustomerFacade, CustomerFacade>();
         
         #endregion
 
