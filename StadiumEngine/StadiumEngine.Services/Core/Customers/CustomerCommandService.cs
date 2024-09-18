@@ -123,4 +123,6 @@ internal class CustomerCommandService : ICustomerCommandService
 
         await _customerFacade.CreateCustomerAsync( createCustomerData );
     }
+
+    public void Update( Customer customer ) => _customerFacade.UpdateCustomer( customer );
 }

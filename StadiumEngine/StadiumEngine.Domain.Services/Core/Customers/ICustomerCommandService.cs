@@ -14,4 +14,5 @@ public interface ICustomerCommandService
 
     Task ResetPasswordAsync( string phoneNumber, int stadiumId );
     Task RegisterAsync( CreateCustomerData createCustomerData );
+    void Update( Customer customer );
 }

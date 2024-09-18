@@ -36,8 +36,7 @@ internal class UpdateUserFacade : IUpdateUserFacade
         user.RoleId = request.RoleId;
         user.LastName = request.LastName;
         user.UserModifiedId = userId;
-
-
+        
         _commandService.UpdateUser( user );
 
         return new UpdateUserDto();

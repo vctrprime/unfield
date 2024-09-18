@@ -6,6 +6,7 @@ using StadiumEngine.Handlers.Builders.BookingForm;
 using StadiumEngine.Handlers.Facades.Accounts.StadiumGroups;
 using StadiumEngine.Handlers.Facades.Accounts.Users;
 using StadiumEngine.Handlers.Facades.Bookings;
+using StadiumEngine.Handlers.Facades.Customers;
 using StadiumEngine.Handlers.Facades.Offers.Fields;
 using StadiumEngine.Handlers.Facades.Offers.Inventories;
 using StadiumEngine.Handlers.Facades.Offers.LockerRooms;
@@ -39,6 +40,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IAddUserFacade, AddUserFacade>();
         services.AddScoped<IUpdateUserFacade, UpdateUserFacade>();
         services.AddScoped<IChangeStadiumGroupFacade, ChangeStadiumGroupFacade>();
+        services.AddScoped<IUpdateCustomerFacade, UpdateCustomerFacade>();
 
         services.AddScoped<IUpdateFieldFacade, UpdateFieldFacade>();
         services.AddScoped<IUpdateInventoryFacade, UpdateInventoryFacade>();
