@@ -11,7 +11,7 @@ export {useFetchWrapper};
 function useFetchWrapper() {
     const setLoading = useSetRecoilState(loadingAtom);
     const navigate = useNavigate();
-    const { stadiumId } = useParams();
+    const { stadiumToken } = useParams();
 
     return {
         get: request('GET'),
@@ -39,11 +39,11 @@ function useFetchWrapper() {
                 method,
                 headers: contentType === null ? {
                     'Client-Date': dateHeader,
-                    'SE-Stadium-Id': stadiumId || '0'
+                    'SE-Stadium-Token': stadiumToken || '0'
                 } : {
                     'Content-Type': contentType,
                     'Client-Date': dateHeader,
-                    'SE-Stadium-Id': stadiumId || '0'
+                    'SE-Stadium-Token': stadiumToken || '0'
                 }
             };
             if (body) {
@@ -76,7 +76,7 @@ function useFetchWrapper() {
 
                 setLoading(false);
                 if ([401].includes(response.status)) {
-                    navigate( stadiumId ? "/" + stadiumId + "/sign-in" : "/");
+                    navigate( stadiumToken ? "/" + stadiumToken + "/sign-in" : "/");
                     return Promise.reject(error);
                 }
                 

@@ -30,7 +30,7 @@ internal sealed class AuthorizeCustomerByRedirectHandler : BaseCustomerCommandHa
         customerDto.Booking = new AuthorizeCustomerBookingDto
         {
             Number = result.BookingNumber,
-            StadiumId = result.BookingStadiumId
+            StadiumToken = result.BookingStadiumToken
         };
 
         return customerDto;

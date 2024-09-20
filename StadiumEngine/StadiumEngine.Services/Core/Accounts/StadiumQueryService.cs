@@ -15,7 +15,7 @@ internal class StadiumQueryService : IStadiumQueryService
     
     public async Task<List<Stadium>> GetAsync( int skip, int take ) =>
         await _repository.GetAsync( skip, take );
-
-    public async Task<Stadium?> GetAsync( int id ) => 
-        await _repository.GetAsync( id );
+    
+    public async Task<Stadium?> GetAsync( string token ) => 
+        await _repository.GetByTokenAsync( token );
 }

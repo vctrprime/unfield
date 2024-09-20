@@ -32,7 +32,7 @@ internal sealed class RegisterCustomerHandler : BaseCustomerCommandHandler<Regis
     protected override async ValueTask<RegisterCustomerDto> HandleCommandAsync( RegisterCustomerCommand request,
         CancellationToken cancellationToken )
     {
-        Stadium? stadium = await _stadiumQueryService.GetAsync( request.StadiumId );
+        Stadium? stadium = await _stadiumQueryService.GetAsync( request.StadiumToken );
 
         if ( stadium is null )
         {

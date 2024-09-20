@@ -18,7 +18,7 @@ public class StadiumCustomerProtectAttribute : ActionFilterAttribute
     /// <param name="context"></param>
     public override void OnActionExecuting( ActionExecutingContext context )
     {
-        StringValues requestHeaders = context.HttpContext.Request.Headers[ "SE-Stadium-Id" ];
+        StringValues requestHeaders = context.HttpContext.Request.Headers[ "SE-Stadium-Token" ];
         string? value = requestHeaders.FirstOrDefault();
         
         if ( value == "0" || String.IsNullOrEmpty( value ) )
@@ -33,7 +33,7 @@ public class StadiumCustomerProtectAttribute : ActionFilterAttribute
             {
                 AuthorizedCustomerDto? customer = mediator.Send( new GetAuthorizedCustomerQuery() ).GetAwaiter().GetResult();
 
-                if ( customer != null && customer.Stadiums.Select( x => x.Id ).Contains( Int32.Parse( value ) ) )
+                if ( customer?.Stadiums != null && customer.Stadiums.Select( x => x.Token ).Contains( value  ) )
                 {
                     return;
                 }

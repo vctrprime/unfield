@@ -28,7 +28,7 @@ export const Redirect = () => {
             localStorage.setItem('customer', JSON.stringify(customer));
             setAuth(customer);
             
-            navigate(`/${result.booking?.stadiumId}/bookings/${result.booking?.number}`);
+            navigate(`/${result.booking?.stadiumToken}/bookings/${result.booking?.number}`);
         })
     }, [])
 

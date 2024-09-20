@@ -2,7 +2,8 @@
     "sign_in": {
         "login": "Логин",
         "password": "Пароль",
-        "button": "Войти"
+        "button": "Войти",
+        "name_prefix": "Личный кабинет"
     },
     "logout": {
         "header": "Выход из системы",

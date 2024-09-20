@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace StadiumEngine.DTO.Accounts.Stadiums;
 
 /// <summary>
@@ -49,4 +51,10 @@ public class StadiumDto
     ///     Связан с пользователем, для которого был запрос
     /// </summary>
     public bool IsUserBound { get; set; }
+
+    /// <summary>
+    ///  Токен (для запросов внутри бэка)
+    /// </summary>
+    [JsonIgnore]
+    public string Token { get; set; } = null!;
 }

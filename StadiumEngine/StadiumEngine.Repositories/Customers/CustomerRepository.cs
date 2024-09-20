@@ -16,6 +16,12 @@ internal class CustomerRepository : BaseRepository<Customer>, ICustomerRepositor
             .Include( x => x.StadiumGroup )
             .ThenInclude( x => x.Stadiums.Where( s => !s.IsDeleted ) )
             .SingleOrDefaultAsync( x => x.PhoneNumber == phoneNumber && x.StadiumGroup.Stadiums.Select( s => s.Id ).Contains( stadiumId ) );
+    
+    public async Task<Customer?> GetAsync( string phoneNumber, string stadiumToken ) => 
+        await Entities
+            .Include( x => x.StadiumGroup )
+            .ThenInclude( x => x.Stadiums.Where( s => !s.IsDeleted ) )
+            .SingleOrDefaultAsync( x => x.PhoneNumber == phoneNumber && x.StadiumGroup.Stadiums.Select( s => s.Token ).Contains( stadiumToken ) );
 
     public async Task<Customer?> GetAsync( int id ) => 
         await Entities

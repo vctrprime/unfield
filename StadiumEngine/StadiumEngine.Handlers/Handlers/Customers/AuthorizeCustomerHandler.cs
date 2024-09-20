@@ -26,7 +26,7 @@ internal sealed class AuthorizeCustomerHandler : BaseCustomerCommandHandler<Auth
     {
         Customer customer = await _commandService.AuthorizeCustomerAsync(
             request.Data.Login,
-            request.StadiumId,
+            request.StadiumToken,
             request.Data.Password );
         
         AuthorizeCustomerDto customerDto = Mapper.Map<AuthorizeCustomerDto>( customer );

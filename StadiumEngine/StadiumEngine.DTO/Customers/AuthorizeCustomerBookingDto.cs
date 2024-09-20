@@ -11,7 +11,7 @@ public class AuthorizeCustomerBookingDto
     public string? Number { get; set; }
     
     /// <summary>
-    ///     ID стадиона
+    ///     Токен стадиона
     /// </summary>
-    public int StadiumId { get; set; }
+    public string StadiumToken { get; set; }
 }

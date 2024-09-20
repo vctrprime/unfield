@@ -65,7 +65,7 @@ internal class ConfirmBookingRedirectProcessor : IConfirmBookingRedirectProcesso
         {
             Customer = customer,
             BookingNumber = bookingNumber,
-            BookingStadiumId = stadium.Id
+            BookingStadiumToken = stadium.Token
         };
     }
 }

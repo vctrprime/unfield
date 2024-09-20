@@ -29,7 +29,10 @@ internal class CustomerFacade : ICustomerFacade
 
     public async Task<Customer?> GetCustomerAsync( string phoneNumber, int stadiumId ) => 
         await _customerRepository.GetAsync( phoneNumber, stadiumId );
-    
+
+    public async Task<Customer?> GetCustomerAsync( string phoneNumber, string stadiumToken ) => 
+        await _customerRepository.GetAsync( phoneNumber, stadiumToken );
+
     public async Task<Customer?> GetCustomerAsync( int id ) => 
         await _customerRepository.GetAsync( id );
 

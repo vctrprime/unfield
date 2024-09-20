@@ -4,6 +4,6 @@ namespace StadiumEngine.Commands.Customers;
 
 public abstract class BaseCustomerCommand : BaseCommand
 {
-    [FromHeader(Name = "SE-Stadium-Id")]
-    public int StadiumId { get; set; }
+    [FromHeader( Name = "SE-Stadium-Token" )]
+    public string StadiumToken { get; set; } = null!;
 }

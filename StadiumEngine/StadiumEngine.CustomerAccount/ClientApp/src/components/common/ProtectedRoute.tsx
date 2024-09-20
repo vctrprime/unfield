@@ -5,12 +5,12 @@ import {authAtom} from "../../state/auth";
 
 
 function ProtectedRoute({component: Component, ...restOfProps}: any) {
-    const { stadiumId } = useParams();
+    const { stadiumToken } = useParams();
     
     const auth = useRecoilValue(authAtom);
 
     return auth?.phoneNumber ? <Component {...restOfProps}/> : 
-        <Navigate to={"/" + stadiumId + "/sign-in"} />
+        <Navigate to={"/" + stadiumToken + "/sign-in"} />
 
 }
 

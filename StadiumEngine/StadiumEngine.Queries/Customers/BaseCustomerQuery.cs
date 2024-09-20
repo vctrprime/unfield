@@ -4,6 +4,6 @@ namespace StadiumEngine.Queries.Customers;
 
 public abstract class BaseCustomerQuery : BaseQuery
 {
-    [FromHeader(Name = "SE-Stadium-Id")]
-    public int StadiumId { get; set; }
+    [FromHeader( Name = "SE-Stadium-Token" )]
+    public string StadiumToken { get; set; } = null!;
 }

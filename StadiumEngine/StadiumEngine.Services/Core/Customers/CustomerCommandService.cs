@@ -27,9 +27,9 @@ internal class CustomerCommandService : ICustomerCommandService
         _customerFacade = customerFacade;
     }
     
-    public async Task<Customer> AuthorizeCustomerAsync( string login, int stadiumId, string password )
+    public async Task<Customer> AuthorizeCustomerAsync( string login, string stadiumToken, string password )
     {
-        Customer? customer = await _customerFacade.GetCustomerAsync( login, stadiumId );
+        Customer? customer = await _customerFacade.GetCustomerAsync( login, stadiumToken );
 
         if ( customer == null )
         {
@@ -87,11 +87,11 @@ internal class CustomerCommandService : ICustomerCommandService
         _customerFacade.UpdateCustomer( customer );
     }
 
-    public async Task ResetPasswordAsync( string phoneNumber, int stadiumId )
+    public async Task ResetPasswordAsync( string phoneNumber, string stadiumToken )
     {
         phoneNumber = _userServiceFacade.CheckPhoneNumber( phoneNumber );
 
-        Customer? customer = await _customerFacade.GetCustomerAsync( phoneNumber, stadiumId );
+        Customer? customer = await _customerFacade.GetCustomerAsync( phoneNumber, stadiumToken );
         if ( customer == null )
         {
             throw new DomainException( ErrorsKeys.UserNotFound );

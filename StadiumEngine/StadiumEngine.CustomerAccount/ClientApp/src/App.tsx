@@ -28,9 +28,9 @@ const App = () => {
                 <Routes>
                     <Route path="*" element={<NotFound/>}></Route>
                     <Route path="/redirect/:lng/:token" element={<RedirectByConfirm/>}/>
-                    <Route path="/:stadiumId/sign-in" element={<SignIn/>}/>
+                    <Route path="/:stadiumToken/sign-in" element={<SignIn/>}/>
                     
-                    <Route path="/:stadiumId" element={<ProtectedRoute component={AccountLayout}/>}>
+                    <Route path="/:stadiumToken" element={<ProtectedRoute component={AccountLayout}/>}>
                         <Route path="profile" element={<Profile/>}/>
                         <Route path="bookings" element={<Bookings />}>
                             <Route path="past" element={<PastBookings/>}/>

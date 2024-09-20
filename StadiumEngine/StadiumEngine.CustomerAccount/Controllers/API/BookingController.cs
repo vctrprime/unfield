@@ -13,7 +13,7 @@ public class BookingController : BaseApiController
     {
         return new List<string>
         {
-            "Welcome to Stadium Engine! " + query.StadiumId,
+            "Welcome to Stadium Engine! " + query.StadiumToken,
         };
     }
 }

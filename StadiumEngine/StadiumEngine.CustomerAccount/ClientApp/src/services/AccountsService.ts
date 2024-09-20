@@ -9,6 +9,9 @@ import {
 } from "../models/command/accounts/ResetCustomerPasswordCommand";
 import {AuthorizeCustomerDto} from "../models/dto/accounts/AuthorizeCustomerDto";
 import {AuthorizeCustomerByRedirectCommand} from "../models/command/accounts/AuthorizeCustomerByRedirectCommand";
+import {RegisterCustomerCommand} from "../models/command/accounts/RegisterCustomerCommand";
+import {UpdateCustomerCommand} from "../models/command/accounts/UpdateCustomerCommand";
+import {StadiumDto} from "../models/dto/accounts/StadiumDto";
 
 export interface IAccountsService {
     authorizeByRedirect(command: AuthorizeCustomerByRedirectCommand): Promise<AuthorizeCustomerDto>;
@@ -17,6 +20,9 @@ export interface IAccountsService {
     changeLanguage(language: string): Promise<void>;
     changePassword(command: ChangeCustomerPasswordCommand): Promise<void>;
     resetPassword(command: ResetCustomerPasswordCommand): Promise<void>;
+    register(command: RegisterCustomerCommand): Promise<void>;
+    update(command: UpdateCustomerCommand): Promise<void>;
+    getStadium(): Promise<StadiumDto>;
 }
 
 export class AccountsService extends BaseService implements IAccountsService {
@@ -35,6 +41,20 @@ export class AccountsService extends BaseService implements IAccountsService {
     authorizeByRedirect(command: AuthorizeCustomerByRedirectCommand): Promise<AuthorizeCustomerDto> {
         return this.fetchWrapper.post({
             url: `${this.baseUrl}/login/redirect`,
+            body: command
+        })
+    }
+
+    register(command: RegisterCustomerCommand): Promise<void> {
+        return this.fetchWrapper.post({
+            url: `${this.baseUrl}/register`,
+            body: command
+        })
+    }
+
+    update(command: UpdateCustomerCommand): Promise<void> {
+        return this.fetchWrapper.put({
+            url: `${this.baseUrl}/customer`,
             body: command
         })
     }
@@ -72,6 +92,11 @@ export class AccountsService extends BaseService implements IAccountsService {
         })
     }
 
+    getStadium(): Promise<StadiumDto> {
+        return this.fetchWrapper.get({
+            url: `${this.baseUrl}/stadium`
+        })
+    }
 
 }
 

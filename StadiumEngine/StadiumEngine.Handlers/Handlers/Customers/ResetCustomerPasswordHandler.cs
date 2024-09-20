@@ -24,7 +24,7 @@ internal sealed class ResetCustomerPasswordHandler : BaseCustomerCommandHandler<
     protected override async ValueTask<ResetCustomerPasswordDto> HandleCommandAsync( ResetCustomerPasswordCommand request,
         CancellationToken cancellationToken )
     {
-        await _commandService.ResetPasswordAsync( request.Data.PhoneNumber, request.StadiumId );
+        await _commandService.ResetPasswordAsync( request.Data.PhoneNumber, request.StadiumToken );
         return new ResetCustomerPasswordDto();
     }
 }
