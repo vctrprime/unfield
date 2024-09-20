@@ -3,9 +3,15 @@ import React from "react";
 import i18n from "../../i18n/i18n";
 import {useSetRecoilState} from "recoil";
 import {languageAtom} from "../../state/language";
+import {IAccountsService} from "../../services/AccountsService";
+import {useInject} from "inversify-hooks";
+import {loadingAtom} from "../../state/loading";
 
-export const LanguageSelect = ({style, alignOptionsToRight = true}: any) => {
+export const LanguageSelect = ({withRequest = true, style, alignOptionsToRight = true}: any) => {
+    const setLoading = useSetRecoilState(loadingAtom);
     const setLanguage = useSetRecoilState<string>(languageAtom);
+
+    const [accountsService] = useInject<IAccountsService>('AccountsService');
     
     const customLabelsLanguages = {
         RU: "Русский",
@@ -26,8 +32,16 @@ export const LanguageSelect = ({style, alignOptionsToRight = true}: any) => {
             localStorage.setItem('language', code);
             setLanguage(code);
 
-            i18n.changeLanguage(code).then(() => {
-            });
+            if (withRequest) {
+                accountsService.changeLanguage(code).then(() => {
+                    i18n.changeLanguage(code).then(() => {
+                        setLoading(false);
+                    });
+                });
+            } else {
+                i18n.changeLanguage(code).then(() => {
+                });
+            }
         }
 
     }
