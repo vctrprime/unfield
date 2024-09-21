@@ -14,8 +14,6 @@ import PhoneInput from 'react-phone-input-2'
 import ru from 'react-phone-input-2/lang/ru.json'
 import 'react-phone-input-2/lib/style.css'
 import {getTitle} from "../../../helpers/utils";
-import {Button, Form, Modal} from "semantic-ui-react";
-import {ContainerLoading} from "../../common/ContainerLoading";
 
 
 export const SignIn = () => {
@@ -61,58 +59,8 @@ export const SignIn = () => {
                 });
         }
     };
-
-    const [resetPasswordPhoneNumber, setResetPasswordPhoneNumber] = useState<string | undefined>();
-    const [resetPasswordModal, setResetPasswordModal] = useState<boolean>(false)
-    const [resetPasswordLoading, setResetPasswordLoading] = useState<boolean>(false)
-
-    const [resetPasswordError, setResetPasswordError] = useState<string | null>(null);
-
-    const resetPassword = () => {
-        setResetPasswordLoading(true);
-        setResetPasswordError(null);
-        accountsService.resetPassword({
-            phoneNumber: resetPasswordPhoneNumber || ''
-        }).then(() => {
-            setResetPasswordModal(false);
-        })
-            .catch((error) => {
-                setResetPasswordError(error);
-            })
-            .finally(() => setResetPasswordLoading(false))
-    }
     
     return stadium ? <div className="sign-in-container">
-
-            <Modal
-                dimmer='blurring'
-                size='small'
-                open={resetPasswordModal}>
-                <Modal.Header>{t('accounts:reset_password:title')}</Modal.Header>
-                <Modal.Content>
-                    <ContainerLoading show={resetPasswordLoading}/>
-                    <p className="reset-password-description">{t('accounts:reset_password:description')}</p>
-                    <Form style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                        <PhoneInput
-                            onlyCountries={['ru']}
-                            country='ru'
-                            containerStyle={{width: '200px'}}
-                            inputStyle={{width: '100%', height: 38, paddingLeft: '42px', fontFamily: 'inherit'}}
-                            placeholder={'+7 (123) 456-78-90'}
-                            value={resetPasswordPhoneNumber}
-                            onChange={(phone) => setResetPasswordPhoneNumber(phone)}
-                            localization={i18n.language === 'ru' ? ru : undefined}
-                            countryCodeEditable={false}
-                        />
-                    </Form>
-                    {resetPasswordError !== null && <div className="error-message">{resetPasswordError}</div>}
-                </Modal.Content>
-                <Modal.Actions>
-                    <Button onClick={() => setResetPasswordModal(false)}>{t('common:close_button')}</Button>
-                    <Button style={{backgroundColor: '#3CB371', color: 'white'}}
-                            onClick={resetPassword}>{t('accounts:reset_password:button')}</Button>
-                </Modal.Actions>
-            </Modal>
         
             <div style={{
                 display: 'flex',
@@ -151,9 +99,7 @@ export const SignIn = () => {
                         />
 
                         <div className="reset-button-modal" onClick={() => {
-                            setResetPasswordModal(true);
-                            setResetPasswordError(null);
-                            setResetPasswordPhoneNumber(undefined);
+                            navigate(`/${stadiumToken}/reset-password?withoutName=${withoutName}`)
                         }}>{t('accounts:reset_password:title')}</div>
                         <button
                             type="submit"
@@ -162,8 +108,6 @@ export const SignIn = () => {
                             {t("accounts:sign_in:button")}
                         </button>
                     </div>
-
-
                 </form>
             </div>
             <LanguageSelect alignOptionsToRight={false} withRequest={false} style={{position: 'absolute', top: 10, left: 20}}/>
