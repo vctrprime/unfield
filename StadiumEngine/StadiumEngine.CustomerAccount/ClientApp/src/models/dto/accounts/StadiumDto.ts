@@ -6,4 +6,5 @@ export interface StadiumDto {
     country: string;
     region: string;
     city: string;
+    bookingFormHost: string;
 }

@@ -14,6 +14,7 @@ internal class StadiumConfiguration : BaseEntityConfiguration, IEntityTypeConfig
 
         builder.Property( p => p.Address ).HasColumnName( "address" );
         builder.Property( p => p.Token ).HasColumnName( "token" );
+        builder.Property( p => p.BookingFormHost ).HasColumnName( "booking_form_host" );
         builder.Property( p => p.CityId ).HasColumnName( "city_id" ).IsRequired();
         builder.Property( p => p.StadiumGroupId ).HasColumnName( "stadium_group_id" ).IsRequired();
         builder.Property( p => p.Name ).HasColumnName( "name" );

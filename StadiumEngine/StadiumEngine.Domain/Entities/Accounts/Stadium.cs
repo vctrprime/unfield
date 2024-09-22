@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using StadiumEngine.Domain.Entities.Customers;
 using StadiumEngine.Domain.Entities.Geo;
 using StadiumEngine.Domain.Entities.Notifications;
 using StadiumEngine.Domain.Entities.Offers;
@@ -19,6 +18,7 @@ public class Stadium : BaseEntity
     public virtual StadiumGroup StadiumGroup { get; set; }
     public string Address { get; set; }
     public string Token { get; set; }
+    public string BookingFormHost { get; set; }
 
     public virtual ICollection<UserStadium> UserStadiums { get; set; }
     public virtual ICollection<LockerRoom> LockerRooms { get; set; }

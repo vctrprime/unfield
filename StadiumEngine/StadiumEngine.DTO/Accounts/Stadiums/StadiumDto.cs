@@ -57,4 +57,9 @@ public class StadiumDto
     /// </summary>
     [JsonIgnore]
     public string Token { get; set; } = null!;
+    
+    /// <summary>
+    /// Хост формы бронирования для стадиона
+    /// </summary>
+    public string? BookingFormHost { get; set; }
 }

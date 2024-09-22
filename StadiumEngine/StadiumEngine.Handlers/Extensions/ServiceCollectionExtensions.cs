@@ -61,12 +61,13 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IMovingBookingFormProcessor, MovingBookingFormProcessor>();
         
         services.AddScoped<IConfirmBookingFacade, ConfirmBookingFacade>();
-        
+
+        ServiceProvider serviceProvider = services.BuildServiceProvider();
         MapperConfiguration mappingConfig = new MapperConfiguration(
             cfg =>
             {
                 cfg.AddProfile( new CommonProfile() );
-                cfg.AddProfile( new UtilsProfile() );
+                cfg.AddProfile( new UtilsProfile( serviceProvider.GetService<EnvConfig>() ) );
                 cfg.AddProfile( new AccountsProfile() );
                 cfg.AddProfile( new AdminProfile() );
                 cfg.AddProfile( new OffersProfile() );

@@ -63,12 +63,11 @@ export const SignIn = () => {
                     }
                     
                     if ( source === 'booking-form') {
-                        if (window.parent) {
-                            // toDO по токену возвращать доступный адрес, вместо звездочки
-                            window.parent.postMessage({}, '*')
+                        if (stadium?.bookingFormHost) {
+                            window.parent?.postMessage({}, stadium?.bookingFormHost);
                         }
                         else {
-                            navigate(`/${stadiumToken}/bookings/future`);
+                            console.error('Invalid BookingFormHost');
                         }
                     }
                     else {
