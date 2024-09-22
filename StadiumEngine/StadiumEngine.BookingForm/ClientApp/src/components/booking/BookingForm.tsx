@@ -18,8 +18,8 @@ import {Button, Dropdown, Icon, Input} from "semantic-ui-react";
 import {t} from "i18next";
 import {AddBookingDraftCommand} from "../../models/command/booking/AddBookingDraftCommand";
 import {BookingSource} from "../../models/dto/booking/enums/BookingSource";
+import {CustomerAccountButton} from "./CustomerAccountButton";
 
-//todo иконка ЛК (если не авторизован то ссылка на вход с редиректом)
 export const BookingForm = () => {
     let {token} = useParams();
     const setLoading = useSetRecoilState(loadingAtom);
@@ -111,6 +111,14 @@ export const BookingForm = () => {
             })
         }
     }, [citySearch])
+
+    const [changeCustomer, setChangeCustomer] = useState(false);
+    useEffect(() => {
+        if (changeCustomer) {
+            fetchData();
+            setChangeCustomer(false);
+        }
+    }, [changeCustomer])
     
     const fetchData = (date: Date|null = null) => {
         bookingService.getBookingForm(date === null ? currentDate : date, token === undefined ? null : token, cityId, searchString)
@@ -123,8 +131,8 @@ export const BookingForm = () => {
     return <div>{data === null ? <span/> :
             <Container className="booking-form-container">
                 <div className="booking-form-header">
-                    <Col sm={7} xs={12} className="booking-form-header-left">
-                        {token === undefined && cityId !== null &&
+                    {token === undefined && <Col sm={7} xs={12} className="booking-form-header-left">
+                        {cityId !== null &&
                             <Col style={{ padding: 0}} lg={5} md={5} sm={5} xs={12}>
                                 <Dropdown
                                     fluid
@@ -144,8 +152,7 @@ export const BookingForm = () => {
                                 />
                             </Col>
                         }
-                        {token === undefined &&
-                            <Col className="booking-form-search-input-container" style={{ padding: 0}} lg={7} md={7} sm={7} xs={12}>
+                        <Col className="booking-form-search-input-container" style={{ padding: 0}} lg={7} md={7} sm={7} xs={12}>
                                 <Input
                                     className="booking-form-search-input"
                                     style={{ marginLeft: '5px'}}
@@ -156,9 +163,10 @@ export const BookingForm = () => {
                                 <Button style={{ marginLeft: '5px', padding: '11px 10px'}} onClick={() => fetchData()}>
                                     <Icon style={{margin: 0}} className='search'/>
                                 </Button>
-                            </Col>}
-                    </Col>
-                    <Col sm={5} xs={12} className="booking-form-header-right">
+                            </Col>
+                    </Col>}
+                    <Col sm={token ? 12 : 5} xs={12}
+                         className={"booking-form-header-right " + (token ? "space-between-imp" : "")}>
                         <SemanticDatepicker
                             className="booking-form-date-picker"
                             firstDayOfWeek={1}
@@ -171,7 +179,10 @@ export const BookingForm = () => {
                             clearable={false}
                             pointing="right"
                         />
-                        <LanguageSelect withRequest={false} style={{marginLeft: '10px'}}/>
+                        <div className="lang-customer-container">
+                            <CustomerAccountButton stadiumToken={token} customer={data.customer} setChangeCustomer={setChangeCustomer} />
+                            <LanguageSelect withRequest={false} style={{marginLeft: '10px'}}/>
+                        </div>
                     </Col>
 
                 </div>

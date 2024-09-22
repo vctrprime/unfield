@@ -14,4 +14,9 @@ public class EnvDataDto
     /// Базовый url портала
     /// </summary>
     public string PortalHost { get; set; } = null!;
+
+    /// <summary>
+    /// Базовый url личного кабинета заказчика
+    /// </summary>
+    public string CustomerAccountHost { get; set; } = null!;
 }

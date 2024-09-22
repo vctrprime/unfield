@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Layout} from './components/Layout';
 import {Route, Routes} from "react-router-dom";
 import {withNamespaces} from 'react-i18next';
@@ -8,11 +8,24 @@ import {BookingCheckout} from "./components/booking/checkout/BookingCheckout";
 import {BookingCheckoutConfirm} from "./components/booking/checkout/BookingCheckoutConfirm";
 import './custom.css'
 import './css/common.scss'
+import {useSetRecoilState} from "recoil";
+import {useInject} from "inversify-hooks";
+import {ICommonService} from "./services/CommonService";
+import {envAtom} from "./state/env";
 
 const ReactNotifications = require('react-notifications');
 const {NotificationContainer} = ReactNotifications;
 
 const App = () => {
+    const setEnv = useSetRecoilState(envAtom);
+    const [commonService] = useInject<ICommonService>('CommonService');
+
+    useEffect(() => {
+        commonService.getEnvData().then((response) => {
+            setEnv(response)
+        })
+    }, [])
+    
     return (
         <>
             <Layout>

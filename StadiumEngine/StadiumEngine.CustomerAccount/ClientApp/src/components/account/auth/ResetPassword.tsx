@@ -18,6 +18,8 @@ export const ResetPassword = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const withoutName = searchParams.get('withoutName');
+    const lng = searchParams.get('lng');
+    const source = searchParams.get('source');
     
     const navigate = useNavigate();
     const [accountsService] = useInject<IAccountsService>('AccountsService');
@@ -32,6 +34,11 @@ export const ResetPassword = () => {
         accountsService.getStadium().then((result) => {
             setStadium(result);
             document.title = getTitle(result.name)
+
+            if (lng) {
+                i18n.changeLanguage(lng).then(() => {
+                });
+            }
         })
     }, []);
 
@@ -41,7 +48,7 @@ export const ResetPassword = () => {
         accountsService.resetPassword({
             phoneNumber: resetPasswordPhoneNumber || ''
         }).then(() => {
-            navigate(`/${stadiumToken}/sign-in?withoutName=${withoutName}`);
+            navigate(`/${stadiumToken}/sign-in?withoutName=${withoutName}&lng=${lng}&source=${source}`);
         })
             .catch((error) => {
                 setResetPasswordError(error);
@@ -49,7 +56,7 @@ export const ResetPassword = () => {
             .finally(() => setResetPasswordLoading(false))
     }
     
-    return <div className="reset-password-container">
+    return <div className={"reset-password-container " + (source == "booking-form" ? "no-padding-top" : "")}>
         <ContainerLoading show={resetPasswordLoading}/>
         {withoutName && stadium ? '' : <div className="stadium-name">{t("accounts:sign_in:name_prefix")} {stadium?.name}</div>}
         
@@ -67,7 +74,7 @@ export const ResetPassword = () => {
                 countryCodeEditable={false}
             />
         </Form>
-
+        {resetPasswordError !== null && <div className="error-message">{resetPasswordError}</div>}
         <div className="reset-password-buttons">
             <button
                 type="submit"
@@ -77,10 +84,10 @@ export const ResetPassword = () => {
             </button>
         </div>
         <div className="back-to-login" onClick={() => {
-            navigate(`/${stadiumToken}/sign-in?withoutName=${withoutName}`)
+            navigate(`/${stadiumToken}/sign-in?withoutName=${withoutName}&lng=${lng}&source=${source}`)
         }}>{t('accounts:reset_password:back_to_login')}</div>
 
-        <LanguageSelect alignOptionsToRight={false} withRequest={false}
-                        style={{position: 'absolute', top: 10, left: 20}}/>
+        {lng ? <span/> : <LanguageSelect alignOptionsToRight={false} withRequest={false}
+                                         style={{position: 'absolute', top: 10, left: 20}}/>}
     </div>
 }

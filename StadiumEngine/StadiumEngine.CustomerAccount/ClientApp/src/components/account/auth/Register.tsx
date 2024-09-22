@@ -9,8 +9,6 @@ import PhoneInput from "react-phone-input-2";
 import i18n from "../../../i18n/i18n";
 import ru from "react-phone-input-2/lang/ru.json";
 import {LanguageSelect} from "../../common/LanguageSelect";
-import {AuthorizeCustomerCommand} from "../../../models/command/accounts/AuthorizeCustomerCommand";
-import {AuthorizeCustomerDto} from "../../../models/dto/accounts/AuthorizeCustomerDto";
 import {RegisterCustomerCommand} from "../../../models/command/accounts/RegisterCustomerCommand";
 
 export const Register = () => {
@@ -18,6 +16,8 @@ export const Register = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const withoutName = searchParams.get('withoutName');
+    const lng = searchParams.get('lng');
+    const source = searchParams.get('source');
 
     const { stadiumToken } = useParams();
 
@@ -30,6 +30,11 @@ export const Register = () => {
         accountsService.getStadium().then((result) => {
             setStadium(result);
             document.title = getTitle(result.name)
+
+            if (lng) {
+                i18n.changeLanguage(lng).then(() => {
+                });
+            }
         })
     }, []);
 
@@ -47,12 +52,12 @@ export const Register = () => {
 
             accountsService.register(command)
                 .then(() => {
-                    navigate(`/${stadiumToken}/sign-in?withoutName=${withoutName}`)
+                    navigate(`/${stadiumToken}/sign-in?withoutName=${withoutName}&lng=${lng}&source=${source}`);
                 });
         }
     };
 
-    return stadium ? <div className="register-container">
+    return stadium ? <div className={"register-container " + (source == "booking-form" ? "no-padding-top" : "")}>
 
             <div style={{
                 display: 'flex',
@@ -109,11 +114,11 @@ export const Register = () => {
             </div>
 
             <div style={{marginTop: 0}} className="back-to-login" onClick={() => {
-                navigate(`/${stadiumToken}/sign-in?withoutName=${withoutName}`)
+                navigate(`/${stadiumToken}/sign-in?withoutName=${withoutName}&lng=${lng}&source=${source}`)
             }}>{t('accounts:reset_password:back_to_login')}</div>
 
-            <LanguageSelect alignOptionsToRight={false} withRequest={false}
-                            style={{position: 'absolute', top: 10, left: 20}}/>
+        {lng ? <span/> : <LanguageSelect alignOptionsToRight={false} withRequest={false}
+                            style={{position: 'absolute', top: 10, left: 20}}/>}
         </div>
         : <span/>;
 } 

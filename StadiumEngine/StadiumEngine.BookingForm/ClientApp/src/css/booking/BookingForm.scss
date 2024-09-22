@@ -256,3 +256,38 @@
     }
   }
 }
+
+.lang-customer-container {
+  display: flex;
+  align-items: center;
+
+  .customer-account-button {
+    margin-left: 10px;
+    
+    
+    
+    .sign-in, .phone-number {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+}
+
+.customer-account-menu {
+  .go-to-account {
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+    height: 30px;
+    line-height: 30px;
+  }
+
+  .logout {
+    border-top: 1px solid #eee;
+    margin-top: 10px;
+    height: 30px;
+    line-height: 30px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+}

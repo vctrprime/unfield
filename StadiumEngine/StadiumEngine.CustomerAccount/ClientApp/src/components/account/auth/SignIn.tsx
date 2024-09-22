@@ -19,6 +19,8 @@ import {getTitle} from "../../../helpers/utils";
 export const SignIn = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const withoutName = searchParams.get('withoutName');
+    const lng = searchParams.get('lng');
+    const source = searchParams.get('source');
 
     const { stadiumToken } = useParams();
     
@@ -33,6 +35,11 @@ export const SignIn = () => {
         accountsService.getStadium().then((result) => {
             setStadium(result);
             document.title = getTitle(result.name)
+
+            if (lng) {
+                i18n.changeLanguage(lng).then(() => {
+                });
+            }
         })
     }, []);
 
@@ -54,13 +61,24 @@ export const SignIn = () => {
                         accountsService.changeLanguage(localStorageLanguage).then(() => {
                         });
                     }
-
-                    navigate(`/${stadiumToken}/bookings/future`);
+                    
+                    if ( source === 'booking-form') {
+                        if (window.parent) {
+                            // toDO по токену возвращать доступный адрес, вместо звездочки
+                            window.parent.postMessage({}, '*')
+                        }
+                        else {
+                            navigate(`/${stadiumToken}/bookings/future`);
+                        }
+                    }
+                    else {
+                        navigate(`/${stadiumToken}/bookings/future`);
+                    }
                 });
         }
     };
     
-    return stadium ? <div className="sign-in-container">
+    return stadium ? <div className={"sign-in-container " + (source == "booking-form" ? "no-padding-top" : "")}>
         
             <div style={{
                 display: 'flex',
@@ -99,7 +117,7 @@ export const SignIn = () => {
                         />
 
                         <div className="reset-password-button" onClick={() => {
-                            navigate(`/${stadiumToken}/reset-password?withoutName=${withoutName}`)
+                            navigate(`/${stadiumToken}/reset-password?withoutName=${withoutName}&lng=${lng}&source=${source}`)
                         }}>{t('accounts:reset_password:title')}</div>
                         
                         <button
@@ -111,14 +129,14 @@ export const SignIn = () => {
                         
                         <div className="register-button">
                             {t('accounts:register:title_one')} <span className="register-button-link" onClick={() => {
-                            navigate(`/${stadiumToken}/register?withoutName=${withoutName}`)
+                            navigate(`/${stadiumToken}/register?withoutName=${withoutName}&lng=${lng}&source=${source}`)
                         }}>{t('accounts:register:title_two')}</span>
                         </div>
                     </div>
                 </form>
             </div>
-            <LanguageSelect alignOptionsToRight={false} withRequest={false}
-                            style={{position: 'absolute', top: 10, left: 20}}/>
+            {lng ? <span/> : <LanguageSelect alignOptionsToRight={false} withRequest={false}
+                                             style={{position: 'absolute', top: 10, left: 20}}/>}
         </div>
         : <span/>;
 }

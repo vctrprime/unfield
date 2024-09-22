@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.DTO.Customers;
 using StadiumEngine.Queries.Customers;
@@ -19,5 +21,18 @@ public class AuthorizeController : BaseApiController
     {
         AuthorizedCustomerDto? user = await Mediator.Send( query );
         return user;
+    }
+    
+    /// <summary>
+    ///     Выйти из системы
+    /// </summary>
+    [HttpDelete( "logout" )]
+    [AllowAnonymous]
+    public async Task Logout()
+    {
+        if ( User.Identity is { IsAuthenticated: true } )
+        {
+            await HttpContext.SignOutAsync();
+        }
     }
 }
