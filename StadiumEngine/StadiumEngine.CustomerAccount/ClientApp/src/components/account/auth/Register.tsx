@@ -1,32 +1,29 @@
 import React, {useEffect, useState} from "react";
-import {useNavigate, useParams, useSearchParams} from "react-router-dom";
-import {useSetRecoilState} from "recoil";
-import {authAtom} from "../../../state/auth";
+import {StadiumDto} from "../../../models/dto/accounts/StadiumDto";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../../services/AccountsService";
-import {StadiumDto} from "../../../models/dto/accounts/StadiumDto";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {getTitle} from "../../../helpers/utils";
+import {t} from "i18next";
+import PhoneInput from "react-phone-input-2";
+import i18n from "../../../i18n/i18n";
+import ru from "react-phone-input-2/lang/ru.json";
+import {LanguageSelect} from "../../common/LanguageSelect";
 import {AuthorizeCustomerCommand} from "../../../models/command/accounts/AuthorizeCustomerCommand";
 import {AuthorizeCustomerDto} from "../../../models/dto/accounts/AuthorizeCustomerDto";
-import {t} from "i18next";
-import {LanguageSelect} from "../../common/LanguageSelect";
-import i18n from "../../../i18n/i18n";
-import PhoneInput from 'react-phone-input-2'
-import ru from 'react-phone-input-2/lang/ru.json'
-import 'react-phone-input-2/lib/style.css'
-import {getTitle} from "../../../helpers/utils";
+import {RegisterCustomerCommand} from "../../../models/command/accounts/RegisterCustomerCommand";
 
+export const Register = () => {
+    const [stadium, setStadium] = useState<StadiumDto|null>(null);
 
-export const SignIn = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const withoutName = searchParams.get('withoutName');
 
     const { stadiumToken } = useParams();
-    
-    const setAuth = useSetRecoilState(authAtom);
+
     const [accountsService] = useInject<IAccountsService>('AccountsService');
     const navigate = useNavigate();
-    
-    const [stadium, setStadium] = useState<StadiumDto|null>(null);
+
     const [login, setLogin] = useState<string | undefined>();
 
     useEffect(() => {
@@ -39,29 +36,24 @@ export const SignIn = () => {
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
-        const {password} = document.forms[0];
+        const {firstName, lastName} = document.forms[0];
         if (login !== undefined) {
-            const command: AuthorizeCustomerCommand = {login, password: password.value};
+            const command: RegisterCustomerCommand =  {
+                phoneNumber: login,
+                firstName: firstName.value,
+                lastName: lastName.value,
+                language:  localStorage.getItem('language') || 'ru'
+            };
 
-            accountsService.authorize(command)
-                .then((customer: AuthorizeCustomerDto) => {
-                    localStorage.setItem('customer', JSON.stringify(customer));
-                    setAuth(customer);
-
-                    const localStorageLanguage = localStorage.getItem('language') || 'ru';
-
-                    if (localStorageLanguage !== customer.language) {
-                        accountsService.changeLanguage(localStorageLanguage).then(() => {
-                        });
-                    }
-
-                    navigate(`/${stadiumToken}/bookings/future`);
+            accountsService.register(command)
+                .then(() => {
+                    navigate(`/${stadiumToken}/sign-in?withoutName=${withoutName}`)
                 });
         }
     };
-    
-    return stadium ? <div className="sign-in-container">
-        
+
+    return stadium ? <div className="register-container">
+
             <div style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -72,7 +64,7 @@ export const SignIn = () => {
                 {withoutName ? '' : <div className="stadium-name">{t("accounts:sign_in:name_prefix")} {stadium.name}</div>}
                 <form>
                     <div className="form-group">
-                        <label className="form-control-label">{t("accounts:sign_in:login")}</label>
+                        <label className="form-control-label">{t("accounts:register:login")}*</label>
                         <PhoneInput
                             onlyCountries={['ru']} // Перчень стран в поиске 
                             country='ru'
@@ -91,34 +83,37 @@ export const SignIn = () => {
                     </div>
 
                     <div className="form-group">
-                        <label className="form-control-label">{t("accounts:sign_in:password")}</label>
+                        <label className="form-control-label">{t("accounts:register:first_name")}</label>
                         <input
-                            className="form-control password-input"
-                            type="password"
-                            name="password"
+                            className="form-control text-input"
+                            type="text"
+                            name="firstName"
                         />
+                    </div>
 
-                        <div className="reset-password-button" onClick={() => {
-                            navigate(`/${stadiumToken}/reset-password?withoutName=${withoutName}`)
-                        }}>{t('accounts:reset_password:title')}</div>
-                        
+                    <div className="form-group">
+                        <label className="form-control-label">{t("accounts:register:last_name")}</label>
+                        <input
+                            className="form-control  text-input"
+                            type="text"
+                            name="lastName"
+                        />
                         <button
                             type="submit"
                             onClick={handleSubmit}
                         >
-                            {t("accounts:sign_in:button")}
+                            {t("accounts:register:button")}
                         </button>
-                        
-                        <div className="register-button">
-                            {t('accounts:register:title_one')} <span className="register-button-link" onClick={() => {
-                            navigate(`/${stadiumToken}/register?withoutName=${withoutName}`)
-                        }}>{t('accounts:register:title_two')}</span>
-                        </div>
                     </div>
                 </form>
             </div>
+
+            <div style={{marginTop: 0}} className="back-to-login" onClick={() => {
+                navigate(`/${stadiumToken}/sign-in?withoutName=${withoutName}`)
+            }}>{t('accounts:reset_password:back_to_login')}</div>
+
             <LanguageSelect alignOptionsToRight={false} withRequest={false}
                             style={{position: 'absolute', top: 10, left: 20}}/>
         </div>
         : <span/>;
-}
+} 

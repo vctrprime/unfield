@@ -69,8 +69,12 @@ export const ResetPassword = () => {
         </Form>
 
         <div className="reset-password-buttons">
-            <Button style={{backgroundColor: '#3CB371', color: 'white'}}
-                    onClick={resetPassword}>{t('accounts:reset_password:button')}</Button>
+            <button
+                type="submit"
+                onClick={resetPassword}
+            >
+                {t('accounts:reset_password:button')}
+            </button>
         </div>
         <div className="back-to-login" onClick={() => {
             navigate(`/${stadiumToken}/sign-in?withoutName=${withoutName}`)

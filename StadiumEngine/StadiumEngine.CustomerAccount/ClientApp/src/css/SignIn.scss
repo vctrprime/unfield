@@ -1,6 +1,6 @@
 @import "const";
 
-.sign-in-container {
+.sign-in-container, .register-container {
 
   .stadium-name {
     font-weight: bold;
@@ -115,7 +115,7 @@
       margin-top: 10px;
     }
 
-    .password-input {
+    .password-input, .text-input {
       position: relative;
       font-size: 14px;
       letter-spacing: .01rem;
@@ -151,10 +151,20 @@
     }
   }
 
-  .reset-button-modal {
+  .reset-password-button {
     cursor: pointer;
     text-decoration: underline;
     margin-top: 7px;
+  }
+
+  .register-button {
+    margin-top: 7px;
+    font-size: 12px;
+    
+    .register-button-link {
+      cursor: pointer;
+      text-decoration: underline;
+    }
   }
 
 }
@@ -184,11 +194,30 @@
   
   .reset-password-buttons {
     margin-top: 10px;
+    width: 200px;
+
+    button {
+      width: 100%;
+      background: -webkit-linear-gradient(-90deg, #00d2ff, #0c8bfe);
+      background: linear-gradient(-90deg, #00d2ff, #0c8bfe);
+      outline: none !important;
+      border: none;
+      color: white;
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 10px;
+    }
   }
   
-  .back-to-login {
-    cursor: pointer;
-    margin-top: 7px;
-    text-decoration: underline;
-  }
+  
+}
+
+.back-to-login {
+  cursor: pointer;
+  margin-top: 7px;
+  text-decoration: underline;
+}
+
+.register-container {
+  text-align: center;
 }

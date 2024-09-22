@@ -48,7 +48,8 @@ export class AccountsService extends BaseService implements IAccountsService {
     register(command: RegisterCustomerCommand): Promise<void> {
         return this.fetchWrapper.post({
             url: `${this.baseUrl}/register`,
-            body: command
+            body: command,
+            successMessage: t('accounts:register:success')
         })
     }
 

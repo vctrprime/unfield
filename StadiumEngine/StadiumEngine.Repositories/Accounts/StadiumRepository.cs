@@ -19,11 +19,6 @@ internal class StadiumRepository : BaseRepository<Stadium>, IStadiumRepository
             .Take( take )
             .ToListAsync();
 
-    public async Task<Stadium?> GetAsync( int id ) =>
-        await Entities
-            .Include( x => x.StadiumGroup )
-            .FirstOrDefaultAsync( x => x.Id == id && !x.IsDeleted );
-
     public async Task<List<Stadium>> GetForStadiumGroupAsync( int stadiumGroupId ) =>
         await Entities
             .Where( s => s.StadiumGroupId == stadiumGroupId && !s.IsDeleted )
@@ -42,5 +37,6 @@ internal class StadiumRepository : BaseRepository<Stadium>, IStadiumRepository
 
     public async Task<Stadium?> GetByTokenAsync( string token ) =>
         await Entities
+            .Include( x => x.StadiumGroup )
             .FirstOrDefaultAsync( s => s.Token == token );
 }
