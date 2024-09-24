@@ -3,4 +3,5 @@ export interface AuthorizedCustomerDto {
     lastName?: string;
     phoneNumber: string;
     language: string;
+    displayName?: string;
 }

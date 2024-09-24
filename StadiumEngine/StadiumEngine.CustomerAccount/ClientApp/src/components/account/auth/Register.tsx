@@ -3,17 +3,17 @@ import {StadiumDto} from "../../../models/dto/accounts/StadiumDto";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../../services/AccountsService";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
-import {getTitle} from "../../../helpers/utils";
+import {getAuthUrl, getTitle} from "../../../helpers/utils";
 import {t} from "i18next";
 import PhoneInput from "react-phone-input-2";
 import i18n from "../../../i18n/i18n";
 import ru from "react-phone-input-2/lang/ru.json";
 import {LanguageSelect} from "../../common/LanguageSelect";
 import {RegisterCustomerCommand} from "../../../models/command/accounts/RegisterCustomerCommand";
+import {useRecoilState} from "recoil";
+import {stadiumAtom} from "../../../state/stadium";
 
 export const Register = () => {
-    const [stadium, setStadium] = useState<StadiumDto|null>(null);
-
     const [searchParams, setSearchParams] = useSearchParams();
     const withoutName = searchParams.get('withoutName');
     const lng = searchParams.get('lng');
@@ -26,16 +26,19 @@ export const Register = () => {
 
     const [login, setLogin] = useState<string | undefined>();
 
+    const [stadium, setStadium] = useRecoilState(stadiumAtom);
     useEffect(() => {
-        accountsService.getStadium().then((result) => {
-            setStadium(result);
-            document.title = getTitle(result.name)
+        if ( stadium == null ) {
+            accountsService.getStadium().then((result) => {
+                setStadium(result);
+                document.title = getTitle(result.name)
+            })
+        }
 
-            if (lng) {
-                i18n.changeLanguage(lng).then(() => {
-                });
-            }
-        })
+        if (lng) {
+            i18n.changeLanguage(lng).then(() => {
+            });
+        }
     }, []);
 
     const handleSubmit = (e: any) => {
@@ -66,7 +69,7 @@ export const Register = () => {
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
-                {withoutName ? '' : <div className="stadium-name">{t("accounts:sign_in:name_prefix")} {stadium.name}</div>}
+                {withoutName  ? '' : <div className="stadium-name">{t("accounts:sign_in:name_prefix")} {stadium.name}</div>}
                 <form>
                     <div className="form-group">
                         <label className="form-control-label">{t("accounts:register:login")}*</label>
@@ -114,7 +117,7 @@ export const Register = () => {
             </div>
 
             <div style={{marginTop: 0}} className="back-to-login" onClick={() => {
-                navigate(`/${stadiumToken}/sign-in?withoutName=${withoutName}&lng=${lng}&source=${source}`)
+                navigate(getAuthUrl(`/${stadiumToken}/sign-in`, withoutName, lng, source));
             }}>{t('accounts:reset_password:back_to_login')}</div>
 
         {lng ? <span/> : <LanguageSelect alignOptionsToRight={false} withRequest={false}

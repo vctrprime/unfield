@@ -10,8 +10,10 @@ import PhoneInput from 'react-phone-input-2'
 import ru from 'react-phone-input-2/lang/ru.json'
 import 'react-phone-input-2/lib/style.css'
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
-import {getTitle} from "../../../helpers/utils";
+import {getAuthUrl, getTitle} from "../../../helpers/utils";
 import {StadiumDto} from "../../../models/dto/accounts/StadiumDto";
+import {useRecoilState} from "recoil";
+import {stadiumAtom} from "../../../state/stadium";
 
 export const ResetPassword = () => {
     let { stadiumToken } = useParams();
@@ -29,17 +31,19 @@ export const ResetPassword = () => {
 
     const [resetPasswordError, setResetPasswordError] = useState<string | null>(null);
 
-    const [stadium, setStadium] = useState<StadiumDto|null>(null);
+    const [stadium, setStadium] = useRecoilState(stadiumAtom);
     useEffect(() => {
-        accountsService.getStadium().then((result) => {
-            setStadium(result);
-            document.title = getTitle(result.name)
+        if ( stadium == null ) {
+            accountsService.getStadium().then((result) => {
+                setStadium(result);
+                document.title = getTitle(result.name)
+            })
+        }
 
-            if (lng) {
-                i18n.changeLanguage(lng).then(() => {
-                });
-            }
-        })
+        if (lng) {
+            i18n.changeLanguage(lng).then(() => {
+            });
+        }
     }, []);
 
     const resetPassword = () => {
@@ -84,7 +88,7 @@ export const ResetPassword = () => {
             </button>
         </div>
         <div className="back-to-login" onClick={() => {
-            navigate(`/${stadiumToken}/sign-in?withoutName=${withoutName}&lng=${lng}&source=${source}`)
+            navigate(getAuthUrl(`/${stadiumToken}/sign-in`, withoutName, lng, source));
         }}>{t('accounts:reset_password:back_to_login')}</div>
 
         {lng ? <span/> : <LanguageSelect alignOptionsToRight={false} withRequest={false}

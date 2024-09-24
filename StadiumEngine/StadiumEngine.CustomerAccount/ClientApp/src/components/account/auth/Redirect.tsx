@@ -24,6 +24,7 @@ export const Redirect = () => {
                 lastName: result.lastName,
                 language: result.language,
                 phoneNumber: result.phoneNumber,
+                displayName: result.displayName,
             }
             localStorage.setItem('customer', JSON.stringify(customer));
             setAuth(customer);

@@ -24,4 +24,30 @@ public class AuthorizedCustomerBaseDto
     ///     Язык
     /// </summary>
     public string PhoneNumber { get; set; } = null!;
+
+    /// <summary>
+    /// Отображаемое имя
+    /// </summary>
+    public string? DisplayName
+    {
+        get
+        {
+            if ( String.IsNullOrEmpty( FirstName ) && String.IsNullOrEmpty( LastName ) )
+            {
+                return null;
+            }
+
+            if ( String.IsNullOrEmpty( FirstName ) )
+            {
+                return LastName;
+            }
+            
+            if ( String.IsNullOrEmpty( LastName ) )
+            {
+                return FirstName;
+            }
+            
+            return $"{FirstName} {LastName}";
+        }
+    }
 }

@@ -65,4 +65,19 @@
   padding-top: 0 !important;
 }
 
+.nav-link {
+  padding: 5px 10px;
+  color: white;
+  border-radius: 10px;
+  
+  &:hover {
+    color: white !important;
+  }
+}
+.activeClicked {
+  pointer-events: none;
+  background-color: white;
+  color: $dark-color !important;
+}
+
 

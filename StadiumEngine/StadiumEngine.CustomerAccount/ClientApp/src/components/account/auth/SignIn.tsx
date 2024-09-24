@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
-import {useSetRecoilState} from "recoil";
+import {useRecoilState, useSetRecoilState} from "recoil";
 import {authAtom} from "../../../state/auth";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../../services/AccountsService";
-import {StadiumDto} from "../../../models/dto/accounts/StadiumDto";
 import {AuthorizeCustomerCommand} from "../../../models/command/accounts/AuthorizeCustomerCommand";
 import {AuthorizeCustomerDto} from "../../../models/dto/accounts/AuthorizeCustomerDto";
 import {t} from "i18next";
@@ -13,7 +12,8 @@ import i18n from "../../../i18n/i18n";
 import PhoneInput from 'react-phone-input-2'
 import ru from 'react-phone-input-2/lang/ru.json'
 import 'react-phone-input-2/lib/style.css'
-import {getTitle} from "../../../helpers/utils";
+import {getAuthUrl, getTitle} from "../../../helpers/utils";
+import {stadiumAtom} from "../../../state/stadium";
 
 
 export const SignIn = () => {
@@ -28,19 +28,21 @@ export const SignIn = () => {
     const [accountsService] = useInject<IAccountsService>('AccountsService');
     const navigate = useNavigate();
     
-    const [stadium, setStadium] = useState<StadiumDto|null>(null);
+    const [stadium, setStadium] = useRecoilState(stadiumAtom);
     const [login, setLogin] = useState<string | undefined>();
 
     useEffect(() => {
-        accountsService.getStadium().then((result) => {
-            setStadium(result);
-            document.title = getTitle(result.name)
-
-            if (lng) {
-                i18n.changeLanguage(lng).then(() => {
-                });
-            }
-        })
+        if ( stadium == null ) {
+            accountsService.getStadium().then((result) => {
+                setStadium(result);
+                document.title = getTitle(result.name)
+            })
+        }
+        
+        if (lng) {
+            i18n.changeLanguage(lng).then(() => {
+            });
+        }
     }, []);
 
     const handleSubmit = (e: any) => {
@@ -116,7 +118,7 @@ export const SignIn = () => {
                         />
 
                         <div className="reset-password-button" onClick={() => {
-                            navigate(`/${stadiumToken}/reset-password?withoutName=${withoutName}&lng=${lng}&source=${source}`)
+                            navigate(getAuthUrl(`/${stadiumToken}/reset-password`, withoutName, lng, source));
                         }}>{t('accounts:reset_password:title')}</div>
                         
                         <button
@@ -128,7 +130,7 @@ export const SignIn = () => {
                         
                         <div className="register-button">
                             {t('accounts:register:title_one')} <span className="register-button-link" onClick={() => {
-                            navigate(`/${stadiumToken}/register?withoutName=${withoutName}&lng=${lng}&source=${source}`)
+                            navigate(getAuthUrl(`/${stadiumToken}/register`, withoutName, lng, source));
                         }}>{t('accounts:register:title_two')}</span>
                         </div>
                     </div>

@@ -5,5 +5,6 @@ export interface AuthorizeCustomerDto {
     lastName?: string;
     phoneNumber: string;
     language: string;
+    displayName?: string;
     booking?: AuthorizeCustomerBookingDto;
 }
