@@ -80,4 +80,22 @@
   color: $dark-color !important;
 }
 
+.customer-account-menu {
+  .profile-menu-item {
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+    height: 30px;
+    line-height: 30px;
+  }
+
+  .logout {
+    border-top: 1px solid #eee;
+    margin-top: 10px;
+    height: 30px;
+    line-height: 30px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+}
 

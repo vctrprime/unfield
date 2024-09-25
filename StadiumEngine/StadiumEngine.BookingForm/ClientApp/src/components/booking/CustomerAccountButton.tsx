@@ -39,20 +39,6 @@ export const CustomerAccountButton = (props: CustomerAccountButtonProps) => {
             props.setChangeCustomer(true);
         })
     }
-
-    
-    const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-    
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElUser(event.currentTarget);
-    };
-
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
-    
     
     return props.stadiumToken ? 
         <div className="customer-account-button">
@@ -71,7 +57,7 @@ export const CustomerAccountButton = (props: CustomerAccountButtonProps) => {
             
             {props.customer ?
                 <Popup
-                    trigger={<Avatar sx={{ width: 32, height: 32 }} style={{fontSize: '14px'}} alt={props.customer?.displayName} src="/static/images/avatar/no.jpg" />} flowing hoverable>
+                    trigger={<Avatar sx={{ width: 32, height: 32 }} style={{fontSize: '14px', cursor: 'pointer'}} alt={props.customer?.displayName} src="/static/images/avatar/no.jpg" />} flowing hoverable>
                     <div className="customer-account-menu">
                         <div className="go-to-account" onClick={() =>
                             window.open(`${env?.customerAccountHost}/${props.stadiumToken}/bookings/future`)
@@ -79,36 +65,7 @@ export const CustomerAccountButton = (props: CustomerAccountButtonProps) => {
                         <div className="logout" onClick={logout}>{t('booking:customer:logout')}</div>
                     </div>
                 </Popup>
-
-                /*<Box sx={{flexGrow: 0}}>
-                    <Tooltip title="Open settings">
-                        <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                            <Avatar alt={props.customer?.firstName + ' ' + props.customer?.lastName} src="/static/images/avatar/2.jpg"/>
-                        </IconButton>
-                    </Tooltip>
-                    <Menu
-                        sx={{mt: '45px'}}
-                        id="menu-appbar"
-                        anchorEl={anchorElUser}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
-                    >
-                        {settings.map((setting) => (
-                            <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                <Typography sx={{textAlign: 'center'}}>{setting}</Typography>
-                            </MenuItem>
-                        ))}
-                    </Menu>
-                </Box>*/ : 
+                    : 
              <span className="sign-in" onClick={() => setSignInModal(true)}>{t('booking:customer:sign_in:button')}</span>}
         </div> : 
         <span />;

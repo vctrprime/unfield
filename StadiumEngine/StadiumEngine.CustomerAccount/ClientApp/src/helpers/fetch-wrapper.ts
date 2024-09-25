@@ -76,6 +76,7 @@ function useFetchWrapper() {
 
                 setLoading(false);
                 if ([401].includes(response.status)) {
+                    localStorage.removeItem('customer');
                     navigate( stadiumToken ? "/" + stadiumToken + "/sign-in" : "/");
                     return Promise.reject(error);
                 }

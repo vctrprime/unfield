@@ -18,14 +18,12 @@ import i18n from "../../i18n/i18n";
 import {useInject} from "inversify-hooks";
 import {IAccountsService} from "../../services/AccountsService";
 import {authAtom} from "../../state/auth";
-import {NavLink, useParams} from "react-router-dom";
+import {NavLink, useNavigate, useParams} from "react-router-dom";
 import {t} from "i18next";
+import {Popup} from "semantic-ui-react";
 
 export const Header = () => {
     const { stadiumToken } = useParams();
-    
-    const pages = ['Products', 'Pricing', 'Blog'];
-    const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -33,7 +31,7 @@ export const Header = () => {
     const [stadium, setStadium] = useRecoilState(stadiumAtom);
     const [accountsService] = useInject<IAccountsService>('AccountsService');
     
-    const auth = useRecoilValue(authAtom);
+    const [auth, setAuth] = useRecoilState(authAtom);
     
     useEffect(() => {
         if ( stadium == null ) {
@@ -43,6 +41,8 @@ export const Header = () => {
             })
         }
     }, []);
+    
+    const navigate = useNavigate();
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -61,6 +61,14 @@ export const Header = () => {
 
     const getNavLinkClassName = ({isActive}: any) => {
         return isActive ? "nav-link activeClicked" : "nav-link";
+    }
+
+    const logout = () => {
+        accountsService.logout().finally(() => {
+            setAuth(null);
+            localStorage.removeItem('customer');
+            navigate(`sign-in`);
+        });
     }
 
     return <div style={{ height: '48px'}}>
@@ -118,12 +126,12 @@ export const Header = () => {
                             }}
                         >
                             <MenuItem key={'past'} onClick={handleCloseNavMenu}>
-                                <NavLink className={getNavLinkClassName} to={`/${stadiumToken}/bookings/past`}>
+                                <NavLink className={getNavLinkClassName} to={`bookings/past`}>
                                     {t('common:header:past_bookings')}
                                 </NavLink>
                             </MenuItem>
                             <MenuItem key={'future'} onClick={handleCloseNavMenu}>
-                                <NavLink className={getNavLinkClassName} to={`/${stadiumToken}/bookings/future`}>
+                                <NavLink className={getNavLinkClassName} to={`bookings/future`}>
                                     {t('common:header:future_bookings')}
                                 </NavLink>
                             </MenuItem>
@@ -154,33 +162,18 @@ export const Header = () => {
                         </NavLink>
                     </Box>
                     <Box sx={{flexGrow: 0}}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                <Avatar sx={{ width: 32, height: 32 }} style={{fontSize: '14px'}} alt={auth?.displayName} src="/static/images/avatar/no.jpg"/>
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{mt: '45px'}}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography sx={{textAlign: 'center'}}>{setting}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
+                        <Popup
+                            trigger={<Avatar sx={{ width: 32, height: 32 }} style={{fontSize: '14px', cursor: 'pointer'}} alt={auth?.displayName} src="/static/images/avatar/no.jpg"/>} flowing hoverable>
+                            <div className="customer-account-menu">
+                                <div className="profile-menu-item" onClick={() =>
+                                    navigate(`profile`)
+                                }>{t('accounts:customer:profile')}</div>
+                                <div className="profile-menu-item" onClick={() =>
+                                    navigate(`change-password`)
+                                }>{t('accounts:customer:change_password')}</div>
+                                <div className="logout" onClick={logout}>{t('accounts:customer:logout')}</div>
+                            </div>
+                        </Popup>
                     </Box>
                 </Toolbar>
             </Container>

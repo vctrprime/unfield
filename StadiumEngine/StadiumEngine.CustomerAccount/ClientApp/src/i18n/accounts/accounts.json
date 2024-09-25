@@ -33,7 +33,9 @@
         "last_name": "Фамилия",
         "button": "Зарегистрироваться"
     },
-    "profile": {
-        
+    "customer": {
+        "profile": "Данные профиля",
+        "change_password": "Сменить пароль",
+        "logout": "Выйти"
     }
 }

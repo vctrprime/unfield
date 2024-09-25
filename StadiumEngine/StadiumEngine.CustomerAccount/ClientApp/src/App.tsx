@@ -18,6 +18,7 @@ import {Profile} from "./components/account/profile/Profile";
 import {NotFound} from "./components/common/NotFound";
 import {ResetPassword} from "./components/account/auth/ResetPassword";
 import {Register} from "./components/account/auth/Register";
+import {ChangePassword} from "./components/account/profile/ChangePassword";
 
 const ReactNotifications = require('react-notifications');
 const {NotificationContainer} = ReactNotifications;
@@ -36,6 +37,7 @@ const App = () => {
                     
                     <Route path="/:stadiumToken" element={<ProtectedRoute component={AccountLayout}/>}>
                         <Route path="profile" element={<Profile/>}/>
+                        <Route path="change-password" element={<ChangePassword/>}/>
                         <Route path="bookings" element={<Bookings />}>
                             <Route path="past" element={<PastBookings/>}/>
                             <Route path="future" element={<FutureBookings/>}/>
