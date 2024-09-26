@@ -12,6 +12,7 @@ import {AuthorizeCustomerByRedirectCommand} from "../models/command/accounts/Aut
 import {RegisterCustomerCommand} from "../models/command/accounts/RegisterCustomerCommand";
 import {UpdateCustomerCommand} from "../models/command/accounts/UpdateCustomerCommand";
 import {StadiumDto} from "../models/dto/accounts/StadiumDto";
+import {AuthorizedCustomerDto} from "../models/dto/accounts/AuthorizedCustomerDto";
 
 export interface IAccountsService {
     authorizeByRedirect(command: AuthorizeCustomerByRedirectCommand): Promise<AuthorizeCustomerDto>;
@@ -21,7 +22,7 @@ export interface IAccountsService {
     changePassword(command: ChangeCustomerPasswordCommand): Promise<void>;
     resetPassword(command: ResetCustomerPasswordCommand): Promise<void>;
     register(command: RegisterCustomerCommand): Promise<void>;
-    update(command: UpdateCustomerCommand): Promise<void>;
+    update(command: UpdateCustomerCommand): Promise<AuthorizedCustomerDto>;
     getStadium(): Promise<StadiumDto>;
 }
 
@@ -53,7 +54,7 @@ export class AccountsService extends BaseService implements IAccountsService {
         })
     }
 
-    update(command: UpdateCustomerCommand): Promise<void> {
+    update(command: UpdateCustomerCommand): Promise<AuthorizeCustomerDto> {
         return this.fetchWrapper.put({
             url: `${this.baseUrl}/customer`,
             body: command

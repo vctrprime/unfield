@@ -1,0 +1,42 @@
+.customer-account-menu {
+  .profile-menu-item {
+    font-weight: 500;
+    cursor: pointer;
+    height: 30px;
+    line-height: 30px;
+  }
+
+  .logout {
+    border-top: 1px solid #eee;
+    margin-top: 10px;
+    height: 30px;
+    line-height: 30px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+}
+.ReactFlagsSelect-module_selectBtn__19wW7 {
+  border-color: #ccc !important;
+  
+  &:after {
+    border-top: 5px solid #ccc !important;
+  }
+}
+
+.change-password-container, .profile-container {
+  max-width: 350px;
+  margin: 0 auto;
+  padding-top: 40px;
+  
+  .change-password-title, .profile-title {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .change-password-description {
+    max-width: 350px;
+    font-size: 11px;
+    color: #999;
+  }
+}

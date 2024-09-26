@@ -21,6 +21,7 @@ import {authAtom} from "../../state/auth";
 import {NavLink, useNavigate, useParams} from "react-router-dom";
 import {t} from "i18next";
 import {Popup} from "semantic-ui-react";
+import {LanguageSelect} from "../common/LanguageSelect";
 
 export const Header = () => {
     const { stadiumToken } = useParams();
@@ -161,19 +162,20 @@ export const Header = () => {
                             {t('common:header:future_bookings')}
                         </NavLink>
                     </Box>
-                    <Box sx={{flexGrow: 0}}>
+                    <Box sx={{flexGrow: 0, display: 'flex'}}>
                         <Popup
                             trigger={<Avatar sx={{ width: 32, height: 32 }} style={{fontSize: '14px', cursor: 'pointer'}} alt={auth?.displayName} src="/static/images/avatar/no.jpg"/>} flowing hoverable>
                             <div className="customer-account-menu">
                                 <div className="profile-menu-item" onClick={() =>
                                     navigate(`profile`)
-                                }>{t('accounts:customer:profile')}</div>
+                                }>{t('accounts:customer:menu:profile')}</div>
                                 <div className="profile-menu-item" onClick={() =>
                                     navigate(`change-password`)
-                                }>{t('accounts:customer:change_password')}</div>
-                                <div className="logout" onClick={logout}>{t('accounts:customer:logout')}</div>
+                                }>{t('accounts:customer:menu:change_password')}</div>
+                                <div className="logout" onClick={logout}>{t('accounts:customer:menu:logout')}</div>
                             </div>
                         </Popup>
+                        <LanguageSelect withRequest={true} style={{ marginTop: 4, marginLeft: 8, color: '#444'}}/>
                     </Box>
                 </Toolbar>
             </Container>

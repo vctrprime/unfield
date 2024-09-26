@@ -19,7 +19,7 @@ internal class UpdateCustomerFacade : IUpdateCustomerFacade
     }
 
 
-    public async Task<UpdateCustomerDto> UpdateAsync( UpdateCustomerCommand request, int customerId )
+    public async Task<Customer> UpdateAsync( UpdateCustomerCommand request, int customerId )
     {
         Customer? customer = await _queryService.GetCustomerAsync( customerId );
         if ( customer == null )
@@ -32,6 +32,6 @@ internal class UpdateCustomerFacade : IUpdateCustomerFacade
         
         _commandService.Update( customer );
 
-        return new UpdateCustomerDto();
+        return customer;
     }
 }

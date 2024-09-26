@@ -6,6 +6,8 @@ import 'react-notifications/lib/notifications.css';
 import './custom.css'
 import './css/common.scss'
 import './css/SignIn.scss'
+import './css/Account.scss'
+import './css/Bookings.scss'
 import {Redirect as RedirectByConfirm} from "./components/account/auth/Redirect";
 import {SignIn} from "./components/account/auth/SignIn";
 import {Layout as AccountLayout} from "./components/account/Layout";

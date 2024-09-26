@@ -31,7 +31,7 @@ export const ChangePasswordForm = ({setOpen}: any) => {
         return !hasErrors;
     }
 
-    const resetPassword = () => {
+    const changePassword = () => {
         setError(null);
         setChangePasswordLoading(true);
         if (validate()) {
@@ -72,7 +72,7 @@ export const ChangePasswordForm = ({setOpen}: any) => {
                 </Form.Field>
                 {error !== null && <div className="error-message">{error}</div>}
                 <Button style={{backgroundColor: '#3CB371', color: 'white'}}
-                        onClick={resetPassword}>{t('common:apply_button')}</Button>
+                        onClick={changePassword}>{t('common:apply_button')}</Button>
             </Form>
         </div>
     )

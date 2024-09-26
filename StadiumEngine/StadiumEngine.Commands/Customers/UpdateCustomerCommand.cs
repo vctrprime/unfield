@@ -4,7 +4,7 @@ using StadiumEngine.DTO.Customers;
 
 namespace StadiumEngine.Commands.Customers;
 
-public sealed class UpdateCustomerCommand : BaseCustomerCommand, IRequest<UpdateCustomerDto>
+public sealed class UpdateCustomerCommand : BaseCustomerCommand, IRequest<AuthorizedCustomerDto>
 {
     [FromBody]
     public UpdateCustomerCommandBody Data { get; set; } = null!;

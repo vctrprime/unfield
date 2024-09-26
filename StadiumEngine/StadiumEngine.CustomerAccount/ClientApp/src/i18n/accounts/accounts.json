@@ -34,8 +34,12 @@
         "button": "Зарегистрироваться"
     },
     "customer": {
-        "profile": "Данные профиля",
-        "change_password": "Сменить пароль",
-        "logout": "Выйти"
+        "menu": {
+            "profile": "Данные профиля",
+            "change_password": "Изменить пароль",
+            "logout": "Выйти"
+        },
+        "first_name": "Имя",
+        "last_name": "Фамилия"
     }
 }

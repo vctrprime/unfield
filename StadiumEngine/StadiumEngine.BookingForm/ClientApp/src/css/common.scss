@@ -323,3 +323,22 @@
 .space-between-imp {
   justify-content: space-between !important;
 }
+
+.page {
+  .modal {
+    .iframe-modal-content {
+      padding: 0 !important;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .page {
+    .ui.modal  {
+      .content.iframe-modal-content {
+        padding: 0 !important;
+      }
+    }
+  }
+}
+

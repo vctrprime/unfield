@@ -15,9 +15,9 @@ public class CustomerController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPut]
-    public async Task<UpdateCustomerDto> Update( UpdateCustomerCommand command )
+    public async Task<AuthorizedCustomerDto> Update( UpdateCustomerCommand command )
     {
-        UpdateCustomerDto dto = await Mediator.Send( command );
+        AuthorizedCustomerDto dto = await Mediator.Send( command );
         return dto;
     }
 }

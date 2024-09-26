@@ -47,7 +47,7 @@ export const CustomerAccountButton = (props: CustomerAccountButtonProps) => {
                 size='small'
                 open={signInModal}>
                 <Modal.Header>{t('booking:customer:sign_in:header')}</Modal.Header>
-                <Modal.Content style={{padding: 10}}>
+                <Modal.Content className="iframe-modal-content">
                     <iframe style={{height: '350px', width: '350px'}} src={`${env?.customerAccountHost}/${props.stadiumToken}/sign-in?withoutName=true&lng=${lng}&source=booking-form`}/>
                 </Modal.Content>
                 <Modal.Actions>
