@@ -34,4 +34,12 @@ internal class NotificationsQueueManager : INotificationsQueueManager
                 type,
                 subject,
                 stadiumGroupName ) );
+
+    public void EnqueueBookingConfirmedNotification( string bookingNumber ) => 
+        _backgroundJobClient.Enqueue(
+        () => _backgroundNotificationSender.SendBookingConfirmedAsync( bookingNumber ) );
+
+    public void EnqueueBookingCanceledNotification( string bookingNumber, DateTime day, string? reason ) =>
+        _backgroundJobClient.Enqueue(
+            () => _backgroundNotificationSender.SendBookingCanceledAsync( bookingNumber, day, reason ) );
 }

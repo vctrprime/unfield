@@ -15,10 +15,10 @@ internal class SchedulerBookingQueryService : ISchedulerBookingQueryService
         _bookingRepository = bookingRepository;
     }
 
-    public async Task<Booking> GetBookingAsync( string bookingNumber )
+    public async Task<Booking> GetBookingAsync( string bookingNumber, bool includeCancelled = false )
     {
         Booking? booking = await _bookingRepository.GetByNumberAsync( bookingNumber );
-        if ( booking == null || booking.IsCanceled )
+        if ( booking == null || ( !includeCancelled && booking.IsCanceled) )
         {
             throw new DomainException( ErrorsKeys.BookingNotFound );
         }

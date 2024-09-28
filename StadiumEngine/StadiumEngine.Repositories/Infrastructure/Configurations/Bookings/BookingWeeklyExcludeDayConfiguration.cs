@@ -23,6 +23,7 @@ internal class BookingWeeklyExcludeDayConfiguration : BaseUserEntityConfiguratio
         builder.Property( p => p.BookingId ).HasColumnName( "booking_id" ).IsRequired();
         builder.Property( p => p.Day ).HasColumnName( "day" ).HasColumnType( "timestamp without time zone" );
         builder.Property( p => p.Reason ).HasColumnName( "reason" );
+        builder.Property( p => p.ExcludeByCustomer ).HasColumnName( "exclude_by_customer" );
         
         builder.HasOne( x => x.Booking )
             .WithMany( x => x.WeeklyExcludeDays )

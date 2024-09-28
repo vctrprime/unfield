@@ -24,5 +24,5 @@ internal sealed class ConfirmBookingHandler : BaseCommandHandler<ConfirmBookingC
     protected override async ValueTask<ConfirmBookingDto> HandleCommandAsync(
         ConfirmBookingCommand request,
         CancellationToken cancellationToken ) =>
-        await _confirmBookingFacade.ConfirmAsync( request, cancellationToken );
+        await _confirmBookingFacade.ConfirmAsync( request );
 }

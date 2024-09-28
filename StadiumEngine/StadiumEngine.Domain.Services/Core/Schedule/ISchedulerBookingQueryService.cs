@@ -4,5 +4,5 @@ namespace StadiumEngine.Domain.Services.Core.Schedule;
 
 public interface ISchedulerBookingQueryService
 {
-    Task<Booking> GetBookingAsync( string bookingNumber );
+    Task<Booking> GetBookingAsync( string bookingNumber, bool includeCancelled = false );
 }

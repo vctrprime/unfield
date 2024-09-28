@@ -127,6 +127,10 @@ export const BookingForm = () => {
             })
     }
     
+    const getPointing = () => {
+        return token || window.innerWidth < 575 ? "left" : "right";
+    }
+    
 
     return <div>{data === null ? <span/> :
             <Container className="booking-form-container">
@@ -177,7 +181,7 @@ export const BookingForm = () => {
                             minDate={new Date()}
                             onChange={onChange}
                             clearable={false}
-                            pointing="right"
+                            pointing={getPointing()}
                         />
                         <div className="lang-customer-container">
                             <CustomerAccountButton stadiumToken={token} customer={data.customer} setChangeCustomer={setChangeCustomer} />

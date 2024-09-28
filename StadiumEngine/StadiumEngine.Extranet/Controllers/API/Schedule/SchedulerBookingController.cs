@@ -36,11 +36,8 @@ public class SchedulerBookingController : BaseApiController
     /// <returns></returns>
     [HttpDelete( "cancel" )]
     [HasPermission( PermissionsKeys.DeleteBooking )]
-    public async Task<CancelSchedulerBookingDto> Cancel(
-        [FromBody] CancelSchedulerBookingCommand command,
-        [FromHeader( Name = "Client-Date" )] DateTime clientDate )
+    public async Task<CancelSchedulerBookingDto> Cancel( CancelSchedulerBookingCommand command )
     {
-        command.ClientDate = clientDate;
         CancelSchedulerBookingDto dto = await Mediator.Send( command );
         return dto;
     }

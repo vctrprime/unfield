@@ -5,5 +5,5 @@ namespace StadiumEngine.Handlers.Facades.Bookings;
 
 internal interface IConfirmBookingFacade
 {
-    Task<ConfirmBookingDto> ConfirmAsync( ConfirmBookingCommand request, CancellationToken cancellationToken );
+    Task<ConfirmBookingDto> ConfirmAsync( ConfirmBookingCommand request );
 }

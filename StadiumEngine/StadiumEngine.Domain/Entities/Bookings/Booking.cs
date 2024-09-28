@@ -36,6 +36,7 @@ public class Booking : BaseUserEntity
     public bool IsLastVersion { get; set; }
     public DateTime? CloseVersionDate { get; set; }
     public string? CancelReason { get; set; }
+    public bool? CancelByCustomer { get; set; }
     public virtual Field Field { get; set; } = null!;
     public virtual Tariff Tariff { get; set; } = null!;
 

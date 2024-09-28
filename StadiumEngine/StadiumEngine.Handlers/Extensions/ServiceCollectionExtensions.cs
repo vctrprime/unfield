@@ -61,6 +61,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IMovingBookingFormProcessor, MovingBookingFormProcessor>();
         
         services.AddScoped<IConfirmBookingFacade, ConfirmBookingFacade>();
+        services.AddScoped<ICancelBookingFacade, CancelBookingFacade>();
 
         ServiceProvider serviceProvider = services.BuildServiceProvider();
         MapperConfiguration mappingConfig = new MapperConfiguration(

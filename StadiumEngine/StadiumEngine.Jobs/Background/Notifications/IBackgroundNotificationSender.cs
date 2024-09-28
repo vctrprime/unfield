@@ -11,4 +11,8 @@ internal interface IBackgroundNotificationSender
         PasswordNotificationType type,
         PasswordNotificationSubject subject,
         string? stadiumGroupName );
+
+    Task SendBookingConfirmedAsync( string bookingNumber );
+    Task SendBookingCanceledAsync( string bookingNumber, DateTime day, string? reason );
+
 }

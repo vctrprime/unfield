@@ -29,14 +29,14 @@ public static class ServiceCollectionExtensions
     private static void ConfigureBusServices( IBusRegistrationConfigurator configurator )
     {
         configurator.AddConsumer<BookingConfirmedConsumer>();
+        configurator.AddConsumer<BookingCanceledConsumer>();
     }
 
-    private static void ConfigureRabbit( IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator )
-    {
+    private static void ConfigureRabbit( IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator ) =>
         configurator.ReceiveEndpoint( "bookings",
             endpointConfigurator =>
             {
                 endpointConfigurator.ConfigureConsumer<BookingConfirmedConsumer>( context );
+                endpointConfigurator.ConfigureConsumer<BookingCanceledConsumer>( context );
             } );
-    }
 }

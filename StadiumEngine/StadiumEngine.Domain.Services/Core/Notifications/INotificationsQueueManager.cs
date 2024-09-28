@@ -11,4 +11,7 @@ public interface INotificationsQueueManager
         PasswordNotificationType type,
         PasswordNotificationSubject subject,
         string? stadiumGroupName = null );
+
+    void EnqueueBookingConfirmedNotification( string bookingNumber );
+    void EnqueueBookingCanceledNotification( string bookingNumber, DateTime day, string? reason );
 }

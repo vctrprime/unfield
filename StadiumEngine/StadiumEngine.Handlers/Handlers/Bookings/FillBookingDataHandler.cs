@@ -73,8 +73,7 @@ internal sealed class FillBookingDataHandler : BaseCommandHandler<FillBookingDat
                     BookingNumber = booking.Number,
                     AccessCode = booking.AccessCode,
                     Language = request.Language
-                },
-                cancellationToken );
+                } );
 
             return new FillBookingDataDto
             {

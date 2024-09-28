@@ -42,6 +42,7 @@ internal class BookingConfiguration : BaseUserEntityConfiguration, IEntityTypeCo
         builder.Property( p => p.IsLastVersion ).HasColumnName( "is_last_version" );
         builder.Property( p => p.CancelReason ).HasColumnName( "cancel_reason" );
         builder.Property( p => p.CloseVersionDate ).HasColumnName( "close_version_date" );
+        builder.Property( p => p.CancelByCustomer ).HasColumnName( "cancel_by_customer" );
         
         builder.HasOne( x => x.Field )
             .WithMany( x => x.Bookings )
