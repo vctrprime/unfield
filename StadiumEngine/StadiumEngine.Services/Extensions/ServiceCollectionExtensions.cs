@@ -132,6 +132,7 @@ public static class ServiceCollectionExtensions
         
         services.AddScoped<ICustomerQueryService, CustomerQueryService>();
         services.AddScoped<ICustomerCommandService, CustomerCommandService>();
+        services.AddScoped<ICustomerBookingQueryService, CustomerBookingQueryService>();
 
         services.AddScoped<ICustomerFacade, CustomerFacade>();
         

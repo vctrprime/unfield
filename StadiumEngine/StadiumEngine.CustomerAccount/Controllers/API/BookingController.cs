@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using StadiumEngine.Commands.Customers;
 using StadiumEngine.CustomerAccount.Infrastructure.Attributes;
 using StadiumEngine.DTO.Customers;
+using StadiumEngine.DTO.Schedule;
 using StadiumEngine.Queries.Customers;
 
 namespace StadiumEngine.CustomerAccount.Controllers.API;
@@ -9,30 +10,28 @@ namespace StadiumEngine.CustomerAccount.Controllers.API;
 [Route( "api/bookings" )]
 public class BookingController : BaseApiController
 {
+    /// <summary>
+    /// Получить бронь по номеру
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
     [HttpGet]
     [StadiumCustomerProtect]
-    public async Task<List<string>> Test( [FromRoute] Test query )
+    public async Task<BookingListItemDto> Get( [FromQuery] GetCustomerBookingQuery query )
     {
-        return new List<string>
-        {
-            "Welcome to Stadium Engine! " + query.StadiumToken,
-        };
+        BookingListItemDto dto = await Mediator.Send( query );
+        return dto;
     }
     
     /// <summary>
     ///     Отменить бронь
     /// </summary>
     /// <returns></returns>
-    [HttpDelete( "cancel" )]
+    [HttpDelete]
     [StadiumCustomerProtect]
     public async Task<CancelBookingByCustomerDto> Cancel( CancelBookingByCustomerCommand command )
     {
         CancelBookingByCustomerDto dto = await Mediator.Send( command );
         return dto;
     }
-}
-
-public class Test : BaseCustomerQuery
-{
-    
 }

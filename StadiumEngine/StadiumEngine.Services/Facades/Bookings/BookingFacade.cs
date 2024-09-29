@@ -1,4 +1,8 @@
+using StadiumEngine.Common;
+using StadiumEngine.Common.Exceptions;
+using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Entities.Bookings;
+using StadiumEngine.Domain.Repositories.Accounts;
 using StadiumEngine.Domain.Repositories.Bookings;
 using StadiumEngine.Domain.Services.Models.Schedule;
 
@@ -7,10 +11,12 @@ namespace StadiumEngine.Services.Facades.Bookings;
 internal class BookingFacade : IBookingFacade
 {
     private readonly IBookingRepository _bookingRepository;
+    private readonly IStadiumRepository _stadiumRepository;
 
-    public BookingFacade( IBookingRepository bookingRepository )
+    public BookingFacade( IBookingRepository bookingRepository, IStadiumRepository stadiumRepository )
     {
         _bookingRepository = bookingRepository;
+        _stadiumRepository = stadiumRepository;
     }
 
     public async Task<List<Booking>> GetAsync( DateTime day, List<int> stadiumsIds )
@@ -85,7 +91,32 @@ internal class BookingFacade : IBookingFacade
         return bookings.Where( x => !x.IsCanceled && x.IsConfirmed ).ToList();
     }
 
-    public async Task<List<BookingListItem>> SearchAllByNumberAsync( string bookingNumber, int stadiumId )
+    public async Task<BookingListItem> GetAsync( 
+        string bookingNumber, 
+        string customerPhoneNumber, 
+        string stadiumToken, 
+        DateTime? day )
+    {
+        Stadium? stadium = await _stadiumRepository.GetByTokenAsync( stadiumToken );
+
+        if ( stadium == null )
+        {
+            throw new DomainException( ErrorsKeys.StadiumNotFound );
+        }
+
+        List<BookingListItem> bookings = await SearchAllByNumberAsync( bookingNumber, stadium.Id, day );
+
+        BookingListItem? booking = bookings.FirstOrDefault();
+
+        if ( booking == null || booking.OriginalData.Customer.PhoneNumber != customerPhoneNumber )
+        {
+            throw new DomainException( ErrorsKeys.BookingNotFound );
+        }
+
+        return booking;
+    }
+
+    public async Task<List<BookingListItem>> SearchAllByNumberAsync( string bookingNumber, int stadiumId, DateTime? day = null )
     {
         List<Booking> bookings = await _bookingRepository.SearchAllByNumberAsync( bookingNumber, stadiumId );
 
@@ -96,7 +127,7 @@ internal class BookingFacade : IBookingFacade
             DateTime? bookingDate = null;
             if ( booking.IsWeekly )
             {
-                DateTime date = DateTime.Today;
+                DateTime date = day ?? DateTime.Today;
                 while ( bookingDate == null )
                 {
                     if ( ( booking.IsWeeklyStoppedDate.HasValue && date > booking.IsWeeklyStoppedDate )

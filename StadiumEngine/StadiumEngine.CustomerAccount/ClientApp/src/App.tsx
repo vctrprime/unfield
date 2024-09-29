@@ -44,7 +44,7 @@ const App = () => {
                             <Route path="past" element={<PastBookings/>}/>
                             <Route path="future" element={<FutureBookings/>}/>
                         </Route>
-                        <Route path="bookings/:number" element={<Booking/>}/>
+                        <Route path="bookings/:number/:day?" element={<Booking/>}/>
                     </Route>
                 </Routes>
             </Layout>

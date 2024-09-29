@@ -113,4 +113,9 @@ public class BookingListItemDto
     /// Начало события
     /// </summary>
     public DateTime Start => Day?.Date.AddHours( ( double )OriginalData.StartHour ) ?? DateTime.Now;
+    
+    /// <summary>
+    /// Окончание события
+    /// </summary>
+    public DateTime End => Start.AddHours( ( double )OriginalData.HoursCount );
 }
