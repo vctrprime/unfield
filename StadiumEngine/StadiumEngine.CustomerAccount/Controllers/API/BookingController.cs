@@ -11,6 +11,19 @@ namespace StadiumEngine.CustomerAccount.Controllers.API;
 public class BookingController : BaseApiController
 {
     /// <summary>
+    /// Получить брони по датам
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpGet("list")]
+    [StadiumCustomerProtect]
+    public async Task<List<CustomerBookingListItemDto>> GetList( [FromQuery] GetCustomerBookingListQuery query )
+    {
+        List<CustomerBookingListItemDto> dto = await Mediator.Send( query );
+        return dto;
+    }
+    
+    /// <summary>
     /// Получить бронь по номеру
     /// </summary>
     /// <param name="query"></param>

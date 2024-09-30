@@ -26,16 +26,22 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
                  && ( !x.Tariff.DateEnd.HasValue || x.Tariff.DateEnd > day )
                  && stadiumsIds.Contains( x.Field.StadiumId ) );
 
-    public async Task<List<Booking>> GetAsync( DateTime from, DateTime to, int stadiumId ) =>
+    public async Task<List<Booking>> GetAsync(
+        DateTime from,
+        DateTime to,
+        int stadiumId,
+        string? customerPhoneNumber ) =>
         await GetExtended(
             x => x.Day.Date >= from.Date
                  && x.Day.Date <= to.Date
                  && !x.IsWeekly
+                 && x.Customer.PhoneNumber == ( customerPhoneNumber ?? x.Customer.PhoneNumber )
                  && x.Field.StadiumId == stadiumId );
 
-    public async Task<List<Booking>> GetWeeklyAsync( int stadiumId ) =>
+    public async Task<List<Booking>> GetWeeklyAsync( int stadiumId, string? customerPhoneNumber ) =>
         await GetExtended(
             x => x.IsWeekly
+                 && x.Customer.PhoneNumber == ( customerPhoneNumber ?? x.Customer.PhoneNumber )
                  && x.Field.StadiumId == stadiumId );
 
     public async Task<Booking?> GetByNumberAsync( string bookingNumber ) =>
@@ -55,10 +61,10 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
 
     public async Task<Booking?> FindDraftAsync( DateTime day, decimal startHour, int fieldId ) =>
         await Entities.SingleOrDefaultAsync(
-            x => x.Day == day 
-                 && x.StartHour == startHour 
-                 && x.FieldId == fieldId 
-                 && !x.IsCanceled 
+            x => x.Day == day
+                 && x.StartHour == startHour
+                 && x.FieldId == fieldId
+                 && !x.IsCanceled
                  && x.IsLastVersion
                  && x.IsDraft );
 
@@ -75,9 +81,10 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
         return rows;
     }
 
-    public Booking DetachedClone( Booking booking ) {
+    public Booking DetachedClone( Booking booking )
+    {
         Booking copy = ( Entities.Entry( booking ).CurrentValues.Clone().ToObject() as Booking )!;
-        
+
         copy.Costs = booking.Costs;
         copy.Field = booking.Field;
         copy.BookingLockerRoom = booking.BookingLockerRoom;
@@ -86,10 +93,10 @@ internal class BookingRepository : BaseRepository<Booking>, IBookingRepository
         copy.Customer = booking.Customer;
         copy.WeeklyExcludeDays = booking.WeeklyExcludeDays;
         copy.Promo = booking.Promo;
-        
+
         return copy;
     }
-    
+
     public async Task<List<Booking>> SearchAllByNumberAsync( string bookingNumber, int stadiumId ) =>
         await GetExtended(
             x => x.Number.ToLower().Contains( bookingNumber.ToLower() )

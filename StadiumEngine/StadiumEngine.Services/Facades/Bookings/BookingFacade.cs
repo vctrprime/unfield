@@ -44,15 +44,15 @@ internal class BookingFacade : IBookingFacade
         return bookings.Where( x => !x.IsCanceled && x.IsConfirmed ).ToList();
     }
 
-    public async Task<List<Booking>> GetAsync( DateTime from, DateTime to, int stadiumId )
+    public async Task<List<Booking>> GetAsync( DateTime from, DateTime to, int stadiumId, string? customerPhoneNumber )
     {
         if ( from > to )
         {
             return new List<Booking>();
         }
 
-        List<Booking> bookings = await _bookingRepository.GetAsync( from, to, stadiumId );
-        List<Booking> weeklyBookings = await _bookingRepository.GetWeeklyAsync( stadiumId );
+        List<Booking> bookings = await _bookingRepository.GetAsync( from, to, stadiumId, customerPhoneNumber );
+        List<Booking> weeklyBookings = await _bookingRepository.GetWeeklyAsync( stadiumId, customerPhoneNumber );
 
         //для каждого совпадающего дня добавляем еженедельные бронирования
         foreach ( Booking weeklyBooking in weeklyBookings )

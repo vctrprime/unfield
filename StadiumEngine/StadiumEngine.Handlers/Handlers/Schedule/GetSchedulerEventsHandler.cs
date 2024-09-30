@@ -30,7 +30,8 @@ internal sealed class GetSchedulerEventsHandler : BaseRequestHandler<GetSchedule
             request.End,
              _currentStadiumId == 0 && request.StadiumId.HasValue ? request.StadiumId.Value : _currentStadiumId,
             request.Language ?? "ru",
-            request.WithDisabledEvents ?? true );
+            request.WithDisabledEvents ?? true,
+            request.CustomerPhoneNumber );
 
         List<SchedulerEventDto> eventsDto = Mapper.Map<List<SchedulerEventDto>>( events );
 

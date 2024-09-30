@@ -4,6 +4,7 @@ using StadiumEngine.Commands.Customers;
 using StadiumEngine.Domain.Entities.Customers;
 using StadiumEngine.Domain.Services.Models.Customers;
 using StadiumEngine.DTO.Customers;
+using StadiumEngine.DTO.Schedule;
 
 namespace StadiumEngine.Handlers.Mappings;
 
@@ -25,6 +26,8 @@ internal class CustomersProfile : Profile
             .ForMember(
                 dest => dest.Claims,
                 act => act.MapFrom( s => CreateClaimsList( s ) ) );
+
+        CreateMap<BookingListItemDto, CustomerBookingListItemDto>();
     }
 
     private List<Claim> CreateClaimsList( Customer customer )
