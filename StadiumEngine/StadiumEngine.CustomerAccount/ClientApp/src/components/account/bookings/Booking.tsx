@@ -57,9 +57,9 @@ export const Booking = () => {
     const cancelReason = useRef<any>();
     const [oneInRow, setOneInRow] = useState(true);
     const [cancelConfirm, setCancelConfirm] = useState(false);
-    
+
     const navigate = useNavigate();
-    
+
     const cancelBooking = () => {
         if (data) {
             bookingsService.cancelBooking({
@@ -72,25 +72,25 @@ export const Booking = () => {
             });
         }
     }
-    
+
     return data ? <Container className="booking-checkout-container" style={{minHeight: "auto"}}>
             <Form style={{paddingBottom: '15px'}}>
                 <BookingHeader data={{
-                    bookingNumber: data.number,
+                    bookingNumber: data.originalData.number,
                     day: dateFormatterByStringWithoutTime(data.day?.toString() || '' ),
                     stadiumName: '',
                     field: data.originalData.field
-                } as BookingCheckoutDto} dayText={data.isWeekly ? getEventEachText(): null} withCurrentDate={true} withStadiumName={false}/>
+                } as BookingCheckoutDto} dayText={data.originalData.isWeekly ? getEventEachText(): null} withCurrentDate={true} withStadiumName={false}/>
                 <div className="booking-locker-room-weekly-row">
                     <div style={{display: 'flex', flexDirection: "column"}}>
                         <Checkbox
-                            checked={data.isWeekly}
+                            checked={data.originalData.isWeekly}
                             disabled={true}
                             label={t('booking:is_weekly')}/>
-                        {data.isWeekly &&
+                        {data.originalData.isWeekly &&
                             <span style={{fontSize: 10}}>{getWeeklyClosedText(data.originalData)}</span>}
                     </div>
-                    {!data.isWeekly && data.lockerRoomName &&
+                    {!data.originalData.isWeekly && data.originalData.lockerRoom &&
                         <div className="booking-locker-room-weekly-row-right">
                             <Dropdown
                                 fluid
@@ -98,25 +98,25 @@ export const Booking = () => {
                                 disabled={true}
                                 style={{width: "200px"}}
                                 placeholder={t('booking:locker_room') || ''}
-                                value={1}
+                                value={data.originalData.lockerRoom?.id || ''}
                                 options={[{
-                                    key: 1,
-                                    value: 1,
-                                    text: data.lockerRoomName
+                                    key: data.originalData.lockerRoom?.id,
+                                    value: data.originalData.lockerRoom?.id,
+                                    text: data.originalData.lockerRoom?.name
                                 }]}
                             />
                         </div>}
                 </div>
                 <div className="scheduler-booking-tariff-buttons">
-                    <span>{t("booking:field_card:tariff")}: <b>{data.tariffName}</b></span>
+                    <span>{t("booking:field_card:tariff")}: <b>{data.originalData.tariff.name}</b></span>
                 </div>
-                {data.promoCode && <div style={{
+                {data.originalData.promo && <div style={{
                     marginTop: '5px',
                     fontSize: '12px',
                     color: '#666'
                 }}><i style={{color: '#00d2ff'}} className="fa fa-exclamation-circle"
                       aria-hidden="true"/> {t('booking:promo_applied')}: <b
-                    style={{color: 'black'}}>{data.promoCode} (-{getPromoDiscount(data.originalData.promo, data.totalAmountBeforeDiscount)})</b>.
+                    style={{color: 'black'}}>{data.originalData.promo.code} (-{getPromoDiscount(data.originalData.promo, data.originalData.totalAmountBeforeDiscount)})</b>.
                 </div>}
                 <BookingDuration
                     isEditable={false}
@@ -138,15 +138,15 @@ export const Booking = () => {
                     bookingInventories={data.originalData.inventories || []}
                     headerText={t("booking:scheduler:inventory_header")}/>
                 <BookingTotalAmount getTotalAmountValue={getTotalAmountValue} promo={data.originalData.promo}
-                                    manualDiscount={data.manualDiscount ?? undefined}/>
-                {data.manualDiscount && data.manualDiscount > 0 && <div style={{
+                                    manualDiscount={data.originalData.manualDiscount ?? undefined}/>
+                {data.originalData.manualDiscount && data.originalData.manualDiscount > 0 && <div style={{
                     marginTop: '5px',
                     fontSize: '12px',
                     textAlign: 'right',
                     color: '#666'
                 }}><i style={{color: '#00d2ff'}} className="fa fa-exclamation-circle"
                       aria-hidden="true"/> {t('booking:manual_discount_applied')} <b
-                    style={{color: 'black'}}>(-{data.manualDiscount})</b></div>}
+                    style={{color: 'black'}}>(-{data.originalData.manualDiscount})</b></div>}
                 <div className="booking-checkout-buttons">
                     {new Date(data.end) > new Date() && <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
                         setCancelConfirm(true);
@@ -160,7 +160,7 @@ export const Booking = () => {
             >
                 <div className="booking-cancel-overlay">
                     <textarea rows={3} ref={cancelReason} placeholder={t("booking:cancel:reason") || ''}/>
-                    {data.isWeekly &&
+                    {data.originalData.isWeekly &&
                         <Checkbox label={t("booking:cancel:one_in_row")} checked={oneInRow}
                                   onChange={() => setOneInRow(!oneInRow)}/>
                     }
@@ -178,6 +178,6 @@ export const Booking = () => {
                 </div>
 
             </Dialog>
-        </Container> : 
+        </Container> :
         <span/>;
 }

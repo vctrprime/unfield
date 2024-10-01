@@ -1,6 +1,7 @@
 using AutoMapper;
 using Mediator;
 using StadiumEngine.Common;
+using StadiumEngine.Common.Enums.Customers;
 using StadiumEngine.Common.Exceptions;
 using StadiumEngine.Domain.Entities.Accounts;
 using StadiumEngine.Domain.Services.Core.Accounts;
@@ -12,7 +13,9 @@ using StadiumEngine.Queries.Schedule;
 
 namespace StadiumEngine.Handlers.Handlers.Customers;
 
-internal sealed class GetCustomerBookingListHandler : BaseCustomerRequestHandler<GetCustomerBookingListQuery, List<CustomerBookingListItemDto>>
+internal sealed class
+    GetCustomerBookingListHandler : BaseCustomerRequestHandler<GetCustomerBookingListQuery,
+    List<CustomerBookingListItemDto>>
 {
     private readonly IMediator _mediator;
     private readonly IStadiumQueryService _stadiumQueryService;
@@ -37,19 +40,27 @@ internal sealed class GetCustomerBookingListHandler : BaseCustomerRequestHandler
         {
             throw new DomainException( ErrorsKeys.StadiumNotFound );
         }
-        
+
+        DateTime start = request.Mode == CustomerBookingListMode.Previous
+            ? request.ClientDate.AddMonths( -1 )
+            : request.ClientDate;
+
+        DateTime end = request.Mode == CustomerBookingListMode.Previous
+            ? request.ClientDate.AddMinutes( 1 )
+            : request.ClientDate.AddMonths( 1 );
+
         List<BookingListItemDto> bookings = await _mediator.Send(
             new GetBookingListQuery
             {
                 ClientDate = request.ClientDate,
-                Start = request.Start,
-                End = request.End,
+                Start = start,
+                End = end,
                 Language = request.Language,
                 StadiumId = stadium.Id,
                 CustomerPhoneNumber = _customerPhoneNumber,
             },
             cancellationToken );
-        
+
         List<CustomerBookingListItemDto> result = Mapper.Map<List<CustomerBookingListItemDto>>( bookings );
 
         return result;

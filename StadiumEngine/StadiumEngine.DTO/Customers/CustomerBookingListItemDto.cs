@@ -1,5 +1,6 @@
 using StadiumEngine.Common.Enums.Bookings;
 using StadiumEngine.Common.Enums.Schedule;
+using StadiumEngine.DTO.Schedule;
 
 namespace StadiumEngine.DTO.Customers;
 

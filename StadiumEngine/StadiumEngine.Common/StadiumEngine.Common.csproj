@@ -17,10 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Enums\Customers\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <EmbeddedResource Update="Resources\Notifications.resx">
         <Generator>PublicResXFileCodeGenerator</Generator>
         <LastGenOutput>Notifications.Designer.cs</LastGenOutput>
