@@ -1,5 +1,6 @@
 using StadiumEngine.Common.Enums.Bookings;
 using StadiumEngine.Common.Enums.Schedule;
+using StadiumEngine.DTO.Offers.Fields;
 using StadiumEngine.DTO.Schedule;
 
 namespace StadiumEngine.DTO.Customers;
@@ -42,7 +43,7 @@ public class CustomerBookingListItemDto
     /// <summary>
     /// Площадка
     /// </summary>
-    public string FieldName { get; set; }= null!;
+    public FieldDto Field { get; set; }= null!;
 
     /// <summary>
     /// Еженедельное бронирование

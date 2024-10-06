@@ -42,7 +42,7 @@ internal sealed class
         }
 
         DateTime start = request.Mode == CustomerBookingListMode.Previous
-            ? request.ClientDate.AddMonths( -1 )
+            ? request.ClientDate.AddMonths( -2 )
             : request.ClientDate;
 
         DateTime end = request.Mode == CustomerBookingListMode.Previous

@@ -2,7 +2,6 @@
 
 .booking-checkout-container {
   background-color: rgba(245, 245, 245, 0.3);
-  overflow: auto;
   min-height: 100vh;
   max-width: 600px;
   padding: 0 20px;
@@ -274,5 +273,114 @@
   .booking-cancel-overlay-buttons {
     margin-top: 10px;
     text-align: center;
+  }
+}
+
+.booking-list-container {
+  background-color: rgba(245, 245, 245, 0.5);
+  overflow: hidden;
+  min-height: 100vh;
+
+  .booking-list-header {
+    padding-top: 9px;
+    display: flex;
+  }
+
+  .booking-list-cards {
+    overflow: auto;
+    padding-bottom: 10px;
+    min-height: calc(100vh - 102px);
+
+    .booking-list-card {
+      background-color: white;
+      margin-top: 10px;
+      position: relative;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      height: 145px;
+
+      .is-weekly {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: $dark-color;
+        color: white;
+        font-size: 10px;
+        padding: 0 10px;
+        border-top-right-radius: 10px;
+        font-weight: bold;
+      }
+      
+      .start-date {
+        position: absolute;
+        top: 0;
+        right: 5px;
+        font-weight: bold;
+      }
+      
+      .top-data {
+        font-size: 12px;
+        padding: 25px 10px 0 10px;
+        display: flex;
+
+        img {
+          height: 60px;
+          margin-right: 10px;
+        }
+
+        .top-data-text {
+          .booking-number {
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+          }
+          .field-name {
+            
+          }
+
+          .field-sports {
+            height: 20px;
+
+            .field-sport {
+              float: left;
+              margin-left: 5px;
+              border-radius: 5px;
+              background-color: $dark-color;
+              color: white;
+              text-align: center;
+              font-size: 12px;
+              padding-left: 5px;
+              padding-right: 5px;
+              justify-content: center;
+              display: flex;
+              align-content: center;
+            }
+          }
+        }
+      }
+      
+      .bottom-data {
+        padding-top: 15px;
+        
+        .bottom-data-row {
+          display: flex;
+          justify-content: right;
+          padding-right: 10px;
+          .item-text {
+
+          }
+          .item-value {
+            margin-left: 5px;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+
+  .booking-list-no-bookings {
+    height: calc(100vh - 80px);
+    display: flex;
+    padding-top: 20vh;
+    justify-content: center;
   }
 }

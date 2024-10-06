@@ -27,7 +27,9 @@ internal class CustomersProfile : Profile
                 dest => dest.Claims,
                 act => act.MapFrom( s => CreateClaimsList( s ) ) );
 
-        CreateMap<BookingListItemDto, CustomerBookingListItemDto>();
+        CreateMap<BookingListItemDto, CustomerBookingListItemDto>()
+            .ForMember( dest => dest.Field, act => 
+                act.MapFrom( s => s.OriginalData.Field ) );
     }
 
     private List<Claim> CreateClaimsList( Customer customer )

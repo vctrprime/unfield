@@ -1,5 +1,6 @@
 import {BookingSource} from "./enums/BookingSource";
 import {BookingStatus} from "./enums/BookingStatus";
+import {FieldDto} from "../offers/FieldDto";
 
 export interface CustomerBookingListItemDto {
     id: number;
@@ -10,7 +11,7 @@ export interface CustomerBookingListItemDto {
     time: string;
     duration: string;
     tariffName: string;
-    fieldName: string;
+    field: FieldDto;
     isWeekly: boolean;
     lockerRoomName: string | null;
     promoCode: string | null;

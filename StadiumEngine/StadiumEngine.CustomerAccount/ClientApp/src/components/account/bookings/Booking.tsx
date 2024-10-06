@@ -148,7 +148,7 @@ export const Booking = () => {
                       aria-hidden="true"/> {t('booking:manual_discount_applied')} <b
                     style={{color: 'black'}}>(-{data.originalData.manualDiscount})</b></div>}
                 <div className="booking-checkout-buttons">
-                    {new Date(data.end) > new Date() && <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
+                    {new Date(data.end) > new Date() && (!data.isWeekly || (data.isWeekly && day)) && <Button style={{backgroundColor: '#CD5C5C', color: 'white'}} onClick={() => {
                         setCancelConfirm(true);
                     }}>{t("booking:checkout:cancel_button")}</Button>}
                 </div>

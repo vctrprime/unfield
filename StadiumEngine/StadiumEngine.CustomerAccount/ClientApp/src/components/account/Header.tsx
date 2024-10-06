@@ -73,7 +73,7 @@ export const Header = () => {
     }
 
     return <div style={{ height: '48px'}}>
-        <AppBar position="static" sx={{backgroundColor: '#354650'}}>
+        <AppBar position="fixed" sx={{backgroundColor: '#354650'}}>
             <Container maxWidth="xl">
                 <Toolbar sx={{ minHeight: '48px !important', maxHeight: '48px !important'}} disableGutters>
                     <Typography
