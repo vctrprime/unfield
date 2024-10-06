@@ -16,7 +16,8 @@ import {AuthorizedCustomerDto} from "../models/dto/accounts/AuthorizedCustomerDt
 
 export interface IAccountsService {
     authorizeByRedirect(command: AuthorizeCustomerByRedirectCommand): Promise<AuthorizeCustomerDto>;
-    authorize(command: AuthorizeCustomerCommand): Promise<AuthorizeCustomerDto>;
+    login(command: AuthorizeCustomerCommand): Promise<AuthorizeCustomerDto>;
+    authorize(): Promise<AuthorizedCustomerDto>;
     logout(): Promise<void>;
     changeLanguage(language: string): Promise<void>;
     changePassword(command: ChangeCustomerPasswordCommand): Promise<void>;
@@ -31,10 +32,18 @@ export class AccountsService extends BaseService implements IAccountsService {
         super("api/accounts");
     }
 
-    authorize(command: AuthorizeCustomerCommand): Promise<AuthorizeCustomerDto> {
+    login(command: AuthorizeCustomerCommand): Promise<AuthorizeCustomerDto> {
         return this.fetchWrapper.post({
             url: `${this.baseUrl}/login`,
             body: command,
+            hideSpinner: false
+        })
+    }
+
+    authorize(): Promise<AuthorizedCustomerDto> {
+        return this.fetchWrapper.get({
+            url: `${this.baseUrl}/authorize`,
+            showSpinner: false,
             hideSpinner: false
         })
     }
@@ -54,7 +63,7 @@ export class AccountsService extends BaseService implements IAccountsService {
         })
     }
 
-    update(command: UpdateCustomerCommand): Promise<AuthorizeCustomerDto> {
+    update(command: UpdateCustomerCommand): Promise<AuthorizedCustomerDto> {
         return this.fetchWrapper.put({
             url: `${this.baseUrl}/customer`,
             body: command

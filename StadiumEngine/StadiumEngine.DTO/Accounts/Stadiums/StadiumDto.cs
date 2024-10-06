@@ -53,9 +53,8 @@ public class StadiumDto
     public bool IsUserBound { get; set; }
 
     /// <summary>
-    ///  Токен (для запросов внутри бэка)
+    ///  Токен
     /// </summary>
-    [JsonIgnore]
     public string Token { get; set; } = null!;
     
     /// <summary>

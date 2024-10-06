@@ -52,7 +52,7 @@ export const SignIn = () => {
         if (login !== undefined) {
             const command: AuthorizeCustomerCommand = {login, password: password.value};
 
-            accountsService.authorize(command)
+            accountsService.login(command)
                 .then((customer: AuthorizeCustomerDto) => {
                     localStorage.setItem('customer', JSON.stringify(customer));
                     setAuth(customer);

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -20,8 +20,9 @@ import {IAccountsService} from "../../services/AccountsService";
 import {authAtom} from "../../state/auth";
 import {NavLink, useNavigate, useParams} from "react-router-dom";
 import {t} from "i18next";
-import {Popup} from "semantic-ui-react";
+import {Dropdown, Popup} from "semantic-ui-react";
 import {LanguageSelect} from "../common/LanguageSelect";
+import {StadiumDto} from "../../models/dto/accounts/StadiumDto";
 
 export const Header = () => {
     const { stadiumToken } = useParams();
@@ -29,19 +30,25 @@ export const Header = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
+    const [stadiums, setStadiums] = useState<StadiumDto[]>([])
     const [stadium, setStadium] = useRecoilState(stadiumAtom);
     const [accountsService] = useInject<IAccountsService>('AccountsService');
     
     const [auth, setAuth] = useRecoilState(authAtom);
     
     useEffect(() => {
-        if ( stadium == null ) {
-            accountsService.getStadium().then((result) => {
-                setStadium(result);
-                document.title = getTitle(result.name)
+        if ( stadium == null || stadiums.length == 0 ) {
+            accountsService.authorize().then((result) => {
+                setStadiums(result.stadiums);
+                const current = result.stadiums.find(s => s.token == stadiumToken);
+                if (current) {
+                    setStadium(current);
+                    document.title = getTitle(current.name)
+                }
             })
         }
     }, []);
+    
     
     const navigate = useNavigate();
 
@@ -72,25 +79,15 @@ export const Header = () => {
         });
     }
 
+    const changeStadium = (e: any, {value}: any) => {
+        window.location.href = `/${value}/bookings/future`
+    }
+
     return <div style={{ height: '48px'}}>
         <AppBar position="fixed" sx={{backgroundColor: '#354650'}}>
             <Container maxWidth="xl">
                 <Toolbar sx={{ minHeight: '48px !important', maxHeight: '48px !important'}} disableGutters>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="span"
-                        sx={{
-                            mr: 2,
-                            display: {xs: 'none', md: 'flex'},
-                            fontFamily: 'Stadium Engine Sans Pro',
-                            fontWeight: 700,
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        {stadium?.name}
-                    </Typography>
+                    
 
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                         <IconButton
@@ -138,22 +135,7 @@ export const Header = () => {
                             </MenuItem>
                         </Menu>
                     </Box>
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="span"
-                        sx={{
-                            mr: 2,
-                            display: {xs: 'flex', md: 'none'},
-                            flexGrow: 1,
-                            fontFamily: 'Stadium Engine Sans Pro',
-                            fontWeight: 700,
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        {stadium?.name}
-                    </Typography>
+                    
                     <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
                         <NavLink className={getNavLinkClassName} to={`/${stadiumToken}/bookings/past`}>
                             {t('common:header:past_bookings')}
@@ -161,6 +143,16 @@ export const Header = () => {
                         <NavLink className={getNavLinkClassName} to={`/${stadiumToken}/bookings/future`}>
                             {t('common:header:future_bookings')}
                         </NavLink>
+                    </Box>
+                    <Box sx={{ marginRight: 1}}>
+                        {stadium && <Dropdown
+                            onChange={changeStadium}
+                            inline
+                            options={stadiums.map((s) => {
+                                return {key: s.token, value: s.token, text: s.name}
+                            })}
+                            defaultValue={stadium?.token||''}
+                        />}
                     </Box>
                     <Box sx={{flexGrow: 0, display: 'flex'}}>
                         <Popup

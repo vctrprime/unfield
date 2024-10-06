@@ -46,7 +46,7 @@ export const Header = () => {
             .then((result: UserStadiumDto[]) => {
                 setStadiumsData(result);
                 setStadiums(result.map((s) => {
-                    return {key: s.id, value: s.id, text: s.address}
+                    return {key: s.id, value: s.id, text: s.name}
                 }));
                 const currentStadium: UserStadiumDto | undefined = result.find(s => s.isCurrent);
                 if (currentStadium !== undefined) {
