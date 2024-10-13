@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Unfield.Services</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Unfield.Common\Unfield.Common.csproj" />
+        <ProjectReference Include="..\Unfield.Domain.Repositories\Unfield.Domain.Repositories.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\Unfield.Domain.Services\Unfield.Domain.Services.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\Unfield.Domain\Unfield.Domain.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\Unfield.EventBus\Unfield.EventBus.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\Unfield.MessageContracts\Unfield.MessageContracts.csproj" />
+        <ProjectReference Include="..\Unfield.Repositories\Unfield.Repositories.csproj" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+        <PackageReference Include="Scrutor" Version="4.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Util.cs" />
+    </ItemGroup>
+
+
+</Project>

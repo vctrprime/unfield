@@ -1,0 +1,83 @@
+@import "const";
+
+#root {
+  height: 100%;
+}
+
+.forbidden-message {
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.language-container {
+
+  ul {
+    font-size: 13px !important;
+  }
+
+  div {
+    padding-bottom: 0 !important;
+    margin-right: 0 !important;
+
+    button {
+      font-size: 13px !important;
+      padding: 0.5px 0 !important;
+      padding-right: 8px !important;
+
+      span:first-child {
+        padding-left: 3px !important;
+        padding-right: 3px !important;
+
+        .ReactFlagsSelect-module_label__27pw9 {
+          padding-left: 1px !important;
+        }
+
+      }
+    }
+
+    .ReactFlagsSelect-module_selectBtn__19wW7:after {
+      margin-left: 0 !important;
+    }
+  }
+}
+
+.modals {
+
+  .modal {
+    margin-top: -100px !important;
+    justify-content: center !important;
+    flex-direction: column !important;;
+    display: flex !important;
+    width: auto !important;;
+    position: relative !important;
+    height: auto;
+  }
+}
+
+.ag-cell, .ag-header-cell, .ui.button {
+  font-family: 'Unfield Sans Pro' !important;
+}
+
+.no-padding-top {
+  padding-top: 0 !important;
+}
+
+.nav-link {
+  padding: 5px 10px;
+  color: white;
+  border-radius: 10px;
+  
+  &:hover {
+    color: white !important;
+  }
+}
+.activeClicked {
+  pointer-events: none;
+  background-color: white;
+  color: $dark-color !important;
+}
+
+

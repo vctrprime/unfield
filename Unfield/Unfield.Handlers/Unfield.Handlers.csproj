@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Unfield.Handlers</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Unfield.Commands\Unfield.Commands.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\Unfield.Common\Unfield.Common.csproj" />
+        <ProjectReference Include="..\Unfield.Domain.Services\Unfield.Domain.Services.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\Unfield.Domain\Unfield.Domain.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\Unfield.Jobs\Unfield.Jobs.csproj" />
+        <ProjectReference Include="..\Unfield.Queries\Unfield.Queries.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\Unfield.Services\Unfield.Services.csproj" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="12.0.0" />
+        <PackageReference Include="Mediator.SourceGenerator" Version="3.0.0-preview.27">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
+        <PackageReference Include="Scrutor" Version="4.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Facades\Accounts" />
+    </ItemGroup>
+
+
+</Project>

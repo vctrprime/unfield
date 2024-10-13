@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Unfield.Repositories</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Unfield.Common\Unfield.Common.csproj" />
+        <ProjectReference Include="..\Unfield.Domain.Repositories\Unfield.Domain.Repositories.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\Unfield.Domain\Unfield.Domain.csproj" PrivateAssets="All" />
+    </ItemGroup>
+
+</Project>

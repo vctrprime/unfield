@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Unfield.Jobs</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Unfield.Domain.Services\Unfield.Domain.Services.csproj" PrivateAssets="All" />
+      <ProjectReference Include="..\Unfield.Domain\Unfield.Domain.csproj" PrivateAssets="All" />
+      <ProjectReference Include="..\Unfield.MessageContracts\Unfield.MessageContracts.csproj" />
+      <ProjectReference Include="..\Unfield.Queries\Unfield.Queries.csproj" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Hangfire" Version="1.8.14" />
+      <PackageReference Include="Hangfire.PostgreSql" Version="1.20.9" />
+    </ItemGroup>
+
+</Project>
