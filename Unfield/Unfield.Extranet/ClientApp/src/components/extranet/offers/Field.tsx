@@ -26,12 +26,13 @@ export const Field = () => {
         coveringType: FieldCoveringType.Natural,
         sportKinds: [] as SportKind[],
         parentFieldId: null,
-        priceGroupId: null
+        priceGroupId: null,
+        childNames: [] as string[],
     } as FieldDto);
 
     const [passedImages, setPassedImages] = useState<ImageFile[]>([])
     const [isError, setIsError] = useState<boolean>(false);
-    const [fieldId, setFieldId] = useState(parseInt(id || "0"));
+    const [fieldId, setFieldId] = useState(parseInt(id === "new" ? "0" : (id || "0")));
 
     const [parentFields, setParentFields] = useState<FieldDto[]>([]);
     const [priceGroups, setPriceGroups] = useState<PriceGroupDto[]>([]);
@@ -56,7 +57,8 @@ export const Field = () => {
 
     const fetchParentFields = () => {
         offersService.getFields().then((result: FieldDto[]) => {
-            setParentFields(result.filter(f => f.parentFieldId === null && f.id !== fieldId));
+            const fields = result.filter(f => f.parentFieldId === null && f.id !== fieldId);
+            setParentFields(fields);
         })
     }
 
@@ -73,7 +75,7 @@ export const Field = () => {
     }, [fieldId])
 
     useEffect(() => {
-        setFieldId(parseInt(id || "0"));
+        setFieldId(parseInt(id === "new" ? "0" : (id || "0")));
     }, [id])
 
     useEffect(() => {

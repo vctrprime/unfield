@@ -2,5 +2,12 @@ export enum SportKind {
     Football = 1,
     Basketball,
     Tennis,
-    Badminton
+    Badminton,
+    Futsal,
+    Volleyball,
+    Squash,
+    PingPong,
+    Cyber,
+    Bowling,
+    Billiards,
 }

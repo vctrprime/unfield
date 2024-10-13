@@ -76,6 +76,7 @@
         "restore_image": "Восстановить изображение"
     },
     "coverings": {
+        "unknown": "Не указано",
         "natural": "Натуральный газон",
         "synthetic": "Искусственный газон",
         "parquet": "Паркет",
@@ -86,7 +87,14 @@
         "football": "Футбол",
         "basketball": "Баскетбол",
         "tennis": "Теннис",
-        "badminton": "Бадминтон"
+        "badminton": "Бадминтон",
+        "futsal": "Футзал",
+        "volleyball": "Волейбол",
+        "squash": "Сквош",
+        "pingpong": "Настольный теннис",
+        "cyber": "Киберспорт",
+        "bowling": "Боулинг",
+        "billiards": "Бильярд"
     },
     "currencies": {
         "title": "Валюта",
